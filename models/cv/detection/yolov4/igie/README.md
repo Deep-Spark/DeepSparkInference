@@ -1,0 +1,68 @@
+# YOLOv4
+
+## Description
+
+YOLOv4 employs a two-step process, involving regression for bounding box positioning and classification for object categorization. it amalgamates past YOLO family research contributions with novel features like WRC, CSP, CmBN, SAT, Mish activation, Mosaic data augmentation, DropBlock regularization, and CIoU loss.
+
+## Setup
+
+### Install
+```
+yum install mesa-libGL
+pip3 install tqdm
+pip3 install onnx
+pip3 install onnxsim
+pip3 install pycocotools
+```
+
+### Download
+
+Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
+Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+### Model Conversion
+```bash
+# clone yolov4
+git clone https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
+
+# export onnx model
+python3 export.py --cfg yolov4.cfg --weight yolov4.weights --output yolov4.onnx
+
+# Use onnxsim optimize onnx model
+onnxsim yolov4.onnx yolov4_opt.onnx
+```
+
+## Inference
+```bash
+export DATASETS_DIR=/Path/to/coco/
+```
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_yolov4_fp16_accuracy.sh
+# Performance
+bash scripts/infer_yolov4_fp16_performance.sh
+```
+
+### INT8
+```bash
+# Accuracy
+bash scripts/infer_yolov4_int8_accuracy.sh
+# Performance
+bash scripts/infer_yolov4_int8_performance.sh
+```
+
+## Results
+
+Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95 |
+--------|-----------|----------|----------|----------|-------------|
+yolov4  |    32     |   FP16   |285.218   |  0.741   |   0.506     |
+yolov4  |    32     |   INT8   |413.320   |  0.721   |   0.463     |
+
+## Reference
+
+DarkNet: https://github.com/AlexeyAB/darknet
+Pytorch-YOLOv4: https://github.com/Tianxiaomo/pytorch-YOLOv4

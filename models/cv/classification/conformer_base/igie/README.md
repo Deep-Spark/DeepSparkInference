@@ -1,0 +1,52 @@
+# Conformer Base
+
+## Description
+Conformer is a novel network architecture that addresses the limitations of conventional Convolutional Neural Networks (CNNs) and visual transformers.  Rooted in the Feature Coupling Unit (FCU), Conformer efficiently fuses local features and global representations at different resolutions through interactive processes. Its concurrent architecture ensures the maximal retention of both local and global features. 
+
+## Setup
+
+### Install
+```
+pip3 install onnx
+pip3 install tqdm
+pip3 install timm
+pip3 install onnxsim
+```
+
+### Download
+
+Pretrained model: <https://drive.google.com/file/d/1oeQ9LSOGKEUaYGu7WTlUGl3KDsQIi0MA/view?usp=sharing>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+```bash
+python3 export.py --weight conformer_base_patch16.pth --output conformer_base.onnx
+
+# Use onnxsim optimize onnx model
+onnxsim conformer_base.onnx conformer_base_opt.onnx
+
+```
+
+## Inference
+```bash
+export DATASETS_DIR=/Path/to/imagenet_val/
+```
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_conformer_fp16_accuracy.sh
+# Performance
+bash scripts/infer_conformer_fp16_performance.sh
+```
+
+## Results
+
+Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
+----------|-----------|----------|----------|----------|--------
+Conformer Base |    32     |   FP16   | 428.73   |  83.83   | 96.59
+
+## Reference
+
+Conformer: https://github.com/pengzhiliang/Conformer

@@ -1,0 +1,87 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+accum_grad: 4
+cmvn_file: exp/conformer/global_cmvn
+dataset_conf:
+  filter_conf:
+    max_length: 40960
+    min_length: 0
+    token_max_length: 200
+    token_min_length: 1
+  resample_conf:
+    resample_rate: 16000
+  speed_perturb: true
+  fbank_conf:
+    num_mel_bins: 80
+    frame_shift: 10
+    frame_length: 25
+    dither: 0.1
+  spec_aug: true
+  spec_aug_conf:
+    num_t_mask: 2
+    num_f_mask: 2
+    max_t: 50
+    max_f: 10
+  shuffle: true
+  shuffle_conf:
+    shuffle_size: 1500
+  sort: true
+  sort_conf:
+    sort_size: 500  # sort_size should be less than shuffle_size
+  batch_conf:
+    batch_type: 'static' # static or dynamic
+    batch_size: 16
+decoder: transformer
+decoder_conf:
+  attention_heads: 4
+  dropout_rate: 0.1
+  linear_units: 2048
+  num_blocks: 6
+  positional_dropout_rate: 0.1
+  self_attention_dropout_rate: 0.0
+  src_attention_dropout_rate: 0.0
+encoder: conformer
+encoder_conf:
+  activation_type: swish
+  attention_dropout_rate: 0.0
+  attention_heads: 4
+  cnn_module_kernel: 15
+  dropout_rate: 0.1
+  input_layer: conv2d
+  linear_units: 2048
+  normalize_before: true
+  num_blocks: 12
+  output_size: 256
+  pos_enc_layer_type: rel_pos
+  positional_dropout_rate: 0.1
+  selfattention_layer_type: rel_selfattn
+  use_cnn_module: true
+grad_clip: 5
+input_dim: 80
+is_json_cmvn: true
+log_interval: 100
+max_epoch: 240
+model_conf:
+  ctc_weight: 0.3
+  length_normalized_loss: false
+  lsm_weight: 0.1
+optim: adam
+optim_conf:
+  lr: 0.002
+output_dim: 4233
+scheduler: warmuplr
+scheduler_conf:
+  warmup_steps: 25000

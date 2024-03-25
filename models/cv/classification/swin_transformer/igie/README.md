@@ -1,0 +1,46 @@
+# Swin Transformer
+
+## Description
+Swin Transformer is a pioneering neural network architecture that introduces a novel approach to handling local and global information in computer vision tasks. Departing from traditional self-attention mechanisms, Swin Transformer adopts a hierarchical design, organizing its attention windows in a shifted manner. This innovation enables more efficient modeling of contextual information across different scales, enhancing the model's capability to capture intricate patterns.
+
+## Setup
+
+### Install
+```
+pip3 install tqdm
+pip3 install onnxsim
+pip3 install transformers
+```
+
+### Download
+
+Pretrained model: <https://huggingface.co/docs/transformers/model_doc/swin>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+```bash
+python3 export.py --output swin_transformer.onnx
+
+# Use onnxsim optimize onnx model
+onnxsim swin_transformer.onnx swin_transformer_opt.onnx
+```
+
+## Inference
+```bash
+export DATASETS_DIR=/Path/to/imagenet_val/
+```
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_swin_transformer_fp16_accuracy.sh
+# Performance
+bash scripts/infer_swin_transformer_fp16_performance.sh
+```
+
+## Results
+
+Model            |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
+-----------------|-----------|----------|----------|----------|--------
+Swin_transformer |    32     |   FP16   |1104.52   |  80.578  | 95.2

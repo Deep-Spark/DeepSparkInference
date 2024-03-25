@@ -1,0 +1,52 @@
+# ResNet50
+
+## Description
+ResNet-50 is a convolutional neural network architecture that belongs to the ResNet.The key innovation in ResNet-50 is the introduction of residual blocks, which include shortcut connections (skip connections) to enable the flow of information directly from one layer to another. These shortcut connections help mitigate the vanishing gradient problem and facilitate the training of very deep networks.
+
+## Setup
+
+### Install
+```
+pip3 install onnx
+pip3 install tqdm
+```
+
+### Download
+
+Pretrained model: <https://download.pytorch.org/models/resnet50-0676ba61.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+```bash
+python3 export.py --weight resnet50-0676ba61.pth --output resnet50.onnx
+```
+
+## Inference
+```bash
+export DATASETS_DIR=/Path/to/imagenet_val/
+```
+
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_resnet50_fp16_accuracy.sh
+# Performance
+bash scripts/infer_resnet50_fp16_performance.sh
+```
+
+### INT8
+```bash
+# Accuracy
+bash scripts/infer_resnet50_int8_accuracy.sh
+# Performance
+bash scripts/infer_resnet50_int8_performance.sh
+```
+
+## Results
+
+Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
+---------|-----------|----------|----------|----------|--------
+ResNet50 |    32     |   FP16   | 4417.29  |  76.11  | 92.85
+ResNet50 |    32     |   INT8   | 8628.61  |  75.72  | 92.71
