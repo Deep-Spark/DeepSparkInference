@@ -47,7 +47,7 @@ bash infer_maskrcnn_fp16_acc.sh
 
 Model | BatchSize | Precision | FPS | ACC
 ------|-----------|-----------|-----|----
-MaskRCNN | 1 | FP16 | |
+Mask R-CNN | 1 | FP16 | 12.15 | bbox mAP@0.5 :  0.5512, segm mAP@0.5 :  0.5189
 
 ## Referenece 
 - [tensorrtx](https://github.com/wang-xinyu/tensorrtx/tree/master/rcnn)
