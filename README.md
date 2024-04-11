@@ -17,7 +17,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
@@ -281,7 +281,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
@@ -380,7 +380,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
@@ -402,7 +402,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
@@ -437,7 +437,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
@@ -483,7 +483,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 <table>
     <tr align="center">
         <th>Models</th>
-        <th>Precison</th>
+        <th>Precision</th>
         <th>IGIE</th>
         <th>IxRT</th>
     </tr>
