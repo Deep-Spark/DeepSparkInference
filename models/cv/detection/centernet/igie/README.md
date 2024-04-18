@@ -1,7 +1,7 @@
-# RetinaNet
+# CenterNet
 
 ## Description
-RetinaNet, an innovative object detector, challenges the conventional trade-off between speed and accuracy in the realm of computer vision. Traditionally, two-stage detectors, exemplified by R-CNN, achieve high accuracy by applying a classifier to a limited set of candidate object locations. In contrast, one-stage detectors, like RetinaNet, operate over a dense sampling of possible object locations, aiming for simplicity and speed. 
+CenterNet is an efficient object detection model that simplifies the traditional object detection process by representing targets as the center points of their bounding boxes and using keypoint estimation techniques to locate these points. This model not only excels in speed, achieving real-time detection while maintaining high accuracy, but also exhibits good versatility, easily extending to tasks such as 3D object detection and human pose estimation. CenterNet's network architecture employs various optimized fully convolutional networks and combines effective loss functions, making the model training and inference process more efficient.
 
 ## Setup
 
@@ -17,7 +17,7 @@ pip3 install mmengine
 
 ### Download
 
-Pretrained model: < https://download.openmmlab.com/mmdetection/v2.0/centernet/centernet_resnet18_140e_coco/centernet_resnet18_140e_coco_20210705_093630-bb5b3bf7.pth>
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/centernet/centernet_resnet18_140e_coco/centernet_resnet18_140e_coco_20210705_093630-bb5b3bf7.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
@@ -44,7 +44,7 @@ bash scripts/infer_centernet_fp16_performance.sh
 
 Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
 ----------|-----------|----------|----------|----------|---------------|
-Centernet |    32     |   FP16   | 799.70   |  0.423   |  0.258        |
+CenterNet |    32     |   FP16   | 799.70   |  0.423   |  0.258        |
 
 ## Reference
 
