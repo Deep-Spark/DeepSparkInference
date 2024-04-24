@@ -1,0 +1,78 @@
+# YOLOv5-m
+
+## Description
+
+The YOLOv5 architecture is designed for efficient and accurate object detection tasks in real-time scenarios. It employs a single convolutional neural network to simultaneously predict bounding boxes and class probabilities for multiple objects within an image. The YOLOV5m is a medium-sized model.
+
+## Setup
+
+### Install
+```
+yum install mesa-libGL
+pip3 install tqdm
+pip3 install onnx
+pip3 install onnxsim
+pip3 install ultralytics
+pip3 install pycocotools
+pip3 install cv2
+pip3 install opencv-python==4.6.0.66
+```
+
+### Download
+
+Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5m.pt>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+  - 图片目录: Path/To/val2017/*.jpg
+  - 标注文件目录: Path/To/annotations/instances_val2017.json
+
+### Model Conversion
+```bash
+
+mkdir checkpoints
+git clone https://github.com/ultralytics/yolov5
+# 切换到需要的版本分支
+git checkout v6.1
+
+# 有一些环境需要安装
+wget https://ultralytics.com/assets/Arial.ttf
+cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
+
+# 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
+python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size 32
+mv yolov5m.onnx /Path/to/checkpoints
+```
+
+## Inference
+```bash
+export PROJ_DIR=/Path/to/yolov5m/ixrt
+export DATASETS_DIR=/Path/to/coco2017/
+export CHECKPOINTS_DIR=./checkpoints
+export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
+export EVAL_DIR=${DATASETS_DIR}/val2017
+export RUN_DIR=/Path/to/yolov5m/ixrt
+export CONFIG_DIR=config/YOLOV5M_CONFIG
+```
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_yolov5m_fp16_accuracy.sh
+# Performance
+bash scripts/infer_yolov5m_fp16_performance.sh
+```
+
+### INT8
+```bash
+# Accuracy
+bash scripts/infer_yolov5m_int8_accuracy.sh
+# Performance
+bash scripts/infer_yolov5m_int8_performance.sh
+```
+
+## Results
+
+Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
+--------|-----------|----------|---------|----------|-------------|
+YOLOv5m |    32     |   FP16   | 680.93  |  0.637   |  0.447      |
+YOLOv5m |    32     |   INT8   | 1328.50 |  0.627   |  0.425      |
