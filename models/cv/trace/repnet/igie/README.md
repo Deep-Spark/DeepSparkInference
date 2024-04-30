@@ -34,17 +34,9 @@ export DATASETS_DIR=/Path/to/VehicleID/
 
 ```bash
 # Accuracy
-bash scripts/infer_deepsort_fp16_accuracy.sh
+bash scripts/infer_repnet_fp16_accuracy.sh
 # Performance
-bash scripts/infer_deepsort_fp16_performance.sh
-```
-
-### INT8
-```bash
-# Accuracy
-bash scripts/infer_deepsort_int8_accuracy.sh
-# Performance
-bash scripts/infer_deepsort_int8_performance.sh
+bash scripts/infer_repnet_fp16_performance.sh
 ```
 
 ## Results
