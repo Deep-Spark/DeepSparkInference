@@ -10,6 +10,10 @@ we develop and release Llama 2, a collection of pretrained and fine-tuned large 
 yum install mesa-libGL
 
 bash scripts/set_environment.sh .
+# Please contact the staff to obtain the relevant installlation packages.
+pip3 install Path/To/ixrt-xxx.whl
+pip3 install Path/To/tensorrt_llm-xxx.whl
+pip3 install Path/To/ixformer-xxx.whl
 ```
 
 ### Download
