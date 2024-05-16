@@ -56,7 +56,7 @@ bash scripts/infer_resnet_v1_d50_int8_performance.sh
 
 Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ---------|-----------|----------|----------|----------|--------
-ResNet50 |           |          |          |          |      
-ResNet50 |           |          |          |          |      
+ResNet50 |           |  FP16    |  3887.55 |  0.77544 | 0.93568     
+ResNet50 |           |  INT8    |  7148.58 |  0.7711  | 0.93514
 
 
