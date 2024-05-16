@@ -1,0 +1,55 @@
+# Detr
+
+## Description
+DETR (DEtection TRansformer) is a novel approach that views object detection as a direct set prediction problem. This method streamlines the detection process, eliminating the need for many hand-designed components like non-maximum suppression procedures or anchor generation, which are typically used to explicitly encode prior knowledge about the task.
+
+## Setup
+
+### Install
+```bash
+yum install mesa-libGL
+pip3 install tqdm
+pip3 install pycuda
+pip3 install onnx
+pip3 install onnxsim
+pip3 install tabulate
+pip3 install cv2
+pip3 install pycocotools
+pip3 install opencv-python==4.6.0.66
+```
+
+### Download
+Pretrained model: <https://download.openmmlab.com/mmdetection/v3.0/detr/detr_r50_8xb2-150e_coco/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+### Model Conversion
+```bash
+mkdir checkpoints
+python3 export_model.py --torch_file /path/to/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1
+```
+
+## Inference
+```bash
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/coco2017/
+export CHECKPOINTS_DIR=./checkpoints
+export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
+export EVAL_DIR=${DATASETS_DIR}/val2017
+export RUN_DIR=./
+export CONFIG_DIR=config/DETR_CONFIG
+```
+### FP16
+
+```bash
+# Accuracy
+bash scripts/infer_detr_fp16_accuracy.sh
+# Performance
+bash scripts/infer_detr_fp16_performance.sh
+```
+
+## Results 
+
+Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95
+--------|-----------|----------|----------|----------|------------
+Detr    |    1      |   FP16   | 65.84    |  0.370   | 0.198
