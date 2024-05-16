@@ -14,6 +14,7 @@ pip3 install onnx
 pip3 install onnxsim
 pip3 install tabulate
 pip3 install ppq
+pip3 install pycuda
 ```
 
 ### Download
@@ -48,6 +49,6 @@ bash scripts/infer_densenet_fp16_performance.sh
 
 Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ---------|-----------|----------|----------|----------|--------
-DenseNet |           |          |          |          |      
+DenseNet |           |    FP16  |  1536.89 |   0.7442 |  0.9197
 
 
