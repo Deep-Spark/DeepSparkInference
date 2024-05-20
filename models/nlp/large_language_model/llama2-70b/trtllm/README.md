@@ -25,6 +25,10 @@ pip3 install Path/To/ixformer-xxx.whl
 # Download model from the website and make sure the model's path is "data/llama2-70b-chat"
 # Download dataset from the website and make sure the dataset's path is "data/datasets_cnn_dailymail"
 mkdir data
+
+# Please download rouge.py to this path if your server can't attach huggingface.co.
+mkdir -p rouge/
+wget --no-check-certificate https://raw.githubusercontent.com/huggingface/evaluate/main/metrics/rouge/rouge.py -P rouge
 ```
 
 ## Inference
