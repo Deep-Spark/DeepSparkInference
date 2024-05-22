@@ -49,9 +49,9 @@ export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
 ```bash
 # Accuracy
-bash script/infer_efficientnet_fp16_accuracy.sh
+bash scripts/infer_efficientnet_fp16_accuracy.sh
 # Performance
-bash script/infer_efficientnet_fp16_performance.sh
+bash scripts/infer_efficientnet_fp16_performance.sh
 ```
 
 ### INT8
