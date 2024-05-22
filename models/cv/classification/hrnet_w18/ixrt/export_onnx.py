@@ -33,7 +33,7 @@ args = parse_args()
 model = get_model('hrnet-w18_3rdparty_8xb32_in1k', pretrained=True)
 model.cuda()
 model.eval()
-input = torch.randn(1, 3, 224, 224, device='cuda')
+input = torch.randn(32, 3, 224, 224, device='cuda')
 export_onnx_file = args.output_model
 
 torch.onnx.export(model,        
