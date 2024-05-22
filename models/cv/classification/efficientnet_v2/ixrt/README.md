@@ -14,6 +14,7 @@ pip3 install onnxsim
 pip3 install tabulate
 pip3 install timm
 pip3 install ppq
+pip3 install pycuda
 pip3 install protobuf==3.20.0
 ```
 
