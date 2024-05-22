@@ -31,7 +31,8 @@ cd pytorch-image-models/timm/models
 rm _builder.py
 mv /Path/ixrt/_builder.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm
-mv /Path/to/efficientnetv2_t_agc-3620981a.pth /root/.cache/torch/hub/checkpoints/
+mkdir -p /root/.cache/torch/hub/checkpoints/
+wget -P /root/.cache/torch/hub/checkpoints/ https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth
 python3 -m models.export_onnx --output_model checkpoints/efficientnet.onnx
 ```
 
@@ -56,9 +57,9 @@ bash script/infer_efficientnet_fp16_performance.sh
 ### INT8
 ```bash
 # Accuracy
-bash script/infer_efficientnet_int8_accuracy.sh
+bash scripts/infer_efficientnet_int8_accuracy.sh
 # Performance
-bash script/infer_efficientnet_int8_performance.sh
+bash scripts/infer_efficientnet_int8_performance.sh
 ```
 
 
