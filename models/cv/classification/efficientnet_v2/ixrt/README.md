@@ -27,8 +27,8 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 mkdir checkpoints
 git clone https://github.com/huggingface/pytorch-image-models.git
 cp /Path/to/ixrt/export_onnx.py pytorch-image-models/timm/models
-cd pytorch-image-models/timm/models
-python3 export_onnx.py --origin_model /path/to/efficientnetv2_t_agc-3620981a.pth --output_model checkpoints/efficientnet.onnx
+cd pytorch-image-models/timm
+python3 -m models.export_onnx --output_model checkpoints/efficientnet.onnx
 ```
 
 ## Inference
