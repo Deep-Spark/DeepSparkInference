@@ -32,7 +32,7 @@ mv chatglm3-6b.zip/tar /data/chatglm/
 ## Run model
 
 ```bash
-python3 offline_inference.py --model /data/chatglm/chatglm3-6b --trust-remote-code --temperature 0.0
+python3 offline_inference.py --model /data/chatglm/chatglm3-6b --trust-remote-code --temperature 0.0 --max-tokens 256
 ```
 
 ## Use the server
