@@ -1,6 +1,7 @@
 # EfficientnetV2
 
 ## Description
+
 EfficientNetV2 is an improved version of the EfficientNet architecture proposed by Google, aiming to enhance model performance and efficiency. Unlike the original EfficientNet, EfficientNetV2 features a simplified design and incorporates a series of enhancement strategies to further boost performance.
 
 ## Setup
@@ -25,11 +26,13 @@ pip3 install protobuf==3.20.0
 ```
 
 ### Download
+
 Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 mkdir checkpoints
 git clone https://github.com/huggingface/pytorch-image-models.git
@@ -44,6 +47,7 @@ python3 -m models.export_onnx --output_model checkpoints/efficientnet.onnx
 ```
 
 ## Inference
+
 ```bash
 export PROJ_DIR=/Path/to/efficientnet_v2/ixrt
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -52,6 +56,7 @@ export RUN_DIR=/Path/to/efficientnet_v2/ixrt
 export CONFIG_DIR=/Path/to/config/EFFICIENTNET_V2T_CONFIG
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 ```
+
 ### FP16
 
 ```bash
@@ -62,14 +67,13 @@ bash scripts/infer_efficientnet_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_efficientnet_int8_accuracy.sh
 # Performance
 bash scripts/infer_efficientnet_int8_performance.sh
 ```
-
-
 
 ## Results
 

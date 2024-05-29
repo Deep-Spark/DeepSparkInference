@@ -28,14 +28,17 @@ Pretrained model: <https://github.com/ultralytics/assets/releases/download/v0.0.
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight yolov8s.pt --batch 32
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -46,6 +49,7 @@ bash scripts/infer_yolov8_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov8_int8_accuracy.sh

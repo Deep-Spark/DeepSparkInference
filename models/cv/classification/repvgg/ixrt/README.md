@@ -1,6 +1,7 @@
 # REPVGG
 
 ## Description
+
 REPVGG is a family of convolutional neural network (CNN) architectures designed for image classification tasks.
 It was developed by researchers at the University of Oxford and introduced in their paper titled "REPVGG: Making VGG-style ConvNets Great Again" in 2021.
 
@@ -23,12 +24,14 @@ pip3 install opencv-python==4.6.0.66
 pip3 install mmcls==0.24.0
 pip3 install mmcv==1.5.3
 ```
-### Download 
 
-Dataset: https://www.image-net.org/download.php to download the validation dataset.
+### Download
 
-### Model Conversion 
-```
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+
+```bash
 mkdir checkpoints 
 cd checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
@@ -41,7 +44,8 @@ python3 export_onnx.py   \
 ```
 
 ## Inference
-```
+
+```bash
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
@@ -49,6 +53,7 @@ export RUN_DIR=./
 export CONFIG_DIR=config/REPVGG_CONFIG
 
 ```
+
 ### FP16
 
 ```bash
@@ -63,4 +68,3 @@ bash scripts/infer_repvgg_fp16_performance.sh
 Model  |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
 -------|-----------|----------|---------|----------|--------
 REPVGG |    32     |   FP16   | 5725.37 |  72.41   | 90.49
-

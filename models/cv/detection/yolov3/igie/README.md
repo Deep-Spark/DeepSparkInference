@@ -2,7 +2,7 @@
 
 ## Description
 
-YOLOv3 is a influential object detection algorithm.The key innovation of YOLOv3 lies in its ability to efficiently detect and classify objects in real-time with a single pass through the neural network. YOLOv3 divides an input image into a grid and predicts bounding boxes, class probabilities, and objectness scores for each grid cell. 
+YOLOv3 is a influential object detection algorithm.The key innovation of YOLOv3 lies in its ability to efficiently detect and classify objects in real-time with a single pass through the neural network. YOLOv3 divides an input image into a grid and predicts bounding boxes, class probabilities, and objectness scores for each grid cell.
 
 ## Setup
 
@@ -29,6 +29,7 @@ Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight yolov3.pt --output yolov3.onnx
 
@@ -37,9 +38,11 @@ onnxsim yolov3.onnx yolov3_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -50,6 +53,7 @@ bash scripts/infer_yolov3_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov3_int8_accuracy.sh

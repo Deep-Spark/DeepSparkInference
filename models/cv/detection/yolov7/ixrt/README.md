@@ -29,10 +29,12 @@ pip3 install opencv-python==4.6.0.66
 Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - 图片目录: Path/To/val2017/*.jpg
-  - 标注文件目录: Path/To/annotations/instances_val2017.json
+
+- 图片目录: Path/To/val2017/*.jpg
+- 标注文件目录: Path/To/annotations/instances_val2017.json
 
 ### Model Conversion
+
 ```bash
 
 git clone https://github.com/WongKinYiu/yolov7.git
@@ -43,6 +45,7 @@ mv yolov7.onnx /Path/to/checkpoints/yolov7m.onnx
 ```
 
 ## Inference
+
 ```bash
 export PROJ_DIR=/Path/to/yolov7/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
@@ -52,6 +55,7 @@ export EVAL_DIR=${DATASETS_DIR}/val2017
 export RUN_DIR=/Path/to/yolov7/ixrt
 export CONFIG_DIR=config/YOLOV7M_CONFIG
 ```
+
 ### FP16
 
 ```bash
@@ -62,6 +66,7 @@ bash scripts/infer_yolov7m_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov7m_int8_accuracy.sh

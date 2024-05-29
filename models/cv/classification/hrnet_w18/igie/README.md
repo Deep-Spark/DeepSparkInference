@@ -1,6 +1,7 @@
 # HRNet-W18
 
 ## Description
+
 HRNet, short for High-Resolution Network, presents a paradigm shift in handling position-sensitive vision challenges, such as human pose estimation, semantic segmentation, and object detection.  The distinctive features of HRNet result in semantically richer and spatially more precise representations.
 
 ## Setup
@@ -28,6 +29,7 @@ Pretrained model: <https://download.openmmlab.com/mmclassification/v0/hrnet/hrne
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # git clone mmpretrain
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
@@ -41,9 +43,11 @@ onnxsim hrnet_w18.onnx hrnet_w18_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```
+
 ### FP16
 
 ```bash
@@ -61,4 +65,4 @@ HRNet_w18 |    32     |   FP16   | 954.18   |  76.74   | 93.42
 
 ## Reference
 
-HRNet: https://github.com/open-mmlab/mmpretrain
+HRNet: <https://github.com/open-mmlab/mmpretrain>

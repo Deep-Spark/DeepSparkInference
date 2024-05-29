@@ -62,7 +62,7 @@ bash scripts/infer_alexnet_int8_accuracy.sh
 bash scripts/infer_alexnet_int8_performance.sh
 ```
 
-## Results 
+## Results
 
 Model   |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 --------|-----------|----------|----------|----------|--------

@@ -2,7 +2,7 @@
 
 ## Description
 
-RetinaNet, an innovative object detector, challenges the conventional trade-off between speed and accuracy in the realm of computer vision. Traditionally, two-stage detectors, exemplified by R-CNN, achieve high accuracy by applying a classifier to a limited set of candidate object locations. In contrast, one-stage detectors, like RetinaNet, operate over a dense sampling of possible object locations, aiming for simplicity and speed. 
+RetinaNet, an innovative object detector, challenges the conventional trade-off between speed and accuracy in the realm of computer vision. Traditionally, two-stage detectors, exemplified by R-CNN, achieve high accuracy by applying a classifier to a limited set of candidate object locations. In contrast, one-stage detectors, like RetinaNet, operate over a dense sampling of possible object locations, aiming for simplicity and speed.
 
 ## Setup
 
@@ -30,6 +30,7 @@ Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/retinanet/ret
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output retinanet.onnx
@@ -39,9 +40,11 @@ onnxsim retinanet.onnx retinanet_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -59,4 +62,4 @@ RetinaNet |    32     |   FP16   | 160.52   |  0.515   |  0.335        |
 
 ## Reference
 
-mmdetection: https://github.com/open-mmlab/mmdetection.git
+mmdetection: <https://github.com/open-mmlab/mmdetection.git>

@@ -1,12 +1,14 @@
 # MobileNetV2
 
 ## Description
-MobileNetV2 is an improvement on V1. Its new ideas include Linear Bottleneck and Inverted Residuals, and is based on an inverted residual structure where the input and output of the residual block are thin bottleneck layers. The intermediate expansion layer uses lightweight depthwise convolutions to filter features as a source of non-linearity. 
+
+MobileNetV2 is an improvement on V1. Its new ideas include Linear Bottleneck and Inverted Residuals, and is based on an inverted residual structure where the input and output of the residual block are thin bottleneck layers. The intermediate expansion layer uses lightweight depthwise convolutions to filter features as a source of non-linearity.
 
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install onnx
 pip3 install tqdm
 ```
@@ -18,16 +20,16 @@ Pretrained model: <https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```
-
-## Inference
 
 ### FP16
 
@@ -39,6 +41,7 @@ bash scripts/infer_mobilenetv2_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_mobilenetv2_int8_accuracy.sh

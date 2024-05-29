@@ -7,7 +7,8 @@ VGG16 is a convolutional neural network (CNN) architecture designed for image cl
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install onnx
 pip3 install tqdm
 ```
@@ -19,14 +20,17 @@ Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight vgg16-397923af.pth --output vgg16.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```
+
 ### FP16
 
 ```bash
@@ -37,6 +41,7 @@ bash scripts/infer_vgg16_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_vgg16_int8_accuracy.sh

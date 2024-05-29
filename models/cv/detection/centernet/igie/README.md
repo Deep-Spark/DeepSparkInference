@@ -1,6 +1,7 @@
 # CenterNet
 
 ## Description
+
 CenterNet is an efficient object detection model that simplifies the traditional object detection process by representing targets as the center points of their bounding boxes and using keypoint estimation techniques to locate these points. This model not only excels in speed, achieving real-time detection while maintaining high accuracy, but also exhibits good versatility, easily extending to tasks such as 3D object detection and human pose estimation. CenterNet's network architecture employs various optimized fully convolutional networks and combines effective loss functions, making the model training and inference process more efficient.
 
 ## Setup
@@ -28,15 +29,18 @@ Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/centernet/cen
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight centernet_resnet18_140e_coco_20210705_093630-bb5b3bf7.pth --cfg centernet_r18_8xb16-crop512-140e_coco.py --output centernet.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -54,4 +58,4 @@ CenterNet |    32     |   FP16   | 799.70   |  0.423   |  0.258        |
 
 ## Reference
 
-mmdetection: https://github.com/open-mmlab/mmdetection.git
+mmdetection: <https://github.com/open-mmlab/mmdetection.git>

@@ -29,6 +29,7 @@ Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/y
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # clone yolov7
 git clone https://github.com/WongKinYiu/yolov7.git
@@ -41,9 +42,11 @@ cd ..
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -54,6 +57,7 @@ bash scripts/infer_yolov7_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov7_int8_accuracy.sh
@@ -67,6 +71,7 @@ Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95 |
 --------|-----------|----------|----------|----------|-------------|
 yolov7  |    32     |   FP16   |341.681   |  0.695   |  0.509      |
 yolov7  |    32     |   INT8   |669.783   |  0.685   |  0.473      |
+
 ## Reference
 
-YOLOv7: https://github.com/WongKinYiu/yolov7
+YOLOv7: <https://github.com/WongKinYiu/yolov7>
