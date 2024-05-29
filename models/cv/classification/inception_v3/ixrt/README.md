@@ -7,8 +7,14 @@ Inception v3 is a convolutional neural network architecture designed for image r
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install pycuda
 pip3 install tqdm
 pip3 install onnx

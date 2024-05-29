@@ -6,8 +6,13 @@ we develop and release Llama 2, a collection of pretrained and fine-tuned large 
 ## Setup
 
 ### Install
+
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
 
 bash scripts/set_environment.sh .
 # Please contact the staff to obtain the relevant installlation packages.

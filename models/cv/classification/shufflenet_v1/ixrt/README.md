@@ -6,9 +6,15 @@ It uses techniques such as deep separable convolution and channel shuffle to red
 
 ## Setup
 
-### Install 
-```
-yum install mesa-libGL
+### Install
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install tabulate
 pip3 install onnx
@@ -17,6 +23,7 @@ pip3 install opencv-python==4.6.0.66
 pip3 install mmcls==0.24.0
 pip3 install mmcv==1.5.3
 ```
+
 ### Download 
 
 Dataset: https://www.image-net.org/download.php to download the validation dataset.
