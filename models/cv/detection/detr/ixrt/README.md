@@ -6,8 +6,14 @@ DETR (DEtection TRansformer) is a novel approach that views object detection as 
 ## Setup
 
 ### Install
+
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install pycuda
 pip3 install onnx

@@ -6,8 +6,13 @@ HRNet-W18 is a powerful image classification model developed by Jingdong AI Rese
 ## Setup
 
 ### Install
+
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
 
 pip3 install tqdm
 pip3 install onnx

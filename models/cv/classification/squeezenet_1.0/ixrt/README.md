@@ -4,11 +4,18 @@
 SqueezeNet 1.0 is a deep learning model for image classification, designed to be lightweight and efficient for deployment on resource-constrained devices. 
 
 It was developed by researchers at DeepScale and released in 2016.
+
 ## Setup
 
-### Install 
-```
-yum install mesa-libGL
+### Install
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnxsim
 pip3 install opencv-python==4.6.0.66

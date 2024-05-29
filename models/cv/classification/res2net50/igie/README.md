@@ -6,8 +6,14 @@ Res2Net50 is a convolutional neural network architecture that introduces the con
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install onnx
 pip3 install tqdm
 pip3 install onnxsim

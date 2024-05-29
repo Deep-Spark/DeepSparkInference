@@ -6,9 +6,15 @@ It was developed by researchers at the University of Oxford and introduced in th
 
 ## Setup
 
-### Install 
-```
-yum install mesa-libGL
+### Install
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install tabulate
 pip3 install onnx

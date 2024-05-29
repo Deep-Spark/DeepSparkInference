@@ -5,8 +5,14 @@ ResNet-101 is a variant of the ResNet (Residual Network) architecture, and it be
 ## Setup
 
 ### Install
+
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
