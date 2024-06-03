@@ -472,7 +472,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td>INT8</td>
         <td><a href="models/nlp/language_model/bert_large_squad/igie/README.md#int8">Supported</a></td>
-        <td><a href="models/nlp/language_model/bert_large_squad/ixrt/README.md#int8">Supported</a></td>
+        <td>-</td>
     </tr>
 </table>
 
