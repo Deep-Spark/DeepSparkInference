@@ -20,10 +20,10 @@ LOG_LEVEL=info
 BS=${BS:-1}
 DTYPE=${DTYPE:-"float16"}
 
-PROJECT_DIR=$(dirname "$(dirname "$(dirname "$(cd "$(dirname "$0")"; pwd)")")")
+PROJECT_DIR="./"
 
-MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2/llama2-13b-chat"}
-OUTPUT_DIR=${OUTPUT_DIR:-"${PROJECT_DIR}/tmp/trtllm/llama2/13B/trt_engines/fp16/2-gpu/"}
+MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2-13b-chat"}
+OUTPUT_DIR=${OUTPUT_DIR:-"${PROJECT_DIR}/checkpoints/"}
 
 echo PROJECT_DIR : ${PROJECT_DIR}
 
@@ -38,7 +38,7 @@ check_status()
 }
 
 # best(build engine time: 223.33) is 95% of target
-python3 ${PROJECT_DIR}/llama2/llama2_13b_gpu2/build.py \
+python3 ${PROJECT_DIR}/build.py \
 --log_level ${LOG_LEVEL} \
 --dtype ${DTYPE} \
 --model_dir ${MODEL_DIR} \

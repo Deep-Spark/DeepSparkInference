@@ -20,11 +20,11 @@ LOG_LEVEL=info
 BS=${BS:-1}
 DTYPE=${DTYPE:-"float16"}
 
-PROJECT_DIR=$(dirname "$(dirname "$(dirname "$(cd "$(dirname "$0")"; pwd)")")")
+PROJECT_DIR="./"
 
-DATASET_DIR=${DATASET_DIR:-"${PROJECT_DIR}/datasets/datasets_cnn_dailymail"}
-MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2/llama2-13b-chat"}
-ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}/tmp/trtllm/llama2/13B/trt_engines/fp16/2-gpu/"}
+DATASET_DIR=${DATASET_DIR:-"${PROJECT_DIR}/data/datasets_cnn_dailymail"}
+MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2-13b-chat"}
+ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}/checkpoints/"}
 
 export TLLM_LOG_LEVEL=${LOG_LEVEL}
 export PLUGIN_DTYPE="float16"
@@ -40,7 +40,7 @@ export TASK_DATA_PATH=${DATASET_DIR}
 
 # target is 95% of best (load engine time: 41.74, rouge1: 29.21, tps: 15.23)
 mpirun -n 2 --allow-run-as-root \
-python3 ${PROJECT_DIR}/llama2/llama2_13b_gpu2/summarize.py \
+python3 ${PROJECT_DIR}/summarize.py \
 --test_trt_llm \
 --log_level ${LOG_LEVEL} \
 --batch_size ${BS}  \
