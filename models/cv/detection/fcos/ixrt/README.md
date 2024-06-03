@@ -1,5 +1,4 @@
-# Fcos
-
+# FCOS
 ## Description
 
 FCOS is an anchor-free model based on the Fully Convolutional Network (FCN) architecture for pixel-wise object detection. It implements a proposal-free solution and introduces the concept of centerness.
@@ -37,7 +36,7 @@ sh install_mmcv.sh
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco-0a0d75a8.pth>
 
-- COCO2017数据集准备参�?: https://cocodataset.org/
+- COCO2017数据集准备参考: https://cocodataset.org/
   - 图片目录: Path/To/val2017/*.jpg
   - 标注文件目录: Path/To/annotations/instances_val2017.json
 
