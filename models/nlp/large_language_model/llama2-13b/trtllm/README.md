@@ -1,29 +1,32 @@
-# Llama2_13b_gpu2
+# Llama2 13B
 
 ## Description
-The Llama2 model is part of the Llama project which aims to unlock the power of large language models. The latest version of the Llama model is now accessible to individuals, creators, researchers, and businesses of all sizes. It includes model weights and starting code for pre-trained and fine-tuned Llama language models with parameters ranging from 7B to 70B. 
+
+The Llama2 model is part of the Llama project which aims to unlock the power of large language models. The latest version of the Llama model is now accessible to individuals, creators, researchers, and businesses of all sizes. It includes model weights and starting code for pre-trained and fine-tuned Llama language models with parameters ranging from 7B to 70B.
 
 ## Setup
 
-### Install
-In order to run the model smoothly, we need the following dependency files:
-1. ixrt-xxx.whl
-2. tensorrt_llm-xxx.whl
-3. ixformer-xxx.whl
-Please contact the staff to obtain the relevant installation packages.
+### Instal
 
 ```bash
-yum install mesa-libGL
-bash set_environment.sh
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
+
+bash scripts/set_environment.sh .
+# Please contact the staff to obtain the relevant installlation packages.
 pip3 install Path/To/ixrt-xxx.whl
 pip3 install Path/To/tensorrt_llm-xxx.whl
 pip3 install Path/To/ixformer-xxx.whl
 ```
 
 ### Download
--Model: https://huggingface.co/meta-llama/Llama-2-13b-chat-hf
 
--Dataset:https://huggingface.co/datasets/cnn_dailymail
+- Model: <https://huggingface.co/meta-llama/Llama-2-13b-chat-hf>
+- Dataset:<https://huggingface.co/datasets/cnn_dailymail>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/llama2-13b-chat"
@@ -36,10 +39,12 @@ wget --no-check-certificate https://raw.githubusercontent.com/huggingface/evalua
 ```
 
 ## Inference
+
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1
 
 ```
+
 ### FP16
 
 ```bash

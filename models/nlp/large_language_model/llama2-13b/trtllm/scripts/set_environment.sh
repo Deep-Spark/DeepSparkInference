@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
@@ -13,10 +14,9 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-#!/bin/bash
 set -e
 
 PROJECT_DIR=$1
 
-pip3 install -r "requirements.txt"
+pip3 install -r "$PROJECT_DIR/scripts/requirements.txt"
 
