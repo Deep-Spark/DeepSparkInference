@@ -11,7 +11,7 @@ if(DEFINED ENV{CUDA_PATH})
   set(CUDA_PATH "$ENV{CUDA_PATH}")
 else()
   set(CUDA_PATH
-      "/opt/sw_home/local/cuda"
+      "/usr/local/corex"
       CACHE PATH "cuda installation root path")
 endif()
 message(STATUS "Use CUDA_PATH=${CUDA_PATH} ")

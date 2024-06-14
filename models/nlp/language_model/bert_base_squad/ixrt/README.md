@@ -37,14 +37,36 @@ bash script/prepare.sh v1_1
 
 ## Inference
 
-### FP16
+### On T4
 
 ```bash
+# FP16
 cd python
 pip install onnx pycuda
 # use --bs to set max_batch_size (dynamic) 
-bash script/build_engine --bs 32
-bash script/inference_squad.sh --bs {batch_size}
+bash script/build_engine.sh --bs 32
+bash script/inference_squad.sh --bs 32
+```
+
+```bash
+# INT8
+cd python
+pip install onnx pycuda
+bash script/build_engine.sh --bs 32 --int8
+bash script/inference_squad.sh --bs 32 --int8
+```
+#### On iluvatar
+
+```bash
+# FP16
+cd python/script
+bash infer_bert_base_squad_fp16_ixrt.sh
+```
+
+```bash
+# INT8
+cd python/script
+bash infer_bert_base_squad_int8_ixrt.sh
 ```
 
 ## Results
@@ -52,3 +74,6 @@ bash script/inference_squad.sh --bs {batch_size}
 Model | BatchSize | Precision | FPS | ACC
 ------|-----------|-----------|-----|----
 BERT-Base-SQuAD | 32 | fp16 | Latency QPS: 1543.40 sentences/s | "exact_match": 80.92, "f1": 88.20
+
+## Referenece 
+- [bert-base-uncased.zip 外网链接](https://drive.google.com/file/d/1_DJDdKBanqJ6h3VGhH78F9EPgE2wK_Tw/view?usp=drive_link)
