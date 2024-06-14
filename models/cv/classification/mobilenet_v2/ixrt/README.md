@@ -1,19 +1,22 @@
 # MobileNetV2
 
 ## Description
+
 The MobileNetV2 architecture is based on an inverted residual structure where the input and output of the residual block are thin bottleneck layers opposite to traditional residual models which use expanded representations in the input an MobileNetV2 uses lightweight depthwise convolutions to filter features in the intermediate expansion layer.
 
 ## Setup
 
-### Install 
-```
+### Install
+
+```bash
 pip3 install tqdm
 pip3 install onnxsim
 pip3 install opencv-python
 pip3 install ppq
 ```
 
-### Download 
+### Download
+
 Download the [imagenet](https://www.image-net.org/download.php) validation dataset, and place in data/datasets;
 
 ## Inference
@@ -28,6 +31,7 @@ bash script/infer_mobilenetv2_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Test ACC
 bash script/infer_mobilenetv2_int8_accuary.sh
@@ -35,11 +39,12 @@ bash script/infer_mobilenetv2_int8_accuary.sh
 bash script/infer_mobilenetv2_int8_performance.sh
 ```
 
-## Results 
+## Results
 
 Model | BatchSize | Precision | FPS | ACC
 ------|-----------|-----------|-----|----
 MobileNetV2 | 32 | FP16 | 4835.19 | Acc@1 : 0.7186, Acc@5 : 0.90316
 
-## Referenece 
+## Referenece
+
 - [MobileNetV2](https://arxiv.org/abs/1801.04381)

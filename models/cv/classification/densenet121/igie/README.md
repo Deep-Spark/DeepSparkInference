@@ -1,16 +1,18 @@
 # DenseNet121
 
 ## Description
-DenseNet-121 is a convolutional neural network architecture that belongs to the family of Dense Convolutional Networks.The network consists of four dense blocks, each containing a varying number of densely connected convolutional layers. Transition layers with pooling operations reduce the spatial dimensions between dense blocks.
 
+DenseNet-121 is a convolutional neural network architecture that belongs to the family of Dense Convolutional Networks.The network consists of four dense blocks, each containing a varying number of densely connected convolutional layers. Transition layers with pooling operations reduce the spatial dimensions between dense blocks.
 
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install onnx
 pip3 install tqdm
 ```
+
 ### Download
 
 Pretrained model: <https://download.pytorch.org/models/densenet121-a639ec97.pth>
@@ -18,11 +20,13 @@ Pretrained model: <https://download.pytorch.org/models/densenet121-a639ec97.pth>
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight densenet121-a639ec97.pth --output densenet121.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```

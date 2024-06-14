@@ -7,7 +7,8 @@ AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, is a
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install onnx
 pip3 install tqdm
 ```
@@ -19,14 +20,17 @@ Pretrained model: <https://download.pytorch.org/models/alexnet-owt-7be5be79.pth>
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --weight alexnet-owt-7be5be79.pth --output alexnet.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```
+
 ### FP16
 
 ```bash
@@ -37,6 +41,7 @@ bash scripts/infer_alexnet_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_alexnet_int8_accuracy.sh

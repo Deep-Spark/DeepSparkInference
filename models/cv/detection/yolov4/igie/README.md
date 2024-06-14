@@ -7,8 +7,14 @@ YOLOv4 employs a two-step process, involving regression for bounding box positio
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -23,6 +29,7 @@ Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # clone yolov4
 git clone https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
@@ -35,9 +42,11 @@ onnxsim yolov4.onnx yolov4_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -48,6 +57,7 @@ bash scripts/infer_yolov4_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov4_int8_accuracy.sh
@@ -64,5 +74,5 @@ yolov4  |    32     |   INT8   |413.320   |  0.721   |   0.463     |
 
 ## Reference
 
-DarkNet: https://github.com/AlexeyAB/darknet
-Pytorch-YOLOv4: https://github.com/Tianxiaomo/pytorch-YOLOv4
+DarkNet: <https://github.com/AlexeyAB/darknet>
+Pytorch-YOLOv4: <https://github.com/Tianxiaomo/pytorch-YOLOv4>

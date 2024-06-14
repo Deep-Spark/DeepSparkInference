@@ -7,8 +7,14 @@ The YOLOv5 architecture is designed for efficient and accurate object detection 
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -23,10 +29,12 @@ pip3 install opencv-python==4.6.0.66
 Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5m.pt>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - 图片目录: Path/To/val2017/*.jpg
-  - 标注文件目录: Path/To/annotations/instances_val2017.json
+
+- 图片目录: Path/To/val2017/*.jpg
+- 标注文件目录: Path/To/annotations/instances_val2017.json
 
 ### Model Conversion
+
 ```bash
 
 mkdir checkpoints
@@ -44,6 +52,7 @@ mv yolov5m.onnx /Path/to/checkpoints
 ```
 
 ## Inference
+
 ```bash
 export PROJ_DIR=/Path/to/yolov5m/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
@@ -53,6 +62,7 @@ export EVAL_DIR=${DATASETS_DIR}/val2017
 export RUN_DIR=/Path/to/yolov5m/ixrt
 export CONFIG_DIR=config/YOLOV5M_CONFIG
 ```
+
 ### FP16
 
 ```bash
@@ -63,6 +73,7 @@ bash scripts/infer_yolov5m_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov5m_int8_accuracy.sh

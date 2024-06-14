@@ -1,14 +1,21 @@
 # ShuffleNetV1
 
 ## Description
-ShuffleNet V1 is a lightweight neural network architecture primarily used for image classification and object detection tasks. 
+
+ShuffleNet V1 is a lightweight neural network architecture primarily used for image classification and object detection tasks.
 It uses techniques such as deep separable convolution and channel shuffle to reduce the number of parameters and computational complexity of the model, thereby achieving low computational resource consumption while maintaining high accuracy.
 
 ## Setup
 
-### Install 
-```
-yum install mesa-libGL
+### Install
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install tabulate
 pip3 install onnx
@@ -17,12 +24,14 @@ pip3 install opencv-python==4.6.0.66
 pip3 install mmcls==0.24.0
 pip3 install mmcv==1.5.3
 ```
-### Download 
 
-Dataset: https://www.image-net.org/download.php to download the validation dataset.
+### Download
 
-### Model Conversion 
-```
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+
+```bash
 mkdir checkpoints 
 cd checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
@@ -35,7 +44,8 @@ python3 export_onnx.py   \
 ```
 
 ## Inference
-```
+
+```bash
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
@@ -43,6 +53,7 @@ export RUN_DIR=./
 export CONFIG_DIR=config/SHUFFLENET_V1_CONFIG
 
 ```
+
 ### FP16
 
 ```bash
@@ -53,7 +64,7 @@ bash scripts/infer_shufflenet_v1_fp16_performance.sh
 ```
 
 ## Results
+
 Model        |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
 -------------|-----------|----------|---------|----------|--------
 ShuffleNetV1 |    32     |   FP16   | 3619.89 |  66.17   | 86.54
-

@@ -1,12 +1,14 @@
 # CLIP
 
 ## Description
+
 CLIP (Contrastive Language-Image Pre-Training) is a neural network trained on a variety of (image, text) pairs. It can be instructed in natural language to predict the most relevant text snippet, given an image, without directly optimizing for the task, similarly to the zero-shot capabilities of GPT-2 and 3.
 
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install tqdm
 pip3 install onnxsim
 pip3 install transformers
@@ -19,6 +21,7 @@ Pretrained model: <https://huggingface.co/docs/transformers/model_doc/clip>
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 python3 export.py --output clip.onnx
 
@@ -27,9 +30,11 @@ onnxsim clip.onnx clip_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
 ```
+
 ### FP16
 
 ```bash

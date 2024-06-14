@@ -7,8 +7,14 @@ YOLOv3 is a influential object detection algorithm.The key innovation of YOLOv3 
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -23,10 +29,12 @@ pip3 install opencv-python==4.6.0.66
 Pretrained model: <https://pjreddie.com/media/files/yolov3.weights>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - 图片目录: Path/To/val2017/*.jpg
-  - 标注文件目录: Path/To/annotations/instances_val2017.json
+
+- 图片目录: Path/To/val2017/*.jpg
+- 标注文件目录: Path/To/annotations/instances_val2017.json
 
 ### Model Conversion
+
 ```bash
 
 mkdir checkpoints
@@ -40,6 +48,7 @@ mv export.onnx /Path/to/checkpoints/yolov3.onnx
 ```
 
 ## Inference
+
 ```bash
 export PROJ_DIR=/Path/to/yolov3/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
@@ -49,6 +58,7 @@ export EVAL_DIR=${DATASETS_DIR}/val2017
 export RUN_DIR=/Path/to/yolov3/ixrt
 export CONFIG_DIR=config/YOLOV3_CONFIG
 ```
+
 ### FP16
 
 ```bash
@@ -59,6 +69,7 @@ bash scripts/infer_yolov3_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolov3_int8_accuracy.sh

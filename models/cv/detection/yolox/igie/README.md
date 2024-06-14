@@ -2,13 +2,19 @@
 
 ## Description
 
-YOLOX is an anchor-free version of YOLO, with a simpler design but better performance! It aims to bridge the gap between research and industrial communities. 
+YOLOX is an anchor-free version of YOLO, with a simpler design but better performance! It aims to bridge the gap between research and industrial communities.
 
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -25,6 +31,7 @@ Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/downlo
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
@@ -38,9 +45,11 @@ cd ..
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -51,6 +60,7 @@ bash scripts/infer_yolox_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_yolox_int8_accuracy.sh
@@ -67,4 +77,4 @@ yolox   |    32     |   INT8   |844.991   |  0.637   |
 
 ## Reference
 
-YOLOX: https://github.com/Megvii-BaseDetection/YOLOX
+YOLOX: <https://github.com/Megvii-BaseDetection/YOLOX>

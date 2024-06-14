@@ -7,8 +7,14 @@ YOLOv6 integrates cutting-edge object detection advancements from industry and a
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -22,6 +28,7 @@ Pretrained model: <https://github.com/meituan/YOLOv6/releases/download/0.4.0/yol
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 # install yolov6
 git clone https://github.com/meituan/YOLOv6.git
@@ -35,9 +42,11 @@ cd ..
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/coco/
 ```
+
 ### FP16
 
 ```bash
@@ -55,4 +64,4 @@ yolov6   |    32     |   FP16   | 994.902  |  0.617   |   0.448     |
 
 ## Reference
 
-YOLOv6: https://github.com/meituan/YOLOv6
+YOLOv6: <https://github.com/meituan/YOLOv6>

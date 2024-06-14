@@ -1,13 +1,19 @@
 # ResNet50
 
 ## Description
+
 Residual Networks, or ResNets, learn residual functions with reference to the layer inputs, instead of learning unreferenced functions. Instead of hoping each few stacked layers directly fit a desired underlying mapping, residual nets let these layers fit a residual mapping.
 
 ## Setup
 
 ### Install
+
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
 
 pip3 install tqdm
 pip3 install onnx
@@ -21,18 +27,21 @@ pip3 install ppq
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 mkdir checkpoints
 python3 export_onnx.py --output_model checkpoints/resnet50.onnx
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
 export CONFIG_DIR=config/RESNET50_CONFIG
 ```
+
 ### FP16
 
 ```bash
@@ -43,6 +52,7 @@ bash scripts/infer_resnet50_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_resnet50_int8_accuracy.sh
@@ -54,7 +64,5 @@ bash scripts/infer_resnet50_int8_performance.sh
 
 Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ---------|-----------|----------|----------|----------|--------
-ResNet50 |           |          |          |          |      
-ResNet50 |           |          |          |          |      
-
-
+ResNet50 |           |          |          |          |
+ResNet50 |           |          |          |          |

@@ -1,6 +1,7 @@
 # MODEL_NAME
 
 ## Description
+
 A brief introduction about this model.
 
 ## Setup
@@ -20,6 +21,7 @@ bash test_fp16.sh
 ```
 
 ### INT8
+
 ```bash
 bash test_int8.sh
 ```
@@ -30,5 +32,3 @@ Model | BatchSize | Precision | FPS | ACC
 ------|-----------|-----------|-----|----
 MODEL_NAME | | | |
 
-## Referenece (remove if not necessary)
-- [refer-page-name](https://refer-links)

@@ -7,8 +7,14 @@ Inception-ResNetV2 is a deep learning model proposed by Google in 2016, which co
 ## Setup
 
 ### Install
-```
-yum install mesa-libGL
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
@@ -29,6 +35,7 @@ Pretrained model: <http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
+
 ```bash
 
 mkdir checkpoints
@@ -36,6 +43,7 @@ python3 export_model.py --output_model /Path/to/checkpoints/inceptionresnetv2.on
 ```
 
 ## Inference
+
 ```bash
 export PROJ_DIR=/Path/to/inceptionresnetv2/ixrt
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -44,6 +52,7 @@ export RUN_DIR=/Path/to/inceptionresnetv2/ixrt
 export CONFIG_DIR=/Path/to/config/INCEPTIONRESNETV2_CONFIG
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 ```
+
 ### FP16
 
 ```bash
@@ -54,6 +63,7 @@ bash scripts/infer_inceptionresnetv2_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_inceptionresnetv2_int8_accuracy.sh

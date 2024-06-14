@@ -1,12 +1,14 @@
 # Conformer
 
 ## Description
+
 Conformer is a speech recognition model proposed by Google in 2020. It combines the advantages of CNN and Transformer. CNN efficiently extracts local features, while Transformer is more effective in capturing long sequence dependencies. Conformer applies convolution to the Encoder layer of Transformer, enhancing the performance of Transformer in the ASR (Automatic Speech Recognition) domain.
 
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install tqdm
 pip3 install onnx
 pip3 install typeguard==2.13.3
@@ -22,6 +24,7 @@ Pretrained model: <http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aish
 Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 
 ### Model Conversion
+
 ```bash
 tar -zxvf 20211025_conformer_exp.tar.gz
 
@@ -43,12 +46,14 @@ python3 alter_onnx.py --batch_size 24 --path encoder_bs24_seq384_static_opt.onnx
 ```
 
 ## Inference
+
 ```bash
 # Need to unzip aishell to the current directory. For details, refer to data.list
 tar -zxvf aishell.tar.gz
 
 export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
 ```
+
 ### FP16
 
 ```bash

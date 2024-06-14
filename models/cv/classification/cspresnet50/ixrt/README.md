@@ -1,13 +1,21 @@
 # CSPResNet50
 
 ## Description
+
 Neural networks have enabled state-of-the-art approaches to achieve incredible results on computer vision tasks such as object detection.
-CSPResNet50 is the one of best models. 
+CSPResNet50 is the one of best models.
+
 ## Setup
 
-### Install 
-```
-yum install mesa-libGL
+### Install
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install tqdm
 pip3 install tabulate
 pip3 install onnx
@@ -16,12 +24,14 @@ pip3 install opencv-python==4.6.0.66
 pip3 install mmcls==0.24.0
 pip3 install mmcv==1.5.3
 ```
-### Download 
 
-Dataset: https://www.image-net.org/download.php to download the validation dataset.
+### Download
 
-### Model Conversion 
-```
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Model Conversion
+
+```bash
 mkdir checkpoints 
 cd checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
@@ -34,7 +44,8 @@ python3 export_onnx.py   \
 ```
 
 ## Inference
-```
+
+```bash
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val
 export CHECKPOINTS_DIR=./checkpoints
@@ -42,6 +53,7 @@ export RUN_DIR=./
 export CONFIG_DIR=config/CSPRESNET50_CONFIG
 
 ```
+
 ### FP16
 
 ```bash
@@ -52,6 +64,7 @@ bash scripts/infer_cspresnet50_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_cspresnet50_int8_accuracy.sh
@@ -59,10 +72,9 @@ bash scripts/infer_cspresnet50_int8_accuracy.sh
 bash scripts/infer_cspresnet50_int8_performance.sh
 ```
 
-## Results 
+## Results
+
 Model       |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
 ------------|-----------|----------|---------|----------|--------
 CSPResNet50 |    32     |   FP16   | 4555.95 |  78.51   | 94.17
 CSPResNet50 |    32     |   INT8   | 8801.94 |  78.15   | 93.95
-
-

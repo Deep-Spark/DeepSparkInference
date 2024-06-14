@@ -1,12 +1,14 @@
 # FastReID
 
 ## Description
+
 FastReID is a research platform that implements state-of-the-art re-identification algorithms.
 
 ## Setup
 
 ### Install
-```
+
+```bash
 pip3 install onnx
 pip3 install tqdm
 pip3 install onnxsim
@@ -20,6 +22,7 @@ Pretrained model: <https://github.com/JDAI-CV/fast-reid/releases/download/v0.1.1
 Dataset: <https://www.pkuml.org/resources/pku-vehicleid.html> to download the vehicleid dataset.
 
 ### Model Conversion
+
 ```bash
 # install fast-reid
 git clone https://github.com/JDAI-CV/fast-reid.git
@@ -32,9 +35,11 @@ cd..
 ```
 
 ## Inference
+
 ```bash
 export DATASETS_DIR=/Path/to/VehicleID
 ```
+
 ### FP16
 
 ```bash
