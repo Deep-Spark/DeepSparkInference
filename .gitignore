@@ -60,3 +60,4 @@ cover/
 checkpoints/
 imagenet_val/
 *.json
+data/
