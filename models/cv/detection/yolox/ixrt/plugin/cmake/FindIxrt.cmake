@@ -3,6 +3,7 @@
 if(NOT "${IXRT_HOME}" STREQUAL "")
     set(IXRT_INCLUDE_DIR ${IXRT_HOME}/include)
     set(IXRT_LIB_DIR ${IXRT_HOME}/lib)
+    include_directories("${IXRT_HOME}/lib/python3/dist-packages/tensorrt/include")
 # From default paths
 else()
   set(IXRT_INCLUDE_DIR /usr/local/corex/include)

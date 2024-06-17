@@ -19,7 +19,8 @@ pip3 install onnx
 pip3 install onnxsim
 pip3 install tabulate
 pip3 install pycocotools
-pip3 intsall ppq
+pip3 install ppq
+pip3 install pycuda
 pip3 install protobuf==3.20.0
 ```
 
@@ -50,6 +51,9 @@ export DATASETS_DIR=/Path/to/coco/
 ```bash
 # build plugin
 cd plugin && mkdir build && cd build
+## link libixrt.so to lib 
+ln -s /usr/local/corex/lib/python3/dist-packages/tensorrt/lib/libixrt.so /usr/local/corex/lib
+## make
 cmake .. -DIXRT_HOME=/usr/local/corex
 make -j12
 # Accuracy
