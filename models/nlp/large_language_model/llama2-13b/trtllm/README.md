@@ -53,3 +53,9 @@ bash scripts/test_trtllm_llama2_13b_gpu2_build.sh
 # Inference
 bash scripts/test_trtllm_llama2_13b_gpu2.sh
 ```
+
+## Results
+
+| Model      | tokens | tokens per second |
+| ---------- | ------ | ----------------- |
+| Llama2 13B | 1596   | 33.39             |
