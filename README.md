@@ -146,12 +146,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>HRNet-W18</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/hrnet_w18/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/hrnet_w18/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
         <td>-</td>
-        <td>-</td>
+        <td><a href="models/cv/classification/hrnet_w18/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
         <td rowspan=2>InceptionV3</td>
