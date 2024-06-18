@@ -374,6 +374,39 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <th>IxRT</th>
     </tr>
     <tr align="center">
+        <td rowspan=2>CenterNet</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/centernet/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>FoveaBox</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/foveabox/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>HRNet</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/hrnet/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>RetinaNet</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/retinanet/igie/README.md#fp16">Supported</a></td>
@@ -514,6 +547,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td>INT8</td>
         <td><a href="models/cv/trace/deepsort/igie/README.md#int8">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>RepNet-Vehicle-ReID</td>
+        <td>FP16</td>
+        <td><a href="models/cv/trace/repnet/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
         <td>-</td>
     </tr>
 </table>
