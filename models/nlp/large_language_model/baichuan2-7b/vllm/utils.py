@@ -13,15 +13,10 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from copy import deepcopy
-from typing import Tuple, List, Union
-
 import codecs
 import logging
 import argparse
 
-# 对于chat模型，或者模型需要特定的输入，需要对prompt进行额外的处理。
-# 如果您在使用中有额外的prompt处理方式需求或者错误反馈，可以联系王坚或者巩亚飞，我们会对modelzoo进行更新适配。
 
 def sampling_add_cli_args(args: argparse.ArgumentParser) -> argparse.ArgumentParser:
     args.add_argument(
@@ -156,216 +151,23 @@ def sampling_add_cli_args(args: argparse.ArgumentParser) -> argparse.ArgumentPar
 
 
 def load_chat_template(tokenizer, chat_template):
-        if chat_template is not None:
-            try:
-                with open(chat_template, "r") as f:
-                    tokenizer.chat_template = f.read()
-            except OSError:
-                # If opening a file fails, set chat template to be args to
-                # ensure we decode so our escape are interpreted correctly
-                tokenizer.chat_template = codecs.decode(
-                    chat_template, "unicode_escape")
+    if chat_template is not None:
+        try:
+            with open(chat_template, "r") as f:
+                tokenizer.chat_template = f.read()
+        except OSError:
+            # If opening a file fails, set chat template to be args to
+            # ensure we decode so our escape are interpreted correctly
+            tokenizer.chat_template = codecs.decode(
+                chat_template, "unicode_escape")
 
-            logging.info(
-                f"Using supplied chat template:\n{tokenizer.chat_template}"
-            )
-        elif tokenizer.chat_template is not None:
-            logging.info(
-                f"Using default chat template:\n{tokenizer.chat_template}"
-            )
-        else:
-            logging.warning(
-                "No chat template provided. Chat API will not work.")
-
-def default_build_chat(tokenizer,prompt):
-    return prompt
-
-def chatglm2_build_chat(tokenizer,prompt):
-    return tokenizer.build_prompt(prompt)
-
-def chatglm3_build_chat(tokenizer,prompt):
-    return tokenizer.build_chat_input(prompt).input_ids[0].tolist()
-
-def llama2_build_chat(tokenizer,prompt):
-    return f"[INST]{prompt}[/INST]"
-
-# adapt from https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/blob/main/generation_utils.py
-def baichuan2_build_chat(tokenizer, prompt, max_new_tokens=512):
-    def _parse_messages(messages, split_role="user"):
-        system, rounds = "", []
-        round = []
-        for i, message in enumerate(messages):
-            if message["role"] == "system":
-                assert i == 0
-                system = message["content"]
-                continue
-            if message["role"] == split_role and round:
-                rounds.append(round)
-                round = []
-            round.append(message)
-        if round:
-            rounds.append(round)
-        return system, rounds
-
-    messages = [{"role": "user", "content": f"{prompt}"}]
-    max_new_tokens = max_new_tokens
-    max_input_tokens = 4096 - max_new_tokens
-    system, rounds = _parse_messages(messages, split_role="user")
-    system_tokens = tokenizer.encode(system)
-    max_history_tokens = max_input_tokens - len(system_tokens)
-
-    history_tokens = []
-    for round in rounds[::-1]:
-        round_tokens = []
-        for message in round:
-            if message["role"] == "user":
-                round_tokens.append(195)
-            else:
-                round_tokens.append(196)
-            round_tokens.extend(tokenizer.encode(message["content"]))
-        if len(history_tokens) == 0 or len(history_tokens) + len(round_tokens) <= max_history_tokens:
-            history_tokens = round_tokens + history_tokens  # concat left
-            if len(history_tokens) < max_history_tokens:
-                continue
-        break
-
-    input_tokens = system_tokens + history_tokens
-    if messages[-1]["role"] != "assistant":
-        input_tokens.append(196)
-    input_tokens = input_tokens[-max_input_tokens:]  # truncate left
-    return input_tokens
-
-def qwen_build_chat(
-    tokenizer,
-    query: str,
-    history: List[Tuple[str, str]] = None,
-    system: str = "",
-    max_window_size: int = 6144,
-    chat_format: str = "chatml",
-):
-    if history is None:
-        history = []
-
-    if chat_format == "chatml":
-        im_start, im_end = "<|im_start|>", "<|im_end|>"
-        im_start_tokens = [tokenizer.im_start_id]
-        im_end_tokens = [tokenizer.im_end_id]
-        nl_tokens = tokenizer.encode("\n")
-
-        def _tokenize_str(role, content):
-            return f"{role}\n{content}", tokenizer.encode(
-                role, allowed_special=set()
-            ) + nl_tokens + tokenizer.encode(content, allowed_special=set())
-
-        system_text, system_tokens_part = _tokenize_str("system", system)
-        system_tokens = im_start_tokens + system_tokens_part + im_end_tokens
-
-        raw_text = ""
-        context_tokens = []
-
-        for turn_query, turn_response in reversed(history):
-            query_text, query_tokens_part = _tokenize_str("user", turn_query)
-            query_tokens = im_start_tokens + query_tokens_part + im_end_tokens
-            response_text, response_tokens_part = _tokenize_str(
-                "assistant", turn_response
-            )
-            response_tokens = im_start_tokens + response_tokens_part + im_end_tokens
-
-            next_context_tokens = nl_tokens + query_tokens + nl_tokens + response_tokens
-            prev_chat = (
-                f"\n{im_start}{query_text}{im_end}\n{im_start}{response_text}{im_end}"
-            )
-
-            current_context_size = (
-                len(system_tokens) + len(next_context_tokens) + len(context_tokens)
-            )
-            if current_context_size < max_window_size:
-                context_tokens = next_context_tokens + context_tokens
-                raw_text = prev_chat + raw_text
-            else:
-                break
-
-        context_tokens = system_tokens + context_tokens
-        raw_text = f"{im_start}{system_text}{im_end}" + raw_text
-        context_tokens += (
-            nl_tokens
-            + im_start_tokens
-            + _tokenize_str("user", query)[1]
-            + im_end_tokens
-            + nl_tokens
-            + im_start_tokens
-            + tokenizer.encode("assistant")
-            + nl_tokens
+        logging.info(
+            f"Using supplied chat template:\n{tokenizer.chat_template}"
         )
-        raw_text += f"\n{im_start}user\n{query}{im_end}\n{im_start}assistant\n"
-
-    elif chat_format == "raw":
-        raw_text = query
-        context_tokens = tokenizer.encode(raw_text)
+    elif tokenizer.chat_template is not None:
+        logging.info(
+            f"Using default chat template:\n{tokenizer.chat_template}. This May lead to unsatisfactory results. You can provide a template.jinja file for vllm."
+        )
     else:
-        raise NotImplementedError(f"Unknown chat format {chat_format!r}")
-
-    return raw_text, context_tokens
-
-def codellama_build_chat(tokenizer,prompt):
-    return "[INST] Write code to solve the following coding problem that obeys the constraints and passes the example test cases. Please wrap your code answer using ```:{}[/INST]".format(prompt)
-
-def build_chat(tokenizer, prompt, model_name, **kwargs):
-    model_name = model_name.lower()
-        # return str or list[int]
-    if "chatglm2" in model_name:
-        prompt = chatglm2_build_chat(tokenizer,prompt)
-    elif "chatglm3" in model_name:
-        prompt = chatglm3_build_chat(tokenizer,prompt)
-    elif "llama2" in model_name and 'chat' in model_name:
-        prompt = llama2_build_chat(tokenizer,prompt)
-    elif "baichuan2" in model_name and 'chat' in model_name:
-        prompt = baichuan2_build_chat(tokenizer,prompt, kwargs['max_length'])
-    elif "qwen" in model_name and 'chat' in model_name:
-        prompt = qwen_build_chat(tokenizer,prompt)
-    elif "code" in model_name and 'llama' in model_name:
-        prompt = codellama_build_chat(tokenizer,prompt)
-    else:
-        prompt = default_build_chat(tokenizer,prompt)
-    return prompt
-
-
-# for output
-def default_post_process(output):
-    return output
-
-def glm2_post_process(output):
-    output = output.strip()
-    output = output.replace("[[训练时间]]", "2023年")
-    return output
-
-def glm3_post_process(output, history=[]):
-    content = ""
-    history = deepcopy(history)
-    for response in output.split("<|assistant|>"):
-        metadata, content = response.split("\n", maxsplit=1)
-        if not metadata.strip():
-            content = content.strip()
-            history.append({"role": "assistant", "metadata": metadata, "content": content})
-            content = content.replace("[[训练时间]]", "2023年")
-        else:
-            history.append({"role": "assistant", "metadata": metadata, "content": content})
-            if history[0]["role"] == "system" and "tools" in history[0]:
-                content = "\n".join(content.split("\n")[1:-1])
-                def tool_call(**kwargs):
-                    return kwargs
-                parameters = eval(content)
-                content = {"name": metadata.strip(), "parameters": parameters}
-            else:
-                content = {"name": metadata.strip(), "content": content}
-    return content
-
-def post_process(response, model_name,**kwargs):
-    model_name = model_name.lower()
-    if "chatglm2" in model_name:
-        response = glm2_post_process(response)
-    elif "chatglm3" in model_name:
-        response = glm3_post_process(response)
-    else:
-        response = default_post_process(response)
-    return response
+        logging.warning(
+            "No chat template provided. Chat API will not work. This May lead to unsatisfactory results. You can provide a template.jinja file for vllm.")
