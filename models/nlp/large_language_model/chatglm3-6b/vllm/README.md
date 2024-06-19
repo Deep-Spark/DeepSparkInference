@@ -13,6 +13,7 @@ In order to run the model smoothly, we need the following dependency files:
 1. ixrt-xxx.whl
 2. ixformer-xxx.whl
 3. vllm-xxx.whl
+
 Please contact the staff to obtain the relevant installation packages.
 
 ```bash
@@ -22,7 +23,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install transformers==4.33.2
+pip3 install transformers==4.37.1
 pip3 install Path/To/ixrt-xxx.whl
 pip3 install Path/To/vllm-xxx.whl
 pip3 install Path/To/ixformer-xxx.whl
