@@ -1,4 +1,4 @@
-# RepNet-VehicleReID
+# RepNet-Vehicle-ReID
 
 ## Description
 

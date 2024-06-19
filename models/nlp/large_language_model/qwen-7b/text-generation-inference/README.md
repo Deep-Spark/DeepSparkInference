@@ -53,3 +53,9 @@ ENABLE_INFER_PG=1 CUDA_VISIBLE_DEVICES=0 USE_FLASH_ATTENTION=true text-generatio
 export CUDA_VISIBLE_DEVICES=1
 python3 offline_inference.py --model2path ./data/qwen-7B
 ```
+
+## Results
+
+| Model   | QPS   |
+| ------- | ----- |
+| Qwen-7B | 35.64 |

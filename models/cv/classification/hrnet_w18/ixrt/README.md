@@ -64,7 +64,7 @@ bash scripts/infer_hrnet_w18_int8_performance.sh
 
 ## Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-ResNet50 |           |          |          |          |
-ResNet50 |           |          |          |          |
+| Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| -------- | --------- | --------- | ------- | -------- | -------- |
+| ResNet50 | 32        | FP16      | 1474.26 | 0.76764  | 0.93446  |
+| ResNet50 | 32        | INT8      | 1649.40 | 0.76158  | 0.93152  |

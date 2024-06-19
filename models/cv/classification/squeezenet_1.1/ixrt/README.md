@@ -70,7 +70,7 @@ bash scripts/infer_squeezenet_v11_int8_performance.sh
 
 ## Results
 
-Model          |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
----------------|-----------|----------|---------|----------|--------
-SqueezeNet 1.1 |           |   FP16   | 13701 |  0.58182  | 0.80622
-SqueezeNet 1.1 |           |   INT8   | 20128 |  0.50966  | 0.77552
+| Model          | BatchSize | Precision | FPS   | Top-1(%) | Top-5(%) |
+| -------------- | --------- | --------- | ----- | -------- | -------- |
+| SqueezeNet 1.1 | 32        | FP16      | 13701 | 0.58182  | 0.80622  |
+| SqueezeNet 1.1 | 32        | INT8      | 20128 | 0.50966  | 0.77552  |

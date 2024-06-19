@@ -1,4 +1,4 @@
-# EfficientnetV2
+# EfficientNetV2
 
 ## Description
 

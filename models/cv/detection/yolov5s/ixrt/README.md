@@ -1,4 +1,4 @@
-# YOLOv5-s
+# YOLOv5s
 
 ## Description
 

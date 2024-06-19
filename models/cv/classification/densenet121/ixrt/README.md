@@ -54,6 +54,6 @@ bash scripts/infer_densenet_fp16_performance.sh
 
 ## Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-DenseNet |           |    FP16  |  1536.89 |   0.7442 |  0.9197
+| Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| -------- | --------- | --------- | ------- | -------- | -------- |
+| DenseNet | 32        | FP16      | 1536.89 | 0.7442   | 0.9197   |

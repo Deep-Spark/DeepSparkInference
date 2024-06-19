@@ -1,4 +1,4 @@
-# Detr
+# DETR
 
 ## Description
 
@@ -63,4 +63,4 @@ bash scripts/infer_detr_fp16_performance.sh
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95
 --------|-----------|----------|----------|----------|------------
-Detr    |    1      |   FP16   | 65.84    |  0.370   | 0.198
+DETR    |    1      |   FP16   | 65.84    |  0.370   | 0.198

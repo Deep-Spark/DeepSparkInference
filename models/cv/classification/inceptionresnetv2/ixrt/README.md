@@ -1,4 +1,4 @@
-# InceptionResNetV2
+# Inception-ResNetV2
 
 ## Description
 

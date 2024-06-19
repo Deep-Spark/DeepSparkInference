@@ -43,6 +43,6 @@ bash scripts/infer_bert_base_squad_fp16_performance.sh
 
 ## Results
 
-Model            |BatchSize  |SeqLength |Precision |FPS       | F1 Score
------------------|-----------|----------|----------|----------|--------
-Bertbase(Squad)  |    8      |   256    |   FP16   |901.81    | 88.08
+| Model           | BatchSize | SeqLength | Precision | FPS    | F1 Score |
+| --------------- | --------- | --------- | --------- | ------ | -------- |
+| BERT Base SQuAD | 8         | 256       | FP16      | 901.81 | 88.08    |

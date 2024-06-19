@@ -12,23 +12,23 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 docker pull nvcr.io/nvidia/tensorrt:23.04-py3
 ```
 
-### Install
+## Install
 
-#### On iluvatar
+### Install on Iluvatar
 
 ```bash
 cmake -S . -B build
 cmake --build build -j16
 ```
 
-#### On T4
+### Install on T4
 
 ```bash
 cmake -S . -B build -DUSE_TENSORRT=true
 cmake --build build -j16
 ```
 
-### Download
+## Download
 
 ```bash
 cd python
@@ -36,6 +36,30 @@ bash script/prepare.sh v1_1
 ```
 
 ## Inference
+
+```bash
+# INT8
+cd python
+pip install onnx pycuda
+bash script/build_engine.sh --bs 32 --int8
+bash script/inference_squad.sh --bs 32 --int8
+```
+
+### On Iluvatar
+
+#### FP16
+
+```bash
+cd python/script
+bash infer_bert_base_squad_fp16_ixrt.sh
+```
+
+#### INT8
+
+```bash
+cd python/script
+bash infer_bert_base_squad_int8_ixrt.sh
+```
 
 ### On T4
 
@@ -48,32 +72,13 @@ bash script/build_engine.sh --bs 32
 bash script/inference_squad.sh --bs 32
 ```
 
-```bash
-# INT8
-cd python
-pip install onnx pycuda
-bash script/build_engine.sh --bs 32 --int8
-bash script/inference_squad.sh --bs 32 --int8
-```
-#### On iluvatar
-
-```bash
-# FP16
-cd python/script
-bash infer_bert_base_squad_fp16_ixrt.sh
-```
-
-```bash
-# INT8
-cd python/script
-bash infer_bert_base_squad_int8_ixrt.sh
-```
-
 ## Results
 
-Model | BatchSize | Precision | FPS | ACC
-------|-----------|-----------|-----|----
-BERT-Base-SQuAD | 32 | fp16 | Latency QPS: 1543.40 sentences/s | "exact_match": 80.92, "f1": 88.20
+| Model           | BatchSize | Precision | Latency QPS | exact_match | f1    |
+| --------------- | --------- | --------- | ----------- | ----------- | ----- |
+| BERT Base SQuAD | 32        | FP16      | 1444.69     | 80.92       | 88.20 |
+| BERT Base SQuAD | 32        | INT8      | 2325.20     | 78.41       | 86.97 |
 
-## Referenece 
-- [bert-base-uncased.zip 外网链接](https://drive.google.com/file/d/1_DJDdKBanqJ6h3VGhH78F9EPgE2wK_Tw/view?usp=drive_link)
+## Referenece
+
+- [bert-base-uncased.zip](https://drive.google.com/file/d/1_DJDdKBanqJ6h3VGhH78F9EPgE2wK_Tw/view?usp=drive_link)
