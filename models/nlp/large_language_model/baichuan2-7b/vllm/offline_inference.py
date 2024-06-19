@@ -16,7 +16,7 @@
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-from utils import build_chat,post_process,load_chat_template,sampling_add_cli_args
+from utils import load_chat_template,sampling_add_cli_args
 
 import logging
 import time
@@ -30,7 +30,7 @@ from vllm import LLM, SamplingParams, EngineArgs
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--chat_template",type=str,default=None)
-parser.add_argument("--remove_chat_template",default=True,action="store_false",help="pass this if you are not use a chat model")
+parser.add_argument("--remove_chat_template",default=False,action="store_true",help="pass this if you are not use a chat model")
 parser = EngineArgs.add_cli_args(parser)
 parser = sampling_add_cli_args(parser)
 args = parser.parse_args()
@@ -59,14 +59,14 @@ sampling_params = SamplingParams(**sampling_params)
 llm = LLM(**engine_params)
 
 # process chat template
-if not args.remove_chat_template:
-    if 'chat' not in model_name.lower():
-        logging.warning(f"We assume that you are using the chat model, so additional processing is required for the input prompt. "
-                        f"If the result is not quite correct, please ensure that the model path includes the chat character. "
-                        f"for now, the model_name from model path is {model_name}")
+if args.remove_chat_template:
+    if 'chat' in model_name.lower():
+        logging.warning(f"The model name from model path is {model_name}, so we guess you are using the chat model and the additional processing is required for the input prompt. "
+                        f"If the result is not quite correct, please ensure you do not pass --remove_chat_template in CLI.")
     prompts_new = prompts
 else:
     # Build chat model promopt
+    logging.warning("If you are using a non chat model, please pass the --remove_chat_template in CLI.")
     # Try use transformers's apply_chat_template, if chat_template is None, will use defalut template.
     # For some old models, the default template may cause bad answers. we don't consider this situation, 
     # because the Transformers team is advancing the chat template. For more informatino about it, 
@@ -85,9 +85,8 @@ else:
             )
             prompts_new.append(text)
     except:
-        logging.warning("use tokenizer apply_chat_template function failed, may because of low transformers version...(try use transformers>=4.37.0)")
-        # Fall back to simple build chat, this part should be controled by model developer, we just provide a simple use cases
-        prompts_new = [build_chat(llm.get_tokenizer(),prompt,model_name,max_length=args.max_generate_tokens) for prompt in prompts]
+        logging.warning("use tokenizer apply_chat_template function failed, may because of low transformers version...(try use transformers>=4.34.0)")
+        prompts_new = prompts
 
 # Generate texts from the prompts. The output is a list of RequestOutput objects
 # that contain the prompt, generated text, and other information.
@@ -104,7 +103,7 @@ num_tokens = 0
 # Print the outputs.
 for i, output in enumerate(outputs):
     prompt = prompts[i] # show the origin prompt. actully prompt is "output.prompt"
-    generated_text = post_process(output.outputs[0].text,model_name)
+    generated_text = output.outputs[0].text
     
     num_tokens += len(output.outputs[0].token_ids)
     print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
