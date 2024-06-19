@@ -429,6 +429,28 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>DETR</td>
+        <td>FP16</td>
+        <td>-</td>
+        <td><a href="models/cv/detection/detr/ixrt/README.md#fp16">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>FCOS</td>
+        <td>FP16</td>
+        <td>-</td>
+        <td><a href="models/cv/detection/fcos/ixrt/README.md#fp16">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>FoveaBox</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/foveabox/igie/README.md#fp16">Supported</a></td>
@@ -465,12 +487,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>YOLOv3</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov3/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/yolov3/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
         <td><a href="models/cv/detection/yolov3/igie/README.md#int8">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/yolov3/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOv4</td>
@@ -487,12 +509,23 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>YOLOv5</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov5/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/yolov5/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
         <td><a href="models/cv/detection/yolov5/igie/README.md#int8">Supported</a></td>
+        <td><a href="models/cv/detection/yolov5/ixrt/README.md#int8">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>YOLOv5s</td>
+        <td>FP16</td>
         <td>-</td>
+        <td><a href="models/cv/detection/yolov5s/ixrt/README.md#fp16">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td><a href="models/cv/detection/yolov5s/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOv6</td>
@@ -509,12 +542,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>YOLOv7</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov7/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/yolov7/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
         <td><a href="models/cv/detection/yolov7/igie/README.md#int8">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/yolov7/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOv8</td>
@@ -676,7 +709,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
 </table>
 
-------
+---
 
 ## 社区
 
