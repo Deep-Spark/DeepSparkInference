@@ -76,8 +76,8 @@ bash script/inference_squad.sh --bs 32
 
 | Model           | BatchSize | Precision | Latency QPS | exact_match | f1    |
 | --------------- | --------- | --------- | ----------- | ----------- | ----- |
-| BERT Base SQuAD | 32        | fp16      | 1444.69     | 80.92       | 88.20 |
-| BERT Base SQuAD | 32        | fp16      | 2325.20     | 78.41       | 86.97 |
+| BERT Base SQuAD | 32        | FP16      | 1444.69     | 80.92       | 88.20 |
+| BERT Base SQuAD | 32        | INT8      | 2325.20     | 78.41       | 86.97 |
 
 ## Referenece
 

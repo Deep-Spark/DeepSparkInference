@@ -696,6 +696,41 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
 </table>
 
+### Large Language Model
+
+<table>
+    <tr align="center">
+        <th>Models</th>
+        <th>vLLM</th>
+        <th>TensorRT-LLM</th>
+        <th>TGI</th>
+    </tr>
+    <tr align="center">
+        <td>Baichuan2-7B</td>
+        <td><a href="models/nlp/large_language_model/baichuan2-7b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>ChatGLM-3-6B</td>
+        <td><a href="models/nlp/large_language_model/chatglm3-6b//vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>Llama2-7B</td>
+        <td>-</td>
+        <td><a href="models/nlp/large_language_model/llama2-7b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>Qwen-7B</td>
+        <td>-</td>
+        <td>-</td>
+        <td><a href="models/nlp/large_language_model/qwen-7b/text-generation-inference/README.md">Supported</a></td>
+    </tr>
+</table>
+
 ## Speech
 
 ### Speech Recognition
