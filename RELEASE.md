@@ -1,5 +1,89 @@
 # DeepSparkInference Release Notes
 
+## 24.06 Release Notes
+
+### 模型与算法
+
+* 新增了31个推理小模型示例，其中支持IGIE推理引擎的16个，支持IxRT推理引擎的15个。
+
+<table>
+    <tr align="left">
+        <th colspan=6>IGIE</th>
+    </tr>
+    <tr>
+        <td>CenterNet</td>
+        <td>DenseNet161</td>
+        <td>EfficientNet_b1</td>
+        <td>EfficientNet_rw_t</td>
+    </tr>
+    <tr>
+        <td>FoveaBox</td>
+        <td>HRNet</td>
+        <td>MobileNetv3_Large</td>
+        <td>MobileNetv3_Small</td>
+    </tr>
+    <tr>
+        <td>Regnet_x_1_6gf</td>
+        <td>RepNet</td>
+        <td>Res2Net50</td>
+        <td>ResNeSt50</td>
+    </tr>
+    <tr>
+        <td>ResNet101</td>
+        <td>ResNet152</td>
+        <td>ShuffleNetv2_x0_5</td>
+        <td>Wide_ResNet50</td>
+    </tr>
+    <tr align="left">
+        <th colspan=6>IxRT</th>
+    </tr>
+    <tr>
+        <td>BERT Base SQuAD</td>
+        <td>DenseNet</td>
+        <td>DETR</td>
+        <td>EfficientNet_V2_t</td>
+    </tr>
+    <tr>
+        <td>FCOS</td>
+        <td>HRNet</td>
+        <td>Inception_ResNet_V2</td>
+        <td>InceptionV3</td>
+    </tr>
+    <tr>
+        <td>ResNet_V1_D50</td>
+        <td>SoloV1</td>
+        <td>SqueezeNet_v1.1</td>
+        <td>YOLOv3</td>
+    </tr>
+    <tr>
+        <td>YOLOv5m</td>
+        <td>YOLOv5s</td>
+        <td>YOLOv7</td>
+        <td></td>
+    </tr>
+</table>
+
+* 新增了4个大语言模型的推理示例。
+  * Baichuan2-7B (vLLM)
+  * ChatGLM-3-6B (vLLM)
+  * Llama2-7B (TensorRT-LLM)
+  * Qwen-7B (Text Generation Inference)
+
+### 问题修复
+
+* 修复了YOLOX IxRT 插件编译会报错的问题。
+* 完善了libGL依赖在Ubuntu上安装的帮助说明。
+
+### 感谢以下社区贡献者
+
+YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，xiaomei.wang，cheneychen2023，qiang.zhang。
+
+### 版本关联
+
+DeepSparkInference 24.06对应天数软件栈4.0.0版本。
+
+---
+
 ## 24.03 Release Notes
 
 ### 模型与算法
@@ -58,7 +142,7 @@
     <tr>
         <td>AlexNet</td>
         <td>BERT Base SQuAD</td>
-        <td>BERTLarge SQuAD</td>
+        <td>BERT Large SQuAD</td>
         <td>CSPResNet50</td>
     </tr>
     <tr>
