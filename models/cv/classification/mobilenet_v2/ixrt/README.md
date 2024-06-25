@@ -41,10 +41,11 @@ bash script/infer_mobilenetv2_int8_performance.sh
 
 ## Results
 
-Model | BatchSize | Precision | FPS | ACC
-------|-----------|-----------|-----|----
-MobileNetV2 | 32 | FP16 | 4835.19 | Acc@1 : 0.7186, Acc@5 : 0.90316
+| Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| ----------- | --------- | --------- | ------- | -------- | -------- |
+| MobileNetV2 | 32        | FP16      | 4835.19 | 0.7186   | 0.90316  |
 
 ## Referenece
 
 - [MobileNetV2](https://arxiv.org/abs/1801.04381)
+- 
