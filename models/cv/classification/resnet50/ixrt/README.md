@@ -20,6 +20,7 @@ pip3 install onnx
 pip3 install onnxsim
 pip3 install tabulate
 pip3 install ppq
+pip3 install pycuda
 ```
 
 ### Download
@@ -62,7 +63,7 @@ bash scripts/infer_resnet50_int8_performance.sh
 
 ## Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-ResNet50 |           |          |          |          |
-ResNet50 |           |          |          |          |
+| Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| -------- | --------- | --------- | ------- | -------- | -------- |
+| ResNet50 | 32        | FP16      | 4077.58 | 0.76158  | 0.92872  |
+| ResNet50 | 32        | INT8      | 9113.07 | 0.74516  | 0.9287   |
