@@ -80,7 +80,7 @@ DeepSparkInference 24.06对应天数软件栈4.0.0版本。
 
 ### 感谢以下社区贡献者
 
-YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，xiaomei.wang，cheneychen2023，qiang.zhang。
+YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，cheneychen2023，qiang.zhang。
 
 ---
 
