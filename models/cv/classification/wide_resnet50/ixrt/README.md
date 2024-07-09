@@ -1,4 +1,4 @@
-# WideResNet50
+# Wide ResNet50
 
 ## Description
 
@@ -22,7 +22,8 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Model Conversion
 
 ```bash
-python3 export.py --weight wide_resnet50_2-95faca4d.pth --output wide_resnet50.onnx
+mkdir -p checkpoints/
+python3 export.py --weight wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx
 ```
 
 ## Inference
@@ -54,7 +55,7 @@ bash scripts/infer_wide_resnet50_int8_performance.sh
 
 ## Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-WideResNet50 |    32     |   FP16   | 2478.551 |  78.486  |  94.084
-WideResNet50 |    32     |   INT8   | 5981.702 |  76.956  |  93.920
+| Model         | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| ------------- | --------- | --------- | -------- | -------- | -------- |
+| Wide ResNet50 | 32        | FP16      | 2478.551 | 78.486   | 94.084   |
+| Wide ResNet50 | 32        | INT8      | 5981.702 | 76.956   | 93.920   |
