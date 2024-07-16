@@ -59,9 +59,9 @@ bash scripts/infer_cspdarknet_fp16_performance.sh
 
 ## Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-CSPDarkNet50 |    32     |   FP16   | 2147.96  |  79.05  | 94.49
+| Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| ------------ | --------- | --------- | -------- | -------- | -------- |
+| CSPDarkNet50 | 32        | FP16      | 3214.387 | 79.063   | 94.492   |
 
 ## Reference
 

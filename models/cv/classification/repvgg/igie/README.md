@@ -19,6 +19,7 @@ pip3 install onnx
 pip3 install tqdm
 pip3 install mmcv==1.5.3
 pip3 install mmcls
+pip3 install mmengine
 ```
 
 ### Download
@@ -55,9 +56,9 @@ bash scripts/infer_repvgg_fp16_performance.sh
 
 ## Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-RepVGG    |    32     |   FP16   | 5477.21  |  72.34   | 90.5
+| Model  | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| ------ | --------- | --------- | -------- | -------- | -------- |
+| RepVGG | 32        | FP16      | 7423.035 | 72.345   | 90.543   |
 
 ## Reference
 

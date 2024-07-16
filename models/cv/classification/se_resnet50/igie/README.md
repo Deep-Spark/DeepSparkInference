@@ -55,9 +55,9 @@ bash scripts/infer_seresnet_fp16_performance.sh
 
 ## Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-SEResNet50   |    32     |   FP16   | 1438.95  |  77.70   | 93.81
+| Model      | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| ---------- | --------- | --------- | -------- | -------- | -------- |
+| SEResNet50 | 32        | FP16      | 2548.268 | 77.709   | 93.812   |
 
 ## Reference
 

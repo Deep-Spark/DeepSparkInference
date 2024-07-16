@@ -42,6 +42,6 @@ bash scripts/infer_convnext_small_fp16_performance.sh
 
 ## Results
 
-Model          |BatchSize  |Precision |FPS       |Top-1(%) |Top-5(%)
----------------|-----------|----------|----------|---------|--------
-ConvNext Small |    32     |   FP16   | 452.689  |  83.26  | 96.51
+| Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| -------------- | --------- | --------- | ------- | -------- | -------- |
+| ConvNext Small | 32        | FP16      | 725.437 | 83.267   | 96.515   |

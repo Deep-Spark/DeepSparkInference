@@ -1,4 +1,4 @@
-# Deit tiny
+# DeiT-tiny
 
 ## Description
 
@@ -59,9 +59,9 @@ bash scripts/infer_deit_tin_fp16_performance.sh
 
 ## Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-Deit_tiny    |    32     |   FP16   | 1334.876 |  74.33   | 92.17
+| Model     | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| --------- | --------- | --------- | -------- | -------- | -------- |
+| DeiT-tiny | 32        | FP16      | 2172.771 | 74.334   | 92.175   |
 
 ## Reference
 
