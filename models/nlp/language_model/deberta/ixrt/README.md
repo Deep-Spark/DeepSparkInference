@@ -37,7 +37,7 @@ bash /scripts/prepare_model_and_dataset.sh
 Please correct the paths in the following commands or files.
 ```bash
 tar -xvf open_deberta.tar
-wget < https://github.com/bytedance/ByteMLPerf/blob/main/byte_infer_perf/general_perf/model_zoo/deberta-torch-fp32.json >
+wget <https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/deberta-torch-fp32.json >
 python3 torch2onnx.py --model_path deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
 onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
 python3 remove_clip_and_cast.py
