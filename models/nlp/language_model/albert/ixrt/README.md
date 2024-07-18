@@ -37,7 +37,7 @@ bash /scripts/prepare_model_and_dataset.sh
 Please correct the paths in the following commands or files.
 ```bash
 tar -xvf open_albert.tar
-wget < https://github.com/bytedance/ByteMLPerf/blob/main/byte_infer_perf/general_perf/model_zoo/albert-torch-fp32.json >
+wget <https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/albert-torch-fp32.json >
 python3 torch2onnx.py --model_path albert-base-squad.pt --output_path albert-torch-fp32.onnx
 onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
 
