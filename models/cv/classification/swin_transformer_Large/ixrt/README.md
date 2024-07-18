@@ -37,7 +37,7 @@ bash /scripts/prepare_model_and_dataset.sh
 Please correct the paths in the following commands or files.
 ```bash
 tar -xvf open-swin-large.tar
-wget < https://github.com/bytedance/ByteMLPerf/blob/main/byte_infer_perf/general_perf/model_zoo/swin-large-torch-fp32.json >
+wget <https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/swin-large-torch-fp32.json >
 python3 torch2onnx.py --model_path swin-transformer-large.pt --output_path swin-large-torch-fp32.onnx
 
 ```
@@ -60,22 +60,18 @@ bash scripts/infer_swinl_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: < https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit here: <toolbox/ByteMLPerf/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+
+
+For detailed steps regarding this model, please refer to this document: <toolbox/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
 
-git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
-```
-
-For detailed steps regarding this model, please refer to this document: < https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md > Note: You need to modify the relevant paths in the code to your own correct paths.
-
-```bash
-
-pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
-mv /ixrt/perf_engine.py /ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-cd /ByteMLPerf/byte_infer_perf/
+pip3 install -r toolbox/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
+mv /ixrt/perf_engine.py toolbox/ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
+cd toolbox/ByteMLPerf/byte_infer_perf/
 mv /general_perf/general_perf/model_zoo/popular/swin-large /general_perf/model_zoo/popular/swin-large
-cd /ByteMLPerf/byte_infer_perf/general_perf
+cd toolbox/ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
 ```
 
