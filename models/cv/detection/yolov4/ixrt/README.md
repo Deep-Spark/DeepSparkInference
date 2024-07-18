@@ -19,6 +19,7 @@ pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
 pip3 install pycocotools
+pip3 install pycuda
 ```
 
 ### Download
