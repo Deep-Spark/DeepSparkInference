@@ -1,0 +1,83 @@
+# RoBERTa
+
+## Description
+
+Language model pretraining has led to significant performance gains but careful comparison between different approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes, and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results highlight the importance of previously overlooked design choices, and raise questions about the source of recently reported improvements. We release our models and code.
+
+## Setup
+
+### Install
+
+```bash
+
+pip3 install onnxsim
+pip3 install numa
+pip3 install bert
+
+```
+
+### Download
+
+Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta.tar>
+
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
+
+```bash
+
+wget https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/roberta-torch-fp32.json
+
+# export onnx
+python3 export_onnx.py --model_path open_roberta/roberta-base-squad.pt --output_path open_roberta/roberta-torch-fp32.onnx
+
+# Simplify onnx model
+onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta-torch-fp32_sim.onnx
+```
+
+## Inference
+
+```bash
+export ORIGIN_ONNX_NAME=/Path/roberta-torch-fp32_sim
+export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export PROJ_PATH=./
+```
+
+### Performance
+
+```bash
+bash scripts/infer_roberta_fp16_performance.sh
+```
+
+### Accuracy
+
+If you want to evaluate the accuracy of this model, please visit the website: < https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+
+```bash
+
+git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
+```
+
+For detailed steps regarding this model, please refer to this document: < https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md > Note: You need to modify the relevant paths in the code to your own correct paths.
+
+```bash
+
+pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
+
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roberta/
+mv open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+cd ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad
+wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar
+tar -vxf open_squad.tar
+
+sftp -P 29880 vipzjtd@iftp.iluvatar.com.cn（如果链接不上用ip替换：10.160.20.60）  密码：123..com
+get /upload/3-app/byteperf/csarron.tar
+exit
+tar -zxvf csarron.tar
+mv csarron.tar ./ByteMLPerf/byte_infer_perf/
+# Modify ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
+# AutoTokenizer.from_pretrained("csarron/roberta-base-squad-v1") => AutoTokenizer.from_pretrained("/ByteMLPerf/byte_infer_perf/csarron/roberta-base-squad-v1")
+
+cd ./ByteMLPerf/byte_infer_perf/
+python3 general_perf/core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
+```
