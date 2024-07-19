@@ -69,6 +69,13 @@ bash scripts/infer_yolov4darknet_int8_accuracy.sh
 bash scripts/infer_yolov4darknet_int8_performance.sh
 ```
 
+## Results
+
+| Model  | BatchSize | Precision | FPS    | MAP@0.5 |
+| ------ | --------- | --------- | ------ | ------- |
+| YOLOv4 | 32        | FP16      | 303.27 | 0.730   |
+| YOLOv4 | 32        | INT8      | 682.14 | 0.608   |
+
 ## Reference
 
 DarkNet: <https://github.com/AlexeyAB/darknet>
