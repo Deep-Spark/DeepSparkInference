@@ -10,8 +10,9 @@ Generalized linear models with nonlinear feature transformations are widely used
 
 ```bash
 pip3 install tf2onnx
+pip3 install pycuda
 pip3 install onnxsim
-pip3 install numa
+pip3 install py-libnuma==1.2
 
 ```
 
@@ -59,7 +60,7 @@ For detailed steps regarding this model, please refer to this document: < https:
 
 ```bash
 
-pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model

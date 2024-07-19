@@ -9,10 +9,11 @@ Language model pretraining has led to significant performance gains but careful 
 ### Install
 
 ```bash
-
 pip3 install onnxsim
-pip3 install numa
+pip3 install py-libnuma==1.2
 pip3 install bert
+pip3 install pycuda
+pip3 install transformers==4.33.3
 
 ```
 
@@ -60,11 +61,11 @@ For detailed steps regarding this model, please refer to this document: < https:
 
 ```bash
 
-pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roberta/
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 mv open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 cd ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad
 wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar
@@ -73,8 +74,9 @@ tar -vxf open_squad.tar
 sftp -P 29880 vipzjtd@iftp.iluvatar.com.cn（如果链接不上用ip替换：10.160.20.60）  密码：123..com
 get /upload/3-app/byteperf/csarron.tar
 exit
-tar -zxvf csarron.tar
+
 mv csarron.tar ./ByteMLPerf/byte_infer_perf/
+tar -zxvf csarron.tar
 # Modify ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
 # AutoTokenizer.from_pretrained("csarron/roberta-base-squad-v1") => AutoTokenizer.from_pretrained("/ByteMLPerf/byte_infer_perf/csarron/roberta-base-squad-v1")
 

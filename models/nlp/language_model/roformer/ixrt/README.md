@@ -10,8 +10,9 @@ Position encoding recently has shown effective in the transformer architecture. 
 
 ```bash
 pip3 install tf2onnx
+pip3 install pycuda
 pip3 install onnxsim
-pip3 install numa
+pip3 install py-libnuma==1.2
 
 ```
 
@@ -64,9 +65,10 @@ For detailed steps regarding this model, please refer to this document: < https:
 pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 mv ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-mv path/to/roformer-frozen_end.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/
+# Make sure the roformer-frozen_end.onnx is in the path "./data/open_roformer". Or you should move it to './ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/'.
+# mv path/to/roformer-frozen_end.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 # Modify model_zoo/roformer-tf-fp32.json
 # "inputs": "input_segment:0,input_token:0" --> "inputs": "input_segment0,input_token0"
