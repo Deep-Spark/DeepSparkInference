@@ -117,11 +117,7 @@ if __name__ == '__main__':
     with open(args.prediction_file) as prediction_file:
         predictions = json.load(prediction_file)
         f1_acc = float(args.f1_acc)
-
-    start_time = time.time()
     res = evaluate(dataset, predictions, f1_acc)
-    end_time = time.time()
-    print(F"E2E time : {end_time-start_time}")
     print(res)
     if res["status"] == 1:
         print("pass!")
