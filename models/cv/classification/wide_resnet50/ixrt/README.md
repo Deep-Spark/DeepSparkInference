@@ -22,13 +22,17 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Model Conversion
 
 ```bash
-python3 export.py --weight wide_resnet50_2-95faca4d.pth --output wide_resnet50.onnx
+mkdir -p checkpoints/
+python3 export.py --weight wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx
 ```
 
 ## Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=./
+export CONFIG_DIR=config/WIDE_RESNET50_CONFIG
 ```
 
 ### FP16
@@ -53,5 +57,5 @@ bash scripts/infer_wide_resnet50_int8_performance.sh
 
 | Model         | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------- | --------- | --------- | -------- | -------- | -------- |
-| Wide ResNet50 | 32        | FP16      | 2312.383 | 78.459   | 94.052   |
-| Wide ResNet50 | 32        | INT8      | 5195.654 | 77.957   | 93.798   |
+| Wide ResNet50 | 32        | FP16      | 2478.551 | 78.486   | 94.084   |
+| Wide ResNet50 | 32        | INT8      | 5981.702 | 76.956   | 93.920   |
