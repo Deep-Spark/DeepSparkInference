@@ -26,6 +26,7 @@ import re
 import argparse
 import json
 import sys
+import time
 
 def normalize_answer(s):
     """Lower text and remove punctuation, articles and extra whitespace."""

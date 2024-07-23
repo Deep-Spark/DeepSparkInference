@@ -13,17 +13,19 @@ pip3 install tqdm
 pip3 install onnxsim
 pip3 install opencv-python
 pip3 install ppq
+pip3 install protobuf==3.20.0
 ```
 
 ### Download
 
-Download the [imagenet](https://www.image-net.org/download.php) validation dataset, and place in data/datasets;
+Download the [imagenet](https://www.image-net.org/download.php) validation dataset, and place in `${PROJ_ROOT}/data/datasets`;
 
 ## Inference
 
 ### FP16
 
 ```bash
+cd python/
 # Test ACC
 bash script/infer_mobilenetv2_fp16_accuary.sh
 # Test FPS

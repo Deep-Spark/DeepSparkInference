@@ -372,7 +372,8 @@ if __name__ == '__main__':
                 lengths.append(len(features[0].input_ids))
 
             sort_index = np.argsort(lengths)
-            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)          
+            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)
+            print(F"E2E time : {infer_time:.3f} seconds")
             
             qps = len(squad_examples)/infer_time
             print(f"Latency QPS: {qps} sentences/s")

@@ -82,7 +82,7 @@ class COCO2017Dataset(torch.utils.data.Dataset):
         self.input_layout = input_layout
 
         self.coco = COCO(annotation_file=self.label_json_path)
-        
+
         if self.val_mode:
             self.img_ids = list(sorted(self.coco.imgs.keys()))
         else:
@@ -96,7 +96,7 @@ class COCO2017Dataset(torch.utils.data.Dataset):
         img = self._load_image(img_path)
 
         img, r = self.preproc(img, input_size=self.image_size)
-        
+
         return img, img_path, r
 
     def _get_image_path(self, index):
@@ -110,13 +110,13 @@ class COCO2017Dataset(torch.utils.data.Dataset):
         assert img is not None, f"file {img_path} not found"
 
         return img
-    
+
     def preproc(self, img, input_size, swap=(2, 0, 1)):
         if len(img.shape) == 3:
             padded_img = np.ones((input_size[0], input_size[1], 3), dtype=np.uint8) * 114
         else:
             padded_img = np.ones(input_size, dtype=np.uint8) * 114
-        
+
         org_img = (img.shape[0], img.shape[1])
         r = min(input_size[0] / img.shape[0], input_size[1] / img.shape[1])
         resized_img = cv2.resize(
@@ -128,10 +128,10 @@ class COCO2017Dataset(torch.utils.data.Dataset):
 
         padded_img = padded_img.transpose(swap)
         padded_img = np.ascontiguousarray(padded_img, dtype=np.float32)
-        
+
         return padded_img, org_img
 
-    
+
     def _load_json_label(self, index):
         _, (h0, w0), _ = self._load_image(index)
 
@@ -171,19 +171,19 @@ def get_coco_accuracy(pred_json, ann_json):
     coco_pred = coco.loadRes(pred_json)
 
     coco_evaluator = COCOeval(cocoGt=coco, cocoDt=coco_pred, iouType="bbox")
-            
+
     coco_evaluator.evaluate()
     coco_evaluator.accumulate()
     coco_evaluator.summarize()
     return coco_evaluator.stats
 
-class COCO2017Evaluator:    
+class COCO2017Evaluator:
     def __init__(self,
                  label_path,
                  image_size=640,
                  conf_thres=0.001,
                  iou_thres=0.65):
-        
+
         self.conf_thres = conf_thres
         self.iou_thres = iou_thres
         self.label_path = label_path
@@ -192,14 +192,14 @@ class COCO2017Evaluator:
         self.jdict = []
 
         # iou vector for mAP@0.5:0.95
-        self.iouv = torch.linspace(0.5, 0.95, 10)  
+        self.iouv = torch.linspace(0.5, 0.95, 10)
         self.niou = self.iouv.numel()
-    
+
     def evaluate(self, pred, all_inputs):
         im = all_inputs[0]
         img_path = all_inputs[1]
         img_info = all_inputs[2]
-        
+
         _, _, height, width = im.shape
         img_size = [height, width]
 
@@ -212,7 +212,7 @@ class COCO2017Evaluator:
         for (output, org_img, path) in zip(nms_outputs, img_info, img_path):
             if output is None:
                 continue
-            
+
             bboxes = output[:, 0:4]
 
             img_h, img_w = org_img
@@ -222,11 +222,11 @@ class COCO2017Evaluator:
             bboxes /= scale
             cls = output[:, 6]
             scores = output[:, 4] * output[:, 5]
-            
+
             bboxes = self._xyxy2xywh(bboxes)
 
             self._save_one_json(bboxes, cls, scores, self.jdict, path, coco80_to_coco91)
-        
+
     def Detect(self, outputs, img_size):
         grids = []
         expanded_strides = []
@@ -247,7 +247,7 @@ class COCO2017Evaluator:
         expanded_strides = np.concatenate(expanded_strides, 1)
         outputs[..., :2] = (outputs[..., :2] + grids) * expanded_strides
         outputs[..., 2:4] = np.exp(outputs[..., 2:4]) * expanded_strides
-        
+
         return outputs
 
     def postprocess(self, prediction, num_classes=80, conf_thre=0.7, nms_thre=0.45, class_agnostic=False):
@@ -257,7 +257,7 @@ class COCO2017Evaluator:
         box_corner[:, :, 2] = prediction[:, :, 0] + prediction[:, :, 2] / 2
         box_corner[:, :, 3] = prediction[:, :, 1] + prediction[:, :, 3] / 2
         prediction[:, :, :4] = box_corner[:, :, :4]
-        
+
         output = [None for _ in range(len(prediction))]
 
         for i, image_pred in enumerate(prediction):
@@ -271,7 +271,7 @@ class COCO2017Evaluator:
             # Detections ordered as (x1, y1, x2, y2, obj_conf, class_conf, class_pred)
             detections = torch.cat((image_pred[:, :5], class_conf, class_pred.float()), 1)
             detections = detections[conf_mask]
-            
+
             if not detections.size(0):
                 continue
             if class_agnostic:
@@ -295,7 +295,7 @@ class COCO2017Evaluator:
                 output[i] = torch.cat((output[i], detections))
 
         return output
-    
+
     def _xyxy2xywh(self, bboxes):
         bboxes[:, 2] = bboxes[:, 2] - bboxes[:, 0]
         bboxes[:, 3] = bboxes[:, 3] - bboxes[:, 1]

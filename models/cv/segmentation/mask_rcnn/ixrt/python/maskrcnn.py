@@ -275,6 +275,7 @@ def get_maskrcnn_acc(config):
     print("Warmup done !\nStart forward ...")
     
     # run
+    start_time = time.time()
     for batch_data, batch_img_shape, batch_img_id, batched_paddings, paths in tqdm(dataloader):
         batch_data = batch_data.numpy()
         batch_img_shape = batch_img_shape.numpy()
@@ -312,7 +313,10 @@ def get_maskrcnn_acc(config):
             batched_paddings[0]
         )
         save2json(batch_img_id, bboxs_masks, json_result, class_map)
-        
+    end_time = time.time()
+    end2end_time = end_time - start_time
+
+    print(F"E2E time : {end2end_time:.3f} seconds")
     print("Forward done !")
     
     tmp_result_name = "pred_results.json"
