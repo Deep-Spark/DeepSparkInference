@@ -206,12 +206,12 @@ def get_maskrcnn_perf(config):
 
     # Process I/O and execute the network
     cuda.memcpy_htod(inputs[0]["allocation"], data_batch)
-    # warm up 
+    # warm up
     print("Warmup start ...")
     for i in range(5):
         context.execute_v2(allocations)
     print("Warmup done !\nStart forward ...")
-    # run 
+    # run
     forward_time = 0
     for i in range(20):
         start_time = time.time()
@@ -268,12 +268,12 @@ def get_maskrcnn_acc(config):
     # Prepare the output data
     output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
 
-    # warm up 
+    # warm up
     print("Warmup start ...")
     for i in range(3):
         context.execute_v2(allocations)
     print("Warmup done !\nStart forward ...")
-    
+
     # run
     start_time = time.time()
     for batch_data, batch_img_shape, batch_img_id, batched_paddings, paths in tqdm(dataloader):
@@ -287,7 +287,7 @@ def get_maskrcnn_acc(config):
         # cpu -> gpu
         batch_data = np.ascontiguousarray(batch_data)
         cuda.memcpy_htod(inputs[0]["allocation"], batch_data)
-        
+
         context.execute_v2(allocations)
 
         # gpu -> cpu
@@ -318,17 +318,17 @@ def get_maskrcnn_acc(config):
 
     print(F"E2E time : {end2end_time:.3f} seconds")
     print("Forward done !")
-    
+
     tmp_result_name = "pred_results.json"
     if os.path.exists(tmp_result_name):
         os.remove(tmp_result_name)
     with open(tmp_result_name, "w") as f:
         json.dump(json_result, f)
 
-    
+
     anno = COCO(anno_json)  # init annotations api
     pred = anno.loadRes(tmp_result_name)  # init predictions api
-    
+
     eval = COCOeval(anno, pred, "bbox")
     eval.evaluate()
     eval.accumulate()
@@ -344,11 +344,11 @@ def get_maskrcnn_acc(config):
     _, map50 = eval.stats[:2]
     print("bbox mAP@0.5 : ", map50)
     print(f"bbox Accuracy Check : Test {map50} >= target {config.map_target}")
-    
+
     _, segm_map50 = segm_eval.stats[:2]
     print("segm mAP@0.5 : ", segm_map50)
     print(f"segm Accuracy Check : Test {segm_map50} >= target {config.segm_map_target}")
-    
+
     if map50 >= config.map_target and segm_map50 >= config.segm_map_target:
         print("pass!")
     else:
