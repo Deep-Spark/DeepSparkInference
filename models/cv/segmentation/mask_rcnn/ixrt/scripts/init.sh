@@ -14,13 +14,14 @@
 #    under the License.
 
 # build plugin
-cd ../plugins
+pushd ../plugins
 rm -rf build
 mkdir build
 cd build
-cmake .. -DIXRT_HOME=/usr/local/corex
-# cmake .. -DIXRT_HOME=/opt/sw_home/local
+cmake .. -D CMAKE_C_COMPILER="/usr/local/corex/bin/clang" -D CMAKE_CXX_COMPILER="/usr/local/corex/bin/clang++" -DIXRT_HOME=/usr/local/corex
+
 make -j8
+popd
 
 
 ## install packages
@@ -28,10 +29,10 @@ bash prepare_system_env.sh
 
 # pip whl
 #pip3 install opencv-python==4.6.0.66
-pip3 install pycocotools==2.0.2
+pip3 install pycocotools==2.0.7
 pip3 install tqdm
 
 # build engine
-cd ../../python
+cd ../python
 rm -rf ./maskrcnn.engine
 python3 maskrcnn.py build_engine --wts_file ./maskrcnn.wts --engine_file ./maskrcnn.engine
