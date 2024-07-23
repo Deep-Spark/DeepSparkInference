@@ -30,47 +30,47 @@ from utils import COCO2017Dataset, COCO2017Evaluator
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    
-    parser.add_argument("--engine", 
-                        type=str, 
-                        required=True, 
+
+    parser.add_argument("--engine",
+                        type=str,
+                        required=True,
                         help="igie engine path.")
-    
+
     parser.add_argument("--batchsize",
                         type=int,
-                        required=True, 
+                        required=True,
                         help="inference batch size.")
-    
-    parser.add_argument("--datasets", 
-                        type=str, 
-                        required=True, 
+
+    parser.add_argument("--datasets",
+                        type=str,
+                        required=True,
                         help="datasets path.")
-    
-    parser.add_argument("--warmup", 
-                        type=int, 
-                        default=5, 
-                        help="number of warmup before test.")           
-    
+
+    parser.add_argument("--warmup",
+                        type=int,
+                        default=5,
+                        help="number of warmup before test.")
+
     parser.add_argument("--num_workers",
                         type=int,
                         default=16,
                         help="number of workers used in pytorch dataloader.")
-    
+
     parser.add_argument("--acc_target",
                         type=float,
                         default=None,
                         help="Model inference Accuracy target.")
-    
+
     parser.add_argument("--fps_target",
                         type=float,
                         default=None,
                         help="Model inference FPS target.")
-    
+
     parser.add_argument("--conf",
                         type=float,
                         default=0.001,
                         help="confidence threshold.")
-    
+
     parser.add_argument("--iou",
                         type=float,
                         default=0.65,
@@ -80,11 +80,11 @@ def parse_args():
                         type=bool,
                         default=False,
                         help="Run performance test only")
-    parser.add_argument("--loop_count", 
-                        type=int, 
-                        default=-1, 
+    parser.add_argument("--loop_count",
+                        type=int,
+                        default=-1,
                         help="loop count")
-    
+
     args = parser.parse_args()
 
     return args
@@ -188,11 +188,11 @@ def main():
 
     host_mem = tensorrt.IHostMemory
     logger = tensorrt.Logger(tensorrt.Logger.ERROR)
-    
+
     # Load Engine
     engine, context = create_engine_context(args.engine, logger)
     inputs, outputs, allocations = get_io_bindings(engine)
-    
+
     # Warm up
     print("\nWarm Start.")
     for i in range(args.warmup):
@@ -218,27 +218,30 @@ def main():
                                     conf_thres=args.conf,
                                     iou_thres=args.iou,
                                     image_size=640)
-        
+        start_time = time.time()
         for all_inputs in tqdm(dataloader):
             image = all_inputs[0]
             pad_batch = len(image) != batch_size
             if pad_batch:
                 origin_size = len(image)
                 image = np.resize(image, (batch_size, *image.shape[1:]))
-            
+
             cuda.memcpy_htod(inputs[0]["allocation"], image)
             context.execute_v2(allocations)
-            
+
             cuda.memcpy_dtoh(output_np, outputs[0]["allocation"])
             # print("output_np")
             # print(output_np)
-                
+
             if pad_batch:
                 output_np = output_np[:origin_size]
-                
+
             evaluator.evaluate(output_np, all_inputs)
-    
+        end_time = time.time()
+        end2end_time = end_time - start_time
+        print(F"E2E time : {end2end_time:.3f} seconds")
+
         evaluator.summary()
-    
+
 if __name__ == "__main__":
     main()
