@@ -24,12 +24,17 @@ pip3 install mmengine==0.10.4
 ```
 
 ### Download
-Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth> 
+
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
+```bash
+wget https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth
+```
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg atss_r50_fpn_1x_coco.py --output atss.onnx
@@ -55,6 +60,6 @@ bash scripts/infer_atss_fp16_performance.sh
 
 ## Results
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|   ATSS    |    32     |   800x800   |    FP16   |   81.671  |    0.541   |
+| Model | BatchSize | Input Shape | Precision |   FPS   | mAP@0.5(%) |
+| :---: | :-------: | :---------: | :-------: | :-----: | :--------: |
+| ATSS  |    32     |   800x800   |   FP16    | 126.864 |   0.541    |
