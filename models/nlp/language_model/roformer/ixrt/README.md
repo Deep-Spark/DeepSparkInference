@@ -66,9 +66,11 @@ pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+# Delete Line102 ' build_engine(model_name=model_name, onnx_model_path=onnx_model_path, engine_path=engine_path, MaxBatchSize=MaxBatchSize, BuildFlag='FP16') ' which is the build engine process of conformer in the file ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
 mv ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 # Make sure the roformer-frozen_end.onnx is in the path "./data/open_roformer". Or you should move it to './ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/'.
 # mv path/to/roformer-frozen_end.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/
+wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar -P ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cail2019
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 # Modify model_zoo/roformer-tf-fp32.json
 # "inputs": "input_segment:0,input_token:0" --> "inputs": "input_segment0,input_token0"
