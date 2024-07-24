@@ -24,12 +24,17 @@ pip3 install mmengine==0.10.4
 ```
 
 ### Download
+
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_r50_caffe_fpn_gn-head_1x_coco/fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
+```bash
+wget https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_r50_caffe_fpn_gn-head_1x_coco/fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth
+```
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth --cfg fcos_r50_caffe_fpn_gn-head_1x_coco.py --output fcos.onnx
@@ -55,6 +60,6 @@ bash scripts/infer_fcos_fp16_performance.sh
 
 ## Results
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|    FCOS   |    32     |   800x800   |    FP16   |   83.09   |    0.522   |
+| Model | BatchSize | Input Shape | Precision |   FPS   | mAP@0.5(%) |
+| :---: | :-------: | :---------: | :-------: | :-----: | :--------: |
+| FCOS  |    32     |   800x800   |   FP16    | 135.019 |   0.522    |
