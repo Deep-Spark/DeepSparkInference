@@ -24,12 +24,17 @@ pip3 install mmengine==0.10.4
 ```
 
 ### Download
+
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fsaf/fsaf_r50_fpn_1x_coco/fsaf_r50_fpn_1x_coco-94ccc51f.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
+```bash
+wget https://download.openmmlab.com/mmdetection/v2.0/fsaf/fsaf_r50_fpn_1x_coco/fsaf_r50_fpn_1x_coco-94ccc51f.pth
+```
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight fsaf_r50_fpn_1x_coco-94ccc51f.pth --cfg fsaf_r50_fpn_1x_coco.py --output fsaf.onnx
@@ -55,6 +60,6 @@ bash scripts/infer_fsaf_fp16_performance.sh
 
 ## Results
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|    FSAF   |    32     |   800x800   |    FP16   |   122.35  |    0.530   |
+| Model | BatchSize | Input Shape | Precision |   FPS   | mAP@0.5(%) |
+| :---: | :-------: | :---------: | :-------: | :-----: | :--------: |
+| FSAF  |    32     |   800x800   |   FP16    | 178.748 |   0.530    |

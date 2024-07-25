@@ -7,7 +7,14 @@ RetinaFace is an efficient single-stage face detection model that employs a mult
 ## Setup
 
 ### Install
+
 ```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-dev
+
 pip3 install onnx
 pip3 install tqdm
 pip3 install onnxsim
@@ -15,11 +22,17 @@ pip3 install opencv-python==4.6.0.66
 ```
 
 ### Download
+
 Pretrained model: <https://github.com/biubug6/Face-Detector-1MB-with-landmark/raw/master/weights/mobilenet0.25_Final.pth>
 
 Dataset: <http://shuoyang1213.me/WIDERFACE/> to download the validation dataset.
 
+```bash
+wget https://github.com/biubug6/Face-Detector-1MB-with-landmark/raw/master/weights/mobilenet0.25_Final.pth
+```
+
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight mobilenet0.25_Final.pth --output retinaface.onnx
@@ -35,6 +48,7 @@ export DATASETS_DIR=/Path/to/widerface/
 ```
 
 ### FP16
+
 ```bash
 # Accuracy
 bash scripts/infer_retinaface_fp16_accuracy.sh
@@ -44,9 +58,9 @@ bash scripts/infer_retinaface_fp16_performance.sh
 
 ## Results
 
-|       Model      | BatchSize | Precision |   FPS   | Easy AP(%) | Medium AP (%) | Hard AP(%) |
-| :--------------: | :-------: | :-------: | :-----: | :--------: | :-----------: | :--------: |
-|    RetinaFace    |    32     |   FP16    | 5575.56 |    80.13   |     68.52     |   36.59    |
+|   Model    | BatchSize | Precision |   FPS    | Easy AP(%) | Medium AP (%) | Hard AP(%) |
+| :--------: | :-------: | :-------: | :------: | :--------: | :-----------: | :--------: |
+| RetinaFace |    32     |   FP16    | 8304.626 |   80.13    |     68.52     |   36.59    |
 
 ## Reference
 

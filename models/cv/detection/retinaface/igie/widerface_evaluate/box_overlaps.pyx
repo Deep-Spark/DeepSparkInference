@@ -1,6 +1,8 @@
 # --------------------------------------------------------
 # Fast R-CNN
 # Copyright (c) 2015 Microsoft
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Sergey Karayev
 # --------------------------------------------------------

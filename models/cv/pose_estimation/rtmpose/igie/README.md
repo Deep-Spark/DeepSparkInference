@@ -25,12 +25,17 @@ pip3 install mmengine==0.10.4
 ```
 
 ### Download
-Pretrained model: https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
+
+Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
+```bash
+wget https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
+```
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth --cfg rtmpose-m_8xb256-420e_coco-256x192.py --output rtmpose.onnx
@@ -56,6 +61,6 @@ bash scripts/infer_rtmpose_fp16_performance.sh
 
 ## Results
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|  RTMPose  |    32     |   252x196   |    FP16   |  2313.33  |    0.936   |
+|  Model  | BatchSize | Input Shape | Precision |   FPS    | mAP@0.5(%) |
+| :-----: | :-------: | :---------: | :-------: | :------: | :--------: |
+| RTMPose |    32     |   256x192   |   FP16    | 3459.341 |   0.936    |
