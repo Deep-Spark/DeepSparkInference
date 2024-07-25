@@ -54,7 +54,29 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
         <td>-</td>
     </tr>
-        <tr align="center">
+    <tr align="center">
+        <td rowspan=2>ConvNeXt-Small</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/convnext_small/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>CSPDarkNet50</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/cspdarknet50/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>CSPResNet50</td>
         <td>FP16</td>
         <td>-</td>
@@ -64,6 +86,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>INT8</td>
         <td>-</td>
         <td><a href="models/cv/classification/cspresnet50/ixrt/README.md#int8">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>DeiT-tiny</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/deit_tiny/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>DenseNet121</td>
@@ -88,6 +121,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>DenseNet169</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/densenet169/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>EfficientNet-B0</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/efficientnet_b0/igie/README.md#fp16">Supported</a></td>
@@ -99,7 +143,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td><a href="models/cv/classification/efficientnet_b0/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
-        <td rowspan=2>EfficientNet_B1</td>
+        <td rowspan=2>EfficientNet-B1</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/efficientnet_b1/igie/README.md#fp16">Supported</a></td>
         <td><a href="models/cv/classification/efficientnet_b1/ixrt/README.md#fp16">Supported</a></td>
@@ -110,9 +154,20 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td><a href="models/cv/classification/efficientnet_b1/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
+        <td rowspan=2>EfficientNet-B2</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/efficientnet_b2/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>EfficientNetV2</td>
         <td>FP16</td>
-        <td>-</td>
+        <td><a href="models/cv/classification/efficientnet_v2/igie/README.md#fp16">Supported</a></td>
         <td><a href="models/cv/classification/efficientnet_v2/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
@@ -222,7 +277,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td rowspan=2>RepVGG</td>
         <td>FP16</td>
-        <td>-</td>
+        <td><a href="models/cv/classification/repvgg/igie/README.md#fp16">Supported</a></td>
         <td><a href="models/cv/classification/repvgg/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
@@ -330,6 +385,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>SEResNet50</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/se_resnet50/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>ShuffleNetV1</td>
         <td>FP16</td>
         <td>-</td>
@@ -344,6 +410,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>ShuffleNetV2_x0_5</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/shufflenetv2_x0_5/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>ShuffleNetV2_x1_0</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/shufflenetv2_x1_0/igie/README.md#fp16">Supported</a></td>
         <td>-</td>
     </tr>
     <tr align="center">
@@ -418,6 +495,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <th>IxRT</th>
     </tr>
     <tr align="center">
+        <td rowspan=2>ATSS</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/atss/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>CenterNet</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/centernet/igie/README.md#fp16">Supported</a></td>
@@ -442,7 +530,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td rowspan=2>FCOS</td>
         <td>FP16</td>
-        <td>-</td>
+        <td><a href="models/cv/detection/fcos/igie/README.md#fp16">Supported</a></td>
         <td><a href="models/cv/detection/fcos/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
@@ -462,6 +550,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>FSAF</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/fsaf/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>HRNet</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/hrnet/igie/README.md#fp16">Supported</a></td>
@@ -473,9 +572,31 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>RetinaFace</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/retinaface/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>RetinaNet</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/retinanet/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>RTMDet</td>
+        <td>FP16</td>
+        <td><a href="models/cv/detection/rtmdet/igie/README.md#fp16">Supported</a></td>
         <td>-</td>
     </tr>
     <tr align="center">
@@ -570,6 +691,28 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>INT8</td>
         <td><a href="models/cv/detection/yolox/igie/README.md#int8">Supported</a></td>
         <td><a href="models/cv/detection/yolox/ixrt/README.md#int8">Supported</a></td>
+    </tr>
+</table>
+
+### Pose Estimation
+
+<table>
+    <tr align="center">
+        <th>Models</th>
+        <th>Precision</th>
+        <th>IGIE</th>
+        <th>IxRT</th>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>RTMPose</td>
+        <td>FP16</td>
+        <td><a href="models/cv/pose_estimation/rtmpose/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
     </tr>
 </table>
 

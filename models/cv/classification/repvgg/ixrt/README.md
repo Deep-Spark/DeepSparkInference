@@ -1,4 +1,4 @@
-# REPVGG
+# RepVGG
 
 ## Description
 
@@ -65,6 +65,6 @@ bash scripts/infer_repvgg_fp16_performance.sh
 
 ## Results
 
-Model  |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
--------|-----------|----------|---------|----------|--------
-REPVGG |    32     |   FP16   | 5725.37 |  72.41   | 90.49
+| Model  | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| ------ | --------- | --------- | ------- | -------- | -------- |
+| RepVGG | 32        | FP16      | 5725.37 | 72.41    | 90.49    |

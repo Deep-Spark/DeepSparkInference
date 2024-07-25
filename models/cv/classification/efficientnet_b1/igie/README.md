@@ -44,4 +44,4 @@ bash scripts/infer_efficientnet_b1_fp16_performance.sh
 
 Model           |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
 ----------------|-----------|----------|---------|---------|--------
-Efficientnet_b1 |    32     |   FP16   | 1292.31 | 78.823  | 94.494
+EfficientNet B1 |    32     |   FP16   | 1292.31 | 78.823  | 94.494

@@ -1,4 +1,4 @@
-# ConvNext Small
+# ConvNeXt Small
 
 ## Description
 
@@ -44,4 +44,4 @@ bash scripts/infer_convnext_small_fp16_performance.sh
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------------- | --------- | --------- | ------- | -------- | -------- |
-| ConvNext Small | 32        | FP16      | 725.437 | 83.267   | 96.515   |
+| ConvNeXt Small | 32        | FP16      | 725.437 | 83.267   | 96.515   |
