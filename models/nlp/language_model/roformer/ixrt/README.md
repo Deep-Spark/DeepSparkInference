@@ -70,7 +70,7 @@ For detailed steps regarding this model, please refer to this document: <https:/
 
 ```bash
 # Clone ByteMLPerf
-git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
+git clone -b iluvatar_general_infer https://github.com/yudefu/ByteMLPerf.git
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/

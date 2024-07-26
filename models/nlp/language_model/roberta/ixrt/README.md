@@ -23,6 +23,7 @@ Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta
 Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
 
 ```bash
+# Go to path of this model
 cd ${PROJ_ROOT}/models/nlp/language_model/roberta/ixrt/
 
 # get open_roberta

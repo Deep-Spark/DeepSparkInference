@@ -1,4 +1,4 @@
-# Wide & Deep
+# Wide&Deep
 
 ## Description
 
@@ -13,16 +13,17 @@ pip3 install tf2onnx
 pip3 install pycuda
 pip3 install onnxsim
 pip3 install py-libnuma==1.2
-
 ```
 
 ### Download
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_wide_deep_saved_model.tar>
 
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv >
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv>
 
 ```bash
+# Go to path of this model
+cd ${PROJ_ROOT}/models/recommendationwidedeep/ixrt
 
 # export onnx
 python3 export_onnx.py --model_path open_wide_deep_saved_model --output_path open_wide_deep_saved_model/widedeep.onnx
@@ -36,8 +37,8 @@ python3 change2dynamic.py --model_path open_wide_deep_saved_model/widedeep_sim.o
 ## Inference
 
 ```bash
-export ORIGIN_ONNX_NAME=/Path/widedeep_sim
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export ORIGIN_ONNX_NAME=./open_wide_deep_saved_model/widedeep_sim
+export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -49,29 +50,33 @@ bash scripts/infer_widedeep_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: < https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit the website: <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+
+For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-
-git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
-```
-
-For detailed steps regarding this model, please refer to this document: < https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md > Note: You need to modify the relevant paths in the code to your own correct paths.
-
-```bash
-
+# Clone ByteMLPerf
+git clone -b iluvatar_general_infer https://github.com/yudefu/ByteMLPerf.git
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
+# Get eval.csv and onnx
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/
-wget -O ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/eval.csv https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv
 
-sftp -P 29889 user01@58.247.142.52  password：5$gS%659
-cd yudefu/bytedance_perf ; get widedeep_dynamicshape_new.onnx
-exit
+wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv
+mv eval.csv ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/
 
-mv path/to/widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/widedeep_dynamicshape.onnx
+wget http://files.deepspark.org.cn:880/deepspark/widedeep_dynamicshape_new.onnx
+mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+
+# Run Acc scripts
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task widedeep-tf-fp32
 ```
+
+## Results
+
+| Model     | BatchSize | Precision | FPS      | ACC     |
+| --------- | --------- | --------- | -------- | ------- |
+| Wide&Deep | 1024      | FP16      | 77073.93 | 0.74597 |
