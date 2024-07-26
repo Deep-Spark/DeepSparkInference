@@ -25,7 +25,7 @@ Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roforme
 Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar>
 
 ```bash
-# Go to path of this model 
+# Go to path of this model
 cd ${PROJ_ROOT}/models/nlp/language_model/roformer/ixrt
 
 # Download the pretrained model and dataset to 'data'
@@ -91,7 +91,7 @@ rm -f open_cail2019.tar
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 # Modify model_zoo/roformer-tf-fp32.json
 sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.json
-# Run Acc scipts
+# Run Acc scripts
 python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
 ```
 
