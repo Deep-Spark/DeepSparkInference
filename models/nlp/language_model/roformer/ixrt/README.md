@@ -9,6 +9,8 @@ Position encoding recently has shown effective in the transformer architecture. 
 ### Install
 
 ```bash
+apt install -y libnuma-dev
+
 pip3 install tf2onnx
 pip3 install pycuda
 pip3 install onnxsim
@@ -23,23 +25,34 @@ Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roforme
 Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar>
 
 ```bash
-# Download the pretrained model and dataset to 'data'
-mkdir data
+# Go to path of this model 
+cd ${PROJ_ROOT}/models/nlp/language_model/roformer/ixrt
 
+# Download the pretrained model and dataset to 'data'
+mkdir -p data/
+pushd data/
+wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roformer.tar
+tar xf open_roformer.tar
+rm -f open_roformer.tar
+popd
+```
+
+### Deal with ONNX
+
+```bash
 # export onnx
 python3 export_onnx.py --model_path ./data/open_roformer --output_path ./data/open_roformer/roformer-frozen_org.onnx
 
 # Simplify onnx model
 onnxsim ./data/open_roformer/roformer-frozen_org.onnx ./data/open_roformer/roformer-frozen.onnx
 python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --output_path ./data/open_roformer/roformer-frozen.onnx
-
 ```
 
 ## Inference
 
 ```bash
-export ORIGIN_ONNX_NAME=/Path/roformer-frozen
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export ORIGIN_ONNX_NAME=./data/open_roformer/roformer-frozen
+export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -51,29 +64,39 @@ bash scripts/infer_roformer_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: < https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit the website: <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend.
+
+For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-
+# Clone ByteMLPerf
 git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
-```
-
-For detailed steps regarding this model, please refer to this document: < https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md > Note: You need to modify the relevant paths in the code to your own correct paths.
-
-```bash
-
-pip3 install -r https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-# Delete Line102 ' build_engine(model_name=model_name, onnx_model_path=onnx_model_path, engine_path=engine_path, MaxBatchSize=MaxBatchSize, BuildFlag='FP16') ' which is the build engine process of conformer in the file ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
+
+# Comment Line102 in compile_backend_iluvatar.py
+sed -i '102s/build_engine/# build_engine/' ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
+
+# Move open_roformer
 mv ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-# Make sure the roformer-frozen_end.onnx is in the path "./data/open_roformer". Or you should move it to './ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/'.
-# mv path/to/roformer-frozen_end.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_roformer/
-wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar -P ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cail2019
+
+# Setup open_cail2019 dataset
+wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar
+tar xf open_cail2019.tar
+cp ./open_cail2019/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cail2019
+rm -f open_cail2019.tar
+
+# Go to general_perf/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 # Modify model_zoo/roformer-tf-fp32.json
-# "inputs": "input_segment:0,input_token:0" --> "inputs": "input_segment0,input_token0"
-# "input_shape": {"input_segment:0": [1, 1024], "input_token:0": [1, 1024]} -->"input_shape": {"input_segment0": [1, 1024], "input_token0": [1, 1024]}
+sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.json
+# Run Acc scipts
 python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
 ```
+
+## Results
+
+| Model    | BatchSize | Precision | FPS     | ACC     |
+| -------- | --------- | --------- | ------- | ------- |
+| RoFormer | 2         | FP16      | 195.186 | 0.33789 |
