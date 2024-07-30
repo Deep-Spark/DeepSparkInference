@@ -153,10 +153,10 @@ if __name__ == '__main__':
                 break
         if selected_profile == -1:
             raise RuntimeError("Could not find any profile that can run batch size {}.".format(args.batch_size))
-        
+
         # Create a stream in which to copy inputs/outputs and run inference.
         stream = cuda.Stream()
-        
+
         # if args.use_trt:
         #     context.active_optimization_profile = selected_profile
         # else:
@@ -212,7 +212,7 @@ if __name__ == '__main__':
 
                 # Only retrieve and post-process the first batch
                 batch = h_output[0]
-                
+
                 networkOutputs.append(_NetworkOutput(
                     start_logits = np.array(batch.squeeze()[:, 0]),
                     end_logits = np.array(batch.squeeze()[:, 1]),
@@ -247,8 +247,8 @@ if __name__ == '__main__':
             _NetworkOutput = collections.namedtuple(  # pylint: disable=invalid-name
                     "NetworkOutput",
                     ["start_logits", "end_logits", "feature_index"])
-            networkOutputs = []    
-        
+            networkOutputs = []
+
             batch_input_ids = []
             batch_segment_ids = []
             all_token_ids = []
@@ -323,7 +323,7 @@ if __name__ == '__main__':
                 cuda.memcpy_htod_async(d_inputs[1], np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel(), stream)
                 context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream.handle)
             stream.synchronize()
-            
+
             start_time = time.time()
             output_index = 0
             for input_ids, segment_ids in tqdm(all_token_ids):
@@ -337,10 +337,10 @@ if __name__ == '__main__':
 
                 context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream.handle)
                 stream.synchronize()
-                
+
                 cuda.memcpy_dtoh_async(h_output, d_output, stream)
                 stream.synchronize()
-    
+
                 new_h_output = np.array(h_output.reshape(-1)[:input_ids.shape[0]*input_ids.shape[1]*2]).reshape(input_ids.shape[0], input_ids.shape[1], 2)
                 for index in range(input_ids.shape[0]):
                     networkOutputs.append(_NetworkOutput(
@@ -372,8 +372,8 @@ if __name__ == '__main__':
                 lengths.append(len(features[0].input_ids))
 
             sort_index = np.argsort(lengths)
-            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)          
-            
+            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)
+            print(F"E2E time : {infer_time:.3f} seconds")
             qps = len(squad_examples)/infer_time
             print(f"Latency QPS: {qps} sentences/s")
 
