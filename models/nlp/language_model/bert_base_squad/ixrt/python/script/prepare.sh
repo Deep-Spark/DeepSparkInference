@@ -51,7 +51,7 @@ else
     echo 'squad directory existed'
 fi
 
-echo "Step 2: Downloading model file and config to ./data/bert-large-uncased"
+echo "Step 2: Downloading model file and config to ./data/bert_base_uncased_squad"
 
 if [ ! -d "./bert_base_uncased_squad" ]; then
     wget https://drive.google.com/file/d/1_q7SaiZjwysJ3jWAIQT2Ne-duFdgWivR/view?usp=drive_link
