@@ -6,29 +6,34 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ## Setup
 
-### T4 requirement(tensorrt_version >= 8.6)
+### NV requirement(tensorrt_version >= 8.6)
 
 ```bash
 docker pull nvcr.io/nvidia/tensorrt:23.04-py3
 ```
 
-### Install
+## Install
 
-#### On iluvatar
+```bash
+pip install onnx
+pip install pycuda
+```
+
+### On Iluvatar
 
 ```bash
 cmake -S . -B build
 cmake --build build -j16
 ```
 
-#### On T4
+### On NV
 
 ```bash
 cmake -S . -B build -DUSE_TENSORRT=true
 cmake --build build -j16
 ```
 
-### Download
+## Download
 
 ```bash
 cd python
@@ -41,10 +46,10 @@ bash script/prepare.sh v1_1
 
 ```bash
 cd python
-pip install onnx pycuda
+
 # use --bs to set max_batch_size (dynamic)
-bash script/build_engine --bs 32
-bash script/inference_squad.sh --bs {batch_size}
+bash script/build_engine.sh --bs 32
+bash script/inference_squad.sh --bs 32
 ```
 
 ### INT8
@@ -52,16 +57,16 @@ bash script/inference_squad.sh --bs {batch_size}
 ```bash
 cd python
 pip install onnx pycuda
-bash script/build_engine --bs 32 --int8
-bash script/inference_squad.sh --bs {batch_size} --int8
+bash script/build_engine.sh --bs 32 --int8
+bash script/inference_squad.sh --bs 32 --int8
 ```
 
 ## Results
 
-Model | BatchSize | Precision | FPS | ACC
-------|-----------|-----------|-----|----
-BERT-Large-SQuAD | 32 | FP16 | Latency QPS: 470.26 sentences/s | "exact_match": 82.36, "f1": 89.68
-BERT-Large-SQuAD | 32 | INT8 | Latency QPS: 1490.47 sentences/s | "exact_match": 80.92, "f1": 88.20
+| Model            | BatchSize | Precision | Latency QPS         | exact_match | f1    |
+| ---------------- | --------- | --------- | ------------------- | ----------- | ----- |
+| BERT-Large-SQuAD | 32        | FP16      | 470.26 sentences/s  | 82.36       | 89.68 |
+| BERT-Large-SQuAD | 32        | INT8      | 1490.47 sentences/s | 80.92       | 88.20 |
 
 ## Referenece
 
