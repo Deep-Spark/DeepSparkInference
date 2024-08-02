@@ -1,0 +1,97 @@
+# DeBERTa
+
+## Description
+
+DeBERTa (Decoding-enhanced BERT with disentangled attention) is an enhanced version of the BERT (Bidirectional Encoder Representations from Transformers) model. It improves text representation learning by introducing disentangled attention mechanisms and decoding enhancement techniques.DeBERTa introduces disentangled attention mechanisms that decompose the self-attention matrix into different parts, focusing on different semantic information. This helps the model better capture relationships between texts.By incorporating decoding enhancement techniques, DeBERTa adjusts the decoder during fine-tuning to better suit specific downstream tasks, thereby improving the model’s performance on those tasks.
+
+## Setup
+
+### Install
+
+```bash
+apt install -y libnuma-dev
+
+pip3 install onnxsim
+pip3 install onnx_graphsurgeon
+pip3 install scikit-learn
+pip3 install tqdm
+pip3 install pycuda
+pip3 install onnx
+pip3 install tabulate
+pip3 install cv2
+pip3 install pycocotools
+pip3 install opencv-python==4.6.0.66
+pip3 install tf2onnx
+pip3 install transformers==4.33.3
+```
+
+### Download
+
+Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
+
+Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
+
+```bash
+bash scripts/prepare_model_and_dataset.sh
+```
+
+### Model Conversion
+
+```bash
+wget https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/deberta-torch-fp32.json
+python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/open_deberta/deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
+onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
+python3 remove_clip_and_cast.py
+
+```
+
+## Inference
+
+```bash
+export ORIGIN_ONNX_NAME=./deberta-sim-drop-clip-drop-invaild-cast
+export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export PROJ_PATH=./
+```
+
+### Performance
+
+```bash
+
+bash scripts/infer_deberta_fp16_performance.sh
+```
+
+### Accuracy
+
+If you want to evaluate the accuracy of this model, please visit the website: < <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer> >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+
+For detailed steps regarding this model, please refer to this document: < <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> > Note: You need to modify the relevant paths in the code to your own correct paths.
+
+```bash
+# clone and install requirements
+git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+
+# setup
+mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
+cp ./datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/
+
+mv ./deberta-sim-drop-clip-drop-invaild-cast.onnx general_perf/model_zoo/popular/open_deberta/
+mv ./general_perf/model_zoo/popular/ ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/
+
+cd /ByteMLPerf/byte_infer_perf/general_perf
+wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
+tar -zxvf Palak.tar
+
+#接着修改代码：ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py -AutoTokenizer.from_pretrained("Palak/microsoft_deberta-base_squad") => AutoTokenizer.from_pretrained("/Your/Path/Palak/microsoft_deberta-base_squad")
+
+# run acc perf
+sed -i 's/tensorrt_legacy/tensorrt/g' backends/ILUVATAR/common.py
+python3 core/perf_engine.py --hardware_type ILUVATAR --task deberta-torch-fp32
+```
+
+## Results
+
+| Model   | BatchSize | Precision | QPS   | Exact Match | F1 Score |
+| ------- | --------- | --------- | ----- | ----------- | -------- |
+| DeBERTa | 1         | FP16      | 18.58 | 73.76       | 81.24    |
