@@ -23,18 +23,21 @@ pip3 install opencv-python==4.6.0.66
 
 ### Download
 
-Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar >
+Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
 
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar > to download the squad dataset.
+Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
 
 or you can :
+
 ```bash
 bash /scripts/prepare_model_and_dataset.sh
 
 ```
 
 ### Model Conversion
+
 Please correct the paths in the following commands or files.
+
 ```bash
 tar -xvf open_deberta.tar
 wget <https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/deberta-torch-fp32.json >
@@ -45,7 +48,6 @@ python3 remove_clip_and_cast.py
 ```
 
 ## Inference
-
 
 ```bash
 export ORIGIN_ONNX_NAME=/Path/deberta-sim-drop-clip-drop-invaild-cast
@@ -62,14 +64,14 @@ bash scripts/infer_deberta_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: < https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit the website: < <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer> >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
 
 ```bash
 
 git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
 ```
 
-For detailed steps regarding this model, please refer to this document: < https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md > Note: You need to modify the relevant paths in the code to your own correct paths.
+For detailed steps regarding this model, please refer to this document: < <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> > Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
 
@@ -92,9 +94,8 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task deberta-torch-fp32
 
 If report ModuleNotFoundError: No module named 'tensorrt_legacy',Please fix /home/xinchi.tian/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/common.py "tensorrt_legacy" to "tensorrt"
 
-
 ## Results
 
-Model   |BatchSize  |Precision |QPS       |Exact Match  |F1 Score
---------|-----------|----------|----------|-------------|------------
-DeBerta |    16     |   FP16   | 18.58    | 73.76       | 81.24
+| Model   | BatchSize | Precision | QPS   | Exact Match | F1 Score |
+| ------- | --------- | --------- | ----- | ----------- | -------- |
+| DeBerta | 16        | FP16      | 18.58 | 73.76       | 81.24    |
