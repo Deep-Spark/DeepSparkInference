@@ -80,8 +80,8 @@ def drop_cast_nodes(graph):
             cast_node.inputs = cast_producer.inputs
 
 
-input_path = r"/ixrt/deberta-torch-fp32-sim.onnx"
-save_path = r"/ixrt/deberta-sim-drop-clip-drop-invaild-cast.onnx"
+input_path = r"./deberta-torch-fp32-sim.onnx"
+save_path = r"./deberta-sim-drop-clip-drop-invaild-cast.onnx"
 graph = gs.import_onnx(onnx.load(input_path))
 
 replace_clip_related_nodes(graph)

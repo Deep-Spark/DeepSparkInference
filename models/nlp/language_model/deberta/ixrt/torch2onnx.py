@@ -21,7 +21,7 @@ import torch
 
 def torch_to_onnx(model_path, output_path):
     model_name = output_path.split("/")[-1][:-4]
-    with open("/ixrt/" + model_name + "json", "r") as f:
+    with open("./" + model_name + "json", "r") as f:
         model_info = json.load(f)
     model_inputs = model_info["inputs"].split(",")
     input_shapes = model_info["input_shape"]
