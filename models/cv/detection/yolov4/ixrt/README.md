@@ -55,7 +55,7 @@ onnxsim data/yolov4.onnx data/yolov4_sim.onnx
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov4darknet_fp16_accuary.sh
+bash scripts/infer_yolov4darknet_fp16_accuracy.sh
 # Performance
 bash scripts/infer_yolov4darknet_fp16_performance.sh
 ```
