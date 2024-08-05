@@ -1,4 +1,4 @@
-# VideoBERT 
+# VideoBERT
 
 ## Description
 
@@ -25,16 +25,16 @@ pip3 install opencv-python==4.6.0.66
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_videobert.tar>
 
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar  > to download the cifar-100-python dataset.
+Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar>  > to download the cifar-100-python dataset.
 
 or you can :
+
 ```bash
 bash /scripts/prepare_model_and_dataset.sh
 
 ```
 
 ## Inference
-
 
 ```bash
 export ORIGIN_ONNX_NAME=/Path/video-bert
@@ -54,7 +54,6 @@ bash scripts/infer_videobert_fp16_performance.sh
 
 If you want to evaluate the accuracy of this model, please visit here: <toolbox/ByteMLPerf/byte_infer_perf/general_perf>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
 
-
 For detailed steps regarding this model, please refer to this document: <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
@@ -66,11 +65,11 @@ mv /general_perf/general_perf/model_zoo/popular/open_videobert /general_perf/mod
 cd /toolbox/ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
-Modify the <model> variable in the <optimize_to_ixrt> function of the <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/optimizer/optimizer.py> file to the actual video-bert.onnx path.
 
+Modify the <model> variable in the <optimize_to_ixrt> function of the <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/optimizer/optimizer.py> file to the actual video-bert.onnx path.
 
 ## Results
 
-Model    |BatchSize  |Precision |QPS       |Top-1 ACC    |
----------|-----------|----------|----------|-------------|
-VideoBERT|    16     |   FP16   | 37.68    | 61.67       |
+| Model     | BatchSize | Precision | QPS   | Top-1 ACC |
+| --------- | --------- | --------- | ----- | --------- |
+| VideoBERT | 16        | FP16      | 37.68 | 61.67     |
