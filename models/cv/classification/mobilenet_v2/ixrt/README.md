@@ -27,7 +27,7 @@ Download the [imagenet](https://www.image-net.org/download.php) validation datas
 ```bash
 cd python/
 # Test ACC
-bash script/infer_mobilenetv2_fp16_accuary.sh
+bash script/infer_mobilenetv2_fp16_accuracy.sh
 # Test FPS
 bash script/infer_mobilenetv2_fp16_performance.sh
 ```
@@ -36,7 +36,7 @@ bash script/infer_mobilenetv2_fp16_performance.sh
 
 ```bash
 # Test ACC
-bash script/infer_mobilenetv2_int8_accuary.sh
+bash script/infer_mobilenetv2_int8_accuracy.sh
 # Test FPS
 bash script/infer_mobilenetv2_int8_performance.sh
 ```
