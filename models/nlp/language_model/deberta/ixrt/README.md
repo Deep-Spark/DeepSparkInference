@@ -9,6 +9,10 @@ DeBERTa (Decoding-enhanced BERT with disentangled attention) is an enhanced vers
 ### Install
 
 ```bash
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/deberta/ixrt
+cd ${MODEL_PATH}
+
 apt install -y libnuma-dev
 
 pip3 install onnxsim
@@ -32,7 +36,7 @@ Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_debert
 Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
 
 ```bash
-bash scripts/prepare_model_and_dataset.sh
+bash ./scripts/prepare_model_and_dataset.sh
 ```
 
 ### Model Conversion
@@ -67,8 +71,9 @@ If you want to evaluate the accuracy of this model, please visit the website: < 
 For detailed steps regarding this model, please refer to this document: < <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> > Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-# clone and install requirements
-git clone https://github.com/yudefu/ByteMLPerf.git -b iluvatar_general_infer
+# link and install requirements
+ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
+
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
@@ -79,7 +84,7 @@ cp ./datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/op
 mv ./deberta-sim-drop-clip-drop-invaild-cast.onnx general_perf/model_zoo/popular/open_deberta/
 mv ./general_perf/model_zoo/popular/ ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/
 
-cd /ByteMLPerf/byte_infer_perf/general_perf
+cd ./ByteMLPerf/byte_infer_perf/general_perf
 wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
 tar -zxvf Palak.tar
 
