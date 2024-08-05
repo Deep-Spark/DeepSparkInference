@@ -9,6 +9,8 @@ VideoBERT is a model designed for video understanding tasks, extending the capab
 ### Install
 
 ```bash
+apt install -y libnuma-dev
+
 pip3 install onnxsim
 pip3 install onnx_graphsurgeon
 pip3 install scikit-learn
@@ -19,6 +21,7 @@ pip3 install tabulate
 pip3 install cv2
 pip3 install pycocotools
 pip3 install opencv-python==4.6.0.66
+pip3 install transformers==4.33.3
 ```
 
 ### Download
@@ -30,15 +33,15 @@ Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar
 or you can :
 
 ```bash
-bash /scripts/prepare_model_and_dataset.sh
+bash ./scripts/prepare_model_and_dataset.sh
 
 ```
 
 ## Inference
 
 ```bash
-export ORIGIN_ONNX_NAME=/Path/video-bert
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export ORIGIN_ONNX_NAME=./general_perf/model_zoo/popular/open_videobert/video-bert
+export OPTIMIER_FILE=./ixrt-oss/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 
 ```
@@ -57,12 +60,18 @@ If you want to evaluate the accuracy of this model, please visit here: <toolbox/
 For detailed steps regarding this model, please refer to this document: <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
+ln -s #TBU cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_albert/
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
-pip3 install -r toolbox/ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-mv /ixrt/perf_engine.py toolbox/ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-cd /toolbox/ByteMLPerf/byte_infer_perf/
-mv /general_perf/general_perf/model_zoo/popular/open_videobert /general_perf/model_zoo/popular/open_videobert
-cd /toolbox/ByteMLPerf/byte_infer_perf/general_perf
+mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
+
+
+mkdir -p ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+
+mv general_perf/model_zoo/popular/open_videobert ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+
+cd ./ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
 
