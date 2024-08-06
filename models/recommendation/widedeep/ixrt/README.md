@@ -23,7 +23,9 @@ Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv>
 
 ```bash
 # Go to path of this model
-cd ${PROJ_ROOT}/models/recommendationwidedeep/ixrt
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/recommendation/widedeep/ixrt
+cd ${MODEL_PATH}
 
 # export onnx
 python3 export_onnx.py --model_path open_wide_deep_saved_model --output_path open_wide_deep_saved_model/widedeep.onnx
@@ -55,8 +57,8 @@ If you want to evaluate the accuracy of this model, please visit the website: <h
 For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-# Clone ByteMLPerf
-git clone -b iluvatar_general_infer https://github.com/yudefu/ByteMLPerf.git
+# link and install ByteMLPerf requirements
+ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 

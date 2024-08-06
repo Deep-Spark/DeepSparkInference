@@ -9,6 +9,10 @@ Language model pretraining has led to significant performance gains but careful 
 ### Install
 
 ```bash
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/roberta/ixrt
+cd ${MODEL_PATH}
+
 pip3 install onnxsim
 pip3 install py-libnuma==1.2
 pip3 install bert
@@ -32,8 +36,7 @@ tar xf open_roberta.tar
 rm -f open_roberta.tar
 
 # get roberta-torch-fp32.json
-git clone -b iluvatar_general_infer https://github.com/yudefu/ByteMLPerf.git
-cp ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/roberta-torch-fp32.json ./
+wget https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/roberta-torch-fp32.json
 
 # export onnx
 python3 export_onnx.py --model_path open_roberta/roberta-base-squad.pt --output_path open_roberta/roberta-torch-fp32.onnx
@@ -63,7 +66,8 @@ If you want to evaluate the accuracy of this model, please visit the website: <h
 For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-# Install requirements
+# Link and install requirements
+ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
