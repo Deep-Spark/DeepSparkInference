@@ -9,6 +9,8 @@ Facenet is a facial recognition system originally proposed and developed by Goog
 ### Install
 
 ```bash
+apt install -y libgl1-mesa-glx
+
 pip3 install tensorflow
 pip3 install onnxsim
 pip3 install scikit-learn
@@ -32,14 +34,15 @@ Dataset: <https://vis-www.cs.umass.edu/lfw/lfw.tgz> to download the lfw dataset.
 ### Model Conversion
 
 ```bash
-mkdir checkpoints
-git clone https://github.com/timesler/facenet-pytorch
-mv /Path/facenet/ixrt/tensorflow2pytorch.py facenet-pytorch
-python3 /facenet-pytorch/tensorflow2pytorch.py \
-        --facenet_weights_path ${CHECKPOINTS_DIR} \
-        --facenet_pb_path ${FACENET_PB_DIR} \
+git clone --recursive https://github.com/timesler/facenet-pytorch
+
+mkdir -p checkpoints
+
+mv tensorflow2pytorch.py facenet-pytorch
+python3 facenet-pytorch/tensorflow2pytorch.py \
+        --facenet_weights_path ./checkpoints \
+        --facenet_pb_path ./20180408-102900/ \
         --onnx_save_name facenet_export.onnx
-mv facenet_export.onnx ${CHECKPOINTS_DIR}
 ```
 
 ### Data preprocessing
