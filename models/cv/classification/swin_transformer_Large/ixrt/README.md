@@ -23,18 +23,21 @@ pip3 install opencv-python==4.6.0.66
 
 ### Download
 
-Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open-swin-large.tar  >
+Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open-swin-large.tar>
 
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_imagenet.tar > to download the open_imagenet dataset.
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_imagenet.tar> to download the open_imagenet dataset.
 
 or you can :
+
 ```bash
 bash /scripts/prepare_model_and_dataset.sh
 
 ```
 
 ### Model Conversion
+
 Please correct the paths in the following commands or files.
+
 ```bash
 tar -xvf open-swin-large.tar
 wget <https://raw.githubusercontent.com/bytedance/ByteMLPerf/main/byte_infer_perf/general_perf/model_zoo/swin-large-torch-fp32.json >
@@ -43,7 +46,6 @@ python3 torch2onnx.py --model_path swin-transformer-large.pt --output_path swin-
 ```
 
 ## Inference
-
 
 ```bash
 export ORIGIN_ONNX_NAME=/Path/swin-large-torch-fp32.onnx
@@ -62,7 +64,6 @@ bash scripts/infer_swinl_fp16_performance.sh
 
 If you want to evaluate the accuracy of this model, please visit here: <toolbox/ByteMLPerf/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
 
-
 For detailed steps regarding this model, please refer to this document: <toolbox/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
@@ -75,9 +76,8 @@ cd toolbox/ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
 ```
 
-
 ## Results
 
-Model   |BatchSize  |Precision |QPS       |Top-1 Acc  |
---------|-----------|----------|----------|-----------|
-Swin-L  |    16     |   FP16   | 5.746    | 85.62     | 
+| Model  | BatchSize | Precision | QPS   | Top-1 Acc |
+| ------ | --------- | --------- | ----- | --------- |
+| Swin-L | 16        | FP16      | 5.746 | 85.62     |
