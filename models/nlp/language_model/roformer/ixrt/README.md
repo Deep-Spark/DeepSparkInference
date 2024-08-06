@@ -26,7 +26,9 @@ Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_cail2019.tar>
 
 ```bash
 # Go to path of this model
-cd ${PROJ_ROOT}/models/nlp/language_model/roformer/ixrt
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/roformer/ixrt
+cd ${MODEL_PATH}
 
 # Download the pretrained model and dataset to 'data'
 mkdir -p data/
@@ -69,16 +71,17 @@ If you want to evaluate the accuracy of this model, please visit the website: <h
 For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-# Clone ByteMLPerf
-git clone -b iluvatar_general_infer https://github.com/yudefu/ByteMLPerf.git
+# link ByteMLPerf and install requirements
+ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
+
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 
 # Comment Line102 in compile_backend_iluvatar.py
 sed -i '102s/build_engine/# build_engine/' ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
 
 # Move open_roformer
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 mv ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 
 # Setup open_cail2019 dataset
