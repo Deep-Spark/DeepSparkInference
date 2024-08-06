@@ -28,13 +28,15 @@ pip3 install transformers==4.33.3
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_videobert.tar>
 
-Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar>  > to download the cifar-100-python dataset.
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar> to download the cifar-100-python dataset.
 
 or you can :
 
 ```bash
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/videobert/ixrt
+cd ${MODEL_PATH}
 bash ./scripts/prepare_model_and_dataset.sh
-
 ```
 
 ## Inference
@@ -43,13 +45,11 @@ bash ./scripts/prepare_model_and_dataset.sh
 export ORIGIN_ONNX_NAME=./general_perf/model_zoo/popular/open_videobert/video-bert
 export OPTIMIER_FILE=./ixrt-oss/tools/optimizer/optimizer.py
 export PROJ_PATH=./
-
 ```
 
 ### Performance
 
 ```bash
-
 bash scripts/infer_videobert_fp16_performance.sh
 ```
 
@@ -60,25 +60,25 @@ If you want to evaluate the accuracy of this model, please visit here: <toolbox/
 For detailed steps regarding this model, please refer to this document: <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
-ln -s #TBU cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_albert/
+# link and install requirements
+ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
+# copy data
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
+cp -r ./datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+
+# run acc scripts
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-
-
-mkdir -p ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-
-mv general_perf/model_zoo/popular/open_videobert ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
-
-Modify the <model> variable in the <optimize_to_ixrt> function of the <toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/optimizer/optimizer.py> file to the actual video-bert.onnx path.
 
 ## Results
 
 | Model     | BatchSize | Precision | QPS   | Top-1 ACC |
 | --------- | --------- | --------- | ----- | --------- |
-| VideoBERT | 16        | FP16      | 37.68 | 61.67     |
+| VideoBERT | 4         | FP16      | 37.68 | 61.67     |
