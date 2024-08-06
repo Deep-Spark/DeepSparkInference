@@ -1,4 +1,4 @@
-# Swin-L
+# Swin Transformer Large
 
 ## Description
 
@@ -91,6 +91,6 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp3
 
 ## Results
 
-| Model  | BatchSize | Precision | QPS   | Top-1 Acc |
-| ------ | --------- | --------- | ----- | --------- |
-| Swin-L | 2         | FP16      | 5.746 | 85.62     |
+| Model                  | BatchSize | Precision | QPS   | Top-1 Acc |
+| ---------------------- | --------- | --------- | ----- | --------- |
+| Swin Transformer Large | 2         | FP16      | 5.746 | 85.62     |
