@@ -24,6 +24,7 @@ Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 download and put model in conformer_checkpoints, put data in aishell_test_data.
 
 ### Prepare Data
+
 ```bash
 # Accuracy
 DATA_DIR=./aishell_test_data
@@ -44,6 +45,6 @@ bash scripts/infer_conformer_fp16_performance_ixrt.sh
 
 ## Results
 
-Model      |BatchSize  |Precision |QPS       |CER       |
------------|-----------|----------|----------|----------|
-Conformer  |    24     |   FP16   | 380.00 |  0.051   |
+| Model     | BatchSize | Precision | QPS    | CER   |
+| --------- | --------- | --------- | ------ | ----- |
+| Conformer | 24        | FP16      | 380.00 | 0.051 |
