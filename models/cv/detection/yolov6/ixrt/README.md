@@ -13,12 +13,13 @@ YOLOv6 integrates cutting-edge object detection advancements from industry and a
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install tqdm
 pip3 install onnx
 pip3 install onnxsim
 pip3 install pycocotools
+pip3 install pycuda
 ```
 
 ### Download
@@ -27,25 +28,31 @@ Pretrained model: <https://github.com/meituan/YOLOv6/releases/download/0.4.0/yol
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
+```bash
+# get yolov6s.pt
+wget https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt
+# set coco path
+mkdir -p data/
+ln -s /Path/to/coco/ data/coco
+```
+
 ### Model Conversion
 
 ```bash
 # install yolov6
 git clone https://github.com/meituan/YOLOv6.git
-cd YOLOv6
+
+pushd YOLOv6
 pip3 install -r requirements.txt
 
 # export onnx model
 python3 deploy/ONNX/export_onnx.py --weights ../yolov6s.pt --img 640 --batch-size 32 --simplify
+mv ../yolov6s.onnx ../data/
 
-cd ..
+popd
 ```
 
 ## Inference
-
-```bash
-export DATASETS_DIR=/Path/to/coco/
-```
 
 ### FP16
 
@@ -65,6 +72,12 @@ bash scripts/infer_yolov6s_int8_accuracy.sh
 bash scripts/infer_yolov6s_int8_performance.sh
 ```
 
+## Results
+
+| Model  | BatchSize | Precision | FPS      | MAP@0.5 |
+| ------ | --------- | --------- | -------- | ------- |
+| YOLOv6 | 32        | FP16      | 1107.511 | 0.355   |
+| YOLOv6 | 32        | INT8      | 2080.475 | -       |
 
 ## Reference
 

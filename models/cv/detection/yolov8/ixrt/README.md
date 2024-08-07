@@ -13,12 +13,14 @@ Yolov8 combines speed and accuracy in real-time object detection tasks. With a f
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install tqdm
 pip3 install onnx
+pip3 install onnxsim
 pip3 install pycocotools
 pip3 install ultralytics
+pip3 install pycuda
 ```
 
 ### Download
@@ -26,6 +28,14 @@ pip3 install ultralytics
 Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+```bash
+# get yolov8n.pt
+wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
+# set coco path
+mkdir -p data/
+ln -s /Path/to/coco/ data/coco
+```
 
 ### Model Conversion
 
@@ -35,10 +45,6 @@ onnxsim yolov8n.onnx ./data/yolov8n.onnx
 ```
 
 ## Inference
-
-```bash
-export DATASETS_DIR=/Path/to/coco/
-```
 
 ### FP16
 
@@ -57,3 +63,10 @@ bash scripts/infer_yolov8n_int8_accuracy.sh
 # Performance
 bash scripts/infer_yolov8n_int8_performance.sh
 ```
+
+## Results
+
+| Model  | BatchSize | Precision | FPS      | MAP@0.5 |
+| ------ | --------- | --------- | -------- | ------- |
+| YOLOv8 | 32        | FP16      | 1511.366 | 0.525   |
+| YOLOv8 | 32        | INT8      | 1841.017 | 0.517   |
