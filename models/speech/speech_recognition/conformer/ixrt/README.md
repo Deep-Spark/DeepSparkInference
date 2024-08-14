@@ -19,6 +19,7 @@ pip3 install tqdm
 pip3 install onnx
 pip3 install typeguard==2.13.3
 pip3 install onnxsim
+pip3 install pycuda
 ```
 
 ### Download
@@ -57,4 +58,4 @@ bash scripts/infer_conformer_fp16_performance_ixrt.sh
 
 | Model     | BatchSize | Precision | QPS    | CER   |
 | --------- | --------- | --------- | ------ | ----- |
-| Conformer | 24        | FP16      | 380.00 | 0.051 |
+| Conformer | 24        | FP16      | 419.00 | 0.052 |
