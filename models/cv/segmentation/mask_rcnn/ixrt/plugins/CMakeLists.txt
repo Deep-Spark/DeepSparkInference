@@ -12,7 +12,7 @@ option(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};--extended-lambda)
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -std=c++14 --extended-lambda")
 
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${PROJECT_SOURCE_DIR}/plugin_src)
