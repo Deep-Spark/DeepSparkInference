@@ -13,14 +13,7 @@ Qwen1.5 is a language model series including decoder language models of differen
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
-
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/bitsandbytes-xxx.whl
-pip3 install Path/To/flash_atten-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
-pip3 install Path/To/vllm-xxx.whl
-pip3 install Path/To/eetq-xxx.whl
+apt install -y libgl1-mesa-glx
 ```
 
 ### Download
@@ -28,13 +21,15 @@ pip3 install Path/To/eetq-xxx.whl
 -Model: <https://modelscope.cn/models/qwen/Qwen1.5-7B/summary>
 
 ```bash
-mkdir data/qwen1.5
+cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-7b/vllm
+mkdir -p data/qwen1.5
+ln -s /path/to/Qwen1.5-7B ./data/qwen1.5
 ```
 
 ## Inference
 
 ```bash
-python3 offline_inference.py --model /data/qwen1.5/$MODEL_ID --max-tokens 256 -tp 1 --temperature 0.0
+python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-7B --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 3096
 ```
 
 ## Results

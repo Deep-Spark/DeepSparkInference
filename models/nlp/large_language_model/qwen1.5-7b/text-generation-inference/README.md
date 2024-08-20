@@ -13,16 +13,7 @@ Qwen1.5 is a language model series including decoder language models of differen
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
-
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/bitsandbytes-xxx.whl
-pip3 install Path/To/flash_atten-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
-pip3 install Path/To/vllm-xxx.whl
-pip3 install Path/To/eetq-xxx.whl
-pip3 install Path/To/text-generation-xxx.whl
-pip3 install Path/To/text-generation-server-xxx.whl
+apt install -y libgl1-mesa-glx
 ```
 
 ### Download
@@ -30,27 +21,27 @@ pip3 install Path/To/text-generation-server-xxx.whl
 -Model: <https://modelscope.cn/models/qwen/Qwen1.5-7B/summary>
 
 ```bash
-mkdir data/qwen1.5
+cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-7b/text-generation-inference
+mkdir -p data/qwen1.5
+ln -s /path/to/Qwen1.5-7B ./data/qwen1.5
 ```
 
 ## Inference
 
 ### Start webserver
 
-#### Single GPU
-
 ```bash
 # Use one docker container to start webserver
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
-CUDA_VISIBLE_DEVICES=0 USE_FLASH_ATTENTION=true text-generation-launcher --model-id $PROJECT_DIR/data/qwen1.5/$MODEL_ID --sharded false --dtype float16  --disable-custom-kernels --port 8001 --max-input-length 2048 --max-batch-prefill-tokens 2048 --max-total-tokens 4096 --max-batch-total-tokens 4096
+CUDA_VISIBLE_DEVICES=0 USE_FLASH_ATTENTION=true text-generation-launcher --model-id ./data/qwen1.5/Qwen1.5-7B --sharded false --dtype float16  --disable-custom-kernels --port 8001 --max-input-length 2048 --max-batch-prefill-tokens 2048 --max-total-tokens 4096 --max-batch-total-tokens 4096
 ```
 
-#### Offline test
+### Offline test
 
 ```bash
 # Use another docker container to run offline test
-export CUDA_VISIBLE_DEVICES=2
-python3 offline_inference.py --model2path /data/qwen1.5/$MODEL_ID
+export CUDA_VISIBLE_DEVICES=1
+python3 offline_inference.py --model2path ./data/qwen1.5/Qwen1.5-7B
 ```
 
 ## Results
