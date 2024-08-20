@@ -52,14 +52,6 @@ unzip facenet_datasets.zip
 
 ## Inference
 
-```bash
-export PROJ_DIR=./
-export RUN_DIR=${PROJ_DIR}/ixrt/
-export DATASETS_DIR=${RUN_DIR}/facenet_datasets/
-export CHECKPOINTS_DIR=/Path/To/checkpoints/
-export CONFIG_DIR=${PROJ_DIR}/ixrt/config/FACENET_CONFIG
-```
-
 ### FP16
 
 Because there are differences in model export, it is necessary to verify the following information before executing inference: In deploy.py, "/last_bn/BatchNormalization_output_0" refers to the output name of the BatchNormalization node in the exported ONNX model, such as "1187". "/avgpool_1a/GlobalAveragePool_output_0" refers to the output name of the GlobalAveragePool node, such as "1178". Additionally, make sure to update "/last_bn/BatchNormalization_output_0" in build_engine.py to the corresponding name, such as "1187".

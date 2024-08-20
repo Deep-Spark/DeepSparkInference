@@ -43,7 +43,12 @@ do
       --tgt) TGT=${arguments[index]};;
     esac
 done
-
+PROJ_DIR=$(cd $(dirname $0);cd ../../; pwd)
+echo PROJ_DIR : ${PROJ_DIR}
+RUN_DIR="${PROJ_DIR}/ixrt/"
+DATASETS_DIR="${RUN_DIR}/facenet_datasets/"
+CHECKPOINTS_DIR="${RUN_DIR}/facenet_weights/"
+CONFIG_DIR="${PROJ_DIR}/ixrt/config/FACENET_CONFIG"
 source ${CONFIG_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
