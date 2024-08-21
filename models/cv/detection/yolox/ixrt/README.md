@@ -57,8 +57,6 @@ export DATASETS_DIR=/Path/to/coco/
 ```bash
 # build plugin
 cd plugin && mkdir build && cd build
-## link libixrt.so to lib
-ln -s /usr/local/corex/lib/python3/dist-packages/tensorrt/lib/libixrt.so /usr/local/corex/lib
 ## make
 cmake .. -DIXRT_HOME=/usr/local/corex
 make -j12
