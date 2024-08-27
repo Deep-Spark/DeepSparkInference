@@ -17,6 +17,8 @@ docker pull nvcr.io/nvidia/tensorrt:23.04-py3
 ```bash
 pip install onnx
 pip install pycuda
+pip install six
+pip install tqdm
 ```
 
 ### Install on Iluvatar
