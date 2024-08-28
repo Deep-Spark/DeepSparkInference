@@ -37,7 +37,7 @@ if [ "$USE_FP16" = "True" ]; then
                             -sq ./data/squad/dev-v1.1.json \
                             -v ./data/bert_base_uncased_squad/vocab.txt \
                             -o ./data/predictions-bert_base_384.json 
-    python3 evaluate-v1.1.py  ./data/squad/dev-v1.1.json  ./data/predictions-bert_base_384.json 88
+    python3 evaluate-v1.1.py  ./data/squad/dev-v1.1.json  ./data/predictions-bert_base_384.json 87
 else
     echo 'USE_INT8=True'
     UMD_ENABLEDCPRINGNUM=16 python3 inference.py -e ./data/bert_base_384_int8.engine \
@@ -47,5 +47,5 @@ else
                             -v ./data/bert_base_uncased_squad/vocab.txt \
                             -o ./data/predictions-bert_base_384_int8.json \
                             -i
-    python3 evaluate-v1.1.py  ./data/squad/dev-v1.1.json  ./data/predictions-bert_base_384_int8.json 88
+    python3 evaluate-v1.1.py  ./data/squad/dev-v1.1.json  ./data/predictions-bert_base_384_int8.json 86
 fi

@@ -85,6 +85,9 @@ IPluginV2* GeluPluginDynamicCreator::createPlugin(char const* name, PluginFieldC
                 bias.values = fc->fields[i].data;
                 bias.count = fc->fields[i].length;
                 bias.type = fieldTypeToDataType(fc->fields[i].type);
+                if (ld == 0) {
+                    ld = bias.count;
+                }
             }
             if (fieldName.compare("ld") == 0) {
                 ld = *static_cast<int32_t const*>(fc->fields[i].data);
@@ -344,10 +347,7 @@ int32_t GeluPluginDynamic::enqueue(nvinfer1::PluginTensorDesc const* inputDesc,
         case DataType::kINT8: {
             int8_t* input = (int8_t*)(inputs[0]);
             int8_t* output = (int8_t*)(outputs[0]);
-            IxinferBiasGeluI8II8O(batch_token_num, stream, (int8_t*)input, (int8_t*)output,
-                                           static_cast<half*>(mBiasDev.get()), mLd,  inputDesc[0].scale,
-                                           1.0/outputDesc[0].scale);
-            return STATUS_SUCCESS;
+            return enqueueInt8(input, output, inputDesc[0].scale, 1.0/outputDesc[0].scale, inputVolume, stream);
         }
         default:
             return STATUS_FAILURE;

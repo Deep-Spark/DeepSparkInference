@@ -20,7 +20,7 @@ if(DEFINED USE_TENSORRT)
 
   message(STATUS "Plugin lib use TRT 8.6.1")
   set(TRT_INC_PATH /usr/include/x86_64-linux-gnu/)
-  set(TRT_LIB_PATH /usr/lib/x86_64-linux-gnu/ /usr/local/cuda-12.1/targets/x86_64-linux/lib)
+  set(TRT_LIB_PATH /usr/lib/x86_64-linux-gnu/ /usr/local/cuda/targets/x86_64-linux/lib)
   set(TRT_LIBRARY nvinfer cublasLt)
   
   message(STATUS "cuda_libs = ${CUDA_LIBRARIES}")
