@@ -1,4 +1,4 @@
-# AlBERT
+# ALBERT
 
 ## Description
 
@@ -102,4 +102,4 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task albert-torch-fp32
 
 | Model  | BatchSize | Precision | QPS   | Exact Match | F1 Score |
 | ------ | --------- | --------- | ----- | ----------- | -------- |
-| AlBERT | 1         | FP16      | 50.99 | 80.18       | 87.57    |
+| ALBERT | 1         | FP16      | 50.99 | 80.18       | 87.57    |
