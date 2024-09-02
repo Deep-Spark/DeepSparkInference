@@ -29,11 +29,7 @@ def is_nvidia_platform():
 
 def load_ixrt_plugin(logger=trt.Logger(trt.Logger.WARNING), namespace="", dynamic_path=""):
     if not dynamic_path:
-        if is_nvidia_platform():
-            dynamic_path = join(dirname(abspath(__file__)), "..", "build", "libixrt_plugin.so") 
-        else:
-            dynamic_path = join(dirname(trt.__file__), "lib", "libixrt_plugin.so")
-        
+        dynamic_path = join(dirname(abspath(__file__)), "..", "build", "libixrt_plugin.so") 
     if not exists(dynamic_path):
         raise FileNotFoundError(
             f"The ixrt_plugin lib {dynamic_path} is not existed, please provided effective plugin path!")
