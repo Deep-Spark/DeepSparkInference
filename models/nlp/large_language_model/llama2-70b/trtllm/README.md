@@ -16,10 +16,10 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-dev
 
 bash scripts/set_environment.sh .
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/ixrt-xxx.whl
-pip3 install Path/To/tensorrt_llm-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
+
+# *star refer to a specified version
+wget http://files.deepspark.org.cn:880/deepspark/add-ons/tensorrt_llm-*.whl
+pip install tensorrt_llm-*.whl
 ```
 
 ### Download

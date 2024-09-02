@@ -8,6 +8,8 @@ we develop and release Llama 2, a collection of pretrained and fine-tuned large 
 
 ### Instal
 
+In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+
 ```bash
 # Install libGL
 ## CentOS
@@ -17,10 +19,10 @@ apt install -y libgl1-mesa-dev
 
 
 bash scripts/set_environment.sh .
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/ixrt-xxx.whl
-pip3 install Path/To/tensorrt_llm-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
+
+# *star refer to a specified version
+wget http://files.deepspark.org.cn:880/deepspark/add-ons/tensorrt_llm-*.whl
+pip install tensorrt_llm-*.whl
 ```
 
 ### Download

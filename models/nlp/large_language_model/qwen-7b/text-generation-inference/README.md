@@ -8,6 +8,8 @@ Large language models (LLMs) have revolutionized the field of artificial intelli
 
 ### Install
 
+In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+
 ```bash
 # Install libGL
 ## CentOS
@@ -15,14 +17,10 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/bitsandbytes-xxx.whl
-pip3 install Path/To/flash_atten-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
-pip3 install Path/To/vllm-xxx.whl
-pip3 install Path/To/eetq-xxx.whl
-pip3 install Path/To/text-generation-xxx.whl
-pip3 install Path/To/text-generation-server-xxx.whl
+# *star refer to a specified version
+wget http://files.deepspark.org.cn:880/deepspark/add-ons/text-generation-*.whl
+wget http://files.deepspark.org.cn:880/deepspark/add-ons/text-generation-server-*.whl
+pip install tensorrt_llm-*.whl text-generation-server-*.whl
 ```
 
 ### Download

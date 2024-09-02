@@ -18,17 +18,14 @@ Llama 3 is a major improvement over Llama 2 and other publicly available models:
 
 ### Install
 
+In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+
 ```bash
 # Install libGL
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
-
-# Please contact the staff to obtain the relevant installlation packages.
-pip3 install Path/To/ixrt-xxx.whl
-pip3 install Path/To/vllm-xxx.whl
-pip3 install Path/To/ixformer-xxx.whl
 ```
 
 ### Download
