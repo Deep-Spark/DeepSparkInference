@@ -15,7 +15,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-batchsize=32
+batchsize=${BATCH_SIZE:-"32"}
 model_path="yolox"
 datasets_path=${DATASETS_DIR}
 DECODER_INPUT_NAMES="/head/obj_preds.0/Conv_output_0 /head/obj_preds.0/Conv_output_0 /head/cls_preds.0/Conv_output_0 /head/reg_preds.1/Conv_output_0 /head/reg_preds.1/Conv_output_0 /head/cls_preds.1/Conv_output_0 /head/reg_preds.2/Conv_output_0 /head/obj_preds.2/Conv_output_0 /head/cls_preds.2/Conv_output_0"
@@ -42,4 +42,5 @@ python3 python/build_engine.py                  \
 python3 python/inference.py                             \
         --engine ${model_path}_decoder.engine           \
         --batchsize ${batchsize}                        \
-        --datasets ${datasets_path}                             
+        --datasets ${datasets_path}
+

@@ -15,7 +15,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-batchsize=32
+batchsize=${BATCH_SIZE:-"32"}
 model_path="yolox"
 datasets_path=${DATASETS_DIR}
 
@@ -37,4 +37,5 @@ python3 python/build_engine_by_write_qparams.py         \
 python3 python/inference.py                             \
         --engine ${model_path}_int8.engine              \
         --batchsize ${batchsize}                        \
-        --datasets ${datasets_path}                             
+        --datasets ${datasets_path}
+

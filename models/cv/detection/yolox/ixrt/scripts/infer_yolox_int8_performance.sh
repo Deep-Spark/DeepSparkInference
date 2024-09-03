@@ -15,7 +15,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-batchsize=32
+batchsize=${BATCH_SIZE:-"32"}
 model_path="yolox"
 datasets_path=${DATASETS_DIR}
 
@@ -40,3 +40,4 @@ python3 python/inference.py                             \
         --datasets ${datasets_path}                     \
         --perf_only True                                \
         --loop_count 20
+
