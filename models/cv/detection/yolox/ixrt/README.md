@@ -37,58 +37,41 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 ```bash
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
-cd YOLOX
-python3 setup.py develop
 
+pushd YOLOX
+python3 setup.py develop
 # export onnx model
 python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-
-cd ..
+popd
 ```
 
 ## Inference
 
 ```bash
+# Set DATASETS_DIR
 export DATASETS_DIR=/Path/to/coco/
-```
 
-### FP16 (ILUVATAR)
-
-```bash
-# build plugin
+# Build plugin on ILUVATAR env
 cd plugin && mkdir build && cd build
-## make
 cmake .. -DIXRT_HOME=/usr/local/corex
 make -j12
-# Accuracy
-bash scripts/infer_yolox_fp16_accuracy.sh
-# Performance
-bash scripts/infer_yolox_fp16_performance.sh
-```
 
-### INT8 (ILUVATAR)
-
-```bash
-# Accuracy
-bash scripts/infer_yolox_int8_accuracy.sh
-# Performance
-bash scripts/infer_yolox_int8_performance.sh
-```
-
-### FP16 (NVIDIA)
-
-```bash
-# build plugin
+# Build plugin on NVIDIA env
 cd plugin && mkdir build && cd build
 cmake .. -DUSE_TRT=1
 make -j12
+```
+
+### FP16
+
+```bash
 # Accuracy
 bash scripts/infer_yolox_fp16_accuracy.sh
 # Performance
 bash scripts/infer_yolox_fp16_performance.sh
 ```
 
-### INT8 (NVIDIA)
+### INT8
 
 ```bash
 # Accuracy
@@ -101,8 +84,8 @@ bash scripts/infer_yolox_int8_performance.sh
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |
 --------|-----------|----------|----------|----------|
-yolox   |    32     |   FP16   | 424.53  |  0.656   |
-yolox   |    32     |   INT8   | 832.16  |  0.647   |
+yolox   |    32     |   FP16   | 424.53   |  0.656   |
+yolox   |    32     |   INT8   | 832.16   |  0.647   |
 
 ## Reference
 
