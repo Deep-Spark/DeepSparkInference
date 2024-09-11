@@ -1,10 +1,96 @@
 # DeepSparkInference Release Notes
 
+## 24.09 Release Notes
+
+### 模型与算法
+
+* 新增了29个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的14个。
+
+<table>
+    <tr align="left">
+        <th colspan=6>IGIE</th>
+    </tr>
+    <tr>
+        <td>ATSS</td>
+        <td>ConvNeXt-Small</td>
+        <td>CSPDarkNet50</td>
+        <td>DeiT-tiny</td>
+    </tr>
+    <tr>
+        <td>DenseNet169</td>
+        <td>EfficientNet-B2</td>
+        <td>EfficientNetV2-M</td>
+        <td>FCOS</td>
+    </tr>
+    <tr>
+        <td>FSAF</td>
+        <td>RepVGG</td>
+        <td>RetinaFace</td>
+        <td>RTMDet</td>
+    </tr>
+    <tr>
+        <td>RTMPose</td>
+        <td>SEResNet50</td>
+        <td>ShuffleNet_V2_X1_0</td>
+        <td></td>
+    </tr>
+    <tr align="left">
+        <th colspan=6>IxRT</th>
+    </tr>
+    <tr>
+        <td>ALBERT</td>
+        <td>Conformer</td>
+        <td>DeBERTa</td>
+        <td>FaceNet</td>
+    </tr>
+    <tr>
+        <td>RoBERTa</td>
+        <td>RoFormer</td>
+        <td>Swin Transformer Large</td>
+        <td>Transformer ASR</td>
+    </tr>
+    <tr>
+        <td>VideoBERT</td>
+        <td>Wide_ResNet50</td>
+        <td>Wide&Deep</td>
+        <td>YOLOv4</td>
+    </tr>
+    <tr>
+        <td>YOLOv6</td>
+        <td>YOLOv8</td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+* 新增了5个大语言模型的推理示例。
+  * Llama3-70B (TensorRT-LLM)
+  * Qwen1.5-7B (Text Generation Inference)
+  * Qwen1.5-7B (vLLM)
+  * Qwen1.5-14B (vLLM)
+  * Qwen1.5-72B (vLLM)
+
+### 问题修复
+
+* 修复了BERT Base SQUAD模型在NV环境上int8精度异常的问题。
+* 修复了Mask RCNN模型在NV 24.04环境上运行编译报错的问题。
+* 完善了IxRT部分模型的end2end推理时间打印。
+
+### 版本关联
+
+DeepSparkInference 24.09对应天数软件栈4.1.2版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，qiang.zhang。
+
+---
+
 ## 24.06 Release Notes
 
 ### 模型与算法
 
-* 新增了31个推理小模型示例，其中支持IGIE推理引擎的16个，支持IxRT推理引擎的15个。
+* 新增了33个推理小模型示例，其中支持IGIE推理引擎的16个，支持IxRT推理引擎的15个。
 
 <table>
     <tr align="left">
