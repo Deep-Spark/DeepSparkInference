@@ -18,6 +18,12 @@ pip3 install transformers
 
 Pretrained model: <https://huggingface.co/docs/transformers/model_doc/clip>
 
+```bash
+mkdir -p openai
+git lfs install
+git clone https://huggingface.co/openai/clip-vit-base-patch32 openai/clip-vit-base-patch32
+```
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
@@ -48,4 +54,4 @@ bash scripts/infer_clip_fp16_performance.sh
 
 Model |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ------|-----------|----------|----------|----------|--------
-Clip  |    32     |   FP16   | 496.91   |  59.68   | 86.16
+CLIP  |    32     |   FP16   | 496.91   |  59.68   | 86.16
