@@ -11,7 +11,7 @@ CLIP (Contrastive Language-Image Pre-Training) is a neural network trained on a 
 ```bash
 pip3 install tqdm
 pip3 install onnxsim
-pip3 install transformers
+pip3 install transformers==4.33.2
 ```
 
 ### Download
