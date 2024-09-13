@@ -11,12 +11,18 @@ Swin Transformer is a pioneering neural network architecture that introduces a n
 ```bash
 pip3 install tqdm
 pip3 install onnxsim
-pip3 install transformers
+pip3 install transformers==4.33.2
 ```
 
 ### Download
 
 Pretrained model: <https://huggingface.co/docs/transformers/model_doc/swin>
+
+```bash
+mkdir -p microsoft
+git lfs install
+git clone https://huggingface.co/microsoft/swin-tiny-patch4-window7-224 microsoft/swin-tiny-patch4-window7-224
+```
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -48,4 +54,4 @@ bash scripts/infer_swin_transformer_fp16_performance.sh
 
 Model            |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 -----------------|-----------|----------|----------|----------|--------
-Swin_transformer |    32     |   FP16   |1104.52   |  80.578  | 95.2
+Swin Transformer |    32     |   FP16   |1104.52   |  80.578  | 95.2
