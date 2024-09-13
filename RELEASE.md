@@ -74,6 +74,7 @@
 
 * 修复了BERT Base SQUAD模型在NV环境上int8精度异常的问题。
 * 修复了Mask RCNN模型在NV 24.04环境上运行编译报错的问题。
+* 修复了CLIP IGIE模型对transformers版本有依赖的问题。
 * 完善了IxRT部分模型的end2end推理时间打印。
 
 ### 版本关联
