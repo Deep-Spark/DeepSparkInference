@@ -19,10 +19,6 @@ apt install -y libgl1-mesa-dev
 
 
 bash scripts/set_environment.sh .
-
-# *star refer to a specified version
-wget http://files.deepspark.org.cn:880/deepspark/add-ons/tensorrt_llm-*.whl
-pip install tensorrt_llm-*.whl
 ```
 
 ### Download
