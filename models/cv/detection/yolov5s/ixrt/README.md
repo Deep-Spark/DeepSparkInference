@@ -31,19 +31,21 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 ### Model Conversion
 
 ```bash
-
-mkdir checkpoints
+mkdir -p checkpoints
 git clone https://github.com/ultralytics/yolov5
 # 切换到需要的版本分支
+pushd yolov5/
 git checkout v6.1
 
 # 有一些环境需要安装
 wget https://ultralytics.com/assets/Arial.ttf
+mkdir -p /root/.config/Ultralytics
 cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
 
 # 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
 python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
-mv yolov5s.onnx /Path/to/checkpoints
+mv yolov5s.onnx ../checkpoints
+popd
 ```
 
 ## Inference
