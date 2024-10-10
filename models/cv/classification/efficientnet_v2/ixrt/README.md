@@ -35,7 +35,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints
-git clone https://github.com/huggingface/pytorch-image-models.git
+git clone https://github.com/huggingface/pytorch-image-models.git && git checkout <timm version tag>
 cp /Path/to/ixrt/export_onnx.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm/models
 rm _builder.py
@@ -43,7 +43,7 @@ mv /Path/ixrt/_builder.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm
 mkdir -p /root/.cache/torch/hub/checkpoints/
 wget -P /root/.cache/torch/hub/checkpoints/ https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth
-python3 -m models.export_onnx --output_model checkpoints/efficientnet.onnx
+python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet.onnx
 ```
 
 ## Inference
