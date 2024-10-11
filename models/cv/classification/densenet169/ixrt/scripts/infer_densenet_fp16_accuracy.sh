@@ -42,11 +42,11 @@ do
     esac
 done
 
-PROJ_DIR=$(cd $(dirname $0);cd ../../../../../..; pwd)
-DATASETS_DIR="${PROJ_DIR}/data/datasets/imagenet_val/"
-CHECKPOINTS_DIR="${PROJ_DIR}/data/checkpoints/densenet169/"
-RUN_DIR="${PROJ_DIR}/models/cv/classification/densenet169/ixrt/"
-CONFIG_DIR="${PROJ_DIR}/models/cv/classification/densenet169/ixrt/config/DENSENET_CONFIG"
+PROJ_DIR=${PROJ_DIR:-"."}
+DATASETS_DIR=${DATASETS_DIR}
+CHECKPOINTS_DIR="${PROJ_DIR}"
+RUN_DIR="${PROJ_DIR}"
+CONFIG_DIR="${PROJ_DIR}/config/DENSENET_CONFIG"
 source ${CONFIG_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
