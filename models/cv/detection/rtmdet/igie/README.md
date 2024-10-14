@@ -19,13 +19,12 @@ pip3 install onnx
 pip3 install tqdm
 pip3 install onnxsim
 pip3 install mmdet==3.3.0
-pip3 install mmpose==1.3.1
 pip3 install mmdeploy==1.3.1
 pip3 install mmengine==0.10.4
 ```
 
 ### Download
-Pretrained model: https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth 
+Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
@@ -55,7 +54,11 @@ bash scripts/infer_rtmdet_fp16_performance.sh
 ```
 
 ## Results
+Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
+----------|-----------|----------|----------|----------|---------------|
+RTMDet    |    32     |   FP16   | 2627.15  |  0.619   |  0.403        |
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|   RTMDet  |    32     |   320x320   |    FP16   |  2627.15  |    0.619   |
+
+## Reference
+
+mmdetection: <https://github.com/open-mmlab/mmdetection.git>

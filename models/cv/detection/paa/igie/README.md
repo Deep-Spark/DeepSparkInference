@@ -58,7 +58,7 @@ bash scripts/infer_paa_fp16_performance.sh
 
 Model  |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
 -------|-----------|----------|----------|----------|---------------|
-PAA    |    32     |   FP16   | 138.414  |  0.551   |  0.377        |
+PAA    |    32     |   FP16   | 138.414  |  0.555   |  0.381        |
 
 ## Reference
 

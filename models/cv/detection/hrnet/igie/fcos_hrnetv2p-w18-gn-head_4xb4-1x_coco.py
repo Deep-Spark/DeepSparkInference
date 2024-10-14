@@ -30,7 +30,7 @@ env_cfg = dict(
     dist_cfg=dict(backend='nccl'),
     mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
 load_from = None
-log_level = 'INFO'
+log_level = 'ERROR'
 log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
 model = dict(
     backbone=dict(
@@ -171,7 +171,7 @@ test_dataloader = dict(
         ann_file='annotations/instances_val2017.json',
         backend_args=None,
         data_prefix=dict(img='images/val2017/'),
-        data_root='/home/peng.yang/Datasets/coco',
+        data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=True, scale=(
@@ -196,7 +196,7 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file='/home/peng.yang/Datasets/coco/annotations/instances_val2017.json',
+    ann_file='data/coco/annotations/instances_val2017.json',
     backend_args=None,
     format_only=False,
     metric='bbox',
@@ -232,7 +232,7 @@ train_dataloader = dict(
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
             dict(keep_ratio=True, scale=(
-                800,
+                1333,
                 800,
             ), type='Resize'),
             dict(prob=0.5, type='RandomFlip'),
@@ -246,7 +246,7 @@ train_pipeline = [
     dict(backend_args=None, type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(keep_ratio=True, scale=(
-        800,
+        1333,
         800,
     ), type='Resize'),
     dict(prob=0.5, type='RandomFlip'),
@@ -298,4 +298,3 @@ visualizer = dict(
     vis_backends=[
         dict(type='LocalVisBackend'),
     ])
-work_dir = './'

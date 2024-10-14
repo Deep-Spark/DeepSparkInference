@@ -55,6 +55,11 @@ bash scripts/infer_atss_fp16_performance.sh
 
 ## Results
 
-|   Model   | BatchSize | Input Shape | Precision |    FPS    | mAP@0.5(%) |
-| :-------: | :-------: | :---------: | :-------: | :-------: | :--------: |
-|   ATSS    |    32     |   800x800   |    FP16   |   81.671  |    0.541   |
+Model  |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
+-------|-----------|----------|----------|----------|---------------|
+ATSS   |    32     |   FP16   | 81.671   |  0.541   |  0.367        |
+
+
+## Reference
+
+mmdetection: <https://github.com/open-mmlab/mmdetection.git>

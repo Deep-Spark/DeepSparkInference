@@ -97,15 +97,17 @@ def main():
         for _ in range(args.warmup):
             module.run()
 
-        # Runner config
+        # runner config
         cfg = Config.fromfile("centernet_r18_8xb16-crop512-140e_coco.py")
-        cfg.work_dir = "./"
 
+        cfg.work_dir = "./workspace"
         cfg['test_dataloader']['batch_size'] = batch_size
         cfg['test_dataloader']['dataset']['data_root'] = args.datasets
         cfg['test_dataloader']['dataset']['data_prefix']['img'] = 'images/val2017/'
         cfg['test_evaluator']['ann_file'] = os.path.join(args.datasets, 'annotations/instances_val2017.json')
+        cfg['log_level'] = 'ERROR'
 
+        # build runner
         runner = RUNNERS.build(cfg)
         
         for input_data in tqdm(runner.test_dataloader):

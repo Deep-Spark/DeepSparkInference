@@ -165,7 +165,7 @@ test_dataloader = dict(
         ann_file='annotations/instances_val2017.json',
         backend_args=None,
         data_prefix=dict(img='images/val2017/'),
-        data_root='/root/.igie_cache/data/datasets/coco/',
+        data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=False, scale=(
@@ -190,8 +190,7 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file=
-    '/root/.igie_cache/data/datasets/coco/annotations/instances_val2017.json',
+    ann_file='data/coco/annotations/instances_val2017.json',
     backend_args=None,
     format_only=False,
     metric='bbox',
@@ -220,7 +219,7 @@ val_dataloader = dict(
         ann_file='annotations/instances_val2017.json',
         backend_args=None,
         data_prefix=dict(img='images/val2017/'),
-        data_root='/root/.igie_cache/data/datasets/coco/',
+        data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=False, scale=(
@@ -245,10 +244,8 @@ val_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 val_evaluator = dict(
-    ann_file=
-    '/root/.igie_cache/data/datasets/coco/annotations/instances_val2017.json',
+    ann_file='data/coco/annotations/instances_val2017.json',
     backend_args=None,
     format_only=False,
     metric='bbox',
     type='CocoMetric')
-work_dir = './'
