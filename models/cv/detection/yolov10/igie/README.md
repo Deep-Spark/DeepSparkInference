@@ -20,7 +20,7 @@ Pretrained model: <https://github.com/THU-MIG/yolov10/releases/download/v1.1/yol
 ```bash
 git clone https://github.com/THU-MIG/yolov10.git
 cd yolov10
-pip3 install -e .
+pip3 install -e . --no-deps
 cd ..
 
 python3 export.py --weight yolov10s.pt --batch 32

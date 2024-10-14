@@ -18,17 +18,15 @@ import tvm
 import json
 import torch
 import numpy as np
-
 from tqdm import tqdm
 
 from ultralytics.models.yolov10 import YOLOv10DetectionValidator
-from ultralytics.data.utils import check_det_dataset
 from ultralytics.utils.metrics import ConfusionMatrix
 from ultralytics.data.converter import coco80_to_coco91_class
 
 class IGIE_Validator(YOLOv10DetectionValidator):
     def __call__(self, engine, device):
-        self.data = check_det_dataset(self.args.data)
+        self.data = self.args.data
         self.dataloader = self.get_dataloader(self.data.get(self.args.split), self.args.batch)
         self.init_metrics()
 

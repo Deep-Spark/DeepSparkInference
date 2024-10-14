@@ -28,7 +28,7 @@ from ultralytics.data.converter import coco80_to_coco91_class
 
 class IGIE_Validator(DetectionValidator):
     def __call__(self, engine, device):
-        self.data = check_det_dataset(self.args.data)
+        self.data = self.args.data
         self.dataloader = self.get_dataloader(self.data.get(self.args.split), self.args.batch)
         self.init_metrics()
 
