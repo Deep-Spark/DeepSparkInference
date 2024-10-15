@@ -1,0 +1,7 @@
+tqdm
+onnx
+onnxsim
+tabulate
+ppq
+pycuda
+opencv-python==4.6.0.66

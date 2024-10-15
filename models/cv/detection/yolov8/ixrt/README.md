@@ -15,12 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install pycocotools
-pip3 install ultralytics
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -29,39 +24,40 @@ Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
-```bash
-# get yolov8n.pt
-wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt
-# set coco path
-mkdir -p data/
-ln -s /Path/to/coco/ data/coco
-```
-
 ### Model Conversion
 
 ```bash
-python3 export.py --weight yolov8n.pt --batch 32
-onnxsim yolov8n.onnx ./data/yolov8n.onnx
+mkdir -p checkpoints/
+mv yolov8n.pt yolov8.pt
+python3 export.py --weight yolov8.pt --batch 32
+onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
 ```
 
 ## Inference
+
+```bash
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/coco/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=./
+```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8n_fp16_accuracy.sh
+bash scripts/infer_yolov8_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov8n_fp16_performance.sh
+bash scripts/infer_yolov8_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8n_int8_accuracy.sh
+bash scripts/infer_yolov8_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov8n_int8_performance.sh
+bash scripts/infer_yolov8_int8_performance.sh
 ```
 
 ## Results

@@ -20,13 +20,15 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--origin_model", type=str)
     parser.add_argument("--output_model", type=str)
     args = parser.parse_args()
     return args
 
 
 args = parse_args()
-model = models.mobilenet_v2(pretrained=True)
+model = models.mobilenet_v2()
+model.load_state_dict(torch.load(args.origin_model))
 model.cuda()
 model.eval()
 inputx = torch.randn(1, 3, 224, 224, device='cuda')
@@ -42,3 +44,4 @@ torch.onnx.export(model,
                   input_names = ['input'],
                   output_names = ['output'],)
 print(f"Convert onnx model in {export_onnx_file}")
+exit()

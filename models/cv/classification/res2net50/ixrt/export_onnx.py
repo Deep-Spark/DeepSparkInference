@@ -164,25 +164,17 @@ class Res2Net(nn.Module):
 
         return x
 
-def res2net50_14w_8s(pretrained=False, **kwargs):
-    """Constructs a Res2Net-50_14w_8s model.
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = Res2Net(Bottle2neck, [3, 4, 6, 3], baseWidth = 14, scale = 8, **kwargs)
-    if pretrained:
-        model.load_state_dict(model_zoo.load_url(model_urls['res2net50_14w_8s']))
-    return model
-
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--origin_model", type=str)
     parser.add_argument("--output_model", type=str)
     args = parser.parse_args()
     return args
 
 if __name__ == '__main__':
     args = parse_args()
-    model = res2net50_14w_8s(pretrained=True)
+    model = Res2Net(Bottle2neck, [3, 4, 6, 3], baseWidth = 14, scale = 8)
+    model.load_state_dict(torch.load(args.origin_model))
     model.cuda()
     model.eval()
     input = torch.randn(32, 3, 224, 224, device='cuda')

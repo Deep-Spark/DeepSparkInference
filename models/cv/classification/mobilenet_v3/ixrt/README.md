@@ -15,10 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -31,7 +28,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --origin_model /path/to/mobilenet_v3_small-047dcff4.pth --output_model checkpoints/mobilenetv3.onnx
+python3 export_onnx.py --origin_model /path/to/mobilenet_v3_small-047dcff4.pth --output_model checkpoints/mobilenet_v3.onnx
 ```
 
 ## Inference
@@ -41,16 +38,16 @@ export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
-export CONFIG_DIR=config/MOBILENETV3_CONFIG
+export CONFIG_DIR=config/MOBILENET_V3_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_mobilenetv3_fp16_accuracy.sh
+bash scripts/infer_mobilenet_v3_fp16_accuracy.sh
 # Performance
-bash scripts/infer_mobilenetv3_fp16_performance.sh
+bash scripts/infer_mobilenet_v3_fp16_performance.sh
 ```
 
 ## Results

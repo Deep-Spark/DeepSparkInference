@@ -15,12 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -40,7 +35,7 @@ python3 export_onnx.py --output_model checkpoints/densenet121.onnx
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
-export CONFIG_DIR=config/DENSENET_CONFIG
+export CONFIG_DIR=config/DENSENET121_CONFIG
 ```
 
 ### FP16

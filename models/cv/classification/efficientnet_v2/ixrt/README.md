@@ -15,14 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install timm
-pip3 install ppq
-pip3 install pycuda
-pip3 install protobuf==3.20.0
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -35,15 +28,15 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints
-git clone https://github.com/huggingface/pytorch-image-models.git && git checkout <timm version tag>
-cp /Path/to/ixrt/export_onnx.py pytorch-image-models/timm/models
-cd pytorch-image-models/timm/models
-rm _builder.py
-mv /Path/ixrt/_builder.py pytorch-image-models/timm/models
+git clone https://github.com/huggingface/pytorch-image-models.git
+cp ./export_onnx.py pytorch-image-models/timm/models
+rm pytorch-image-models/timm/models/_builder.py
+mv ./_builder.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm
 mkdir -p /root/.cache/torch/hub/checkpoints/
 wget -P /root/.cache/torch/hub/checkpoints/ https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth
-python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet.onnx
+python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet_v2.onnx
+cd ../../
 ```
 
 ## Inference
@@ -53,7 +46,7 @@ export PROJ_DIR=/Path/to/efficientnet_v2/ixrt
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=/Path/to/efficientnet_v2/ixrt
-export CONFIG_DIR=/Path/to/config/EFFICIENTNET_V2T_CONFIG
+export CONFIG_DIR=/Path/to/config/EFFICIENTNET_V2_CONFIG
 export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 ```
 
@@ -61,18 +54,18 @@ export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 
 ```bash
 # Accuracy
-bash scripts/infer_efficientnet_fp16_accuracy.sh
+bash scripts/infer_efficientnet_v2_fp16_accuracy.sh
 # Performance
-bash scripts/infer_efficientnet_fp16_performance.sh
+bash scripts/infer_efficientnet_v2_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_efficientnet_int8_accuracy.sh
+bash scripts/infer_efficientnet_v2_int8_accuracy.sh
 # Performance
-bash scripts/infer_efficientnet_int8_performance.sh
+bash scripts/infer_efficientnet_v2_int8_performance.sh
 ```
 
 ## Results

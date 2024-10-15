@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-dev
 pip3 install tqdm
 pip3 install onnx
 pip3 install pycocotools
-pip3 install ultralytics
+pip3 install ultralytics==8.2.51
 ```
 
 ### Download

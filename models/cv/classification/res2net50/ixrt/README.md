@@ -15,13 +15,12 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
+pip3 install -r requirements.txt
 ```
 
 ### Download
+
+Pretrained model: <https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net50_14w_8s-6527dddc.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -29,7 +28,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/res2net50.onnx
+python3 export_onnx.py --origin_model /path/to/res2net50_14w_8s-6527dddc.pth --output_model checkpoints/res2net50.onnx
 ```
 
 ## Inference

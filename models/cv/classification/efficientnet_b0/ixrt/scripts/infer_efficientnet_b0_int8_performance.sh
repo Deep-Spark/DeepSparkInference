@@ -14,13 +14,9 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 batchsize=32
-model_path="efficientnet-b0"
+model_path="efficientnet_b0"
 # model_path="resnet18"
 datasets_path=${DATASETS_DIR}
-
-# create onnx
-python3 python/export_onnx.py               \
-        --output_model ${model_path}.onnx
 
 # change batchsize
 python3 python/modify_batchsize.py              \

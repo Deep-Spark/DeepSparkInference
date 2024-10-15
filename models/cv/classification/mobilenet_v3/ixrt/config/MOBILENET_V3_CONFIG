@@ -17,7 +17,7 @@
 # ORIGINE_MODEL : 原始onnx文件名称
 IMGSIZE=224
 MODEL_NAME=MobileNet_v3
-ORIGINE_MODEL=mobilenetv3.onnx
+ORIGINE_MODEL=mobilenet_v3.onnx
 
 # QUANT CONFIG (仅PRECISION为int8时生效)
     # QUANT_OBSERVER : 量化策略，可选 [hist_percentile, percentile, minmax, entropy, ema]

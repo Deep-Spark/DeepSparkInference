@@ -1,0 +1,5 @@
+tqdm
+onnxsim
+opencv-python
+ppq
+protobuf==3.20.0

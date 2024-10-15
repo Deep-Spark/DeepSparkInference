@@ -9,23 +9,34 @@ The MobileNetV2 architecture is based on an inverted residual structure where th
 ### Install
 
 ```bash
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install opencv-python
-pip3 install ppq
-pip3 install protobuf==3.20.0
+pip3 install -r requirements.txt
 ```
 
 ### Download
 
-Download the [imagenet](https://www.image-net.org/download.php) validation dataset, and place in `${PROJ_ROOT}/data/datasets`;
+Pretrained model: <https://download.pytorch.org/models/mobilenet_v2-b0353104.pth>
+
+Download the [imagenet](https://www.image-net.org/download.php) to download the validation dataset.
+
+### Model Conversion
+
+```bash
+mkdir checkpoints
+python3 python/export_onnx.py --origin_model /path/to/mobilenet_v2-b0353104 --output_model checkpoints/mobilenet_v2.onnx
+```
 
 ## Inference
+
+```bash
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=./
+```
 
 ### FP16
 
 ```bash
-cd python/
 # Test ACC
 bash script/infer_mobilenetv2_fp16_accuracy.sh
 # Test FPS

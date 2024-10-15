@@ -16,12 +16,12 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
+
+Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -29,7 +29,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints 
-python3 export_onnx.py --output_model checkpoints/vgg16.onnx
+python3 export_onnx.py --origin_model /path/to/vgg16-397923af.pth --output_model checkpoints/vgg16.onnx
 ```
 
 ## Inference
