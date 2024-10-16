@@ -32,21 +32,21 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 python3 export.py --weight densenet169-b2777c0a.pth --output densenet169.onnx
-cd data && mkdir checkpoints && cd checkpoints && mkdir densenet169
-mv densenet169.onnx densenet169
 ```
 
 ## Inference
 
+```bash
+export DATASETS_DIR=/Path/to/imagenet_val/
+```
 
 ### FP16
 
 ```bash
-cd deepsparkinference
 # Accuracy
-bash models/cv/classification/densenet169/ixrt/scripts/infer_densenet_fp16_accuracy.sh
+bash scripts/infer_densenet_fp16_accuracy.sh
 # Performance
-bash models/cv/classification/densenet169/ixrt/scripts/infer_densenet_fp16_performance.sh
+bash scripts/infer_densenet_fp16_performance.sh
 ```
 
 ## Results
