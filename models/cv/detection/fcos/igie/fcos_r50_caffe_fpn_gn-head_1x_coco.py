@@ -29,7 +29,6 @@ env_cfg = dict(
     cudnn_benchmark=False,
     dist_cfg=dict(backend='nccl'),
     mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0))
-evaluation = dict(interval=1, metric='bbox')
 load_from = None
 log_level = 'ERROR'
 log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
@@ -108,11 +107,17 @@ model = dict(
         score_thr=0.05),
     type='FCOS')
 optim_wrapper = dict(
-    optimizer=dict(lr=0.02, momentum=0.9, type='SGD', weight_decay=0.0001),
+    clip_grad=dict(max_norm=35, norm_type=2),
+    optimizer=dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0001),
+    paramwise_cfg=dict(bias_decay_mult=0.0, bias_lr_mult=2.0),
     type='OptimWrapper')
 param_scheduler = [
     dict(
-        begin=0, by_epoch=False, end=500, start_factor=0.001, type='LinearLR'),
+        begin=0,
+        by_epoch=False,
+        end=500,
+        factor=0.3333333333333333,
+        type='ConstantLR'),
     dict(
         begin=0,
         by_epoch=True,
@@ -132,7 +137,7 @@ test_dataloader = dict(
         ann_file='annotations/instances_val2017.json',
         backend_args=None,
         data_prefix=dict(img='images/val2017/'),
-        data_root='/root/.igie_cache/modelzoo_data/datasets/coco/',
+        data_root='data/coco',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=True, scale=(
@@ -157,15 +162,14 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file=
-    '/root/.igie_cache/modelzoo_data/datasets/coco/annotations/instances_val2017.json',
+    ann_file='data/coco/annotations/instances_val2017.json',
     backend_args=None,
     format_only=False,
     metric='bbox',
     type='CocoMetric')
 test_pipeline = [
     dict(backend_args=None, type='LoadImageFromFile'),
-    dict(keep_ratio=True, scale=(
+    dict(keep_ratio=False, scale=(
         800,
         800,
     ), type='Resize'),
@@ -224,7 +228,7 @@ val_dataloader = dict(
         data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
-            dict(keep_ratio=True, scale=(
+            dict(keep_ratio=False, scale=(
                 800,
                 800,
             ), type='Resize'),
@@ -260,4 +264,3 @@ visualizer = dict(
     vis_backends=[
         dict(type='LocalVisBackend'),
     ])
-work_dir = './'

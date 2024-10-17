@@ -20,7 +20,7 @@ import torch
 import numpy as np
 from tvm import relay
 from tqdm import tqdm
-from mmpose.registry import RUNNERS
+from mmdet.registry import RUNNERS
 from mmengine.config import Config
 
 def parse_args():
@@ -99,7 +99,7 @@ def main():
         # runner config
         cfg = Config.fromfile("fsaf_r50_fpn_1x_coco.py")
 
-        cfg.work_dir = "./"
+        cfg.work_dir = "./workspace"
         cfg['test_dataloader']['batch_size'] = batch_size
         cfg['test_dataloader']['dataset']['data_root'] = args.datasets
         cfg['test_dataloader']['dataset']['data_prefix']['img'] = 'images/val2017/'

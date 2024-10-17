@@ -85,7 +85,7 @@ def main():
 
     # create runtime from engine
     module = tvm.contrib.graph_executor.GraphModule(lib["default"](device))
-
+    
     # just run perf test
     if args.perf_only:
         ftimer = module.module.time_evaluator("run", device, number=100, repeat=1)        
@@ -99,12 +99,13 @@ def main():
 
         # Runner config
         cfg = Config.fromfile("fcos_hrnetv2p-w18-gn-head_4xb4-1x_coco.py")
-        cfg.work_dir = "./"
-
+        
+        cfg.work_dir = "./workspace"
         cfg['test_dataloader']['batch_size'] = batch_size
         cfg['test_dataloader']['dataset']['data_root'] = args.datasets
         cfg['test_dataloader']['dataset']['data_prefix']['img'] = 'images/val2017/'
         cfg['test_evaluator']['ann_file'] = os.path.join(args.datasets, 'annotations/instances_val2017.json')
+        cfg['log_level'] = 'ERROR'
 
         runner = RUNNERS.build(cfg)
         

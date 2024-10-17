@@ -99,7 +99,7 @@ def main():
         # runner config
         cfg = Config.fromfile("rtmpose-m_8xb256-420e_coco-256x192.py")
 
-        cfg.work_dir = "./"
+        cfg.work_dir = "./workspace"
         cfg['test_dataloader']['batch_size'] = batch_size
         cfg['test_dataloader']['dataset']['data_root'] = args.datasets
         cfg['test_dataloader']['dataset']['data_prefix']['img'] = 'images/val2017/'

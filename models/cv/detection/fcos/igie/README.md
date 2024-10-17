@@ -60,6 +60,10 @@ bash scripts/infer_fcos_fp16_performance.sh
 
 ## Results
 
-| Model | BatchSize | Input Shape | Precision |   FPS   | mAP@0.5(%) |
-| :---: | :-------: | :---------: | :-------: | :-----: | :--------: |
-| FCOS  |    32     |   800x800   |   FP16    | 135.019 |   0.522    |
+Model  |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
+-------|-----------|----------|----------|----------|---------------|
+FCOS   |    32     |   FP16   | 83.09    |  0.522   |  0.339        |
+
+## Reference
+
+mmdetection: <https://github.com/open-mmlab/mmdetection.git>

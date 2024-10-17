@@ -235,7 +235,7 @@ test_dataloader = dict(
         ann_file='annotations/person_keypoints_val2017.json',
         data_mode='topdown',
         data_prefix=dict(img='images/val2017/'),
-        data_root='/root/.igie_cache/data/datasets/coco',
+        data_root='data/coco/',
         pipeline=[
             dict(backend_args=dict(backend='local'), type='LoadImage'),
             dict(type='GetBBoxCenterScale'),
@@ -252,8 +252,7 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(round_up=False, shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file=
-    '/root/.igie_cache/data/datasets/coco/annotations/person_keypoints_val2017.json',
+    ann_file='data/coco/annotations/person_keypoints_val2017.json',
     type='CocoMetric')
 train_batch_size = 256
 train_cfg = dict(by_epoch=True, max_epochs=420, val_interval=10)
@@ -462,4 +461,3 @@ visualizer = dict(
     vis_backends=[
         dict(type='LocalVisBackend'),
     ])
-work_dir = './'
