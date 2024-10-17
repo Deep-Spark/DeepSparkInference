@@ -25,10 +25,7 @@ pip3 install mmengine==0.10.4
 ```
 
 ### Download
-<<<<<<< HEAD
 
-=======
->>>>>>> e135208fbca20b05e53a48d9706c146f9a07ef1c
 Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
