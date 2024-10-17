@@ -20,7 +20,7 @@ pip3 install onnx
 pip3 install onnxsim
 pip3 install pycocotools
 pip3 install ultralytics
-pip3 install pycuda
+pip3 install cuda-python
 ```
 
 ### Download
