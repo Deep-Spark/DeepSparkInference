@@ -29,13 +29,10 @@ Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
-<<<<<<< Updated upstream
 ```bash
 wget https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth
 ```
 
-=======
->>>>>>> Stashed changes
 ### Model Conversion
 
 ```bash
