@@ -19,8 +19,7 @@ import argparse
 import time
 import tensorrt
 from tensorrt import Dims
-import pycuda.autoinit
-import pycuda.driver as cuda
+from cuda import cuda, cudart
 import torch
 import numpy as np
 from tqdm import tqdm
@@ -157,7 +156,8 @@ class IxRT_Validator(DetectionValidator):
             context.set_binding_shape(input_idx, Dims(data_shape))
             inputs, outputs, allocations = setup_io_bindings(engine, context)
 
-            cuda.memcpy_htod(inputs[0]["allocation"], batch_data)
+            err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], batch_data, batch_data.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
             # Prepare the output data
             output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
             
@@ -167,7 +167,15 @@ class IxRT_Validator(DetectionValidator):
             end_time = time.time()
             forward_time += end_time - start_time
             
-            cuda.memcpy_dtoh(output, outputs[0]["allocation"])
+            err, = cuda.cuMemcpyDtoH(output, outputs[0]["allocation"], outputs[0]["nbytes"])
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+
+            for alloc in allocations:
+                if not alloc:
+                    continue
+                (err,) = cudart.cudaFree(alloc)
+                assert err == cudart.cudaError_t.cudaSuccess   
+                
             if pad_batch:
                 output = output[:origin_size]
                 
@@ -176,7 +184,7 @@ class IxRT_Validator(DetectionValidator):
             preds = self.postprocess([outputs])
             
             self.update_metrics(preds, batch)
-                
+
         if config.perf_only:
             fps = num_samples / forward_time
             return fps
