@@ -20,7 +20,7 @@ import numpy as np
 from tqdm import tqdm
 
 import tensorrt
-import pycuda.driver as cuda
+from cuda import cuda, cudart
 
 
 def load_class_names(namesfile):
@@ -101,13 +101,15 @@ def setup_io_bindings(engine, context):
         size = np.dtype(tensorrt.nptype(dtype)).itemsize
         for s in shape:
             size *= s
-        allocation = cuda.mem_alloc(size)
+        err, allocation = cudart.cudaMalloc(size)
+        assert err == cudart.cudaError_t.cudaSuccess
         binding = {
             "index": i,
             "name": name,
             "dtype": np.dtype(tensorrt.nptype(dtype)),
             "shape": list(shape),
             "allocation": allocation,
+            "nbytes": size
         }
         # print(f"binding {i}, name : {name}  dtype : {np.dtype(tensorrt.nptype(dtype))}  shape : {list(shape)}")
         allocations.append(allocation)
