@@ -1,0 +1,8 @@
+tqdm
+onnx
+onnxsim
+tabulate
+timm==1.0.10
+ppq
+pycuda
+protobuf==3.20.0

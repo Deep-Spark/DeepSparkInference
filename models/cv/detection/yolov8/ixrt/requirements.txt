@@ -1,0 +1,6 @@
+tqdm
+onnx
+onnxsim
+pycocotools
+ultralytics==8.2.51
+cuda-python

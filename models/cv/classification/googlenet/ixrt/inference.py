@@ -83,6 +83,7 @@ def main(config):
         total_sample = 0
         acc_top1, acc_top5 = 0, 0
 
+        start_time = time.time()
         with tqdm(total= len(dataloader)) as _tqdm:
             for idx, (batch_data, batch_label) in enumerate(dataloader):
                 batch_data = batch_data.numpy().astype(inputs[0]["dtype"])
@@ -104,7 +105,10 @@ def main(config):
                 _tqdm.set_postfix(acc_1='{:.4f}'.format(acc_top1/total_sample),
                                     acc_5='{:.4f}'.format(acc_top5/total_sample))
                 _tqdm.update(1)
+        end_time = time.time()
+        end2end_time = end_time - start_time
 
+        print(F"E2E time : {end2end_time:.3f} seconds")
         print(F"Acc@1 : {acc_top1/total_sample} = {acc_top1}/{total_sample}")
         print(F"Acc@5 : {acc_top5/total_sample} = {acc_top5}/{total_sample}")
         acc1 = acc_top1/total_sample

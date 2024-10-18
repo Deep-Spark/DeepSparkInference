@@ -17,13 +17,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install pycuda
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -36,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints 
-python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenetv11.onnx
+python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenet_v11.onnx
 ```
 
 ## Inference

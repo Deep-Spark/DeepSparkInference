@@ -15,12 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq==0.6.6
-pip install protobuf==3.20.3 pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -32,7 +27,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Model Conversion
 
 ```bash
-python3 python/export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet-b0.onnx
+python3 python/export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet_b0.onnx
 ```
 
 ## Inference

@@ -22,27 +22,27 @@ check_status()
     fi
 }
 
-PROJ_DIR=$(cd $(dirname $0);cd ../; pwd)
-DATASETS_DIR="${PROJ_DIR}/data/coco"
+PROJ_DIR=${PROJ_DIR}
+DATASETS_DIR=${DATASETS_DIR}
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 EVAL_DIR=${DATASETS_DIR}/images/val2017
-CHECKPOINTS_DIR="${PROJ_DIR}/data"
-RUN_DIR="${PROJ_DIR}"
+CHECKPOINTS_DIR=${CHECKPOINTS_DIR}
+RUN_DIR=${PROJ_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
 echo DATASETS_DIR : ${DATASETS_DIR}
 echo RUN_DIR : ${RUN_DIR}
 echo ====================== Model Info ======================
-echo Model Name : yolov8n
+echo Model Name : yolov8
 echo Onnx Path : ${ORIGINE_MODEL}
 
 BATCH_SIZE=32
-CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov8n.onnx
+CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov8.onnx
 
 # Build Engine
 echo Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/yolov8n_fp16.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/yolov8_fp16.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else

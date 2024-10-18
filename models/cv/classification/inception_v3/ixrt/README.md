@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install pycuda
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install protobuf==3.20.0
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -35,7 +29,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ```bash
 
 mkdir checkpoints
-python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output checkpoints/inception-v3.onnx
+python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output checkpoints/inception_v3.onnx
 ```
 
 ## Inference

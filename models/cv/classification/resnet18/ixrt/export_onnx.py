@@ -18,12 +18,14 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--origin_model", type=str)
     parser.add_argument("--output_model", type=str)
     args = parser.parse_args()
     return args
 
 args = parse_args()
-model = models.resnet18(pretrained=True)
+model = models.resnet18()
+model.load_state_dict(torch.load(args.origin_model))
 model.cuda()
 model.eval()
 input = torch.randn(1, 3, 224, 224, device='cuda')
