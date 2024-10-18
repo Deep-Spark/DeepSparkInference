@@ -16,7 +16,7 @@
 #    under the License.
 
 batchsize=32
-model_path="cspdarknet50_opt.onnx"
+model_path="cspdarknet53_opt.onnx"
 datasets_path=${DATASETS_DIR}
 
 # build engine

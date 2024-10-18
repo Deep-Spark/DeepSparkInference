@@ -1,8 +1,8 @@
-# CSPDarkNet50
+# CSPDarkNet53
 
 ## Description
 
-CSPDarkNet50 is an enhanced convolutional neural network architecture that reduces redundant computations by integrating cross-stage partial network features and truncating gradient flow, thereby maintaining high accuracy while lowering computational costs.
+CSPDarkNet53 is an enhanced convolutional neural network architecture that reduces redundant computations by integrating cross-stage partial network features and truncating gradient flow, thereby maintaining high accuracy while lowering computational costs.
 
 ## Setup
 
@@ -35,10 +35,13 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet50.onnx
+## cspdarknet50 is actually cspdarknet53
+wget -O cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth https://download.openmmlab.com/mmclassification/v0/cspnet/
+
+python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 
 # Use onnxsim optimize onnx model
-onnxsim cspdarknet50.onnx cspdarknet50_opt.onnx
+onnxsim cspdarknet53.onnx cspdarknet53_opt.onnx
 
 ```
 
@@ -61,8 +64,8 @@ bash scripts/infer_cspdarknet_fp16_performance.sh
 
 | Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------ | --------- | --------- | -------- | -------- | -------- |
-| CSPDarkNet50 | 32        | FP16      | 3214.387 | 79.063   | 94.492   |
+| CSPDarkNet53 | 32        | FP16      | 3214.387 | 79.063   | 94.492   |
 
 ## Reference
 
-CSPDarkNet50: <https://github.com/open-mmlab/mmpretrain>
+CSPDarkNet53: <https://github.com/open-mmlab/mmpretrain>

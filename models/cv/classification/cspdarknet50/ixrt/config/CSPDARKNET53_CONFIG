@@ -12,12 +12,13 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+
 # IMGSIZE : 模型输入hw大小
 # MODEL_NAME : 生成onnx/engine的basename
 # ORIGINE_MODEL : 原始onnx文件名称
 IMGSIZE=224
-MODEL_NAME=cspdarknet50
-ORIGINE_MODEL=cspdarknet50_sim.onnx
+MODEL_NAME=cspdarknet53
+ORIGINE_MODEL=cspdarknet53_sim.onnx
 
 # QUANT CONFIG (仅PRECISION为int8时生效)
     # QUANT_OBSERVER : 量化策略，可选 [hist_percentile, percentile, minmax, entropy, ema]
