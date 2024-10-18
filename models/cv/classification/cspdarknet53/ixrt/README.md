@@ -65,6 +65,7 @@ bash scripts/infer_cspdarknet53_fp16_performance.sh
 ```
 
 ### INT8
+
 ```bash
 # Accuracy
 bash scripts/infer_cspdarknet53_int8_accuracy.sh 
@@ -72,14 +73,12 @@ bash scripts/infer_cspdarknet53_int8_accuracy.sh
 bash scripts/infer_cspdarknet53_int8_performance.sh
 ```
 
-### INT8
-
 ## Results
 
 | Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------ | --------- | --------- | -------- | -------- | -------- |
-| CSPDarkNet53 | 32        | FP16      | 3282.318 | 79.09    | 94.52  |
-| CSPDarkNet53 | 32        | INT8      | 6335.86 | 75.49    | 92.66  |
+| CSPDarkNet53 | 32        | FP16      | 3282.318 | 79.09    | 94.52    |
+| CSPDarkNet53 | 32        | INT8      | 6335.86  | 75.49    | 92.66    |
 
 ## Reference
 

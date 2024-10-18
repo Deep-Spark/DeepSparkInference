@@ -12,6 +12,7 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+
 """这是一个高度自动化的 PPQ 量化的入口脚本，将你的模型和数据按要求进行打包:
 
 在自动化 API 中，我们使用 QuantizationSetting 对象传递量化参数。
