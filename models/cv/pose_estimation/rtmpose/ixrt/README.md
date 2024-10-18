@@ -31,6 +31,7 @@ Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/r
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ## Model Conversion
+
 ```bash
 # export onnx model
 
@@ -45,8 +46,7 @@ onnxsim data/rtmpose/rtmpose.onnx data/rtmpose/rtmpose_opt.onnx
 ```
 
 ## TestSample
+
 ```bash
 python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg
 ```
-
-

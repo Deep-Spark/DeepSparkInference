@@ -48,6 +48,6 @@ bash scripts/infer_resnext50_32x4d_fp16_performance.sh
 
 ## Results
 
-Model           |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
-----------------|-----------|----------|---------|----------|--------
-resnext50_32x4d |    32     |   FP16   | 417.01  |  77.614  | 93.686
+| Model           | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
+| --------------- | --------- | --------- | ------ | -------- | -------- |
+| resnext50_32x4d | 32        | FP16      | 417.01 | 77.614   | 93.686   |

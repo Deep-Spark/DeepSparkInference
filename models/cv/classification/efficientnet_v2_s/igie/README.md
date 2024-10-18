@@ -44,4 +44,4 @@ bash scripts/infer_efficientnet_v2_s_fp16_performance.sh
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------------- | --------- | --------- | -------- | -------- | -------- |
-| Efficientnet_v2_s | 32        | FP16      | 2357.457 | 81.290   |  95.242   |
+| Efficientnet_v2_s | 32        | FP16      | 2357.457 | 81.290   | 95.242   |

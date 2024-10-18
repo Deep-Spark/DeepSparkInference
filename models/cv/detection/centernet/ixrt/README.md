@@ -54,9 +54,9 @@ bash scripts/infer_centernet_fp16_performance.sh
 
 ## Results
 
-Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
-----------|-----------|----------|----------|----------|---------------|
-CenterNet |    32     |   FP16   | 879.447   |  0.423   |  0.258        |
+| Model     | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
+| --------- | --------- | --------- | ------- | ------- | ------------ |
+| CenterNet | 32        | FP16      | 879.447 | 0.423   | 0.258        |
 
 ## Reference
 

@@ -1,8 +1,11 @@
 # LayoutXLM
+
 ## Description
+
 LayoutXLM is a groundbreaking multimodal pre-trained model for multilingual document understanding, achieving exceptional performance by integrating text, layout, and image data.
 
 ## Setup
+
 ```shell
 pip3 install tqdm
 pip3 install onnx
@@ -16,11 +19,13 @@ pip3 install python-bidi
 ```
 
 ## Download
+
 Pretrained model: <https://paddleocr.bj.bcebos.com/ppstructure/models/vi_layoutxlm/ser_vi_layoutxlm_xfund_pretrained.tar>
 
 Dataset: <https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND.tar> to download the XFUND_zh dataset.
 
 ## Model Conversion
+
 ```shell
 
 tar -xf ser_vi_layoutxlm_xfund_pretrained.tar
@@ -42,13 +47,16 @@ cd ..
 
 # Use onnxsim optimize onnx model
 onnxsim kie_ser.onnx kie_ser_opt.onnx
-``` 
+```
 
 ## Inference
-```shell 
+
+```shell
 export DATASETS_DIR=/Path/to/XFUND/
 ```
+
 ### FP16
+
 ```shell
 # Accuracy
 bash scripts/infer_kie_ser_fp16_accuracy.sh
@@ -58,9 +66,10 @@ bash scripts/infer_kie_ser_fp16_performance.sh
 
 ## Results
 
-Model   |BatchSize  |Precision |FPS       |Hmean     |
---------|-----------|----------|----------|----------|
-Kie_ser |    8      |   FP16   | 107.65   |  93.61%  |
+| Model   | BatchSize | Precision | FPS    | Hmean  |
+| ------- | --------- | --------- | ------ | ------ |
+| Kie_ser | 8         | FP16      | 107.65 | 93.61% |
 
 ## Reference
+
 PaddleOCR: <https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/algorithm/kie/algorithm_kie_layoutxlm.md>

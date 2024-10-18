@@ -56,7 +56,7 @@ bash scripts/infer_efficientnet_b0_int8_performance.sh
 
 ## Results
 
-Model           |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------------|-----------|----------|----------|----------|--------
-EfficientNet B0 |    32     |   FP16   | 2325.54  |  77.66   | 93.58
-EfficientNet B0 |    32     |   INT8   | 2666.00  |  74.27   | 91.85
+| Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+| --------------- | --------- | --------- | ------- | -------- | -------- |
+| EfficientNet B0 | 32        | FP16      | 2325.54 | 77.66    | 93.58    |
+| EfficientNet B0 | 32        | INT8      | 2666.00 | 74.27    | 91.85    |

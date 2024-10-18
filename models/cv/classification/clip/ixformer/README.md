@@ -35,6 +35,7 @@ unzip clip-vit-base-patch32.zip
 ### Test using the OpenAI interface
 
 Please modify the part in the test_clip.py script that pertains to the model path.
+
 ```bash
 python3 test_clip.py
 ```
