@@ -136,6 +136,7 @@ class IxRT_Validator(DetectionValidator):
         forward_time = 0.0
         num_samples = 0   
 
+        e2e_start_time = time.time()
         for batch in tqdm(self.dataloader):
             batch = self.preprocess(batch)
 
@@ -185,6 +186,7 @@ class IxRT_Validator(DetectionValidator):
             
             self.update_metrics(preds, batch)
 
+        e2e_end_time = time.time()
         if config.perf_only:
             fps = num_samples / forward_time
             return fps
@@ -197,6 +199,9 @@ class IxRT_Validator(DetectionValidator):
                     json.dump(self.jdict, f)  # flatten and save
 
             stats = self.eval_json(stats)
+
+            end2end_time = e2e_end_time - e2e_start_time
+            print(F"E2E time : {end2end_time:.3f} seconds")
 
             return stats
 
