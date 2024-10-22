@@ -1,0 +1,13 @@
+{{- '<s>[INST] ' -}}
+
+{%- for message in messages -%}
+    {%- if loop.first and message['role'] == 'system' -%}
+        {{- '<<SYS>>\n' + message['content'] + '\n<</SYS>>\n' -}}
+    {%- elif message['role'] == 'user' and loop.index <= 2 -%}
+        {{- message['content'] + ' [/INST]' -}}
+    {%- elif message['role'] == 'user' -%}
+        {{- '<s>[INST] ' + message['content'] + ' [/INST]' -}}
+    {%- elif message['role'] == 'assistant' -%}
+        {{- ' ' + message['content'] + ' </s>' -}}
+    {%- endif -%}
+{%- endfor -%}
