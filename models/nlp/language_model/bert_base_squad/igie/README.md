@@ -9,9 +9,7 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
-pip3 install transformers
+pip3 install -r requirements.txt
 ```
 
 ### Download

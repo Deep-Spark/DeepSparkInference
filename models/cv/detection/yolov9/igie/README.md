@@ -9,11 +9,9 @@ YOLOv9 represents a major leap in real-time object detection by introducing inno
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
+pip3 install -r requirements.txt
 
-pip3 install ultralytics==8.2.51
+pip3 install -r requirements.txt
 ```
 
 ### Download

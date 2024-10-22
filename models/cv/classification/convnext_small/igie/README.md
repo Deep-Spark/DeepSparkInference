@@ -9,8 +9,7 @@ The ConvNeXt Small model represents a significant stride in the evolution of con
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

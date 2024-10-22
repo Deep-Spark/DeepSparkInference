@@ -15,10 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download

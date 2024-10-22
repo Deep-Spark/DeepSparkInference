@@ -9,8 +9,7 @@ EfficientNetV2 S is an optimized model in the EfficientNetV2 series, which was d
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

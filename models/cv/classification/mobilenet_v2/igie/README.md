@@ -9,8 +9,7 @@ MobileNetV2 is an improvement on V1. Its new ideas include Linear Bottleneck and
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

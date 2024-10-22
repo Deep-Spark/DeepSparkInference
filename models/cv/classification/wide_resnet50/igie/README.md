@@ -9,8 +9,7 @@ The distinguishing feature of Wide ResNet50 lies in its widened architecture com
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

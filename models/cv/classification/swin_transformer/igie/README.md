@@ -9,9 +9,7 @@ Swin Transformer is a pioneering neural network architecture that introduces a n
 ### Install
 
 ```bash
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install transformers==4.33.2
+pip3 install -r requirements.txt
 ```
 
 ### Download

@@ -9,9 +9,7 @@ EfficientNetV2_rw_t is an enhanced version of the EfficientNet family of convolu
 ### Install
 
 ```bash
-pip3 install timm
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

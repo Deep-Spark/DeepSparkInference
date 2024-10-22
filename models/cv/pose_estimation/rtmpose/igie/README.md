@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install mmdet==3.3.0
-pip3 install mmpose==1.3.1
-pip3 install mmdeploy==1.3.1
-pip3 install mmengine==0.10.4
+pip3 install -r requirements.txt
 ```
 
 ### Download

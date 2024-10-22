@@ -15,10 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install mmcv==1.5.3
-pip3 install mmcls
+pip3 install -r requirements.txt
 ```
 
 ### Download

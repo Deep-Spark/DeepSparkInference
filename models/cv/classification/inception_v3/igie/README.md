@@ -9,8 +9,7 @@ Inception v3 is a convolutional neural network architecture designed for image r
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

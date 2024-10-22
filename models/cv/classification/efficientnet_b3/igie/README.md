@@ -9,8 +9,7 @@ EfficientNet B3 is a member of the EfficientNet family, a series of convolutiona
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

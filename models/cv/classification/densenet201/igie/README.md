@@ -9,8 +9,7 @@ DenseNet201 is a deep convolutional neural network that stands out for its uniqu
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

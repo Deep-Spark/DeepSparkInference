@@ -1,0 +1,4 @@
+tqdm
+onnx
+onnxsim
+pycocotools

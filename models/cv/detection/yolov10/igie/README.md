@@ -9,8 +9,7 @@ YOLOv10, built on the Ultralytics Python package by researchers at Tsinghua Univ
 ### Install
 
 ```bash
-pip3 install tqdm
-pip3 install huggingface_hub==0.25.2
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -22,7 +21,7 @@ Pretrained model: <https://github.com/THU-MIG/yolov10/releases/download/v1.1/yol
 ```bash
 git clone https://github.com/THU-MIG/yolov10.git
 cd yolov10
-pip3 install -e . --no-deps
+pip3 install -r requirements.txt
 cd ..
 
 python3 export.py --weight yolov10s.pt --batch 32

@@ -9,8 +9,7 @@ MobileNetV3_Large builds upon the success of its predecessors by incorporating s
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

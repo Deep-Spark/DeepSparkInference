@@ -9,8 +9,7 @@ RegNet is a family of models designed for image classification tasks, as describ
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

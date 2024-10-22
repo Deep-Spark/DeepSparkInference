@@ -9,8 +9,7 @@ EfficientNet-B0 is a lightweight yet highly efficient convolutional neural netwo
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

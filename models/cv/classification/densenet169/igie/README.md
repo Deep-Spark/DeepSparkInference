@@ -9,8 +9,7 @@ DenseNet-169 is a variant of the Dense Convolutional Network (DenseNet) architec
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

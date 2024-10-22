@@ -9,8 +9,7 @@ MNASNet0_5 is a neural network architecture optimized for mobile devices, design
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download
