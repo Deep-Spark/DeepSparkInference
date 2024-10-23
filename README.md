@@ -969,15 +969,9 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
     <tr align="center">
         <td>Qwen1.5-7B</td>
-        <td>-</td>
-        <td>-</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-7b/text-generation-inference/README.md">Supported</a></td>
-    </tr>
-    <tr align="center">
-        <td>Qwen1.5-7B</td>
         <td><a href="models/nlp/large_language_model/qwen1.5-7b/vllm/README.md">Supported</a></td>
         <td>-</td>
-        <td>-</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-7b/text-generation-inference/README.md">Supported</a></td>
     </tr>
     <tr align="center">
         <td>Qwen1.5-14B</td>
