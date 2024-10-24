@@ -14,18 +14,18 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 batchsize=32
-model_path="efficientnet_b0"
+model_path="checkpoints/efficientnet_b0"
 # model_path="resnet18"
 datasets_path=${DATASETS_DIR}
 
 # change batchsize
-python3 python/modify_batchsize.py              \
+python3 modify_batchsize.py              \
         --batch_size ${batchsize}               \
         --origin_model ${model_path}.onnx     \
         --output_model ${model_path}_bs32.onnx
 
 # quant
-python3 python/quant.py             \
+python3 quant.py             \
         --model_name ${model_path}  \
         --model ${model_path}_bs32.onnx      \
         --dataset_dir ${datasets_path}      \
@@ -33,13 +33,13 @@ python3 python/quant.py             \
         --save_dir ./
 
 # build engine
-python3 python/build_engine_by_write_qparams.py         \
+python3 build_engine_by_write_qparams.py         \
         --onnx quantized_${model_path}.onnx                     \
         --qparam_json quant_cfg.json                    \
         --engine ${model_path}_int8.engine
 
 # inference
-python3 python/inference.py                             \
+python3 inference.py                             \
         --test_mode FPS                                 \
         --engine_file ${model_path}_int8.engine       \
         --bsz ${batchsize}                        \

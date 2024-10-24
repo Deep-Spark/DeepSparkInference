@@ -20,12 +20,12 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--weight", 
+    parser.add_argument("--origin_model", 
                     type=str, 
                     required=True, 
                     help="pytorch model weight.")
     
-    parser.add_argument("--output", 
+    parser.add_argument("--output_model", 
                     type=str, 
                     required=True, 
                     help="export onnx model path.")
@@ -37,7 +37,7 @@ def main():
     args = parse_args()
     
     model = torchvision.models.inception_v3()
-    model.load_state_dict(torch.load(args.weight))
+    model.load_state_dict(torch.load(args.origin_model))
     model.eval()
 
     input_names = ['input']
@@ -47,7 +47,7 @@ def main():
     torch.onnx.export(
         model, 
         dummy_input, 
-        args.output, 
+        args.output_model, 
         input_names = input_names, 
         output_names = output_names,
         opset_version=13

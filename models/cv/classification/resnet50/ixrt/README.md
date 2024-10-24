@@ -15,15 +15,12 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
+
+Pretrained model: <https://download.pytorch.org/models/resnet50-0676ba61.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -31,7 +28,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/resnet50.onnx
+python3 export_onnx.py --origin_model /path/to/resnet50-0676ba61.pth --output_model checkpoints/resnet50.onnx
 ```
 
 ## Inference

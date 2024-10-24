@@ -22,7 +22,7 @@ Download the [imagenet](https://www.image-net.org/download.php) to download the 
 
 ```bash
 mkdir checkpoints
-python3 python/export_onnx.py --origin_model /path/to/mobilenet_v2-b0353104 --output_model checkpoints/mobilenet_v2.onnx
+python3 export_onnx.py --origin_model /path/to/mobilenet_v2-b0353104 --output_model checkpoints/mobilenet_v2.onnx
 ```
 
 ## Inference

@@ -78,7 +78,7 @@ echo [STEP ${step}] : Simplify Model
 if [ -f ${SIM_MODEL} ];then
     echo "  "Simplify Model, ${SIM_MODEL} has been existed
 else
-    python3 ${RUN_DIR}python/simplify_model.py  \
+    python3 ${RUN_DIR}simplify_model.py  \
         --origin_model $ORIGINE_MODEL     \
         --output_model ${SIM_MODEL}
     echo "  "Generate ${SIM_MODEL}
@@ -92,7 +92,7 @@ FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
-    python3 ${RUN_DIR}python/modify_batchsize.py  \
+    python3 ${RUN_DIR}modify_batchsize.py  \
         --batch_size ${BSZ}                 \
         --origin_model ${SIM_MODEL}         \
         --output_model ${FINAL_MODEL}
@@ -107,7 +107,7 @@ ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
-    python3 ${RUN_DIR}python/build_engine.py          \
+    python3 ${RUN_DIR}build_engine.py          \
         --precision ${PRECISION}                \
         --model ${FINAL_MODEL}                  \
         --engine ${ENGINE_FILE}
@@ -118,7 +118,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Inference
-python3 ${RUN_DIR}python/inference.py     \
+python3 ${RUN_DIR}inference.py     \
     --engine_file=${ENGINE_FILE}    \
     --datasets_dir=${DATASETS_DIR}  \
     --imgsz=${IMGSIZE}              \

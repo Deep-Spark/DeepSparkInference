@@ -27,7 +27,8 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Model Conversion
 
 ```bash
-python3 python/export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet_b0.onnx
+mkdir -p checkpoints
+python3 export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model checkpoints/efficientnet_b0.onnx
 ```
 
 ## Inference
