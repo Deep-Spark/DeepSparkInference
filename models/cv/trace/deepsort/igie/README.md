@@ -9,9 +9,7 @@ DeepSort integrates deep neural networks with traditional tracking methods to ac
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
+pip3 install -r requirements.txt
 ```
 
 ### Download

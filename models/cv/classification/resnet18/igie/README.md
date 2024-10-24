@@ -9,8 +9,7 @@ ResNet-18 is a relatively compact deep neural network.The ResNet-18 architecture
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

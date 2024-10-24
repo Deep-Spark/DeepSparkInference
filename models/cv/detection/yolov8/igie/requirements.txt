@@ -1,0 +1,4 @@
+tqdm
+onnx
+pycocotools
+ultralytics==8.2.51

@@ -9,8 +9,7 @@ The ResNeXt101_64x4d is a deep learning model based on the deep residual network
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

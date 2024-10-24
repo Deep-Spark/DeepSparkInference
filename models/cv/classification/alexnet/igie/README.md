@@ -9,8 +9,7 @@ AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, is a
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

@@ -9,8 +9,7 @@ ShuffleNet V2_x1_0 is an efficient convolutional neural network (CNN) architectu
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

@@ -9,8 +9,7 @@ ShuffleNetV2_x0_5 is a lightweight convolutional neural network architecture des
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

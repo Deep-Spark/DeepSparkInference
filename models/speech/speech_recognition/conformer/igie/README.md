@@ -9,10 +9,7 @@ Conformer is a speech recognition model proposed by Google in 2020. It combines 
 ### Install
 
 ```bash
-pip3 install tqdm
-pip3 install onnx
-pip3 install typeguard==2.13.3
-pip3 install onnxsim
+pip3 install -r requirements.txt
 cd ctc_decoder/swig && bash setup.sh
 cd ../../
 ```

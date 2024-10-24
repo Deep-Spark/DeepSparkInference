@@ -9,8 +9,7 @@ EfficientNet B1 is a convolutional neural network architecture that falls under 
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

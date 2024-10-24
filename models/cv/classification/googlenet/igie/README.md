@@ -9,8 +9,7 @@ Introduced in 2014, GoogleNet revolutionized image classification models by intr
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download

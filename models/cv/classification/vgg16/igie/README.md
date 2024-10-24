@@ -9,8 +9,7 @@ VGG16 is a convolutional neural network (CNN) architecture designed for image cl
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
+pip3 install -r requirements.txt
 ```
 
 ### Download
