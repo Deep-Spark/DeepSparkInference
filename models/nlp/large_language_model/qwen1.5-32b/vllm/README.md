@@ -27,7 +27,7 @@ pip3 install ixformer
 
 ```bash
 cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-32b/vllm
-mkdir data/qwen1.5
+mkdir -p data/qwen1.5
 ln -s /path/to/Qwen1.5-32B ./data/qwen1.5
 ```
 
