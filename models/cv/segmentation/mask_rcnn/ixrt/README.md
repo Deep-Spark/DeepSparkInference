@@ -52,13 +52,13 @@ bash init_nv.sh
 ### FP16 Performance
 
 ```bash
-bash infer_maskrcnn_fp16_performance.sh
+bash infer_mask_rcnn_fp16_performance.sh
 ```
 
 ### FP16 Accuracy
 
 ```bash
-bash infer_maskrcnn_fp16_acc.sh
+bash infer_mask_rcnn_fp16_accuracy.sh
 ```
 
 ## Results

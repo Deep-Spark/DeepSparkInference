@@ -1,0 +1,4 @@
+onnx
+pycuda
+six
+tqdm
