@@ -13,6 +13,5 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-cd ../python
-python3 maskrcnn.py perf --engine_file ./maskrcnn.engine --bsz 1 \
+cd ./python && python3 maskrcnn.py perf --engine_file ./maskrcnn.engine --bsz 1 \
     --fps_target 7.3

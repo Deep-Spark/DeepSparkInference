@@ -13,8 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-cd ../python
-python3 maskrcnn.py acc --engine_file ./maskrcnn.engine --bsz 1 \
+cd ./python && python3 maskrcnn.py acc --engine_file ./maskrcnn.engine --bsz 1 \
     --map_target 0.545 \
     --segm_map_target 0.51 \
     --dataset_dir ../coco
