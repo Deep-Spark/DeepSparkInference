@@ -30,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints 
-python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenet_v11.onnx
+python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenet_v1_1.onnx
 ```
 
 ## Inference
@@ -40,7 +40,7 @@ export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
-export CONFIG_DIR=config/SQUEEZENET_V11_CONFIG
+export CONFIG_DIR=config/SQUEEZENET_V1_1_CONFIG
 
 ```
 
@@ -48,18 +48,18 @@ export CONFIG_DIR=config/SQUEEZENET_V11_CONFIG
 
 ```bash
 # Accuracy
-bash scripts/infer_squeezenet_v11_fp16_accuracy.sh
+bash scripts/infer_squeezenet_v1_1_fp16_accuracy.sh
 # Performance
-bash scripts/infer_squeezenet_v11_fp16_performance.sh
+bash scripts/infer_squeezenet_v1_1_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_squeezenet_v11_int8_accuracy.sh
+bash scripts/infer_squeezenet_v1_1_int8_accuracy.sh
 # Performance
-bash scripts/infer_squeezenet_v11_int8_performance.sh
+bash scripts/infer_squeezenet_v1_1_int8_performance.sh
 ```
 
 ## Results
