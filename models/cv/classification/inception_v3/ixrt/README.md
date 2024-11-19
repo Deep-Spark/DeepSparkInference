@@ -29,7 +29,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ```bash
 
 mkdir checkpoints
-python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output checkpoints/inception_v3.onnx
+python3 export_onnx.py --origin_model inception_v3_google-0cc3c7bd.pth --output_model checkpoints/inception_v3.onnx
 ```
 
 ## Inference

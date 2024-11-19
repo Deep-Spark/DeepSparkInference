@@ -50,3 +50,33 @@ python3 -m vllm.entrypoints.openai.api_server --model /data/chatglm/chatglm3-6b 
 ```bash
 python3 server_inference.py --host 127.0.0.1 --port 12345 --model_path /data/chatglm/chatglm3-6b
 ```
+
+## Benchmarking vLLM
+
+### Downloading the ShareGPT dataset
+
+```bash
+wget https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split.json
+```
+
+### Cloning the vllm project
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.5.4 --depth=1
+```
+
+### Benchmarking
+
+#### Starting server
+
+```bash
+python3 -m vllm.entrypoints.openai.api_server --model /data/chatglm/chatglm3-6b --gpu-memory-utilization 0.9 --max-num-batched-tokens 8193 \
+        --max-num-seqs 32 --disable-log-requests --host 127.0.0.1 --trust-remote-code
+```
+
+#### Starting benchmark client
+
+```bash
+python3 benchmark_serving.py --host 127.0.0.1 --num-prompts 16 --model /data/chatglm/chatglm3-6b --dataset-name sharegpt \
+        --dataset-path /data/dataset/ShareGPT_V3_unfiltered_cleaned_split.json --sharegpt-output-len 130 --trust-remote-code
+```

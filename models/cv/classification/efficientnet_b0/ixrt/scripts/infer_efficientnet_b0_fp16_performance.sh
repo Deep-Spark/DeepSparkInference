@@ -14,24 +14,24 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 batchsize=32
-model_path="efficientnet_b0"
+model_path="checkpoints/efficientnet_b0"
 # model_path="resnet18"
 datasets_path=${DATASETS_DIR}
 
 # change batchsize
-python3 python/modify_batchsize.py              \
+python3 modify_batchsize.py              \
         --batch_size ${batchsize}               \
         --origin_model ${model_path}.onnx     \
         --output_model ${model_path}_bs32.onnx
 
 # build engine
-python3 python/build_engine.py         \
+python3 build_engine.py         \
         --model ${model_path}_bs32.onnx                     \
         --precision float16                    \
         --engine ${model_path}_fp16.engine
 
 # inference
-python3 python/inference.py                             \
+python3 inference.py                             \
         --test_mode FPS \
         --engine_file ${model_path}_fp16.engine       \
         --bsz ${batchsize}                        \

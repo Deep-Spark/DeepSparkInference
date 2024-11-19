@@ -1,0 +1,9 @@
+tqdm
+onnx
+onnxsim
+tabulate
+pycocotools
+ppq
+pycuda
+protobuf==3.20.0
+opencv-python==4.6.0.66

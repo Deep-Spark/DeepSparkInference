@@ -23,7 +23,7 @@ bash scripts/set_environment.sh .
 
 ### Download
 
--Model: <https://huggingface.co/meta-llama/Llama-2-7b>
+-Model: <https://huggingface.co/meta-llama/Llama-2-7b-chat>
 
 -Dataset: <https://huggingface.co/datasets/cnn_dailymail>
 
