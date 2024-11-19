@@ -7,7 +7,6 @@
   relative_path: models/cv/classification/alexnet/igie
   task_type: cv/classification
 - datasets: https://www.image-net.org/download.php
-# diff
   download_url: https://huggingface.co/docs/transformers/model_doc/clip
   name: clip
   precisions:
@@ -15,7 +14,6 @@
   relative_path: models/cv/classification/clip/igie
   task_type: cv/classification
 - datasets: https://www.image-net.org/download.php
-# diff
   download_url: https://drive.google.com/file/d/1oeQ9LSOGKEUaYGu7WTlUGl3KDsQIi0MA/view?usp=sharing
   name: conformer_base
   precisions:
@@ -303,7 +301,6 @@
   relative_path: models/cv/classification/shufflenetv2_x1_5/igie
   task_type: cv/classification
 - datasets: https://www.image-net.org/download.php
-# diff
   download_url: https://huggingface.co/docs/transformers/model_doc/swin
   name: swin_transformer
   precisions:
@@ -473,7 +470,6 @@
   relative_path: models/cv/pose_estimation/rtmpose/igie
   task_type: cv/pose_estimation
 - datasets: https://zheng-lab.cecs.anu.edu.au/Project/project_reid.html
-# diff
   download_url: null
   name: deepsort
   precisions:
@@ -489,7 +485,6 @@
   relative_path: models/cv/trace/fastreid/igie
   task_type: cv/trace
 - datasets: https://www.pkuml.org/resources/pku-vehicleid.html
-# diff
   download_url: https://github.com/CaptainEven/RepNet-MDNet-VehicleReID
   name: repnet
   precisions:
@@ -497,7 +492,6 @@
   relative_path: models/cv/trace/repnet/igie
   task_type: cv/trace
 - datasets: http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz
-# diff
   download_url: https://huggingface.co/bert-base-chinese
   name: bert_base_ner
   precisions:
@@ -505,7 +499,6 @@
   relative_path: models/nlp/language_model/bert_base_ner/igie
   task_type: nlp/language_model
 - datasets: https://rajpurkar.github.io/SQuAD-explorer
-# diff
   download_url: https://huggingface.co/csarron/bert-base-uncased-squad-v1
   name: bert_base_squad
   precisions:
@@ -513,7 +506,6 @@
   relative_path: models/nlp/language_model/bert_base_squad/igie
   task_type: nlp/language_model
 - datasets: https://rajpurkar.github.io/SQuAD-explorer
-# diff
   download_url: https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1
   name: bert_large_squad
   precisions:
@@ -522,7 +514,6 @@
   relative_path: models/nlp/language_model/bert_large_squad/igie
   task_type: nlp/language_model
 - datasets: https://www.openslr.org/33/
-# diff
   download_url: http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz
   name: conformer
   precisions:
