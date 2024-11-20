@@ -17,6 +17,7 @@ import yaml
 import subprocess
 import json
 import re
+import time
 
 def main():
     with open("models_igie.yaml", "r") as file:
@@ -94,20 +95,25 @@ def run_clf_testcase(model):
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/imagenet-val
         cd ../{model['relative_path']}
-        echo "****run cls test case ****"
-        # bash scripts/infer_alexnet_fp16_accuracy.sh
-        # echo "****run fp16 perf ****"
+        bash scripts/infer_alexnet_{prec}_accuracy.sh
         bash scripts/infer_alexnet_{prec}_performance.sh
         """
+        
         r = run_script(script)
         sout = r.stdout
         print("标准输出:", r.stdout)
         print("标准错误:", r.stderr)
         print("返回码:", r.returncode)
-        pattern = r"\* (Mean inference time):\s*([\d.]+)\s*ms, (Mean fps):\s*([\d.]+)"
-        match = re.search(pattern, sout)
-        if match:
-            result['result'][prec]={match.group(1):match.group(2), match.group(3):match.group(4)}
+        pattern = r"\* ([\w\d ]+):\s*([\d.]+ [ms%]+)\s*, ([\w\d ]+):\s*([\d.]+ [ms%]+)"
+        # match = re.search(pattern, sout)
+        # if match:
+        #     result['result'][prec]={match.group(1):match.group(2), match.group(3):match.group(4)}
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            result['result'][prec]={m[0]:m[1],m[2]:m[3]}
+
+        print(matchs)
+
     return result
     
 
@@ -115,7 +121,12 @@ def run_perf_script(script):
     return run_script(script)
 
 def run_script(script):
-    return subprocess.run(script, shell=True, capture_output=True,text=True,executable="/bin/bash")
+    start_time = time.perf_counter()
+    result = subprocess.run(script, shell=True, capture_output=True,text=True,executable="/bin/bash")
+    end_time = time.perf_counter()
+    execution_time = end_time - start_time
+    print("执行时间: {:.4f} 秒".format(execution_time))
+    return result
     
 if __name__ == "__main__":
     main()
