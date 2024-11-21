@@ -52,6 +52,9 @@ def main():
     }
 
     avail_models = ["atss"]
+    avail_models = ["cspdarknet53", "deit_tiny", "efficientnetv2_rw_t", "efficientnet_v2",
+                    "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large",
+                    "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"]
     test_data = []
     # 分类模型
     for index, model in enumerate(models):
@@ -74,6 +77,7 @@ def main():
             if d_url is not None and (d_url.endswith('.pth') or d_url.endswith('.pt')):
                 test_data.append(run_detec_testcase(model))
             logging.info(json.dumps(test_data, indent=4))
+    logging.info(json.dumps(test_data, indent=4))
 
 def run_clf_testcase(model):
     model_name = model['name']
@@ -82,7 +86,7 @@ def run_clf_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    pip3 install onnx tqdm
+    pip3 install -r requirements.txt
     python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --output {model_name}.onnx
     ls -l | grep onnx
     """
