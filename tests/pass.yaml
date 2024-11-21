@@ -1,0 +1,26 @@
+# 分类
+alexnet, clip, conformer_base, convnext_base, convnext_small, cspdarknet53, deit_tiny, densenet121, densenet161, densenet169, densenet201, efficientnetv2_rw_t, efficientnet_b0, efficientnet_b1, efficientnet_b2, efficientnet_b3, efficientnet_v2, efficientnet_v2_s, googlenet, hrnet_w18, inception_v3, mnasnet0_5, mobilenet_v2, mobilenet_v3, mobilenet_v3_large, mvitv2_base, regnet_x_1_6gf, regnet_y_1_6gf, repvgg, res2net50, resnest50, resnet101, resnet152, resnet18, resnet50, resnetv1d50, resnext101_64x4d, resnext50_32x4d, se_resnet50, shufflenetv2_x0_5, shufflenetv2_x1_0, shufflenetv2_x1_5, swin_transformer, vgg16, wide_resnet50
+# 特例，未验证
+clip, conformer_base, swin_transformer,
+# 跑的快
+"googlenet"
+# 待验证
+
+# 验证失败
+cspdarknet53, deit_tiny, "efficientnetv2_rw_t", "efficientnet_v2", "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large", "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"
+
+# 检测
+"atss", "centernet", "fcos", "foveabox", "fsaf", "hrnet", "paa", "retinaface", "retinanet", "rtmdet", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"
+
+
+# 其他
+name: rtmpose
+name: deepsort
+name: fastreid
+name: repnet
+name: bert_base_ner
+name: bert_base_squad
+name: bert_large_squad
+name: conformer
+
+# 检测

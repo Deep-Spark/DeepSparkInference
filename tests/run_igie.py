@@ -51,24 +51,29 @@ def main():
         'status': 'fail'
     }
 
+    avail_models = ["atss"]
+    test_data = []
     # 分类模型
     for index, model in enumerate(models):
-        avail_models = ["densenet161", "densenet169", "densenet201", "efficientnetv2_rw_t", "efficientnet_b0", "efficientnet_b1", "efficientnet_b2", "efficientnet_b3", "efficientnet_v2", "efficientnet_v2_s", "googlenet", "hrnet_w18", "inception_v3", "mnasnet0_5", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large", "mvitv2_base", "regnet_x_1_6gf", "regnet_y_1_6gf", "repvgg", "res2net50", "resnest50", "resnet101", "resnet152", "resnet18", "resnet50", "resnetv1d50", "resnext101_64x4d", "resnext50_32x4d", "se_resnet50", "shufflenetv2_x0_5", "shufflenetv2_x1_0", "shufflenetv2_x1_5", "vgg16", "wide_resnet50"
-]
         if model["task_type"] == "cv/classification" and model['name'] in avail_models:
             logging.info(f"{index}, {model['name']}")
             logging.info(json.dumps(model, indent=4))
             d_url = model['download_url']
-            test_data = []
             if d_url is not None and (d_url.endswith('.pth') or d_url.endswith('.pt')):
-                cur_result = {'name': model['name'], 'result':'', }
-                checkpoint_n = d_url.split("/")[-1]
-
                 test_data.append(run_clf_testcase(model))
 
             logging.info(json.dumps(test_data, indent=4))
 
-        # 检测模型
+    # 检测模型
+    for index, model in enumerate(models):
+        avail_models = ["atss"]
+        if model["task_type"] == "cv/detection" and model['name'] in avail_models:
+            logging.info(f"{index}, {model['name']}")
+            logging.info(json.dumps(model, indent=4))
+            d_url = model['download_url']
+            if d_url is not None and (d_url.endswith('.pth') or d_url.endswith('.pt')):
+                test_data.append(run_detec_testcase(model))
+            logging.info(json.dumps(test_data, indent=4))
 
 def run_clf_testcase(model):
     model_name = model['name']
@@ -76,9 +81,8 @@ def run_clf_testcase(model):
     d_url = model['download_url']
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
-    pip3 install onnx tqdm
-    # ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     cd ../{model['relative_path']}
+    pip3 install onnx tqdm
     python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --output {model_name}.onnx
     ls -l | grep onnx
     """
@@ -114,6 +118,59 @@ def run_clf_testcase(model):
 
     return result
 
+def run_detec_testcase(model):
+    model_name = model['name']
+    result = {'name': model_name, 'result':{}, }
+    d_url = model['download_url']
+    checkpoint_n = d_url.split("/")[-1]
+    prepare_script = f"""
+    apt install -y libgl1-mesa-glx
+    cd ../{model['relative_path']}
+    cat requirements.txt
+    pip3 install -r requirements.txt
+    python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg {model_name}_*_coco.py --output {model_name}.onnx
+    ls
+    ls -l | grep onnx
+    onnxsim {model_name}.onnx {model_name}_opt.onnx
+    """
+    run_script(prepare_script)
+
+    for prec in model['precisions']:
+        logging.info(f"run {prec} test case")
+        script = f"""
+        export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/coco
+        cd ../{model['relative_path']}
+        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        # bash scripts/infer_{model_name}_{prec}_performance.sh
+        """
+
+        r = run_script(script)
+        sout = r.stdout
+        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+        # match = re.search(pattern, sout)
+        # if match:
+        #     result['result'][prec]={match.group(1):match.group(2), match.group(3):match.group(4)}
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            # if not result['result'][prec]:
+            #     result['result'][prec] = {}
+            result['result'].setdefault(prec, {})
+            result['result'][prec]=result['result'][prec] | {m[0]:m[1],m[2]:m[3]}
+        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=1000? \] = ([\d.]+)"
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            # if not result['result'][prec]:
+            #     result['result'][prec] = {}
+            result['result'].setdefault(prec, {})
+            result['result'][prec]=result['result'][prec] | {m[0]:m[1]}
+        
+        
+        
+        logging.info("**************")
+        logging.info(matchs)
+        logging.info("**************")
+
+    return result
 
 def run_perf_script(script):
     return run_script(script)
@@ -125,6 +182,9 @@ def run_script(script):
     execution_time = end_time - start_time
     logging.info(f"执行命令：\n{script}")
     logging.info("执行时间: {:.4f} 秒".format(execution_time))
+    print("标准输出:", result.stdout)
+    print("标准错误:", result.stderr)
+    logging.info("返回码:", result.returncode)
     return result
 
 if __name__ == "__main__":
