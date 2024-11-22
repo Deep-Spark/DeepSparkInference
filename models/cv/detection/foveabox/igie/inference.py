@@ -98,7 +98,7 @@ def main():
             module.run()
 
         # runner config
-        cfg = Config.fromfile("fovea_r50_fpn_4xb4-1x_coco.py")
+        cfg = Config.fromfile("foveabox_r50_fpn_4xb4-1x_coco.py")
 
         cfg.work_dir = "./workspace"
         cfg['test_dataloader']['batch_size'] = batch_size

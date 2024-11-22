@@ -22,7 +22,10 @@ import logging
 
 # 配置日志
 logging.basicConfig(
-    filename="output.log",  # 日志文件名
+    handlers=[
+        logging.FileHandler("output.log"),
+        logging.StreamHandler()
+    ],
     level=logging.INFO,     # 日志级别
     format="%(asctime)s - %(message)s"  # 日志格式
 )
@@ -51,13 +54,20 @@ def main():
         'status': 'fail'
     }
 
-    avail_models = ["atss"]
-    avail_models = ["cspdarknet53", "deit_tiny", "efficientnetv2_rw_t", "efficientnet_v2",
+    # failed classification models
+    avail_models = ["cspdarknet53", "deit_tiny", "efficientnet_v2",
                     "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large",
                     "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"]
+    # detection models
+    avail_models = ["centernet", "fcos", "foveabox", "fsaf", "atss"]
+    verified_models = ["fcos", "fsaf", "paa", "retinanet", "foveabox"]
+    failed_models = ["rtmdet", "", "centernet"]
+    special_models = ["retinaface", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
+    avail_models = ["centernet"]
     test_data = []
-    # 分类模型
+    
     for index, model in enumerate(models):
+        # 分类模型
         if model["task_type"] == "cv/classification" and model['name'] in avail_models:
             logging.info(f"{index}, {model['name']}")
             logging.info(json.dumps(model, indent=4))
@@ -65,18 +75,14 @@ def main():
             if d_url is not None and (d_url.endswith('.pth') or d_url.endswith('.pt')):
                 test_data.append(run_clf_testcase(model))
 
-            logging.info(json.dumps(test_data, indent=4))
-
-    # 检测模型
-    for index, model in enumerate(models):
-        avail_models = ["atss"]
+        # 检测模型
         if model["task_type"] == "cv/detection" and model['name'] in avail_models:
             logging.info(f"{index}, {model['name']}")
             logging.info(json.dumps(model, indent=4))
             d_url = model['download_url']
             if d_url is not None and (d_url.endswith('.pth') or d_url.endswith('.pt')):
                 test_data.append(run_detec_testcase(model))
-            logging.info(json.dumps(test_data, indent=4))
+
     logging.info(json.dumps(test_data, indent=4))
 
 def run_clf_testcase(model):
@@ -103,21 +109,16 @@ def run_clf_testcase(model):
 
         r = run_script(script)
         sout = r.stdout
-        logging.info("标准输出:", r.stdout)
-        logging.info("标准错误:", r.stderr)
-        logging.info("返回码:", r.returncode)
+        logging.info(f"标准输出: {r.stdout}")
+        logging.info(f"标准错误: {r.stderr}")
+        logging.info(f"返回码: {r.returncode}")
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        # match = re.search(pattern, sout)
-        # if match:
-        #     result['result'][prec]={match.group(1):match.group(2), match.group(3):match.group(4)}
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            # if not result['result'][prec]:
-            #     result['result'][prec] = {}
             result['result'].setdefault(prec, {})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1],m[2]:m[3]}
         logging.info("**************")
-        logging.info(matchs)
+        logging.info(f"{matchs}")
         logging.info("**************")
 
     return result
@@ -132,7 +133,7 @@ def run_detec_testcase(model):
     cd ../{model['relative_path']}
     cat requirements.txt
     pip3 install -r requirements.txt
-    python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg {model_name}_*_coco.py --output {model_name}.onnx
+    python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
     ls
     ls -l | grep onnx
     onnxsim {model_name}.onnx {model_name}_opt.onnx
@@ -145,31 +146,21 @@ def run_detec_testcase(model):
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/coco
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        # bash scripts/infer_{model_name}_{prec}_performance.sh
+        bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r = run_script(script)
         sout = r.stdout
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        # match = re.search(pattern, sout)
-        # if match:
-        #     result['result'][prec]={match.group(1):match.group(2), match.group(3):match.group(4)}
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            # if not result['result'][prec]:
-            #     result['result'][prec] = {}
             result['result'].setdefault(prec, {})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1],m[2]:m[3]}
         pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=1000? \] = ([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            # if not result['result'][prec]:
-            #     result['result'][prec] = {}
             result['result'].setdefault(prec, {})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1]}
-        
-        
-        
         logging.info("**************")
         logging.info(matchs)
         logging.info("**************")
@@ -186,9 +177,9 @@ def run_script(script):
     execution_time = end_time - start_time
     logging.info(f"执行命令：\n{script}")
     logging.info("执行时间: {:.4f} 秒".format(execution_time))
-    print("标准输出:", result.stdout)
-    print("标准错误:", result.stderr)
-    logging.info("返回码:", result.returncode)
+    logging.info(f"标准输出: {result.stdout}")
+    logging.info(f"标准错误: {result.stderr}")
+    logging.info(f"返回码: {result.returncode}")
     return result
 
 if __name__ == "__main__":
