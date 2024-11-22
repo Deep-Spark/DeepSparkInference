@@ -7,10 +7,10 @@ clip, conformer_base, swin_transformer,
 # 待验证
 
 # 验证失败
-cspdarknet53, deit_tiny, "efficientnetv2_rw_t", "efficientnet_v2", "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large", "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"
+"cspdarknet53", "deit_tiny", "efficientnet_v2", "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large", "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"
 
 # 检测
-"atss", "centernet", "fcos", "foveabox", "fsaf", "hrnet", "paa", "retinaface", "retinanet", "rtmdet", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"
+, "hrnet", "paa", "retinaface", "retinanet", "rtmdet", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"
 
 
 # 其他

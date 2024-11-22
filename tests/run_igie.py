@@ -135,9 +135,9 @@ def run_detec_testcase(model):
     cd ../{model['relative_path']}
     cat requirements.txt
     pip3 install -r requirements.txt
-    if [ \"{model_name}\" =~ ^yolo ]; then
-        ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
-        python3 export.py --weight {checkpoint_n} --batch 32
+    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    if [[ \"{model_name}\" =~ ^yolo ]]; then
+        bash tests/prepare.sh
         echo \"YOLO系列\"
     else
         python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
