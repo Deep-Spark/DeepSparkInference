@@ -136,11 +136,11 @@ def run_detec_testcase(model):
     if [ \"{model_name}\" =~ ^yolo ]; then
         ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
         python3 export.py --weight {checkpoint_n} --batch 32
-        echo "YOLO系列"
+        echo \"YOLO系列\"
     else
         python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
         onnxsim {model_name}.onnx {model_name}_opt.onnx
-        echo "其他检测"
+        echo \"其他检测\"
 
     """
     run_script(prepare_script)
