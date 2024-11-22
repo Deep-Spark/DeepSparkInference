@@ -60,10 +60,10 @@ def main():
                     "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"]
     # detection models
     avail_models = ["centernet", "fcos", "foveabox", "fsaf", "atss"]
-    verified_models = ["fcos", "fsaf", "paa", "retinanet", "foveabox"]
-    failed_models = ["rtmdet", "", "centernet"]
+    verified_models = ["fcos", "fsaf", "paa", "retinanet", "foveabox", "centernet"]
+    failed_models = ["rtmdet"]
     special_models = ["retinaface", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
-    avail_models = ["centernet"]
+    avail_models = ["yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
     test_data = []
     
     for index, model in enumerate(models):
@@ -133,7 +133,14 @@ def run_detec_testcase(model):
     cd ../{model['relative_path']}
     cat requirements.txt
     pip3 install -r requirements.txt
-    python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
+    if [ \"{model_name}\" =~ ^yolo ]; then
+        ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+        python3 export.py --weight {checkpoint_n} --batch 32
+        echo "YOLO系列"
+    else
+        python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
+        echo "其他检测"
+    fi
     ls
     ls -l | grep onnx
     onnxsim {model_name}.onnx {model_name}_opt.onnx
