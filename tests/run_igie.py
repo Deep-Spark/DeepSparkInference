@@ -130,6 +130,7 @@ def run_detec_testcase(model):
     d_url = model['download_url']
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
+    set -x
     apt install -y libgl1-mesa-glx
     cd ../{model['relative_path']}
     cat requirements.txt
