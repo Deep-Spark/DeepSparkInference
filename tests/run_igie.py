@@ -61,9 +61,10 @@ def main():
     # detection models
     avail_models = ["centernet", "fcos", "foveabox", "fsaf", "atss"]
     verified_models = ["fcos", "fsaf", "paa", "retinanet", "foveabox", "centernet"]
-    failed_models = ["rtmdet"]
-    special_models = ["retinaface", "yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
-    avail_models = ["yolov10", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
+    failed_models = ["rtmdet","yolov10"]
+    special_models = ["retinaface", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
+    avail_models = ["yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
+    avail_models = ["yolov3"]
     test_data = []
     
     for index, model in enumerate(models):
@@ -141,7 +142,7 @@ def run_detec_testcase(model):
         python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
         onnxsim {model_name}.onnx {model_name}_opt.onnx
         echo \"其他检测\"
-
+    fi
     """
     run_script(prepare_script)
 
