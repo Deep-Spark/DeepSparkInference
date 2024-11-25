@@ -29,8 +29,8 @@ if is_debug and is_debug.lower()=="true":
     debug_level = logging.DEBUG
 logging.basicConfig(
     handlers=[logging.FileHandler("output.log"), logging.StreamHandler()],
-    level=debug_level,  # 日志级别
-    format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
+    level=debug_level,
+    format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
 
@@ -38,24 +38,6 @@ def main():
     with open("models_igie.yaml", "r") as file:
         models = yaml.safe_load(file)
 
-    sample = {
-        "name": "alexnet",
-        "result": {
-            "fp16": {
-                "Top1 acc": "56.538 %",
-                "Top5 acc": "79.055 %",
-                "Mean inference time": "1.476 ms",
-                "Mean fps": "21685.350",
-            },
-            "int8": {
-                "Top1 acc": "55.538 %",
-                "Top5 acc": "78.055 %",
-                "Mean inference time": "1.076 ms",
-                "Mean fps": "23682",
-            },
-        },
-        "status": "FAIL",
-    }
     test_cases = os.environ.get("TEST_CASES")
     logging.info(f"Running test cases: {test_cases}")
     if test_cases:
@@ -65,7 +47,6 @@ def main():
         sys.exit(-1)
 
     test_data = []
-
     for index, model in enumerate(models):
         # 分类模型
         if model["task_type"] == "cv/classification" and model["name"] in avail_models:
@@ -86,13 +67,10 @@ def main():
                 result = run_detec_testcase(model)
                 check_model_result(result)
                 test_data.append(result)
-        
 
     logging.info(json.dumps(test_data, indent=4))
 
 def check_model_result(result):
-    logging.info("=================")
-    logging.info(json.dumps(result, indent=4))
     status = "PASS"
     for prec in ["fp16", "int8"]:
         if prec in result["result"]:
@@ -119,7 +97,7 @@ def run_clf_testcase(model):
     run_script(prepare_script)
 
     for prec in model["precisions"]:
-        logging.info(f"Start running {prec} test case")
+        logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/imagenet-val
         cd ../{model['relative_path']}
@@ -129,9 +107,6 @@ def run_clf_testcase(model):
 
         r, t = run_script(script)
         sout = r.stdout
-        logging.debug(f"标准输出: {r.stdout}")
-        logging.debug(f"标准错误: {r.stderr}")
-        logging.debug(f"返回码: {r.returncode}")
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
         for m in matchs:
@@ -140,10 +115,7 @@ def run_clf_testcase(model):
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
-        logging.debug("**************")
-        logging.debug(f"{matchs}")
-        logging.debug("**************")
-
+        logging.debug(f"matchs:\n{matchs}")
     return result
 
 
@@ -163,7 +135,7 @@ def run_detec_testcase(model):
     run_script(prepare_script)
 
     for prec in model["precisions"]:
-        logging.info(f"Start running {prec} test case")
+        logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/coco
         cd ../{model['relative_path']}
@@ -186,9 +158,7 @@ def run_detec_testcase(model):
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
-        logging.debug("**************")
-        logging.debug(matchs)
-        logging.debug("**************")
+        logging.debug(f"matchs:\n{matchs}")
 
     return result
 
