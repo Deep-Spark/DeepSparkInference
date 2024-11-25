@@ -53,7 +53,7 @@ def main():
                 'Mean fps': '23682'
             }
         },
-        'status': 'fail'
+        'status': 'FAIL'
     }
     test_cases = os.environ.get('TEST_CASES')
     logging.info(f"TEST_CASES={test_cases}")
@@ -106,7 +106,7 @@ def run_clf_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
-        r = run_script(script)
+        r, t = run_script(script)
         sout = r.stdout
         logging.info(f"标准输出: {r.stdout}")
         logging.info(f"标准错误: {r.stderr}")
@@ -114,8 +114,11 @@ def run_clf_testcase(model):
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            result['result'].setdefault(prec, {})
+            result['result'].setdefault(prec, {'status': 'FAIL'})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1],m[2]:m[3]}
+        if matchs and len(matchs)==2:
+            result['result'][prec]['status']='PASS'
+        result['result'][prec]['Cost time (s)'] = t
         logging.info("**************")
         logging.info(f"{matchs}")
         logging.info("**************")
@@ -143,26 +146,26 @@ def run_detec_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
-        r = run_script(script)
+        r, t = run_script(script)
         sout = r.stdout
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            result['result'].setdefault(prec, {})
+            result['result'].setdefault(prec, {'status': 'FAIL'})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1],m[2]:m[3]}
         pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=1000? \] = ([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result['result'].setdefault(prec, {})
             result['result'][prec]=result['result'][prec] | {m[0]:m[1]}
+        if matchs and len(matchs)==2:
+            result['result'][prec]['status']='PASS'
+        result['result'][prec]['Cost time (s)'] = t
         logging.info("**************")
         logging.info(matchs)
         logging.info("**************")
 
     return result
-
-def run_perf_script(script):
-    return run_script(script)
 
 def run_script(script):
     start_time = time.perf_counter()
@@ -174,7 +177,7 @@ def run_script(script):
     logging.info(f"标准输出: {result.stdout}")
     logging.info(f"标准错误: {result.stderr}")
     logging.info(f"返回码: {result.returncode}")
-    return result
+    return result, execution_time
 
 if __name__ == "__main__":
     main()
