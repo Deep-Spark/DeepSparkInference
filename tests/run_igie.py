@@ -23,10 +23,14 @@ import os
 import sys
 
 # 配置日志
+is_debug = os.environ.get("IS_DEBUG")
+debug_level = logging.INFO
+if is_debug and is_debug.lower()=="true":
+    debug_level = logging.DEBUG
 logging.basicConfig(
     handlers=[logging.FileHandler("output.log"), logging.StreamHandler()],
-    level=logging.INFO,  # 日志级别
-    format="%(asctime)s - %(message)s",  # 日志格式
+    level=debug_level,  # 日志级别
+    format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
 )
 
 
@@ -53,7 +57,7 @@ def main():
         "status": "FAIL",
     }
     test_cases = os.environ.get("TEST_CASES")
-    logging.info(f"TEST_CASES={test_cases}")
+    logging.info(f"Running test cases: {test_cases}")
     if test_cases:
         avail_models = [tc.strip() for tc in test_cases.split(",")]
     else:
@@ -115,7 +119,7 @@ def run_clf_testcase(model):
     run_script(prepare_script)
 
     for prec in model["precisions"]:
-        logging.info(f"run {prec} test case")
+        logging.info(f"Start running {prec} test case")
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/imagenet-val
         cd ../{model['relative_path']}
@@ -125,9 +129,9 @@ def run_clf_testcase(model):
 
         r, t = run_script(script)
         sout = r.stdout
-        logging.info(f"标准输出: {r.stdout}")
-        logging.info(f"标准错误: {r.stderr}")
-        logging.info(f"返回码: {r.returncode}")
+        logging.debug(f"标准输出: {r.stdout}")
+        logging.debug(f"标准错误: {r.stderr}")
+        logging.debug(f"返回码: {r.returncode}")
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
         for m in matchs:
@@ -135,12 +139,10 @@ def run_clf_testcase(model):
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
-
-        logging.info(json.dumps(result, indent=4))
         result["result"][prec]["Cost time (s)"] = t
-        logging.info("**************")
-        logging.info(f"{matchs}")
-        logging.info("**************")
+        logging.debug("**************")
+        logging.debug(f"{matchs}")
+        logging.debug("**************")
 
     return result
 
@@ -161,7 +163,7 @@ def run_detec_testcase(model):
     run_script(prepare_script)
 
     for prec in model["precisions"]:
-        logging.info(f"run {prec} test case")
+        logging.info(f"Start running {prec} test case")
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/coco
         cd ../{model['relative_path']}
@@ -183,12 +185,10 @@ def run_detec_testcase(model):
             result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
-
-        logging.info(json.dumps(result, indent=4))
         result["result"][prec]["Cost time (s)"] = t
-        logging.info("**************")
-        logging.info(matchs)
-        logging.info("**************")
+        logging.debug("**************")
+        logging.debug(matchs)
+        logging.debug("**************")
 
     return result
 
@@ -200,11 +200,11 @@ def run_script(script):
     )
     end_time = time.perf_counter()
     execution_time = end_time - start_time
-    logging.info(f"执行命令：\n{script}")
-    logging.info("执行时间: {:.4f} 秒".format(execution_time))
-    logging.info(f"标准输出: {result.stdout}")
-    logging.info(f"标准错误: {result.stderr}")
-    logging.info(f"返回码: {result.returncode}")
+    logging.debug(f"执行命令：\n{script}")
+    logging.debug("执行时间: {:.4f} 秒".format(execution_time))
+    logging.debug(f"标准输出: {result.stdout}")
+    logging.debug(f"标准错误: {result.stderr}")
+    logging.debug(f"返回码: {result.returncode}")
     return result, execution_time
 
 
