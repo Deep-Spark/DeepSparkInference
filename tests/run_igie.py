@@ -92,8 +92,8 @@ def run_clf_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    pip3 install -r requirements.txt
-    python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --output {model_name}.onnx
+    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    bash ci/prepare.sh
     ls -l | grep onnx
     """
     run_script(prepare_script)
@@ -129,20 +129,9 @@ def run_detec_testcase(model):
     d_url = model['download_url']
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
-    set -x
-    apt install -y libgl1-mesa-glx
     cd ../{model['relative_path']}
-    cat requirements.txt
-    pip3 install -r requirements.txt
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
-    if [[ \"{model_name}\" =~ ^yolo ]]; then
-        bash ci/prepare.sh
-        echo \"YOLO系列\"
-    else
-        python3 export.py --weight /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} --cfg *_coco.py --output {model_name}.onnx
-        onnxsim {model_name}.onnx {model_name}_opt.onnx
-        echo \"其他检测\"
-    fi
+    bash ci/prepare.sh
     """
     run_script(prepare_script)
 
