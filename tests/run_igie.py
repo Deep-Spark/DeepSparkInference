@@ -69,6 +69,7 @@ def main():
             logging.info(json.dumps(model, indent=4))
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
+                check_model_result(result)
                 test_data.append(run_clf_testcase(model))
 
         # 检测模型
@@ -77,10 +78,21 @@ def main():
             logging.info(json.dumps(model, indent=4))
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
-                test_data.append(run_detec_testcase(model))
+                result = run_detec_testcase(model)
+                check_model_result(result)
+                test_data.append(result)
+        
 
     logging.info(json.dumps(test_data, indent=4))
 
+def check_model_result(result):
+    status = "PASS"
+    for prec in ["fp16", "int8"]:
+        if prec in result["result"]:
+            if result["result"][prec]["status"] = "FAIL":
+                status = "FAIL"
+                break
+    result["status"] = status
 
 def run_clf_testcase(model):
     model_name = model["name"]
