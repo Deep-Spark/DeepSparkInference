@@ -20,7 +20,7 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 
-git clone https://github.com/THU-MIG/yolov10.git
+git clone -b v1.1 --depth 1 https://github.com/THU-MIG/yolov10.git
 
 cd yolov10
 pip3 install -r requirements.txt

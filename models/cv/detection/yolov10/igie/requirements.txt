@@ -1,3 +1,5 @@
 tqdm
 huggingface_hub==0.25.2
+ultralytics==8.2.51
+
 --no-deps
