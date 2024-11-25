@@ -19,6 +19,8 @@ import json
 import re
 import time
 import logging
+import os
+import sys
 
 # 配置日志
 logging.basicConfig(
@@ -53,17 +55,14 @@ def main():
         },
         'status': 'fail'
     }
-
-    # failed classification models
-    avail_models = ["cspdarknet53", "deit_tiny", "efficientnet_v2",
-                    "hrnet_w18", "mobilenet_v2", "mobilenet_v3", "mobilenet_v3_large",
-                    "mvitv2_base", "repvgg", "res2net50", "resnest50", "resnetv1d50", "se_resnet50"]
-    # detection models
-    avail_models = ["centernet", "fcos", "foveabox", "fsaf", "atss"]
-    verified_models = ["fcos", "fsaf", "paa", "retinanet", "foveabox", "centernet"]
-    failed_models = ["rtmdet","yolov10"]
-    special_models = ["retinaface", "yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
-    avail_models = ["yolov3", "yolov4", "yolov5", "yolov6", "yolov7", "yolov8", "yolov9", "yolox"]
+    test_cases = os.environ.get('TEST_CASES')
+    logging.info(f"TEST_CASES={test_cases}")
+    if test_cases:
+        avail_models = [tc.strip() for tc in test_cases.split(',')]
+    else:
+        logging.error("test_cases empty")
+        sys.exit(-1)
+    
     test_data = []
     
     for index, model in enumerate(models):
