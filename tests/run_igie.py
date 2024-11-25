@@ -69,8 +69,9 @@ def main():
             logging.info(json.dumps(model, indent=4))
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
+                result = run_clf_testcase(model)
                 check_model_result(result)
-                test_data.append(run_clf_testcase(model))
+                test_data.append(result)
 
         # 检测模型
         if model["task_type"] == "cv/detection" and model["name"] in avail_models:
@@ -86,13 +87,16 @@ def main():
     logging.info(json.dumps(test_data, indent=4))
 
 def check_model_result(result):
+    logging.info("=================")
+    logging.info(json.dumps(result, indent=4))
     status = "PASS"
     for prec in ["fp16", "int8"]:
         if prec in result["result"]:
-            if result["result"][prec]["status"] = "FAIL":
+            if result["result"][prec]["status"] == "FAIL":
                 status = "FAIL"
                 break
     result["status"] = status
+    logging.info(json.dumps(result, indent=4))
 
 def run_clf_testcase(model):
     model_name = model["name"]
@@ -131,6 +135,8 @@ def run_clf_testcase(model):
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+
+        logging.info(json.dumps(result, indent=4))
         result["result"][prec]["Cost time (s)"] = t
         logging.info("**************")
         logging.info(f"{matchs}")
@@ -177,6 +183,8 @@ def run_detec_testcase(model):
             result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+
+        logging.info(json.dumps(result, indent=4))
         result["result"][prec]["Cost time (s)"] = t
         logging.info("**************")
         logging.info(matchs)
