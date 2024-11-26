@@ -39,7 +39,7 @@ def main():
         models = yaml.safe_load(file)
 
     test_cases = os.environ.get("TEST_CASES")
-    logging.info(f"Running test cases: {test_cases}")
+    logging.info(f"Test cases to run: {test_cases}")
     if test_cases:
         avail_models = [tc.strip() for tc in test_cases.split(",")]
     else:
@@ -50,25 +50,27 @@ def main():
     for index, model in enumerate(models):
         # 分类模型
         if model["task_type"] == "cv/classification" and model["name"] in avail_models:
-            logging.info(f"{index}, {model['name']}")
-            logging.info(json.dumps(model, indent=4))
+            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
                 result = run_clf_testcase(model)
                 check_model_result(result)
                 test_data.append(result)
+                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['name']} test case.")
 
         # 检测模型
         if model["task_type"] == "cv/detection" and model["name"] in avail_models:
-            logging.info(f"{index}, {model['name']}")
-            logging.info(json.dumps(model, indent=4))
+            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
                 result = run_detec_testcase(model)
                 check_model_result(result)
                 test_data.append(result)
+                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['name']} test case.")
 
-    logging.info(json.dumps(test_data, indent=4))
+    logging.info(f"Full results:\n{json.dumps(test_data, indent=4)}")
 
 def check_model_result(result):
     status = "PASS"
@@ -78,7 +80,6 @@ def check_model_result(result):
                 status = "FAIL"
                 break
     result["status"] = status
-    logging.info(json.dumps(result, indent=4))
 
 def run_clf_testcase(model):
     model_name = model["name"]
