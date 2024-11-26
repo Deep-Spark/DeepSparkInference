@@ -18,5 +18,5 @@ set -x
 
 apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
-unzip /mnt/deepspark/volumes/mdb/data/repos/mmpretrain-0.24.0.zip -d ./
+unzip -q /mnt/deepspark/volumes/mdb/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export.py --cfg mmpretrain/configs/resnet/resnetv1d50_b32x8_imagenet.py --weight resnetv1d50_b32x8_imagenet_20210531-db14775a.pth --output resnetv1d50.onnx

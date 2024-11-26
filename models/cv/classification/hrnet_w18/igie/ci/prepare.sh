@@ -18,6 +18,6 @@ set -x
 
 apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
-unzip /mnt/deepspark/volumes/mdb/data/repos/mmpretrain-0.24.0.zip -d ./
+unzip -q /mnt/deepspark/volumes/mdb/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output hrnet_w18.onnx
 onnxsim hrnet_w18.onnx hrnet_w18_opt.onnx
