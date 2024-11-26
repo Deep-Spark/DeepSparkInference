@@ -63,7 +63,7 @@ def main():
         if model["task_type"] == "cv/detection" and model["name"] in avail_models:
             logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
             d_url = model["download_url"]
-            if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
+            if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt") or d_url.endswith(".weights")):
                 result = run_detec_testcase(model)
                 check_model_result(result)
                 test_data.append(result)

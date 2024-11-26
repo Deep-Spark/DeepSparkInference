@@ -21,10 +21,10 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 
 # clone yolov4
-git clone https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
+git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
 
 # export onnx model
-python3 export.py --cfg yolov4.cfg --weight yolov4.weights --output yolov4.onnx
+python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output yolov4.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim yolov4.onnx yolov4_opt.onnx
