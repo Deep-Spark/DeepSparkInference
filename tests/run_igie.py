@@ -21,6 +21,7 @@ import time
 import logging
 import os
 import sys
+import report
 
 # 配置日志
 is_debug = os.environ.get("IS_DEBUG")
@@ -46,8 +47,8 @@ def main():
         logging.error("test_cases empty")
         sys.exit(-1)
 
-    test_data = []
-    for index, model in enumerate(models):
+    all_results = []
+    for model in models:
         # 分类模型
         if model["task_type"] == "cv/classification" and model["name"] in avail_models:
             logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
@@ -55,7 +56,7 @@ def main():
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
                 result = run_clf_testcase(model)
                 check_model_result(result)
-                test_data.append(result)
+                all_results.append(result)
                 logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
             logging.info(f"End running {model['name']} test case.")
             continue
@@ -67,7 +68,7 @@ def main():
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt") or d_url.endswith(".weights")):
                 result = run_detec_testcase(model)
                 check_model_result(result)
-                test_data.append(result)
+                all_results.append(result)
                 logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
             logging.info(f"End running {model['name']} test case.")
             continue
@@ -78,7 +79,11 @@ def main():
         #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
 
 
-    logging.info(f"Full results:\n{json.dumps(test_data, indent=4)}")
+    logging.info(f"Full results:\n{json.dumps(all_results, indent=4)}")
+    logging.info("Generating test reports start ...")
+    if all_results:
+        report.generate_report(all_results)
+    logging.info("Generating test reports finished!")
 
 def check_model_result(result):
     status = "PASS"
