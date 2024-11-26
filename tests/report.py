@@ -43,9 +43,9 @@ def generate_report(all_results):
             }
         </style>
     </head>
+    <body>
     """
     html_detec_body = """
-    <body>
         <h1>Detection Results</h1>
         <table>
             <thead>
@@ -62,10 +62,11 @@ def generate_report(all_results):
             </thead>
             <tbody>
     """
-
-    html_clf_body = """
+    html_tbody = """
             </tbody>
         </table>
+    """
+    html_clf_body = """
         <h1>Classification Results</h1>
         <table>
             <thead>
@@ -118,11 +119,13 @@ def generate_report(all_results):
                 """
                 html_clf_tr_content += row
 
-    html_output += html_detec_body + html_detec_tr_content + html_clf_body + html_clf_tr_content
+    if html_detec_tr_content != "":
+        html_output += html_detec_body + html_detec_tr_content + html_tbody
+        
+    if html_clf_tr_content != "":
+        html_output += html_clf_body + html_clf_tr_content + html_tbody
 
     html_output += """
-            </tbody>
-        </table>
     </body>
     </html>
     """
