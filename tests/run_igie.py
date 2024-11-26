@@ -159,7 +159,7 @@ def run_detec_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=[\d]+ \] = ([\d.]+)"
+        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {})
