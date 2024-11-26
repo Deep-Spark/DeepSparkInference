@@ -48,9 +48,9 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_hrnet_fp16_accuracy.sh
+bash scripts/infer_hrnet_w18_fp16_accuracy.sh
 # Performance
-bash scripts/infer_hrnet_fp16_performance.sh
+bash scripts/infer_hrnet_w18_fp16_performance.sh
 ```
 
 ## Results
