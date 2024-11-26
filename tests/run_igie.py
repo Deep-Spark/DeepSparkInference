@@ -58,9 +58,10 @@ def main():
                 test_data.append(result)
                 logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
             logging.info(f"End running {model['name']} test case.")
+            continue
 
         # 检测模型
-        if model["task_type"] == "cv/detection" and model["name"] in avail_models:
+        if model["task_type"] in ["cv/detection", "cv/pose_estimation"] and model["name"] in avail_models:
             logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
             d_url = model["download_url"]
             if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt") or d_url.endswith(".weights")):
@@ -69,6 +70,13 @@ def main():
                 test_data.append(result)
                 logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
             logging.info(f"End running {model['name']} test case.")
+            continue
+
+        # 其他模型
+        # other_models = ["deepsort", "fastreid", "repnet", "bert_base_ner", "bert_base_squad", "bert_large_squad", "conformer"]
+        # if model["name"] in other_models:
+        #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+
 
     logging.info(f"Full results:\n{json.dumps(test_data, indent=4)}")
 
@@ -151,7 +159,7 @@ def run_detec_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=1000? \] = ([\d.]+)"
+        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=[\d]+ \] = ([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {})

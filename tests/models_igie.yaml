@@ -534,8 +534,9 @@
   relative_path: models/cv/pose_estimation/rtmpose/igie
   task_type: cv/pose_estimation
   need_third_part: false
-- datasets: https://zheng-lab.cecs.anu.edu.au/Project/project_reid.html
-  download_url: null
+- datasets: local/market1501_eval # https://zheng-lab.cecs.anu.edu.au/Project/project_reid.html
+  # https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6
+  download_url: https://local/ckpt.t7
   name: deepsort
   precisions:
     - fp16
