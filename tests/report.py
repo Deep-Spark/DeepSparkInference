@@ -55,9 +55,9 @@ def generate_report(all_results):
                     <th>Status</th>
                     <th>Mean inference time</th>
                     <th>Mean fps</th>
+                    <th>Cost time (s)</th>
                     <th>IoU=0.50:0.95</th>
                     <th>IoU=0.50</th>
-                    <th>Cost time (s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,9 +76,9 @@ def generate_report(all_results):
                     <th>Status</th>
                     <th>Mean inference time</th>
                     <th>Mean fps</th>
+                    <th>Cost time (s)</th>
                     <th>Top1 acc</th>
                     <th>Top5 acc</th>
-                    <th>Cost time (s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,33 +89,30 @@ def generate_report(all_results):
     # 填充检测结果的表格
     for item in all_results:
         for precision, result in item['result'].items():
+            td_status = f"""<td style="color:blue">{result['status']}</td>"""
+            if result['status'] != "PASS":
+                td_status = f"""<td style="color:red">{result['status']}</td>"""
+
+            row = f"""
+                <tr>
+                    <td>{item['name']}</td>
+                    <td>{precision}</td>
+                    {td_status}
+                    <td>{result['Mean inference time']}</td>
+                    <td>{result['Mean fps']}</td>
+                    <td>{result['Cost time (s)']}</td>
+            """
             if any(key in result for key in detection_keys):
-                row = f"""
-                    <tr>
-                        <td>{item['name']}</td>
-                        <td>{precision}</td>
-                        <td>{result['status']}</td>
-                        <td>{result['Mean inference time']}</td>
-                        <td>{result['Mean fps']}</td>
-                        <td>{result['IoU=0.50:0.95']}</td>
-                        <td>{result['IoU=0.50']}</td>
-                        <td>{result['Cost time (s)']:.2f}</td>
-                    </tr>
+                row += f"""        <td>{result['IoU=0.50:0.95']}</td>
+                <td>{result['IoU=0.50']}</td>
+            </tr>
                 """
                 html_detec_tr_content += row
             
             if any(key in result for key in classification_keys):
-                row = f"""
-                    <tr>
-                        <td>{item['name']}</td>
-                        <td>{precision}</td>
-                        <td>{result['status']}</td>
-                        <td>{result['Mean inference time']}</td>
-                        <td>{result['Mean fps']}</td>
-                        <td>{result['Top1 acc']}</td>
-                        <td>{result['Top5 acc']}</td>
-                        <td>{result['Cost time (s)']}</td>
-                    </tr>
+                row += f"""        <td>{result['Top1 acc']}</td>
+                <td>{result['Top5 acc']}</td>
+            </tr>
                 """
                 html_clf_tr_content += row
 
