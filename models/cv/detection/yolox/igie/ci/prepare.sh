@@ -24,7 +24,7 @@ pip3 install -r requirements.txt
 source /opt/rh/devtoolset-7/enable
 
 # install yolox
-git clone https://github.com/Megvii-BaseDetection/YOLOX.git
+git clone --depth 1 https://github.com/Megvii-BaseDetection/YOLOX.git
 cd YOLOX
 python3 setup.py develop
 
