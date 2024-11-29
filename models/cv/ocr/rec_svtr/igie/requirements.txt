@@ -1,0 +1,11 @@
+tqdm
+onnx
+onnxsim
+numpy==1.24.0
+Polygon3
+paddlenlp==2.8.1
+lanms-neo==1.0.2
+paddleocr==2.8.1
+paddle2onnx
+python-bidi
+protobuf==3.20.0

@@ -7,15 +7,7 @@ LayoutXLM is a groundbreaking multimodal pre-trained model for multilingual docu
 ## Setup
 
 ```shell
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install Polygon3
-pip3 install paddlenlp==2.8.1
-pip3 install lanms-neo==1.0.2
-pip3 install paddleocr==2.6.0
-pip3 install paddle2onnx
-pip3 install python-bidi
+pip3 install -r requirements.txt
 ```
 
 ## Download
@@ -31,7 +23,7 @@ Dataset: <https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND.tar> to down
 tar -xf ser_vi_layoutxlm_xfund_pretrained.tar
 tar -xf XFUND.tar
 
-git clone -b release/2.6 https://github.com/PaddlePaddle/PaddleOCR.git
+git clone -b release/2.6 https://github.com/PaddlePaddle/PaddleOCR.git --depth=1
 
 cd PaddleOCR
 mkdir -p train_data/XFUND
@@ -59,9 +51,9 @@ export DATASETS_DIR=/Path/to/XFUND/
 
 ```shell
 # Accuracy
-bash scripts/infer_kie_ser_fp16_accuracy.sh
+bash scripts/infer_kie_layoutxlm_fp16_accuracy.sh
 # Performance
-bash scripts/infer_kie_ser_fp16_performance.sh
+bash scripts/infer_kie_layoutxlm_fp16_performance.sh
 ```
 
 ## Results

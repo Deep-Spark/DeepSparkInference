@@ -28,29 +28,67 @@ from ppocr.data import build_dataloader
 from ppocr.utils.logging import get_logger
 from ppocr.postprocess import build_post_process
 
-class VQASerTokenMetric(object):
-    def __init__(self, main_indicator='hmean', **kwargs):
+import string
+from rapidfuzz.distance import Levenshtein
+
+
+class RecMetric(object):
+    def __init__(self,
+                 main_indicator='acc',
+                 is_filter=False,
+                 ignore_space=True,
+                 **kwargs):
         self.main_indicator = main_indicator
+        self.is_filter = is_filter
+        self.ignore_space = ignore_space
+        self.eps = 1e-5
         self.reset()
 
-    def __call__(self, preds, batch, **kwargs):
-        preds, labels = preds
-        self.pred_list.extend(preds)
-        self.gt_list.extend(labels)
+    def _normalize_text(self, text):
+        text = ''.join(
+            filter(lambda x: x in (string.digits + string.ascii_letters), text))
+        return text.lower()
+
+    def __call__(self, pred_label, *args, **kwargs):
+        preds, labels = pred_label
+        correct_num = 0
+        all_num = 0
+        norm_edit_dis = 0.0
+        for (pred, pred_conf), (target, _) in zip(preds, labels):
+            if self.ignore_space:
+                pred = pred.replace(" ", "")
+                target = target.replace(" ", "")
+            if self.is_filter:
+                pred = self._normalize_text(pred)
+                target = self._normalize_text(target)
+            norm_edit_dis += Levenshtein.normalized_distance(pred, target)
+            if pred == target:
+                correct_num += 1
+            all_num += 1
+        self.correct_num += correct_num
+        self.all_num += all_num
+        self.norm_edit_dis += norm_edit_dis
+        return {
+            'acc': correct_num / (all_num + self.eps),
+            'norm_edit_dis': 1 - norm_edit_dis / (all_num + self.eps)
+        }
 
     def get_metric(self):
-        from seqeval.metrics import f1_score, precision_score, recall_score
-        metrics = {
-            "precision": precision_score(self.gt_list, self.pred_list),
-            "recall": recall_score(self.gt_list, self.pred_list),
-            "hmean": f1_score(self.gt_list, self.pred_list),
-        }
+        """
+        return metrics {
+                 'acc': 0,
+                 'norm_edit_dis': 0,
+            }
+        """
+        acc = 1.0 * self.correct_num / (self.all_num + self.eps)
+        norm_edit_dis = 1 - self.norm_edit_dis / (self.all_num + self.eps)
         self.reset()
-        return metrics
+        return {'acc': acc, 'norm_edit_dis': norm_edit_dis}
 
     def reset(self):
-        self.pred_list = []
-        self.gt_list = []
+        self.correct_num = 0
+        self.all_num = 0
+        self.norm_edit_dis = 0
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -94,23 +132,20 @@ def main():
 
     logger = get_logger(log_level=logging.INFO)
     
-    input_names = args.input_name.split(",")
-    config = yaml.load(open("ser_vi_layoutxlm_xfund_zh.yml", 'rb'), Loader=yaml.Loader)
+    config = yaml.load(open("rec_svtr_tiny_6local_6global_stn_en.yml", 'rb'), Loader=yaml.Loader)
     config['Eval']['loader']['batch_size_per_card'] = args.batchsize
-    config['Eval']['dataset']['data_dir'] = os.path.join(args.datasets, "zh_val/image")
-    config['Eval']['dataset']['label_file_list'] = os.path.join(args.datasets, "zh_val/val.json")
-    config['Eval']['dataset']['transforms'][1]['VQATokenLabelEncode']['class_path'] = os.path.join(args.datasets, "class_list_xfun.txt")
-    config['PostProcess']['class_path'] = os.path.join(args.datasets, "class_list_xfun.txt")
+    config['Eval']['dataset']['data_dir'] = os.path.join(args.datasets)
 
     # build dataloader
     config['Eval']['loader']['drop_last'] = True
     valid_dataloder = build_dataloader(config, 'Eval', paddle.set_device("cpu"), logger)
 
     # build post process
-    post_process_class = build_post_process(config['PostProcess'])
+    global_config = config['Global']
+    post_process_class = build_post_process(config['PostProcess'], global_config)
 
     # build metric
-    eval_class = eval('VQASerTokenMetric')()
+    eval_class = eval('RecMetric')()
 
     # creat target and device
     target = tvm.target.iluvatar(model="MR", options="-libs=cudnn,cublas,ixinfer")    
@@ -134,9 +169,9 @@ def main():
             module.run()
 
         for batch in tqdm(valid_dataloder):
-            
-            for idx, input_name in enumerate(input_names):
-                module.set_input(input_name, tvm.nd.array(batch[idx], device))
+            images = batch[0]
+
+            module.set_input(args.input_name, tvm.nd.array(images, device))
 
             module.run()
 
@@ -147,10 +182,12 @@ def main():
             for item in batch:
                 batch_numpy.append(item.numpy())
             
-            post_result = post_process_class((outputs), batch_numpy)
+            post_result = post_process_class((outputs), batch_numpy[1])
             eval_class(post_result, batch_numpy)
 
         metric = eval_class.get_metric()
+        metricResult = {"metricResult": {"acc": metric["acc"]}}
+        print(metricResult)
         print(metric)
 
 if __name__ == "__main__":

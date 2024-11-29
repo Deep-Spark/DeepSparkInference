@@ -21,7 +21,7 @@ datasets_path=${DATASETS_DIR}
 
 # build engine
 python3 build_engine.py                                                                              \
-    --model_path ${model_path}                                                                       \
+    --model_path kie_ser_opt.onnx                                                                      \
     --input x_0:${batchsize},512 x_1:${batchsize},512,4 x_2:${batchsize},512 x_3:${batchsize},512    \
     --precision fp16                                                                                 \
     --engine_path kie_ser_bs_${batchsize}_fp16.so

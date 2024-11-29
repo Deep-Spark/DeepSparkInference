@@ -593,3 +593,19 @@
   relative_path: models/speech/speech_recognition/conformer/igie
   task_type: speech/speech_recognition
   need_third_part: true
+- datasets: https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND.tar
+  download_url: https://paddleocr.bj.bcebos.com/ppstructure/models/vi_layoutxlm/ser_vi_layoutxlm_xfund_pretrained.tar
+  name: kie_layoutxlm
+  precisions:
+    - fp16
+  relative_path: models/cv/ocr/kie_layoutxlm/igie
+  task_type: cv/ocr
+  need_third_part: true
+- datasets: https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/AMv9bzR7paSwCJcQ03egJyI/lmdb_evaluation
+  download_url: https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/rec_svtr_tiny_none_ctc_en_train.tar
+  name: rec_svtr
+  precisions:
+    - fp16
+  relative_path: models/cv/ocr/rec_svtr/igie
+  task_type: cv/ocr
+  need_third_part: true
