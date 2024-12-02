@@ -22,6 +22,8 @@ cd ../../
 
 tar -zxvf 20211025_conformer_exp.tar.gz
 
+export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
+
 # Get Onnx Model
 cd wenet
 python3 wenet/bin/export_onnx_gpu.py                          \
@@ -40,5 +42,3 @@ python3 alter_onnx.py --batch_size 24 --path encoder_bs24_seq384_static_opt.onnx
 
 # Need to unzip aishell to the current directory. For details, refer to data.list
 tar -zxvf aishell.tar.gz
-
-export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
