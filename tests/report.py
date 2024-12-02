@@ -19,6 +19,7 @@ def generate_report(all_results):
     # 区分两种数据结构的键
     detection_keys = {"IoU=0.50:0.95", "IoU=0.50"}
     classification_keys = {"Top1 acc", "Top5 acc"}
+    default_ret_keys = ['status', 'Mean inference time', 'Mean fps', 'Cost time (s)']
 
     # 生成 HTML 表格
     html_output = """
@@ -84,8 +85,22 @@ def generate_report(all_results):
             <tbody>
     """
 
+    html_other_body = """
+        <h1>Other Model Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Precision</th>
+                    <th>Status</th>
+                    <th>Mean inference time</th>
+                    <th>Mean fps</th>
+                    <th>Cost time (s)</th>
+    """
+
     html_detec_tr_content = ""
     html_clf_tr_content = ""
+    html_other_tr_content = ""
     # 填充检测结果的表格
     for item in all_results:
         for precision, result in item['result'].items():
@@ -108,19 +123,32 @@ def generate_report(all_results):
             </tr>
                 """
                 html_detec_tr_content += row
-            
-            if any(key in result for key in classification_keys):
+            elif any(key in result for key in classification_keys):
                 row += f"""        <td>{result['Top1 acc']}</td>
                 <td>{result['Top5 acc']}</td>
             </tr>
                 """
                 html_clf_tr_content += row
+            else:
+                th_row = ""
+                for retKey in result.keys():
+                    if retKey not in default_ret_keys:
+                       th_row += f"<th>{retKey}</th>\n"
+                       row += f"        <td>{result[retKey]}</td>\n"
+                html_other_body += th_row + """</tr>
+            </thead>
+            <tbody>
+            """
+                html_other_tr_content += row + "</tr>\n"
 
     if html_detec_tr_content != "":
         html_output += html_detec_body + html_detec_tr_content + html_tbody
         
     if html_clf_tr_content != "":
         html_output += html_clf_body + html_clf_tr_content + html_tbody
+    
+    if html_other_tr_content != "":
+        html_output += html_other_body + html_other_tr_content + html_tbody
 
     html_output += """
     </body>

@@ -28,7 +28,6 @@ fi
 pip3 install -r requirements.txt
 
 tar -xf ser_vi_layoutxlm_xfund_pretrained.tar
-tar -xf XFUND.tar
 
 # clone release/2.6 PaddleOCR first
 cd PaddleOCR

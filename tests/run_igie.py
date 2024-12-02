@@ -234,7 +234,6 @@ def run_ocr_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
-    export DATASETS_DIR=./{dataset_n}/
     unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -244,6 +243,7 @@ def run_ocr_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
+        export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
@@ -256,11 +256,11 @@ def run_ocr_testcase(model):
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
 
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -280,7 +280,6 @@ def run_trace_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
-    export DATASETS_DIR=./{dataset_n}/
     """
 
     if model["need_third_part"]:
@@ -296,6 +295,7 @@ def run_trace_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
+        export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
@@ -307,11 +307,11 @@ def run_trace_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -403,11 +403,11 @@ def run_speech_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
