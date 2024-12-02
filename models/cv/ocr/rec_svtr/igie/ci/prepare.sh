@@ -16,17 +16,20 @@
 
 set -x
 
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 
 pip3 install -r requirements.txt
 
 tar -xf rec_svtr_tiny_none_ctc_en_train.tar
 
-git clone -b release/2.6 https://github.com/PaddlePaddle/PaddleOCR.git --depth=1
-
+# clone release/2.6 PaddleOCR first
 cd PaddleOCR
 
 # Export the trained model into inference model

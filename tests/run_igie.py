@@ -201,6 +201,7 @@ def run_ocr_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
     run_script(prepare_script)
