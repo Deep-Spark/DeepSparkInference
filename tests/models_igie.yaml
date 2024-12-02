@@ -559,7 +559,8 @@
   relative_path: models/cv/trace/repnet/igie
   task_type: cv/trace
   need_third_part: false
-- datasets: http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz
+  # http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz
+- datasets: local/china-people-daily-ner-corpus
   download_url: https://huggingface.co/bert-base-chinese
   name: bert_base_ner
   precisions:
