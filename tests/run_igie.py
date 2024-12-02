@@ -224,7 +224,6 @@ def run_ocr_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
-    export DATASETS_DIR=./{dataset_n}/
     unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -234,6 +233,7 @@ def run_ocr_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
+        export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
@@ -270,7 +270,6 @@ def run_trace_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
-    export DATASETS_DIR=./{dataset_n}/
     """
 
     if model["need_third_part"]:
@@ -286,6 +285,7 @@ def run_trace_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
+        export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """

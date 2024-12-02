@@ -592,7 +592,7 @@
   relative_path: models/speech/speech_recognition/conformer/igie
   task_type: speech/speech_recognition
   need_third_part: true
-- datasets: https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND.tar
+- datasets: https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND
   download_url: https://paddleocr.bj.bcebos.com/ppstructure/models/vi_layoutxlm/ser_vi_layoutxlm_xfund_pretrained.tar
   name: kie_layoutxlm
   precisions:
