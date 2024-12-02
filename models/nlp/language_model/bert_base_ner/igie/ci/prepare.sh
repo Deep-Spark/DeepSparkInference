@@ -19,7 +19,7 @@ set -x
 pip3 install -r requirements.txt
 
 # Get pytorch weights
-python3 get_weights.py
+# python3 get_weights.py
 
 # Do QAT for INT8 test, will take a long time  
 cd Int8QAT
