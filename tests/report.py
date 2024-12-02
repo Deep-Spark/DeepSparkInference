@@ -85,8 +85,10 @@ def generate_report(all_results):
             <tbody>
     """
 
-    html_other_body = """
-        <h1>Other Model Results</h1>
+    # 填充检测结果的表格
+    for item in all_results:
+        html_other_body = f"""
+        <h1>{item['name']} Results</h1>
         <table>
             <thead>
                 <tr>
@@ -97,12 +99,20 @@ def generate_report(all_results):
                     <th>Mean fps</th>
                     <th>Cost time (s)</th>
     """
-
-    html_detec_tr_content = ""
-    html_clf_tr_content = ""
-    html_other_tr_content = ""
-    # 填充检测结果的表格
-    for item in all_results:
+        html_detec_tr_content = ""
+        html_clf_tr_content = ""
+        html_other_tr_content = ""
+        all_nested_keys = set()
+        for inner_dict in item['result'].values():
+            all_nested_keys.update(inner_dict.keys())
+        new_th_row = list(all_nested_keys - set(default_ret_keys) - set(detection_keys) - set(classification_keys))
+        th_row = ""
+        for retKey in new_th_row:
+            th_row += f"<th>{retKey}</th>\n"
+        html_other_body += th_row + """</tr>
+            </thead>
+            <tbody>
+        """
         for precision, result in item['result'].items():
             td_status = f"""<td style="color:blue">{result['status']}</td>"""
             if result['status'] != "PASS":
@@ -130,25 +140,18 @@ def generate_report(all_results):
                 """
                 html_clf_tr_content += row
             else:
-                th_row = ""
-                for retKey in result.keys():
-                    if retKey not in default_ret_keys:
-                       th_row += f"<th>{retKey}</th>\n"
-                       row += f"        <td>{result[retKey]}</td>\n"
-                html_other_body += th_row + """</tr>
-            </thead>
-            <tbody>
-            """
+                for retKey in new_th_row:
+                    row += f"        <td>{result[retKey]}</td>\n"
                 html_other_tr_content += row + "</tr>\n"
 
-    if html_detec_tr_content != "":
-        html_output += html_detec_body + html_detec_tr_content + html_tbody
+        if html_detec_tr_content != "":
+            html_output += html_detec_body.replace("Detection", item['name']) + html_detec_tr_content + html_tbody
+            
+        if html_clf_tr_content != "":
+            html_output += html_clf_body.replace("Classification", item['name']) + html_clf_tr_content + html_tbody
         
-    if html_clf_tr_content != "":
-        html_output += html_clf_body + html_clf_tr_content + html_tbody
-    
-    if html_other_tr_content != "":
-        html_output += html_other_body + html_other_tr_content + html_tbody
+        if html_other_tr_content != "":
+            html_output += html_other_body + html_other_tr_content + html_tbody
 
     html_output += """
     </body>
