@@ -16,12 +16,12 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
 
 # export onnx model
-python3 export.py --weight rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth --cfg rtmpose-m_8xb256-420e_coco-256x192.py --output rtmpose.onnx
+python3 export.py --weight ckpt.t7 --output deepsort.onnx
 
-# use onnxsim optimize onnx model
-onnxsim rtmpose.onnx rtmpose_opt.onnx
+# Use onnxsim optimize onnx model
+onnxsim deepsort.onnx deepsort_opt.onnx
+
+export DATASETS_DIR=./market1501/

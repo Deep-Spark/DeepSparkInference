@@ -22,3 +22,5 @@ python3 export.py --weight epoch_14.pth --output repnet.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim repnet.onnx repnet_opt.onnx
+
+export DATASETS_DIR=./VehicleID/

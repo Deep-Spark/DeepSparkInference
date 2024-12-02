@@ -213,6 +213,8 @@ def main():
             labels.append(label)
 
         acc, th = cal_accuracy(sims, labels)
+        metricResult = {"metricResult": {"Acc": f"{acc * 100.0}%"}}
+        print(metricResult)
         print('=> best accuracy: %.3f %%, at threshold: %.3f' % (acc * 100.0, th))
 
 if __name__ == "__main__":

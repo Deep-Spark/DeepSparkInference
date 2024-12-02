@@ -534,8 +534,7 @@
   relative_path: models/cv/pose_estimation/rtmpose/igie
   task_type: cv/pose_estimation
   need_third_part: false
-- datasets: local/market1501_eval # https://zheng-lab.cecs.anu.edu.au/Project/project_reid.html
-  # https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6
+- datasets: local/market1501
   download_url: https://local/ckpt.t7
   name: deepsort
   precisions:
@@ -544,7 +543,7 @@
   relative_path: models/cv/trace/deepsort/igie
   task_type: cv/trace
   need_third_part: false
-- datasets: https://www.pkuml.org/resources/pku-vehicleid.html
+- datasets: local/VehicleID
   download_url: https://github.com/JDAI-CV/fast-reid/releases/download/v0.1.1/vehicleid_bot_R50-ibn.pth
   name: fastreid
   precisions:
@@ -552,8 +551,8 @@
   relative_path: models/cv/trace/fastreid/igie
   task_type: cv/trace
   need_third_part: true
-- datasets: https://www.pkuml.org/resources/pku-vehicleid.html
-  download_url: https://github.com/CaptainEven/RepNet-MDNet-VehicleReID
+- datasets: local/VehicleID
+  download_url: https://local/epoch_14.pth
   name: repnet
   precisions:
     - fp16
@@ -585,7 +584,7 @@
   relative_path: models/nlp/language_model/bert_large_squad/igie
   task_type: nlp/language_model
   need_third_part: false
-- datasets: https://www.openslr.org/33/
+- datasets: https://www.openslr.org/33/aishell.tar.gz
   download_url: http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz
   name: conformer
   precisions:

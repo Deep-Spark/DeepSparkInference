@@ -18,10 +18,13 @@ set -x
 
 pip3 install -r requirements.txt
 
-# install fast-reid
-git clone https://github.com/JDAI-CV/fast-reid.git
+# clone fast-reid first
 cd fast-reid
-pip3 install -r requirements.txt
+pip3 install -r docs/requirements.txt
 
 # export onnx model
 python3 tools/deploy/onnx_export.py --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
+
+cd ..
+
+export DATASETS_DIR=./VehicleID

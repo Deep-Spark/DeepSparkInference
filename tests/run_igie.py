@@ -85,8 +85,32 @@ def main():
             logging.info(f"End running {model['name']} test case.")
             continue
 
+        # Trace模型
+        if model["task_type"] in ["cv/trace"] and model["name"] in avail_models:
+            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+            d_url = model["download_url"]
+            if d_url is not None:
+                result = run_trace_testcase(model)
+                check_model_result(result)
+                all_results.append(result)
+                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['name']} test case.")
+            continue
+
+        # Speech模型
+        if model["task_type"] in ["speech/speech_recognition"] and model["name"] in avail_models:
+            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+            d_url = model["download_url"]
+            if d_url is not None:
+                result = run_speech_testcase(model)
+                check_model_result(result)
+                all_results.append(result)
+                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['name']} test case.")
+            continue
+
         # 其他模型
-        # other_models = ["deepsort", "fastreid", "repnet", "bert_base_ner", "bert_base_squad", "bert_large_squad", "conformer"]
+        # other_models = ["bert_base_ner", "bert_base_squad", "bert_large_squad"]
         # if model["name"] in other_models:
         #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
 
@@ -143,7 +167,6 @@ def run_clf_testcase(model):
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
-
 
 def run_detec_testcase(model):
     model_name = model["name"]
@@ -231,6 +254,106 @@ def run_ocr_testcase(model):
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
 
+    return result
+
+def run_trace_testcase(model):
+    model_name = model["name"]
+    result = {
+        "name": model_name,
+        "result": {},
+    }
+    d_url = model["download_url"]
+    checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
+    prepare_script = f"""
+    cd ../{model['relative_path']}
+    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    """
+
+    if model["need_third_part"]:
+        prepare_script += "unzip /mnt/deepspark/repos/fast-reid.zip -d ./fast-reid\n"
+
+    prepare_script += """
+    bash ci/prepare.sh
+    ls -l | grep onnx
+    """
+    run_script(prepare_script)
+
+    for prec in model["precisions"]:
+        logging.info(f"Start running {model_name} {prec} test case")
+        script = f"""
+        cd ../{model['relative_path']}
+        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        bash scripts/infer_{model_name}_{prec}_performance.sh
+        """
+
+        r, t = run_script(script)
+        sout = r.stdout
+        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+        pattern = r"{\"metricResult\":.*}"
+        matchs = re.findall(pattern, sout)
+        if matchs and len(matchs) == 1:
+            result["result"].setdefault(prec, {})
+            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec]["status"] = "PASS"
+        result["result"][prec]["Cost time (s)"] = t
+        logging.debug(f"matchs:\n{matchs}")
+    return result
+
+def run_speech_testcase(model):
+    model_name = model["name"]
+    result = {
+        "name": model_name,
+        "result": {},
+    }
+    d_url = model["download_url"]
+    checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
+    prepare_script = f"""
+    cd ../{model['relative_path']}
+    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    """
+
+    if model["need_third_part"]:
+        prepare_script += "unzip /mnt/deepspark/repos/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
+        prepare_script += "unzip /mnt/deepspark/repos/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
+        prepare_script += "tar -xzvf /mnt/deepspark/repos/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
+
+    prepare_script += """
+    bash ci/prepare.sh
+    ls -l | grep onnx
+    """
+    run_script(prepare_script)
+
+    for prec in model["precisions"]:
+        logging.info(f"Start running {model_name} {prec} test case")
+        script = f"""
+        cd ../{model['relative_path']}
+        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        bash scripts/infer_{model_name}_{prec}_performance.sh
+        """
+
+        r, t = run_script(script)
+        sout = r.stdout
+        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+        pattern = r"{\"metricResult\":.*}"
+        matchs = re.findall(pattern, sout)
+        if matchs and len(matchs) == 1:
+            result["result"].setdefault(prec, {})
+            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec]["status"] = "PASS"
+        result["result"][prec]["Cost time (s)"] = t
+        logging.debug(f"matchs:\n{matchs}")
     return result
 
 def run_script(script):

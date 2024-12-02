@@ -174,7 +174,8 @@ def main():
         res = scores.topk(1, dim=1)[1][:,0]
         top1_correct = gl[res].eq(ql).sum().item()
         top1_acc = round(top1_correct / ql.size(0) * 100.0, 2)
-
+        metricResult = {"metricResult": {"Acc": f"{top1_acc}%"}}
+        print(metricResult)
         print(f"\n* Acc: {top1_acc} %")
 
 
