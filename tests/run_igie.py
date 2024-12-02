@@ -246,11 +246,11 @@ def run_ocr_testcase(model):
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
 
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -297,11 +297,11 @@ def run_trace_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -352,11 +352,11 @@ def run_speech_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{\"metricResult\":.*}"
+        pattern = r"{'metricResult':.*}"
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0])["metricResult"])
+            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
