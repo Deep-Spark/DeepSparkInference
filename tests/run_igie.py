@@ -329,6 +329,7 @@ def run_speech_testcase(model):
 
     prepare_script += """
     export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
+    echo $PYTHONPATH
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -338,6 +339,8 @@ def run_speech_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
+        export PYTHONPATH=./wenet:$PYTHONPATH
+        echo $PYTHONPATH
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
