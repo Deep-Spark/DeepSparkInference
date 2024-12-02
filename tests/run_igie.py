@@ -327,7 +327,9 @@ def run_nlp_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
+    set -x
     cd ../{model['relative_path']}
+    ls /mnt/deepspark/data/checkpoints/igie/{checkpoint_n}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./test
     export DATASETS_DIR=/mnt/deepspark/data/datasets/igie/{dataset_n}
     bash ci/prepare.sh
