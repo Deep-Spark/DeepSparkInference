@@ -224,6 +224,7 @@ def run_ocr_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    export DATASETS_DIR=./{dataset_n}/
     unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -269,6 +270,7 @@ def run_trace_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    export DATASETS_DIR=./{dataset_n}/
     """
 
     if model["need_third_part"]:
@@ -326,6 +328,7 @@ def run_speech_testcase(model):
         prepare_script += "tar -xzvf /mnt/deepspark/repos/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
 
     prepare_script += """
+    export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
     bash ci/prepare.sh
     ls -l | grep onnx
     """

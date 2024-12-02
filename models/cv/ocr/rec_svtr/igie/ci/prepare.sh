@@ -42,5 +42,3 @@ cd ..
 
 # Use onnxsim optimize onnx model
 onnxsim SVTR.onnx SVTR_opt.onnx
-
-export DATASETS_DIR=./lmdb_evaluation/

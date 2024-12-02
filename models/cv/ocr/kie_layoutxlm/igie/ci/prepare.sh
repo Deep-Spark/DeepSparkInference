@@ -45,5 +45,3 @@ cd ..
 
 # Use onnxsim optimize onnx model
 onnxsim kie_ser.onnx kie_ser_opt.onnx
-
-export DATASETS_DIR=./XFUND/

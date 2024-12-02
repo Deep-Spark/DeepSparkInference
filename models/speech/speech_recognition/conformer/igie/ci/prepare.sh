@@ -22,8 +22,6 @@ cd ../../
 
 tar -zxvf 20211025_conformer_exp.tar.gz
 
-export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
-
 # Get Onnx Model
 cd wenet
 python3 wenet/bin/export_onnx_gpu.py                          \

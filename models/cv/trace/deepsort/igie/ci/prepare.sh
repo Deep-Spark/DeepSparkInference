@@ -23,5 +23,3 @@ python3 export.py --weight ckpt.t7 --output deepsort.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim deepsort.onnx deepsort_opt.onnx
-
-export DATASETS_DIR=./market1501/

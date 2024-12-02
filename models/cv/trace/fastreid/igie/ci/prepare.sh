@@ -26,5 +26,3 @@ pip3 install -r docs/requirements.txt
 python3 tools/deploy/onnx_export.py --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
 
 cd ..
-
-export DATASETS_DIR=./VehicleID
