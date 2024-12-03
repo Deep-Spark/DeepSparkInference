@@ -261,7 +261,7 @@ def run_ocr_testcase(model):
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
+            result["result"][prec].update(get_metric_result(matchs[0]))
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -312,7 +312,7 @@ def run_trace_testcase(model):
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
+            result["result"][prec].update(get_metric_result(matchs[0]))
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
@@ -355,13 +355,13 @@ def run_nlp_testcase(model):
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
+        logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
-            result["result"][prec].update(json.loads(m)["metricResult"])
+            result["result"][prec].update(get_metric_result(m))
         if len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
     return result
 
 def run_speech_testcase(model):
@@ -413,11 +413,16 @@ def run_speech_testcase(model):
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
-            result["result"][prec].update(json.loads(matchs[0].replace("'", "\""))["metricResult"])
+            result["result"][prec].update(get_metric_result(matchs[0]))
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
+
+def get_metric_result(str):
+    if str:
+        return json.loads(str.replace("'", "\""))["metricResult"]
+    return None
 
 def run_script(script):
     start_time = time.perf_counter()
