@@ -342,6 +342,8 @@ def run_nlp_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
+        set -x
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/igie/{dataset_n}
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
