@@ -181,7 +181,7 @@ def main():
 
             # run inference
             module.run()
-            
+
             start_logits = module.get_output(0).asnumpy()
             end_logits = module.get_output(1).asnumpy()
 
@@ -198,8 +198,8 @@ def main():
         results = squad_evaluate(examples, predictions)
 
         print(f"\n F1 Score: {results['f1']:.3f}")
-    metricResult["metricResult"]["F1 Score"] = round(results['f1'],3)
-    
+        metricResult["metricResult"]["F1 Score"] = round(results['f1'],3)
+    print(metricResult)
 
 if __name__ == "__main__":
     main()
