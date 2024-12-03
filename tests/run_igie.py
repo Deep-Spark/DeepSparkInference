@@ -34,6 +34,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+METRIC_PATTERN = r"{'metricResult':.*}"
 
 def main():
     with open("models_igie.yaml", "r") as file:
@@ -256,7 +257,7 @@ def run_ocr_testcase(model):
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
 
-        pattern = r"{'metricResult':.*}"
+        pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
@@ -307,7 +308,7 @@ def run_trace_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{'metricResult':.*}"
+        pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
@@ -351,7 +352,7 @@ def run_nlp_testcase(model):
         r, t = run_script(script)
         sout = r.stdout
 
-        pattern = r"{\"metricResult\":.*}"
+        pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
         for m in matchs:
@@ -408,7 +409,7 @@ def run_speech_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
             result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"{'metricResult':.*}"
+        pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
             result["result"].setdefault(prec, {})
