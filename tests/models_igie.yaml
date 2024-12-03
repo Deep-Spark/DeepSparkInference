@@ -568,17 +568,19 @@
   relative_path: models/nlp/language_model/bert_base_ner/igie
   task_type: nlp/language_model
   need_third_part: false
-- datasets: https://rajpurkar.github.io/SQuAD-explorer
+- name: bert_base_squad
+  # https://rajpurkar.github.io/SQuAD-explorer
+  datasets: local/SQuAD
   download_url: https://huggingface.co/csarron/bert-base-uncased-squad-v1
-  name: bert_base_squad
   precisions:
     - fp16
   relative_path: models/nlp/language_model/bert_base_squad/igie
   task_type: nlp/language_model
   need_third_part: false
-- datasets: https://rajpurkar.github.io/SQuAD-explorer
+- name: bert_large_squad
+  # https://rajpurkar.github.io/SQuAD-explorer
+  datasets: local/SQuAD
   download_url: https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1
-  name: bert_large_squad
   precisions:
     - fp16
     - int8

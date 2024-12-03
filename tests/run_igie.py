@@ -317,6 +317,7 @@ def run_trace_testcase(model):
         logging.debug(f"matchs:\n{matchs}")
     return result
 
+# BERT series models
 def run_nlp_testcase(model):
     model_name = model["name"]
     result = {
@@ -326,16 +327,14 @@ def run_nlp_testcase(model):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    target_dict = {"bert_base_squad": "", "bert_base_ner":"test"}
     prepare_script = f"""
     set -x
     cd ../{model['relative_path']}
-    pwd
     ls /mnt/deepspark/data/checkpoints/igie/{checkpoint_n}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./test
-    ls -l test
+    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./{target_dict[model_name]}
     export DATASETS_DIR=/mnt/deepspark/data/datasets/igie/{dataset_n}
     bash ci/prepare.sh
-    ls Int8QAT/quant_base/pytorch_model.bin
     """
     run_script(prepare_script)
 
