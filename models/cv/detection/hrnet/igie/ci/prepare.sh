@@ -16,7 +16,14 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 pip3 install -r requirements.txt
 python3 export.py --weight fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth --cfg fcos_hrnetv2p-w18-gn-head_4xb4-1x_coco.py --output hrnet.onnx
 onnxsim hrnet.onnx hrnet_opt.onnx

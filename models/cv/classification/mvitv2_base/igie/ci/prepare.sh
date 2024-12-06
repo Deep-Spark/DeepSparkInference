@@ -16,7 +16,14 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 pip3 install -r requirements.txt
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export.py --cfg mmpretrain/configs/mvit/mvitv2-base_8xb256_in1k.py --weight mvitv2-base_3rdparty_in1k_20220722-9c4f0a17.pth --output mvitv2_base.onnx

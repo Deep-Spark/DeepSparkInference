@@ -16,7 +16,14 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 pip3 install -r requirements.txt
 python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output retinanet.onnx
 onnxsim retinanet.onnx retinanet_opt.onnx

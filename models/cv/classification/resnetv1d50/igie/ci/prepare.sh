@@ -16,7 +16,14 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 pip3 install -r requirements.txt
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export.py --cfg mmpretrain/configs/resnet/resnetv1d50_b32x8_imagenet.py --weight resnetv1d50_b32x8_imagenet_20210531-db14775a.pth --output resnetv1d50.onnx

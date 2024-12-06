@@ -16,7 +16,14 @@
 
 set -x
 
-apt install -y libgl1-mesa-glx
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
 pip3 install -r requirements.txt
 python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg atss_r50_fpn_1x_coco.py --output atss.onnx
 onnxsim atss.onnx atss_opt.onnx
