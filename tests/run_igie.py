@@ -154,7 +154,7 @@ def run_clf_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/imagenet-val
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -191,7 +191,7 @@ def run_detec_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        export DATASETS_DIR=/mnt/deepspark/volumes/mdb/data/datasets/coco
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/coco
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -229,7 +229,7 @@ def run_ocr_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
+    unzip /mnt/deepspark/data/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
     run_script(prepare_script)
@@ -278,7 +278,7 @@ def run_trace_testcase(model):
     """
 
     if model["need_third_part"]:
-        prepare_script += "unzip /mnt/deepspark/repos/fast-reid.zip -d ./fast-reid\n"
+        prepare_script += "unzip /mnt/deepspark/data/repos/fast-reid.zip -d ./fast-reid\n"
 
     prepare_script += """
     bash ci/prepare.sh
@@ -378,9 +378,9 @@ def run_speech_testcase(model):
     """
 
     if model["need_third_part"]:
-        prepare_script += "unzip /mnt/deepspark/repos/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip /mnt/deepspark/repos/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
-        prepare_script += "tar -xzvf /mnt/deepspark/repos/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
+        prepare_script += "unzip /mnt/deepspark/data/repos/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
+        prepare_script += "unzip /mnt/deepspark/data/repos/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
+        prepare_script += "tar -xzvf /mnt/deepspark/data/repos/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
 
     prepare_script += """
     export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
