@@ -22,6 +22,7 @@ import logging
 import os
 import sys
 import report
+import argparse
 
 # 配置日志
 is_debug = os.environ.get("IS_DEBUG")
@@ -37,10 +38,17 @@ logging.basicConfig(
 METRIC_PATTERN = r"{'metricResult':.*}"
 
 def main():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("--model", type=str, help="model name, e.g: alexnet")
+    args = parser.parse_args()
+
     with open("models_igie.yaml", "r") as file:
         models = yaml.safe_load(file)
 
-    test_cases = os.environ.get("TEST_CASES")
+    if args.model:
+        test_cases = args.model
+    else:
+        test_cases = os.environ.get("TEST_CASES")
     logging.info(f"Test cases to run: {test_cases}")
     if test_cases:
         avail_models = [tc.strip() for tc in test_cases.split(",")]
@@ -441,7 +449,6 @@ def run_script(script):
     logging.debug(f"标准错误: {result.stderr}")
     logging.debug(f"返回码: {result.returncode}")
     return result, execution_time
-
 
 if __name__ == "__main__":
     main()
