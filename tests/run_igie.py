@@ -135,6 +135,7 @@ def main():
 
 
     logging.info(f"Full results:\n{json.dumps(all_results, indent=4)}")
+    logging.info(f"Full text results: {all_results}")
     # logging.info("Generating test reports start ...")
     # if all_results:
     #     report.generate_report(all_results)
