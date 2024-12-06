@@ -17,9 +17,8 @@ pip3 install -r requirements.txt
 Pretrained model: <https://huggingface.co/docs/transformers/model_doc/clip>
 
 ```bash
-mkdir -p openai
 git lfs install
-git clone https://huggingface.co/openai/clip-vit-base-patch32 openai/clip-vit-base-patch32
+git clone https://huggingface.co/openai/clip-vit-base-patch32 clip-vit-base-patch32
 ```
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.

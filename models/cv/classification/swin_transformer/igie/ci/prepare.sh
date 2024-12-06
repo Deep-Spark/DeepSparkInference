@@ -17,7 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-mkdir -p microsoft
-unzip /mnt/deepspark/data/checkpoints/igie/swin-tiny-patch4-window7-224.zip -d ./microsoft/
 python3 export.py --output swin_transformer.onnx
 onnxsim swin_transformer.onnx swin_transformer_opt.onnx

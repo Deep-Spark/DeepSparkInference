@@ -145,7 +145,7 @@ def run_clf_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -183,7 +183,7 @@ def run_detec_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     """
     run_script(prepare_script)
@@ -227,8 +227,8 @@ def run_ocr_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     unzip /mnt/deepspark/repos/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -273,8 +273,8 @@ def run_trace_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
 
     if model["need_third_part"]:
@@ -331,8 +331,8 @@ def run_nlp_testcase(model):
     set -x
     cd ../{model['relative_path']}
     {mkdir_script}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./{target_dir}
-    export DATASETS_DIR=/mnt/deepspark/data/datasets/igie/{dataset_n}
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{target_dir}
+    export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
     bash ci/prepare.sh
     """
     run_script(prepare_script)
@@ -341,7 +341,7 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/igie/{dataset_n}
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -373,8 +373,8 @@ def run_speech_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/igie/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/igie/{dataset_n} ./
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
 
     if model["need_third_part"]:

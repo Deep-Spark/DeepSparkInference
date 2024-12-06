@@ -18,6 +18,6 @@ set -x
 
 apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
-unzip -q /mnt/deepspark/volumes/mdb/data/repos/mmpretrain-0.24.0.zip ./
+unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip ./
 python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 onnxsim cspdarknet53.onnx cspdarknet53_opt.onnx

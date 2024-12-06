@@ -17,7 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-mkdir -p openai
-unzip /mnt/deepspark/data/checkpoints/igie/clip-vit-base-patch32.zip -d ./openai/
 python3 export.py --output clip.onnx
 onnxsim clip.onnx clip_opt.onnx

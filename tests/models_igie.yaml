@@ -8,7 +8,7 @@
   task_type: cv/classification
   need_third_part: false
 - datasets: https://www.image-net.org/download.php
-  download_url: https://huggingface.co/docs/transformers/model_doc/clip
+  download_url: https://local/clip-vit-base-patch32
   name: clip
   precisions:
     - fp16
@@ -343,7 +343,7 @@
   task_type: cv/classification
   need_third_part: false
 - datasets: https://www.image-net.org/download.php
-  download_url: https://huggingface.co/docs/transformers/model_doc/swin
+  download_url: https://local/swin-tiny-patch4-window7-224
   name: swin_transformer
   precisions:
     - fp16
