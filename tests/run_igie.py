@@ -21,7 +21,6 @@ import time
 import logging
 import os
 import sys
-import report
 import argparse
 
 # 配置日志
@@ -42,104 +41,90 @@ def main():
     parser.add_argument("--model", type=str, help="model name, e.g: alexnet")
     args = parser.parse_args()
 
+    if args.model:
+        test_model = args.model
+    else:
+        test_model = os.environ.get("TEST_CASE")
+    logging.info(f"Test case to run: {test_model}")
+    if not test_model:
+        logging.error("test model case is empty")
+        sys.exit(-1)
+    
+    model = get_model_config(test_model)
+    if not model:
+        logging.error("mode config is empty")
+        sys.exit(-1)
+
+    result = {}
+    if model["task_type"] == "cv/classification":
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
+            result = run_clf_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    # 检测模型
+    if model["task_type"] in ["cv/detection", "cv/pose_estimation"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt") or d_url.endswith(".weights")):
+            result = run_detec_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    # OCR模型
+    if model["task_type"] in ["cv/ocr"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_ocr_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    # Trace模型
+    if model["task_type"] in ["cv/trace"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_trace_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    # Speech模型
+    if model["task_type"] in ["speech/speech_recognition"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_speech_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    # NLP模型
+    if model["task_type"] in ["nlp/language_model"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_nlp_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
+
+    logging.info(f"Full text result: {result}")
+
+def get_model_config(mode_name):
     with open("models_igie.yaml", "r") as file:
         models = yaml.safe_load(file)
 
-    if args.model:
-        test_cases = args.model
-    else:
-        test_cases = os.environ.get("TEST_CASES")
-    logging.info(f"Test cases to run: {test_cases}")
-    if test_cases:
-        avail_models = [tc.strip() for tc in test_cases.split(",")]
-    else:
-        logging.error("test_cases empty")
-        sys.exit(-1)
-
-    all_results = []
     for model in models:
-        # 分类模型
-        if model["task_type"] == "cv/classification" and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt")):
-                result = run_clf_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-
-        # 检测模型
-        if model["task_type"] in ["cv/detection", "cv/pose_estimation"] and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None and (d_url.endswith(".pth") or d_url.endswith(".pt") or d_url.endswith(".weights")):
-                result = run_detec_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-
-        # OCR模型
-        if model["task_type"] in ["cv/ocr"] and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_ocr_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-
-        # Trace模型
-        if model["task_type"] in ["cv/trace"] and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_trace_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-
-        # Speech模型
-        if model["task_type"] in ["speech/speech_recognition"] and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_speech_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-
-        # NLP模型
-        if model["task_type"] in ["nlp/language_model"] and model["name"] in avail_models:
-            logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_nlp_testcase(model)
-                check_model_result(result)
-                all_results.append(result)
-                logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['name']} test case.")
-            continue
-        # other_models = ["bert_base_ner", "bert_base_squad", "bert_large_squad"]
-        # if model["name"] in other_models:
-        #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-
-
-    logging.info(f"Full results:\n{json.dumps(all_results, indent=4)}")
-    logging.info(f"Full text results: {all_results}")
-    # logging.info("Generating test reports start ...")
-    # if all_results:
-    #     report.generate_report(all_results)
-    # logging.info("Generating test reports finished!")
+        if model["name"] == mode_name:
+            return model
+    return
 
 def check_model_result(result):
     status = "PASS"
