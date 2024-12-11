@@ -33,7 +33,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    checkpoint = "microsoft/swin-tiny-patch4-window7-224"
+    checkpoint = "swin-tiny-patch4-window7-224"
     feature_extractor = AutoImageProcessor.from_pretrained(checkpoint)
     model = SwinForImageClassification.from_pretrained(checkpoint)
     

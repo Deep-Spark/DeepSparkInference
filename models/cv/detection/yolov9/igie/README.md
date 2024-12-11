@@ -10,8 +10,6 @@ YOLOv9 represents a major leap in real-time object detection by introducing inno
 
 ```bash
 pip3 install -r requirements.txt
-
-pip3 install -r requirements.txt
 ```
 
 ### Download

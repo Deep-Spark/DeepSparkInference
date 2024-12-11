@@ -2,4 +2,3 @@ onnx
 tqdm
 onnxsim
 onnxoptimizer
-docs/requirements.txt

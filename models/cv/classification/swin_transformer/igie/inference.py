@@ -79,7 +79,7 @@ def parse_args():
     return args
 
 class SwinImageNetDataset(Dataset):
-    def __init__(self, image_dir_path, input_name, checkpoint='microsoft/swin-tiny-patch4-window7-224'):
+    def __init__(self, image_dir_path, input_name, checkpoint='swin-tiny-patch4-window7-224'):
         self.image_dir_path = os.path.expanduser(image_dir_path)
 
         self.label_path = f"{self.image_dir_path}/val_map.txt"

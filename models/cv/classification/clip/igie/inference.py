@@ -82,7 +82,7 @@ def parse_args():
     return args
 
 class CLIPImageNetDataset(Dataset):
-    def __init__(self, image_dir_path, seq_len=22, checkpoint="openai/clip-vit-base-patch32"):
+    def __init__(self, image_dir_path, seq_len=22, checkpoint="clip-vit-base-patch32"):
         self.image_dir_path = os.path.expanduser(image_dir_path)
 
         self.label_path = f"{self.image_dir_path}/val.txt"

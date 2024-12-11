@@ -128,8 +128,11 @@ def main():
 
         results = reid_evaluator.evaluate()
 
+        metricResult = {"metricResult": {}}
         for key in results.keys():
             print(f"\n* {key}: {results[key]}")
+            metricResult["metricResult"][key] = results[key]
+        print(metricResult)
 
 if __name__ == "__main__":
     main()

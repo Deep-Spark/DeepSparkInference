@@ -208,6 +208,8 @@ def main():
                         fout.write('{} {}\n'.format(key, content))
 
         Acc = compute_cer.get_acc(args.label, args.result_file)
+        metricResult = {"metricResult": {"Accuracy": f"{Acc}%"}}
+        print(metricResult)
         print(f"* Accuracy: {Acc} %")
 
 if __name__ == '__main__':

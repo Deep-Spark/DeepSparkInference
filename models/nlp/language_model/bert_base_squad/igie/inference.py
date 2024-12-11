@@ -150,12 +150,15 @@ def main():
     # create runtime from engine
     module = tvm.contrib.graph_executor.GraphModule(lib["default"](device))
 
+    metricResult = {"metricResult": {}}
     # just run perf test
     if args.perf_only:
         ftimer = module.module.time_evaluator("run", device, number=100, repeat=1)        
         prof_res = np.array(ftimer().results) * 1000 
         fps = batch_size * 1000 / np.mean(prof_res)
         print(f"\n* Mean inference time: {np.mean(prof_res):.3f} ms, Mean fps: {fps:.3f}")
+        metricResult["metricResult"]["Mean inference time"] = round(np.mean(prof_res), 3)
+        metricResult["metricResult"]["Mean fps"] = round(fps, 3)
     else:
         # warm up
         for _ in range(args.warmup):
@@ -178,7 +181,7 @@ def main():
 
             # run inference
             module.run()
-            
+
             start_logits = module.get_output(0).asnumpy()
             end_logits = module.get_output(1).asnumpy()
 
@@ -195,6 +198,8 @@ def main():
         results = squad_evaluate(examples, predictions)
 
         print(f"\n F1 Score: {results['f1']:.3f}")
+        metricResult["metricResult"]["F1 Score"] = round(results['f1'],3)
+    print(metricResult)
 
 if __name__ == "__main__":
     main()

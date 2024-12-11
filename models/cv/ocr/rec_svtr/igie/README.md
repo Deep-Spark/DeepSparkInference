@@ -4,16 +4,13 @@ SVTR proposes a single vision model for scene text recognition. This model compl
 
 ## Setup
 ```shell
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install numpy==1.24.0
-pip3 install Polygon3
-pip3 install paddlenlp==2.8.1
-pip3 install lanms-neo==1.0.2
-pip3 install paddleocr==2.8.1
-pip3 install paddle2onnx
-pip3 install python-bidi
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+pip3 install -r requirements.txt
 ```
 
 ## Download
@@ -25,7 +22,7 @@ Dataset: <https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyay
 ```shell
 tar -xf rec_svtr_tiny_none_ctc_en_train.tar
 
-git clone -b release/2.6 https://github.com/PaddlePaddle/PaddleOCR.git
+git clone -b release/2.6 https://github.com/PaddlePaddle/PaddleOCR.git --depth=1
 
 cd PaddleOCR
 
@@ -48,9 +45,9 @@ export DATASETS_DIR=/Path/to/lmdb_evaluation/
 ### FP16
 ```shell
 # Accuracy
-bash scripts/infer_svtr_fp16_accuracy.sh
+bash scripts/infer_rec_svtr_fp16_accuracy.sh
 # Performance
-bash scripts/infer_svtr_fp16_performance.sh
+bash scripts/infer_rec_svtr_fp16_performance.sh
 ```
 
 ## Results

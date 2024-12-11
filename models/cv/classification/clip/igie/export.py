@@ -33,7 +33,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    checkpoint = "openai/clip-vit-base-patch32"
+    checkpoint = "clip-vit-base-patch32"
     feature_extractor = CLIPProcessor.from_pretrained(checkpoint)
     model = CLIPModel.from_pretrained(checkpoint)
     

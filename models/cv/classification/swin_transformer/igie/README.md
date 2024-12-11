@@ -17,9 +17,8 @@ pip3 install -r requirements.txt
 Pretrained model: <https://huggingface.co/docs/transformers/model_doc/swin>
 
 ```bash
-mkdir -p microsoft
 git lfs install
-git clone https://huggingface.co/microsoft/swin-tiny-patch4-window7-224 microsoft/swin-tiny-patch4-window7-224
+git clone https://huggingface.co/microsoft/swin-tiny-patch4-window7-224 swin-tiny-patch4-window7-224
 ```
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.

@@ -151,6 +151,8 @@ def main():
             eval_class(post_result, batch_numpy)
 
         metric = eval_class.get_metric()
+        metricResult = {"metricResult": {"hmean": metric["hmean"]}}
+        print(metricResult)
         print(metric)
 
 if __name__ == "__main__":

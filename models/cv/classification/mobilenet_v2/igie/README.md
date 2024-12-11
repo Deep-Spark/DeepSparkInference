@@ -34,18 +34,18 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_mobilenetv2_fp16_accuracy.sh
+bash scripts/infer_mobilenet_v2_fp16_accuracy.sh
 # Performance
-bash scripts/infer_mobilenetv2_fp16_performance.sh
+bash scripts/infer_mobilenet_v2_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_mobilenetv2_int8_accuracy.sh
+bash scripts/infer_mobilenet_v2_int8_accuracy.sh
 # Performance
-bash scripts/infer_mobilenetv2_int8_performance.sh
+bash scripts/infer_mobilenet_v2_int8_performance.sh
 ```
 
 ## Results
