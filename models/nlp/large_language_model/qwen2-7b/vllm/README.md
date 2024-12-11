@@ -1,4 +1,4 @@
-# Qwen2-7B-Instruct
+# Qwen2-7B Instruct
 
 ## Description
 

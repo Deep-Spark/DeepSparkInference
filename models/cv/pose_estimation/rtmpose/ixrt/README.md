@@ -45,7 +45,9 @@ python3 export.py --weight data/rtmpose/rtmpose-m_simcc-aic-coco_pt-aic-coco_420
 onnxsim data/rtmpose/rtmpose.onnx data/rtmpose/rtmpose_opt.onnx
 ```
 
-## TestSample
+## Inference
+
+### FP16
 
 ```bash
 python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg

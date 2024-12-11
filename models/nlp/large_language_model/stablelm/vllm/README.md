@@ -1,4 +1,4 @@
-# StableLm-2-1_6B
+# StableLM2-1.6B
 
 ## Description
 
