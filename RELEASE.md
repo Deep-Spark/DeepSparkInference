@@ -1,5 +1,95 @@
 # DeepSparkInference Release Notes
 
+## 24.12 Release Notes
+
+### 模型与算法
+
+* 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
+* 新增了9个大语言模型的推理示例，其中支持vLLM的8个，支持ixFormer的1个。
+
+<table>
+  <tr align="left">
+  <th colspan=3>IGIE</th>
+  </tr>
+  <tr>
+    <td>ConvNeXt-Base</td>
+    <td>DenseNet201</td>
+    <td>EfficientNet-B3</td>
+  </tr>
+  <tr>
+    <td>EfficientNetV2-S</td>
+    <td>MNASNet0_5</td>
+    <td>MViTv2_base</td>
+  </tr>
+  <tr>
+    <td>Regnet_y_1_6gf</td>
+    <td>ResNetV1_D50</td>
+    <td>ResNeXt101_64x4d</td>
+  </tr>
+  <tr>
+    <td>ShuffleNetV2_x1_5</td>
+    <td>Kie_layoutXLM</td>
+    <td>Rec_SVTR</td>
+  </tr>
+  <tr>
+    <td>YOLOv9</td>
+    <td>YOLOv10</td>
+    <td>PAA</td>
+  </tr>
+    <th colspan=4>IxRT</th>
+  </tr>
+  <tr>
+    <td>CenterNet</td>
+    <td>OpenPose</td>
+    <td>RTMPose</td>
+  </tr>
+  <tr>
+    <td>CSPDarkNet53</td>
+    <td>DensNet161</td>
+    <td>DensNet169</td>
+  </tr>
+  <tr>
+    <td>EfficientNetB2</td>
+    <td>ResNeXt50_32x4d</td>
+    <td>ConvNeXt-Small</td>
+  </tr>
+  </tr>
+    <th colspan=4>大模型推理</th>
+  </tr>
+  <tr>
+    <td>CLIP (IxFormer)</td>
+    <td>ChatGLM3-6B-32K (vLLM）</td>
+    <td>Llama2-7B (vLLM)</td>
+  </tr>
+  <tr>
+    <td>MiniCPM-V-2 (vLLM）</td>
+    <td>Qwen-7B (vLLM)</td>
+    <td>Qwen1.5-32B-Chat (vLLM）</td>
+  </tr>
+  <tr>
+    <td>Qwen2-72B-Instruct (vLLM）</td>
+    <td>Qwen2-7B-Instruct (vLLM）</td>
+    <td>StableLM2-1.6B (vLLM）</td>
+  </tr>
+</table>
+
+### 问题修复
+
+* 新增了IGIE推理模型自动化测试的运行脚本。
+* 修复了YOLOv8 IxRT模型运行推理脚本报错的问题。
+* 更新了YOLOv9和YOLOv10的IGIE模型的配置文件。
+* 完善了IxRT模型BERT，Mask RCNN，MobileNetV2和YOLOX的end2end推理时间打印。
+
+### 版本关联
+
+DeepSparkInference 24.12对应天数软件栈4.1.2版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
+
+---
+
 ## 24.09 Release Notes
 
 ### 模型与算法
