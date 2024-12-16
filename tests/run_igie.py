@@ -213,7 +213,14 @@ def run_detec_testcase(model):
             result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Cost time (s)"] = t
+        else:
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            if matchs and len(matchs) == 1:
+                result["result"].setdefault(prec, {})
+                result["result"][prec].update(get_metric_result(matchs[0]))
+                result["result"][prec]["status"] = "PASS"
+            result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
 
     return result

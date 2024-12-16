@@ -271,6 +271,8 @@ def evaluation(pred, gt_path, iou_thresh=0.5):
     print("Medium Val AP: {}".format(aps[1]))
     print("Hard   Val AP: {}".format(aps[2]))
     print("=================================================")
+    metricResult = {"metricResult": {"Easy Val AP": aps[0], "Medium Val AP": aps[1], "Hard Val AP": aps[2]}}
+    print(metricResult)
 
 
 if __name__ == '__main__':
