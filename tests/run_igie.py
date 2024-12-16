@@ -220,7 +220,7 @@ def run_detec_testcase(model):
                 result["result"].setdefault(prec, {})
                 result["result"][prec].update(get_metric_result(matchs[0]))
                 result["result"][prec]["status"] = "PASS"
-            result["result"][prec]["Cost time (s)"] = t
+        result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
 
     return result
