@@ -19,9 +19,9 @@ Pretrained model: <https://github.com/THU-MIG/yolov10/releases/download/v1.1/yol
 ## Model Conversion
 
 ```bash
-git clone https://github.com/THU-MIG/yolov10.git
+git clone --depth 1 https://github.com/THU-MIG/yolov10.git
 cd yolov10
-pip3 install -r requirements.txt
+pip3 install -e . --no-deps
 cd ..
 
 python3 export.py --weight yolov10s.pt --batch 32
