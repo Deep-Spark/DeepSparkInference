@@ -181,9 +181,11 @@ def run_detec_testcase(model):
     }
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     bash ci/prepare.sh
     """
     run_script(prepare_script)
@@ -191,8 +193,8 @@ def run_detec_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/coco
         cd ../{model['relative_path']}
+        export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
