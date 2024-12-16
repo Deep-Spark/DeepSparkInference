@@ -2,4 +2,4 @@ tqdm
 onnx
 pycocotools
 # FAILed in 8.2.51
-ultralytics==8.1.9
+ultralytics==8.1.34
