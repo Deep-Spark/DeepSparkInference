@@ -1250,6 +1250,14 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 请参见 [DeepSparkInference Contributing Guidelines](CONTRIBUTING.md)。
 
+### 免责声明
+
+DeepSparkInference仅提供公共数据集的下载和预处理脚本。这些数据集不属于DeepSparkInference，DeepSparkInference也不对其质量或维护负责。请确保您具有这些数据集的使用许可，基于这些数据集训练的模型仅可用于非商业研究和教育。
+
+致数据集所有者：
+
+如果不希望您的数据集公布在DeepSparkInference上或希望更新DeepSparkInference中属于您的数据集，请在Gitee或Github上提交issue，我们将按您的issue删除或更新。衷心感谢您对我们社区的支持和贡献。
+
 ## 许可证
 
 本项目许可证遵循[Apache-2.0](LICENSE)。
