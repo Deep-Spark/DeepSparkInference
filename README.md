@@ -685,12 +685,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>PAA</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/paa/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>RetinaFace</td>
@@ -806,23 +806,23 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>YOLOv9</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov9/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOv10</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov10/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOX</td>
@@ -905,7 +905,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td rowspan=2>Lightweight OpenPose</td>
         <td>FP16</td>
-        <td></td>
+        <td>-</td>
         <td><a href="models/cv/pose_estimation/lightweightopenpose/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
