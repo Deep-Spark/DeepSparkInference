@@ -685,12 +685,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>PAA</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/paa/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>RetinaFace</td>
@@ -806,23 +806,23 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>YOLOv9</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov9/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOv10</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/yolov10/igie/README.md#fp16">Supported</a></td>
-        <td></td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td></td>
-        <td></td>
+        <td>-</td>
+        <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>YOLOX</td>
@@ -905,7 +905,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     <tr align="center">
         <td rowspan=2>Lightweight OpenPose</td>
         <td>FP16</td>
-        <td></td>
+        <td>-</td>
         <td><a href="models/cv/pose_estimation/lightweightopenpose/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
@@ -1249,6 +1249,14 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 ### 贡献
 
 请参见 [DeepSparkInference Contributing Guidelines](CONTRIBUTING.md)。
+
+### 免责声明
+
+DeepSparkInference仅提供公共数据集的下载和预处理脚本。这些数据集不属于DeepSparkInference，DeepSparkInference也不对其质量或维护负责。请确保您具有这些数据集的使用许可，基于这些数据集训练的模型仅可用于非商业研究和教育。
+
+致数据集所有者：
+
+如果不希望您的数据集公布在DeepSparkInference上或希望更新DeepSparkInference中属于您的数据集，请在Gitee或Github上提交issue，我们将按您的issue删除或更新。衷心感谢您对我们社区的支持和贡献。
 
 ## 许可证
 
