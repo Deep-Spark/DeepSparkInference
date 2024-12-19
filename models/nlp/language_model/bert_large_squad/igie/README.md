@@ -21,12 +21,16 @@ Dataset: <https://rajpurkar.github.io/SQuAD-explorer>
 ### Model Conversion
 
 ```bash
+# Set up checkpoints
+mkdir neuralmagic/
+ln -s <path_to_bert-large-uncased-finetuned-squadv1> neuralmagic/bert-large-uncased-finetuned-squadv1
 
 # Get FP16 Onnx Model
 python3 export.py --output bert-large-uncased-squad-v1.onnx
 
-# Do QAT for INT8 test, will take a long time  
-cd Int8QAT
+# Do QAT for INT8 test, will take a long time
+cd Int8QAT/
+ln -s <path_to_bert-large-uncased> ./bert-large-uncased
 bash run_qat.sh
 
 python3 export_hdf5.py --model quant_bert_large/pytorch_model.bin --model_name large
