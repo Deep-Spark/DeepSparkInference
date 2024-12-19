@@ -166,7 +166,11 @@ def run_clf_testcase(model):
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
@@ -205,12 +209,20 @@ def run_detec_testcase(model):
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
         else:
@@ -258,7 +270,11 @@ def run_ocr_testcase(model):
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
 
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
@@ -310,7 +326,11 @@ def run_trace_testcase(model):
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
@@ -415,7 +435,11 @@ def run_speech_testcase(model):
         matchs = re.findall(pattern, sout)
         for m in matchs:
             result["result"].setdefault(prec, {"status": "FAIL"})
-            result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
