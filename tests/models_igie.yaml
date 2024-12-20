@@ -16,7 +16,7 @@
   task_type: cv/classification
   need_third_part: true
 - datasets: https://www.image-net.org/download.php
-  download_url: https://drive.google.com/file/d/1oeQ9LSOGKEUaYGu7WTlUGl3KDsQIi0MA/view?usp=sharing
+  download_url: https://local/conformer_base_patch16.pth
   name: conformer_base
   precisions:
     - fp16

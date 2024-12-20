@@ -34,9 +34,9 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_mobilenetv3_large_fp16_accuracy.sh
+bash scripts/infer_mobilenet_v3_large_fp16_accuracy.sh
 # Performance
-bash scripts/infer_mobilenetv3_large_fp16_performance.sh
+bash scripts/infer_mobilenet_v3_large_fp16_performance.sh
 ```
 
 ## Results
