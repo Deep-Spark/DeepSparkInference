@@ -40,7 +40,7 @@
   task_type: cv/classification
   need_third_part: false
 - datasets: https://www.image-net.org/download.php
-  download_url: https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth
+  download_url: https://local/cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth
   name: cspdarknet53
   precisions:
     - fp16
@@ -196,7 +196,7 @@
   need_third_part: false
 - datasets: https://www.image-net.org/download.php
   download_url: https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth
-  name: mobilenetv3_large
+  name: mobilenet_v3_large
   precisions:
     - fp16
   relative_path: models/cv/classification/mobilenetv3_large/igie
