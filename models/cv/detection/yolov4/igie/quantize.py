@@ -95,7 +95,6 @@ def main():
                 per_channel=False,
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
-                optimize_model=False,
                 use_external_data_format=False,
                 nodes_to_exclude= [
                     '/Concat_10', '/Concat_11', '/models.139/Add', '/models.139/Add_1', '/models.139/Add_2', '/models.139/Add_3', '/models.139/Add_4', 

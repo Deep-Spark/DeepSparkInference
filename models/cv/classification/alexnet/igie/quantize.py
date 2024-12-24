@@ -91,7 +91,6 @@ def main():
                 per_channel=False,
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
-                optimize_model=False,
                 use_external_data_format=False,
                 calibrate_method=CalibrationMethod.Percentile,
                 extra_options = {

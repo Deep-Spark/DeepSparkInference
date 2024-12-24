@@ -91,7 +91,6 @@ def main():
                 per_channel=True,
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
-                optimize_model=False,
                 use_external_data_format=False,
                 nodes_to_exclude=['/classifier/classifier.1/Gemm'],
                 calibrate_method=CalibrationMethod.Percentile,
