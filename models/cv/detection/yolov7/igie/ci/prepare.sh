@@ -28,7 +28,7 @@ fi
 pip3 install -r requirements.txt
 
 # clone yolov7
-git clone --depth 1 https://github.com/WongKinYiu/yolov7.git
+git clone --depth 1 https://gitee.com/monkeycc/yolov7
 cd yolov7
 
 # export onnx model
