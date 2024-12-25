@@ -440,15 +440,15 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
-        <td rowspan=2>ResNet_V1_D50</td>
+        <td rowspan=2>ResNetV1D50</td>
         <td>FP16</td>
-        <td><a href="models/cv/classification/resnet_v1_d50/igie/README.md#fp16">Supported</a></td>
-        <td><a href="models/cv/classification/resnet_v1_d50/ixrt/README.md#fp16">Supported</a></td>
+        <td><a href="models/cv/classification/resnetv1d50/igie/README.md#fp16">Supported</a></td>
+        <td><a href="models/cv/classification/resnetv1d50/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
         <td>-</td>
-        <td><a href="models/cv/classification/resnet_v1_d50/ixrt/README.md#int8">Supported</a></td>
+        <td><a href="models/cv/classification/resnetv1d50/ixrt/README.md#int8">Supported</a></td>
     </tr>
     <tr align="center">
         <td rowspan=2>ResNeXt50_32x4d</td>

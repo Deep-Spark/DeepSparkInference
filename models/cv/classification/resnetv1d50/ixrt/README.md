@@ -1,4 +1,4 @@
-# ResNet_V1_D50
+# ResNetV1D50
 
 ## Description
 

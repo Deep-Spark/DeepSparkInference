@@ -1,8 +1,8 @@
-# ResNetV1D-50
+# ResNetV1D50
 
 ## Description
 
-ResNetV1D-50 is an enhanced version of ResNetV1-50 that incorporates changes like dilated convolutions and adjusted downsampling, leading to better performance in large-scale image classification tasks. Its ability to capture richer image features makes it a popular choice in deep learning models. 
+ResNetV1D50 is an enhanced version of ResNetV1-50 that incorporates changes like dilated convolutions and adjusted downsampling, leading to better performance in large-scale image classification tasks. Its ability to capture richer image features makes it a popular choice in deep learning models.
 
 ## Setup
 
@@ -13,7 +13,7 @@ ResNetV1D-50 is an enhanced version of ResNetV1-50 that incorporates changes lik
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
@@ -52,10 +52,10 @@ bash scripts/infer_resnetv1d50_fp16_performance.sh
 
 ## Results
 
-| Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-| ------------ | --------- | --------- | -------- | -------- | -------- |
-| ResNetV1D-50 | 32        | FP16      | 4017.92  | 77.517   | 93.538   |
+| Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+| ----------- | --------- | --------- | -------- | -------- | -------- |
+| ResNetV1D50 | 32        | FP16      | 4017.92  | 77.517   | 93.538   |
 
 ## Reference
 
-ResNetV1D-50: <https://github.com/open-mmlab/mmpretrain>
+ResNetV1D50: <https://github.com/open-mmlab/mmpretrain>
