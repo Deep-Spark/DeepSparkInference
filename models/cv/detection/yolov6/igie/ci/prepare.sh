@@ -28,7 +28,7 @@ fi
 pip3 install -r requirements.txt
 
 # install yolov6
-git clone  --depth 1 https://github.com/meituan/YOLOv6.git
+git clone --depth 1 https://github.com/meituan/YOLOv6.git
 cd YOLOv6
 pip3 install -r requirements.txt
 
