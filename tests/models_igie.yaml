@@ -12,8 +12,8 @@
   name: clip
   precisions:
     - fp16
-  relative_path: models/cv/classification/clip/igie
-  task_type: cv/classification
+  relative_path: models/multimodal/text_and_image/clip/igie
+  task_type: multimodal/text_and_image
   need_third_part: true
 - datasets: https://www.image-net.org/download.php
   download_url: https://local/conformer_base_patch16.pth
