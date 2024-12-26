@@ -29,7 +29,7 @@
   <tr>
     <td>ShuffleNetV2_x1_5</td>
     <td>Kie_layoutXLM</td>
-    <td>Rec_SVTR</td>
+    <td>SVTR</td>
   </tr>
   <tr>
     <td>YOLOv9</td>

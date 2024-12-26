@@ -605,9 +605,9 @@
   need_third_part: true
 - datasets: https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/AMv9bzR7paSwCJcQ03egJyI/lmdb_evaluation
   download_url: https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/rec_svtr_tiny_none_ctc_en_train.tar
-  name: rec_svtr
+  name: svtr
   precisions:
     - fp16
-  relative_path: models/cv/ocr/rec_svtr/igie
+  relative_path: models/cv/ocr/svtr/igie
   task_type: cv/ocr
   need_third_part: true
