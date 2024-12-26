@@ -23,11 +23,10 @@ import os
 import sys
 import argparse
 
+import utils
+
 # 配置日志
-is_debug = os.environ.get("IS_DEBUG")
-debug_level = logging.INFO
-if is_debug and is_debug.lower()=="true":
-    debug_level = logging.DEBUG
+debug_level = logging.DEBUG if utils.is_debug() else logging.INFO
 logging.basicConfig(
     handlers=[logging.FileHandler("output.log"), logging.StreamHandler()],
     level=debug_level,
@@ -149,6 +148,10 @@ def run_clf_testcase(model):
     bash ci/prepare.sh
     ls -l | grep onnx
     """
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
     run_script(prepare_script)
 
     for prec in model["precisions"]:
