@@ -36,7 +36,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>CLIP</td>
         <td>FP16</td>
         <td><a href="models/multimodal/text_and_image/clip/igie/README.md#fp16">Supported</a></td>
-        <td><a href="models/multimodal/text_and_image/clip/ixformer/README.md#fp16">ixFormer</a></td>
+        <td><a href="models/multimodal/text_and_image/clip/ixformer/README.md#fp16">IxFormer</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
