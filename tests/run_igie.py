@@ -148,10 +148,12 @@ def run_clf_testcase(model):
     bash ci/prepare.sh
     ls -l | grep onnx
     """
+
     # add pip list info when in debug mode
     if utils.is_debug():
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -195,6 +197,12 @@ def run_detec_testcase(model):
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     bash ci/prepare.sh
     """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -256,6 +264,12 @@ def run_ocr_testcase(model):
     unzip /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -312,6 +326,12 @@ def run_trace_testcase(model):
     bash ci/prepare.sh
     ls -l | grep onnx
     """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -367,6 +387,12 @@ def run_nlp_testcase(model):
     export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
     bash ci/prepare.sh
     """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -420,6 +446,12 @@ def run_speech_testcase(model):
     bash ci/prepare.sh
     ls -l | grep onnx
     """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
     run_script(prepare_script)
 
     for prec in model["precisions"]:
