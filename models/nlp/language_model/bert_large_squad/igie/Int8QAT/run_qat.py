@@ -350,6 +350,7 @@ def main():
             os.path.join(cur_dir,'squad_download.py'),
             data_args.dataset_config_name,
             cache_dir=model_args.cache_dir,
+            trust_remote_code=True,
         )
     else:
         data_files = {}
@@ -685,7 +686,7 @@ def main():
         ]
         return EvalPrediction(predictions=formatted_predictions, label_ids=references)
 
-    metric = load_metric(os.path.join(cur_dir,'squad_data.py'))
+    metric = load_metric(os.path.join(cur_dir,'squad_data.py'), trust_remote_code=True)
 
     def compute_metrics(p: EvalPrediction):
         return metric.compute(predictions=p.predictions, references=p.label_ids)

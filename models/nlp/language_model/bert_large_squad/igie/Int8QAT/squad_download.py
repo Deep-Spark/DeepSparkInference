@@ -121,7 +121,8 @@ class Squad(datasets.GeneratorBasedBuilder):
         )
 
     def _split_generators(self, dl_manager):
-        downloaded_files = dl_manager.download_and_extract(_URLS)
+        # downloaded_files = dl_manager.download_and_extract(_URLS)
+        downloaded_files = { "train": "./data/train-v1.1.json", "dev": "./data/dev-v1.1.json" }
 
         return [
             datasets.SplitGenerator(name=datasets.Split.TRAIN, gen_kwargs={"filepath": downloaded_files["train"]}),
