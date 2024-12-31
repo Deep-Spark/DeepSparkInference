@@ -1,4 +1,4 @@
 onnx
 tqdm
-numpy==1.23.5
-transformers
+numpy==1.23.2
+transformers==4.37.1

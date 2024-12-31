@@ -25,11 +25,21 @@ Dataset: <https://rajpurkar.github.io/SQuAD-explorer>
 # Get FP16 Onnx Model
 python3 export.py --output bert-large-uncased-squad-v1.onnx
 
-# Do QAT for INT8 test, will take a long time  
+# Do QAT for INT8 test, will take a long time (16 gpus need 1h)
 cd Int8QAT
+
+# prepare dataset
+mkdir -p data
+cp /path/to/SQuAD/train-v1.1.json /path/to/SQuAD/dev-v1.1.json data/
+
+# prepare model into bert-large-uncased from <https://huggingface.co/google-bert/bert-large-uncased/tree/main>
+mkdir -p bert-large-uncased
+
 bash run_qat.sh
 
+# model: quant_bert_large/pytorch_model.bin or quant_bert_large/model.safetensors
 python3 export_hdf5.py --model quant_bert_large/pytorch_model.bin --model_name large
+
 cd ..
 
 ```
