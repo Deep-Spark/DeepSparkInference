@@ -374,7 +374,7 @@ def run_nlp_testcase(model):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
-    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test"}
+    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1"}
     target_dir = target_dirs[model_name]
     dirname = os.path.dirname(target_dir)
     mkdir_script = f"mkdir -p {dirname}" if dirname else ""
@@ -387,6 +387,10 @@ def run_nlp_testcase(model):
     export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
     bash ci/prepare.sh
     """
+
+    # prepare int8 model for bert_large_squad
+    if model_name == "bert_large_squad":
+        prepare_script += "ln -s /mnt/deepspark/data/checkpoints/bert_large_int8.hdf5 ./\n"
 
     # add pip list info when in debug mode
     if utils.is_debug():
