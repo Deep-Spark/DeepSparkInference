@@ -2,4 +2,3 @@ tqdm
 onnx
 onnxsim
 pycocotools
-requirements.txt

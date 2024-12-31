@@ -28,8 +28,14 @@ fi
 pip3 install -r requirements.txt
 
 # install yolov6
-git clone --depth 1 https://gitee.com/monkeycc/YOLOv6
-cd YOLOv6
+REPO_URL="https://gitee.com/monkeycc/YOLOv6.git"
+TARGET_DIR="YOLOv6"
+if [ ! -d "$TARGET_DIR" ]; then
+    git clone --depth 1 "$REPO_URL" "$TARGET_DIR"
+fi
+
+cd $TARGET_DIR
+sed -i 's/numpy>=1.24.0/numpy==1.24.4/g' requirements.txt
 pip3 install -r requirements.txt
 
 # export onnx model

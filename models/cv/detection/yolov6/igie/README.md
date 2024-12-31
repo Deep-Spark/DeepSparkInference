@@ -13,7 +13,7 @@ YOLOv6 integrates cutting-edge object detection advancements from industry and a
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

@@ -195,8 +195,12 @@ def run_detec_testcase(model):
     cd ../{model['relative_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    bash ci/prepare.sh
     """
+
+    if model["need_third_part"] and model["3rd_party_repo"]:
+        third_party_repo = model["3rd_party_repo"]
+        prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
+    prepare_script += "bash ci/prepare.sh\n"
 
     # add pip list info when in debug mode
     if utils.is_debug():

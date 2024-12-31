@@ -491,6 +491,7 @@
   relative_path: models/cv/detection/yolov6/igie
   task_type: cv/detection
   need_third_part: true
+  3rd_party_repo: YOLOv6
 - datasets: local/coco
   download_url: https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt
   name: yolov7
@@ -500,6 +501,7 @@
   relative_path: models/cv/detection/yolov7/igie
   task_type: cv/detection
   need_third_part: true
+  3rd_party_repo: yolov7
 - datasets: local/coco
   download_url: https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt
   name: yolov8
