@@ -28,8 +28,12 @@ fi
 pip3 install -r requirements.txt
 
 # clone yolov7
-git clone --depth 1 https://gitee.com/monkeycc/yolov7
-cd yolov7
+REPO_URL="https://gitee.com/monkeycc/yolov7.git"
+TARGET_DIR="yolov7"
+if [ ! -d "$TARGET_DIR" ]; then
+    git clone --depth 1 "$REPO_URL" "$TARGET_DIR"
+fi
+cd $TARGET_DIR
 
 # export onnx model
 python3 export.py --weights ../yolov7.pt --simplify --img-size 640 640 --dynamic-batch --grid
