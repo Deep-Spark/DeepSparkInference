@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 python3 export.py --output bert-large-uncased-squad-v1.onnx
 
 # Do QAT for INT8 test, will take a long time  
-cd Int8QAT
-bash run_qat.sh
+# cd Int8QAT
+# bash run_qat.sh
 
-python3 export_hdf5.py --model quant_bert_large/pytorch_model.bin --model_name large
+# python3 export_hdf5.py --model quant_bert_large/pytorch_model.bin --model_name large
