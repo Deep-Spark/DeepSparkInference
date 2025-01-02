@@ -45,9 +45,9 @@ export DATASETS_DIR=/Path/to/lmdb_evaluation/
 ### FP16
 ```shell
 # Accuracy
-bash scripts/infer_rec_svtr_fp16_accuracy.sh
+bash scripts/infer_svtr_fp16_accuracy.sh
 # Performance
-bash scripts/infer_rec_svtr_fp16_performance.sh
+bash scripts/infer_svtr_fp16_performance.sh
 ```
 
 ## Results
