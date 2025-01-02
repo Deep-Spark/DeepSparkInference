@@ -579,8 +579,7 @@
     - fp16
   relative_path: models/nlp/language_model/bert_base_squad/igie
   task_type: nlp/language_model
--   # https://rajpurkar.github.io/SQuAD-explorer
-datasets: local/SQuAD
+- datasets: local/SQuAD
   download_url: https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1
   name: bert_large_squad
   need_third_part: false
