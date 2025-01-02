@@ -121,7 +121,7 @@ def get_model_config(mode_name):
         models = yaml.safe_load(file)
 
     for model in models:
-        if model["name"] == mode_name:
+        if model["name"] == mode_name.lower():
             return model
     return
 
