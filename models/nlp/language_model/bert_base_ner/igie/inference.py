@@ -139,8 +139,9 @@ def evaluate(args, input_token_ids, batch_labels, outputs, module, device, categ
         run_time = infer_time / num_samples
         fps = 1.0 / run_time
         print(f"\n* Mean inference time: {run_time:.5f} ms, Mean fps: {fps:.3f}")
-        metricResult["metricResult"]["Mean inference time"] = run_time
-        metricResult["metricResult"]["Mean fps"] = fps
+        metricResult["metricResult"]["Mean inference time"] = round(run_time, 5)
+        metricResult["metricResult"]["Mean fps"] = round(fps, 3)
+        return metricResult
     else:
         print(f"\ncompute evaluation metrics...")
         X, Y, Z = 1e-10, 1e-10, 1e-10
@@ -175,8 +176,8 @@ def evaluate(args, input_token_ids, batch_labels, outputs, module, device, categ
         print(f'\n[val-token  level] f1: {f1:.3f}, p: {precision:.3f} r: {recall:.3f}')
         print(f'\n[val-entity level] f1: {f2:.3f}, p: {precision2:.3f} r: {recall2:.3f}')
 
-        metricResult["metricResult"]["val-token f1"] = f1
-        metricResult["metricResult"]["val-entity f1"] = f2
+        metricResult["metricResult"]["val-token f1"] = round(f1, 3)
+        metricResult["metricResult"]["val-entity f1"] = round(f2, 3)
     print(metricResult)
 
 def main():

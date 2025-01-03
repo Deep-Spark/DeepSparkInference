@@ -214,8 +214,8 @@ def main():
             fps = 1.0 / run_time
             print(f"\n* Mean inference time: {run_time:.3f} ms, Mean fps: {fps:.3f}")
 
-        metricResult["metricResult"]["Mean inference time"] = run_time
-        metricResult["metricResult"]["Mean fps"] = fps
+        metricResult["metricResult"]["Mean inference time"] = round(run_time,3)
+        metricResult["metricResult"]["Mean fps"] = round(fps,3)
     else:
         # warm up
         if args.precision != "int8":
@@ -242,7 +242,7 @@ def main():
         results = squad_evaluate(examples, predictions)
 
         print(f"\n F1 Score: {results['f1']:.3f}")
-        metricResult["metricResult"]["F1 Score"] = results['f1']
+        metricResult["metricResult"]["F1 Score"] = round(results['f1'],3)
     print(metricResult)
 
 if __name__ == "__main__":
