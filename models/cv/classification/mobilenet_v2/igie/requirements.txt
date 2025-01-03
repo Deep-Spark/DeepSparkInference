@@ -1,2 +1,3 @@
 onnx
 tqdm
+onnxruntime-gpu==1.18.0
