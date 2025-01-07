@@ -154,15 +154,17 @@ def run_clf_testcase(model):
 
     run_script(prepare_script)
 
+    config_name = model_name.upper()
+
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
+        export DATASETS_DIR=/root/data/datasets/imagenet-val
         export PROJ_DIR=./
         export CHECKPOINTS_DIR=./checkpoints
         export RUN_DIR=./
-        export CONFIG_DIR=config/{model_name}_CONFIG
+        export CONFIG_DIR=config/{config_name}_CONFIG
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
