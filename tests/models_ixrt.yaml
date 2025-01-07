@@ -155,7 +155,7 @@
   relative_path: models/cv/classification/repvgg/ixrt
   task_type: cv/classification
 - datasets: https://www.image-net.org/download.php
-  download_url:https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net50_14w_8s-6527dddc.pth
+  download_url: https://shanghuagao.oss-cn-beijing.aliyuncs.com/res2net/res2net50_14w_8s-6527dddc.pth
   name: res2net50
   need_third_part: true
   precisions:
