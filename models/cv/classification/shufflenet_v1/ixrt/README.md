@@ -29,12 +29,10 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints 
-cd checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
-cd ..
 
 python3 export_onnx.py   \
-    --config_file ./checkpoints/mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
+    --config_file ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
     --checkpoint_file  ./shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth \
     --output_model ./checkpoints/shufflenet_v1.onnx
 ```

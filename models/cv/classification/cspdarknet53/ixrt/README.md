@@ -15,12 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install ppq
-pip3 install mmcv==1.5.3
-pip3 install mmcls
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -42,8 +37,8 @@ wget -O cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth https://download.
 python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 
 # Use onnxsim optimize onnx model
-mkdir -p data/checkpoints/cspdarknet53_ckpt
-onnxsim cspdarknet5.onnx data/checkpoints/cspdarknet53_ckpt/cspdarknet53_sim.onnx
+mkdir -p checkpoints
+onnxsim cspdarknet5.onnx checkpoints/cspdarknet53_sim.onnx
 
 ```
 
@@ -51,7 +46,7 @@ onnxsim cspdarknet5.onnx data/checkpoints/cspdarknet53_ckpt/cspdarknet53_sim.onn
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
-export CHECKPOINTS_DIR=/Path/to/data/checkpoints/cspdarknet53_ckpt
+export CHECKPOINTS_DIR=/Path/to/checkpoints/
 export CONFIG_DIR=./config/CSPDARKNET53_CONFIG
 ```
 

@@ -16,13 +16,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install tabulate
-pip3 install onnx
-pip3 install onnxsim
-pip3 install opencv-python==4.6.0.66
-pip3 install mmcls==0.24.0
-pip3 install mmcv==1.5.3
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -33,12 +27,10 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 mkdir checkpoints 
-cd checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
-cd ..
 
 python3 export_onnx.py   \
-    --config_file ./checkpoints/mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
+    --config_file ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
     --checkpoint_file  https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
     --output_model ./checkpoints/cspresnet50.onnx
 ```

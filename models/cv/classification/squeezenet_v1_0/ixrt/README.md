@@ -17,9 +17,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -42,25 +40,25 @@ export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
-export CONFIG_DIR=config/SQUEEZENET_V10_CONFIG
+export CONFIG_DIR=config/SQUEEZENET_V1_0_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_squeezenet_v10_fp16_accuracy.sh
+bash scripts/infer_squeezenet_v1_0_fp16_accuracy.sh
 # Performance
-bash scripts/infer_squeezenet_v10_fp16_performance.sh
+bash scripts/infer_squeezenet_v1_0_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_squeezenet_v10_int8_accuracy.sh
+bash scripts/infer_squeezenet_v1_0_int8_accuracy.sh
 # Performance
-bash scripts/infer_squeezenet_v10_int8_performance.sh
+bash scripts/infer_squeezenet_v1_0_int8_performance.sh
 ```
 
 ## Results

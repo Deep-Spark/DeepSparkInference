@@ -1,0 +1,6 @@
+onnx
+tqdm
+onnxsim
+ppq
+mmcv==1.5.3
+mmcls
