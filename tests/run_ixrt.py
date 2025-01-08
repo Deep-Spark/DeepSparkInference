@@ -206,13 +206,13 @@ def run_detec_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
+    ln -s /root/data/datasets/{dataset_n} ./
     bash ci/prepare.sh
     """
 
     # if model["need_third_part"] and model["3rd_party_repo"]:
     #     third_party_repo = model["3rd_party_repo"]
-    #     prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
+    #     prepare_script += f"unzip /root/data/3rd_party/{third_party_repo}.zip -d ./\n"
     # prepare_script += "bash ci/prepare.sh\n"
 
     # add pip list info when in debug mode
@@ -293,9 +293,9 @@ def run_ocr_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    unzip /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
+    ln -s /root/data/datasets/{dataset_n} ./
+    unzip /root/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
 
@@ -349,12 +349,12 @@ def run_trace_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
+    ln -s /root/data/datasets/{dataset_n} ./
     """
 
     if model["need_third_part"]:
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
+        prepare_script += "unzip /root/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
 
     prepare_script += """
     bash ci/prepare.sh
@@ -417,14 +417,14 @@ def run_nlp_testcase(model):
     set -x
     cd ../{model['relative_path']}
     {mkdir_script}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{target_dir}
-    export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
+    ln -s /root/data/checkpoints/{checkpoint_n} ./{target_dir}
+    export DATASETS_DIR=/root/data/datasets/{dataset_n}
     bash ci/prepare.sh
     """
 
     # prepare int8 model for bert_large_squad
     if model_name == "bert_large_squad":
-        prepare_script += "ln -s /mnt/deepspark/data/checkpoints/bert_large_int8.hdf5 ./\n"
+        prepare_script += "ln -s /root/data/checkpoints/bert_large_int8.hdf5 ./\n"
 
     # add pip list info when in debug mode
     if utils.is_debug():
@@ -437,7 +437,7 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
+        export DATASETS_DIR=/root/data/datasets/{dataset_n}
         cd ../{model['relative_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -469,14 +469,14 @@ def run_speech_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
+    ln -s /root/data/datasets/{dataset_n} ./
     """
 
     if model["need_third_part"] and model_name == "conformer":
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
-        prepare_script += "tar -xzvf /mnt/deepspark/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
+        prepare_script += "unzip /root/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
+        prepare_script += "unzip /root/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
+        prepare_script += "tar -xzvf /root/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
 
     prepare_script += """
     export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
