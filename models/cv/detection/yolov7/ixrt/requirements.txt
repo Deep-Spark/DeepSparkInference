@@ -3,5 +3,5 @@ onnx
 onnxsim
 ultralytics
 pycocotools
-cv2
 opencv-python==4.6.0.66
+pycuda

@@ -3,6 +3,5 @@ pycuda
 onnx
 onnxsim
 tabulate
-cv2
 pycocotools
 opencv-python==4.6.0.66
