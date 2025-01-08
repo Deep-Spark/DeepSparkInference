@@ -64,15 +64,15 @@ def main():
             logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['name']} test case.")
 
-    # # 检测模型
-    # if model["task_type"] in ["cv/detection", "cv/pose_estimation"]:
-    #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-    #     d_url = model["download_url"]
-    #     if d_url is not None:
-    #         result = run_detec_testcase(model)
-    #         check_model_result(result)
-    #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-    #     logging.info(f"End running {model['name']} test case.")
+    # 检测模型
+    if model["task_type"] in ["cv/detection", "cv/pose_estimation"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_detec_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
 
     # # OCR模型
     # if model["task_type"] in ["cv/ocr"]:
@@ -186,7 +186,7 @@ def run_clf_testcase(model):
             for name, value in match.groupdict().items():
                 if value:
                     match_count += 1
-                    result["result"][prec][name] = float(value.split(":")[1].strip())
+                    result["result"][prec][name] = float(f"{float(value.split(":")[1].strip()):.3f}")
                     break
 
         if match_count == len(patterns):
@@ -222,6 +222,8 @@ def run_detec_testcase(model):
 
     run_script(prepare_script)
 
+    config_name = model_name.upper()
+
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
@@ -235,7 +237,7 @@ def run_detec_testcase(model):
         export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
         export EVAL_DIR=./{dataset_n}/val2017
         export RUN_DIR=./
-        export CONFIG_DIR=config/{model_name}_CONFIG
+        export CONFIG_DIR=config/{config_name}_CONFIG
 
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -244,7 +246,7 @@ def run_detec_testcase(model):
         r, t = run_script(script)
         sout = r.stdout
         fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
-        e2e_pattern = r"(?P<E2E time>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
+        e2e_pattern = r"(?P<E2E>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
         combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
         matchs = combined_pattern.finditer(sout)
         for match in matchs:
@@ -252,7 +254,8 @@ def run_detec_testcase(model):
             for name, value in match.groupdict().items():
                 if value:
                     try:
-                        result["result"][prec][name] = float(value)
+                        result["result"][prec][name] = float(f"{float(value.split(":")[1].strip()):.3f}")
+                        break
                     except ValueError:
                         print("The string cannot be converted to a float.")
                         result["result"][prec][name] = value
