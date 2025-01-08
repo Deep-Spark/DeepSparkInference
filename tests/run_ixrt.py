@@ -186,7 +186,7 @@ def run_clf_testcase(model):
             for name, value in match.groupdict().items():
                 if value:
                     match_count += 1
-                    result["result"][prec][name] = float(f"{float(value.split(":")[1].strip()):.3f}")
+                    result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
                     break
 
         if match_count == len(patterns):
@@ -254,7 +254,7 @@ def run_detec_testcase(model):
             for name, value in match.groupdict().items():
                 if value:
                     try:
-                        result["result"][prec][name] = float(f"{float(value.split(":")[1].strip()):.3f}")
+                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
                         break
                     except ValueError:
                         print("The string cannot be converted to a float.")
