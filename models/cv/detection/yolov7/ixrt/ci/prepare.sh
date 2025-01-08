@@ -25,12 +25,10 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-unzip /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
-ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
-cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-if [ "$1" = "nvidia" ]; then
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DUSE_TRT=1 && make -j12
-else
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DIXRT_HOME=/usr/local/corex && make -j12
-fi
+pip3 install -r requirements.txt
+mkdir -p checkpoints
+git clone https://github.com/WongKinYiu/yolov7.git
+cd yolov7
+python3 export.py --weights /root/data/checkpoints/yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 32
+mv yolov7.onnx ../checkpoints/yolov7m.onnx
+cd ..

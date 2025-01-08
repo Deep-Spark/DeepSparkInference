@@ -94,6 +94,7 @@ def main(config):
     print(f"pred_logits shape : {batch_pred_logits.shape} pred_logits type : {batch_pred_logits.dtype}")
     print(f"pred_boxes shape : {batch_pred_boxes.shape} pred_boxes type : {batch_pred_boxes.dtype}")
 
+    start_time = time.time()
     for batch_data, batch_img_shape, batch_img_id in tqdm(dataloader):
         batch_data = batch_data.numpy()
         batch_img_shape = [batch_img_shape[0].numpy(), batch_img_shape[1].numpy()]
@@ -128,7 +129,9 @@ def main(config):
                 # ipdb.set_trace()
                       
                 save2json(img_id, pred_boxes, json_result)
-
+    end_time = time.time()
+    e2e_time = end_time - start_time
+    print(F"E2E time : {e2e_time:.3f} seconds")
     fps = num_samples / forward_time
 
     if config.test_mode == "FPS":

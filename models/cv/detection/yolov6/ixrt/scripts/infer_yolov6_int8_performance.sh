@@ -23,7 +23,7 @@ check_status()
 }
 
 PROJ_DIR=$(cd $(dirname $0);cd ../; pwd)
-DATASETS_DIR="${PROJ_DIR}/data/coco"
+DATASETS_DIR=${DATASETS_DIR}
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 EVAL_DIR=${DATASETS_DIR}/images/val2017
 CHECKPOINTS_DIR="${PROJ_DIR}/data"

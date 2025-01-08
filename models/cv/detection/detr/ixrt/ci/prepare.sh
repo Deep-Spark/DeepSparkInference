@@ -24,13 +24,7 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
+pip3 install -r requirements.txt
 
-pip install -r requirements.txt
-unzip /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
-ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
-cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-if [ "$1" = "nvidia" ]; then
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DUSE_TRT=1 && make -j12
-else
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DIXRT_HOME=/usr/local/corex && make -j12
-fi
+mkdir checkpoints
+python3 export_model.py --torch_file /root/data/checkpoints/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1

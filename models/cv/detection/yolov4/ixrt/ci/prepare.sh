@@ -25,12 +25,15 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-unzip /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
-ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
-cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-if [ "$1" = "nvidia" ]; then
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DUSE_TRT=1 && make -j12
-else
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DIXRT_HOME=/usr/local/corex && make -j12
-fi
+pip3 install -r requirements.txt
+
+# clone yolov4
+git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
+
+mkdir data
+# export onnx model
+python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight /root/data/checkpoints/yolov4.weights --batchsize 16 --output data/yolov4.onnx
+mv yolov4_16_3_608_608_static.onnx data/yolov4.onnx
+
+# Use onnxsim optimize onnx model
+onnxsim data/yolov4.onnx data/yolov4_sim.onnx

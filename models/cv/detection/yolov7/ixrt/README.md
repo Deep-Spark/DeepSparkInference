@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install ultralytics
-pip3 install pycocotools
-pip3 install cv2
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -53,25 +47,25 @@ export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 export EVAL_DIR=${DATASETS_DIR}/val2017
 export RUN_DIR=/Path/to/yolov7/ixrt
-export CONFIG_DIR=config/YOLOV7M_CONFIG
+export CONFIG_DIR=config/YOLOV7_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov7m_fp16_accuracy.sh
+bash scripts/infer_yolov7_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov7m_fp16_performance.sh
+bash scripts/infer_yolov7_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov7m_int8_accuracy.sh
+bash scripts/infer_yolov7_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov7m_int8_performance.sh
+bash scripts/infer_yolov7_int8_performance.sh
 ```
 
 ## Results

@@ -25,12 +25,19 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-unzip /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
-ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
-cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-if [ "$1" = "nvidia" ]; then
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DUSE_TRT=1 && make -j12
-else
-    cd ../plugin && mkdir -p build && cd build && cmake .. -DIXRT_HOME=/usr/local/corex && make -j12
-fi
+pip3 install -r requirements.txt
+
+mkdir checkpoints
+git clone https://github.com/ultralytics/yolov5
+# 切换到需要的版本分支
+cd yolov5
+git checkout v6.1
+
+# 有一些环境需要安装
+wget https://ultralytics.com/assets/Arial.ttf
+cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
+
+# 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
+python3 export.py --weights /root/data/checkpoints/yolov5m.pt --include onnx --opset 11 --batch-size 32
+mv yolov5m.onnx ./checkpoints
+cd ..

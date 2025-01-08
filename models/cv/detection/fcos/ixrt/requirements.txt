@@ -1,0 +1,10 @@
+tqdm
+onnx
+onnxsim
+ultralytics
+pycocotools
+addict
+yapf
+pycuda
+mmdet==2.28.2
+opencv-python==4.6.0.66

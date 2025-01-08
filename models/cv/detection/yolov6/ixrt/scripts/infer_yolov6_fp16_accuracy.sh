@@ -23,7 +23,7 @@ check_status()
 }
 
 PROJ_DIR=$(cd $(dirname $0);cd ../; pwd)
-DATASETS_DIR="${PROJ_DIR}/data/coco"
+DATASETS_DIR=${DATASETS_DIR}
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 EVAL_DIR=${DATASETS_DIR}/images/val2017
 CHECKPOINTS_DIR="${PROJ_DIR}/data"
@@ -39,18 +39,6 @@ echo Onnx Path : ${ORIGINE_MODEL}
 
 BATCH_SIZE=32
 CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov6s.onnx
-
-# fuse silu
-# FINAL_MODEL=${CHECKPOINTS_DIR}/yolov6_bs${BATCH_SIZE}_fused.onnx
-# if [ -f $FINAL_MODEL ];then
-#     echo "  "Fuse silu Skip, $FINAL_MODEL has been existed
-# else
-#     python3 ${RUN_DIR}/deploy.py             \
-#         --src ${CURRENT_MODEL}               \
-#         --dst ${FINAL_MODEL}                 
-#     echo "  "Generate ${FINAL_MODEL}
-# fi
-# CURRENT_MODEL=${FINAL_MODEL}
 
 # Build Engine
 echo Build Engine
@@ -74,6 +62,5 @@ python3 ${RUN_DIR}/inference.py                 \
     --bsz ${RUN_BATCH_SIZE}                         \
     --imgsz 640                              \
     --datasets ${DATASETS_DIR}               \
-    --perf_only true                         \
-    --fps_target 0.0                     
+    --acc_target 0.3                     
 exit ${EXIT_STATUS}
