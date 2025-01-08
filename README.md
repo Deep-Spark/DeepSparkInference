@@ -926,6 +926,29 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
 </table>
 
+### Recommendation Systems
+
+<table>
+    <tr align="center">
+        <th>Models</th>
+        <th>Precision</th>
+        <th>IGIE</th>
+        <th>IxRT</th>
+    </tr>
+    <tr align="center">
+        <td rowspan=2>Wide & Deep</td>
+        <td>FP16</td>
+        <td>-</td>
+        <td><a href="models/recommendation/ctr-prediction/widedeep/ixrt/README.md#fp16">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+
+</table>
+
 ### Segmentation
 
 <table>
