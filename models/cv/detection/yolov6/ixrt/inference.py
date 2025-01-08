@@ -237,11 +237,15 @@ def main():
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {args.fps_target}")
     else:
+        start_time = time.time()
         dataloader, pred_results = evaluator.eval_ixrt(args)
         eval_result = evaluator.eval_ixrt_map(pred_results, dataloader, task)
+        end_time = time.time()
+        e2e_time = end_time - start_time
         map, map50 = eval_result[:2]
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {args.acc_target}")
+        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= args.acc_target:
             print("pass!")
             exit()

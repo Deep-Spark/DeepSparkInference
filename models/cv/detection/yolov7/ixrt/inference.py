@@ -101,6 +101,7 @@ def main(config):
     output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
     print(f"output shape : {output.shape} output type : {output.dtype}")
 
+    start_time = time.time()
     for batch_data, batch_img_shape, batch_img_id in tqdm(dataloader):
         batch_data = batch_data.numpy()
         batch_img_shape = [batch_img_shape[0].numpy(), batch_img_shape[1].numpy()]
@@ -154,6 +155,8 @@ def main(config):
             )
             save2json(batch_img_id, pred_boxes, json_result, class_map)
 
+    end_time = time.time()
+    e2e_time = end_time - start_time
     fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
@@ -195,6 +198,7 @@ def main(config):
         map, map50 = eval.stats[:2]
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {config.map_target}")
+        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= config.map_target:
             print("pass!")
             exit()

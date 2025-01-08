@@ -68,6 +68,7 @@ def main(config):
     forward_time = 0.0
     class_map = coco80_to_coco91_class()
     num_samples = 0
+    start_time = time.time()
     # Step3: Run on coco dataset
     for batch_names, batch_images, batch_shapes in tqdm(zip(*dataloader)):
         batch_data = np.ascontiguousarray(batch_images)
@@ -110,7 +111,8 @@ def main(config):
                 pred_results.append(pred_box.tolist())
 
             save2json(batch_img_id, pred_results, json_result, class_map)
-
+    end_time = time.time()
+    e2e_time = end_time - start_time
     fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
@@ -152,6 +154,7 @@ def main(config):
         map, map50 = eval.stats[:2]
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {config.map_target}")
+        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= config.map_target:
             print("pass!")
             exit()
