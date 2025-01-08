@@ -146,7 +146,6 @@ def run_clf_testcase(model):
     cd ../{model['relative_path']}
     bash ci/prepare.sh
     """
-
     # add pip list info when in debug mode
     if utils.is_debug():
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
@@ -155,6 +154,15 @@ def run_clf_testcase(model):
     run_script(prepare_script)
 
     config_name = model_name.upper()
+
+    patterns = {
+        "FPS": r"FPS\s*:\s*(\d+\.?\d*)",
+        "Acc1": r"Acc@1\s*:\s*(\d+\.?\d*)",
+        "Acc5": r"Acc@5\s*:\s*(\d+\.?\d*)",
+        "E2E": r"E2E time\s*:\s*(\d+\.\d+)"
+    }
+
+    combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
@@ -171,25 +179,17 @@ def run_clf_testcase(model):
 
         r, t = run_script(script)
         sout = r.stdout
-        fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
-        acc1_pattern = r"(?P<Acc1>Acc@1\s*:\s*(\d+\.?\d*))"
-        acc5_pattern = r"(?P<Acc5>Acc@5\s*:\s*(\d+\.?\d*))"
-        e2e_pattern = r"(?P<E2E time>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
-        combined_pattern = re.compile(f"{fps_pattern}|{acc1_pattern}|{acc5_pattern}|{e2e_pattern}")
         matchs = combined_pattern.finditer(sout)
+        result["result"].setdefault(prec, {"status": "FAIL"})
         match_count = 0
         for match in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
             for name, value in match.groupdict().items():
                 if value:
                     match_count += 1
-                    try:
-                        result["result"][prec][name] = float(value)
-                    except ValueError:
-                        print("The string cannot be converted to a float.")
-                        result["result"][prec][name] = value
+                    result["result"][prec][name] = float(value.split(":")[1].strip())
+                    break
 
-        if match_count == 3:
+        if match_count == len(patterns):
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
