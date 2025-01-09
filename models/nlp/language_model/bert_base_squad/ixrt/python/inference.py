@@ -376,6 +376,10 @@ if __name__ == '__main__':
             print(F"E2E time : {infer_time:.3f} seconds")
             qps = len(squad_examples)/infer_time
             print(f"Latency QPS: {qps} sentences/s")
+            metricResult = {"metricResult": {}}
+            metricResult["metricResult"]["E2E time"] = round(infer_time, 3)
+            metricResult["metricResult"]["Latency QPS"] = round(qps, 3)
+            print(metricResult)
 
             with open(output_prediction_file, "w") as f:
                 f.write(json.dumps(all_predictions, indent=4))

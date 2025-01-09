@@ -27,13 +27,19 @@ fi
 
 pip install -r requirements.txt
 
-if [ "$1" = "nvidia" ]; then
-    cmake -S . -B build -DUSE_TENSORRT=true
-    cmake --build build -j16
-else
-    cmake -S . -B build
-    cmake --build build -j16
-fi
+mkdir -p data
+cp -r /root/data/checkpoints/open_videobert data/
 
-mkdir -p ./python/data
-ln -s /root/data/checkpoints/bert_base_uncased_squad/ ./python/data && ln -s /root/data/datasets/squad/ ./python/data
+# link and install requirements
+ln -s ../../../../../toolbox/ByteMLPerf ./
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+
+# copy data
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
+cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+
+# run acc scripts
+mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py

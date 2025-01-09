@@ -13,11 +13,7 @@ export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
 export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/roberta/ixrt
 cd ${MODEL_PATH}
 
-pip3 install onnxsim
-pip3 install py-libnuma==1.2
-pip3 install bert
-pip3 install pycuda
-pip3 install transformers==4.33.3
+pip3 install -r requirements.txt
 ```
 
 ### Download

@@ -74,25 +74,15 @@ def main():
             logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['name']} test case.")
 
-    # # OCR模型
-    # if model["task_type"] in ["cv/ocr"]:
-    #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-    #     d_url = model["download_url"]
-    #     if d_url is not None:
-    #         result = run_ocr_testcase(model)
-    #         check_model_result(result)
-    #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-    #     logging.info(f"End running {model['name']} test case.")
-
-    # # Trace模型
-    # if model["task_type"] in ["cv/trace"]:
-    #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-    #     d_url = model["download_url"]
-    #     if d_url is not None:
-    #         result = run_trace_testcase(model)
-    #         check_model_result(result)
-    #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-    #     logging.info(f"End running {model['name']} test case.")
+    # Segmentation模型
+    if model["task_type"] in ["cv/segmentation"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_segmentation_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
 
     # # Speech模型
     # if model["task_type"] in ["speech/speech_recognition"]:
@@ -104,15 +94,15 @@ def main():
     #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
     #     logging.info(f"End running {model['name']} test case.")
 
-    # # NLP模型
-    # if model["task_type"] in ["nlp/language_model"]:
-    #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-    #     d_url = model["download_url"]
-    #     if d_url is not None:
-    #         result = run_nlp_testcase(model)
-    #         check_model_result(result)
-    #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-    #     logging.info(f"End running {model['name']} test case.")
+    # NLP模型
+    if model["task_type"] in ["nlp/language_model"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_nlp_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
 
     logging.info(f"Full text result: {result}")
 
@@ -243,6 +233,9 @@ def run_detec_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
+        if model_name == "rtmpose":
+            script = "python3 predict.py --model ./rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg"
+
         r, t = run_script(script)
         sout = r.stdout
         fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
@@ -282,7 +275,7 @@ def run_detec_testcase(model):
 
     return result
 
-def run_ocr_testcase(model):
+def run_segmentation_testcase(model):
     model_name = model["name"]
     result = {
         "name": model_name,
@@ -293,70 +286,6 @@ def run_ocr_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /root/data/checkpoints/{checkpoint_n} ./
-    ln -s /root/data/datasets/{dataset_n} ./
-    unzip /root/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
-    bash ci/prepare.sh
-    """
-
-    # add pip list info when in debug mode
-    if utils.is_debug():
-        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
-        prepare_script = pip_list_script + prepare_script + pip_list_script
-
-    run_script(prepare_script)
-
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        cd ../{model['relative_path']}
-        export DATASETS_DIR=./{dataset_n}/
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
-
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
-            result["result"][prec].update(get_metric_result(matchs[0]))
-            result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
-
-    return result
-
-def run_trace_testcase(model):
-    model_name = model["name"]
-    result = {
-        "name": model_name,
-        "result": {},
-    }
-    d_url = model["download_url"]
-    checkpoint_n = d_url.split("/")[-1]
-    dataset_n = model["datasets"].split("/")[-1]
-    prepare_script = f"""
-    cd ../{model['relative_path']}
-    ln -s /root/data/checkpoints/{checkpoint_n} ./
-    ln -s /root/data/datasets/{dataset_n} ./
-    """
-
-    if model["need_third_part"]:
-        prepare_script += "unzip /root/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
-
-    prepare_script += """
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -373,27 +302,49 @@ def run_trace_testcase(model):
         script = f"""
         cd ../{model['relative_path']}
         export DATASETS_DIR=./{dataset_n}/
+        export PROJ_DIR=./
+        export CHECKPOINTS_DIR=./checkpoints
+        export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+        export EVAL_DIR=./{dataset_n}/val2017
+        export RUN_DIR=./
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
         sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+        fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
+        e2e_pattern = r"(?P<E2E>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
+        combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
+        matchs = combined_pattern.finditer(sout)
+        for match in matchs:
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            for name, value in match.groupdict().items():
+                if value:
+                    try:
+                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        break
+                    except ValueError:
+                        print("The string cannot be converted to a float.")
+                        result["result"][prec][name] = value
+        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
+            result["result"].setdefault(prec, {})
             try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1])}
             except ValueError:
                 print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
-            result["result"][prec].update(get_metric_result(matchs[0]))
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
+        if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+        else:
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            if matchs and len(matchs) == 1:
+                result["result"].setdefault(prec, {})
+                result["result"][prec].update(get_metric_result(matchs[0]))
+                result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
@@ -405,26 +356,11 @@ def run_nlp_testcase(model):
         "name": model_name,
         "result": {},
     }
-    d_url = model["download_url"]
-    checkpoint_n = d_url.split("/")[-1]
-    dataset_n = model["datasets"].split("/")[-1]
-    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1"}
-    target_dir = target_dirs[model_name]
-    dirname = os.path.dirname(target_dir)
-    mkdir_script = f"mkdir -p {dirname}" if dirname else ""
-
     prepare_script = f"""
     set -x
     cd ../{model['relative_path']}
-    {mkdir_script}
-    ln -s /root/data/checkpoints/{checkpoint_n} ./{target_dir}
-    export DATASETS_DIR=/root/data/datasets/{dataset_n}
     bash ci/prepare.sh
     """
-
-    # prepare int8 model for bert_large_squad
-    if model_name == "bert_large_squad":
-        prepare_script += "ln -s /root/data/checkpoints/bert_large_int8.hdf5 ./\n"
 
     # add pip list info when in debug mode
     if utils.is_debug():
@@ -437,11 +373,48 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        export DATASETS_DIR=/root/data/datasets/{dataset_n}
         cd ../{model['relative_path']}
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
+        export OPTIMIER_FILE=./optimizer.py
+        export PROJ_PATH=./
         bash scripts/infer_{model_name}_{prec}_performance.sh
+        cd ./ByteMLPerf/byte_infer_perf/general_perf
         """
+        if model_name == "roformer":
+            script += f"""
+            python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
+            """
+        elif model_name == "videobert":
+            script += f"""
+            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-onnx-fp32
+            """
+        else:
+            #  model_name == "roberta" or model_name == "deberta" or model_name == "albert"
+            script += f"""
+            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-torch-fp32
+            """
+
+
+        if model_name == "bert_base_squad":
+            script = f"""
+            set -x
+            cd ../{model['relative_path']}/python
+            bash scripts/infer_{model_name}_{prec}_ixrt.sh
+            """
+        elif model_name == "bert_large_squad":
+            script = f"""
+            set -x
+            cd ../{model['relative_path']}/python
+            bash script/build_engine.sh --bs 32
+            bash script/inference_squad.sh --bs 32
+            """
+            if prec == "int8":
+                script = f"""
+                set -x
+                cd ../{model['relative_path']}/python
+                bash script/build_engine.sh --bs 32 --int8
+                bash script/inference_squad.sh --bs 32 --int8
+                """
 
         r, t = run_script(script)
         sout = r.stdout

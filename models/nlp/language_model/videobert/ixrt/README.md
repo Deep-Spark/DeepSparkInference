@@ -11,17 +11,7 @@ VideoBERT is a model designed for video understanding tasks, extending the capab
 ```bash
 apt install -y libnuma-dev
 
-pip3 install onnxsim
-pip3 install onnx_graphsurgeon
-pip3 install scikit-learn
-pip3 install tqdm
-pip3 install pycuda
-pip3 install onnx
-pip3 install tabulate
-pip3 install cv2
-pip3 install pycocotools
-pip3 install opencv-python==4.6.0.66
-pip3 install transformers==4.33.3
+pip3 install -r requirements.txt
 ```
 
 ### Download

@@ -11,10 +11,7 @@ Position encoding recently has shown effective in the transformer architecture. 
 ```bash
 apt install -y libnuma-dev
 
-pip3 install tf2onnx
-pip3 install pycuda
-pip3 install onnxsim
-pip3 install py-libnuma==1.2
+pip3 install -r requirements.txt
 
 ```
 
