@@ -5,3 +5,4 @@ onnxsim
 opencv-python==4.6.0.66
 mmcls==0.24.0
 mmcv==1.5.3
+pycuda

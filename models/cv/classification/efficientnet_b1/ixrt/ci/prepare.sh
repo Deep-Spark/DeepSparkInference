@@ -29,5 +29,5 @@ pip install -r requirements.txt
 
 mkdir checkpoints
 mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/efficientnet_b1-c27df63c.pth /root/.cache/torch/hub/checkpoints/efficientnet_b1-c27df63c.pth
+ln -s /root/data/checkpoints/efficientnet_b1_rwightman-bac287d4.pth /root/.cache/torch/hub/checkpoints/efficientnet_b1_rwightman-bac287d4.pth
 python3 export_onnx.py --output_model checkpoints/efficientnet-b1.onnx

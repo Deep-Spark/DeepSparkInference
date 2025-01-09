@@ -31,4 +31,4 @@ unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight /root/data/checkpoints/cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 
 mkdir -p checkpoints
-onnxsim cspdarknet5.onnx checkpoints/cspdarknet53_sim.onnx
+onnxsim cspdarknet53.onnx checkpoints/cspdarknet53_sim.onnx

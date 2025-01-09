@@ -27,7 +27,7 @@ fi
 
 pip3 install -r requirements.txt
 mkdir -p data/
-git clone https://github.com/meituan/YOLOv6.git
+cp -r /root/data/3rd_party/YOLOv6 ./
 
 cd YOLOv6
 pip3 install -r requirements.txt

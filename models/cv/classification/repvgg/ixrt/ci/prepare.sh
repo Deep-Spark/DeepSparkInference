@@ -26,7 +26,7 @@ else
 fi
 
 pip install -r requirements.txt
-unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
+unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir -p checkpoints 
 python3 export_onnx.py   \
     --config_file ./mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py \

@@ -25,5 +25,20 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
-python3 export.py --weight fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth --cfg fcos_r50_caffe_fpn_gn-head_1x_coco.py --output fcos.onnx
-onnxsim fcos.onnx fcos_opt.onnx
+
+mkdir -p checkpoints
+unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
+cd mmdetection
+python3 tools/deployment/pytorch2onnx.py \
+    ../fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco.py \
+    /root/data/checkpoints/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco-0a0d75a8.pth \
+    --output-file ../checkpoints/r50_fcos.onnx \
+    --input-img demo/demo.jpg \
+    --test-img tests/data/color.jpg \
+    --shape 800 800 \
+    --show \
+    --verify \
+    --skip-postprocess \
+    --dynamic-export \
+    --cfg-options \
+      model.test_cfg.deploy_nms_pre=-1

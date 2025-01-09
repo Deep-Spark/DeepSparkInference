@@ -43,7 +43,7 @@ Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_cen
 MMDetection is an open source object detection toolbox based on PyTorch. It is a part of the OpenMMLab project.It is utilized for model conversion. In MMDetection, Execute model conversion command, and the checkpoints folder needs to be created, (mkdir checkpoints) in project
 
 ```bash
-
+mkdir -p checkpoints
 git clone -b v2.25.0 https://github.com/open-mmlab/mmdetection.git
 cd mmdetection
 python3 tools/deployment/pytorch2onnx.py \

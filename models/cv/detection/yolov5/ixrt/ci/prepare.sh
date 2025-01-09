@@ -28,16 +28,16 @@ fi
 pip3 install -r requirements.txt
 
 mkdir checkpoints
-git clone https://github.com/ultralytics/yolov5
+cp -r /root/data/3rd_party/yolov5 ./
 # 切换到需要的版本分支
 cd yolov5
-git checkout v6.1
 
 # 有一些环境需要安装
-wget https://ultralytics.com/assets/Arial.ttf
-cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
+# wget https://ultralytics.com/assets/Arial.ttf
+mkdir -p /root/.config/Ultralytics
+cp /root/data/3rd_party/Arial.ttf /root/.config/Ultralytics/Arial.ttf
 
 # 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
 python3 export.py --weights /root/data/checkpoints/yolov5m.pt --include onnx --opset 11 --batch-size 32
-mv yolov5m.onnx ./checkpoints
+mv yolov5m.onnx ../checkpoints
 cd ..
