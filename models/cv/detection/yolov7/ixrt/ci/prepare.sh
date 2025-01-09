@@ -29,6 +29,7 @@ pip3 install -r requirements.txt
 mkdir -p checkpoints
 cp -r /root/data/3rd_party/yolov7 ./
 cd yolov7
-python3 export.py --weights /root/data/checkpoints/yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 32
+ln -s /root/data/checkpoints/yolov7.pt ./
+python3 export.py --weights yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 32
 mv yolov7.onnx ../checkpoints/yolov7m.onnx
 cd ..

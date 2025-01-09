@@ -28,7 +28,7 @@ fi
 pip3 install -r requirements.txt
 
 # clone yolov4
-git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
+cp -r /root/data/3rd_party/yolov4 ./
 
 mkdir data
 # export onnx model

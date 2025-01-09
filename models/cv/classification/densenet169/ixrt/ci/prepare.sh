@@ -27,4 +27,4 @@ fi
 
 pip install -r requirements.txt
 
-python3 export.py --weight /root/data/checkpoints/densenet169-b2777c0a.pth --output densenet161.onnx
+python3 export.py --weight /root/data/checkpoints/densenet169-b2777c0a.pth --output densenet169.onnx

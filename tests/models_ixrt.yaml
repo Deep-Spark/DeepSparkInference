@@ -68,7 +68,7 @@
   relative_path: models/cv/classification/efficientnet_b0/ixrt
   task_type: cv/classification
 - datasets: https://www.image-net.org/download.php
-  download_url: https://local/efficientnet_b1.pth
+  download_url: https://download.pytorch.org/models/efficientnet_b1_rwightman-bac287d4.pth
   name: efficientnet_b1
   need_third_part: false
   precisions:
@@ -283,12 +283,11 @@
   need_third_part: false
   precisions:
     - fp16
-  relative_path: models/cv/detection/detr/i8xrt
+  relative_path: models/cv/detection/detr/ixrt
   task_type: cv/detection
 - datasets: local/coco
   download_url: https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco-0a0d75a8.pth
   name: fcos
-  need_comfirm: true
   need_third_part: true
   precisions:
     - fp16
@@ -380,7 +379,7 @@
 - datasets: local/coco
   download_url: https://download.01.org/opencv/openvino_training_extensions/models/human_pose_estimation/checkpoint_iter_370000.pth
   name: lightweight_openpose
-  need_third_part: false
+  need_third_part: true
   precisions:
     - fp16
   relative_path: models/cv/pose_estimation/lightweight_openpose/ixrt
@@ -404,7 +403,7 @@
 - datasets: local/coco
   download_url: https://download.openmmlab.com/mmdetection/v2.0/solo/solo_r50_fpn_3x_coco/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth
   name: solov1
-  need_third_part: false
+  need_third_part: true
   precisions:
     - fp16
   relative_path: models/cv/segmentation/solov1/ixrt
@@ -421,9 +420,9 @@
 - datasets: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar
   download_url: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_albert.tar
   name: albert
-  need_third_part: false
+  need_third_part: true
   precisions:
-    - int8
+    - fp16
   relative_path: models/nlp/language_model/albert/ixrt
   task_type: nlp/language_model
 - datasets: local/SQuAD
@@ -432,6 +431,7 @@
   need_third_part: false
   precisions:
     - fp16
+    - int8
   relative_path: models/nlp/language_model/bert_base_squad/ixrt
   task_type: nlp/language_model
 - datasets: local/SQuAD
@@ -449,7 +449,6 @@
   need_third_part: false
   precisions:
     - fp16
-    - int8
   relative_path: models/nlp/language_model/deberta/ixrt
   task_type: nlp/language_model
 - datasets: local/SQuAD
@@ -458,7 +457,6 @@
   need_third_part: false
   precisions:
     - fp16
-    - int8
   relative_path: models/nlp/language_model/roberta/ixrt
   task_type: nlp/language_model
 - datasets: local/SQuAD
@@ -467,7 +465,6 @@
   need_third_part: false
   precisions:
     - fp16
-    - int8
   relative_path: models/nlp/language_model/roformer/ixrt
   task_type: nlp/language_model
 - datasets: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/cifar-100-python.tar
@@ -476,7 +473,6 @@
   need_third_part: false
   precisions:
     - fp16
-    - int8
   relative_path: models/nlp/language_model/videobert/ixrt
   task_type: nlp/language_model
 - datasets: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv

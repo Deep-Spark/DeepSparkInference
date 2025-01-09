@@ -32,7 +32,8 @@ cp -r /root/data/3rd_party/YOLOv6 ./
 cd YOLOv6
 pip3 install -r requirements.txt
 
+ln -s /root/data/checkpoints/yolov6s.pt ./
 # export onnx model
-python3 deploy/ONNX/export_onnx.py --weights /root/data/checkpoints/yolov6s.pt --img 640 --batch-size 32 --simplify
-mv ../yolov6s.onnx ../data/
+python3 deploy/ONNX/export_onnx.py --weights yolov6s.pt --img 640 --batch-size 32 --simplify
+mv yolov6s.onnx ../data/
 cd ..
