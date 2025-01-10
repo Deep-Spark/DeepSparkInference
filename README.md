@@ -190,7 +190,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>EfficientNet-B3</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/efficientnet_b3/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/efficientnet_b3/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -223,7 +223,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>EfficientNetv2_s</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/efficientnet_v2_s/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/efficientnet_v2_s/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
