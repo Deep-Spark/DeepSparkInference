@@ -67,9 +67,6 @@ ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
-# modify perf_engine.py
-mv ./perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-
 # edit madlag/albert-base-v2-squad path
 sed -i "s#madlag#/${MODEL_PATH}/madlag#" ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
 

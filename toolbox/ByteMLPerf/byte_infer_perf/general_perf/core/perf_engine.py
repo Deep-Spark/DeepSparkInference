@@ -20,7 +20,6 @@ import subprocess
 import time
 
 from typing import Any, Dict, Tuple
-import virtualenv
 from prompt_toolkit.shortcuts import radiolist_dialog, input_dialog, yes_no_dialog
 from prompt_toolkit.styles import Style
 
@@ -33,7 +32,6 @@ import argparse
 from general_perf.core.configs.workload_store import load_workload
 from general_perf.core.configs.dataset_store import load_dataset
 from general_perf.core.configs.backend_store import init_compile_backend, init_runtime_backend
-from general_perf.tools.build_pdf import build_pdf
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("PerfEngine")
@@ -208,7 +206,7 @@ class PerfEngine:
                     workload['data_percent'])
             diff_results = AccuracyChecker.calculate_diff()
             accuracy_report.update(diff_results)
-            accuracy_report['Diff Dist'] = compile_info['model'] + '-to-' + compile_info['compile_precision'].lower() + ".png"
+            # accuracy_report['Diff Dist'] = compile_info['model'] + '-to-' + compile_info['compile_precision'].lower() + ".png"
 
         if accuracy_report:
             base_report['Accuracy'] = accuracy_report
@@ -242,11 +240,6 @@ class PerfEngine:
         log.info("Testing Finish. Report is saved in path: [ {}/{} ]".
                  format(output_dir[output_dir.rfind('general_perf'):],
                  os.path.basename(output_report_path)))
-        build_pdf(output_report_path)
-        log.info("PDF Version is saved in path: [ {}/{}-TO-{}.pdf ]".format(
-            output_dir[output_dir.rfind('general_perf'):],
-            base_report['Model'],
-            output_report_path.split('/')[-1].split('-')[1].upper()))
 
         return compile_info["compile_status"]
 
@@ -341,46 +334,7 @@ class PerfEngine:
         return answer
 
     def activate_venv(self, hardware_type: str) -> bool:
-        if os.path.exists('general_perf/backends/' + hardware_type +
-                          '/requirements.txt'):
-            log.info("Activating Virtual Env for " + hardware_type)
-
-            venv_dir = os.path.join("general_perf/backends",
-                                    hardware_type + "/venv")
-            activate_file = os.path.join(venv_dir, 'bin', 'activate_this.py')
-            if not os.path.exists(venv_dir):
-                log.info("venv not exist, Creating Virtual Env for " +
-                         hardware_type)
-                if (hardware_type == "HPU"):
-                    virtualenv.create_environment(venv_dir,True)
-                else:
-                    virtualenv.create_environment(venv_dir)
-                exec(open(activate_file).read(), {'__file__': activate_file})
-                python_path = os.path.join(venv_dir, 'bin', 'python3')
-                subprocess.call([
-                    python_path, '-m', 'pip', 'install', '--upgrade', 'pip', '--quiet'
-                ])
-                subprocess.call([
-                    python_path, '-m', 'pip', 'install', '-r', 'general_perf/backends/' +
-                    hardware_type + '/requirements.txt', '-q'
-                ])
-            else:
-                exec(open(activate_file).read(), {'__file__': activate_file})
-                '''
-                just in case install failed in pre-run.
-                '''
-                python_path = os.path.join(venv_dir, 'bin', 'python3')
-                subprocess.call([
-                    python_path, '-m', 'pip', 'install', '--upgrade', 'pip', '--quiet'
-                ])
-                subprocess.call([
-                    python_path, '-m', 'pip', 'install', '-r', 'general_perf/backends/' +
-                    hardware_type + '/requirements.txt', '-q'
-                ])
-
-                if not hasattr(sys, 'real_prefix'):
-                    return False
-                return True
+        
         return True
 
     def deactivate_venv(self):

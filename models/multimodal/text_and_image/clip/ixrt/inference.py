@@ -26,18 +26,20 @@ from transformers import CLIPProcessor
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = (
-    CLIPModel.from_pretrained("/home/data/openai/clip-vit-base-patch32")
+    CLIPModel.from_pretrained("/data/clip-vit-base-patch32")
     .to(device)
     .half()
 )
 model = model.eval()
-processor = CLIPProcessor.from_pretrained("/home/data/openai/clip-vit-base-patch32")
+processor = CLIPProcessor.from_pretrained("data/clip-vit-base-patch32")
 
 url = "http://images.cocodataset.org/val2017/000000039769.jpg"
 image = Image.open(requests.get(url, stream=True).raw)
 
+metricResult = {"metricResult": {}}
 batch_size_list = [32, 64, 128, 256, 512, 1024, 2048]
 with torch.no_grad():
+    e2e_start_time = time.time()
     for batch_size in batch_size_list:
         images = [image for item in range(batch_size)]
         inputs = processor(
@@ -67,5 +69,8 @@ with torch.no_grad():
         )  # we can take the softmax to get the label probabilities
         print(probs[:5])
         print(probs[-5:-1])
-
+        metricResult["metricResult"]["QPS-{batch_size}"] = round(batch_size / (end_time - start_time), 3)
         print("QPS: ", batch_size / (end_time - start_time))
+    e2e_time = time.time() - e2e_start_time
+    metricResult["metricResult"]["E2E time"] = round(e2e_time, 3)
+    print(metricResult)

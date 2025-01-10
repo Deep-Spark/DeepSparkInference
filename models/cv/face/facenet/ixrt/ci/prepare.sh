@@ -24,19 +24,16 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
+unzip -q /root/data/checkpoints/20180408-102900.zip -d ./
+unzip -q /root/data/datasets/facenet_datasets.zip -d ./
+mkdir -p checkpoints
+mkdir -p facenet_weights
+cp -r /root/data/3rd_party/facenet-pytorch ./
+cp ./tensorflow2pytorch.py facenet-pytorch
+python3 ./facenet-pytorch/tensorflow2pytorch.py \
+        --facenet_weights_path ./facenet_weights \
+        --facenet_pb_path ./20180408-102900 \
+        --onnx_save_name facenet_export.onnx
+mv facenet_export.onnx ./facenet_weights
 
-pip install -r requirements.txt
-
-mkdir -p data
-cp -r /root/data/checkpoints/open_videobert data/
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-# link and install requirements
-ln -s ../../../../../toolbox/ByteMLPerf ./
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-
-# copy data
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
-cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+sed -i -e 's#/last_bn/BatchNormalization_output_0#1187#g' -e 's#/avgpool_1a/GlobalAveragePool_output_0#1178#g' deploy.py build_engine.py

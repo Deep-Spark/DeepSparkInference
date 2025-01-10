@@ -28,6 +28,7 @@ fi
 pip install -r requirements.txt
 
 cp /root/data/3rd_party/deberta-torch-fp32.json ./
+cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_deberta/deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
 onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
 python3 remove_clip_and_cast.py
@@ -41,7 +42,6 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
 # setup
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/
 
 cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx /root/data/checkpoints/open_deberta/

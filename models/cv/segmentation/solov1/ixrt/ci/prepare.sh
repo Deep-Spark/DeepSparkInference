@@ -27,16 +27,22 @@ fi
 
 pip install -r requirements.txt
 
-mkdir -p data
-cp -r /root/data/checkpoints/open_videobert data/
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-# link and install requirements
-ln -s ../../../../../toolbox/ByteMLPerf ./
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+cp -r /root/data/3rd_party/mmcv-v1.7.1 ./mmcv
+cp -r -T /root/data/repos/deepsparkhub/toolbox/MMDetection/patch/mmcv/v1.7.1 ./mmcv
+cd mmcv
+rm -rf mmcv/ops/csrc/common/cuda/spconv/ mmcv/ops/csrc/common/utils/spconv/
+rm -f mmcv/ops/csrc/pytorch/cpu/sparse_*
+rm -f mmcv/ops/csrc/pytorch/cuda/fused_spconv_ops_cuda.cu
+rm -f mmcv/ops/csrc/pytorch/cuda/spconv_ops_cuda.cu
+rm -f mmcv/ops/csrc/pytorch/cuda/sparse_*
+rm -f mmcv/ops/csrc/pytorch/sp*
 
-# copy data
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
-cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+bash clean_mmcv.sh
+bash build_mmcv.sh
+bash install_mmcv.sh
+cd ..
+
+mkdir -p checkpoints
+ln -s /root/data/checkpoints/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth ./
+python3 solo_torch2onnx.py --cfg ./solo_r50_fpn_3x_coco.py --checkpoint ./solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth --batch_size 1
+mv r50_solo_bs1_800x800.onnx ./checkpoints/r50_solo_bs1_800x800.onnx

@@ -9,10 +9,7 @@ Generalized linear models with nonlinear feature transformations are widely used
 ### Install
 
 ```bash
-pip3 install tf2onnx
-pip3 install pycuda
-pip3 install onnxsim
-pip3 install py-libnuma==1.2
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -62,7 +59,6 @@ For detailed steps regarding this model, please refer to this document: <https:/
 # link and install ByteMLPerf requirements
 ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 # Get eval.csv and onnx
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model

@@ -75,27 +75,27 @@ def main():
         logging.info(f"End running {model['name']} test case.")
 
     # Segmentation模型
-    if model["task_type"] in ["cv/segmentation"]:
+    if model["task_type"] in ["cv/segmentation", "cv/face", "multimodal/text_and_image"]:
         logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_segmentation_testcase(model)
+            result = run_segmentation_and_face_testcase(model)
             check_model_result(result)
             logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['name']} test case.")
 
-    # # Speech模型
-    # if model["task_type"] in ["speech/speech_recognition"]:
-    #     logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
-    #     d_url = model["download_url"]
-    #     if d_url is not None:
-    #         result = run_speech_testcase(model)
-    #         check_model_result(result)
-    #         logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-    #     logging.info(f"End running {model['name']} test case.")
+    # Speech模型
+    if model["task_type"] in ["speech/speech_recognition"]:
+        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_speech_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['name']} test case.")
 
     # NLP模型
-    if model["task_type"] in ["nlp/language_model"]:
+    if model["task_type"] in ["nlp/language_model", "recommendation/ctr-prediction"]:
         logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -167,6 +167,17 @@ def run_clf_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
+        if model_name == "swin_transformer_large":
+            script = f"""
+            cd ../{model['relative_path']}
+            export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
+            export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+            export PROJ_PATH=./
+            bash scripts/infer_swinl_fp16_performance.sh
+            cd ./ByteMLPerf/byte_infer_perf/general_perf
+            python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
+            """
+
         r, t = run_script(script)
         sout = r.stdout
         matchs = combined_pattern.finditer(sout)
@@ -200,11 +211,6 @@ def run_detec_testcase(model):
     bash ci/prepare.sh
     """
 
-    # if model["need_third_part"] and model["3rd_party_repo"]:
-    #     third_party_repo = model["3rd_party_repo"]
-    #     prepare_script += f"unzip /root/data/3rd_party/{third_party_repo}.zip -d ./\n"
-    # prepare_script += "bash ci/prepare.sh\n"
-
     # add pip list info when in debug mode
     if utils.is_debug():
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
@@ -234,7 +240,7 @@ def run_detec_testcase(model):
         """
 
         if model_name == "rtmpose":
-            script = "python3 predict.py --model ./rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg"
+            script = "python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg"
 
         r, t = run_script(script)
         sout = r.stdout
@@ -275,14 +281,12 @@ def run_detec_testcase(model):
 
     return result
 
-def run_segmentation_testcase(model):
+def run_segmentation_and_face_testcase(model):
     model_name = model["name"]
     result = {
         "name": model_name,
         "result": {},
     }
-    d_url = model["download_url"]
-    checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
@@ -307,44 +311,23 @@ def run_segmentation_testcase(model):
         export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
         export EVAL_DIR=./{dataset_n}/val2017
         export RUN_DIR=./
+
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
         sout = r.stdout
-        fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
-        e2e_pattern = r"(?P<E2E>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
-        combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
-        matchs = combined_pattern.finditer(sout)
-        for match in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            for name, value in match.groupdict().items():
-                if value:
-                    try:
-                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
-                        break
-                    except ValueError:
-                        print("The string cannot be converted to a float.")
-                        result["result"][prec][name] = value
-        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
+        
+        pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
-            result["result"].setdefault(prec, {})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
-        if matchs and len(matchs) == 2:
+            result["result"][prec].update(get_metric_result(m))
+        if len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
-        else:
-            pattern = METRIC_PATTERN
-            matchs = re.findall(pattern, sout)
-            if matchs and len(matchs) == 1:
-                result["result"].setdefault(prec, {})
-                result["result"][prec].update(get_metric_result(matchs[0]))
-                result["result"][prec]["status"] = "PASS"
+
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
@@ -380,9 +363,9 @@ def run_nlp_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
         """
-        if model_name == "roformer":
+        if model_name == "roformer" or model_name == "widedeep":
             script += f"""
-            python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
+            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-tf-fp32
             """
         elif model_name == "videobert":
             script += f"""
@@ -442,18 +425,6 @@ def run_speech_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['relative_path']}
-    ln -s /root/data/checkpoints/{checkpoint_n} ./
-    ln -s /root/data/datasets/{dataset_n} ./
-    """
-
-    if model["need_third_part"] and model_name == "conformer":
-        prepare_script += "unzip /root/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip /root/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
-        prepare_script += "tar -xzvf /root/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
-
-    prepare_script += """
-    export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
-    echo $PYTHONPATH
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -469,29 +440,27 @@ def run_speech_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['relative_path']}
-        export PYTHONPATH=./wenet:$PYTHONPATH
-        echo $PYTHONPATH
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
+        if model_name == "transformer_asr":
+            script = f"""
+            cd ../{model['relative_path']}
+            python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
+            """
+
         r, t = run_script(script)
         sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
-            result["result"][prec].update(get_metric_result(matchs[0]))
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        logging.debug(f"matchs:\n{matchs}")
+        for m in matchs:
+            result["result"][prec].update(get_metric_result(m))
+        if len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result

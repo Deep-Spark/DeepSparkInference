@@ -26,6 +26,7 @@ else
 fi
 
 cp /root/data/3rd_party/albert-torch-fp32.json ./
+cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_albert/albert-base-squad.pt --output_path albert-torch-fp32.onnx
 onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
@@ -41,9 +42,6 @@ rm -f madlag.tar
 ln -s ../../../../../toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-
-# modify perf_engine.py
-mv ./perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 # edit madlag/albert-base-v2-squad path
 sed -i "s#madlag#/${MODEL_PATH}/madlag#" ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py

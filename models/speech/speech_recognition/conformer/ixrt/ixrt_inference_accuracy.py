@@ -272,6 +272,9 @@ def main():
 
     cer, corr = calculate_cer(results, reference_data)
     target_cer = float(os.environ["Accuracy"])
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["CER"] = round(cer, 3)
+    print(metricResult)
     print("CER: ", cer, "target CER: ", target_cer)
     if cer <= target_cer:
         print("pass!")

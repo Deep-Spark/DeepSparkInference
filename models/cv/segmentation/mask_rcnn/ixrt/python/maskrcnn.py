@@ -186,6 +186,7 @@ def run_maskrcnn(engine_file, image_folder):
 def get_maskrcnn_perf(config):
     cuda.init()
     logger = trt.Logger(trt.Logger.WARNING)
+    metricResult = {"metricResult": {}}
     engine_file_buffer = open(config.engine_file, "rb")
     runtime = trt.Runtime(logger)
     assert runtime
@@ -227,6 +228,8 @@ def get_maskrcnn_perf(config):
         output["allocation"].free()
     engine_file_buffer.close()
 
+    metricResult["metricResult"]["FPS"] = round(fps, 3)
+    print(metricResult)
     print("\nFPS : ", fps)
     print(f"Performance Check : Test {fps} >= target {config.fps_target}")
     if fps >= config.fps_target:
@@ -237,6 +240,7 @@ def get_maskrcnn_perf(config):
 
 def get_maskrcnn_acc(config):
     json_result = []
+    metricResult = {"metricResult": {}}
     class_map = coco80_to_coco91_class()
 
     # Load dataloader
@@ -313,10 +317,6 @@ def get_maskrcnn_acc(config):
             batched_paddings[0]
         )
         save2json(batch_img_id, bboxs_masks, json_result, class_map)
-    end_time = time.time()
-    end2end_time = end_time - start_time
-
-    print(F"E2E time : {end2end_time:.3f} seconds")
     print("Forward done !")
 
     tmp_result_name = "pred_results.json"
@@ -341,6 +341,10 @@ def get_maskrcnn_acc(config):
     print(f"==============================eval COCO segm mAP ==============================")
     segm_eval.summarize()
 
+    end_time = time.time()
+    end2end_time = end_time - start_time
+
+    print(F"E2E time : {end2end_time:.3f} seconds")
     _, map50 = eval.stats[:2]
     print("bbox mAP@0.5 : ", map50)
     print(f"bbox Accuracy Check : Test {map50} >= target {config.map_target}")
@@ -348,6 +352,10 @@ def get_maskrcnn_acc(config):
     _, segm_map50 = segm_eval.stats[:2]
     print("segm mAP@0.5 : ", segm_map50)
     print(f"segm Accuracy Check : Test {segm_map50} >= target {config.segm_map_target}")
+    metricResult["metricResult"]["E2E time"] = round(end2end_time, 3)
+    metricResult["metricResult"]["bbox mAP@0.5"] = round(map50, 3)
+    metricResult["metricResult"]["segm mAP@0.5"] = round(segm_map50, 3)
+    print(metricResult)
 
     if map50 >= config.map_target and segm_map50 >= config.segm_map_target:
         print("pass!")

@@ -27,16 +27,11 @@ fi
 
 pip install -r requirements.txt
 
-mkdir -p data
-cp -r /root/data/checkpoints/open_videobert data/
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-# link and install requirements
-ln -s ../../../../../toolbox/ByteMLPerf ./
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-
-# copy data
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
-cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+cp -r /root/data/3rd_party/lightweight-human-pose-estimation.pytorch ./
+cd lightweight-human-pose-estimation.pytorch
+mv scripts/convert_to_onnx.py .
+ln -s /root/data/checkpoints/checkpoint_iter_370000.pth ./
+python3 convert_to_onnx.py --checkpoint-path checkpoint_iter_370000.pth
+cd ..
+mkdir -p checkpoints
+onnxsim ./lightweight-human-pose-estimation.pytorch/human-pose-estimation.onnx ./checkpoints/lightweight_openpose.onnx

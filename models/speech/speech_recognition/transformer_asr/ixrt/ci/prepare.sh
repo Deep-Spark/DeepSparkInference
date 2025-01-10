@@ -25,18 +25,16 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+mkdir -p results/transformer/8886/save
+mkdir -p /home/data/speechbrain/aishell/csv_data
+cp -r /root/data/datasets/AISHELL/data_aishell /home/data/speechbrain/aishell
+cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
 
-mkdir -p data
-cp -r /root/data/checkpoints/open_videobert data/
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-# link and install requirements
-ln -s ../../../../../toolbox/ByteMLPerf ./
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+bash build.sh
 
-# copy data
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
-cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+python3 builder.py \
+--ckpt_path results/transformer/8886/save \
+--head_num 4 \
+--max_batch_size 64  \
+--max_seq_len 1024 \
+--engine_path transformer.engine

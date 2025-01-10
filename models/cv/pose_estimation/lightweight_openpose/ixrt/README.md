@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install simplejson
-pip3 install opencv-python==4.6.0.66
-pip3 install mmcv==1.5.3
-pip3 install pycocotools
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -37,15 +31,15 @@ cd lightweight-human-pose-estimation.pytorch
 mv scripts/convert_to_onnx.py .
 python3 convert_to_onnx.py --checkpoint-path /Path/to/checkpoint_iter_370000.pth
 cd ..
-mkdir lightweight_openpose
-onnxsim ./lightweight-human-pose-estimation.pytorch/human-pose-estimation.onnx ./lightweight_openpose/lightweight_openpose.onnx
+mkdir -p checkpoints
+onnxsim ./lightweight-human-pose-estimation.pytorch/human-pose-estimation.onnx ./checkpoints/lightweight_openpose.onnx
 ```
 
 ## Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco_pose/
-export CHECKPOINTS_DIR=/Path/to/lightweight_openpose/
+export CHECKPOINTS_DIR=/Path/to/checkpoints/
 ```
 
 ### FP16

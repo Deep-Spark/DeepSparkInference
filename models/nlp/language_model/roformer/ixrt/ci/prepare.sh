@@ -43,8 +43,6 @@ cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 ln -s ../../../../../toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-
 # Comment Line102 in compile_backend_iluvatar.py
 sed -i '102s/build_engine/# build_engine/' ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
 

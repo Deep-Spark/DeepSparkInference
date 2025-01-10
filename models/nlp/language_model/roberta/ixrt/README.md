@@ -66,7 +66,6 @@ For detailed steps regarding this model, please refer to this document: <https:/
 ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 # Move open_roberta
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/

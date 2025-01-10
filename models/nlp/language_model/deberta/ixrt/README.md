@@ -67,7 +67,6 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
 # setup
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cp ./datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/
 
 mv ./deberta-sim-drop-clip-drop-invaild-cast.onnx general_perf/model_zoo/popular/open_deberta/

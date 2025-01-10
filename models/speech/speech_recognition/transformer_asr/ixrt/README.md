@@ -9,7 +9,7 @@ Beam search allows us to exert control over the output of text generation. This 
 ### Install
 
 ```bash
-pip3 install speechbrain==0.5.13
+pip3 install -r requirements.txt
 ```
 
 ### Download

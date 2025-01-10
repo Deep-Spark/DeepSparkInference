@@ -27,16 +27,10 @@ fi
 
 pip install -r requirements.txt
 
-mkdir -p data
-cp -r /root/data/checkpoints/open_videobert data/
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-# link and install requirements
-ln -s ../../../../../toolbox/ByteMLPerf ./
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
-pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+mkdir -p data/rtmpose
+ln -s /root/data/checkpoints/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth data/rtmpose/
 
-# copy data
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
-mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
-cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+python3 export.py --weight data/rtmpose/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth --cfg rtmpose-m_8xb256-420e_coco-256x192.py --input 1,3,256,192  --output data/rtmpose/rtmpose.onnx
+
+# use onnxsim optimize onnx model
+onnxsim data/rtmpose/rtmpose.onnx data/rtmpose/rtmpose_opt.onnx

@@ -30,6 +30,7 @@ pip install -r requirements.txt
 mkdir -p data
 cp -r /root/data/checkpoints/open_roberta data/
 cp /root/data/3rd_party/roberta-torch-fp32.json ./
+cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 # export onnx
 python3 export_onnx.py --model_path open_roberta/roberta-base-squad.pt --output_path open_roberta/roberta-torch-fp32.onnx
 
@@ -40,7 +41,6 @@ onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta.onnx
 ln -s ../../../../../toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 # Move open_roberta
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/

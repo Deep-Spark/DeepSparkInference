@@ -26,5 +26,21 @@ else
 fi
 
 pip install -r requirements.txt
-mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/squeezenet_v1_1.pth --output_model checkpoints/squeezenet_v1_1.onnx
+mkdir -p general_perf/model_zoo/regular
+mkdir -p general_perf/model_zoo/popular
+mkdir -p general_perf/model_zoo/sota
+
+cp /root/data/3rd_party/swin-large-torch-fp32.json ./
+cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
+cp -r /root/data/checkpoints/swin-large ./general_perf/model_zoo/popular/
+
+python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/swin-transformer-large.pt --output_path swin-large-torch-fp32.onnx
+
+ln -s ../../../../../toolbox/ByteMLPerf ./
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
+pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
+
+# copy data
+cp -r /root/data/datasets/open_imagenet/* ByteMLPerf/byte_infer_perf/general_perf/datasets/open_imagenet/
+mkdir -p ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
+cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_zoo/popular/swin-large

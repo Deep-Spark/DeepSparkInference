@@ -70,7 +70,6 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
 # copy data
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cp -r datasets/open_imagenet/* ByteMLPerf/byte_infer_perf/general_perf/datasets/open_imagenet/
 mkdir -p ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
 cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_zoo/popular/swin-large

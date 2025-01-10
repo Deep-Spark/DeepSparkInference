@@ -15,11 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install typeguard==2.13.3
-pip3 install onnxsim
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download

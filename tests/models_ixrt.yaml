@@ -367,7 +367,7 @@
     - int8
   relative_path: models/cv/detection/yolox/ixrt
   task_type: cv/detection
-- datasets: https://vis-www.cs.umass.edu/lfw/lfw.tgz
+- datasets: https://raw.githubusercontent.com/lanrax/Project_dataset/master/facenet_datasets.zip
   download_url: https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz
   name: facenet
   need_third_part: true
@@ -415,8 +415,8 @@
   need_third_part: false
   precisions:
     - fp16
-  relative_path: models/multimodal/text_and_image/clip/ixformer
-  task_type: cv/segmentation
+  relative_path: models/multimodal/text_and_image/clip/ixrt
+  task_type: multimodal/text_and_image
 - datasets: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar
   download_url: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_albert.tar
   name: albert
@@ -482,15 +482,15 @@
   need_third_part: false
   precisions:
     - fp16
-    - int8
-  relative_path: models/recommendation/widedeep/ixrt
-  task_type: recommendation/widedeep
+  relative_path: models/recommendation/ctr-prediction/widedeep/ixrt
+  task_type: recommendation/ctr-prediction
 - datasets: https://www.openslr.org/33/aishell.tar.gz
   download_url: http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz
   name: conformer
   need_third_part: true
   precisions:
     - fp16
+    - int8
   relative_path: models/speech/speech_recognition/conformer/ixrt
   task_type: speech/speech_recognition
 - datasets: https://www.openslr.org/33/aishell.tar.gz

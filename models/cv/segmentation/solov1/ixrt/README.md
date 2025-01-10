@@ -11,19 +11,14 @@ SOLO (Segmenting Objects by Locations) is a new instance segmentation method tha
 ```bash
 yum install mesa-libGL
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install mmdet==2.28.2
-pip3 install addict
-pip3 install yapf
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Dependency
 
 The inference of the Solov1 model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please inquire with the staff to obtain the relevant libraries.
+
+You can follow here to build: https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh
 
 ```bash
 cd mmcv

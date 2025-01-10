@@ -25,9 +25,9 @@ pip3 install -U transformers==4.27.1
 Pretrained model: Go to the website <https://huggingface.co/models> to find the pre-trained model you need. Here, we choose clip-vit-base-patch32.
 
 ```bash
-# Download model from the website and make sure the model's path is "/home/data/openai/clip-vit-base-patch32"
-mkdir -p /data
-unzip clip-vit-base-patch32.zip
+# Download model from the website and make sure the model's path is "data/clip-vit-base-patch32"
+mkdir -p data
+unzip clip-vit-base-patch32.zip -d data/
 ```
 
 ## Run model
@@ -37,5 +37,5 @@ unzip clip-vit-base-patch32.zip
 Please modify the part in the test_clip.py script that pertains to the model path.
 
 ```bash
-python3 test_clip.py
+python3 inference.py
 ```

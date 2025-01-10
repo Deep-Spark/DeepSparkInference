@@ -15,19 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tensorflow
-pip3 install onnxsim
-pip3 install scikit-learn
-pip3 install tf_slim
-pip3 install tqdm
-pip3 install pycuda
-pip3 install onnx
-pip3 install tabulate
-pip3 install cv2
-pip3 install scipy==1.8.0
-pip3 install pycocotools
-pip3 install opencv-python==4.6.0.66
-pip3 install simplejson
+pip3 install -r requirements.txt
 ```
 
 ### Download
