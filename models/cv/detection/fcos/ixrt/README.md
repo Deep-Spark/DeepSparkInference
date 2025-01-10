@@ -23,6 +23,8 @@ pip3 install -r requirements.txt
 
 The inference of the FCOS model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please inquire with the staff to obtain the relevant libraries.
 
+You can follow here to build: https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh
+
 ```bash
 
 cd mmcv

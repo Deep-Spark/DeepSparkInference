@@ -25,9 +25,23 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
+cp -r /root/data/3rd_party/mmcv-v1.7.1 ./mmcv
+cp -r -T /root/data/repos/deepsparkhub/toolbox/MMDetection/patch/mmcv/v1.7.1 ./mmcv
+cd mmcv
+rm -rf mmcv/ops/csrc/common/cuda/spconv/ mmcv/ops/csrc/common/utils/spconv/
+rm -f mmcv/ops/csrc/pytorch/cpu/sparse_*
+rm -f mmcv/ops/csrc/pytorch/cuda/fused_spconv_ops_cuda.cu
+rm -f mmcv/ops/csrc/pytorch/cuda/spconv_ops_cuda.cu
+rm -f mmcv/ops/csrc/pytorch/cuda/sparse_*
+rm -f mmcv/ops/csrc/pytorch/sp*
+
+bash clean_mmcv.sh
+bash build_mmcv.sh
+bash install_mmcv.sh
+cd ..
 
 mkdir -p checkpoints
-unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
+cp -r /root/data/3rd_party/mmdetection-v2.25.0 ./mmdetection
 cd mmdetection
 python3 tools/deployment/pytorch2onnx.py \
     ../fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco.py \

@@ -4,3 +4,4 @@ onnxsim
 ppq
 mmcv==1.5.3
 mmcls
+protobuf==3.20.0
