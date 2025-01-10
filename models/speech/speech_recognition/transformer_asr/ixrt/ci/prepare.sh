@@ -26,6 +26,7 @@ else
 fi
 
 mkdir -p results/transformer/8886/save
+cp -r /root/data/checkpoints/8886 results/transformer/8886
 mkdir -p /home/data/speechbrain/aishell/csv_data
 cp -r /root/data/datasets/AISHELL/data_aishell /home/data/speechbrain/aishell
 cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
