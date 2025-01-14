@@ -41,8 +41,10 @@ python3 remove_clip_and_cast.py
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./deberta-sim-drop-clip-drop-invaild-cast
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -73,6 +75,8 @@ mv ./deberta-sim-drop-clip-drop-invaild-cast.onnx general_perf/model_zoo/popular
 mv ./general_perf/model_zoo/popular/ ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/
 
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/deberta-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/deberta-torch-fp32.json
 wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
 tar -zxvf Palak.tar
 

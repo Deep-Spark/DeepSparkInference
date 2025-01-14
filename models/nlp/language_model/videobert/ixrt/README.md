@@ -32,8 +32,10 @@ bash ./scripts/prepare_model_and_dataset.sh
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./general_perf/model_zoo/popular/open_videobert/video-bert
-export OPTIMIER_FILE=./ixrt-oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -64,6 +66,8 @@ cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/by
 # run acc scripts
 mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/videobert-onnx-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/videobert-onnx-fp32.json
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
 

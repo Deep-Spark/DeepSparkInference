@@ -5,7 +5,7 @@ tqdm
 pycuda
 onnx
 tabulate
-cv2
 pycocotools
 opencv-python==4.6.0.66
 transformers==4.33.3
+typing_extensions==4.12.2

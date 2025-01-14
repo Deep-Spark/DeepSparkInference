@@ -16,14 +16,7 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
+apt install -y libnuma-dev
 
 pip install -r requirements.txt
 
@@ -40,3 +33,5 @@ mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
 cp -r /root/data/datasets/open_cifar/cifar-100-python/ ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cifar/
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
 cp /root/data/checkpoints/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
+cd ./ByteMLPerf/byte_infer_perf/general_perf
+cp -r /root/data/3rd_party/workloads ./

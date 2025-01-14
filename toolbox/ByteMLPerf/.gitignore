@@ -15,7 +15,7 @@ byte_infer_perf/general_perf/model_zoo/*
 byte_infer_perf/general_perf/download/*.*
 !byte_infer_perf/general_perf/download/README.md
 byte_infer_perf/general_perf/datasets/open_imagenet/preprocessed/
-byte_infer_perf/general_perf/datasets/*
+# byte_infer_perf/general_perf/datasets/*
 !byte_infer_perf/general_perf/datasets/fake_dataset
 !*.py
 byte_infer_perf/general_perf/reports/*

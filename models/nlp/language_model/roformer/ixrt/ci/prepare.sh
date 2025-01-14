@@ -16,14 +16,7 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
+apt install -y libnuma-dev
 
 pip install -r requirements.txt
 
@@ -55,5 +48,6 @@ cp /root/data/datasets/open_cail2019/* ./ByteMLPerf/byte_infer_perf/general_perf
 
 # Go to general_perf/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+cp -r /root/data/3rd_party/workloads ./
 # Modify model_zoo/roformer-tf-fp32.json
 sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.json

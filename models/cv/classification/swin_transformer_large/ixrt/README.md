@@ -45,8 +45,10 @@ python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/s
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -76,6 +78,8 @@ cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_z
 
 # run acc scripts
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/swin-large-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/swin-large-torch-fp32.json
 python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
 ```
 

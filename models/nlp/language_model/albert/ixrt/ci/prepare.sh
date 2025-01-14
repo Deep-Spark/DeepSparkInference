@@ -16,14 +16,7 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
+apt install -y libnuma-dev
 
 cp /root/data/3rd_party/albert-torch-fp32.json ./
 cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
@@ -55,6 +48,7 @@ cp /root/data/checkpoints/open_albert/*.pt ./ByteMLPerf/byte_infer_perf/general_
 
 # run acc script
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+cp -r /root/data/3rd_party/workloads ./
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/common.py
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/compile_backend_iluvatar.py
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/runtime_backend_iluvatar.py

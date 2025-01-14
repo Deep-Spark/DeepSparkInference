@@ -16,14 +16,7 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
+apt install -y libnuma-dev
 
 pip install -r requirements.txt
 
@@ -48,6 +41,7 @@ cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx /root/data/checkpoints/open_de
 cp -r /root/data/checkpoints/open_deberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/
 
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+cp -r /root/data/3rd_party/workloads ./
 wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
 tar -zxvf Palak.tar
 

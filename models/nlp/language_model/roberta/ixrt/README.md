@@ -44,8 +44,10 @@ onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta-torch-fp32_sim
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./open_roberta/roberta-torch-fp32_sim
-export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -85,6 +87,8 @@ mv csarron/ ./ByteMLPerf/byte_infer_perf/
 
 # Run Acc scripts
 cd ./ByteMLPerf/byte_infer_perf/
+mkdir -p workloads
+wget -O workloads/roberta-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/roberta-torch-fp32.json
 python3 general_perf/core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ```
 

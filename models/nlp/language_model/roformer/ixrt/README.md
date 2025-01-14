@@ -50,8 +50,10 @@ python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --outpu
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./data/open_roformer/roformer-frozen
-export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -87,6 +89,8 @@ rm -f open_cail2019.tar
 
 # Go to general_perf/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/roformer-tf-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/roformer-tf-fp32.json
 # Modify model_zoo/roformer-tf-fp32.json
 sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.json
 # Run Acc scripts

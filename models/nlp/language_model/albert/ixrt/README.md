@@ -42,8 +42,10 @@ onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./albert-torch-fp32-sim
-export OPTIMIER_FILE=./ixrt-oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -79,6 +81,8 @@ cp ./general_perf/model_zoo/popular/open_albert/*.pt ./ByteMLPerf/byte_infer_per
 
 # run acc script
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/albert-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/albert-torch-fp32.json
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/common.py
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/compile_backend_iluvatar.py
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/runtime_backend_iluvatar.py
