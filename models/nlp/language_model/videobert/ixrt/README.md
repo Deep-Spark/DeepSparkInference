@@ -64,7 +64,6 @@ mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videob
 cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
 
 # run acc scripts
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 mkdir -p workloads
 wget -O workloads/videobert-onnx-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/videobert-onnx-fp32.json

@@ -83,13 +83,13 @@ rm -f open_squad.tar
 wget http://files.deepspark.org.cn:880/deepspark/csarron.tar
 tar xf csarron.tar
 rm -f csarron.tar
-mv csarron/ ./ByteMLPerf/byte_infer_perf/
+mv csarron/ ./ByteMLPerf/byte_infer_perf/general_perf/
 
 # Run Acc scripts
-cd ./ByteMLPerf/byte_infer_perf/
+cd ./ByteMLPerf/byte_infer_perf/general_perf/
 mkdir -p workloads
 wget -O workloads/roberta-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/roberta-torch-fp32.json
-python3 general_perf/core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
+python3 core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ```
 
 ## Results

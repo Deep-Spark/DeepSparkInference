@@ -27,7 +27,7 @@ onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
 python3 remove_clip_and_cast.py
 
 mkdir -p data/open_deberta
-mv ./deberta-sim-drop-clip-drop-invaild-cast.onnx data/open_deberta/deberta.onnx
+cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx data/open_deberta/deberta.onnx
 
 ln -s ../../../../../toolbox/ByteMLPerf ./
 
@@ -37,8 +37,9 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requ
 # setup
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/
 
-cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx /root/data/checkpoints/open_deberta/
-cp -r /root/data/checkpoints/open_deberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular
+cp -r /root/data/checkpoints/open_deberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_deberta/
 
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 cp -r /root/data/3rd_party/workloads ./

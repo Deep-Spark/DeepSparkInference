@@ -46,6 +46,6 @@ cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/da
 wget http://files.deepspark.org.cn:880/deepspark/csarron.tar
 tar xf csarron.tar
 rm -f csarron.tar
-mv csarron/ ./ByteMLPerf/byte_infer_perf/
+mv csarron/ ./ByteMLPerf/byte_infer_perf/general_perf/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 cp -r /root/data/3rd_party/workloads ./
