@@ -9,6 +9,8 @@ Generalized linear models with nonlinear feature transformations are widely used
 ### Install
 
 ```bash
+apt install -y libnuma-dev
+
 pip3 install -r requirements.txt
 ```
 

@@ -16,14 +16,7 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
+apt install -y libnuma-dev
 
 pip install -r requirements.txt
 cp -r /root/data/checkpoints/open_wide_deep_saved_model ./

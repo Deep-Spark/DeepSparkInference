@@ -45,9 +45,9 @@ bash scripts/aishell_data_prepare.sh ${DATA_DIR} ${TOOL_DIR}
 
 ```bash
 # Accuracy
-bash scripts/infer_conformer_fp16_accuracy_ixrt.sh
+bash scripts/infer_conformer_fp16_accuracy.sh
 # Performance
-bash scripts/infer_conformer_fp16_performance_ixrt.sh
+bash scripts/infer_conformer_fp16_performance.sh
 ```
 
 ## Results
