@@ -45,4 +45,4 @@ cp -r /root/data/datasets/open_imagenet/* ByteMLPerf/byte_infer_perf/general_per
 mkdir -p ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
 cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
 
-cp -r /root/data/3rd_party/workloads ./ByteMLPerf/byte_infer_perf/general_perf/workloads
+cp -r /root/data/3rd_party/workloads ./ByteMLPerf/byte_infer_perf/general_perf/

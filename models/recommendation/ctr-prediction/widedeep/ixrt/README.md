@@ -74,6 +74,8 @@ mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/mode
 
 # Run Acc scripts
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/widedeep-tf-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/widedeep-tf-fp32.json
 python3 core/perf_engine.py --hardware_type ILUVATAR --task widedeep-tf-fp32
 ```
 

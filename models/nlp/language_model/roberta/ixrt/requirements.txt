@@ -3,4 +3,4 @@ py-libnuma==1.2
 bert
 pycuda
 transformers==4.33.3
-typing_extensions==4.12.2
+typing-extensions==4.12.2

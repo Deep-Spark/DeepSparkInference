@@ -25,10 +25,10 @@ cp -r /root/data/checkpoints/open_roberta data/
 cp /root/data/3rd_party/roberta-torch-fp32.json ./
 cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 # export onnx
-python3 export_onnx.py --model_path open_roberta/roberta-base-squad.pt --output_path open_roberta/roberta-torch-fp32.onnx
+python3 export_onnx.py --model_path data/open_roberta/roberta-base-squad.pt --output_path data/open_roberta/roberta-torch-fp32.onnx
 
 # Simplify onnx model
-onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta.onnx
+onnxsim data/open_roberta/roberta-torch-fp32.onnx data/open_roberta/roberta.onnx
 
 # Link and install requirements
 ln -s ../../../../../toolbox/ByteMLPerf ./
@@ -37,7 +37,7 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requ
 
 # Move open_roberta
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-mv open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+mv data/open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 
 # Get open_squad
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad

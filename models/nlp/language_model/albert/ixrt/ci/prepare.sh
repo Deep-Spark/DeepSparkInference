@@ -18,6 +18,8 @@ set -x
 
 apt install -y libnuma-dev
 
+pip3 install -r requirements.txt
+
 cp /root/data/3rd_party/albert-torch-fp32.json ./
 cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 

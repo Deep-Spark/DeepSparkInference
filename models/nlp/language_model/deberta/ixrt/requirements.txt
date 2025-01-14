@@ -9,4 +9,4 @@ pycocotools
 opencv-python==4.6.0.66
 tf2onnx
 transformers==4.33.3
-typing_extensions==4.12.2
+typing-extensions==4.12.2

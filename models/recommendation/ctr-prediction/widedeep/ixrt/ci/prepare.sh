@@ -43,3 +43,5 @@ cp /root/data/datasets/eval.csv ./ByteMLPerf/byte_infer_perf/general_perf/datase
 
 wget http://files.deepspark.org.cn:880/deepspark/widedeep_dynamicshape_new.onnx
 mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+
+cp -r /root/data/3rd_party/workloads ./ByteMLPerf/byte_infer_perf/general_perf/
