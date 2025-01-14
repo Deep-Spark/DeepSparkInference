@@ -296,7 +296,10 @@ def evaluate(labels, output_name, images_folder, engine, context, config, multis
 def main(config):
     engine, context = openpose_trtapi_ixrt(config)
     print(" config and load model ok...")
+    start_time = time.time()
     evaluate(config.labels, config.output_name, config.images_folder, engine, context, config)
+    e2e_time = time.time() - start_time
+    print(F"E2E time : {e2e_time:.3f} seconds")
     print(" done ...")
     
 

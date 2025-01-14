@@ -133,6 +133,7 @@ def main(config):
         forward_time = end_time - start_time
 
         fps = config.run_loop * config.bsz / forward_time
+        print("FPS : ", fps)
         print(f"\nCheck FPS         Test : {fps}    Target:{config.fps_target}   State : {'Pass' if fps >= config.fps_target else 'Fail'}")
 
 

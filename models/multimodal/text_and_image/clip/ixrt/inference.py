@@ -26,7 +26,7 @@ from transformers import CLIPProcessor
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = (
-    CLIPModel.from_pretrained("/data/clip-vit-base-patch32")
+    CLIPModel.from_pretrained("data/clip-vit-base-patch32")
     .to(device)
     .half()
 )
@@ -69,7 +69,7 @@ with torch.no_grad():
         )  # we can take the softmax to get the label probabilities
         print(probs[:5])
         print(probs[-5:-1])
-        metricResult["metricResult"]["QPS-{batch_size}"] = round(batch_size / (end_time - start_time), 3)
+        metricResult["metricResult"][f"QPS-batch_size-{batch_size}"] = round(batch_size / (end_time - start_time), 3)
         print("QPS: ", batch_size / (end_time - start_time))
     e2e_time = time.time() - e2e_start_time
     metricResult["metricResult"]["E2E time"] = round(e2e_time, 3)

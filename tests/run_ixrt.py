@@ -240,7 +240,10 @@ def run_detec_testcase(model):
         """
 
         if model_name == "rtmpose":
-            script = "python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg"
+            script = f"""
+                cd ../{model['relative_path']}
+                python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg
+                """
 
         r, t = run_script(script)
         sout = r.stdout
@@ -398,6 +401,11 @@ def run_nlp_testcase(model):
                 bash script/build_engine.sh --bs 32 --int8
                 bash script/inference_squad.sh --bs 32 --int8
                 """
+        elif model_name == "clip":
+            script = f"""
+            cd ../{model['relative_path']}
+            python3 inference.py
+            """
 
         r, t = run_script(script)
         sout = r.stdout

@@ -152,6 +152,7 @@ def main():
         print(f"Check segm_mAP Test : {round(segm_mAP,3)}  Target:{args.target_map} State : {'Pass' if round(segm_mAP,3) >= args.target_map else 'Fail'}")
         metricResult["metricResult"]["segm_mAP"] = round(segm_mAP, 3)
         status_map = check_target(segm_mAP, args.target_map)
+        print(metricResult)
         sys.exit(int(not (status_map)))   
     else:
         torch.cuda.synchronize()
@@ -168,8 +169,8 @@ def main():
         print(f"Check fps Test : {round(fps,3)}  Target:{args.target_fps} State : {'Pass' if  fps >= args.target_fps else 'Fail'}")
         metricResult["metricResult"]["FPS"] = round(fps, 3)
         status_fps = check_target(fps, args.target_fps)
+        print(metricResult)
         sys.exit(int(not (status_fps)))
-    print(metricResult)
     
 if __name__ == "__main__":
     

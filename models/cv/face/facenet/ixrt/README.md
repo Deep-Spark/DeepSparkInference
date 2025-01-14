@@ -37,8 +37,9 @@ unzip 20180408-102900.zip
 mkdir -p checkpoints
 mkdir -p facenet_weights
 git clone https://github.com/timesler/facenet-pytorch
+# facenet-pytorch/dependencies/facenet is submodule, pls make sure it has been cloned or you can clone directly from https://github.com/davidsandberg/facenet/tree/096ed770f163957c1e56efa7feeb194773920f6e
 mv /Path/facenet/ixrt/tensorflow2pytorch.py facenet-pytorch
-python3 /facenet-pytorch/tensorflow2pytorch.py \
+python3 ./facenet-pytorch/tensorflow2pytorch.py \
         --facenet_weights_path ./facenet_weights \
         --facenet_pb_path ./20180408-102900 \
         --onnx_save_name facenet_export.onnx

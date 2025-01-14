@@ -24,6 +24,8 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
+
+pip3 install -r requirements.txt
 unzip -q /root/data/checkpoints/20180408-102900.zip -d ./
 unzip -q /root/data/datasets/facenet_datasets.zip -d ./
 mkdir -p checkpoints
