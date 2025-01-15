@@ -3,3 +3,4 @@ onnx
 onnxsim
 pycocotools
 pycuda
+numpy==1.24.0

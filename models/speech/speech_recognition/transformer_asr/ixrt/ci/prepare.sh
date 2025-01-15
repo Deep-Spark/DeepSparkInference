@@ -25,10 +25,13 @@ else
     echo "Not Support Os"
 fi
 
+pip3 install -r requirements.txt
+
+mkdir -p results/transformer
 cp -r /root/data/checkpoints/8886 results/transformer/
 mkdir -p results/transformer/8886/save
 mkdir -p /home/data/speechbrain/aishell/csv_data
-cp -r /root/data/datasets/AISHELL/data_aishell /home/data/speechbrain/aishell
+ln -s /root/data/datasets/AISHELL/data_aishell /home/data/speechbrain/aishell/
 cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
 
 bash build.sh

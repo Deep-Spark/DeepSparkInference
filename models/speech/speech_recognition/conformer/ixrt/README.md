@@ -34,7 +34,7 @@ ln -s /home/deepspark/datasets/INFER/conformer/20210601_u2++_conformer_exp_aishe
 
 ```bash
 # Accuracy
-DATA_DIR=/PATH/to/data_aishell
+DATA_DIR=/PATH/to/aishell_test_data
 TOOL_DIR="$(pwd)/tools"
 bash scripts/aishell_data_prepare.sh ${DATA_DIR} ${TOOL_DIR}
 ```

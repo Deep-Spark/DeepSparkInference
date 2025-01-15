@@ -20,7 +20,7 @@ pip3 install -r requirements.txt
 cd ctc_decoder/swig && bash setup.sh
 cd ../../
 
-tar -zxvf 20211025_conformer_exp.tar.gz
+# tar -zxvf 20211025_conformer_exp.tar.gz
 
 # Get Onnx Model
 cd wenet

@@ -20,7 +20,7 @@ pip3 install -r requirements.txt
 
 ### Download
 
-Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5s.pt>
+Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 

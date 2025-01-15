@@ -490,7 +490,6 @@
   need_third_part: true
   precisions:
     - fp16
-    - int8
   relative_path: models/speech/speech_recognition/conformer/ixrt
   task_type: speech/speech_recognition
 - datasets: https://www.openslr.org/33/aishell.tar.gz
