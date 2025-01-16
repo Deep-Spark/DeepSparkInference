@@ -3,3 +3,4 @@ onnx
 onnxsim
 ultralytics
 pycocotools
+pycuda
