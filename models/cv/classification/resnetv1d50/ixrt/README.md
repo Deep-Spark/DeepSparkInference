@@ -42,18 +42,18 @@ export CONFIG_DIR=config/RESNETV1D50_CONFIG
 
 ```bash
 # Accuracy
-bash scripts/infer_resnet_v1_d50_fp16_accuracy.sh
+bash scripts/infer_resnetv1d50_fp16_accuracy.sh
 # Performance
-bash scripts/infer_resnet_v1_d50_fp16_performance.sh
+bash scripts/infer_resnetv1d50_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_resnet_v1_d50_int8_accuracy.sh
+bash scripts/infer_resnetv1d50_int8_accuracy.sh
 # Performance
-bash scripts/infer_resnet_v1_d50_int8_performance.sh
+bash scripts/infer_resnetv1d50_int8_performance.sh
 ```
 
 ## Results

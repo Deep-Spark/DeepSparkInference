@@ -31,7 +31,6 @@ mkdir -p general_perf/model_zoo/popular
 mkdir -p general_perf/model_zoo/sota
 
 cp /root/data/3rd_party/swin-large-torch-fp32.json ./
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 cp -r /root/data/checkpoints/swin-large ./general_perf/model_zoo/popular/
 
 python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/swin-transformer-large.pt --output_path swin-large-torch-fp32.onnx
