@@ -3,3 +3,4 @@ tqdm
 mmdet
 mmdeploy
 mmengine
+transformers==4.37.1

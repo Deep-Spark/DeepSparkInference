@@ -266,10 +266,10 @@ def run_detec_testcase(model):
         for m in matchs:
             result["result"].setdefault(prec, {})
             try:
-                result["result"][prec] = result["result"][prec][m[0]] = float(m[1])
+                result["result"][prec][m[0]] = float(m[1])
             except ValueError:
                 print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec][m[0]] = m[1]
+                result["result"][prec][m[0]] = m[1]
         if matchs and len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
         else:

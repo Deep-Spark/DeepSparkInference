@@ -27,6 +27,9 @@ fi
 
 pip install -r requirements.txt
 
+# install ixrt run
+bash /root/data/3rd_party/ixrt-0.10.0+corex.4.2.0.20250115-linux_x86_64.run
+
 if [ "$1" = "nvidia" ]; then
     cmake -S . -B build -DUSE_TENSORRT=true
     cmake --build build -j16
