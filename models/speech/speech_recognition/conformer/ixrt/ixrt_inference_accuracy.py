@@ -274,6 +274,7 @@ def main():
     target_cer = float(os.environ["Accuracy"])
     metricResult = {"metricResult": {}}
     metricResult["metricResult"]["CER"] = round(cer, 3)
+    metricResult["metricResult"]["target CER"] = round(target_cer, 3)
     print(metricResult)
     print("CER: ", cer, "target CER: ", target_cer)
     if cer <= target_cer:

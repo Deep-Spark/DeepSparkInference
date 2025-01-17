@@ -25,6 +25,8 @@ else
     echo "Not Support Os"
 fi
 
+pip3 install -r requirements.txt
+
 ln -s /root/data/checkpoints/20210601_u2++_conformer_exp_aishell ./conformer_checkpoints
 
 cp -r /root/data/datasets/AISHELL/data_aishell ./aishell_test_data
