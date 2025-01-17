@@ -33,7 +33,7 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 
 git clone https://github.com/WongKinYiu/yolov7.git
 cd yolov7
-python3 export.py --weights yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 32
+python3 export.py --weights yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 16
 mkdir /Your_Projects/To/checkpoints
 mv yolov7.onnx /Path/to/checkpoints/yolov7m.onnx
 ```
