@@ -391,7 +391,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['relative_path']}/python
-            bash scripts/infer_{model_name}_{prec}_ixrt.sh
+            bash script/infer_{model_name}_{prec}_ixrt.sh
             """
         elif model_name == "bert_large_squad":
             script = f"""
