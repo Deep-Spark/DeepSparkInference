@@ -15,6 +15,7 @@
 # limitations under the License.
 
 set -x
+
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
     apt install -y libgl1-mesa-glx
@@ -25,12 +26,9 @@ else
 fi
 
 pip3 install -r requirements.txt
-# git clone mmpretrain
-# git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
-
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/convnext/convnext-small_32xb128_in1k.py --weight convnext-small_3rdparty_32xb128_in1k_20220124-d39b5192.pth --output convnext_s.onnx
+python3 export.py --cfg mmpretrain/configs/twins/twins-svt-base_8xb128_in1k.py --weight twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth --output svt_base.onnx
 
 # Use onnxsim optimize onnx model
-onnxsim convnext_s.onnx convnext_s_opt.onnx
+onnxsim svt_base.onnx svt_base_opt.onnx

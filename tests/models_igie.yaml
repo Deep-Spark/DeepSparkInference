@@ -692,3 +692,19 @@
     - fp16
   relative_path: models/cv/classification/cspresnet50/igie
   task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/mlp-mixer/mixer-base-p16_3rdparty_64xb64_in1k_20211124-1377e3e0.pth
+  name: mlp_mixer_base
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/mlp_mixer_base/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/twins/twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth
+  name: svt_base
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/svt_base/igie
+  task_type: cv/classification
