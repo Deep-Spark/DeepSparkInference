@@ -30,8 +30,6 @@ python3 export_onnx.py --model_path ./data/open_roformer --output_path ./data/op
 onnxsim ./data/open_roformer/roformer-frozen_org.onnx ./data/open_roformer/roformer-frozen.onnx
 python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --output_path ./data/open_roformer/roformer.onnx
 
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
-
 # link ByteMLPerf and install requirements
 ln -s ../../../../../toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt

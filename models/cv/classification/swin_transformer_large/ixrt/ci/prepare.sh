@@ -25,6 +25,8 @@ else
     echo "Not Support Os"
 fi
 
+apt install -y libnuma-dev
+
 pip install -r requirements.txt
 mkdir -p general_perf/model_zoo/regular
 mkdir -p general_perf/model_zoo/popular
@@ -41,7 +43,7 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requ
 
 # copy data
 cp -r /root/data/datasets/open_imagenet/* ByteMLPerf/byte_infer_perf/general_perf/datasets/open_imagenet/
-mkdir -p ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
-cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/swin-large
+cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/swin-large
 
 cp -r /root/data/3rd_party/workloads ./ByteMLPerf/byte_infer_perf/general_perf/

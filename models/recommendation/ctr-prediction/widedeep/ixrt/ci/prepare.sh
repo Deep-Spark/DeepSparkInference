@@ -20,7 +20,6 @@ apt install -y libnuma-dev
 
 pip install -r requirements.txt
 cp -r /root/data/checkpoints/open_wide_deep_saved_model ./
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 python3 export_onnx.py --model_path open_wide_deep_saved_model --output_path open_wide_deep_saved_model/widedeep.onnx
 
 # Simplify onnx model

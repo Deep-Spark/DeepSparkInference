@@ -21,7 +21,6 @@ apt install -y libnuma-dev
 pip3 install -r requirements.txt
 
 cp /root/data/3rd_party/albert-torch-fp32.json ./
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_albert/albert-base-squad.pt --output_path albert-torch-fp32.onnx
 onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
@@ -29,17 +28,14 @@ onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
 mkdir -p data/open_albert
 mv ./albert-torch-fp32-sim.onnx data/open_albert/albert.onnx
 
-wget http://files.deepspark.org.cn:880/deepspark/madlag.tar
-tar xvf madlag.tar
-rm -f madlag.tar
-
 # link and install requirements
 ln -s ../../../../../toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
 # edit madlag/albert-base-v2-squad path
-sed -i "s#madlag#/${MODEL_PATH}/madlag#" ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
+# sed -i "s#madlag#/${MODEL_PATH}/madlag#" ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
+mv madlag ./ByteMLPerf/byte_infer_perf/general_perf/
 
 # copy open_squad data
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/
@@ -50,6 +46,10 @@ cp /root/data/checkpoints/open_albert/*.pt ./ByteMLPerf/byte_infer_perf/general_
 
 # run acc script
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+# wget http://files.deepspark.org.cn:880/deepspark/madlag.tar
+cp /root/data/3rd_party/madlag.tar ./
+tar xvf madlag.tar
+rm -f madlag.tar
 cp -r /root/data/3rd_party/workloads ./
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/common.py
 sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/compile_backend_iluvatar.py

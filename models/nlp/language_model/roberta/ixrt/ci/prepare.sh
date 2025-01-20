@@ -23,7 +23,6 @@ pip install -r requirements.txt
 mkdir -p data
 cp -r /root/data/checkpoints/open_roberta data/
 cp /root/data/3rd_party/roberta-torch-fp32.json ./
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
 # export onnx
 python3 export_onnx.py --model_path data/open_roberta/roberta-base-squad.pt --output_path data/open_roberta/roberta-torch-fp32.onnx
 
@@ -37,13 +36,15 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requ
 
 # Move open_roberta
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-mv data/open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+cp -r data/open_roberta ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 
 # Get open_squad
+mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad
 
 # Get csarron.tar
-wget http://files.deepspark.org.cn:880/deepspark/csarron.tar
+# wget http://files.deepspark.org.cn:880/deepspark/csarron.tar
+cp /root/data/3rd_party/csarron.tar ./
 tar xf csarron.tar
 rm -f csarron.tar
 mv csarron/ ./ByteMLPerf/byte_infer_perf/general_perf/

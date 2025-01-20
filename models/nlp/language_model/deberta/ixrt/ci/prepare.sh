@@ -21,7 +21,7 @@ apt install -y libnuma-dev
 pip install -r requirements.txt
 
 cp /root/data/3rd_party/deberta-torch-fp32.json ./
-cp /root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py ./
+
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_deberta/deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
 onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
 python3 remove_clip_and_cast.py
@@ -43,7 +43,8 @@ cp ./deberta-sim-drop-clip-drop-invaild-cast.onnx ./ByteMLPerf/byte_infer_perf/g
 
 cd ./ByteMLPerf/byte_infer_perf/general_perf
 cp -r /root/data/3rd_party/workloads ./
-wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
+# wget http://files.deepspark.org.cn:880/deepspark/Palak.tar
+cp /root/data/3rd_party/Palak.tar ./
 tar -zxvf Palak.tar
 
 #接着修改代码：ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py -AutoTokenizer.from_pretrained("Palak/microsoft_deberta-base_squad") => AutoTokenizer.from_pretrained("/Your/Path/Palak/microsoft_deberta-base_squad")
