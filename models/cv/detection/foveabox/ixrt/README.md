@@ -20,7 +20,8 @@ pip3 install onnx
 pip3 install onnxsim
 pip3 install ultralytics
 pip3 install pycocotools
-pip3 install cv2
+pip3 install mmdeploy
+pip3 install mmdet
 pip3 install opencv-python==4.6.0.66
 ```
 
