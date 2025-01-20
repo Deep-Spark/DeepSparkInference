@@ -70,7 +70,8 @@ wget https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv
 mv eval.csv ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/
 
 wget http://files.deepspark.org.cn:880/deepspark/widedeep_dynamicshape_new.onnx
-mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+cp open_wide_deep_saved_model/* ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/widedeep_dynamicshape.onnx
 
 # Run Acc scripts
 cd ./ByteMLPerf/byte_infer_perf/general_perf

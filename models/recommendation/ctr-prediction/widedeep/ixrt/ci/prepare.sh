@@ -41,6 +41,7 @@ mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/
 cp /root/data/datasets/eval.csv ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_criteo_kaggle/
 
 wget http://files.deepspark.org.cn:880/deepspark/widedeep_dynamicshape_new.onnx
-mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+cp open_wide_deep_saved_model/* ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/
+mv widedeep_dynamicshape_new.onnx ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/regular/open_wide_deep_saved_model/widedeep_dynamicshape.onnx
 
 cp -r /root/data/3rd_party/workloads ./ByteMLPerf/byte_infer_perf/general_perf/
