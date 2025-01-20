@@ -1,8 +1,25 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
 # --------------------------------------------------------------------------
 import math
+from typing import Dict
 from enum import Enum
 from logging import getLogger
 from os import name
@@ -352,3 +369,101 @@ class FusionVITAttention(Fusion):
             # Use prune graph to remove mask nodes since they are shared by all attention nodes.
             # self.nodes_to_remove.extend(mask_nodes)
             # self.prune_graph = True
+
+
+class FusionTorchvisionVITAttention(Fusion):
+    """
+    Fuse VITAttention subgraph into one Attention node.
+    """
+
+    def __init__(self, model: OnnxModel):
+        super().__init__(
+            model, "CustomQKVToContextPluginDynamic_IxRT", "CustomFCPluginDynamic_IxRT"
+        )
+
+    def fuse(self, node, input_name_to_nodes: Dict, output_name_to_node: Dict):
+        """
+        [Root] -->  CustomFCPluginDynamic_IxRT-->  CustomQKVToContextPluginDynamic_IxRT  --> CustomFCPluginDynamic_IxRT
+        """
+        children = self.model.get_children(node, input_name_to_nodes)
+        parent = self.model.get_parents(node, output_name_to_node)
+        
+        if len(children) != 1:
+            return
+        if len(parent) != 1:
+            return
+
+        fc_first_node = None
+        for par in parent:
+            fc_first_node = self.model.find_first_parent_by_type(
+                par, "CustomFCPluginDynamic_IxRT", output_name_to_node, recursive=True
+            )
+            if fc_first_node is not None:
+                break
+        if fc_first_node is None:
+            return
+        
+        start_node = node
+        
+        # v path
+        v_nodes = self.model.match_parent_path(
+            start_node,
+            ["Transpose", "MatMul", "Reshape", "Transpose", "Reshape", "Gather", "Squeeze", "Transpose", "Unsqueeze", "Reshape"],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            output_name_to_node,
+        )
+        
+        # path1, q and k path
+        q_nodes = self.model.match_parent_path(
+            start_node,
+            ["Transpose", "MatMul", "Softmax", "MatMul", "Mul", "Transpose", "Reshape", "Transpose", "Reshape", "Gather", "Squeeze", "Transpose", "Unsqueeze", "Reshape"],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            output_name_to_node,
+        )
+        
+        k_nodes = self.model.match_parent_path(
+            start_node,
+            ["Transpose", "MatMul", "Softmax", "MatMul", "Mul", "Reshape", "Transpose", "Reshape", "Gather", "Squeeze", "Transpose", "Unsqueeze", "Reshape"],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            output_name_to_node,
+        )
+        
+        if v_nodes is None:
+            return
+        
+        if v_nodes and q_nodes and k_nodes:
+            subgraph_nodes = []
+            subgraph_nodes.extend(q_nodes)
+            subgraph_nodes.extend(k_nodes)
+            subgraph_nodes.extend(v_nodes)
+            
+            subgraph_nodes_unique = []
+            for item in subgraph_nodes:
+                if item not in subgraph_nodes_unique:
+                    subgraph_nodes_unique.append(item)
+            
+            hidden_size = start_node.attribute[0].i
+            _, mul_val = self.model.get_constant_input(k_nodes[4])
+            num_heads = hidden_size // (math.floor(1.0 / (mul_val * mul_val)) * math.floor(1.0 / (mul_val * mul_val)))
+            
+        attention_node = helper.make_node(
+            "CustomQKVToContextPluginDynamic_IxRT",
+            inputs=[fc_first_node.output[0]],
+            outputs=[start_node.input[0]],
+            name=self.model.create_node_name(
+                "TorchvisionVitAttention", name_prefix="TorchvisionVitAttention"
+            ),
+        )
+        attention_node.domain = "com.iluvatar"
+        attention_node.attribute.extend([helper.make_attribute("type_id", 2)])
+        attention_node.attribute.extend([helper.make_attribute("num_heads", num_heads)])
+        attention_node.attribute.extend([helper.make_attribute("hidden_size", hidden_size)])
+        attention_node.attribute.extend([helper.make_attribute("has_mask", 0)])
+        attention_node.attribute.extend([helper.make_attribute("plugin_namespace", "")])
+        attention_node.attribute.extend([helper.make_attribute("plugin_version", "1")])
+        attention_node.attribute.extend([helper.make_attribute("has_qk_bias", 0)])
+        
+        self.nodes_to_remove.extend(subgraph_nodes_unique)
+        
+        self.nodes_to_add.append(attention_node)
+        self.node_name_to_graph_name[attention_node.name] = self.this_graph_name

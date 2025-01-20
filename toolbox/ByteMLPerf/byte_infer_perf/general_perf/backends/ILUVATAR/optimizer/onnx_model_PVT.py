@@ -1,19 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-#
-
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -32,7 +16,6 @@ from passes.fusion_customfc import (
     FusionCustomFC,
     FusionCustomFCActivation,
     FusionCustomFCGPT2,
-    FusionTorchvisionVitCustomFC,
 )
 from passes.fusion_disentangled_attention import FusionDisentangledAttention
 from passes.fusion_embedlayer import FusionEmbedLayerNormalization
@@ -56,30 +39,29 @@ from passes.fusion_skiplayernorm import (
     FusionBiasSkipLayerNormalization,
     FusionSkipLayerNormalization,
 )
-from passes.fusion_swinl_attention import FusionSwinLAttention
+
 from passes.fusion_utils import FusionUtils
-from passes.fusion_videobert_attention import FusionVideoBertAttention
-from passes.fusion_vit_attention import FusionVITAttention, FusionTorchvisionVITAttention
+
+from passes.fusion_conv_reformat import FusionConvReformat
+
 from passes.fusion_xsoftmax import FusionXSoftmax
-from passes.fuse_inverse_sigmoid import FusionLayerInverseSigmoid
-from passes.fuse_l2_normalization import FusionLayerL2Normalization
-from passes.fuse_omdet_attention import FusionLayerOmdetAttention
+from passes.fusion_PVT_attention import FusionPVTAttention
 from passes.onnx_model import OnnxModel
 
 logger = getLogger(__name__)
 
 
-class BertOptimizationOptions(FusionOptions):
+class PVTOptimizationOptions(FusionOptions):
     """This class is deprecated"""
 
     def __init__(self, model_type):
         logger.warning(
-            f"BertOptimizationOptions is depreciated. Please use FusionOptions instead."
+            f"PVTOptimizationOptions is depreciated. Please use FusionOptions instead."
         )
         super().__init__(model_type)
 
 
-class BertOnnxModel(OnnxModel):
+class PVTOnnxModel(OnnxModel):
     def __init__(self, model: ModelProto, num_heads: int = 0, hidden_size: int = 0):
         """Initialize BERT ONNX Model.
 
@@ -110,11 +92,11 @@ class BertOnnxModel(OnnxModel):
         FusionAlbertAttention(
             self, self.hidden_size, self.num_heads, self.attention_mask
         ).apply()
-        FusionVideoBertAttention(self).apply()
-        FusionVITAttention(self).apply()
-        FusionTorchvisionVITAttention(self).apply()
-        FusionSwinLAttention(self).apply()
-        FusionGptAttentionNoPast(self).apply()
+        # FusionVideoBertAttention(self).apply()
+        # FusionVITAttention(self).apply()
+        # FusionSwinLAttention(self).apply()
+        # FusionGptAttentionNoPast(self).apply()
+        FusionPVTAttention(self).apply()
         # Only relevant in models with Q-DQ nodes
         self.qordered_attention_fusion.apply()
 
@@ -127,10 +109,6 @@ class BertOnnxModel(OnnxModel):
         fusion = FusionCustomFC(self)
         fusion.apply()
 
-    def fuse_custom_fc_torchvision_vit(self):
-        fusion = FusionTorchvisionVitCustomFC(self)
-        fusion.apply()
-    
     def fuse_custom_fc_activation(self):
         fusion = FusionCustomFCActivation(self)
         fusion.apply()
@@ -203,18 +181,12 @@ class BertOnnxModel(OnnxModel):
     def fuse_qordered_mamtul(self):
         fusion = FusionQOrderedMatMul(self)
         fusion.apply()
-
-    def fuse_omdet_inverse_sigmoid(self):
-        fusion = FusionLayerInverseSigmoid(self)
-        fusion.apply()
-
-    def fuse_omdet_attention(self):
-        fusion = FusionLayerOmdetAttention(self)
-        fusion.apply()
-
-    def fuse_l2_normalization(self):
-        fusion = FusionLayerL2Normalization(self)
-        fusion.apply()
+        
+    def conv_reformat(self):
+        fusion = FusionConvReformat(self)
+        fusion.apply()    
+        
+        
 
     def get_graph_inputs_from_node_type(
         self, op_type: str, input_indices: List[int], casted: bool
@@ -512,20 +484,17 @@ class BertOnnxModel(OnnxModel):
         if options.enable_vit:
             self.fuse_custom_fc()
 
-        if (options is None) or options.enable_attention:
-            if options is not None:
-                self.attention_mask.set_mask_format(options.attention_mask_format)
-            self.fuse_attention()
+        # if (options is None) or options.enable_attention:
+        #     if options is not None:
+        #         self.attention_mask.set_mask_format(options.attention_mask_format)
+        self.fuse_attention()
+        
+        self.conv_reformat()
 
         if (options is None) or options.enable_skip_layer_norm:
             self.fuse_skip_layer_norm()
 
         self.fuse_custom_fc()
-        
-        if options.enable_omdet:
-            self.fuse_omdet_attention()
-            self.fuse_omdet_inverse_sigmoid()
-            self.fuse_l2_normalization()
 
         self.fuse_custom_xsoftmax()
 
@@ -560,9 +529,6 @@ class BertOnnxModel(OnnxModel):
             self.gelu_approximation()
 
         self.fuse_custom_fc_activation()
-        
-        if options.enable_vit:
-            self.fuse_custom_fc_torchvision_vit()
 
         self.remove_unused_constant()
 

@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -5,8 +21,9 @@
 from logging import getLogger
 from typing import Dict, Optional
 
-from .fusion_base import Fusion
 from onnx import helper
+
+from .fusion_base import Fusion
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -25,7 +42,9 @@ class FusionGelu(Fusion):
             return
         self.fuse_4(erf_node, input_name_to_nodes, output_name_to_node)
 
-    def fuse_1(self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict) -> Optional[bool]:
+    def fuse_1(
+        self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict
+    ) -> Optional[bool]:
         """
         This pattern is from PyTorch model
         Fuse Gelu with Erf into one node:
@@ -81,7 +100,9 @@ class FusionGelu(Fusion):
                 return
             subgraph_output = mul_half.output[0]
         else:  # pattern 1
-            mul_half = self.model.match_parent(mul_after_erf, "Mul", another, output_name_to_node)
+            mul_half = self.model.match_parent(
+                mul_after_erf, "Mul", another, output_name_to_node
+            )
             if mul_half is None:
                 return
 
@@ -100,13 +121,17 @@ class FusionGelu(Fusion):
             return
 
         self.nodes_to_remove.extend(subgraph_nodes)
-        fused_node = helper.make_node("Gelu", inputs=[subgraph_input], outputs=[subgraph_output])
+        fused_node = helper.make_node(
+            "Gelu", inputs=[subgraph_input], outputs=[subgraph_output]
+        )
         fused_node.domain = "com.microsoft"
         self.nodes_to_add.append(fused_node)
         self.node_name_to_graph_name[fused_node.name] = self.this_graph_name
         return True
 
-    def fuse_2(self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict) -> Optional[bool]:
+    def fuse_2(
+        self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict
+    ) -> Optional[bool]:
         """
         This pattern is from Keras model
         Fuse Gelu with Erf into one node:
@@ -174,13 +199,17 @@ class FusionGelu(Fusion):
             return
 
         self.nodes_to_remove.extend(subgraph_nodes)
-        fused_node = helper.make_node("Gelu", inputs=[root_node.output[0]], outputs=[mul.output[0]])
+        fused_node = helper.make_node(
+            "Gelu", inputs=[root_node.output[0]], outputs=[mul.output[0]]
+        )
         fused_node.domain = "com.microsoft"
         self.nodes_to_add.append(fused_node)
         self.node_name_to_graph_name[fused_node.name] = self.this_graph_name
         return True
 
-    def fuse_3(self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict) -> Optional[bool]:
+    def fuse_3(
+        self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict
+    ) -> Optional[bool]:
         """
         This pattern is from TensorFlow model
         Fuse Gelu with Erf into one node:
@@ -221,7 +250,9 @@ class FusionGelu(Fusion):
         if i < 0:
             return
 
-        root_node = self.model.get_parent(first_mul, 0 if i == 1 else 1, output_name_to_node)
+        root_node = self.model.get_parent(
+            first_mul, 0 if i == 1 else 1, output_name_to_node
+        )
         if root_node is None:
             return
 
@@ -232,7 +263,10 @@ class FusionGelu(Fusion):
             return
         last_mul = children[0]
 
-        if not (last_mul.input[0] == root_node.output[0] or last_mul.input[1] == root_node.output[0]):
+        if not (
+            last_mul.input[0] == root_node.output[0]
+            or last_mul.input[1] == root_node.output[0]
+        ):
             return
 
         subgraph_nodes = [first_mul, erf_node, add_after_erf, mul_half, last_mul]
@@ -245,13 +279,17 @@ class FusionGelu(Fusion):
             return
 
         self.nodes_to_remove.extend(subgraph_nodes)
-        fused_node = helper.make_node("Gelu", inputs=[root_node.output[0]], outputs=[last_mul.output[0]])
+        fused_node = helper.make_node(
+            "Gelu", inputs=[root_node.output[0]], outputs=[last_mul.output[0]]
+        )
         fused_node.domain = "com.microsoft"
         self.nodes_to_add.append(fused_node)
         self.node_name_to_graph_name[fused_node.name] = self.this_graph_name
         return True
 
-    def fuse_4(self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict) -> Optional[bool]:
+    def fuse_4(
+        self, erf_node, input_name_to_nodes: Dict, output_name_to_node: Dict
+    ) -> Optional[bool]:
         """
         This pattern is from TensorFlow model
         Fuse Gelu with Erf into one node:
@@ -288,7 +326,9 @@ class FusionGelu(Fusion):
             return
         mul_after_erf = children[0]
 
-        mul_before_erf = self.model.match_parent(erf_node, "Mul", 0, output_name_to_node)
+        mul_before_erf = self.model.match_parent(
+            erf_node, "Mul", 0, output_name_to_node
+        )
         if mul_before_erf is None:
             return
 
@@ -307,7 +347,9 @@ class FusionGelu(Fusion):
                 return
             subgraph_output = mul_half.output[0]
         else:  # pattern 1
-            mul_half = self.model.match_parent(mul_after_erf, "Mul", another, output_name_to_node)
+            mul_half = self.model.match_parent(
+                mul_after_erf, "Mul", another, output_name_to_node
+            )
             if mul_half is None:
                 return
 
@@ -319,14 +361,22 @@ class FusionGelu(Fusion):
 
             subgraph_output = mul_after_erf.output[0]
 
-        subgraph_nodes = [mul_before_erf, erf_node, add_after_erf, mul_after_erf, mul_half]
+        subgraph_nodes = [
+            mul_before_erf,
+            erf_node,
+            add_after_erf,
+            mul_after_erf,
+            mul_half,
+        ]
         if not self.model.is_safe_to_fuse_nodes(
             subgraph_nodes, [subgraph_output], input_name_to_nodes, output_name_to_node
         ):
             return
 
         self.nodes_to_remove.extend(subgraph_nodes)
-        fused_node = helper.make_node("Gelu", inputs=[subgraph_input], outputs=[subgraph_output])
+        fused_node = helper.make_node(
+            "Gelu", inputs=[subgraph_input], outputs=[subgraph_output]
+        )
         fused_node.domain = "com.microsoft"
         self.nodes_to_add.append(fused_node)
         self.node_name_to_graph_name[fused_node.name] = self.this_graph_name

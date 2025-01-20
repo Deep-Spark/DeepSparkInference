@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -9,6 +25,7 @@ import numpy
 from numpy import array_equal, ndarray
 from onnx import NodeProto, TensorProto, helper, numpy_helper
 from onnx import onnx_pb as onnx_proto
+
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -20,12 +37,17 @@ class FusionUtils:
 
     def cast_graph_input_to_int32(self, input_name: str) -> Tuple[bool, str]:
         graph_input = self.model.find_graph_input(input_name)
-        if graph_input is not None and graph_input.type.tensor_type.elem_type != TensorProto.INT32:
+        if (
+            graph_input is not None
+            and graph_input.type.tensor_type.elem_type != TensorProto.INT32
+        ):
             cast_output, cast_node = self.cast_input_to_int32(input_name)
             logger.debug(f"Casted graph input {input_name} to int32")
             return True, cast_output
 
-        logger.debug(f"Did not cast graph input {input_name} to int32: found {graph_input is not None}")
+        logger.debug(
+            f"Did not cast graph input {input_name} to int32: found {graph_input is not None}"
+        )
         return False, input_name
 
     def cast_input_to_int32(self, input_name: str):
@@ -40,7 +62,9 @@ class FusionUtils:
                 inputs = [parent_node.input[0]]
 
         cast_node = helper.make_node("Cast", inputs=inputs, outputs=[cast_output])
-        cast_node.attribute.extend([helper.make_attribute("to", int(TensorProto.INT32))])
+        cast_node.attribute.extend(
+            [helper.make_attribute("to", int(TensorProto.INT32))]
+        )
         self.model.add_node(cast_node)
 
         return cast_output, cast_node
@@ -61,7 +85,9 @@ class FusionUtils:
                     self.model.replace_input_of_all_nodes(output_name, input_name)
 
     @staticmethod
-    def check_node_attribute(node, attribute_name: str, expected_value, default_value=None):
+    def check_node_attribute(
+        node, attribute_name: str, expected_value, default_value=None
+    ):
         """Verify that a node has expected value for an attribute.
 
         Args:
@@ -79,9 +105,9 @@ class FusionUtils:
                 value = helper.get_attribute_value(attr)
 
         if isinstance(expected_value, list):
-            return (isinstance(value, ndarray) or isinstance(value, list)) and array_equal(
-                expected_value, value, equal_nan=False
-            )
+            return (
+                isinstance(value, ndarray) or isinstance(value, list)
+            ) and array_equal(expected_value, value, equal_nan=False)
         else:
             return value == expected_value
 
@@ -94,13 +120,17 @@ class FusionUtils:
             tensor (TensorProto): transposed tensor
         """
         if not isinstance(tensor, onnx_proto.TensorProto):
-            raise ValueError("Expected input type is an ONNX TensorProto but got %s" % type(tensor))
+            raise ValueError(
+                "Expected input type is an ONNX TensorProto but got %s" % type(tensor)
+            )
 
         if len(tensor.dims) != 2 or tensor.data_type != onnx_proto.TensorProto.INT8:
             raise ValueError("Only INT8 2-D tensors can be transposed")
 
         if tensor.raw_data:
-            int32_data = numpy.reshape(numpy.frombuffer(tensor.raw_data, dtype="int8"), tensor.dims)
+            int32_data = numpy.reshape(
+                numpy.frombuffer(tensor.raw_data, dtype="int8"), tensor.dims
+            )
             int32_transposed_data = numpy.transpose(int32_data, [1, 0])
             tensor.raw_data = int32_transposed_data.tobytes()
 
@@ -110,7 +140,9 @@ class FusionUtils:
         return tensor
 
     @staticmethod
-    def check_qdq_node_for_fusion(node: NodeProto, model: OnnxModel, allow_per_tensor_quantization_only=True):
+    def check_qdq_node_for_fusion(
+        node: NodeProto, model: OnnxModel, allow_per_tensor_quantization_only=True
+    ):
         """Verify if a provided QuantizeLinear (Q) / DequantizeLinear (DQ) node is a good candidate for fusion.
            It is a good candidate for fusion if:
            (1) The Q/DQ node is for per-tensor quantization if allow_per_tensor_quantization_only is `True`
@@ -131,7 +163,9 @@ class FusionUtils:
             return False
 
         # Not per-tensor quantization
-        scale_has_single_element = scale.ndim == 0 or (scale.ndim == 1 and scale.shape[0] == 1)
+        scale_has_single_element = scale.ndim == 0 or (
+            scale.ndim == 1 and scale.shape[0] == 1
+        )
         if allow_per_tensor_quantization_only and not scale_has_single_element:
             return False
 
@@ -168,9 +202,9 @@ class FusionUtils:
         value = self.model.get_constant_value(node.input[input_index])
 
         if isinstance(expected_value, list):
-            return (isinstance(value, ndarray) or isinstance(value, list)) and array_equal(
-                expected_value, value, equal_nan=False
-            )
+            return (
+                isinstance(value, ndarray) or isinstance(value, list)
+            ) and array_equal(expected_value, value, equal_nan=False)
         else:
             return value == expected_value
 
@@ -216,7 +250,9 @@ class FusionUtils:
             for node in nodes_to_remove:
                 if bool(set(node.output) & graph_output_names):
                     if not bool(set(node.input) & graph_input_names):
-                        self.model.replace_output_of_all_nodes(node.input[0], node.output[0])
+                        self.model.replace_output_of_all_nodes(
+                            node.input[0], node.output[0]
+                        )
                     else:
                         continue
                 else:

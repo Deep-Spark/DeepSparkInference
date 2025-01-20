@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -6,9 +22,10 @@
 from logging import getLogger
 from typing import Dict, List, Tuple, Union
 
+from onnx import NodeProto, TensorProto, helper
+
 from .fusion_base import Fusion
 from .fusion_utils import FusionUtils
-from onnx import NodeProto, TensorProto, helper
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -33,7 +50,9 @@ class FusionEmbedLayerNoMask(Fusion):
         self.attention = None
         self.embed_node = None
 
-    def match_two_gather(self, add: NodeProto) -> Union[None, Tuple[NodeProto, NodeProto]]:
+    def match_two_gather(
+        self, add: NodeProto
+    ) -> Union[None, Tuple[NodeProto, NodeProto]]:
         gather_0_path = self.model.match_parent_path(add, ["Gather"], [0])
         if gather_0_path is None:
             return None
@@ -70,7 +89,11 @@ class FusionEmbedLayerNoMask(Fusion):
             children = input_name_to_nodes[layernorm.output[0]]
 
             # For Albert, there is MatMul+Add after embedding layer before attention.
-            if len(children) == 1 and children[0].op_type == "MatMul" and children[0].output[0] in input_name_to_nodes:
+            if (
+                len(children) == 1
+                and children[0].op_type == "MatMul"
+                and children[0].output[0] in input_name_to_nodes
+            ):
                 grandchildren = input_name_to_nodes[children[0].output[0]]
                 if (
                     len(grandchildren) == 1
@@ -90,24 +113,37 @@ class FusionEmbedLayerNoMask(Fusion):
             if is_distil_bert:
                 # SkipLayerNormailization might exist when model has been optimized by ORT first.
                 if (
-                    children_types != ["MatMul", "MatMul", "MatMul", "Shape", "SkipLayerNormalization"]
-                    and children_types != ["Add", "MatMul", "MatMul", "MatMul", "Shape", "Shape"]
+                    children_types
+                    != ["MatMul", "MatMul", "MatMul", "Shape", "SkipLayerNormalization"]
+                    and children_types
+                    != ["Add", "MatMul", "MatMul", "MatMul", "Shape", "Shape"]
                     and children_types != ["Add", "MatMul", "MatMul", "MatMul", "Shape"]
                 ):
-                    logger.debug("No Attention like subgraph in children of LayerNormalization")
+                    logger.debug(
+                        "No Attention like subgraph in children of LayerNormalization"
+                    )
                     return False
             else:
-                if children_types != ["Add", "MatMul", "MatMul", "MatMul",] and children_types != [
+                if children_types != [
+                    "Add",
+                    "MatMul",
+                    "MatMul",
+                    "MatMul",
+                ] and children_types != [
                     "MatMul",
                     "MatMul",
                     "MatMul",
                     "SkipLayerNormalization",
                 ]:
-                    logger.debug("No Attention like subgraph in children of LayerNormalization")
+                    logger.debug(
+                        "No Attention like subgraph in children of LayerNormalization"
+                    )
                     return False
         return True
 
-    def match_position_embedding_distilbert(self, position_embedding_gather, input_ids, output_name_to_node):
+    def match_position_embedding_distilbert(
+        self, position_embedding_gather, input_ids, output_name_to_node
+    ):
         """  Match position embedding path from input_ids to Gather for DistilBert.
 
         Pattern is like the following:
@@ -128,7 +164,9 @@ class FusionEmbedLayerNoMask(Fusion):
                       Gather
         """
         # remove after tests pass
-        path1 = self.model.match_parent_path(position_embedding_gather, ["Expand", "Shape"], [1, 1])
+        path1 = self.model.match_parent_path(
+            position_embedding_gather, ["Expand", "Shape"], [1, 1]
+        )
         if path1 is None:
             path1 = self.model.match_parent_path(
                 position_embedding_gather,
@@ -155,7 +193,8 @@ class FusionEmbedLayerNoMask(Fusion):
 
         range_node = path2[1]
         if not (
-            self.utils.check_node_input_value(range_node, 0, 0) and self.utils.check_node_input_value(range_node, 2, 1)
+            self.utils.check_node_input_value(range_node, 0, 0)
+            and self.utils.check_node_input_value(range_node, 2, 1)
         ):
             return False
 
@@ -169,7 +208,9 @@ class FusionEmbedLayerNoMask(Fusion):
 
         return True
 
-    def match_position_embedding_roberta(self, position_embedding_gather, input_ids, output_name_to_node):
+    def match_position_embedding_roberta(
+        self, position_embedding_gather, input_ids, output_name_to_node
+    ):
         """Match position embedding path from input_ids to Gather for Roberta.
 
         Roberta Embedding Layer Pattern (* is optional since it might be removed by ORT, ? is the padding word id):
@@ -216,10 +257,12 @@ class FusionEmbedLayerNoMask(Fusion):
 
         return False
 
-    def match_position_embedding_bert(self, position_embedding_gather, input_ids, output_name_to_node):
+    def match_position_embedding_bert(
+        self, position_embedding_gather, input_ids, output_name_to_node
+    ):
         """  Match position embedding path from input_ids to Gather for BERT.
 
-        BERT Embedding Layer Pattern:       
+        BERT Embedding Layer Pattern:
                                     (input_ids)
                                    /         \
                                  /          Shape
@@ -232,7 +275,7 @@ class FusionEmbedLayerNoMask(Fusion):
                            \        |           |
                             \     Gather      Slice (data[1,512], starts=0, ends=*, axes=1, steps=1)
                               \    /            |
-                                Add          Gather 
+                                Add          Gather
                                    \       /
                                       Add
                                        |
@@ -255,7 +298,10 @@ class FusionEmbedLayerNoMask(Fusion):
             and slice_weight.shape[0] == 1
             and self.utils.check_node_input_value(slice, 1, [0])
             and self.utils.check_node_input_value(slice, 3, [1])
-            and (len(slice.input) == 4 or self.utils.check_node_input_value(slice, 4, [1]))
+            and (
+                len(slice.input) == 4
+                or self.utils.check_node_input_value(slice, 4, [1])
+            )
         ):
             return False
 
@@ -288,8 +334,12 @@ class FusionEmbedLayerNoMask(Fusion):
 
         return input_ids == shape.input[0]
 
-    def match_position_embedding(self, position_embedding_gather, input_ids, output_name_to_node):
-        if self.match_position_embedding_bert(position_embedding_gather, input_ids, output_name_to_node):
+    def match_position_embedding(
+        self, position_embedding_gather, input_ids, output_name_to_node
+    ):
+        if self.match_position_embedding_bert(
+            position_embedding_gather, input_ids, output_name_to_node
+        ):
             return True
 
         # TODO: Support roberta (position starts from 2 instead of 0) in EmbedLayerNormalization kernel
@@ -297,15 +347,21 @@ class FusionEmbedLayerNoMask(Fusion):
         # if self.match_position_embedding_roberta(position_embedding_gather, input_ids, output_name_to_node):
         #    return True
 
-        if self.match_position_embedding_distilbert(position_embedding_gather, input_ids, output_name_to_node):
+        if self.match_position_embedding_distilbert(
+            position_embedding_gather, input_ids, output_name_to_node
+        ):
             return True
 
         return False
 
-    def check_embedding(self, word_embedding_gather, segment_embedding_gather, position_embedding_gather):
+    def check_embedding(
+        self, word_embedding_gather, segment_embedding_gather, position_embedding_gather
+    ):
         """Sanity check of embedding weights, and match hidden_size of weights and shape of inputs."""
         input_ids = word_embedding_gather.input[1]
-        segment_ids = segment_embedding_gather.input[1] if segment_embedding_gather else None
+        segment_ids = (
+            segment_embedding_gather.input[1] if segment_embedding_gather else None
+        )
         position_ids = position_embedding_gather.input[1]
 
         if self.shape_infer_helper is not None:
@@ -324,7 +380,9 @@ class FusionEmbedLayerNoMask(Fusion):
                 )
                 return False
 
-            if segment_ids and not self.shape_infer_helper.compare_shape(input_ids, segment_ids):
+            if segment_ids and not self.shape_infer_helper.compare_shape(
+                input_ids, segment_ids
+            ):
                 logger.info(
                     "Cannot fuse EmbedLayerNormalization: input_ids and segment_ids does not have same shape: {} != {}".format(
                         input_ids_shape,
@@ -333,28 +391,40 @@ class FusionEmbedLayerNoMask(Fusion):
                 )
                 return False
 
-        word_embedding_table = self.model.get_constant_value(word_embedding_gather.input[0])
+        word_embedding_table = self.model.get_constant_value(
+            word_embedding_gather.input[0]
+        )
         if word_embedding_table is None or len(word_embedding_table.shape) != 2:
-            logger.info("Cannot fuse EmbedLayerNormalization: word embedding table is not expected")
+            logger.info(
+                "Cannot fuse EmbedLayerNormalization: word embedding table is not expected"
+            )
             return False
 
-        position_embedding_table = self.model.get_constant_value(position_embedding_gather.input[0])
+        position_embedding_table = self.model.get_constant_value(
+            position_embedding_gather.input[0]
+        )
         if (
             position_embedding_table is None
             or len(position_embedding_table.shape) != 2
             or (word_embedding_table.shape[1] != position_embedding_table.shape[1])
         ):
-            logger.info("Cannot fuse EmbedLayerNormalization: position embedding table is not expected")
+            logger.info(
+                "Cannot fuse EmbedLayerNormalization: position embedding table is not expected"
+            )
             return False
 
         if segment_ids:
-            segment_embedding_table = self.model.get_constant_value(segment_embedding_gather.input[0])
+            segment_embedding_table = self.model.get_constant_value(
+                segment_embedding_gather.input[0]
+            )
             if (
                 segment_embedding_table is None
                 or len(segment_embedding_table.shape) != 2
                 or (word_embedding_table.shape[1] != segment_embedding_table.shape[1])
             ):
-                logger.info("Cannot fuse EmbedLayerNormalization: segment embedding table is not expected")
+                logger.info(
+                    "Cannot fuse EmbedLayerNormalization: segment embedding table is not expected"
+                )
                 return False
 
         # In normal case, word embeding table is the largest, and segment embedding table is the smallest, while postion embedding table is in between.
@@ -392,7 +462,9 @@ class FusionEmbedLayerNoMask(Fusion):
         graph_input = self.model.find_graph_input(input_name)
         if graph_input is not None:
             if graph_input.type.tensor_type.elem_type != TensorProto.INT32:
-                int32_output, input_cast_node = self.utils.cast_input_to_int32(input_name)
+                int32_output, input_cast_node = self.utils.cast_input_to_int32(
+                    input_name
+                )
             else:
                 int32_output = input_name
         else:
@@ -515,7 +587,9 @@ class FusionEmbedLayerNoMask(Fusion):
 
         return len(nodes) > 1
 
-    def fuse_gpt2(self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+    def fuse_gpt2(
+        self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node
+    ):
         # graph checks
         # gpt2 has no segment embedding, subgraph pattern is like
         #     input_ids  position_ids
@@ -543,10 +617,14 @@ class FusionEmbedLayerNoMask(Fusion):
         input_ids = word_embedding_gather.input[1]
         position_ids = position_embedding_gather.input[1]
 
-        if not self.check_attention_subgraph(layernorm, input_name_to_nodes, is_distil_bert=False):
+        if not self.check_attention_subgraph(
+            layernorm, input_name_to_nodes, is_distil_bert=False
+        ):
             return False
 
-        if not self.check_embedding(word_embedding_gather, None, position_embedding_gather):
+        if not self.check_embedding(
+            word_embedding_gather, None, position_embedding_gather
+        ):
             return False
 
         optional_embedding_sum_output = False
@@ -571,7 +649,9 @@ class FusionEmbedLayerNoMask(Fusion):
 
         return True
 
-    def fuse_distilbert(self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+    def fuse_distilbert(
+        self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node
+    ):
         """Fuse embedding layer for DistilBert
         Args:
             layernorm (NodeProto): node of LayerNormalization or SkipLayerNormalization
@@ -597,13 +677,19 @@ class FusionEmbedLayerNoMask(Fusion):
         word_embedding_gather, position_embedding_gather = two_gather
         input_ids = word_embedding_gather.input[1]
 
-        if not self.check_attention_subgraph(layernorm, input_name_to_nodes, is_distil_bert=True):
+        if not self.check_attention_subgraph(
+            layernorm, input_name_to_nodes, is_distil_bert=True
+        ):
             return False
 
-        if not self.match_position_embedding(position_embedding_gather, input_ids, output_name_to_node):
+        if not self.match_position_embedding(
+            position_embedding_gather, input_ids, output_name_to_node
+        ):
             return False
 
-        if not self.check_embedding(word_embedding_gather, None, position_embedding_gather):
+        if not self.check_embedding(
+            word_embedding_gather, None, position_embedding_gather
+        ):
             return False
 
         embed_node = self.create_fused_node(
@@ -612,7 +698,9 @@ class FusionEmbedLayerNoMask(Fusion):
         self.finish_fusion(layernorm, embed_node)
         return True
 
-    def fuse_bert(self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+    def fuse_bert(
+        self, layernorm, add_before_layernorm, input_name_to_nodes, output_name_to_node
+    ):
         """Fuse embedding layer for Bert
         Args:
             layernorm (NodeProto): node of LayerNormalization or SkipLayerNormalization
@@ -633,23 +721,33 @@ class FusionEmbedLayerNoMask(Fusion):
 
         input_ids = word_embedding_gather.input[1]
 
-        if not self.check_attention_subgraph(layernorm, input_name_to_nodes, is_distil_bert=False):
+        if not self.check_attention_subgraph(
+            layernorm, input_name_to_nodes, is_distil_bert=False
+        ):
             return False
 
-        position_embedding_path = self.model.match_parent_path(add_before_layernorm, ["Gather"], [1])
+        position_embedding_path = self.model.match_parent_path(
+            add_before_layernorm, ["Gather"], [1]
+        )
         if position_embedding_path is None:
             return False
 
         position_embedding_gather = position_embedding_path[0]
-        if not self.match_position_embedding(position_embedding_gather, input_ids, output_name_to_node):
-            if not self.match_position_embedding(segment_embedding_gather, input_ids, output_name_to_node):
+        if not self.match_position_embedding(
+            position_embedding_gather, input_ids, output_name_to_node
+        ):
+            if not self.match_position_embedding(
+                segment_embedding_gather, input_ids, output_name_to_node
+            ):
                 return False
             # position and segment are switched
             temp = segment_embedding_gather
             segment_embedding_gather = position_embedding_gather
             position_embedding_gather = temp
 
-        if not self.check_embedding(word_embedding_gather, segment_embedding_gather, position_embedding_gather):
+        if not self.check_embedding(
+            word_embedding_gather, segment_embedding_gather, position_embedding_gather
+        ):
             return False
 
         embed_node = self.create_fused_node(
@@ -671,13 +769,19 @@ class FusionEmbedLayerNoMask(Fusion):
         else:  # SkipLayerNormalization
             add_before_layernorm = node  # Add is fused into SkipLayerNormalization
 
-        if self.fuse_gpt2(node, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+        if self.fuse_gpt2(
+            node, add_before_layernorm, input_name_to_nodes, output_name_to_node
+        ):
             return
 
-        if self.fuse_distilbert(node, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+        if self.fuse_distilbert(
+            node, add_before_layernorm, input_name_to_nodes, output_name_to_node
+        ):
             return
 
-        if self.fuse_bert(node, add_before_layernorm, input_name_to_nodes, output_name_to_node):
+        if self.fuse_bert(
+            node, add_before_layernorm, input_name_to_nodes, output_name_to_node
+        ):
             return
 
 
@@ -701,3 +805,274 @@ class FusionEmbedLayerNormalization(FusionEmbedLayerNoMask):
                     self.nodes_to_remove.extend([node])
                     embed_node.input.append(mask_input_name)
                     embed_node.output[1] = mask_index
+
+
+class FusionBertEmbedLayerNormalization(Fusion):
+    """
+    Fuse BertEmbedLayerNormalization subgraph into one node.
+    """
+
+    def __init__(self, model: OnnxModel):
+        super().__init__(
+            model, "CustomEmbLayerNormPluginDynamic_IxRT", "CustomQKVToContextPluginDynamic_IxRT"
+        )
+
+    def fuse(self, node, input_name_to_nodes: Dict, output_name_to_node: Dict):
+        """
+        input -->  CustomEmbLayerNormPluginDynamic_IxRT --> CustomFCPluginDynamic_IxRT -->  CustomQKVToContextPluginDynamic_IxRT  --> CustomFCPluginDynamic_IxRT
+        """
+        children = self.model.get_children(node, input_name_to_nodes)
+        parent = self.model.get_parents(node, output_name_to_node)
+        
+        if len(children) == 0:
+            return
+        if len(parent) == 0:
+            return
+
+        start_node = node
+               
+        # word_embeddings
+        word_embeddings_node = self.model.match_parent_path(
+            start_node,
+            ["CustomFCPluginDynamic_IxRT", "LayerNormalization", "Add", "Add", "Gather"],
+            [0, 0, 0, 0, 0],
+            output_name_to_node,
+        )
+
+        # token_type_embeddings
+        token_type_embeddings_node = self.model.match_parent_path(
+            start_node,
+            ["CustomFCPluginDynamic_IxRT", "LayerNormalization", "Add", "Add", "Gather"],
+            [0, 0, 0, 0, 1],
+            output_name_to_node,
+        )
+        
+        # attention_mask
+        attention_mask_node = self.model.match_parent_path(
+            start_node,
+            ["Mul", "Sub", "Cast", "Unsqueeze"],
+            [1, 0, 1, 0],
+            output_name_to_node,
+        )
+        
+        if word_embeddings_node is None or token_type_embeddings_node is None or attention_mask_node is None:
+            return
+        
+        if word_embeddings_node and token_type_embeddings_node and attention_mask_node:
+            subgraph_nodes = []
+            subgraph_nodes.extend(word_embeddings_node)
+            subgraph_nodes.extend(token_type_embeddings_node)
+            subgraph_nodes.extend(attention_mask_node)
+            
+            subgraph_nodes_unique = []
+            for item in subgraph_nodes:
+                if item not in subgraph_nodes_unique:
+                    subgraph_nodes_unique.append(item)
+            subgraph_nodes_remove = []
+            for item in subgraph_nodes_unique:
+                if item.op_type != "CustomFCPluginDynamic_IxRT":
+                    subgraph_nodes_remove.append(item)
+    
+        # input_ids = self.model.get_graph_inputs_excluding_initializers()[0]
+        # token_type_ids = self.model.get_graph_inputs_excluding_initializers()[1]
+        # attention_mask = self.model.get_graph_inputs_excluding_initializers()[2]
+        
+        emblayernorm_out = word_embeddings_node[1].output[0]
+        emblayernorm_out_mask = attention_mask_node[0].output[0]
+        
+        # self.model.modify_node_output_type(emblayernorm_out_mask, 5)
+    
+        beta_data = self.model.get_initializer(word_embeddings_node[1].input[2], True)
+        embeddings_layernorm_beta_name = "bert_embeddings_layernorm_beta"
+        embeddings_layernorm_beta = helper.make_tensor(
+            embeddings_layernorm_beta_name, TensorProto.FLOAT, beta_data.shape, beta_data.flatten().tolist())
+        
+        gamma_data = self.model.get_initializer(word_embeddings_node[1].input[1], True)
+        embeddings_layernorm_gamma_name = "bert_embeddings_layernorm_gamma"
+        embeddings_layernorm_gamma = helper.make_tensor(
+            embeddings_layernorm_gamma_name, TensorProto.FLOAT, gamma_data.shape, gamma_data.flatten().tolist())
+        
+        embeddings_word_embeddings_data = self.model.get_initializer(word_embeddings_node[4].input[0], True)
+        embeddings_word_embeddings_name = "bert_embeddings_word_embeddings"
+        embeddings_word_embeddings = helper.make_tensor(
+            embeddings_word_embeddings_name, TensorProto.FLOAT, embeddings_word_embeddings_data.shape, 
+            embeddings_word_embeddings_data.flatten().tolist())
+        
+        embeddings_token_type_embeddings_data = self.model.get_initializer(token_type_embeddings_node[4].input[0], True)
+        embeddings_token_type_embeddings_name = "bert_embeddings_token_type_embeddings"
+        embeddings_token_type_embeddings = helper.make_tensor(
+            embeddings_token_type_embeddings_name, TensorProto.FLOAT, embeddings_token_type_embeddings_data.shape, 
+            embeddings_token_type_embeddings_data.flatten().tolist())
+        
+        embeddings_position_embeddings_data = self.model.get_initializer(token_type_embeddings_node[2].input[1], True)
+        embeddings_position_embeddings_name = "bert_embeddings_token_type_embeddings"
+        embeddings_position_embeddings = helper.make_tensor(
+            embeddings_position_embeddings_name, TensorProto.FLOAT, embeddings_position_embeddings_data.shape, 
+            embeddings_position_embeddings_data.flatten().tolist())
+        
+        self.model.add_initializer(embeddings_layernorm_beta, self.this_graph_name)
+        self.model.add_initializer(embeddings_layernorm_gamma, self.this_graph_name)
+        self.model.add_initializer(embeddings_word_embeddings, self.this_graph_name)
+        self.model.add_initializer(embeddings_token_type_embeddings, self.this_graph_name)
+        self.model.add_initializer(embeddings_position_embeddings, self.this_graph_name)
+        
+
+        emblayernorm_node = helper.make_node(
+            "CustomEmbLayerNormPluginDynamic_IxRT",
+            inputs=[word_embeddings_node[4].input[1], token_type_embeddings_node[4].input[1], attention_mask_node[3].input[0]],
+            outputs=[emblayernorm_out, emblayernorm_out_mask],
+            name=self.model.create_node_name(
+                "BertEmbedLayerNormalization", name_prefix="BertEmbedLayerNormalization"
+            ),
+        )
+        emblayernorm_node.domain = "com.iluvatar"
+        emblayernorm_node.attribute.extend([helper.make_attribute("plugin_namespace", "")])
+        emblayernorm_node.attribute.extend([helper.make_attribute("plugin_version", "1")])
+        emblayernorm_node.attribute.extend([helper.make_attribute("output_fp16", 1)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("full_mask", 1)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("mha_type_id", 2)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("pad_id", 0)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_layernorm_beta", embeddings_layernorm_beta)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_layernorm_gamma", embeddings_layernorm_gamma)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_word_embeddings", embeddings_word_embeddings)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_token_type_embeddings", embeddings_token_type_embeddings)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_position_embeddings", embeddings_position_embeddings)])
+        
+        self.nodes_to_remove.extend(subgraph_nodes_remove)
+        
+        self.nodes_to_add.append(emblayernorm_node)
+        self.node_name_to_graph_name[emblayernorm_node.name] = self.this_graph_name
+
+
+class FusionAlbertEmbedLayerNormalization(Fusion):
+    """
+    Fuse AlbertEmbedLayerNormalization subgraph into one node.
+    """
+
+    def __init__(self, model: OnnxModel):
+        super().__init__(
+            model, "CustomEmbLayerNormPluginDynamic_IxRT", "CustomQKVToContextPluginDynamic_IxRT"
+        )
+
+    def fuse(self, node, input_name_to_nodes: Dict, output_name_to_node: Dict):
+        """
+        input -->  CustomEmbLayerNormPluginDynamic_IxRT --> CustomFCPluginDynamic_IxRT -->  CustomFCPluginDynamic_IxRT --> CustomQKVToContextPluginDynamic_IxRT  --> CustomFCPluginDynamic_IxRT
+        """
+        children = self.model.get_children(node, input_name_to_nodes)
+        parent = self.model.get_parents(node, output_name_to_node)
+        
+        if len(children) == 0:
+            return
+        if len(parent) == 0:
+            return
+
+        start_node = node
+               
+        # word_embeddings
+        word_embeddings_node = self.model.match_parent_path(
+            start_node,
+            ["CustomFCPluginDynamic_IxRT","CustomFCPluginDynamic_IxRT", "LayerNormalization", "Add", "Add", "Gather"],
+            [0, 0, 0, 0, 0, 0],
+            output_name_to_node,
+        )
+
+        # token_type_embeddings
+        token_type_embeddings_node = self.model.match_parent_path(
+            start_node,
+            ["CustomFCPluginDynamic_IxRT","CustomFCPluginDynamic_IxRT", "LayerNormalization", "Add", "Add", "Gather"],
+            [0, 0, 0, 0, 0, 1],
+            output_name_to_node,
+        )
+        
+        # attention_mask
+        attention_mask_node = self.model.match_parent_path(
+            start_node,
+            ["Mul", "Sub", "Cast", "Unsqueeze"],
+            [1, 0, 1, 0],
+            output_name_to_node,
+        )
+        
+        if word_embeddings_node is None or token_type_embeddings_node is None or attention_mask_node is None:
+            return
+        
+        if word_embeddings_node and token_type_embeddings_node and attention_mask_node:
+            subgraph_nodes = []
+            subgraph_nodes.extend(word_embeddings_node)
+            subgraph_nodes.extend(token_type_embeddings_node)
+            subgraph_nodes.extend(attention_mask_node)
+            
+            subgraph_nodes_unique = []
+            for item in subgraph_nodes:
+                if item not in subgraph_nodes_unique:
+                    subgraph_nodes_unique.append(item)
+            subgraph_nodes_remove = []
+            for item in subgraph_nodes_unique:
+                if item.op_type != "CustomFCPluginDynamic_IxRT":
+                    subgraph_nodes_remove.append(item)
+        
+        # input_ids = self.model.get_graph_inputs_excluding_initializers()[0]
+        # token_type_ids = self.model.get_graph_inputs_excluding_initializers()[1]
+        # attention_mask = self.model.get_graph_inputs_excluding_initializers()[2]
+        
+        emblayernorm_out = word_embeddings_node[2].output[0]
+        emblayernorm_out_mask = attention_mask_node[0].output[0]
+        
+        beta_data = self.model.get_initializer(word_embeddings_node[2].input[2], True)
+        embeddings_layernorm_beta_name = "bert_embeddings_layernorm_beta"
+        embeddings_layernorm_beta = helper.make_tensor(
+            embeddings_layernorm_beta_name, TensorProto.FLOAT, beta_data.shape, beta_data.flatten().tolist())
+        
+        gamma_data = self.model.get_initializer(word_embeddings_node[2].input[1], True)
+        embeddings_layernorm_gamma_name = "bert_embeddings_layernorm_gamma"
+        embeddings_layernorm_gamma = helper.make_tensor(
+            embeddings_layernorm_gamma_name, TensorProto.FLOAT, gamma_data.shape, gamma_data.flatten().tolist())
+        
+        embeddings_word_embeddings_data = self.model.get_initializer(word_embeddings_node[5].input[0], True)
+        embeddings_word_embeddings_name = "bert_embeddings_word_embeddings"
+        embeddings_word_embeddings = helper.make_tensor(
+            embeddings_word_embeddings_name, TensorProto.FLOAT, embeddings_word_embeddings_data.shape, 
+            embeddings_word_embeddings_data.flatten().tolist())
+        
+        embeddings_token_type_embeddings_data = self.model.get_initializer(token_type_embeddings_node[5].input[0], True)
+        embeddings_token_type_embeddings_name = "bert_embeddings_token_type_embeddings"
+        embeddings_token_type_embeddings = helper.make_tensor(
+            embeddings_token_type_embeddings_name, TensorProto.FLOAT, embeddings_token_type_embeddings_data.shape, 
+            embeddings_token_type_embeddings_data.flatten().tolist())
+        
+        embeddings_position_embeddings_data = self.model.get_initializer(token_type_embeddings_node[3].input[1], True)
+        embeddings_position_embeddings_name = "bert_embeddings_token_type_embeddings"
+        embeddings_position_embeddings = helper.make_tensor(
+            embeddings_position_embeddings_name, TensorProto.FLOAT, embeddings_position_embeddings_data.shape, 
+            embeddings_position_embeddings_data.flatten().tolist())
+        
+        self.model.add_initializer(embeddings_layernorm_beta, self.this_graph_name)
+        self.model.add_initializer(embeddings_layernorm_gamma, self.this_graph_name)
+        self.model.add_initializer(embeddings_word_embeddings, self.this_graph_name)
+        self.model.add_initializer(embeddings_token_type_embeddings, self.this_graph_name)
+        self.model.add_initializer(embeddings_position_embeddings, self.this_graph_name)
+        
+        emblayernorm_node = helper.make_node(
+            "CustomEmbLayerNormPluginDynamic_IxRT",
+            inputs=[word_embeddings_node[5].input[1], token_type_embeddings_node[5].input[1], attention_mask_node[3].input[0]],
+            outputs=[emblayernorm_out, emblayernorm_out_mask],
+            name=self.model.create_node_name(
+                "BertEmbedLayerNormalization", name_prefix="BertEmbedLayerNormalization"
+            ),
+        )
+        emblayernorm_node.domain = "com.iluvatar"
+        emblayernorm_node.attribute.extend([helper.make_attribute("plugin_namespace", "")])
+        emblayernorm_node.attribute.extend([helper.make_attribute("plugin_version", "1")])
+        emblayernorm_node.attribute.extend([helper.make_attribute("output_fp16", 1)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("full_mask", 1)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("mha_type_id", 2)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("pad_id", 0)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_layernorm_beta", embeddings_layernorm_beta)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_layernorm_gamma", embeddings_layernorm_gamma)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_word_embeddings", embeddings_word_embeddings)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_token_type_embeddings", embeddings_token_type_embeddings)])
+        emblayernorm_node.attribute.extend([helper.make_attribute("bert_embeddings_position_embeddings", embeddings_position_embeddings)])
+        
+        self.nodes_to_remove.extend(subgraph_nodes_remove)
+        
+        self.nodes_to_add.append(emblayernorm_node)
+        self.node_name_to_graph_name[emblayernorm_node.name] = self.this_graph_name

@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -15,13 +31,24 @@ if os.path.exists(os.path.join(file_path, "../tools/symbolic_shape_infer.py")):
 else:
     sys.path.append(os.path.join(file_path, ".."))
 
-from .symbolic_shape_infer import SymbolicShapeInference, get_shape_from_type_proto, sympy
+from .symbolic_shape_infer import (
+    SymbolicShapeInference,
+    get_shape_from_type_proto,
+    sympy,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class SymbolicShapeInferenceHelper(SymbolicShapeInference):
-    def __init__(self, model, verbose=0, int_max=2**31 - 1, auto_merge=True, guess_output_rank=False):
+    def __init__(
+        self,
+        model,
+        verbose=0,
+        int_max=2**31 - 1,
+        auto_merge=True,
+        guess_output_rank=False,
+    ):
         super().__init__(int_max, auto_merge, guess_output_rank, verbose)
         self.model_ = model
         self.all_shapes_inferred_: bool = False

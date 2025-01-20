@@ -66,21 +66,20 @@ from passes.fuse_l2_normalization import FusionLayerL2Normalization
 from passes.fuse_omdet_attention import FusionLayerOmdetAttention
 from passes.onnx_model import OnnxModel
 
+from passes.fusion_cosyvoice_splitQKV_update_KVcache import FusionCosyVoiceSplitQKVUpdateKVCache
+from passes.fusion_cosyvoice_attention import (
+    FusionCosyvoiceAttention
+)
+from passes.fusion_cosyvoice_splitQKV import FusionSplitQKV
+
+
+
 logger = getLogger(__name__)
 
 
-class BertOptimizationOptions(FusionOptions):
-    """This class is deprecated"""
 
-    def __init__(self, model_type):
-        logger.warning(
-            f"BertOptimizationOptions is depreciated. Please use FusionOptions instead."
-        )
-        super().__init__(model_type)
-
-
-class BertOnnxModel(OnnxModel):
-    def __init__(self, model: ModelProto, num_heads: int = 0, hidden_size: int = 0):
+class cosyvoiceOnnxModel(OnnxModel):
+    def __init__(self, model: ModelProto, num_heads: int = 16, hidden_size: int = 1024):
         """Initialize BERT ONNX Model.
 
         Args:
@@ -215,6 +214,19 @@ class BertOnnxModel(OnnxModel):
     def fuse_l2_normalization(self):
         fusion = FusionLayerL2Normalization(self)
         fusion.apply()
+        
+    def fuse_splitQKV_update_kv_cache(self):        
+        fusion = FusionCosyVoiceSplitQKVUpdateKVCache(self, self.hidden_size, self.num_heads)
+        fusion.apply()
+        
+    def fuse_cosyvoice_attention(self):
+        fusion = FusionCosyvoiceAttention(self)
+        fusion.apply() 
+    
+    def fuse_cosyvoice_split_qkv(self):
+        fusion = FusionSplitQKV(self, self.hidden_size, self.num_heads)
+        fusion.apply()       
+   
 
     def get_graph_inputs_from_node_type(
         self, op_type: str, input_indices: List[int], casted: bool
@@ -526,11 +538,12 @@ class BertOnnxModel(OnnxModel):
             self.fuse_omdet_attention()
             self.fuse_omdet_inverse_sigmoid()
             self.fuse_l2_normalization()
-
-        self.fuse_custom_xsoftmax()
-
-        self.fuse_disentangled_attention()
-
+            
+        self.fuse_splitQKV_update_kv_cache()
+        self.fuse_cosyvoice_attention()
+        self.fuse_cosyvoice_split_qkv()
+        
+        
         # Perform the MatMul fusion after the Attention fusion as we do not
         # want to fuse the MatMuls inside the Attention subgraphs
         if (options is None) or options.enable_qordered_matmul:

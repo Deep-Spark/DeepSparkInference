@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -28,7 +44,11 @@ from passes.fusion_skiplayernorm import (
     FusionBiasSkipLayerNormalization,
     FusionSkipLayerNormalization,
 )
-from passes.fusion_t5_attention import FusionT5Attention
+from passes.fusion_splitQKV_update_KVcache import FusionSplitQKVUpdateKVCache
+from passes.fusion_t5_attention import (
+    FusionT5DecoderAttention,
+    FusionT5EncoderAttention,
+)
 from passes.fusion_utils import FusionUtils
 from passes.onnx_model import OnnxModel
 
@@ -46,7 +66,7 @@ class BertOptimizationOptions(FusionOptions):
 
 
 class T5OnnxModel(OnnxModel):
-    def __init__(self, model: ModelProto, num_heads: int = 0, hidden_size: int = 0):
+    def __init__(self, model: ModelProto, num_heads=12, hidden_size=768):
         """Initialize T5 ONNX Model.
 
         Args:
@@ -61,7 +81,6 @@ class T5OnnxModel(OnnxModel):
         super().__init__(model)
         self.num_heads = num_heads
         self.hidden_size = hidden_size
-
         self.attention_mask = AttentionMask(self)
         self.attention_fusion = FusionAttention(
             self, self.hidden_size, self.num_heads, self.attention_mask
@@ -116,13 +135,17 @@ class T5OnnxModel(OnnxModel):
         fusion = FusionRMSNorm(self)
         fusion.apply()
 
-    def fuse_t5_attention(self):
-        fusion = FusionT5Attention(self)
+    def fuse_t5_encoder_attention(self):
+        fusion = FusionT5EncoderAttention(self)
+        fusion.apply()
+
+    def fuse_t5_decoder_attention(self):
+        fusion = FusionT5DecoderAttention(self)
         fusion.apply()
         # pass
 
     def fuse_layer_norm(self):
-        fusion = FusionLayerNormalization(self)
+        fusion = FusionLayerNormalization(self, hidden_size=768)
         fusion.apply()
 
         fusion = FusionLayerNormalizationTF(self)
@@ -134,6 +157,10 @@ class T5OnnxModel(OnnxModel):
 
     def fuse_skip_layer_norm(self):
         fusion = FusionSkipLayerNormalization(self)
+        fusion.apply()
+
+    def fuse_splitQKV_update_kv_cache(self):
+        fusion = FusionSplitQKVUpdateKVCache(self, self.hidden_size, self.num_heads)
         fusion.apply()
 
     # Only relevant in models with Q-DQ nodes
@@ -433,7 +460,11 @@ class T5OnnxModel(OnnxModel):
 
         self.fuse_rms_norm()
 
-        self.fuse_t5_attention()
+        self.fuse_t5_encoder_attention()
+
+        self.fuse_t5_decoder_attention()
+
+        self.fuse_splitQKV_update_kv_cache()
 
         if (options is None) or options.enable_embed_layer_norm:
             self.fuse_embed_layer()
