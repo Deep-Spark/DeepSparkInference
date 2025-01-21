@@ -724,3 +724,11 @@
     - fp16
   relative_path: models/cv/detection/sabl/igie
   task_type: cv/detection
+- datasets: local/coco
+  download_url: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w32_coco_256x192-c78dce93_20200708.pth
+  name: hrnetpose
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/pose_estimation/hrnetpose/igie
+  task_type: cv/pose_estimation
