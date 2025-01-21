@@ -34,10 +34,11 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 # git clone mmpretrain
-git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
+git clone --depth 1 -b v1.1.0 https://github.com/open-mmlab/mmpretrain.git
+(cd mmpretrain/ && python3 setup.py develop)
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output deit_tiny.onnx
+python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output deit_tiny.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim deit_tiny.onnx deit_tiny_opt.onnx
