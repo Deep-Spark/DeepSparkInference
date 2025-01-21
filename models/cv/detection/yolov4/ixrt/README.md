@@ -15,11 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install pycocotools
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -55,18 +51,18 @@ onnxsim data/yolov4.onnx data/yolov4_sim.onnx
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov4darknet_fp16_accuracy.sh
+bash scripts/infer_yolov4_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov4darknet_fp16_performance.sh
+bash scripts/infer_yolov4_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov4darknet_int8_accuracy.sh
+bash scripts/infer_yolov4_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov4darknet_int8_performance.sh
+bash scripts/infer_yolov4_int8_performance.sh
 ```
 
 ## Results

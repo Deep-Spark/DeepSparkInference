@@ -15,17 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install ultralytics
-pip3 install pycocotools
-pip3 install Pillow
-pip3 install tabulate
-pip3 install pycuda
-pip3 install opencv-python==4.6.0.66
-pip3 install ppq
-pip3 install protobuf==3.20.0
+pip3 install -r requirements.txt
 ```
 
 ### Download

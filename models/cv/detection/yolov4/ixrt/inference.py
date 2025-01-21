@@ -68,6 +68,7 @@ def main(config):
     forward_time = 0.0
     class_map = coco80_to_coco91_class()
     num_samples = 0
+
     # Step3: Run on coco dataset
     for batch_names, batch_images, batch_shapes in tqdm(zip(*dataloader)):
         batch_data = np.ascontiguousarray(batch_images)
@@ -110,7 +111,6 @@ def main(config):
                 pred_results.append(pred_box.tolist())
 
             save2json(batch_img_id, pred_results, json_result, class_map)
-
     fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
@@ -137,6 +137,7 @@ def main(config):
         with open(pred_json, "w") as f:
             json.dump(json_result, f)
 
+        start_time = time.time()
         anno_json = config.coco_gt
         anno = COCO(anno_json)  # init annotations api
         pred = anno.loadRes(pred_json)  # init predictions api
@@ -148,10 +149,12 @@ def main(config):
             f"==============================eval {config.model_name} {config.precision} coco map =============================="
         )
         eval.summarize()
-
+        e2e_time = time.time() - start_time
         map, map50 = eval.stats[:2]
+        print(F"E2E time : {e2e_time:.3f} seconds")
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {config.map_target}")
+        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= config.map_target:
             print("pass!")
             exit()

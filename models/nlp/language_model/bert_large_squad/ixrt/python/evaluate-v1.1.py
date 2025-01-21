@@ -107,6 +107,10 @@ def evaluate(dataset, predictions, f1_acc):
         print("&&&& FAILED TensorRT BERT Squad Accuracy matches reference.")
     else:
         print("&&&& PASSED TensorRT BERT Squad Accuracy matches reference.")
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["exact_match"] = round(exact_match, 3)
+    metricResult["metricResult"]["f1"] = round(f1, 3)
+    print(metricResult)
     return {'exact_match': exact_match, 'f1': f1}
 
 if __name__ == '__main__':

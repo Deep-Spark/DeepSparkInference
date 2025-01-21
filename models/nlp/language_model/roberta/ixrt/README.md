@@ -13,11 +13,7 @@ export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
 export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/roberta/ixrt
 cd ${MODEL_PATH}
 
-pip3 install onnxsim
-pip3 install py-libnuma==1.2
-pip3 install bert
-pip3 install pycuda
-pip3 install transformers==4.33.3
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -48,8 +44,10 @@ onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta-torch-fp32_sim
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./open_roberta/roberta-torch-fp32_sim
-export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -70,7 +68,6 @@ For detailed steps regarding this model, please refer to this document: <https:/
 ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 
 # Move open_roberta
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
@@ -86,11 +83,13 @@ rm -f open_squad.tar
 wget http://files.deepspark.org.cn:880/deepspark/csarron.tar
 tar xf csarron.tar
 rm -f csarron.tar
-mv csarron/ ./ByteMLPerf/byte_infer_perf/
+mv csarron/ ./ByteMLPerf/byte_infer_perf/general_perf/
 
 # Run Acc scripts
-cd ./ByteMLPerf/byte_infer_perf/
-python3 general_perf/core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
+cd ./ByteMLPerf/byte_infer_perf/general_perf/
+mkdir -p workloads
+wget -O workloads/roberta-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/roberta-torch-fp32.json
+python3 core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ```
 
 ## Results

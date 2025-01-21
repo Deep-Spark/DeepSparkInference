@@ -11,10 +11,7 @@ Position encoding recently has shown effective in the transformer architecture. 
 ```bash
 apt install -y libnuma-dev
 
-pip3 install tf2onnx
-pip3 install pycuda
-pip3 install onnxsim
-pip3 install py-libnuma==1.2
+pip3 install -r requirements.txt
 
 ```
 
@@ -53,8 +50,10 @@ python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --outpu
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./data/open_roformer/roformer-frozen
-export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -75,8 +74,6 @@ For detailed steps regarding this model, please refer to this document: <https:/
 ln -s ${PROJ_ROOT}/toolbox/ByteMLPerf ./
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
-
 # Comment Line102 in compile_backend_iluvatar.py
 sed -i '102s/build_engine/# build_engine/' ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/compile_backend_iluvatar.py
 
@@ -92,6 +89,8 @@ rm -f open_cail2019.tar
 
 # Go to general_perf/
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/roformer-tf-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/roformer-tf-fp32.json
 # Modify model_zoo/roformer-tf-fp32.json
 sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.json
 # Run Acc scripts

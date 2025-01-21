@@ -144,7 +144,7 @@ def main():
     args = get_args()
 
     # 读取配置文件
-    config_fn = os.path.join(args.model_dir, "config.yaml")
+    config_fn = os.path.join(args.model_dir, "train.yaml")
     with open(config_fn, "r") as fin:
         configs = yaml.load(fin, Loader=yaml.FullLoader)
 
@@ -164,7 +164,7 @@ def main():
     dataset_conf["batch_conf"]["batch_size"] = args.batch_size
 
     # Load dict
-    dict_fn = os.path.join(args.model_dir, "words.txt")
+    dict_fn = os.path.join(args.model_dir, "units.txt")
     char_dict = {}
     with open(dict_fn, "r", encoding="utf8") as fin:
         for line in fin:
@@ -272,6 +272,10 @@ def main():
 
     cer, corr = calculate_cer(results, reference_data)
     target_cer = float(os.environ["Accuracy"])
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["CER"] = round(cer, 3)
+    metricResult["metricResult"]["target CER"] = round(target_cer, 3)
+    print(metricResult)
     print("CER: ", cer, "target CER: ", target_cer)
     if cer <= target_cer:
         print("pass!")

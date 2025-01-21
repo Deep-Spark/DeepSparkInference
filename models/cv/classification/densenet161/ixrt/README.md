@@ -15,11 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -43,9 +39,9 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_densenet_fp16_accuracy.sh
+bash scripts/infer_densenet161_fp16_accuracy.sh
 # Performance
-bash scripts/infer_densenet_fp16_performance.sh
+bash scripts/infer_densenet161_fp16_performance.sh
 ```
 
 ## Results

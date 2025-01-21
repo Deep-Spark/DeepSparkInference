@@ -168,7 +168,11 @@ def main():
     inputs, outputs, allocations = get_io_bindings(engine)
         
     if args.task=="precision":
+        start_time = time.time()
         map50= eval_coco(args,inputs, outputs, allocations, context)
+        end_time = time.time()
+        e2e_time = end_time - start_time
+        print(F"E2E time : {e2e_time:.3f} seconds")
         
         print("="*40)
         print("MAP50:{0}".format(round(map50,3)))

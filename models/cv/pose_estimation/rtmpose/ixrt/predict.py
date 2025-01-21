@@ -150,6 +150,8 @@ def main():
         out_file="./result.jpg")
 
     print("Results saved as result.jpg.")
+    metricResult = {"metricResult": {"Results": "Results saved as result.jpg"}}
+    print(metricResult)
 
 if __name__ == "__main__":
     main()

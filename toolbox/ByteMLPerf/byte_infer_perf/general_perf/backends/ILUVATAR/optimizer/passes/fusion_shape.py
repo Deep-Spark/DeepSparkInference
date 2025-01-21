@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -6,9 +22,10 @@
 from logging import getLogger
 from typing import Dict, List, Union
 
+from onnx import NodeProto, TensorProto
+
 from .fusion_base import Fusion
 from .fusion_utils import FusionUtils
-from onnx import NodeProto, TensorProto
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -21,7 +38,9 @@ class FusionShape(Fusion):
         self.shape_infer = None
         self.shape_infer_done = False
 
-    def get_dimensions_from_tensor_proto(self, tensor_proto: TensorProto) -> Union[int, None]:
+    def get_dimensions_from_tensor_proto(
+        self, tensor_proto: TensorProto
+    ) -> Union[int, None]:
         if tensor_proto.type.tensor_type.HasField("shape"):
             return len(tensor_proto.type.tensor_type.shape.dim)
         else:
@@ -37,7 +56,9 @@ class FusionShape(Fusion):
             self.shape_infer_done = True
 
         if self.shape_infer is not None:
-            return self.get_dimensions_from_tensor_proto(self.shape_infer.known_vi_[input_name])
+            return self.get_dimensions_from_tensor_proto(
+                self.shape_infer.known_vi_[input_name]
+            )
 
         return None
 
@@ -58,7 +79,7 @@ class FusionShape(Fusion):
                 |                |
             Unsqueeze(axes=0)   Unsqueeze(axes=0)
                    \          /
-                      Concat 
+                      Concat
                         |
 
         into  (2d_input) --> Shape -->
@@ -88,7 +109,9 @@ class FusionShape(Fusion):
             elif shape.input[0] != root:
                 return
 
-            if not FusionUtils.check_node_attribute(unsqueeze, "axis", 0, default_value=0):
+            if not FusionUtils.check_node_attribute(
+                unsqueeze, "axis", 0, default_value=0
+            ):
                 return
 
             if opset_version < 13:
@@ -101,7 +124,9 @@ class FusionShape(Fusion):
             value = self.model.get_constant_value(gather.input[1])
             from numpy import array_equal, ndarray
 
-            if not (isinstance(value, ndarray) and value.size == 1 and value.item() == i):
+            if not (
+                isinstance(value, ndarray) and value.size == 1 and value.item() == i
+            ):
                 return
 
         if self.model.find_graph_output(concat_node.output[0]) is None:

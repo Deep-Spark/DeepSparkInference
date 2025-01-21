@@ -9,14 +9,7 @@ The ResNeXt50_32x4d model is a convolutional neural network architecture designe
 ### Install
 
 ```bash
-pip3 install onnx
-pip3 install tqdm
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
 
 ### Download

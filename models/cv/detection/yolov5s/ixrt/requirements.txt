@@ -1,0 +1,6 @@
+tqdm
+onnx
+onnxsim
+ultralytics
+pycocotools
+pycuda

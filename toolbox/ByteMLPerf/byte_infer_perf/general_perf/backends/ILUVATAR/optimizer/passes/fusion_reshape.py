@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -6,8 +22,9 @@
 from logging import getLogger
 
 import numpy as np
-from .fusion_base import Fusion
 from onnx import TensorProto, helper, numpy_helper
+
+from .fusion_base import Fusion
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -19,7 +36,7 @@ class FusionReshape(Fusion):
         self.prune_graph: bool = False
 
     def replace_reshape_node(self, shape, reshape_node, concat_node):
-        shape_value = np.asarray(shape, dtype=np.int64)
+        shape_value = np.asarray([int(x) if isinstance(x, np.ndarray) else x for x in shape], dtype=np.int64)
         constant_shape_name = self.model.create_node_name("Constant", "constant_shape")
         new_node = helper.make_node(
             "Constant",
@@ -44,7 +61,11 @@ class FusionReshape(Fusion):
             return
 
         concat_node = output_name_to_node[reshape_node.input[1]]
-        if concat_node.op_type != "Concat" or len(concat_node.input) < 3 or len(concat_node.input) > 4:
+        if (
+            concat_node.op_type != "Concat"
+            or len(concat_node.input) < 3
+            or len(concat_node.input) > 4
+        ):
             return
 
         path0 = self.model.match_parent_path(
@@ -83,7 +104,10 @@ class FusionReshape(Fusion):
         path2 = []
         path3 = []
         shape_nodes = [shape_0, shape_1]
-        if len(concat_node.input) == 3 and self.model.get_initializer(concat_node.input[2]) is None:
+        if (
+            len(concat_node.input) == 3
+            and self.model.get_initializer(concat_node.input[2]) is None
+        ):
             path2 = self.model.match_parent_path(
                 concat_node,
                 ["Unsqueeze", "Mul", "Gather", "Shape"],
@@ -128,7 +152,10 @@ class FusionReshape(Fusion):
             else:
                 shape.append(concat_value)
 
-        if len(concat_node.input) == 4 and self.model.get_initializer(concat_node.input[3]) is None:
+        if (
+            len(concat_node.input) == 4
+            and self.model.get_initializer(concat_node.input[3]) is None
+        ):
             if -1 in shape:
                 return
 

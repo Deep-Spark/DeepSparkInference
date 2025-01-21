@@ -1,0 +1,7 @@
+onnx
+tqdm
+onnxsim
+simplejson
+opencv-python==4.6.0.66
+mmcv==1.5.3
+pycocotools

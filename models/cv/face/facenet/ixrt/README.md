@@ -15,19 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tensorflow
-pip3 install onnxsim
-pip3 install scikit-learn
-pip3 install tf_slim
-pip3 install tqdm
-pip3 install pycuda
-pip3 install onnx
-pip3 install tabulate
-pip3 install cv2
-pip3 install scipy==1.8.0
-pip3 install pycocotools
-pip3 install opencv-python==4.6.0.66
-pip3 install simplejson
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -49,8 +37,9 @@ unzip 20180408-102900.zip
 mkdir -p checkpoints
 mkdir -p facenet_weights
 git clone https://github.com/timesler/facenet-pytorch
+# facenet-pytorch/dependencies/facenet is submodule, pls make sure it has been cloned or you can clone directly from https://github.com/davidsandberg/facenet/tree/096ed770f163957c1e56efa7feeb194773920f6e
 mv /Path/facenet/ixrt/tensorflow2pytorch.py facenet-pytorch
-python3 /facenet-pytorch/tensorflow2pytorch.py \
+python3 ./facenet-pytorch/tensorflow2pytorch.py \
         --facenet_weights_path ./facenet_weights \
         --facenet_pb_path ./20180408-102900 \
         --onnx_save_name facenet_export.onnx

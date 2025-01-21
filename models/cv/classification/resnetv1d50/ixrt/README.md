@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install mmpretrain
-pip3 install mmcv-lite
+pip3 install -r requirments.txt
 ```
 
 ### Download
@@ -41,25 +35,25 @@ python3 export_onnx.py --output_model checkpoints/resnet_v1_d50.onnx
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
-export CONFIG_DIR=config/RESNET_V1_D50_CONFIG
+export CONFIG_DIR=config/RESNETV1D50_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_resnet_v1_d50_fp16_accuracy.sh
+bash scripts/infer_resnetv1d50_fp16_accuracy.sh
 # Performance
-bash scripts/infer_resnet_v1_d50_fp16_performance.sh
+bash scripts/infer_resnetv1d50_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_resnet_v1_d50_int8_accuracy.sh
+bash scripts/infer_resnetv1d50_int8_accuracy.sh
 # Performance
-bash scripts/infer_resnet_v1_d50_int8_performance.sh
+bash scripts/infer_resnetv1d50_int8_performance.sh
 ```
 
 ## Results

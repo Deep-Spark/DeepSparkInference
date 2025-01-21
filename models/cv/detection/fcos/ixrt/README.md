@@ -16,21 +16,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install ultralytics
-pip3 install pycocotools
-pip3 install addict
-pip3 install yapf
-pip3 install pycuda
-pip3 install mmdet==2.28.2
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Dependency
 
 The inference of the FCOS model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please inquire with the staff to obtain the relevant libraries.
+
+You can follow here to build: https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh
 
 ```bash
 
@@ -52,7 +45,7 @@ Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_cen
 MMDetection is an open source object detection toolbox based on PyTorch. It is a part of the OpenMMLab project.It is utilized for model conversion. In MMDetection, Execute model conversion command, and the checkpoints folder needs to be created, (mkdir checkpoints) in project
 
 ```bash
-
+mkdir -p checkpoints
 git clone -b v2.25.0 https://github.com/open-mmlab/mmdetection.git
 cd mmdetection
 python3 tools/deployment/pytorch2onnx.py \

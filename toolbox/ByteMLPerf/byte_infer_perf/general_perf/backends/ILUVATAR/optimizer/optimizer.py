@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 import argparse
 import logging
 import time
@@ -10,6 +26,10 @@ from onnx_model_roformer import RoformerOnnxModel
 from onnx_model_conformer import conformerOnnxModel
 from onnx_model_t5 import T5OnnxModel
 from onnx_model_yolo import YoloOnnxModel
+from onnx_model_PVT import PVTOnnxModel
+from onnx_model_cosyvoice import cosyvoiceOnnxModel
+
+
 from onnxsim import simplify
 from passes.fusion_options import FusionOptions
 from passes.symbolic_shape_infer import SymbolicShapeInference
@@ -24,6 +44,10 @@ MODEL_TYPES = {
     "yolo": (YoloOnnxModel, None, "pytorch", 1),
     "vit": (BertOnnxModel, None, "pytorch", 1),
     "conformer": (conformerOnnxModel, None, "pytorch", 1),
+    "PVT": (PVTOnnxModel, None, "pytorch", 1),
+    "omdet": (BertOnnxModel, None, "pytorch", 1),
+    "cosyvoice": (cosyvoiceOnnxModel, None, "pytorch", 1)
+    
 }
 
 
@@ -81,48 +105,50 @@ def optimize_by_fusion(
 def optimize_to_ixrt(args):
     onnx_name = args.onnx[:-5]
     model = onnx.load(args.onnx)
-
-    logger.info("simplify..")
-    simplified_model, check = simplify(model)
-    logger.info("simplify model end...")
-    if args.dump_onnx:
-        onnx.save(simplified_model, onnx_name + "_sim.onnx")
-
-    # transfer to static shape and optimize it
-    static_sim_model = simplified_model
-    if args.input_shapes:
-        for input_tensor in simplified_model.graph.input:
-            if input_tensor.name in args.input_shapes.keys():
-                new_shape = args.input_shapes[input_tensor.name]
-                dim_list = []
-                for dim in new_shape:
-                    if isinstance(dim, int):
-                        dim_proto = onnx.TensorShapeProto.Dimension()
-                        dim_proto.dim_value = dim
-                        dim_list.append(dim_proto)
-                    elif isinstance(dim, str):
-                        dim_proto = onnx.TensorShapeProto.Dimension()
-                        dim_proto.dim_param = dim
-                        dim_list.append(dim_proto)
-
-                del input_tensor.type.tensor_type.shape.dim[:]
-                input_tensor.type.tensor_type.shape.dim.extend(dim_list)
-
-    try:
-        auto_merge = False
-        if args.model_type in ["roformer"]:
-            auto_merge = True
-        static_model = SymbolicShapeInference.infer_shapes(
-            simplified_model, 2**31 - 1, auto_merge, False, 3
-        )
-        static_sim_model, check = simplify(static_model)
+    if not args.not_sim:
+        logger.info("simplify..")
+        simplified_model, check = simplify(model)
+        logger.info("simplify model end...")
         if args.dump_onnx:
-            onnx.save(static_sim_model, onnx_name + "_sim_static_sim.onnx")
-    except Exception as e:
-        static_model = static_sim_model = simplified_model
+            onnx.save(simplified_model, onnx_name + "_sim.onnx")
 
-    if args.dump_onnx:
-        onnx.save(static_model, onnx_name + "_sim_static.onnx")
+        # transfer to static shape and optimize it
+        static_sim_model = simplified_model
+        if args.input_shapes:
+            for input_tensor in simplified_model.graph.input:
+                if input_tensor.name in args.input_shapes.keys():
+                    new_shape = args.input_shapes[input_tensor.name]
+                    dim_list = []
+                    for dim in new_shape:
+                        if isinstance(dim, int):
+                            dim_proto = onnx.TensorShapeProto.Dimension()
+                            dim_proto.dim_value = dim
+                            dim_list.append(dim_proto)
+                        elif isinstance(dim, str):
+                            dim_proto = onnx.TensorShapeProto.Dimension()
+                            dim_proto.dim_param = dim
+                            dim_list.append(dim_proto)
+
+                    del input_tensor.type.tensor_type.shape.dim[:]
+                    input_tensor.type.tensor_type.shape.dim.extend(dim_list)
+
+        try:
+            auto_merge = False
+            if args.model_type in ["roformer"]:
+                auto_merge = True
+            static_model = SymbolicShapeInference.infer_shapes(
+                simplified_model, 2**31 - 1, auto_merge, False, 3
+            )
+            static_sim_model, check = simplify(static_model)
+            if args.dump_onnx:
+                onnx.save(static_sim_model, onnx_name + "_sim_static_sim.onnx")
+        except Exception as e:
+            static_model = static_sim_model = simplified_model
+
+        if args.dump_onnx:
+            onnx.save(static_model, onnx_name + "_sim_static.onnx")
+    if args.not_sim:
+        static_sim_model = model
 
     logger.info("start fusion..")
     opt_model, _ = optimize_by_fusion(
@@ -171,7 +197,7 @@ def args_parser():
         "--model_type",
         type=str,
         default="bert",
-        choices=["bert", "swint", "roformer", "t5", "yolo", "gpt2", "vit", "conformer"],
+        choices=["bert", "swint", "roformer", "t5", "yolo", "gpt2", "vit", "conformer","PVT","omdet","cosyvoice"],
         help="Which kind of model to optimize",
     )
     parser.add_argument(
@@ -180,6 +206,13 @@ def args_parser():
         default="info",
         choices=["debug", "info", "error"],
         help="Which kind of model to optimize",
+    )
+
+    parser.add_argument(
+        "--not_sim",
+        action="store_true",
+        default=False,
+        help="simplify model or not",
     )
     return parser.parse_args()
 

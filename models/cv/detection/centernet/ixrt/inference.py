@@ -126,7 +126,8 @@ def main():
         cfg['test_evaluator']['ann_file'] = os.path.join(args.datasets, 'annotations/instances_val2017.json')
 
         runner = RUNNERS.build(cfg)
-        
+
+        start_time = time.time()
         for input_data in tqdm(runner.test_dataloader):
             
             input_data = runner.model.data_preprocessor(input_data, False)
@@ -178,6 +179,9 @@ def main():
 
             runner.test_evaluator.process(data_samples=batch_data_samples, data_batch=input_data)
 
+        end_time = time.time()
+        e2e_time = end_time - start_time
+        print(F"E2E time : {e2e_time:.3f} seconds")
         metrics = runner.test_evaluator.evaluate(len(runner.test_dataloader.dataset))
 
 if __name__ == "__main__":

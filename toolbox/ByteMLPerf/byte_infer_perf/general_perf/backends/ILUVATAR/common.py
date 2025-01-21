@@ -26,8 +26,8 @@ import threading
 
 import importlib
 
-tensorrt = None      
-Dims = None                                                                           
+import tensorrt
+from tensorrt import Dims                                                                           
                           
 tvm = None  
 
@@ -39,25 +39,7 @@ def setup_seed(seed):
      torch.backends.cudnn.deterministic = True
 
 
-def load_ixrt_plugin(logger=None, namespace="", dynamic_path="", model="", precision=""):
-    global tensorrt
-    global Dims
-
-    if tensorrt is not None:
-        return
-    
-    if precision == 'FP16':
-        if model == 'resnet50' or model == 'bert' or model == 'albert' or model == 'deberta' or model == 'yolov5':
-            tensorrt = importlib.import_module("tensorrt_legacy")
-            Dims = getattr(tensorrt, "Dims")
-        else:
-            tensorrt = importlib.import_module("tensorrt")
-            Dims = getattr(tensorrt, "Dims")
-    
-    if precision == 'INT8':
-        tensorrt = importlib.import_module("tensorrt")
-        Dims = getattr(tensorrt, "Dims")
-    
+def load_ixrt_plugin(logger=tensorrt.Logger(tensorrt.Logger.WARNING), namespace="", dynamic_path="", model="", precision=""):
     if not dynamic_path:
         dynamic_path = join(dirname(tensorrt.__file__), "lib", "libixrt_plugin.so")
 
@@ -66,7 +48,7 @@ def load_ixrt_plugin(logger=None, namespace="", dynamic_path="", model="", preci
             f"The ixrt_plugin lib {dynamic_path} is not existed, please provided effective plugin path!")
     
     ctypes.CDLL(dynamic_path, mode=ctypes.RTLD_GLOBAL)
-    tensorrt.init_libnvinfer_plugins(tensorrt.Logger(tensorrt.Logger.INFO), namespace)
+    tensorrt.init_libnvinfer_plugins(logger, namespace)
     print(f"Loaded plugin from {dynamic_path}")
 
 

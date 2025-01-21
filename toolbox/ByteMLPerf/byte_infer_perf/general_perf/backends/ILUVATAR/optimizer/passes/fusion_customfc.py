@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -291,7 +307,7 @@ class FusionCustomFCActivation(Fusion):
             fc_node = nodes[0]
             activation_type = 3
             if node.op_type == "Gelu":
-                activation_type = 21
+                activation_type = 3
             if node.op_type == "Relu":
                 activation_type = 4
 
@@ -342,3 +358,32 @@ class FusionConformerCustomFCActivation(Fusion):
         self.nodes_to_add.append(custom_fc_node)
         self.nodes_to_remove.extend([node, sigmoid_node, custom_fc_node])
         self.node_name_to_graph_name[custom_fc_node.name] = self.this_graph_name
+
+
+class FusionTorchvisionVitCustomFC(Fusion):
+    def __init__(self, model: OnnxModel):
+        super().__init__(model, "CustomFCPluginDynamic_IxRT", ["CustomQKVToContextPluginDynamic_IxRT"], "torchvision vit custom_fc",)
+
+    def fuse(self, node, input_name_to_nodes, output_name_to_node):
+        
+        custom_fc_node_0 = self.model.get_children(node, input_name_to_nodes)
+        transpose_node_0 = self.model.get_children(custom_fc_node_0[0], input_name_to_nodes)
+        
+        if transpose_node_0[0].op_type != "Transpose":
+            return
+        
+        custom_fc_node_0[0].output[0] = transpose_node_0[0].output[0]
+        
+        nodes = self.model.match_parent_path(node, ["CustomFCPluginDynamic_IxRT","Transpose"], [0, 0])
+        if nodes is None:
+            return
+        
+        (custom_fc_node_1, transpose_node_1) = nodes
+        custom_fc_node_1.input[0] = transpose_node_1.input[0]
+        
+        self.nodes_to_add.append(custom_fc_node_1)
+        self.nodes_to_add.append(custom_fc_node_0[0])
+        self.nodes_to_remove.extend([transpose_node_1, custom_fc_node_1, transpose_node_0[0], custom_fc_node_0[0]])
+        self.node_name_to_graph_name[custom_fc_node_1.name] = self.this_graph_name
+        self.node_name_to_graph_name[custom_fc_node_0[0].name] = self.this_graph_name
+        

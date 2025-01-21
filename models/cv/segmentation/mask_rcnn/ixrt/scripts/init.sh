@@ -31,6 +31,7 @@ bash prepare_system_env.sh
 #pip3 install opencv-python==4.6.0.66
 pip3 install pycocotools==2.0.7
 pip3 install tqdm
+pip3 install pycuda
 
 # build engine
 cd ../python

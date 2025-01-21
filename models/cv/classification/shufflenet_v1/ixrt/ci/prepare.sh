@@ -14,10 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+set -x
+
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
+
 pip install -r requirements.txt
 mkdir -p checkpoints
-unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./checkpoints/
+unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export_onnx.py   \
---config_file ./checkpoints/mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
+--config_file ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
 --checkpoint_file  /root/data/checkpoints/shufflenet_v1.pth \
 --output_model ./checkpoints/shufflenet_v1.onnx

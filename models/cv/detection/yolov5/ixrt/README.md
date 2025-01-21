@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install ultralytics
-pip3 install pycocotools
-pip3 install cv2
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -54,36 +48,36 @@ mv yolov5m.onnx /Path/to/checkpoints
 ## Inference
 
 ```bash
-export PROJ_DIR=/Path/to/yolov5m/ixrt
+export PROJ_DIR=/Path/to/yolov5/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 export EVAL_DIR=${DATASETS_DIR}/val2017
-export RUN_DIR=/Path/to/yolov5m/ixrt
-export CONFIG_DIR=config/YOLOV5M_CONFIG
+export RUN_DIR=/Path/to/yolov5/ixrt
+export CONFIG_DIR=config/YOLOV5_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov5m_fp16_accuracy.sh
+bash scripts/infer_yolov5_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov5m_fp16_performance.sh
+bash scripts/infer_yolov5_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov5m_int8_accuracy.sh
+bash scripts/infer_yolov5_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov5m_int8_performance.sh
+bash scripts/infer_yolov5_int8_performance.sh
 ```
 
 ## Results
 
 Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
 --------|-----------|----------|---------|----------|-------------|
-YOLOv5m |    32     |   FP16   | 680.93  |  0.637   |  0.447      |
-YOLOv5m |    32     |   INT8   | 1328.50 |  0.627   |  0.425      |
+YOLOv5 |    32     |   FP16   | 680.93  |  0.637   |  0.447      |
+YOLOv5 |    32     |   INT8   | 1328.50 |  0.627   |  0.425      |

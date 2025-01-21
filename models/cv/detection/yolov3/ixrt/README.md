@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install ultralytics
-pip3 install pycocotools
-pip3 install cv2
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -44,7 +38,7 @@ mv yolov3.weights onnx_tflite_yolov3/weights
 # 修改 detect.py 中 torch.onnx.export() 函数的opset_version=11,会在/weights下生成export.onnx
 python3 detect.py --cfg cfg/yolov3.cfg --weights weights/yolov3.weights
 
-mv export.onnx /Path/to/checkpoints/yolov3.onnx
+mv weights/export.onnx /Path/to/checkpoints/yolov3.onnx
 ```
 
 ## Inference
@@ -53,8 +47,8 @@ mv export.onnx /Path/to/checkpoints/yolov3.onnx
 export PROJ_DIR=/Path/to/yolov3/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
 export CHECKPOINTS_DIR=./checkpoints
-export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-export EVAL_DIR=${DATASETS_DIR}/val2017
+export COCO_GT=./coco/annotations/instances_val2017.json
+export EVAL_DIR=./coco/val2017
 export RUN_DIR=/Path/to/yolov3/ixrt
 export CONFIG_DIR=config/YOLOV3_CONFIG
 ```

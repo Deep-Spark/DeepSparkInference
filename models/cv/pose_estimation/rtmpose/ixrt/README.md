@@ -15,13 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install onnx
-pip3 install tqdm
-pip3 install onnxsim
-pip3 install mmdet==3.3.0
-pip3 install mmpose==1.3.1
-pip3 install mmdeploy==1.3.1
-pip3 install mmengine==0.10.4
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -37,7 +31,7 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 
 mkdir -p data/rtmpose
 
-wget -P data/rtmpose/   https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
+wget -P data/rtmpose/ https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
 
 python3 export.py --weight data/rtmpose/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth --cfg rtmpose-m_8xb256-420e_coco-256x192.py --input 1,3,256,192  --output data/rtmpose/rtmpose.onnx
 

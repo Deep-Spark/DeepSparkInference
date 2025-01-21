@@ -153,7 +153,6 @@ def main(config):
                 max_det=config.max_det
             )
             save2json(batch_img_id, pred_boxes, json_result, class_map)
-
     fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
@@ -180,6 +179,7 @@ def main(config):
         with open(pred_json, "w") as f:
             json.dump(json_result, f)
 
+        start_time = time.time()
         anno_json = config.coco_gt
         anno = COCO(anno_json)  # init annotations api
         pred = anno.loadRes(pred_json)  # init predictions api
@@ -191,10 +191,11 @@ def main(config):
             f"==============================eval {config.model_name} {config.precision} coco map =============================="
         )
         eval.summarize()
-
+        e2e_time = time.time() - start_time
         map, map50 = eval.stats[:2]
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {config.map_target}")
+        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= config.map_target:
             print("pass!")
             exit()

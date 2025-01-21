@@ -11,17 +11,7 @@ VideoBERT is a model designed for video understanding tasks, extending the capab
 ```bash
 apt install -y libnuma-dev
 
-pip3 install onnxsim
-pip3 install onnx_graphsurgeon
-pip3 install scikit-learn
-pip3 install tqdm
-pip3 install pycuda
-pip3 install onnx
-pip3 install tabulate
-pip3 install cv2
-pip3 install pycocotools
-pip3 install opencv-python==4.6.0.66
-pip3 install transformers==4.33.3
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -42,8 +32,10 @@ bash ./scripts/prepare_model_and_dataset.sh
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./general_perf/model_zoo/popular/open_videobert/video-bert
-export OPTIMIER_FILE=./ixrt-oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -72,8 +64,9 @@ mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videob
 cp ./general_perf/model_zoo/popular/open_videobert/video-bert.onnx ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/open_videobert/
 
 # run acc scripts
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/videobert-onnx-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/videobert-onnx-fp32.json
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
 

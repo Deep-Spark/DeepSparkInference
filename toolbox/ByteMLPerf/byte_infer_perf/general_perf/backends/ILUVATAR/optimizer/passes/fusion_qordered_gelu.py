@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -6,9 +22,10 @@
 from logging import getLogger
 from typing import Dict
 
+from onnx import helper
+
 from .fusion_base import Fusion
 from .fusion_utils import FusionUtils
-from onnx import helper
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -51,7 +68,9 @@ class FusionQOrderedGelu(Fusion):
         if len(gelu_children) == 2:
             downstream_shape_node = gelu_children[1]
 
-        if not FusionUtils.check_qdq_node_for_fusion(downstream_quantize_node, self.model):
+        if not FusionUtils.check_qdq_node_for_fusion(
+            downstream_quantize_node, self.model
+        ):
             return
 
         # The first input to Gelu should flow through a DequantizeLinear node
@@ -66,12 +85,16 @@ class FusionQOrderedGelu(Fusion):
 
         upstream_dequantize_node = first_input_parent_nodes[0]
 
-        if not FusionUtils.check_qdq_node_for_fusion(upstream_dequantize_node, self.model):
+        if not FusionUtils.check_qdq_node_for_fusion(
+            upstream_dequantize_node, self.model
+        ):
             return
 
         # Fusion logic
         subgraph_nodes = [node]  # Gelu/FastGelu
-        subgraph_nodes.extend([downstream_quantize_node, upstream_dequantize_node])  # Relevant Q, DQ nodes
+        subgraph_nodes.extend(
+            [downstream_quantize_node, upstream_dequantize_node]
+        )  # Relevant Q, DQ nodes
 
         if not self.model.is_safe_to_fuse_nodes(
             subgraph_nodes,
@@ -94,7 +117,9 @@ class FusionQOrderedGelu(Fusion):
                 downstream_quantize_node.input[1],
             ],
             outputs=[downstream_quantize_node.output[0]],
-            name=self.model.create_node_name("QOrderedGelu", name_prefix="QOrderedGelu"),
+            name=self.model.create_node_name(
+                "QOrderedGelu", name_prefix="QOrderedGelu"
+            ),
         )
 
         # Arrange the downstream Shape's input to be fed from the
@@ -102,7 +127,9 @@ class FusionQOrderedGelu(Fusion):
         # be deemed safe
         if downstream_shape_node is not None:
             self.model.replace_node_input(
-                downstream_shape_node, downstream_shape_node.input[0], downstream_quantize_node.output[0]
+                downstream_shape_node,
+                downstream_shape_node.input[0],
+                downstream_quantize_node.output[0],
             )
 
         # TODO: We only support CuBlasLt order ORDER_ROW for now.

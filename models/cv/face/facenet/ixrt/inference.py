@@ -58,6 +58,7 @@ def main(config):
         print("Warm Done.")
 
     # Inference
+    metricResult = {"metricResult": {}}
     if config.test_mode == "FPS":
         torch.cuda.synchronize()
         start_time = time.time()
@@ -73,6 +74,7 @@ def main(config):
 
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {config.fps_target}")
+        metricResult["metricResult"]["FPS"] = round(fps, 3)
         if fps >= config.fps_target:
             print("pass!")
             exit()
@@ -84,7 +86,7 @@ def main(config):
 
         classes = []
         embeddings = []
-
+        start_time = time.time()
         for xb, yb in tqdm(embed_loader):
         
             output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
@@ -102,7 +104,8 @@ def main(config):
             classes.extend(yb[0:current_imgs_num].numpy())
             embeddings.extend(output)
 
-
+        e2e_time = time.time() - start_time
+        print(f"E2E time: {e2e_time:.3f} seconds")
         embeddings_dict = dict(zip(crop_paths,embeddings))
 
         pairs = read_pairs(config.datasets_dir + config.pairs_name)
@@ -119,6 +122,9 @@ def main(config):
         #eer = brentq(lambda x: 1. - x - interpolate.interp1d(fpr, tpr, fill_value="extrapolate")(x), 0., 1.)
         #print('Equal Error Rate (EER): %1.3f' % eer)
 
+        metricResult["metricResult"]["E2E time"] = round(e2e_time, 3)
+        metricResult["metricResult"]["AUC"] = round(auc, 3)
+        metricResult["metricResult"]["Acc"] = round(np.mean(accuracy), 3)
         acc = np.mean(accuracy)
         print(f"Accuracy Check : Test {acc} >= target {config.acc_target}")
         if acc >= config.acc_target:
@@ -127,6 +133,7 @@ def main(config):
         else:
             print("failed!")
             exit(1)
+    print(metricResult)
 
 def parse_config():
     parser = argparse.ArgumentParser()

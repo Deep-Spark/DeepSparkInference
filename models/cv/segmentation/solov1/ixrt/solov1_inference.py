@@ -139,15 +139,20 @@ def main():
     # Load Engine
     engine, context = create_engine_context(args.engine, logger)
     inputs, outputs, allocations = get_io_bindings(engine)
-    
+    metricResult = {"metricResult": {}}
     if args.task=="precision":
+        start_time = time.time()
         segm_mAP= eval_coco(args,inputs, outputs, allocations, context)
+        e2e_time = time.time() - start_time
+        print(F"E2E time : {e2e_time:.3f} seconds")
         
         print("="*40)
         print("segm_mAP:{0}".format(round(segm_mAP,3)))
         print("="*40)
         print(f"Check segm_mAP Test : {round(segm_mAP,3)}  Target:{args.target_map} State : {'Pass' if round(segm_mAP,3) >= args.target_map else 'Fail'}")
+        metricResult["metricResult"]["segm_mAP"] = round(segm_mAP, 3)
         status_map = check_target(segm_mAP, args.target_map)
+        print(metricResult)
         sys.exit(int(not (status_map)))   
     else:
         torch.cuda.synchronize()
@@ -162,7 +167,9 @@ def main():
         print("fps:{0}".format(round(fps,2)))
         print("="*40)
         print(f"Check fps Test : {round(fps,3)}  Target:{args.target_fps} State : {'Pass' if  fps >= args.target_fps else 'Fail'}")
+        metricResult["metricResult"]["FPS"] = round(fps, 3)
         status_fps = check_target(fps, args.target_fps)
+        print(metricResult)
         sys.exit(int(not (status_fps)))
     
 if __name__ == "__main__":

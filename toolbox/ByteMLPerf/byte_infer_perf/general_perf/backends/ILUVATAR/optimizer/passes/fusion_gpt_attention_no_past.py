@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -55,7 +71,7 @@ class FusionGptAttentionNoPast(Fusion):
                 tensor_shape = [dim for dim in tensor_value.dims]
                 break
         head_dim = math.ceil(div_value * div_value)
-        hidden_size = tensor_shape[0]
+        hidden_size = tensor_shape[1]
         num_heads = hidden_size // head_dim
 
         return num_heads, hidden_size
@@ -219,20 +235,27 @@ class FusionGptAttentionNoPast(Fusion):
         if where_qk is None:
             return
 
+        global num_heads, hidden_size
         if self.where_qk_shared is None:
             where_qk.input[1] = mask_nodes[0].output[0]
             div_qk.output[0] = where_qk.output[0]
             add_qk.input[1 - mask_return_indices[0]] = div_qk.output[0]
             self.where_qk_shared = where_qk
             self.nodes_to_remove.extend([softmax_qk, add_qk, div_qk, matmul_qk])
+            
+            num_heads, hidden_size = self.get_num_heads_and_hidden_size(
+                custom_fc_after_attention, div_qk
+            )
+            self.nodes_to_remove.extend([k_nodes[0]])
+            self.nodes_to_remove.extend(v_nodes[:-2])
         else:
             self.nodes_to_remove.extend(
                 [softmax_qk, add_qk, where_qk, div_qk, matmul_qk]
-            )
+            )      
+            self.nodes_to_remove.extend(q_nodes)
+            self.nodes_to_remove.extend(k_nodes)
+            self.nodes_to_remove.extend(v_nodes[:-1])
 
-        num_heads, hidden_size = self.get_num_heads_and_hidden_size(
-            custom_fc_after_attention, div_qk
-        )
         new_node = self.create_attention_node(
             num_heads,
             hidden_size,
@@ -247,6 +270,4 @@ class FusionGptAttentionNoPast(Fusion):
         if reshape_2 is not None:
             self.nodes_to_remove.extend([reshape_2])
         self.nodes_to_remove.extend([transpose_qkv, matmul_qkv])
-        self.nodes_to_remove.extend(q_nodes)
-        self.nodes_to_remove.extend(k_nodes)
-        self.nodes_to_remove.extend(v_nodes[:-1])
+        

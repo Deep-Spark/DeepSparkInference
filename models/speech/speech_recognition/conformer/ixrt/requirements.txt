@@ -1,0 +1,5 @@
+tqdm
+onnx
+typeguard==2.13.3
+onnxsim
+pycuda

@@ -1,0 +1,4 @@
+tf2onnx
+pycuda
+onnxsim
+py-libnuma==1.2

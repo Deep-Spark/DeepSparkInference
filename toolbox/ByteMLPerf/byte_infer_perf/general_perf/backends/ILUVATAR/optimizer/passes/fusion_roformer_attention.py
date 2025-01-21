@@ -115,9 +115,12 @@ class FusionRoformerCrossAttention(Fusion):
         attention_node.domain = "com.iluvatar"
         attention_node.attribute.extend([helper.make_attribute("type_id", 2)])
         attention_node.attribute.extend([helper.make_attribute("has_mask", 1)])
+        attention_node.attribute.extend([helper.make_attribute("type_mask", 4)])  #3:float mask 4:int32 mask
+        attention_node.attribute.extend([helper.make_attribute("scale", 1.0 / 8)]) #1 /sqrt(num_heads)
+        
         attention_node.attribute.extend([helper.make_attribute("plugin_namespace", "")])
         attention_node.attribute.extend([helper.make_attribute("plugin_version", "1")])
-
+        
         return attention_node
 
     def get_shape(self, edge_name):

@@ -15,16 +15,7 @@ cd ${MODEL_PATH}
 
 apt install -y libnuma-dev libgl1-mesa-glx
 
-pip3 install onnxsim
-pip3 install onnx_graphsurgeon
-pip3 install scikit-learn
-pip3 install tqdm
-pip3 install pycuda
-pip3 install onnx
-pip3 install tabulate
-pip3 install cv2
-pip3 install pycocotools
-pip3 install opencv-python==4.6.0.66
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -54,8 +45,10 @@ python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/s
 ## Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+
 export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
-export OPTIMIER_FILE=/Path/ixrt/oss/tools/optimizer/optimizer.py
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export PROJ_PATH=./
 ```
 
@@ -79,13 +72,14 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/requirements.txt
 pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requirements.txt
 
 # copy data
-mv perf_engine.py ./ByteMLPerf/byte_infer_perf/general_perf/core/perf_engine.py
 cp -r datasets/open_imagenet/* ByteMLPerf/byte_infer_perf/general_perf/datasets/open_imagenet/
 mkdir -p ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
 cp general_perf/model_zoo/popular/swin-large/* ./ByteMLPerf/general_perf/model_zoo/popular/swin-large
 
 # run acc scripts
 cd ./ByteMLPerf/byte_infer_perf/general_perf
+mkdir -p workloads
+wget -O workloads/swin-large-torch-fp32.json https://raw.githubusercontent.com/bytedance/ByteMLPerf/refs/heads/main/byte_infer_perf/general_perf/workloads/swin-large-torch-fp32.json
 python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
 ```
 

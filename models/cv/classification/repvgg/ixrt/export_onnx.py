@@ -42,7 +42,7 @@ args = parse_args()
 config_file = args.config_file
 checkpoint_file = args.checkpoint_file
 model = Model().eval()
-x = torch.zeros(1, 3, 224, 224).to(device)
+x = torch.zeros(32, 3, 224, 224).to(device)
 with torch.no_grad():
     output = model(x)
   

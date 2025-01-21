@@ -15,11 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install typeguard==2.13.3
-pip3 install onnxsim
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -38,7 +34,7 @@ ln -s /home/deepspark/datasets/INFER/conformer/20210601_u2++_conformer_exp_aishe
 
 ```bash
 # Accuracy
-DATA_DIR=/PATH/to/data_aishell
+DATA_DIR=/PATH/to/aishell_test_data
 TOOL_DIR="$(pwd)/tools"
 bash scripts/aishell_data_prepare.sh ${DATA_DIR} ${TOOL_DIR}
 ```
@@ -49,9 +45,9 @@ bash scripts/aishell_data_prepare.sh ${DATA_DIR} ${TOOL_DIR}
 
 ```bash
 # Accuracy
-bash scripts/infer_conformer_fp16_accuracy_ixrt.sh
+bash scripts/infer_conformer_fp16_accuracy.sh
 # Performance
-bash scripts/infer_conformer_fp16_performance_ixrt.sh
+bash scripts/infer_conformer_fp16_performance.sh
 ```
 
 ## Results

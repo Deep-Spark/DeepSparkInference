@@ -83,6 +83,7 @@ def main(config):
         total_sample = 0
         acc_top1, acc_top5 = 0, 0
 
+        start_time = time.time()
         with tqdm(total= len(dataloader)) as _tqdm:
             for idx, (batch_data, batch_label) in enumerate(dataloader):
                 batch_data = batch_data.numpy().astype(inputs[0]["dtype"])
@@ -117,6 +118,9 @@ def main(config):
                 _tqdm.set_postfix(acc_1='{:.4f}'.format(acc_top1/total_sample),
                                     acc_5='{:.4f}'.format(acc_top5/total_sample))
                 _tqdm.update(1)
+        end_time = time.time()
+        e2e_time = end_time - start_time
+        print(F"E2E time : {e2e_time:.3f} seconds")
         err, = cudart.cudaFree(inputs[0]["allocation"])
         assert err == cudart.cudaError_t.cudaSuccess
         err, = cudart.cudaFree(outputs[0]["allocation"])

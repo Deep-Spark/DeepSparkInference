@@ -1,0 +1,10 @@
+onnxsim
+onnx_graphsurgeon
+scikit-learn
+tqdm
+pycuda
+onnx
+tabulate
+pycocotools
+opencv-python==4.6.0.66
+typing-extensions==4.12.2

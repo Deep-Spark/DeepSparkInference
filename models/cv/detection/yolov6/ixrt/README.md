@@ -15,11 +15,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install pycocotools
-pip3 install pycuda
+pip3 install -r requirements.txt
 ```
 
 ### Download
@@ -31,14 +27,12 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 ```bash
 # get yolov6s.pt
 wget https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt
-# set coco path
-mkdir -p data/
-ln -s /Path/to/coco/ data/coco
 ```
 
 ### Model Conversion
 
 ```bash
+mkdir -p data/
 # install yolov6
 git clone https://github.com/meituan/YOLOv6.git
 
@@ -54,22 +48,26 @@ popd
 
 ## Inference
 
+```bash
+export DATASETS_DIR=/Path/to/coco/
+```
+
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov6s_fp16_accuracy.sh
+bash scripts/infer_yolov6_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov6s_fp16_performance.sh
+bash scripts/infer_yolov6_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov6s_int8_accuracy.sh
+bash scripts/infer_yolov6_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov6s_int8_performance.sh
+bash scripts/infer_yolov6_int8_performance.sh
 ```
 
 ## Results

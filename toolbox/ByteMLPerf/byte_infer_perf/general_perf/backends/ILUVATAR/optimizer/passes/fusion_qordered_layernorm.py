@@ -1,3 +1,19 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+
 # -------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation.  All rights reserved.
 # Licensed under the MIT License.
@@ -5,9 +21,10 @@
 from logging import getLogger
 from typing import Dict
 
+from onnx import helper
+
 from .fusion_base import Fusion
 from .fusion_utils import FusionUtils
-from onnx import helper
 from .onnx_model import OnnxModel
 
 logger = getLogger(__name__)
@@ -36,7 +53,11 @@ class FusionQOrderedLayerNormalization(Fusion):
         # Should have 2 children - QuantizeLinear + Shape
         if not (
             (len(children) == 1 and children[0].op_type == "QuantizeLinear")
-            or (len(children) == 2 and children[0].op_type == "QuantizeLinear" and children[1].op_type == "Shape")
+            or (
+                len(children) == 2
+                and children[0].op_type == "QuantizeLinear"
+                and children[1].op_type == "Shape"
+            )
         ):
             return
 
@@ -46,7 +67,9 @@ class FusionQOrderedLayerNormalization(Fusion):
         if len(children) == 2:
             downstream_shape_node = children[1]
 
-        if not FusionUtils.check_qdq_node_for_fusion(downstream_quantize_node, self.model):
+        if not FusionUtils.check_qdq_node_for_fusion(
+            downstream_quantize_node, self.model
+        ):
             return
 
         # The first input to LayerNormalization should flow through a DequantizeLinear node
@@ -61,19 +84,27 @@ class FusionQOrderedLayerNormalization(Fusion):
 
         upstream_dequantize_node = first_input_parent_nodes[0]
 
-        if not FusionUtils.check_qdq_node_for_fusion(upstream_dequantize_node, self.model):
+        if not FusionUtils.check_qdq_node_for_fusion(
+            upstream_dequantize_node, self.model
+        ):
             return
 
         # Fusion logic
         subgraph_nodes = [node]  # LayerNormalization
-        subgraph_nodes.extend([downstream_quantize_node])  # Q node after LayerNormalization
+        subgraph_nodes.extend(
+            [downstream_quantize_node]
+        )  # Q node after LayerNormalization
 
-        upstream_dequantize_node_children = self.model.get_children(upstream_dequantize_node, input_name_to_nodes)
+        upstream_dequantize_node_children = self.model.get_children(
+            upstream_dequantize_node, input_name_to_nodes
+        )
 
         # In GPT2, the DQ node will be feeding a residual downstream Add and hence,
         # we do not want to remove it
         if len(upstream_dequantize_node_children) == 1:
-            subgraph_nodes.extend([upstream_dequantize_node])  # DQ node before LayerNormalization
+            subgraph_nodes.extend(
+                [upstream_dequantize_node]
+            )  # DQ node before LayerNormalization
 
         if not self.model.is_safe_to_fuse_nodes(
             subgraph_nodes,
@@ -83,7 +114,9 @@ class FusionQOrderedLayerNormalization(Fusion):
             input_name_to_nodes,
             output_name_to_node,
         ):
-            logger.debug(f"It is not safe to fuse QOrderedLayerNormalization node. Skip")
+            logger.debug(
+                f"It is not safe to fuse QOrderedLayerNormalization node. Skip"
+            )
             return
 
         self.nodes_to_remove.extend(subgraph_nodes)
@@ -98,7 +131,9 @@ class FusionQOrderedLayerNormalization(Fusion):
                 downstream_quantize_node.input[1],
             ],
             outputs=[downstream_quantize_node.output[0]],
-            name=self.model.create_node_name("QOrderedLayerNormalization", name_prefix="QOrderedLayerNormalization"),
+            name=self.model.create_node_name(
+                "QOrderedLayerNormalization", name_prefix="QOrderedLayerNormalization"
+            ),
         )
 
         # Arrange the downstream Shape's input to be fed from the
@@ -106,7 +141,9 @@ class FusionQOrderedLayerNormalization(Fusion):
         # be deemed safe
         if downstream_shape_node is not None:
             self.model.replace_node_input(
-                downstream_shape_node, downstream_shape_node.input[0], downstream_quantize_node.output[0]
+                downstream_shape_node,
+                downstream_shape_node.input[0],
+                downstream_quantize_node.output[0],
             )
 
         # TODO: We only support CuBlasLt order ORDER_ROW for now.
