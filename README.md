@@ -696,7 +696,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>RetinaFace</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/retinaface/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/retinaface/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>

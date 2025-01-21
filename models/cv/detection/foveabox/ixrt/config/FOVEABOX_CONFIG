@@ -1,0 +1,31 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+# BSZ : 构建engine以及推理时的batchsize
+# IMGSIZE : 模型输入hw大小
+# RUN_MODE : [FPS, MAP]
+# PRECISION : [float16, int8]
+# MODEL_NAME : 生成onnx/engine的basename
+# ORIGINE_MODEL : 原始onnx文件
+# COCO_GT : COCOEVAL标签文件
+# DATASET_DIR : 量化/推理数据集路径
+# CHECKPOINTS_DIR : 存放生成的onnx/engine路径
+# LAYER_FUSION : decoder部分走融合算子实现  0不融合 1融合
+# DECODER_FASTER : 有两种融合实现,faster版本速度快且可以直接对接gpu nms;另一种实现的输出和onnx保持一致.  1:faster
+IMGSIZE=800
+MODEL_NAME=foveabox
+ORIGINE_MODEL=foveabox_opt.onnx
+DATA_PROCESS_TYPE=foveabox
+MODEL_INPUT_NAMES=(input)
