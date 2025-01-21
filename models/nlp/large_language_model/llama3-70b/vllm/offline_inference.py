@@ -151,6 +151,10 @@ if args.acc_test:
         print('val ROUGE-1 score f1: {}, target ROUGE-1 score f1: {}, fail'.format(scores[0]["rouge-1"]['f'],args.acc_threshold))
         exit(1)
     print('val ROUGE-1 score f1: {}, target ROUGE-1 score f1: {}, pass'.format(scores[0]["rouge-1"]['f'],args.acc_threshold))
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["val ROUGE-1 score f1"] = scores[0]["rouge-1"]['f']
+    metricResult["metricResult"]["val ROUGE-1 score f1"] = args.acc_threshold
+    print(metricResult)
 
 # 2 7b vllm 0.1.6: batch 3, tokens: 773, QPS: 64.35866137433203; batch 1, tokens: 257, QPS: 25.396898421442113
 # 1\2 13b vllm 0.1.6: batch 3, tokens: 768, QPS: 41.538942353799506; batch 1, tokens: 257, QPS: 15.639606595029639 (2, 6.5829828847570795; 8, 5.137610167755676)

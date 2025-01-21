@@ -1,0 +1,106 @@
+---
+- datasets: https://localhost
+  download_url: https://huggingface.co/baichuan-inc/Baichuan2-7B-Base
+  name: baichuan2-7b
+  need_third_part: false
+  precisions:
+    - fp16
+    - int8
+  relative_path: models/nlp/large_language_model/baichuan2-7b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://huggingface.co/THUDM/chatglm3-6b
+  name: chatglm3-6b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/chatglm3-6b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://www.modelscope.cn/models/ZhipuAI/chatglm3-6b-32k-无
+  name: chatglm3-6b-32k
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/chatglm3-6b-32k/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://localhost/llama2-7b
+  name: llama2-7b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/llama2-7b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://localhost/Meta-Llama-3-70B-Instruct
+  name: llama3-70b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/llama3-70b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://localhost/qwen-7B
+  name: qwen-7b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen-7b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://modelscope.cn/models/qwen/Qwen1.5-7B
+  name: qwen1.5-7b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen1.5-7b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://modelscope.cn/models/qwen/Qwen1.5-14B
+  name: qwen1.5-14b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen1.5-14b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://modelscope.cn/models/Qwen/Qwen1.5-32B-Chat
+  name: qwen1.5-32b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen1.5-32b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://modelscope.cn/models/qwen/Qwen1.5-72B
+  name: qwen1.5-72b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen1.5-72b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://modelscope.cn/models/Qwen/Qwen2-7B-Instruct
+  name: qwen2-7b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen2-7b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://localhost/Qwen2-72B
+  name: qwen2-72b
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/qwen2-72b/vllm
+  task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://huggingface.co/stabilityai/stablelm-2-1_6b
+  name: stablelm
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/nlp/large_language_model/stablelm/vllm
+  task_type: nlp/large_language_model

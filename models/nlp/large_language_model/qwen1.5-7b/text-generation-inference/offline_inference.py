@@ -115,6 +115,11 @@ if __name__ == "__main__":
     duration_time = end_time - start_time
     print(f"generate length: {generations_one[0].generated_text.generated_tokens}")
     print(f"one batch: {generations_one[0].generated_text.text}\nqps: {generations_one[0].generated_text.generated_tokens /duration_time}")
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["generate length"] = generations_one[0].generated_text.generated_tokens
+    metricResult["metricResult"]["one batch"] = generations_one[0].generated_text.text
+    metricResult["metricResult"]["qps"] = generations_one[0].generated_text.generated_tokens /duration_time
+    print(metricResult)
 
 """
 qwen1.5-0.5B
