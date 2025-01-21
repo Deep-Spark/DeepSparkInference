@@ -21,7 +21,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Model Conversion
 
 ```bash
-python3 export.py --weight squeezenet1_0-b66bff10.pth --output squeezenet_v1_0.onnx
+python3 export.py --weight squeezenet1_0-b66bff10.pth --output squeezenet1_0.onnx
 ```
 
 ## Inference

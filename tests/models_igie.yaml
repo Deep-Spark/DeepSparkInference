@@ -708,3 +708,19 @@
     - fp16
   relative_path: models/cv/classification/svt_base/igie
   task_type: cv/classification
+- datasets: local/coco
+  download_url: https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt
+  name: yolov11
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/detection/yolov11/igie
+  task_type: cv/detection
+- datasets: local/coco
+  download_url: https://download.openmmlab.com/mmdetection/v2.0/sabl/sabl_retinanet_r50_fpn_1x_coco/sabl_retinanet_r50_fpn_1x_coco-6c54fd4f.pth
+  name: sabl
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/detection/sabl/igie
+  task_type: cv/detection

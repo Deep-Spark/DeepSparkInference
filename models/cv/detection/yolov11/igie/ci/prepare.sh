@@ -16,5 +16,15 @@
 
 set -x
 
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
+
 pip3 install -r requirements.txt
-python3 export.py --weight squeezenet1_0-b66bff10.pth --output squeezenet1_0.onnx
+
+python3 export.py --weight yolo11n.pt --batch 32

@@ -43,4 +43,4 @@ bash scripts/infer_wide_resnet101_fp16_performance.sh
 
 | Model          | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | -------------- | --------- | --------- | -------- | -------- | -------- |
-| Wide ResNet101 | 32        | FP16      | 2312.383 | 78.459   | 94.052   |
+| Wide ResNet101 | 32        | FP16      | 1339.037 | 78.459   | 94.052   |

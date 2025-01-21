@@ -16,5 +16,19 @@
 
 set -x
 
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install -y libgl1-mesa-glx
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y mesa-libGL
+else
+    echo "Not Support Os"
+fi
+
 pip3 install -r requirements.txt
-python3 export.py --weight squeezenet1_0-b66bff10.pth --output squeezenet1_0.onnx
+
+# export onnx model
+python3 export.py --weight sabl_retinanet_r50_fpn_1x_coco-6c54fd4f.pth --cfg sabl-retinanet_r50_fpn_1x_coco.py --output sabl.onnx
+
+# use onnxsim optimize onnx model
+onnxsim sabl.onnx sabl_opt.onnx
