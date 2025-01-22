@@ -56,7 +56,7 @@ def main():
 
     result = {}
     # NLP模型
-    if model["task_type"] in ["nlp/large_language_model"]:
+    if model["task_type"] in ["nlp/large_language_model", "multimodal/vision-language-understanding"]:
         logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -210,6 +210,15 @@ def run_nlp_testcase(model):
             cd ../{model['relative_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./stablelm --max-tokens 256 -tp 1 --temperature 0.0
+            """
+        elif model_name == "minicpm-v-2":
+            script = f"""
+            set -x
+            cd ../{model['relative_path']}
+            export PT_SDPA_ENABLE_HEAD_DIM_PADDING=1
+            export PATH=/usr/local/corex/bin:${PATH}
+            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+            python3 minicpmv-2.0-offline.py --model-path ./minicpm-v-2 --image-path ./dog.jpg
             """
 
         r, t = run_script(script)

@@ -104,3 +104,11 @@
     - fp16
   relative_path: models/nlp/large_language_model/stablelm/vllm
   task_type: nlp/large_language_model
+- datasets: https://localhost
+  download_url: https://localhost/MiniCPM-V-2
+  name: minicpm-v-2
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/multimodal/vision-language-understanding/minicpm-v-2/vllm/
+  task_type: multimodal/vision-language-understanding
