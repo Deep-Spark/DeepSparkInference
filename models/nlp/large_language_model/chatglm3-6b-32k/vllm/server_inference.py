@@ -67,11 +67,11 @@ if __name__ == "__main__":
     api_url = f"http://{args.host}:{args.port}/v1"
 
     prompts = [
-        "ÄãºÃ",
+        "ä½ å¥½",
         "Which city is the capital of China?",
         "1 + 1 = ?",
-        "ÖĞ¹úµÄÊ×¶¼ÊÇÄÄÀï",
-        "Çë½²ÒÔÏÂÄÚÈİ·­ÒëÎªÓ¢ÎÄ£º\nÄãºÃ,ÎÒÀ´×ÔÖĞ¹ú¡£",
+        "ä¸­å›½çš„é¦–éƒ½æ˜¯å“ªé‡Œ",
+        "è¯·è®²ä»¥ä¸‹å†…å®¹ç¿»è¯‘ä¸ºè‹±æ–‡ï¼š\nä½ å¥½,æˆ‘æ¥è‡ªä¸­å›½ã€‚",
     ]
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_path, trust_remote_code=True)
