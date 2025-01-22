@@ -38,9 +38,9 @@ def main(args):
     llm = LLM(model=MODEL_NAME,
             gpu_memory_utilization=0.95,  # 使用全部GPU内存
             trust_remote_code=True,
-            max_model_len=1024,
-            max_num_seqs=1,
-            max_num_batched_tokens=1024,)  # 根据内存状况可调整此值
+            max_model_len=2048,
+            # max_num_seqs=1,
+            max_num_batched_tokens=2048,)  # 根据内存状况可调整此值
 
     # 构建对话消息
     messages = [{'role': 'user', 'content': '(<image>./</image>)\n' + '请描述这张图片'}]
@@ -64,10 +64,10 @@ def main(args):
         # top_p=0.8,
         # top_k=100,
         # seed=3472,
-        max_tokens=128,
+        max_tokens=1024,
         # min_tokens=150,
         temperature=0,
-        use_beam_search=False,
+        # use_beam_search=False,
         # length_penalty=1.2,
         best_of=1)
 
