@@ -97,7 +97,7 @@ def run_nlp_testcase(model):
     prepare_script = f"""
     set -x
     cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./model_name
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
     bash ci/prepare.sh
     """
 
