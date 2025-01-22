@@ -174,7 +174,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['relative_path']}
-            python3 offline_inference.py --model ./qwen1.5-14b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 1024
+            python3 offline_inference.py --model ./qwen1.5-14b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 896
             """
         elif model_name == "qwen1.5-32b":
             script = f"""
@@ -221,75 +221,10 @@ def run_nlp_testcase(model):
         logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
             result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 2:
+        if len(matchs) == 1:
             result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
-    return result
-
-def run_speech_testcase(model):
-    model_name = model["name"]
-    result = {
-        "name": model_name,
-        "result": {},
-    }
-    d_url = model["download_url"]
-    checkpoint_n = d_url.split("/")[-1]
-    dataset_n = model["datasets"].split("/")[-1]
-    prepare_script = f"""
-    cd ../{model['relative_path']}
-    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
-    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    """
-
-    if model["need_third_part"] and model_name == "conformer":
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
-        prepare_script += "tar -xzvf /mnt/deepspark/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
-
-    prepare_script += """
-    export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
-    echo $PYTHONPATH
-    bash ci/prepare.sh
-    ls -l | grep onnx
-    """
-
-    # add pip list info when in debug mode
-    if utils.is_debug():
-        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
-        prepare_script = pip_list_script + prepare_script + pip_list_script
-
-    run_script(prepare_script)
-
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        cd ../{model['relative_path']}
-        export PYTHONPATH=./wenet:$PYTHONPATH
-        echo $PYTHONPATH
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
-
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
-            result["result"][prec].update(get_metric_result(matchs[0]))
-            result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
     return result
 
 def get_metric_result(str):

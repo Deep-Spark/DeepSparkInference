@@ -17,7 +17,7 @@
   relative_path: models/nlp/large_language_model/chatglm3-6b/vllm
   task_type: nlp/large_language_model
 - datasets: https://localhost
-  download_url: https://www.modelscope.cn/models/ZhipuAI/chatglm3-6b-32k-无
+  download_url: https://www.modelscope.cn/models/ZhipuAI/chatglm3-6b-32k
   name: chatglm3-6b-32k
   need_third_part: false
   precisions:

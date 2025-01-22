@@ -29,4 +29,4 @@ pip3 install transformers==4.37.1
 # has prepared in ci
 # ln -s /mnt/deepspark/data/checkpoints/Baichuan2-7B-Base ./
 
-python3 convert2int8.py --model-path ./Baichuan2-7B-Base/
+python3 convert2int8.py --model-path ./baichuan2-7b/

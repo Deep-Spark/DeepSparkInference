@@ -57,7 +57,7 @@ if __name__ == "__main__":
     model_name = model_name.rsplit("/")[-1]
 
     # Sample prompts.
-    prompts = ["ÄÄĞ©¼£Ïó¿ÉÄÜ±íÃ÷Ò»¸öÈËÕıÔÚ¾­Àú½¹ÂÇ?", "ÃèÊöÒ»ÏÂÈçºÎÖÆ×÷Ö¥Ê¿ÅûÈø¡£", "Ğ´Ò»ÆªÓĞ¹Ø5GÍøÂçÑĞ·¢µÄ×ÛÊöÎÄÕÂ¡£"]
+    prompts = ["å“ªäº›è¿¹è±¡å¯èƒ½è¡¨æ˜ä¸€ä¸ªäººæ­£åœ¨ç»å†ç„¦è™‘?", "æè¿°ä¸€ä¸‹å¦‚ä½•åˆ¶ä½œèŠå£«æŠ«è¨ã€‚", "å†™ä¸€ç¯‡æœ‰å…³5Gç½‘ç»œç ”å‘çš„ç»¼è¿°æ–‡ç« ã€‚"]
 
     # Create a sampling params object.
     sampling_params = SamplingParams(**sampling_params)
