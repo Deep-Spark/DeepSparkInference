@@ -68,7 +68,7 @@ def main():
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("models_igie.yaml", "r") as file:
+    with open("models_vllm.yaml", "r") as file:
         models = yaml.safe_load(file)
 
     for model in models:
