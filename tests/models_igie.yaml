@@ -612,3 +612,123 @@
     - fp16
   relative_path: models/cv/ocr/svtr/igie
   task_type: cv/ocr
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/vgg11-8a719046.pth
+  name: vgg11
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/vgg11/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/efficientnet_b4_rwightman-23ab8bcd.pth
+  name: efficientnet_b4
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/efficientnet_b4/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/mnasnet0_75-7090bc5f.pth
+  name: mnasnet0_75
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/mnasnet0_75/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth
+  name: resnext101_32x8d
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/resnext101_32x8d/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/squeezenet1_0-b66bff10.pth
+  name: squeezenet_v1_0
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/squeezenet_v1_0/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/regnet_x_16gf-2007eb11.pth
+  name: regnet_x_16gf
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/regnet_x_16gf/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/shufflenetv2_x2_0-8be3c8ee.pth
+  name: shufflenetv2_x2_0
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/shufflenetv2_x2_0/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth
+  name: wide_resnet101
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/wide_resnet101/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/convnext/convnext-small_3rdparty_32xb128_in1k_20220124-d39b5192.pth
+  name: convnext_s
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/convnext_s/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth
+  name: cspresnet50
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/cspresnet50/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/mlp-mixer/mixer-base-p16_3rdparty_64xb64_in1k_20211124-1377e3e0.pth
+  name: mlp_mixer_base
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/mlp_mixer_base/igie
+  task_type: cv/classification
+- datasets: https://www.image-net.org/download.php
+  download_url: https://download.openmmlab.com/mmclassification/v0/twins/twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth
+  name: svt_base
+  need_third_part: true
+  precisions:
+    - fp16
+  relative_path: models/cv/classification/svt_base/igie
+  task_type: cv/classification
+- datasets: local/coco
+  download_url: https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt
+  name: yolov11
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/detection/yolov11/igie
+  task_type: cv/detection
+- datasets: local/coco
+  download_url: https://download.openmmlab.com/mmdetection/v2.0/sabl/sabl_retinanet_r50_fpn_1x_coco/sabl_retinanet_r50_fpn_1x_coco-6c54fd4f.pth
+  name: sabl
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/detection/sabl/igie
+  task_type: cv/detection
+- datasets: local/coco
+  download_url: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w32_coco_256x192-c78dce93_20200708.pth
+  name: hrnetpose
+  need_third_part: false
+  precisions:
+    - fp16
+  relative_path: models/cv/pose_estimation/hrnetpose/igie
+  task_type: cv/pose_estimation

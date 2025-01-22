@@ -34,13 +34,13 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_squeezenet1_0_fp16_accuracy.sh
+bash scripts/infer_squeezenet_v1_0_fp16_accuracy.sh
 # Performance
-bash scripts/infer_squeezenet1_0_fp16_performance.sh
+bash scripts/infer_squeezenet_v1_0_fp16_performance.sh
 ```
 
 ## Results
 
 Model           |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------------|-----------|----------|----------|----------|--------
-Squeezenet1_0   |    32     |   FP16   | 7777.50  |  58.08   | 80.39
+Squeezenet_v1_0   |    32     |   FP16   | 7777.50  |  58.08   | 80.39
