@@ -1168,7 +1168,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
     <tr align="center">
         <td>MiniCPM-V-2</td>
-        <td><a href="models/vision-language-understanding/MiniCPM-V-2/vllm/README.md">Supported</a></td>
+        <td><a href="models/multimodal/vision-language-understanding/minicpm-v-2/vllm/README.md">Supported</a></td>
         <td>-</td>
         <td>-</td>
     </tr>

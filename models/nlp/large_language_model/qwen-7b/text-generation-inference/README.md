@@ -17,10 +17,6 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-# *star refer to a specified version
-wget http://files.deepspark.org.cn:880/deepspark/add-ons/text-generation-*.whl
-wget http://files.deepspark.org.cn:880/deepspark/add-ons/text-generation-server-*.whl
-pip install tensorrt_llm-*.whl text-generation-server-*.whl
 ```
 
 ### Download

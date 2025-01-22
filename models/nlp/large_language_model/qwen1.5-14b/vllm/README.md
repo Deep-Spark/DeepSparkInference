@@ -29,7 +29,7 @@ ln -s /path/to/Qwen1.5-14B ./data/qwen1.5
 ## Inference
 
 ```bash
-python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-14B --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 1024
+python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-14B --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 896
 ```
 
 ## Results

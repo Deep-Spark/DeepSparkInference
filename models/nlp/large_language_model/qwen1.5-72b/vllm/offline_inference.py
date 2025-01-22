@@ -108,3 +108,7 @@ for i, output in enumerate(outputs):
     num_tokens += len(output.outputs[0].token_ids)
     print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
 print(f"tokens: {num_tokens}, QPS: {num_tokens/duration_time}")
+metricResult = {"metricResult": {}}
+metricResult["metricResult"]["tokens"] = num_tokens
+metricResult["metricResult"]["QPS"] = round(num_tokens/duration_time,3)
+print(metricResult)

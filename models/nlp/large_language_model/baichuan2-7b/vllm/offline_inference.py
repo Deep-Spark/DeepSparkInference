@@ -109,4 +109,9 @@ for i, output in enumerate(outputs):
     print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
 print(f"tokens: {num_tokens}, QPS: {num_tokens/duration_time}")
 
+metricResult = {"metricResult": {}}
+metricResult["metricResult"]["tokens"] = num_tokens
+metricResult["metricResult"]["QPS"] = round(num_tokens/duration_time,3)
+print(metricResult)
+
 # 0.3.2 tokens: 757, QPS: 97.97229589080902
