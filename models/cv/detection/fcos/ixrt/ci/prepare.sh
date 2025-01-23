@@ -35,6 +35,8 @@ rm -f mmcv/ops/csrc/pytorch/cuda/spconv_ops_cuda.cu
 rm -f mmcv/ops/csrc/pytorch/cuda/sparse_*
 rm -f mmcv/ops/csrc/pytorch/sp*
 
+sed -i 's/return _slice(g, input, axes, starts, ends, steps, dynamic_slice)/return _slice(g, input, axes, starts, ends, steps)/' mmcv/onnx/onnx_utils/symbolic_helper.py
+
 bash clean_mmcv.sh
 bash build_mmcv.sh
 bash install_mmcv.sh
