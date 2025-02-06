@@ -36,7 +36,7 @@ parser = sampling_add_cli_args(parser)
 args = parser.parse_args()
 
 engine_args = [attr.name for attr in dataclasses.fields(EngineArgs)]
-sampling_args = [param.name for param in list(inspect.signature(SamplingParams.__init__).parameters.values())[1:]]
+sampling_args = [param.name for param in list(inspect.signature(SamplingParams).parameters.values())[1:]]
 engine_params = {attr:getattr(args, attr) for attr in engine_args}
 sampling_params = {attr:getattr(args, attr) for attr in sampling_args if args.__contains__(attr)}
 

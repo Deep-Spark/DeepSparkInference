@@ -43,7 +43,7 @@ if __name__ == "__main__":
     sampling_args = [
         param.name
         for param in list(
-            inspect.signature(SamplingParams.__init__).parameters.values()
+            inspect.signature(SamplingParams).parameters.values()
         )[1:]
     ]
     engine_params = {attr: getattr(args, attr) for attr in engine_args}
