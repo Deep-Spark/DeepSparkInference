@@ -1,20 +1,6 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import sys
 from pathlib import Path
+import os
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import argparse
@@ -45,16 +31,14 @@ if __name__ == "__main__":
         param.name
         for param in list(
             inspect.signature(SamplingParams).parameters.values()
-        )[1:]
+        )
     ]
     engine_params = {attr: getattr(args, attr) for attr in engine_args}
     sampling_params = {
         attr: getattr(args, attr) for attr in sampling_args if args.__contains__(attr)
     }
 
-    model_name = args.model.strip()
-    model_name = model_name if args.model[-1] != "/" else model_name[:-1]
-    model_name = model_name.rsplit("/")[-1]
+    model_name = os.path.dirname(args.model).rsplit("/")[-1]
 
     # Sample prompts.
     prompts = [
@@ -133,7 +117,3 @@ if __name__ == "__main__":
         num_tokens += len(output.outputs[0].token_ids)
         print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
     print(f"tokens: {num_tokens}, QPS: {num_tokens/duration_time}")
-    metricResult = {"metricResult": {}}
-    metricResult["metricResult"]["tokens"] = num_tokens
-    metricResult["metricResult"]["QPS"] = round(num_tokens/duration_time,3)
-    print(metricResult)
