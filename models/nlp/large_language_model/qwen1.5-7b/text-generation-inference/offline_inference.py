@@ -1,37 +1,24 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
-from text_generation_server.models.flash_qwen2 import (
-    FlashQwen2,
-)
-import torch
-from text_generation_server.pb import generate_pb2
-
-import time
-from torch.cuda import profiler
-from text_generation_server.utils.speculate import set_speculate
 import argparse
+import time
+
+import torch
+from text_generation_server.models.flash_qwen2 import FlashQwen2
+from text_generation_server.pb import generate_pb2
+from text_generation_server.utils.speculate import set_speculate
+from torch.cuda import profiler
+
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--generate_length', type=int, default=512)
-    parser.add_argument('--model2path', type=str, default="/home/data/nlp/qwen2/Qwen1.5-0.5B")
-    parser.add_argument('--quantize', type=str, default=None, choices=['awq'])
-    parser.add_argument('--speculate', type=int, default=0)
+    parser.add_argument("--generate_length", type=int, default=512)
+    parser.add_argument(
+        "--model2path", type=str, default="/home/data/nlp/qwen2/Qwen1.5-0.5B"
+    )
+    parser.add_argument("--quantize", type=str, default=None, choices=["awq"])
+    parser.add_argument("--speculate", type=int, default=0)
 
     return parser.parse_args(args)
+
 
 if __name__ == "__main__":
     args = parse_args()
@@ -52,10 +39,12 @@ if __name__ == "__main__":
         typical_p=1.0,
         do_sample=False,
     )
-    
-    default_pb_stop_parameters = generate_pb2.StoppingCriteriaParameters(stop_sequences=[], max_new_tokens=args.generate_length)
-    
-    warmup_requests =  generate_pb2.Request(
+
+    default_pb_stop_parameters = generate_pb2.StoppingCriteriaParameters(
+        stop_sequences=[], max_new_tokens=args.generate_length
+    )
+
+    warmup_requests = generate_pb2.Request(
         id=0,
         inputs="_test " * max_input_length,
         prefill_logprobs=True,
@@ -75,13 +64,13 @@ if __name__ == "__main__":
             stop_sequences=[],
             ignore_eos_token=False,
         ),
-        top_n_tokens = 20
+        top_n_tokens=20,
     )
     warmup_requests_batch = generate_pb2.Batch(id=0, requests=[warmup_requests], size=1)
-    warmup_requests_batchs =  model.batch_type.from_pb(
+    warmup_requests_batchs = model.batch_type.from_pb(
         warmup_requests_batch, model.tokenizer, model.dtype, torch.device("cuda")
     )
-    
+
     model.warmup(warmup_requests_batchs)
 
     pb_request = generate_pb2.Request(
@@ -98,7 +87,7 @@ if __name__ == "__main__":
     )
 
     next_batch_one = causal_lm_one_batch
-    last_generations = True 
+    last_generations = True
     torch.cuda.synchronize()
     profiler.start()
     start_time = time.perf_counter()
@@ -114,12 +103,9 @@ if __name__ == "__main__":
     end_time = time.perf_counter()
     duration_time = end_time - start_time
     print(f"generate length: {generations_one[0].generated_text.generated_tokens}")
-    print(f"one batch: {generations_one[0].generated_text.text}\nqps: {generations_one[0].generated_text.generated_tokens /duration_time}")
-    metricResult = {"metricResult": {}}
-    metricResult["metricResult"]["generate length"] = generations_one[0].generated_text.generated_tokens
-    metricResult["metricResult"]["one batch"] = generations_one[0].generated_text.text
-    metricResult["metricResult"]["qps"] = generations_one[0].generated_text.generated_tokens /duration_time
-    print(metricResult)
+    print(
+        f"one batch: {generations_one[0].generated_text.text}\nqps: {generations_one[0].generated_text.generated_tokens /duration_time}"
+    )
 
 """
 qwen1.5-0.5B

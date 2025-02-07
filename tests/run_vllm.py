@@ -223,14 +223,13 @@ def run_nlp_testcase(model):
 
         r, t = run_script(script)
         sout = r.stdout
-
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
+        pattern = r"tokens: (\d+), QPS: ([\d.]+)"
+        matchs = re.search(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
         logging.debug(f"matchs:\n{matchs}")
-        for m in matchs:
-            result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 1:
+        if matchs:
+            result["result"][prec]["tokens"] = int(matchs.group(1))
+            result["result"][prec]["QPS"] = float(matchs.group(2))
             result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
