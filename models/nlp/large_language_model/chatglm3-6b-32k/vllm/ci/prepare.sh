@@ -24,4 +24,4 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install transformers==4.37.1
+pip3 install transformers

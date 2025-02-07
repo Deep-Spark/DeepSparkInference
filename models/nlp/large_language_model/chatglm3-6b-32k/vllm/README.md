@@ -17,7 +17,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-pip3 install transformers==4.37.1
+pip3 install transformers
 ```
 
 ### Download
