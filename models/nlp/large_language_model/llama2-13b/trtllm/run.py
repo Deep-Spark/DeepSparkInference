@@ -16,63 +16,45 @@
 import argparse
 import ast
 import csv
+import os
 from pathlib import Path
+import sys
+import time
 import sys
 import time
 
 import numpy as np
 import torch
+from utils import (DEFAULT_HF_MODEL_DIRS, DEFAULT_PROMPT_TEMPLATES,
+                   add_common_args, load_tokenizer, read_decoder_start_token_id,
+                   read_model_name, supports_inflight_batching,
+                   throttle_generator)
+
 import tensorrt_llm
 import tensorrt_llm.profiler
 from tensorrt_llm.logger import logger
 from tensorrt_llm.runtime import PYTHON_BINDINGS, ModelRunner
-
-from utils import (DEFAULT_HF_MODEL_DIRS, DEFAULT_PROMPT_TEMPLATES,
-                   load_tokenizer, read_model_name, throttle_generator)
 
 if PYTHON_BINDINGS:
     from tensorrt_llm.runtime import ModelRunnerCpp
 
 
 def parse_arguments(args=None):
+    # see `add_common_args` for extended list of arguments
     parser = argparse.ArgumentParser()
+    parser.add_argument('--max_input_length', type=int, default=923)
     parser.add_argument('--max_output_len', type=int, required=True)
-    parser.add_argument(
-        '--max_attention_window_size',
-        type=int,
-        default=None,
-        help=
-        'The attention window size that controls the sliding window attention / cyclic kv cache behaviour'
-    )
-    parser.add_argument('--sink_token_length',
-                        type=int,
-                        default=None,
-                        help='The sink token length.')
-    parser.add_argument('--log_level', type=str, default='error')
-    parser.add_argument('--engine_dir', type=str, default='engine_outputs')
-    parser.add_argument('--use_py_session',
-                        default=False,
-                        action='store_true',
-                        help="Whether or not to use Python runtime session")
     parser.add_argument(
         '--input_text',
         type=str,
         nargs='+',
         default=["Born in north-east France, Soyer trained as a"])
     parser.add_argument(
-        '--no_prompt_template',
-        dest='use_prompt_template',
-        default=True,
-        action='store_false',
-        help=
-        "Whether or not to use default prompt template to wrap the input text.")
-    parser.add_argument(
         '--input_file',
         type=str,
         help=
         'CSV or Numpy file containing tokenized input. Alternative to text input.',
         default=None)
-    parser.add_argument('--max_input_length', type=int, default=923)
     parser.add_argument('--output_csv',
                         type=str,
                         help='CSV file where the tokenized output is stored.',
@@ -87,89 +69,26 @@ def parse_arguments(args=None):
         help=
         'Numpy file where the generation logits are stored. Use only when num_beams==1',
         default=None)
-    parser.add_argument('--tokenizer_dir',
-                        help="HF tokenizer config path",
-                        default='gpt2')
-    parser.add_argument(
-        '--tokenizer_type',
-        help=
-        'Specify that argument when providing a .model file as the tokenizer_dir. '
-        'It allows AutoTokenizer to instantiate the correct tokenizer type.')
-    parser.add_argument('--vocab_file',
-                        help="Used for sentencepiece tokenizers")
-    parser.add_argument('--num_beams',
-                        type=int,
-                        help="Use beam search if num_beams >1",
-                        default=1)
-    parser.add_argument('--temperature', type=float, default=1.0)
-    parser.add_argument('--top_k', type=int, default=1)
-    parser.add_argument('--top_p', type=float, default=0.0)
-    parser.add_argument('--length_penalty', type=float, default=1.0)
-    parser.add_argument('--repetition_penalty', type=float, default=1.0)
-    parser.add_argument('--presence_penalty', type=float, default=0.0)
-    parser.add_argument('--frequency_penalty', type=float, default=0.0)
-    parser.add_argument('--debug_mode',
-                        default=False,
-                        action='store_true',
-                        help="Whether or not to turn on the debug mode")
-    parser.add_argument('--no_add_special_tokens',
-                        dest='add_special_tokens',
-                        default=True,
-                        action='store_false',
-                        help="Whether or not to add special tokens")
-    parser.add_argument('--streaming', default=False, action='store_true')
-    parser.add_argument('--streaming_interval',
-                        type=int,
-                        help="How often to return tokens when streaming.",
-                        default=5)
-    parser.add_argument(
-        '--prompt_table_path',
-        type=str,
-        help="Path to .npy file, exported by nemo_prompt_convert.py")
-    parser.add_argument(
-        '--prompt_tasks',
-        help="Comma-separated list of tasks for prompt tuning, e.g., 0,3,1,0")
-    parser.add_argument('--lora_dir',
+    parser.add_argument('--output_log_probs_npy',
                         type=str,
-                        default=None,
-                        nargs="+",
-                        help="The directory of LoRA weights")
-    parser.add_argument(
-        '--lora_task_uids',
-        type=str,
-        default=None,
-        nargs="+",
-        help="The list of LoRA task uids; use -1 to disable the LoRA module")
-    parser.add_argument('--lora_ckpt_source',
+                        help='Numpy file where the log_probs are stored',
+                        default=None)
+    parser.add_argument('--output_cum_log_probs_npy',
                         type=str,
-                        default="hf",
-                        choices=["hf", "nemo"],
-                        help="The source of lora checkpoint.")
-    parser.add_argument(
-        '--num_prepend_vtokens',
-        nargs="+",
-        type=int,
-        help="Number of (default) virtual tokens to prepend to each sentence."
-        " For example, '--num_prepend_vtokens=10' will prepend the tokens"
-        " [vocab_size, vocab_size + 1, ..., vocab_size + 9] to the sentence.")
+                        help='Numpy file where the cum_log_probs are stored',
+                        default=None)
     parser.add_argument(
         '--run_profiling',
         default=False,
         action='store_true',
         help="Run several 10 iterations to profile the inference latencies.")
-    parser.add_argument(
-        '--medusa_choices',
-        type=str,
-        default=None,
-        help="Medusa choice to use, if not none, will use Medusa decoding."
-        "   E.g.: [[0, 0, 0, 0], [0, 1, 0], [1, 0], [1, 1]] for 9 medusa tokens."
-    )
     parser.add_argument('--target_load_engine_time',
                         type=float,
                         default=0)
     parser.add_argument('--target_qps',
                         type=float,
                         default=0)
+    parser = add_common_args(parser)
 
     return parser.parse_args(args=args)
 
@@ -182,7 +101,8 @@ def parse_input(tokenizer,
                 max_input_length=923,
                 pad_id=None,
                 num_prepend_vtokens=[],
-                model_name=None):
+                model_name=None,
+                model_version=None):
     if pad_id is None:
         pad_id = tokenizer.pad_token_id
 
@@ -211,13 +131,12 @@ def parse_input(tokenizer,
         elif input_file.endswith('.txt'):
             with open(input_file, 'r', encoding='utf-8',
                       errors='replace') as txt_file:
-                input_text = txt_file.read()
-                input_ids = tokenizer.encode(
+                input_text = txt_file.readlines()
+                batch_input_ids = tokenizer(
                     input_text,
                     add_special_tokens=add_special_tokens,
                     truncation=True,
-                    max_length=max_input_length)
-                batch_input_ids.append(input_ids)
+                    max_length=max_input_length)["input_ids"]
         else:
             print('Input file format not supported.')
             raise SystemExit
@@ -230,9 +149,11 @@ def parse_input(tokenizer,
             batch_input_ids[i] = list(
                 range(base_vocab_size,
                       base_vocab_size + length)) + batch_input_ids[i]
-    if model_name == 'glm_10b':
+
+    if input_file is None and 'GLM' in model_name and model_version == 'glm':
         for ids in batch_input_ids:
             ids.append(tokenizer.sop_token_id)
+
     batch_input_ids = [
         torch.tensor(x, dtype=torch.int32) for x in batch_input_ids
     ]
@@ -247,7 +168,11 @@ def print_output(tokenizer,
                  output_npy=None,
                  context_logits=None,
                  generation_logits=None,
-                 output_logits_npy=None):
+                 cum_log_probs=None,
+                 log_probs=None,
+                 output_logits_npy=None,
+                 output_cum_log_probs_npy=None,
+                 output_log_probs_npy=None):
     batch_size, num_beams, _ = output_ids.size()
     if output_csv is None and output_npy is None:
         for batch_idx in range(batch_size):
@@ -265,7 +190,6 @@ def print_output(tokenizer,
                     f'Output [Text {batch_idx} Beam {beam}]: \"{output_text}\"')
 
     output_ids = output_ids.reshape((-1, output_ids.size(2)))
-
     if output_csv is not None:
         output_file = Path(output_csv)
         output_file.parent.mkdir(exist_ok=True, parents=True)
@@ -303,6 +227,20 @@ def print_output(tokenizer,
                                       dtype='float32')
         np.save(output_generation_logits_file, generation_outputs)
 
+    # Save cum log probs
+    if cum_log_probs is not None and output_cum_log_probs_npy is not None:
+        cum_log_probs_file = Path(output_cum_log_probs_npy)
+        cum_log_probs_outputs = np.array(cum_log_probs.cpu().contiguous(),
+                                         dtype='float32')
+        np.save(cum_log_probs_file, cum_log_probs_outputs)
+
+    # Save cum log probs
+    if log_probs is not None and output_log_probs_npy is not None:
+        log_probs_file = Path(output_log_probs_npy)
+        log_probs_outputs = np.array(log_probs.cpu().contiguous(),
+                                     dtype='float32')
+        np.save(log_probs_file, log_probs_outputs)
+
 
 def check_status(args, load_engine_time, qps):
     print("==================== check status ====================")
@@ -320,28 +258,35 @@ def main(args):
     runtime_rank = tensorrt_llm.mpi_rank()
     logger.set_level(args.log_level)
 
-    model_name = read_model_name(args.engine_dir)
-    if args.tokenizer_dir is None:
+    # different handling if encoder-decoder models
+    is_enc_dec = {
+        name
+        for name in os.listdir(args.engine_dir)
+        if os.path.isdir(os.path.join(args.engine_dir, name))
+    } == {'encoder', 'decoder'}
+    if is_enc_dec:
+        logger.warning(
+            "This path is an encoder-decoder model. Using different handling.")
+        assert not args.use_py_session, "Encoder-decoder models don't have a unified python runtime, please use its own examples/enc_dec/run.py instead."
+
+    model_name, model_version = read_model_name(
+        args.engine_dir) if not is_enc_dec else ("", "")
+    if args.tokenizer_dir is None and model_name in DEFAULT_HF_MODEL_DIRS:
+        logger.warning(
+            "tokenizer_dir is not specified. Try to infer from model_name, but this may be incorrect."
+        )
         args.tokenizer_dir = DEFAULT_HF_MODEL_DIRS[model_name]
 
     tokenizer, pad_id, end_id = load_tokenizer(
         tokenizer_dir=args.tokenizer_dir,
         vocab_file=args.vocab_file,
         model_name=model_name,
+        model_version=model_version,
         tokenizer_type=args.tokenizer_type,
     )
 
-    # # An example to stop generation when the model generate " London" on first sentence, " eventually became" on second sentence
-    # stop_words_list = [[" London"], ["eventually became"]]
-    # stop_words_list = tensorrt_llm.runtime.to_word_list_format(stop_words_list, tokenizer)
-    # stop_words_list = torch.Tensor(stop_words_list).to(torch.int32).to("cuda").contiguous()
-    stop_words_list = None
-
-    # # An example to prevent generating " chef" on first sentence, " eventually" and " chef before" on second sentence
-    # bad_words_list = [[" chef"], [" eventually, chef before"]]
-    # bad_words_list = tensorrt_llm.runtime.to_word_list_format(bad_words_list, tokenizer)
-    # bad_words_list = torch.Tensor(bad_words_list).to(torch.int32).to("cuda").contiguous()
-    bad_words_list = None
+    if args.end_id:
+        end_id = args.end_id
 
     prompt_template = None
     if args.use_prompt_template and model_name in DEFAULT_PROMPT_TEMPLATES:
@@ -354,8 +299,47 @@ def main(args):
                                   max_input_length=args.max_input_length,
                                   pad_id=pad_id,
                                   num_prepend_vtokens=args.num_prepend_vtokens,
-                                  model_name=model_name)
-    input_lengths = [x.size(0) for x in batch_input_ids]
+                                  model_name=model_name,
+                                  model_version=model_version)
+
+    stop_words_list = None
+    if args.stop_words:
+        stop_words_list = tensorrt_llm.runtime.decode_words_list(
+            args.stop_words, tokenizer)
+    if model_version == 'glm4':  # add default stop token ids for GLM-4
+        glm4_stop_ids = [[151329], [151336], [151338]]
+        if stop_words_list is None:
+            stop_words_list = [glm4_stop_ids] * len(batch_input_ids)
+        else:
+            for req_stop_words_list in stop_words_list:
+                req_stop_words_list.extend(glm4_stop_ids)
+
+    bad_words_list = None
+    if args.bad_words:
+        bad_words_list = tensorrt_llm.runtime.decode_words_list(
+            args.bad_words, tokenizer)
+
+    if is_enc_dec:
+        encoder_input_ids = batch_input_ids
+        decoder_start_token_id = read_decoder_start_token_id(
+            os.path.join(args.engine_dir, "decoder"))
+        decoder_input_ids = [
+            torch.tensor([decoder_start_token_id], dtype=torch.int32)
+            for _ in batch_input_ids
+        ]
+
+    input_lengths = [x.size(0) for x in decoder_input_ids
+                     ] if is_enc_dec else [x.size(0) for x in batch_input_ids]
+    encoder_input_lengths = [x.size(0)
+                             for x in encoder_input_ids] if is_enc_dec else None
+
+    if not args.use_py_session and not supports_inflight_batching(
+            os.path.join(args.engine_dir, "decoder") if is_enc_dec else args.
+            engine_dir):
+        logger.warning(
+            "The given engine does not support in-flight batching, fallback to python session"
+        )
+        args.use_py_session = True
 
     if not PYTHON_BINDINGS and not args.use_py_session:
         logger.warning(
@@ -367,34 +351,60 @@ def main(args):
             "Debug mode is not supported in C++ session for now, fallback to Python session."
         )
         args.use_py_session = True
+    if args.return_all_generated_tokens and args.use_py_session:
+        raise ValueError(
+            "Returning all the generated tokens at each step is not supported in the Python session, use C++ session instead."
+        )
+    if (not args.return_all_generated_tokens) and args.streaming and (
+            args.num_beams > 1):
+        logger.warning(
+            "Setting return_all_generated_tokens to True since streaming AND beam search are done simultaneously. "
+            "Returning the full beams at each streaming step is needed because beam search + streaming can change previous outputs. "
+            "WARNING: using this option may increase network usage significantly (quadratically w.r.t output length)."
+        )
+        args.return_all_generated_tokens = True
     runner_cls = ModelRunner if args.use_py_session else ModelRunnerCpp
-    runner_kwargs = dict(engine_dir=args.engine_dir,
-                         lora_dir=args.lora_dir,
-                         rank=runtime_rank,
-                         debug_mode=args.debug_mode,
-                         lora_ckpt_source=args.lora_ckpt_source)
+    runner_kwargs = dict(
+        engine_dir=args.engine_dir,
+        lora_dir=args.lora_dir,
+        rank=runtime_rank,
+        debug_mode=args.debug_mode,
+        lora_ckpt_source=args.lora_ckpt_source,
+        gpu_weights_percent=args.gpu_weights_percent,
+    )
+    if not args.use_py_session:
+        runner_kwargs.update(is_enc_dec=is_enc_dec)
     if args.medusa_choices is not None:
         args.medusa_choices = ast.literal_eval(args.medusa_choices)
-        assert args.use_py_session, "Medusa is only supported by py_session"
-        assert args.temperature == 0, "Medusa should use temperature == 0"
+        assert args.temperature == 1.0, "Medusa should use temperature == 1.0"
         assert args.num_beams == 1, "Medusa should use num_beams == 1"
         runner_kwargs.update(medusa_choices=args.medusa_choices)
     if not args.use_py_session:
         runner_kwargs.update(
             max_batch_size=len(batch_input_ids),
-            max_input_len=max(input_lengths),
+            max_input_len=max(
+                encoder_input_lengths if is_enc_dec else input_lengths),
             max_output_len=args.max_output_len,
             max_beam_width=args.num_beams,
             max_attention_window_size=args.max_attention_window_size,
             sink_token_length=args.sink_token_length,
-        )
+            max_tokens_in_paged_kv_cache=args.max_tokens_in_paged_kv_cache,
+            kv_cache_enable_block_reuse=args.kv_cache_enable_block_reuse,
+            kv_cache_free_gpu_memory_fraction=args.
+            kv_cache_free_gpu_memory_fraction,
+            enable_chunked_context=args.enable_chunked_context,
+            multi_block_mode=args.multi_block_mode)
+    runner_kwargs.update(
+        enable_context_fmha_fp32_acc=args.enable_context_fmha_fp32_acc)
     runner = runner_cls.from_dir(**runner_kwargs)
 
     torch.cuda.synchronize()
     start_time = time.time()
     with torch.no_grad():
         outputs = runner.generate(
-            batch_input_ids,
+            batch_input_ids=decoder_input_ids
+            if is_enc_dec else batch_input_ids,
+            encoder_input_ids=encoder_input_ids if is_enc_dec else None,
             max_new_tokens=args.max_output_len,
             max_attention_window_size=args.max_attention_window_size,
             sink_token_length=args.sink_token_length,
@@ -405,27 +415,32 @@ def main(args):
             top_p=args.top_p,
             num_beams=args.num_beams,
             length_penalty=args.length_penalty,
+            early_stopping=args.early_stopping,
             repetition_penalty=args.repetition_penalty,
             presence_penalty=args.presence_penalty,
             frequency_penalty=args.frequency_penalty,
             stop_words_list=stop_words_list,
             bad_words_list=bad_words_list,
+            output_cum_log_probs=(args.output_cum_log_probs_npy != None),
+            output_log_probs=(args.output_log_probs_npy != None),
+            random_seed=args.random_seed,
             lora_uids=args.lora_task_uids,
-            prompt_table_path=args.prompt_table_path,
+            prompt_table=args.prompt_table_path,
             prompt_tasks=args.prompt_tasks,
             streaming=args.streaming,
             output_sequence_lengths=True,
+            no_repeat_ngram_size=args.no_repeat_ngram_size,
             return_dict=True,
-            medusa_choices=args.medusa_choices)
+            medusa_choices=args.medusa_choices,
+            return_all_generated_tokens=args.return_all_generated_tokens)
         torch.cuda.synchronize()
-        
-    status = False
+
     end_time = time.time()
+
     if runtime_rank == 0:
         num_inputs = sum([torch.numel(x) for x in batch_input_ids])
         num_outputs = torch.numel(outputs["output_ids"])
         num_gens = num_outputs - num_inputs
-        
         load_engine_time = tensorrt_llm.profiler.elapsed_time_in_sec("load tensorrt_llm engine")
         qps = num_gens/(end_time-start_time)
         logger.info(f'Load engine takes: {load_engine_time} sec')
@@ -433,29 +448,46 @@ def main(args):
         status = check_status(args, load_engine_time, qps)
     else:
         status = True
-
+        
     if args.streaming:
         for curr_outputs in throttle_generator(outputs,
                                                args.streaming_interval):
             if runtime_rank == 0:
                 output_ids = curr_outputs['output_ids']
                 sequence_lengths = curr_outputs['sequence_lengths']
-                print_output(tokenizer,
-                             output_ids,
-                             input_lengths,
-                             sequence_lengths,
-                             output_csv=args.output_csv,
-                             output_npy=args.output_npy)
+                cum_log_probs = None
+                log_probs = None
+                if args.output_cum_log_probs_npy != None:
+                    cum_log_probs = outputs['cum_log_probs']
+                if args.output_log_probs_npy != None:
+                    log_probs = outputs['log_probs']
+                print_output(
+                    tokenizer,
+                    output_ids,
+                    input_lengths,
+                    sequence_lengths,
+                    output_csv=args.output_csv,
+                    output_npy=args.output_npy,
+                    cum_log_probs=cum_log_probs,
+                    log_probs=log_probs,
+                    output_cum_log_probs_npy=args.output_cum_log_probs_npy,
+                    output_log_probs_npy=args.output_log_probs_npy)
     else:
         if runtime_rank == 0:
             output_ids = outputs['output_ids']
             sequence_lengths = outputs['sequence_lengths']
             context_logits = None
             generation_logits = None
+            cum_log_probs = None
+            log_probs = None
             if runner.gather_context_logits:
                 context_logits = outputs['context_logits']
             if runner.gather_generation_logits:
                 generation_logits = outputs['generation_logits']
+            if args.output_cum_log_probs_npy != None:
+                cum_log_probs = outputs['cum_log_probs']
+            if args.output_log_probs_npy != None:
+                log_probs = outputs['log_probs']
             print_output(tokenizer,
                          output_ids,
                          input_lengths,
@@ -464,7 +496,11 @@ def main(args):
                          output_npy=args.output_npy,
                          context_logits=context_logits,
                          generation_logits=generation_logits,
-                         output_logits_npy=args.output_logits_npy)
+                         output_logits_npy=args.output_logits_npy,
+                         cum_log_probs=cum_log_probs,
+                         log_probs=log_probs,
+                         output_cum_log_probs_npy=args.output_cum_log_probs_npy,
+                         output_log_probs_npy=args.output_log_probs_npy)
 
     if args.run_profiling:
         ite = 10
@@ -482,17 +518,24 @@ def main(args):
                     top_p=args.top_p,
                     num_beams=args.num_beams,
                     length_penalty=args.length_penalty,
+                    early_stopping=args.early_stopping,
                     repetition_penalty=args.repetition_penalty,
                     presence_penalty=args.presence_penalty,
                     frequency_penalty=args.frequency_penalty,
                     stop_words_list=stop_words_list,
                     bad_words_list=bad_words_list,
+                    output_cum_log_probs=(args.output_cum_log_probs_npy !=
+                                          None),
+                    output_log_probs=(args.output_log_probs_npy != None),
+                    random_seed=args.random_seed,
                     lora_uids=args.lora_task_uids,
-                    prompt_table_path=args.prompt_table_path,
+                    prompt_table=args.prompt_table_path,
                     prompt_tasks=args.prompt_tasks,
                     streaming=args.streaming,
                     output_sequence_lengths=True,
-                    return_dict=True)
+                    return_dict=True,
+                    return_all_generated_tokens=args.return_all_generated_tokens
+                )
                 torch.cuda.synchronize()
 
         tensorrt_llm.profiler.start("tmp")
@@ -509,23 +552,31 @@ def main(args):
                     top_p=args.top_p,
                     num_beams=args.num_beams,
                     length_penalty=args.length_penalty,
+                    early_stopping=args.early_stopping,
                     repetition_penalty=args.repetition_penalty,
                     presence_penalty=args.presence_penalty,
                     frequency_penalty=args.frequency_penalty,
                     stop_words_list=stop_words_list,
                     bad_words_list=bad_words_list,
+                    output_cum_log_probs=(args.output_cum_log_probs_npy !=
+                                          None),
+                    output_log_probs=(args.output_log_probs_npy != None),
+                    random_seed=args.random_seed,
                     lora_uids=args.lora_task_uids,
-                    prompt_table_path=args.prompt_table_path,
+                    prompt_table=args.prompt_table_path,
                     prompt_tasks=args.prompt_tasks,
                     streaming=args.streaming,
                     output_sequence_lengths=True,
-                    return_dict=True)
+                    return_dict=True,
+                    return_all_generated_tokens=args.return_all_generated_tokens
+                )
                 torch.cuda.synchronize()
         tensorrt_llm.profiler.stop("tmp")
 
         print(
             f"batch_size: {len(batch_input_ids)}, avg latency of {ite} iterations: : {tensorrt_llm.profiler.elapsed_time_in_sec('tmp') / ite} sec"
         )
+
     if status:
         print("successful.")
     else:
