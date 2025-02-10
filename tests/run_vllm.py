@@ -201,8 +201,8 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['relative_path']}
-            export CUDA_VISIBLE_DEVICES=0,1,2,3
-            python3 offline_inference.py --model ./qwen2-72b --max-tokens 256 -tp 4 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
+            export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+            python3 offline_inference.py --model ./qwen2-72b --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
             """
         elif model_name == "stablelm":
             script = f"""

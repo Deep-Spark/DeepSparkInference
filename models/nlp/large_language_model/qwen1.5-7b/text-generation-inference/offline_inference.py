@@ -1,35 +1,66 @@
 import argparse
+import os
 import time
 
+import text_generation_server.models as models
 import torch
-from text_generation_server.models.flash_qwen2 import FlashQwen2
+from text_generation_server.models.globals import set_adapter_to_index
 from text_generation_server.pb import generate_pb2
-from text_generation_server.utils.speculate import set_speculate
 from torch.cuda import profiler
 
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
+    parser.add_argument("--inputs", type=str, default=None)
     parser.add_argument("--generate_length", type=int, default=512)
     parser.add_argument(
-        "--model2path", type=str, default="/home/data/nlp/qwen2/Qwen1.5-0.5B"
+        "--model2path", type=str, default="/home/data/nlp/llama2/llama2-7b"
     )
-    parser.add_argument("--quantize", type=str, default=None, choices=["awq"])
     parser.add_argument("--speculate", type=int, default=0)
+    parser.add_argument(
+        "--quantize", type=str, default=None, choices=["awq", "bitsandbytes", "gptq"]
+    )
 
     return parser.parse_args(args)
 
 
 if __name__ == "__main__":
     args = parse_args()
+    revision = None
+    max_input_length = 1024
+    max_prefill_tokens = 1024
+    model_id = args.model2path
+    test_model_name = model_id.split("/")
+    set_adapter_to_index({})
+    lora_adapter_ids = None
+    model = models.get_model(
+        model_id,
+        lora_adapter_ids,
+        revision,
+        False,
+        quantize=args.quantize,
+        speculate=args.speculate,
+        dtype=None,
+        trust_remote_code=True,
+        max_input_tokens=max_input_length,
+    )
 
-    max_input_length = 2048
-    max_prefill_tokens = 2048
-
-    set_speculate(args.speculate)
-    model = FlashQwen2(args.model2path, trust_remote_code=True, quantize=args.quantize)
-
-    first_line = "蒙古国的首都是乌兰巴托（Ulaanbaatar）\n冰岛的首都是雷克雅未克（Reykjavik）\n埃塞俄比亚的首都是"
+    if test_model_name[-1] == "":
+        print(f"test_model_name: {test_model_name[-2]}")
+    else:
+        print(f"test_model_name: {test_model_name[-1]}")
+    model_name = model_id.lower()
+    if args.inputs:
+        first_line = args.inputs
+    else:
+        if any(key in model_name for key in ["codellama", "flan-t5"]):
+            first_line = "Tell me about AI"
+        elif any(key in model_name for key in ["santacoder", "opt", "galactica"]):
+            first_line = "Shanghai is one of the most prosperous cities in China, with a GDP of over $300 billion. Shanghai has the fastest growing economy in China and is the second busiest port in the world. In addition to being a hub for business, Shanghai is also a major tourist destination. It is known for its diverse culture and many historical sites.\nThe city of Shanghai is located on the coast of the Pacific Ocean in east-central China. It is bordered by Jiangsu Province to the north, Zhejiang Province to the south, and Jiangsu Province to the west."
+        elif "mpt" in model_name:
+            first_line = "Here is a recipe for vegan banana bread:\n"
+        else:
+            first_line = "蒙古国的首都是乌兰巴托（Ulaanbaatar）\n冰岛的首都是雷克雅未克（Reykjavik）\n埃塞俄比亚的首都是"
 
     default_pb_parameters = generate_pb2.NextTokenChooserParameters(
         temperature=1.0,
@@ -47,7 +78,7 @@ if __name__ == "__main__":
     warmup_requests = generate_pb2.Request(
         id=0,
         inputs="_test " * max_input_length,
-        prefill_logprobs=True,
+        input_chunks=generate_pb2.Input(chunks=[generate_pb2.InputChunk(text="Test")]),
         truncate=max_input_length,
         parameters=generate_pb2.NextTokenChooserParameters(
             temperature=0.9,
@@ -62,9 +93,10 @@ if __name__ == "__main__":
         stopping_parameters=generate_pb2.StoppingCriteriaParameters(
             max_new_tokens=2,
             stop_sequences=[],
-            ignore_eos_token=False,
+            ignore_eos_token=True,
         ),
-        top_n_tokens=20,
+        prefill_logprobs=True,
+        top_n_tokens=512,
     )
     warmup_requests_batch = generate_pb2.Batch(id=0, requests=[warmup_requests], size=1)
     warmup_requests_batchs = model.batch_type.from_pb(
@@ -73,9 +105,18 @@ if __name__ == "__main__":
 
     model.warmup(warmup_requests_batchs)
 
+    prompt_length = model.tokenizer(
+        first_line, truncation=False, return_tensors="pt"
+    ).input_ids[0]
+
+    print(f"prompt length: {len(prompt_length)}")
+    print(f"input text: {first_line}")
     pb_request = generate_pb2.Request(
         id=1,
-        inputs=first_line,
+        inputs=first_line,  # first_line
+        input_chunks=generate_pb2.Input(
+            chunks=[generate_pb2.InputChunk(text=first_line)]
+        ),
         prefill_logprobs=True,
         truncate=1024,
         parameters=default_pb_parameters,
@@ -97,74 +138,12 @@ if __name__ == "__main__":
             last_generations = False
             break
     if last_generations:
-        generations_one, next_batch_one, _ = model.generate_token(next_batch_one)
+        data = model.generate_token(next_batch_one)
     profiler.stop()
     torch.cuda.synchronize()
     end_time = time.perf_counter()
     duration_time = end_time - start_time
+    generations_one = data[0]
     print(f"generate length: {generations_one[0].generated_text.generated_tokens}")
-    print(
-        f"one batch: {generations_one[0].generated_text.text}\nqps: {generations_one[0].generated_text.generated_tokens /duration_time}"
-    )
-
-"""
-qwen1.5-0.5B
-one batch: 亚历山大（Alexandria）
-俄罗斯的首都是莫斯科（Moscow）
-土耳其的首都是伊斯坦布尔（Istanbul）
-南非的首都是开普敦（Cape Town）
-美国的首都是华盛顿（Washington）
-澳大利亚的首都是堪培拉（Canberra）
-印度的首都是新德里（New Delhi）
-法国的首都是巴黎（Paris）
-英国的首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（Paris）
-英国首都是伦敦（London）
-加拿大首都是温哥华（Vancouver）
-南非首都是开普敦（Cape Town）
-美国首都是华盛顿（Washington）
-澳大利亚首都是堪培拉（Canberra）
-印度首都是新德里（New Delhi）
-法国首都是巴黎（
-qps: 128.489649542011
-"""
+    print(f"one batch: {generations_one[0].generated_text.text}")
+    print(f"qps: {generations_one[0].generated_text.generated_tokens / duration_time}")

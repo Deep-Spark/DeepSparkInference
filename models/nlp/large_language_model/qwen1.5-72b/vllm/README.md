@@ -30,7 +30,7 @@ ln -s /path/to/Qwen1.5-72B ./data/qwen1.5
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1
-python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-72B --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-72B --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096
 ```
 
 ## Results
