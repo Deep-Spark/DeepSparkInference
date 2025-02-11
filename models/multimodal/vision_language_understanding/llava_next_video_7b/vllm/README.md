@@ -1,4 +1,4 @@
-# LLaVA-Next-Video
+# LLaVA-Next-Video-7B
 
 ## Description
 

@@ -1,4 +1,4 @@
-# FuyuForCausalLM
+# Fuyu-8B
 
 ## Description
 

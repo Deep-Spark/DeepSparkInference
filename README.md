@@ -988,28 +988,23 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <th>Models</th>
         <th>Precision</th>
         <th>IGIE</th>
-        <th>IxRT</th>
     </tr>
     <tr align="center">
         <td rowspan=2>Kie_layoutXLM</td>
         <td>FP16</td>
         <td><a href="models/cv/ocr/kie_layoutxlm/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td>-</td>
         <td>-</td>
     </tr>
     <tr align="center">
         <td rowspan=2>SVTR</td>
         <td>FP16</td>
         <td><a href="models/cv/ocr/svtr/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td>-</td>
         <td>-</td>
     </tr>
 </table>
@@ -1158,6 +1153,140 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
 </table>
 
+## LLM (Large Language Model)
+
+<table>
+    <tr align="center">
+        <th>Models</th>
+        <th>vLLM</th>
+        <th>TensorRT-LLM</th>
+        <th>TGI</th>
+    </tr>
+    <tr align="center">
+        <td align="left">Baichuan2-7B</td>
+        <td><a href="models/nlp/large_language_model/baichuan2-7b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">ChatGLM-3-6B</td>
+        <td><a href="models/nlp/large_language_model/chatglm3-6b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">ChatGLM-3-6B-32K</td>
+        <td><a href="models/nlp/large_language_model/chatglm3-6b-32k/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Llama2-7B</td>
+        <td><a href="models/nlp/large_language_model/llama2-7b/vllm/README.md">Supported</a></td>
+        <td><a href="models/nlp/large_language_model/llama2-7b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Llama2-13B</td>
+        <td>-</a></td>
+        <td><a href="models/nlp/large_language_model/llama2-13b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Llama2-70B</td>
+        <td>-</a></td>
+        <td><a href="models/nlp/large_language_model/llama2-70b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Llama3-70B</td>
+        <td><a href="models/nlp/large_language_model/llama3-70b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen-7B</td>
+        <td><a href="models/nlp/large_language_model/qwen-7b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</a></td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen1.5-7B</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-7b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-7b/text-generation-inference/README.md">Supported</a></td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen1.5-14B</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-14b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen1.5-32B Chat</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-32b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen1.5-72B</td>
+        <td><a href="models/nlp/large_language_model/qwen1.5-72b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen2-7B Instruct</td>
+        <td><a href="models/nlp/large_language_model/qwen2-7b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">Qwen2-72B Instruct</td>
+        <td><a href="models/nlp/large_language_model/qwen2-72b/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td align="left">StableLM2-1.6B</td>
+        <td><a href="models/nlp/large_language_model/stablelm/vllm/README.md">Supported</a></td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+</table>
+
+## Multimodal
+
+<table>
+    <tr align="center">
+        <th>Models</th>
+        <th>vLLM</th>
+    </tr>
+    <tr>
+        <td>Chameleon-7B</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/chameleon_7b/vllm/README.md">Supported</a></td>
+    </tr>
+    <tr>
+        <td>Fuyu-8B</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/fuyu_8b/vllm/README.md">Supported</a></td>
+    </tr>
+    <tr>
+        <td>InternVL2-4B</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/intern_vl/vllm/README.md">Supported</a></td>
+    </tr>
+    <tr>
+        <td>LLaVA</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/llava/vllm/README.md">Supported</a></td>
+    </tr>
+    <tr>
+        <td>LLaVA-Next-Video-7B</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/llava_next_video_7b/vllm/README.md">Supported</a></td>
+    </tr>
+    <tr>
+        <td>MiniCPM V2</td>
+        <td align="center"><a href="models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md">Supported</a></td>
+    </tr>
+</table>
+
 ## NLP
 
 ### Language Modelling
@@ -1254,113 +1383,6 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
     </tr>
     <tr align="center">
         <td>INT8</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-</table>
-
-### Large Language Model
-
-<table>
-    <tr align="center">
-        <th>Models</th>
-        <th>vLLM</th>
-        <th>TensorRT-LLM</th>
-        <th>TGI</th>
-    </tr>
-    <tr align="center">
-        <td>Baichuan2-7B</td>
-        <td><a href="models/nlp/large_language_model/baichuan2-7b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>ChatGLM-3-6B</td>
-        <td><a href="models/nlp/large_language_model/chatglm3-6b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>ChatGLM-3-6B-32K</td>
-        <td><a href="models/nlp/large_language_model/chatglm3-6b-32k/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Llama2-7B</td>
-        <td><a href="models/nlp/large_language_model/llama2-7b/vllm/README.md">Supported</a></td>
-        <td><a href="models/nlp/large_language_model/llama2-7b/trtllm/README.md">Supported</a></td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Llama2-13B</td>
-        <td>-</a></td>
-        <td><a href="models/nlp/large_language_model/llama2-13b/trtllm/README.md">Supported</a></td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Llama2-70B</td>
-        <td>-</a></td>
-        <td><a href="models/nlp/large_language_model/llama2-70b/trtllm/README.md">Supported</a></td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Llama3-70B</td>
-        <td><a href="models/nlp/large_language_model/llama3-70b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>MiniCPM V2</td>
-        <td><a href="models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Qwen-7B</td>
-        <td><a href="models/nlp/large_language_model/qwen-7b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</a></td>
-    </tr>
-    <tr align="center">
-        <td>Qwen1.5-7B</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-7b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-7b/text-generation-inference/README.md">Supported</a></td>
-    </tr>
-    <tr align="center">
-        <td>Qwen1.5-14B</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-14b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Qwen1.5-32B Chat</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-32b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Qwen1.5-72B</td>
-        <td><a href="models/nlp/large_language_model/qwen1.5-72b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Qwen2-7B Instruct</td>
-        <td><a href="models/nlp/large_language_model/qwen2-7b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>Qwen2-72B Instruct</td>
-        <td><a href="models/nlp/large_language_model/qwen2-72b/vllm/README.md">Supported</a></td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-    <tr align="center">
-        <td>StableLM2-1.6B</td>
-        <td><a href="models/nlp/large_language_model/stablelm/vllm/README.md">Supported</a></td>
         <td>-</td>
         <td>-</td>
     </tr>

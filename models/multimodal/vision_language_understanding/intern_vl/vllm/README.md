@@ -6,7 +6,7 @@ InternVL2-4B is a large-scale multimodal model developed by WeTab AI, designed t
 
 ## Setup
 
-### Instal
+### Install
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -22,6 +22,7 @@ pip3 install vllm
 pip3 install triton
 pip3 install ixformer
 ```
+
 ### Download
 
 -Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
