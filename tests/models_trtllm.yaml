@@ -24,14 +24,6 @@
   relative_path: models/nlp/large_language_model/llama2-70b/trtllm
   task_type: nlp/large_language_model
 - datasets: https://localhost
-  download_url: https://localhost/qwen-7B
-  name: qwen-7b
-  need_third_part: false
-  precisions:
-    - fp16
-  relative_path: models/nlp/large_language_model/qwen-7b/text-generation-inference
-  task_type: nlp/large_language_model
-- datasets: https://localhost
   download_url: https://modelscope.cn/models/qwen/Qwen1.5-7B
   name: qwen1.5-7b
   need_third_part: false

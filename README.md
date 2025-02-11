@@ -1161,6 +1161,18 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td>Llama2-13B</td>
+        <td>-</a></td>
+        <td><a href="models/nlp/large_language_model/llama2-13b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>Llama2-70B</td>
+        <td>-</a></td>
+        <td><a href="models/nlp/large_language_model/llama2-70b/trtllm/README.md">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td>Llama3-70B</td>
         <td><a href="models/nlp/large_language_model/llama3-70b/vllm/README.md">Supported</a></td>
         <td>-</td>
@@ -1176,7 +1188,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>Qwen-7B</td>
         <td><a href="models/nlp/large_language_model/qwen-7b/vllm/README.md">Supported</a></td>
         <td>-</td>
-        <td><a href="models/nlp/large_language_model/qwen-7b/text-generation-inference/README.md">Supported</a></td>
+        <td>-</a></td>
     </tr>
     <tr align="center">
         <td>Qwen1.5-7B</td>
