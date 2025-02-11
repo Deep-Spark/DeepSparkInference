@@ -58,7 +58,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>ConvNeXt-Base</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/convnext_base/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/convnext_base/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -102,7 +102,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>DeiT-tiny</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/deit_tiny/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/deit_tiny/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -146,7 +146,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>DenseNet201</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/densenet201/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/densenet201/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -223,7 +223,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>EfficientNetv2_rw_t</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/efficientnetv2_rw_t/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/classification/efficientnetv2_rw_t/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -751,7 +751,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>FoveaBox</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/foveabox/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/foveabox/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -762,7 +762,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>FSAF</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/fsaf/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/fsaf/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -773,7 +773,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td rowspan=2>HRNet</td>
         <td>FP16</td>
         <td><a href="models/cv/detection/hrnet/igie/README.md#fp16">Supported</a></td>
-        <td>-</td>
+        <td><a href="models/cv/detection/hrnet/ixrt/README.md#fp16">Supported</a></td>
     </tr>
     <tr align="center">
         <td>INT8</td>
@@ -1311,8 +1311,8 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
-        <td>MiniCPM-V-2</td>
-        <td><a href="models/multimodal/vision-language-understanding/minicpm-v-2/vllm/README.md">Supported</a></td>
+        <td>MiniCPM V2</td>
+        <td><a href="models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md">Supported</a></td>
         <td>-</td>
         <td>-</td>
     </tr>
