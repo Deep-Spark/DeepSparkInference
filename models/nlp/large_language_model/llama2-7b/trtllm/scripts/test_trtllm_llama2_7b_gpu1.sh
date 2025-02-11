@@ -1,15 +1,32 @@
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
 #!/bin/bash
 
 EXIT_STATUS=0
-LOG_LEVEL=info
+LOG_LEVEL=${LOG_LEVEL:-INFO}
 BS=${BS:-1}
 DTYPE=${DTYPE:-"float16"}
+LOAD_TIME_TARGET=${LOAD_TIME_TARGET:-15}
+TPS_TARGET=${TPS_TARGET:-27.8}
 
 PROJECT_DIR="./"
 
 DATASET_DIR=${DATASET_DIR:-"${PROJECT_DIR}/data/datasets_cnn_dailymail"}
 MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2-7b-chat"}
-ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}/checkpoints"}
+ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}"}
 
 export TLLM_LOG_LEVEL=${LOG_LEVEL}
 export PLUGIN_DTYPE="float16"
@@ -24,7 +41,7 @@ check_status()
 
 export TASK_DATA_PATH=${DATASET_DIR}
 
-# target is 95% of best (load engine time: 11.78, rouge1: 28.53, tps: 37.78)
+# target is 80% of best (load engine time: 10, rouge1: 28.41, tps: 34.85)
 python3 ${PROJECT_DIR}/summarize.py \
 --test_trt_llm \
 --log_level ${LOG_LEVEL} \
@@ -34,8 +51,8 @@ python3 ${PROJECT_DIR}/summarize.py \
 --tokenizer_dir ${MODEL_DIR} \
 --tokenizer_type "llama" \
 --engine_dir ${ENGINE_DIR}  \
---target_load_engine_time 12.4 \
 --tensorrt_llm_rouge1_threshold 27.1    \
---target_tps 35.89  \
+--target_load_engine_time ${LOAD_TIME_TARGET} \
+--target_tps ${TPS_TARGET}  \
 --use_py_session "$@"; check_status
 exit ${EXIT_STATUS}

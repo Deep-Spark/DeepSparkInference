@@ -15,17 +15,19 @@
 
 #!/bin/bash
 
+echo "start run $0"
+
 EXIT_STATUS=0
-LOG_LEVEL=info
+LOG_LEVEL=${LOG_LEVEL:-INFO}
 BS=${BS:-1}
 DTYPE=${DTYPE:-"float16"}
+BUILD_TIME_TARGET=${BUILD_TIME_TARGET:-72}
 
 PROJECT_DIR="./"
 
 MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2-13b-chat"}
-OUTPUT_DIR=${OUTPUT_DIR:-"${PROJECT_DIR}/checkpoints/"}
-
-echo PROJECT_DIR : ${PROJECT_DIR}
+ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}"}
+CHECKPOINT_DIR="${ENGINE_DIR}/checkpoints"
 
 export TLLM_LOG_LEVEL=${LOG_LEVEL}
 export PLUGIN_DTYPE="float16"
@@ -37,17 +39,23 @@ check_status()
     fi
 }
 
-# best(build engine time: 223.33) is 95% of target
-python3 ${PROJECT_DIR}/build.py \
---log_level ${LOG_LEVEL} \
---dtype ${DTYPE} \
+
+python3 convert_checkpoint.py \
 --model_dir ${MODEL_DIR} \
---remove_input_padding \
---use_gpt_attention_plugin float16 --use_gemm_plugin float16 \
---enable_context_fmha \
---disable_xqa \
---world_size 2 \
+--output_dir ${CHECKPOINT_DIR} \
 --tp_size 2 \
---total_build_time_target 235.1 \
---output_dir ${OUTPUT_DIR} "$@"; check_status
+--workers 2 \
+--dtype ${DTYPE}
+
+
+# best(build engine time: 50) is 70% of target
+trtllm-build \
+--log_level ${LOG_LEVEL}    \
+--max_batch_size ${BS}      \
+--checkpoint_dir ${CHECKPOINT_DIR} \
+--remove_input_padding enable \
+--context_fmha enable \
+--workers 2 \
+--total_build_time_target ${BUILD_TIME_TARGET} \
+--output_dir ${ENGINE_DIR} "$@"; check_status
 exit ${EXIT_STATUS}

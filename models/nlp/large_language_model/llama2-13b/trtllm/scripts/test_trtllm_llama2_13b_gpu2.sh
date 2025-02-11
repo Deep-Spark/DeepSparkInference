@@ -15,16 +15,20 @@
 
 #!/bin/bash
 
+echo "start run $0"
+
 EXIT_STATUS=0
-LOG_LEVEL=info
+LOG_LEVEL=${LOG_LEVEL:-INFO}
 BS=${BS:-1}
 DTYPE=${DTYPE:-"float16"}
+LOAD_TIME_TARGET=${LOAD_TIME_TARGET:-16}
+TPS_TARGET=${TPS_TARGET:-32.2}
 
 PROJECT_DIR="./"
 
 DATASET_DIR=${DATASET_DIR:-"${PROJECT_DIR}/data/datasets_cnn_dailymail"}
 MODEL_DIR=${MODEL_DIR:-"${PROJECT_DIR}/data/llama2-13b-chat"}
-ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}/checkpoints/"}
+ENGINE_DIR=${ENGINE_DIR:-"${PROJECT_DIR}"}
 
 export TLLM_LOG_LEVEL=${LOG_LEVEL}
 export PLUGIN_DTYPE="float16"
@@ -38,7 +42,7 @@ check_status()
 
 export TASK_DATA_PATH=${DATASET_DIR}
 
-# target is 95% of best (load engine time: 41.74, rouge1: 29.21, tps: 15.23)
+# target is 80% of best (load engine time: 11, rouge1: 29.54, tps: 33.9)
 mpirun -n 2 --allow-run-as-root \
 python3 ${PROJECT_DIR}/summarize.py \
 --test_trt_llm \
@@ -49,8 +53,8 @@ python3 ${PROJECT_DIR}/summarize.py \
 --tokenizer_dir ${MODEL_DIR} \
 --tokenizer_type "llama" \
 --engine_dir ${ENGINE_DIR}  \
---target_load_engine_time 43.94 \
---tensorrt_llm_rouge1_threshold 27.74    \
---target_tps 14.46  \
+--tensorrt_llm_rouge1_threshold 27.7    \
+--target_load_engine_time ${LOAD_TIME_TARGET} \
+--target_tps ${TPS_TARGET}  \
 --use_py_session "$@"; check_status
 exit ${EXIT_STATUS}
