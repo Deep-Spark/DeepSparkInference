@@ -148,14 +148,14 @@ def run_nlp_testcase(model):
         sout = r.stdout
 
         if model_name == "qwen1.5-7b":
-            pattern = r"\generate length: (\d+)\)"
+            pattern = r"generate length: (\d+)"
             generate_length_match  = re.search(pattern, sout)
             result["result"].setdefault(prec, {"status": "FAIL"})
             if generate_length_match:
                 generate_length = float(generate_length_match.group(1))
                 result["result"][prec] = {"generate_length": generate_length}
                 result["result"][prec]["status"] = "PASS"
-            pattern = r"\qps: (\d+)\)"
+            pattern = r"qps: (\d+)"
             qps_match = re.search(pattern, sout)
             if qps_match:
                 qps = float(qps_match.group(1))
@@ -165,7 +165,7 @@ def run_nlp_testcase(model):
             # TensorRT-LLM (total latency: 49.15709829330444 sec)
             # TensorRT-LLM (total output tokens: 1788)
             # TensorRT-LLM (tokens per second: 36.37318031531448)
-            pattern = r"\TensorRT-LLM (total latency: (\d+\.\d+) sec\)"
+            pattern = r"\(total latency: (\d+\.\d+) sec\)"
             latency_match = re.search(pattern, sout)
             result["result"].setdefault(prec, {"status": "FAIL"})
             if latency_match:
@@ -173,19 +173,13 @@ def run_nlp_testcase(model):
                 result["result"][prec] = {"latency": latency}
                 result["result"][prec]["status"] = "PASS"
 
-            pattern = r"\TensorRT-LLM (total output tokens: (\d+)\)"
+            pattern = r"\(total output tokens: (\d+)\)"
             tokens_match = re.search(pattern, sout)
             if tokens_match:
                 tokens = int(tokens_match.group(1))
                 result["result"][prec]["tokens"] = tokens
 
-            pattern = r"\TensorRT-LLM (tokens per second: (\d+\.\d+)\)"
-            tokens_per_second_match = re.search(pattern, sout)
-            if tokens_per_second_match:
-                tokens_per_second = float(tokens_per_second_match.group(1))
-                result["result"][prec]["tokens_per_second"] = tokens_per_second
-            
-            pattern = r"\TensorRT-LLM (tokens per second: (\d+\.\d+)\)"
+            pattern = r"\(tokens per second: (\d+\.\d+)\)"
             tokens_per_second_match = re.search(pattern, sout)
             if tokens_per_second_match:
                 tokens_per_second = float(tokens_per_second_match.group(1))
