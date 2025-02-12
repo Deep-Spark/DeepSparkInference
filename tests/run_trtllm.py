@@ -136,13 +136,6 @@ def run_nlp_testcase(model):
             bash scripts/test_trtllm_llama2_70b_gpu8_build.sh
             bash scripts/test_trtllm_llama2_70b_gpu8.sh
             """
-        elif model_name == "qwen-7b":
-            script = f"""
-            set -x
-            cd ../{model['relative_path']}
-            export CUDA_VISIBLE_DEVICES=1
-            python3 offline_inference.py --model2path ./data/qwen-7B
-            """
         elif model_name == "qwen1.5-7b":
             script = f"""
             set -x
@@ -154,14 +147,49 @@ def run_nlp_testcase(model):
         r, t = run_script(script)
         sout = r.stdout
 
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        result["result"].setdefault(prec, {"status": "FAIL"})
-        logging.debug(f"matchs:\n{matchs}")
-        for m in matchs:
-            result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
+        if model_name == "qwen1.5-7b":
+            pattern = r"\generate length: (\d+)\)"
+            generate_length_match  = re.search(pattern, sout)
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            if generate_length_match:
+                generate_length = float(generate_length_match.group(1))
+                result["result"][prec] = {"generate_length": generate_length}
+                result["result"][prec]["status"] = "PASS"
+            pattern = r"\qps: (\d+)\)"
+            qps_match = re.search(pattern, sout)
+            if qps_match:
+                qps = float(qps_match.group(1))
+                result["result"][prec] = {"qps": qps}
+                result["result"][prec]["status"] = "PASS"
+        else:
+            # TensorRT-LLM (total latency: 49.15709829330444 sec)
+            # TensorRT-LLM (total output tokens: 1788)
+            # TensorRT-LLM (tokens per second: 36.37318031531448)
+            pattern = r"\TensorRT-LLM (total latency: (\d+\.\d+) sec\)"
+            latency_match = re.search(pattern, sout)
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            if latency_match:
+                latency = float(latency_match.group(1))
+                result["result"][prec] = {"latency": latency}
+                result["result"][prec]["status"] = "PASS"
+
+            pattern = r"\TensorRT-LLM (total output tokens: (\d+)\)"
+            tokens_match = re.search(pattern, sout)
+            if tokens_match:
+                tokens = int(tokens_match.group(1))
+                result["result"][prec]["tokens"] = tokens
+
+            pattern = r"\TensorRT-LLM (tokens per second: (\d+\.\d+)\)"
+            tokens_per_second_match = re.search(pattern, sout)
+            if tokens_per_second_match:
+                tokens_per_second = float(tokens_per_second_match.group(1))
+                result["result"][prec]["tokens_per_second"] = tokens_per_second
+            
+            pattern = r"\TensorRT-LLM (tokens per second: (\d+\.\d+)\)"
+            tokens_per_second_match = re.search(pattern, sout)
+            if tokens_per_second_match:
+                tokens_per_second = float(tokens_per_second_match.group(1))
+                result["result"][prec]["tokens_per_second"] = tokens_per_second
 
         result["result"][prec]["Cost time (s)"] = t
     return result
