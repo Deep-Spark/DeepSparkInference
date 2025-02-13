@@ -5,6 +5,7 @@
 HRNetPose (High-Resolution Network for Pose Estimation) is a high-performance human pose estimation model introduced in the paper "Deep High-Resolution Representation Learning for Human Pose Estimation". It is designed to address the limitations of traditional methods by maintaining high-resolution feature representations throughout the network, enabling more accurate detection of human keypoints.
 
 ## Setup
+
 ### Install
 
 ```bash
@@ -18,6 +19,7 @@ pip3 install -r requirements.txt
 ```
 
 ### Download
+
 Pretrained model: <https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w32_coco_256x192-c78dce93_20200708.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
@@ -27,6 +29,7 @@ wget https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w32_coco_256x192
 ```
 
 ### Model Conversion
+
 ```bash
 # export onnx model
 python3 export.py --weight hrnet_w32_coco_256x192-c78dce93_20200708.pth --cfg td-hm_hrnet-w32_8xb64-210e_coco-256x192.py --input 1,3,256,192  --output hrnetpose.onnx
