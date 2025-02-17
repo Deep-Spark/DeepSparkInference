@@ -66,6 +66,17 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
         <td>-</td>
     </tr>
     <tr align="center">
+        <td rowspan=2>ConvNext-S (OpenMMLab)</td>
+        <td>FP16</td>
+        <td><a href="models/cv/classification/convnext_s/igie/README.md#fp16">Supported</a></td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
+        <td>INT8</td>
+        <td>-</td>
+        <td>-</td>
+    </tr>
+    <tr align="center">
         <td rowspan=2>ConvNeXt-Small</td>
         <td>FP16</td>
         <td><a href="models/cv/classification/convnext_small/igie/README.md#fp16">Supported</a></td>
