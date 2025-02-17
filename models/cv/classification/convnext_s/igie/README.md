@@ -1,4 +1,4 @@
-# ConvNext_S
+# ConvNext-S (OpenMMLab)
 
 ## Description
 
@@ -57,8 +57,8 @@ bash scripts/infer_convnext_s_fp16_performance.sh
 
 | Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------ | --------- | --------- | -------- | -------- | -------- |
-| ConvNext_S   | 32        | FP16      | 728.32   | 82.786   | 96.415   |
+| ConvNext-S   | 32        | FP16      | 728.32   | 82.786   | 96.415   |
 
 ## Reference
 
-ConvNext_S: <https://github.com/open-mmlab/mmpretrain>
+ConvNext-S: <https://github.com/open-mmlab/mmpretrain>
