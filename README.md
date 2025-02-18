@@ -14,92 +14,92 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ### Classification
 
-| Models                 | Precision | IGIE                                                                  | IxRT                                                                      |
-|------------------------|-----------|-----------------------------------------------------------------------|---------------------------------------------------------------------------|
-| AlexNet                | FP16      | [✅](models/cv/classification/alexnet/igie/README.md#fp16)             | [✅](models/cv/classification/alexnet/ixrt/README.md#fp16)                 |
-|                        | INT8      | [✅](models/cv/classification/alexnet/igie/README.md#int8)             | [✅](models/cv/classification/alexnet/ixrt/README.md#int8)                 |
-| CLIP                   | FP16      | [✅](models/multimodal/text_and_image/clip/igie/README.md#fp16)        | [IxFormer](models/multimodal/text_and_image/clip/ixformer/README.md#fp16) |
-| Conformer-B            | FP16      | [✅](models/cv/classification/conformer_base/igie/README.md#fp16)      |                                                                           |
-| ConvNeXt-Base          | FP16      | [✅](models/cv/classification/convnext_base/igie/README.md#fp16)       | [✅](models/cv/classification/convnext_base/ixrt/README.md#fp16)           |
-| ConvNext-S (OpenMMLab) | FP16      | [✅](models/cv/classification/convnext_s/igie/README.md#fp16)          |                                                                           |
-| ConvNeXt-Small         | FP16      | [✅](models/cv/classification/convnext_small/igie/README.md#fp16)      | [✅](models/cv/classification/convnext_small/ixrt/README.md#fp16)          |
-| CSPDarkNet53           | FP16      | [✅](models/cv/classification/cspdarknet53/igie/README.md#fp16)        | [✅](models/cv/classification/cspdarknet53/ixrt/README.md#fp16)            |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/cspdarknet53/ixrt/README.md#int8)            |
-| CSPResNet50            | FP16      | [✅](models/cv/classification/cspresnet50/igie/README.md#fp16)         | [✅](models/cv/classification/cspresnet50/ixrt/README.md#fp16)             |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/cspresnet50/ixrt/README.md#int8)             |
-| DeiT-tiny              | FP16      | [✅](models/cv/classification/deit_tiny/igie/README.md#fp16)           | [✅](models/cv/classification/deit_tiny/ixrt/README.md#fp16)               |
-| DenseNet121            | FP16      | [✅](models/cv/classification/densenet121/igie/README.md#fp16)         | [✅](models/cv/classification/densenet121/ixrt/README.md#fp16)             |
-| DenseNet161            | FP16      | [✅](models/cv/classification/densenet161/igie/README.md#fp16)         | [✅](models/cv/classification/densenet161/ixrt/README.md#fp16)             |
-| DenseNet169            | FP16      | [✅](models/cv/classification/densenet169/igie/README.md#fp16)         | [✅](models/cv/classification/densenet169/ixrt/README.md#fp16)             |
-| DenseNet201            | FP16      | [✅](models/cv/classification/densenet201/igie/README.md#fp16)         | [✅](models/cv/classification/densenet201/ixrt/README.md#fp16)             |
-| EfficientNet-B0        | FP16      | [✅](models/cv/classification/efficientnet_b0/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b0/ixrt/README.md#fp16)         |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_b0/ixrt/README.md#int8)         |
-| EfficientNet-B1        | FP16      | [✅](models/cv/classification/efficientnet_b1/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b1/ixrt/README.md#fp16)         |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_b1/ixrt/README.md#int8)         |
-| EfficientNet-B2        | FP16      | [✅](models/cv/classification/efficientnet_b2/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b2/ixrt/README.md#fp16)         |
-| EfficientNet-B3        | FP16      | [✅](models/cv/classification/efficientnet_b3/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b3/ixrt/README.md#fp16)         |
-| EfficientNet-B4        | FP16      | [✅](models/cv/classification/efficientnet_b4/igie/README.md#fp16)     |                                                                           |
-| EfficientNetV2         | FP16      | [✅](models/cv/classification/efficientnet_v2/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_v2/ixrt/README.md#fp16)         |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_v2/ixrt/README.md#int8)         |
-| EfficientNetv2_rw_t    | FP16      | [✅](models/cv/classification/efficientnetv2_rw_t/igie/README.md#fp16) | [✅](models/cv/classification/efficientnetv2_rw_t/ixrt/README.md#fp16)     |
-| EfficientNetv2_s       | FP16      | [✅](models/cv/classification/efficientnet_v2_s/igie/README.md#fp16)   | [✅](models/cv/classification/efficientnet_v2_s/ixrt/README.md#fp16)       |
-| GoogLeNet              | FP16      | [✅](models/cv/classification/googlenet/igie/README.md#fp16)           | [✅](models/cv/classification/googlenet/ixrt/README.md#fp16)               |
-|                        | INT8      | [✅](models/cv/classification/googlenet/igie/README.md#int8)           | [✅](models/cv/classification/googlenet/ixrt/README.md#int8)               |
-| HRNet-W18              | FP16      | [✅](models/cv/classification/hrnet_w18/igie/README.md#fp16)           | [✅](models/cv/classification/hrnet_w18/ixrt/README.md#fp16)               |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/hrnet_w18/ixrt/README.md#int8)               |
-| InceptionV3            | FP16      | [✅](models/cv/classification/inception_v3/igie/README.md#fp16)        | [✅](models/cv/classification/inception_v3/ixrt/README.md#fp16)            |
-|                        | INT8      | [✅](models/cv/classification/inception_v3/igie/README.md#int8)        | [✅](models/cv/classification/inception_v3/ixrt/README.md#int8)            |
-| Inception_ResNet_V2    | FP16      |                                                                       | [✅](models/cv/classification/inceptionresnetv2/ixrt/README.md#fp16)       |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/inceptionresnetv2/ixrt/README.md#int8)       |
-| Mixer_B                | FP16      | [✅](models/cv/classification/mlp_mixer_base/igie/README.md#fp16)      |                                                                           |
-| MNASNet0_5             | FP16      | [✅](models/cv/classification/mnasnet0_5/igie/README.md#fp16)          |                                                                           |
-| MNASNet0_75            | FP16      | [✅](models/cv/classification/mnasnet0_75/igie/README.md#fp16)         |                                                                           |
-| MobileNetV2            | FP16      | [✅](models/cv/classification/mobilenet_v2/igie/README.md#fp16)        | [✅](models/cv/classification/mobilenet_v2/ixrt/README.md#fp16)            |
-|                        | INT8      | [✅](models/cv/classification/mobilenet_v2/igie/README.md#int8)        | [✅](models/cv/classification/mobilenet_v2/ixrt/README.md#int8)            |
-| MobileNetV3_Large      | FP16      | [✅](models/cv/classification/mobilenet_v3_large/igie/README.md#fp16)  |                                                                           |
-| MobileNetV3_Small      | FP16      | [✅](models/cv/classification/mobilenet_v3/igie/README.md#fp16)        | [✅](models/cv/classification/mobilenet_v3/ixrt/README.md#fp16)            |
-| MViTv2_base            | FP16      | [✅](models/cv/classification/mvitv2_base/igie/README.md#fp16)         |                                                                           |
-| RegNet_x_16gf          | FP16      | [✅](models/cv/classification/regnet_x_16gf/igie/README.md#fp16)       |                                                                           |
-| RegNet_x_1_6gf         | FP16      | [✅](models/cv/classification/regnet_x_1_6gf/igie/README.md#fp16)      |                                                                           |
-| RegNet_y_1_6gf         | FP16      | [✅](models/cv/classification/regnet_y_1_6gf/igie/README.md#fp16)      |                                                                           |
-| RepVGG                 | FP16      | [✅](models/cv/classification/repvgg/igie/README.md#fp16)              | [✅](models/cv/classification/repvgg/ixrt/README.md#fp16)                  |
-| Res2Net50              | FP16      | [✅](models/cv/classification/res2net50/igie/README.md#fp16)           | [✅](models/cv/classification/res2net50/ixrt/README.md#fp16)               |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/res2net50/ixrt/README.md#int8)               |
-| ResNeSt50              | FP16      | [✅](models/cv/classification/resnest50/igie/README.md#fp16)           |                                                                           |
-| ResNet101              | FP16      | [✅](models/cv/classification/resnet101/igie/README.md#fp16)           | [✅](models/cv/classification/resnet101/ixrt/README.md#fp16)               |
-|                        | INT8      | [✅](models/cv/classification/resnet101/igie/README.md#int8)           | [✅](models/cv/classification/resnet101/ixrt/README.md#int8)               |
-| ResNet152              | FP16      | [✅](models/cv/classification/resnet152/igie/README.md#fp16)           |                                                                           |
-|                        | INT8      | [✅](models/cv/classification/resnet152/igie/README.md#int8)           |                                                                           |
-| ResNet18               | FP16      | [✅](models/cv/classification/resnet18/igie/README.md#fp16)            | [✅](models/cv/classification/resnet18/ixrt/README.md#fp16)                |
-|                        | INT8      | [✅](models/cv/classification/resnet18/igie/README.md#int8)            | [✅](models/cv/classification/resnet18/ixrt/README.md#int8)                |
-| ResNet34               | FP16      |                                                                       | [✅](models/cv/classification/resnet34/ixrt/README.md#fp16)                |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/resnet34/ixrt/README.md#int8)                |
-| ResNet50               | FP16      | [✅](models/cv/classification/resnet50/igie/README.md#fp16)            | [✅](models/cv/classification/resnet50/ixrt/README.md#fp16)                |
-|                        | INT8      | [✅](models/cv/classification/resnet50/igie/README.md#int8)            |                                                                           |
-| ResNetV1D50            | FP16      | [✅](models/cv/classification/resnetv1d50/igie/README.md#fp16)         | [✅](models/cv/classification/resnetv1d50/ixrt/README.md#fp16)             |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/resnetv1d50/ixrt/README.md#int8)             |
-| ResNeXt50_32x4d        | FP16      | [✅](models/cv/classification/resnext50_32x4d/igie/README.md#fp16)     | [✅](models/cv/classification/resnext50_32x4d/ixrt/README.md#fp16)         |
-| ResNeXt101_64x4d       | FP16      | [✅](models/cv/classification/resnext101_64x4d/igie/README.md#fp16)    |                                                                           |
-| ResNeXt101_32x8d       | FP16      | [✅](models/cv/classification/resnext101_32x8d/igie/README.md#fp16)    |                                                                           |
-| SEResNet50             | FP16      | [✅](models/cv/classification/se_resnet50/igie/README.md#fp16)         |                                                                           |
-| ShuffleNetV1           | FP16      |                                                                       | [✅](models/cv/classification/shufflenet_v1/ixrt/README.md#fp16)           |
-| ShuffleNetV2_x0_5      | FP16      | [✅](models/cv/classification/shufflenetv2_x0_5/igie/README.md#fp16)   |                                                                           |
-| ShuffleNetV2_x1_0      | FP16      | [✅](models/cv/classification/shufflenetv2_x1_0/igie/README.md#fp16)   |                                                                           |
-| ShuffleNetV2_x1_5      | FP16      | [✅](models/cv/classification/shufflenetv2_x1_5/igie/README.md#fp16)   |                                                                           |
-| ShuffleNetV2_x2_0      | FP16      | [✅](models/cv/classification/shufflenetv2_x2_0/igie/README.md#fp16)   |                                                                           |
-| SqueezeNet 1.0         | FP16      | [✅](models/cv/classification/squeezenet_v1_0/igie/README.md#fp16)     | [✅](models/cv/classification/squeezenet_v1_0/ixrt/README.md#fp16)         |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/squeezenet_v1_0/ixrt/README.md#int8)         |
-| SqueezeNet 1.1         | FP16      |                                                                       | [✅](models/cv/classification/squeezenet_v1_1/ixrt/README.md#fp16)         |
-|                        | INT8      |                                                                       | [✅](models/cv/classification/squeezenet_v1_1/ixrt/README.md#int8)         |
-| SVT Base               | FP16      | [✅](models/cv/classification/svt_base/igie/README.md#fp16)            |                                                                           |
-| Swin Transformer       | FP16      | [✅](models/cv/classification/swin_transformer/igie/README.md#fp16)    |                                                                           |
-| Swin Transformer Large | FP16      |                                                                       | [✅](models/cv/classification/swin_transformer_large/ixrt/README.md)       |
-| VGG11                  | FP16      | [✅](models/cv/classification/vgg11/igie/README.md#fp16)               |                                                                           |
-| VGG16                  | FP16      | [✅](models/cv/classification/vgg16/igie/README.md#fp16)               | [✅](models/cv/classification/vgg16/ixrt/README.md#fp16)                   |
-|                        | INT8      | [✅](models/cv/classification/vgg16/igie/README.md#int8)               |                                                                           |
-| Wide ResNet50          | FP16      | [✅](models/cv/classification/wide_resnet50/igie/README.md#fp16)       | [✅](models/cv/classification/wide_resnet50/ixrt/README.md#fp16)           |
-|                        | INT8      | [✅](models/cv/classification/wide_resnet50/igie/README.md#int8)       | [✅](models/cv/classification/wide_resnet50/ixrt/README.md#int8)           |
-| Wide ResNet101         | FP16      | [✅](models/cv/classification/wide_resnet101/igie/README.md#fp16)      |                                                                           |
+| Models                 | Precision | IGIE                                                                  | IxRT                                                                  |
+|------------------------|-----------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
+| AlexNet                | FP16      | [✅](models/cv/classification/alexnet/igie/README.md#fp16)             | [✅](models/cv/classification/alexnet/ixrt/README.md#fp16)             |
+|                        | INT8      | [✅](models/cv/classification/alexnet/igie/README.md#int8)             | [✅](models/cv/classification/alexnet/ixrt/README.md#int8)             |
+| CLIP                   | FP16      | [✅](models/cv/classification/clip/igie/README.md#fp16)                | [✅](models/cv/classification/clip/ixformer/README.md#fp16)            |
+| Conformer-B            | FP16      | [✅](models/cv/classification/conformer_base/igie/README.md#fp16)      |                                                                       |
+| ConvNeXt-Base          | FP16      | [✅](models/cv/classification/convnext_base/igie/README.md#fp16)       | [✅](models/cv/classification/convnext_base/ixrt/README.md#fp16)       |
+| ConvNext-S (OpenMMLab) | FP16      | [✅](models/cv/classification/convnext_s/igie/README.md#fp16)          |                                                                       |
+| ConvNeXt-Small         | FP16      | [✅](models/cv/classification/convnext_small/igie/README.md#fp16)      | [✅](models/cv/classification/convnext_small/ixrt/README.md#fp16)      |
+| CSPDarkNet53           | FP16      | [✅](models/cv/classification/cspdarknet53/igie/README.md#fp16)        | [✅](models/cv/classification/cspdarknet53/ixrt/README.md#fp16)        |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/cspdarknet53/ixrt/README.md#int8)        |
+| CSPResNet50            | FP16      | [✅](models/cv/classification/cspresnet50/igie/README.md#fp16)         | [✅](models/cv/classification/cspresnet50/ixrt/README.md#fp16)         |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/cspresnet50/ixrt/README.md#int8)         |
+| DeiT-tiny              | FP16      | [✅](models/cv/classification/deit_tiny/igie/README.md#fp16)           | [✅](models/cv/classification/deit_tiny/ixrt/README.md#fp16)           |
+| DenseNet121            | FP16      | [✅](models/cv/classification/densenet121/igie/README.md#fp16)         | [✅](models/cv/classification/densenet121/ixrt/README.md#fp16)         |
+| DenseNet161            | FP16      | [✅](models/cv/classification/densenet161/igie/README.md#fp16)         | [✅](models/cv/classification/densenet161/ixrt/README.md#fp16)         |
+| DenseNet169            | FP16      | [✅](models/cv/classification/densenet169/igie/README.md#fp16)         | [✅](models/cv/classification/densenet169/ixrt/README.md#fp16)         |
+| DenseNet201            | FP16      | [✅](models/cv/classification/densenet201/igie/README.md#fp16)         | [✅](models/cv/classification/densenet201/ixrt/README.md#fp16)         |
+| EfficientNet-B0        | FP16      | [✅](models/cv/classification/efficientnet_b0/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b0/ixrt/README.md#fp16)     |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_b0/ixrt/README.md#int8)     |
+| EfficientNet-B1        | FP16      | [✅](models/cv/classification/efficientnet_b1/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b1/ixrt/README.md#fp16)     |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_b1/ixrt/README.md#int8)     |
+| EfficientNet-B2        | FP16      | [✅](models/cv/classification/efficientnet_b2/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b2/ixrt/README.md#fp16)     |
+| EfficientNet-B3        | FP16      | [✅](models/cv/classification/efficientnet_b3/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_b3/ixrt/README.md#fp16)     |
+| EfficientNet-B4        | FP16      | [✅](models/cv/classification/efficientnet_b4/igie/README.md#fp16)     |                                                                       |
+| EfficientNetV2         | FP16      | [✅](models/cv/classification/efficientnet_v2/igie/README.md#fp16)     | [✅](models/cv/classification/efficientnet_v2/ixrt/README.md#fp16)     |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/efficientnet_v2/ixrt/README.md#int8)     |
+| EfficientNetv2_rw_t    | FP16      | [✅](models/cv/classification/efficientnetv2_rw_t/igie/README.md#fp16) | [✅](models/cv/classification/efficientnetv2_rw_t/ixrt/README.md#fp16) |
+| EfficientNetv2_s       | FP16      | [✅](models/cv/classification/efficientnet_v2_s/igie/README.md#fp16)   | [✅](models/cv/classification/efficientnet_v2_s/ixrt/README.md#fp16)   |
+| GoogLeNet              | FP16      | [✅](models/cv/classification/googlenet/igie/README.md#fp16)           | [✅](models/cv/classification/googlenet/ixrt/README.md#fp16)           |
+|                        | INT8      | [✅](models/cv/classification/googlenet/igie/README.md#int8)           | [✅](models/cv/classification/googlenet/ixrt/README.md#int8)           |
+| HRNet-W18              | FP16      | [✅](models/cv/classification/hrnet_w18/igie/README.md#fp16)           | [✅](models/cv/classification/hrnet_w18/ixrt/README.md#fp16)           |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/hrnet_w18/ixrt/README.md#int8)           |
+| InceptionV3            | FP16      | [✅](models/cv/classification/inception_v3/igie/README.md#fp16)        | [✅](models/cv/classification/inception_v3/ixrt/README.md#fp16)        |
+|                        | INT8      | [✅](models/cv/classification/inception_v3/igie/README.md#int8)        | [✅](models/cv/classification/inception_v3/ixrt/README.md#int8)        |
+| Inception_ResNet_V2    | FP16      |                                                                       | [✅](models/cv/classification/inceptionresnetv2/ixrt/README.md#fp16)   |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/inceptionresnetv2/ixrt/README.md#int8)   |
+| Mixer_B                | FP16      | [✅](models/cv/classification/mlp_mixer_base/igie/README.md#fp16)      |                                                                       |
+| MNASNet0_5             | FP16      | [✅](models/cv/classification/mnasnet0_5/igie/README.md#fp16)          |                                                                       |
+| MNASNet0_75            | FP16      | [✅](models/cv/classification/mnasnet0_75/igie/README.md#fp16)         |                                                                       |
+| MobileNetV2            | FP16      | [✅](models/cv/classification/mobilenet_v2/igie/README.md#fp16)        | [✅](models/cv/classification/mobilenet_v2/ixrt/README.md#fp16)        |
+|                        | INT8      | [✅](models/cv/classification/mobilenet_v2/igie/README.md#int8)        | [✅](models/cv/classification/mobilenet_v2/ixrt/README.md#int8)        |
+| MobileNetV3_Large      | FP16      | [✅](models/cv/classification/mobilenet_v3_large/igie/README.md#fp16)  |                                                                       |
+| MobileNetV3_Small      | FP16      | [✅](models/cv/classification/mobilenet_v3/igie/README.md#fp16)        | [✅](models/cv/classification/mobilenet_v3/ixrt/README.md#fp16)        |
+| MViTv2_base            | FP16      | [✅](models/cv/classification/mvitv2_base/igie/README.md#fp16)         |                                                                       |
+| RegNet_x_16gf          | FP16      | [✅](models/cv/classification/regnet_x_16gf/igie/README.md#fp16)       |                                                                       |
+| RegNet_x_1_6gf         | FP16      | [✅](models/cv/classification/regnet_x_1_6gf/igie/README.md#fp16)      |                                                                       |
+| RegNet_y_1_6gf         | FP16      | [✅](models/cv/classification/regnet_y_1_6gf/igie/README.md#fp16)      |                                                                       |
+| RepVGG                 | FP16      | [✅](models/cv/classification/repvgg/igie/README.md#fp16)              | [✅](models/cv/classification/repvgg/ixrt/README.md#fp16)              |
+| Res2Net50              | FP16      | [✅](models/cv/classification/res2net50/igie/README.md#fp16)           | [✅](models/cv/classification/res2net50/ixrt/README.md#fp16)           |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/res2net50/ixrt/README.md#int8)           |
+| ResNeSt50              | FP16      | [✅](models/cv/classification/resnest50/igie/README.md#fp16)           |                                                                       |
+| ResNet101              | FP16      | [✅](models/cv/classification/resnet101/igie/README.md#fp16)           | [✅](models/cv/classification/resnet101/ixrt/README.md#fp16)           |
+|                        | INT8      | [✅](models/cv/classification/resnet101/igie/README.md#int8)           | [✅](models/cv/classification/resnet101/ixrt/README.md#int8)           |
+| ResNet152              | FP16      | [✅](models/cv/classification/resnet152/igie/README.md#fp16)           |                                                                       |
+|                        | INT8      | [✅](models/cv/classification/resnet152/igie/README.md#int8)           |                                                                       |
+| ResNet18               | FP16      | [✅](models/cv/classification/resnet18/igie/README.md#fp16)            | [✅](models/cv/classification/resnet18/ixrt/README.md#fp16)            |
+|                        | INT8      | [✅](models/cv/classification/resnet18/igie/README.md#int8)            | [✅](models/cv/classification/resnet18/ixrt/README.md#int8)            |
+| ResNet34               | FP16      |                                                                       | [✅](models/cv/classification/resnet34/ixrt/README.md#fp16)            |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/resnet34/ixrt/README.md#int8)            |
+| ResNet50               | FP16      | [✅](models/cv/classification/resnet50/igie/README.md#fp16)            | [✅](models/cv/classification/resnet50/ixrt/README.md#fp16)            |
+|                        | INT8      | [✅](models/cv/classification/resnet50/igie/README.md#int8)            |                                                                       |
+| ResNetV1D50            | FP16      | [✅](models/cv/classification/resnetv1d50/igie/README.md#fp16)         | [✅](models/cv/classification/resnetv1d50/ixrt/README.md#fp16)         |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/resnetv1d50/ixrt/README.md#int8)         |
+| ResNeXt50_32x4d        | FP16      | [✅](models/cv/classification/resnext50_32x4d/igie/README.md#fp16)     | [✅](models/cv/classification/resnext50_32x4d/ixrt/README.md#fp16)     |
+| ResNeXt101_64x4d       | FP16      | [✅](models/cv/classification/resnext101_64x4d/igie/README.md#fp16)    |                                                                       |
+| ResNeXt101_32x8d       | FP16      | [✅](models/cv/classification/resnext101_32x8d/igie/README.md#fp16)    |                                                                       |
+| SEResNet50             | FP16      | [✅](models/cv/classification/se_resnet50/igie/README.md#fp16)         |                                                                       |
+| ShuffleNetV1           | FP16      |                                                                       | [✅](models/cv/classification/shufflenet_v1/ixrt/README.md#fp16)       |
+| ShuffleNetV2_x0_5      | FP16      | [✅](models/cv/classification/shufflenetv2_x0_5/igie/README.md#fp16)   |                                                                       |
+| ShuffleNetV2_x1_0      | FP16      | [✅](models/cv/classification/shufflenetv2_x1_0/igie/README.md#fp16)   |                                                                       |
+| ShuffleNetV2_x1_5      | FP16      | [✅](models/cv/classification/shufflenetv2_x1_5/igie/README.md#fp16)   |                                                                       |
+| ShuffleNetV2_x2_0      | FP16      | [✅](models/cv/classification/shufflenetv2_x2_0/igie/README.md#fp16)   |                                                                       |
+| SqueezeNet 1.0         | FP16      | [✅](models/cv/classification/squeezenet_v1_0/igie/README.md#fp16)     | [✅](models/cv/classification/squeezenet_v1_0/ixrt/README.md#fp16)     |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/squeezenet_v1_0/ixrt/README.md#int8)     |
+| SqueezeNet 1.1         | FP16      |                                                                       | [✅](models/cv/classification/squeezenet_v1_1/ixrt/README.md#fp16)     |
+|                        | INT8      |                                                                       | [✅](models/cv/classification/squeezenet_v1_1/ixrt/README.md#int8)     |
+| SVT Base               | FP16      | [✅](models/cv/classification/svt_base/igie/README.md#fp16)            |                                                                       |
+| Swin Transformer       | FP16      | [✅](models/cv/classification/swin_transformer/igie/README.md#fp16)    |                                                                       |
+| Swin Transformer Large | FP16      |                                                                       | [✅](models/cv/classification/swin_transformer_large/ixrt/README.md)   |
+| VGG11                  | FP16      | [✅](models/cv/classification/vgg11/igie/README.md#fp16)               |                                                                       |
+| VGG16                  | FP16      | [✅](models/cv/classification/vgg16/igie/README.md#fp16)               | [✅](models/cv/classification/vgg16/ixrt/README.md#fp16)               |
+|                        | INT8      | [✅](models/cv/classification/vgg16/igie/README.md#int8)               |                                                                       |
+| Wide ResNet50          | FP16      | [✅](models/cv/classification/wide_resnet50/igie/README.md#fp16)       | [✅](models/cv/classification/wide_resnet50/ixrt/README.md#fp16)       |
+|                        | INT8      | [✅](models/cv/classification/wide_resnet50/igie/README.md#int8)       | [✅](models/cv/classification/wide_resnet50/ixrt/README.md#int8)       |
+| Wide ResNet101         | FP16      | [✅](models/cv/classification/wide_resnet101/igie/README.md#fp16)      |                                                                       |
 
 ### Detection
 
