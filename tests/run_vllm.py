@@ -220,6 +220,12 @@ def run_nlp_testcase(model):
             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
             python3 minicpmv-2.0-offline.py --model-path ./minicpm-v-2 --image-path ./dog.jpg
             """
+        elif model_name.startswith("deepseek-r1-distill-"):
+            script = f"""
+            set -x
+            cd ../{model['relative_path']}
+            python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+            """
 
         r, t = run_script(script)
         sout = r.stdout
@@ -234,11 +240,6 @@ def run_nlp_testcase(model):
 
         result["result"][prec]["Cost time (s)"] = t
     return result
-
-def get_metric_result(str):
-    if str:
-        return json.loads(str.replace("'", "\""))["metricResult"]
-    return None
 
 def run_script(script):
     start_time = time.perf_counter()
