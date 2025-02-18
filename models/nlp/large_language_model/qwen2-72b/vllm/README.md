@@ -1,4 +1,4 @@
-# Qwen2-72B-Instruct
+# Qwen2-72B-Instruct (vLLM)
 
 ## Description
 

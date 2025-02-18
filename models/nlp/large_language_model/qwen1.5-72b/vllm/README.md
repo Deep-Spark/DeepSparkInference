@@ -1,4 +1,4 @@
-# Qwen1.5-72B
+# Qwen1.5-72B (vLLM)
 
 ## Description
 

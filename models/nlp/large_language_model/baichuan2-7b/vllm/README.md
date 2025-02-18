@@ -1,4 +1,4 @@
-# Baichuan-2-7B
+# Baichuan-2-7B (vLLM)
 
 ## Description
 

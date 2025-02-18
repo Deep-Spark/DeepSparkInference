@@ -1,4 +1,4 @@
-# LlaMa3 70B
+# LlaMa3 70B (vLLM)
 
 ## Description
 

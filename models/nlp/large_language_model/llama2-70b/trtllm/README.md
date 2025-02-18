@@ -1,4 +1,4 @@
-# LlaMa2 70B
+# LlaMa2 70B (TensorRT-LLM)
 
 ## Description
 
