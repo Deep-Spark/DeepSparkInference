@@ -1,4 +1,4 @@
-# Qwen1.5-14B
+# Qwen1.5-14B (vLLM)
 
 ## Description
 

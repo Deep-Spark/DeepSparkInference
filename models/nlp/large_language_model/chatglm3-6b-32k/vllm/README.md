@@ -1,4 +1,4 @@
-# ChatGLM3-6B-32K
+# ChatGLM3-6B-32K (vLLM)
 
 ## Description
 

@@ -1,4 +1,4 @@
-# Qwen1.5-32B-Chat
+# Qwen1.5-32B-Chat (vLLM)
 
 ## Description
 

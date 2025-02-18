@@ -1,4 +1,4 @@
-# StableLM2-1.6B
+# StableLM2-1.6B (vLLM)
 
 ## Description
 

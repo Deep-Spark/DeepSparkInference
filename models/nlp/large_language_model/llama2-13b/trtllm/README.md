@@ -1,4 +1,4 @@
-# Llama2 13B
+# Llama2 13B (TensorRT-LLM)
 
 ## Description
 
