@@ -1,4 +1,4 @@
-# CLIP
+# CLIP (IxFormer)
 
 ## Description
 
