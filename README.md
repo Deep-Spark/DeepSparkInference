@@ -18,7 +18,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 |------------------------|-------|-----------------------------------------------------------------------|-----------------------------------------------------------------------|
 | AlexNet                | FP16  | [✅](models/cv/classification/alexnet/igie/README.md#fp16)             | [✅](models/cv/classification/alexnet/ixrt/README.md#fp16)             |
 |                        | INT8  | [✅](models/cv/classification/alexnet/igie/README.md#int8)             | [✅](models/cv/classification/alexnet/ixrt/README.md#int8)             |
-| CLIP                   | FP16  | [✅](models/cv/classification/clip/igie/README.md#fp16)                | [✅](models/cv/classification/clip/ixformer/README.md#fp16)            |
+| CLIP                   | FP16  | [✅](models/cv/classification/clip/igie/README.md#fp16)                |                                                                       |
 | Conformer-B            | FP16  | [✅](models/cv/classification/conformer_base/igie/README.md#fp16)      |                                                                       |
 | ConvNeXt-Base          | FP16  | [✅](models/cv/classification/convnext_base/igie/README.md#fp16)       | [✅](models/cv/classification/convnext_base/ixrt/README.md#fp16)       |
 | ConvNext-S             | FP16  | [✅](models/cv/classification/convnext_s/igie/README.md#fp16)          |                                                                       |
@@ -209,14 +209,15 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ## Multimodal
 
-| Model               | vLLM                                                                                    |
-|---------------------|-----------------------------------------------------------------------------------------|
-| Chameleon-7B        | [✅](models/multimodal/vision_language_understanding/chameleon_7b/vllm/README.md)        |
-| Fuyu-8B             | [✅](models/multimodal/vision_language_understanding/fuyu_8b/vllm/README.md)             |
-| InternVL2-4B        | [✅](models/multimodal/vision_language_understanding/intern_vl/vllm/README.md)           |
-| LLaVA               | [✅](models/multimodal/vision_language_understanding/llava/vllm/README.md)               |
-| LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_understanding/llava_next_video_7b/vllm/README.md) |
-| MiniCPM V2          | [✅](models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md)         |
+| Model               | vLLM                                                                                    | IxFormer                                                                     |
+|---------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| Chameleon-7B        | [✅](models/multimodal/vision_language_understanding/chameleon_7b/vllm/README.md)        |                                                                              |
+| CLIP                |                                                                                         | [✅](models/multimodal/vision_language_understanding/clip/ixformer/README.md) |
+| Fuyu-8B             | [✅](models/multimodal/vision_language_understanding/fuyu_8b/vllm/README.md)             |                                                                              |
+| InternVL2-4B        | [✅](models/multimodal/vision_language_understanding/intern_vl/vllm/README.md)           |                                                                              |
+| LLaVA               | [✅](models/multimodal/vision_language_understanding/llava/vllm/README.md)               |                                                                              |
+| LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_understanding/llava_next_video_7b/vllm/README.md) |                                                                              |
+| MiniCPM V2          | [✅](models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md)         |                                                                              |
 
 ## NLP
 
