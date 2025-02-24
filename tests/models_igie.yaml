@@ -14,7 +14,7 @@
   need_third_part: true
   precisions:
     - fp16
-  relative_path: models/multimodal/text_and_image/clip/igie
+  relative_path: models/cv/classification/clip/igie
   task_type: multimodal/text_and_image
 - datasets: https://www.image-net.org/download.php
   download_url: https://local/conformer_base_patch16.pth

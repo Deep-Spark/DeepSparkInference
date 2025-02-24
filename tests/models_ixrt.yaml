@@ -415,8 +415,8 @@
   need_third_part: false
   precisions:
     - fp16
-  relative_path: models/multimodal/text_and_image/clip/ixrt
-  task_type: multimodal/text_and_image
+  relative_path: models/multimodal/vision_language_understanding/clip/ixformer
+  task_type: multimodal/vision_language_understanding
 - datasets: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar
   download_url: https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_albert.tar
   name: albert
