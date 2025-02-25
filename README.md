@@ -240,10 +240,10 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ### Speech Recognition
 
-| Model           | Prec. | IGIE                                                                | IxRT                                                                 |
-|-----------------|-------|---------------------------------------------------------------------|----------------------------------------------------------------------|
-| Conformer       | FP16  | [✅](models/speech/speech_recognition/conformer/igie/README.md#fp16) | [✅](models/speech/speech_recognition/conformer/ixrt/README.md#fp16)  |
-| Transformer ASR | FP16  |                                                                     | [✅](models/speech/speech_recognition/transformer_asr/ixrt/README.md) |
+| Model           | Prec. | IGIE                                                               | IxRT                                                                |
+|-----------------|-------|--------------------------------------------------------------------|---------------------------------------------------------------------|
+| Conformer       | FP16  | [✅](models/audio/speech_recognition/conformer/igie/README.md#fp16) | [✅](models/audio/speech_recognition/conformer/ixrt/README.md#fp16)  |
+| Transformer ASR | FP16  |                                                                    | [✅](models/audio/speech_recognition/transformer_asr/ixrt/README.md) |
 
 ---
 
