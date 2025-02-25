@@ -2,7 +2,11 @@
 
 ## Description
 
-AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, is a groundbreaking convolutional neural network (CNN) architecture that achieved remarkable success in the 2012 ImageNet Large Scale Visual Recognition Challenge (ILSVRC). This neural network comprises eight layers, incorporating five convolutional layers and three fully connected layers. The architecture employs the Rectified Linear Unit (ReLU) activation function to introduce non-linearity, allowing the model to learn complex features from input images.
+AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, is a groundbreaking convolutional neural
+network (CNN) architecture that achieved remarkable success in the 2012 ImageNet Large Scale Visual Recognition
+Challenge (ILSVRC). This neural network comprises eight layers, incorporating five convolutional layers and three fully
+connected layers. The architecture employs the Rectified Linear Unit (ReLU) activation function to introduce
+non-linearity, allowing the model to learn complex features from input images.
 
 ## Setup
 
@@ -50,7 +54,7 @@ bash scripts/infer_alexnet_int8_performance.sh
 
 ## Results
 
-Model   |BatchSize  |Precision |FPS       |Top-1(%) |Top-5(%)
---------|-----------|----------|----------|---------|--------
-AlexNet |    32     |   FP16   | 20456.16 |  56.53  | 79.05
-AlexNet |    32     |   INT8   | 22465.46 |  55.96  | 78.83
+| Model   | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|---------|-----------|-----------|----------|----------|----------|
+| AlexNet | 32        | FP16      | 20456.16 | 56.53    | 79.05    |
+| AlexNet | 32        | INT8      | 22465.46 | 55.96    | 78.83    |

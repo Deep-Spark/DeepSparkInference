@@ -2,7 +2,12 @@
 
 ## Description
 
-DeBERTa (Decoding-enhanced BERT with disentangled attention) is an enhanced version of the BERT (Bidirectional Encoder Representations from Transformers) model. It improves text representation learning by introducing disentangled attention mechanisms and decoding enhancement techniques.DeBERTa introduces disentangled attention mechanisms that decompose the self-attention matrix into different parts, focusing on different semantic information. This helps the model better capture relationships between texts.By incorporating decoding enhancement techniques, DeBERTa adjusts the decoder during fine-tuning to better suit specific downstream tasks, thereby improving the model’s performance on those tasks.
+DeBERTa (Decoding-enhanced BERT with disentangled attention) is an enhanced version of the BERT (Bidirectional Encoder
+Representations from Transformers) model. It improves text representation learning by introducing disentangled attention
+mechanisms and decoding enhancement techniques.DeBERTa introduces disentangled attention mechanisms that decompose the
+self-attention matrix into different parts, focusing on different semantic information. This helps the model better
+capture relationships between texts.By incorporating decoding enhancement techniques, DeBERTa adjusts the decoder during
+fine-tuning to better suit specific downstream tasks, thereby improving the model’s performance on those tasks.
 
 ## Setup
 
@@ -57,9 +62,13 @@ bash scripts/infer_deberta_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: < <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer> >, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit the website: <
+<https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer> >, which integrates inference and training of many
+models under this framework, supporting the ILUVATAR backend
 
-For detailed steps regarding this model, please refer to this document: < <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> > Note: You need to modify the relevant paths in the code to your own correct paths.
+For detailed steps regarding this model, please refer to this document: <
+<https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md>
+> Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
 # link and install requirements
@@ -90,5 +99,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task deberta-torch-fp32
 ## Results
 
 | Model   | BatchSize | Precision | QPS   | Exact Match | F1 Score |
-| ------- | --------- | --------- | ----- | ----------- | -------- |
+|---------|-----------|-----------|-------|-------------|----------|
 | DeBERTa | 1         | FP16      | 18.58 | 73.76       | 81.24    |

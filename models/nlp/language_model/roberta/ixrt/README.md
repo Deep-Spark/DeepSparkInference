@@ -2,7 +2,14 @@
 
 ## Description
 
-Language model pretraining has led to significant performance gains but careful comparison between different approaches is challenging. Training is computationally expensive, often done on private datasets of different sizes, and, as we will show, hyperparameter choices have significant impact on the final results. We present a replication study of BERT pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and training data size. We find that BERT was significantly undertrained, and can match or exceed the performance of every model published after it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results highlight the importance of previously overlooked design choices, and raise questions about the source of recently reported improvements. We release our models and code.
+Language model pretraining has led to significant performance gains but careful comparison between different approaches
+is challenging. Training is computationally expensive, often done on private datasets of different sizes, and, as we
+will show, hyperparameter choices have significant impact on the final results. We present a replication study of BERT
+pretraining (Devlin et al., 2019) that carefully measures the impact of many key hyperparameters and training data size.
+We find that BERT was significantly undertrained, and can match or exceed the performance of every model published after
+it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. These results highlight the importance of
+previously overlooked design choices, and raise questions about the source of recently reported improvements. We release
+our models and code.
 
 ## Setup
 
@@ -59,9 +66,13 @@ bash scripts/infer_roberta_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend
+If you want to evaluate the accuracy of this model, please visit the website:
+<https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many
+models under this framework, supporting the ILUVATAR backend
 
-For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
+For detailed steps regarding this model, please refer to this document:
+<https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md>
+Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
 # Link and install requirements
@@ -95,5 +106,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ## Results
 
 | Model   | BatchSize | Precision | FPS    | F1       | Exact Match |
-| ------- | --------- | --------- | ------ | -------- | ----------- |
+|---------|-----------|-----------|--------|----------|-------------|
 | RoBERTa | 1         | FP16      | 355.48 | 83.14387 | 76.50175    |

@@ -2,7 +2,9 @@
 
 ## Description
 
-VideoBERT is a model designed for video understanding tasks, extending the capabilities of BERT (Bidirectional Encoder Representations from Transformers) to video data. It enhances video representation learning by integrating both visual and textual information into a unified framework.
+VideoBERT is a model designed for video understanding tasks, extending the capabilities of BERT (Bidirectional Encoder
+Representations from Transformers) to video data. It enhances video representation learning by integrating both visual
+and textual information into a unified framework.
 
 ## Setup
 
@@ -73,5 +75,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ## Results
 
 | Model     | BatchSize | Precision | QPS   | Top-1 ACC |
-| --------- | --------- | --------- | ----- | --------- |
+|-----------|-----------|-----------|-------|-----------|
 | VideoBERT | 4         | FP16      | 37.68 | 61.67     |

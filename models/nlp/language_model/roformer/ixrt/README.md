@@ -2,7 +2,16 @@
 
 ## Description
 
-Position encoding recently has shown effective in the transformer architecture. It enables valuable supervision for dependency modeling between elements at different positions of the sequence. In this paper, we first investigate various methods to integrate positional information into the learning process of transformer-based language models. Then, we propose a novel method named Rotary Position Embedding(RoPE) to effectively leverage the positional information. Specifically, the proposed RoPE encodes the absolute position with a rotation matrix and meanwhile incorporates the explicit relative position dependency in self-attention formulation. Notably, RoPE enables valuable properties, including the flexibility of sequence length, decaying inter-token dependency with increasing relative distances, and the capability of equipping the linear self-attention with relative position encoding. Finally, we evaluate the enhanced transformer with rotary position embedding, also called RoFormer, on various long text classification benchmark datasets.
+Position encoding recently has shown effective in the transformer architecture. It enables valuable supervision for
+dependency modeling between elements at different positions of the sequence. In this paper, we first investigate various
+methods to integrate positional information into the learning process of transformer-based language models. Then, we
+propose a novel method named Rotary Position Embedding(RoPE) to effectively leverage the positional information.
+Specifically, the proposed RoPE encodes the absolute position with a rotation matrix and meanwhile incorporates the
+explicit relative position dependency in self-attention formulation. Notably, RoPE enables valuable properties,
+including the flexibility of sequence length, decaying inter-token dependency with increasing relative distances, and
+the capability of equipping the linear self-attention with relative position encoding. Finally, we evaluate the enhanced
+transformer with rotary position embedding, also called RoFormer, on various long text classification benchmark
+datasets.
 
 ## Setup
 
@@ -65,9 +74,13 @@ bash scripts/infer_roformer_fp16_performance.sh
 
 ### Accuracy
 
-If you want to evaluate the accuracy of this model, please visit the website: <https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many models under this framework, supporting the ILUVATAR backend.
+If you want to evaluate the accuracy of this model, please visit the website:
+<https://github.com/yudefu/ByteMLPerf/tree/iluvatar_general_infer>, which integrates inference and training of many
+models under this framework, supporting the ILUVATAR backend.
 
-For detailed steps regarding this model, please refer to this document: <https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md> Note: You need to modify the relevant paths in the code to your own correct paths.
+For detailed steps regarding this model, please refer to this document:
+<https://github.com/yudefu/ByteMLPerf/blob/iluvatar_general_infer/byte_infer_perf/general_perf/backends/ILUVATAR/README.zh_CN.md>
+Note: You need to modify the relevant paths in the code to your own correct paths.
 
 ```bash
 # link ByteMLPerf and install requirements
@@ -100,5 +113,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
 ## Results
 
 | Model    | BatchSize | Precision | FPS     | ACC     |
-| -------- | --------- | --------- | ------- | ------- |
+|----------|-----------|-----------|---------|---------|
 | RoFormer | 2         | FP16      | 195.186 | 0.33789 |
