@@ -13,7 +13,7 @@ The ConvNeXt Small model represents a significant stride in the evolution of con
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

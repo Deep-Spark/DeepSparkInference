@@ -13,7 +13,7 @@ Residual Networks, or ResNets, learn residual functions with reference to the la
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirments.txt
 ```

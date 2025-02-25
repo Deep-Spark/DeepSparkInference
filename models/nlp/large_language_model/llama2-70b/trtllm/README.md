@@ -18,7 +18,7 @@ and contribute to the responsible development of LLMs.
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 bash scripts/set_environment.sh .
 ```

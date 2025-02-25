@@ -13,7 +13,7 @@ SABL (Side-Aware Boundary Localization) is an innovative approach in object dete
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

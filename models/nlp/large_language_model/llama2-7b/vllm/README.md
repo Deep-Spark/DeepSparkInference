@@ -21,7 +21,7 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 # Contact the iluvatar manager to get adapted install packages of vllm, triton, and ixformer
 pip3 install vllm

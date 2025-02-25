@@ -13,7 +13,7 @@ Inception-ResNetV2 is a deep learning model proposed by Google in 2016, which co
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

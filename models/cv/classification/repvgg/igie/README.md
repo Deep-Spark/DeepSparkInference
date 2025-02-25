@@ -13,7 +13,7 @@ RepVGG is an innovative convolutional neural network architecture that combines 
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

@@ -13,7 +13,7 @@ DenseNet201 is a deep convolutional neural network that stands out for its uniqu
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install tqdm
 pip3 install onnx

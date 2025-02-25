@@ -16,7 +16,7 @@ from 7B to 70B.
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 bash scripts/set_environment.sh .
 ```

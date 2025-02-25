@@ -13,7 +13,7 @@ AlexNet is a classic convolutional neural network architecture. It consists of c
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

@@ -13,7 +13,7 @@ YOLOv7 is an object detection model based on the YOLO (You Only Look Once) serie
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

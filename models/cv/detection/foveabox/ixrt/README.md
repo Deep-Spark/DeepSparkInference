@@ -13,7 +13,7 @@ FoveaBox is an advanced anchor-free object detection framework that enhances acc
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install tqdm
 pip3 install onnx

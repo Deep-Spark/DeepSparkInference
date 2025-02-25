@@ -20,7 +20,7 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install transformers
 ```
