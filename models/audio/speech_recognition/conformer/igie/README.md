@@ -2,7 +2,10 @@
 
 ## Description
 
-Conformer is a speech recognition model proposed by Google in 2020. It combines the advantages of CNN and Transformer. CNN efficiently extracts local features, while Transformer is more effective in capturing long sequence dependencies. Conformer applies convolution to the Encoder layer of Transformer, enhancing the performance of Transformer in the ASR (Automatic Speech Recognition) domain.
+Conformer is a speech recognition model proposed by Google in 2020. It combines the advantages of CNN and Transformer.
+CNN efficiently extracts local features, while Transformer is more effective in capturing long sequence dependencies.
+Conformer applies convolution to the Encoder layer of Transformer, enhancing the performance of Transformer in the ASR
+(Automatic Speech Recognition) domain.
 
 ## Setup
 
@@ -62,6 +65,6 @@ bash scripts/infer_conformer_fp16_performance.sh
 
 ## Results
 
-Model      |BatchSize  |Precision |FPS       |ACC       |
------------|-----------|----------|----------|----------|
-Conformer  |    32     |   FP16   | 1940.759 |  95.29   |
+| Model     | BatchSize | Precision | FPS      | ACC   |
+|-----------|-----------|-----------|----------|-------|
+| Conformer | 32        | FP16      | 1940.759 | 95.29 |
