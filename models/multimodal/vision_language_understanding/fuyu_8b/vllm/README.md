@@ -22,7 +22,7 @@ apt install -y libgl1-mesa-dev
 
 ### Download
 
--Model: <https://huggingface.co/adept/fuyu-8b>
+- Model: <https://huggingface.co/adept/fuyu-8b>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/fuyu-8b"

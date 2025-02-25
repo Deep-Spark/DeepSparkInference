@@ -20,7 +20,7 @@ apt install -y libgl1-mesa-dev
 
 ### Download
 
--Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
+- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"

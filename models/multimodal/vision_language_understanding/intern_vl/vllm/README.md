@@ -25,7 +25,7 @@ pip3 install ixformer
 
 ### Download
 
--Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
+- Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
 
 ```bash
 cd ${DeepSparkInference}/models/vision-language-understanding/Intern_VL/vllm

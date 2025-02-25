@@ -20,7 +20,7 @@ apt install -y libgl1-mesa-dev
 
 ### Download
 
--Model: <https://huggingface.co/facebook/chameleon-7b>
+- Model: <https://huggingface.co/facebook/chameleon-7b>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/chameleon-7b"

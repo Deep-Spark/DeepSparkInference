@@ -2,11 +2,14 @@
 
 ## Description
 
-The Llama2 model is part of the Llama project which aims to unlock the power of large language models. The latest version of the Llama model is now accessible to individuals, creators, researchers, and businesses of all sizes. It includes model weights and starting code for pre-trained and fine-tuned Llama language models with parameters ranging from 7B to 70B.
+The Llama2 model is part of the Llama project which aims to unlock the power of large language models. The latest
+version of the Llama model is now accessible to individuals, creators, researchers, and businesses of all sizes. It
+includes model weights and starting code for pre-trained and fine-tuned Llama language models with parameters ranging
+from 7B to 70B.
 
 ## Setup
 
-### Instal
+### Install
 
 ```bash
 # Install libGL
@@ -15,9 +18,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-dev
 
-
 bash scripts/set_environment.sh .
-
 ```
 
 ### Download

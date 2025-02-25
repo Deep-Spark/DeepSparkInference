@@ -20,7 +20,7 @@ apt install -y libgl1-mesa-glx
 
 ### Download
 
--Model: <https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B>
+- Model: <https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B>
 
 ```bash
 cd deepseek-r1-distill-qwen-14b/vllm

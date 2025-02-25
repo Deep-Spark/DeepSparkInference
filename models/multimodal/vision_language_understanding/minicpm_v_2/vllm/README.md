@@ -23,7 +23,7 @@ pip3 install --user --upgrade pillow -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ### Download
 
--Model: <https://huggingface.co/openbmb/MiniCPM-V-2>
+- Model: <https://huggingface.co/openbmb/MiniCPM-V-2>
 Note: Due to the official weights missing some necessary files for vllm execution, you can download the additional files from here: <https://github.com/HwwwwwwwH/MiniCPM-V-2> to ensure that the file directory matches the structure shown here: <https://github.com/HwwwwwwwH/MiniCPM-V-2>.
 
 ```bash
