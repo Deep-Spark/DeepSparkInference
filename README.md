@@ -209,15 +209,15 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ## Multimodal
 
-| Model               | vLLM                                                                                    | IxFormer                                                                     |
-|---------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| Chameleon-7B        | [✅](models/multimodal/vision_language_understanding/chameleon_7b/vllm/README.md)        |                                                                              |
-| CLIP                |                                                                                         | [✅](models/multimodal/vision_language_understanding/clip/ixformer/README.md) |
-| Fuyu-8B             | [✅](models/multimodal/vision_language_understanding/fuyu_8b/vllm/README.md)             |                                                                              |
-| InternVL2-4B        | [✅](models/multimodal/vision_language_understanding/intern_vl/vllm/README.md)           |                                                                              |
-| LLaVA               | [✅](models/multimodal/vision_language_understanding/llava/vllm/README.md)               |                                                                              |
-| LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_understanding/llava_next_video_7b/vllm/README.md) |                                                                              |
-| MiniCPM V2          | [✅](models/multimodal/vision_language_understanding/minicpm_v_2/vllm/README.md)         |                                                                              |
+| Model               | vLLM                                                                            | IxFormer                                                             |
+|---------------------|---------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| Chameleon-7B        | [✅](models/multimodal/vision_language_model/chameleon_7b/vllm/README.md)        |                                                                      |
+| CLIP                |                                                                                 | [✅](models/multimodal/vision_language_model/clip/ixformer/README.md) |
+| Fuyu-8B             | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm/README.md)             |                                                                      |
+| InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm/README.md)           |                                                                      |
+| LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm/README.md)               |                                                                      |
+| LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm/README.md) |                                                                      |
+| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v_2/vllm/README.md)         |                                                                      |
 
 ## NLP
 
