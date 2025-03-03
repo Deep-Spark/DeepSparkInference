@@ -12,29 +12,29 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ## LLM (Large Language Model)
 
-| Model                         | vLLM                                                                    | TRT-LLM                                                | TGI                                                                       |
-|-------------------------------|-------------------------------------------------------------------------|--------------------------------------------------------|---------------------------------------------------------------------------|
-| Baichuan2-7B                  | [✅](models/nlp/large_language_model/baichuan2-7b/vllm)                  |                                                        |                                                                           |
-| ChatGLM-3-6B                  | [✅](models/nlp/large_language_model/chatglm3-6b/vllm)                   |                                                        |                                                                           |
-| ChatGLM-3-6B-32K              | [✅](models/nlp/large_language_model/chatglm3-6b-32k/vllm)               |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Llama-8B  | [✅](models/nlp/large_language_model/deepseek-r1-distill-llama-8b/vllm)  |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Llama-70B | [✅](models/nlp/large_language_model/deepseek-r1-distill-llama-70b/vllm) |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Qwen-1.5B | [✅](models/nlp/large_language_model/deepseek-r1-distill-qwen-1.5b/vllm) |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Qwen-7B   | [✅](models/nlp/large_language_model/deepseek-r1-distill-qwen-7b/vllm)   |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Qwen-14B  | [✅](models/nlp/large_language_model/deepseek-r1-distill-qwen-14b/vllm)  |                                                        |                                                                           |
-| DeepSeek-R1-Distill-Qwen-32B  | [✅](models/nlp/large_language_model/deepseek-r1-distill-qwen-32b/vllm)  |                                                        |                                                                           |
-| Llama2-7B                     | [✅](models/nlp/large_language_model/llama2-7b/vllm)                     | [✅](models/nlp/large_language_model/llama2-7b/trtllm)  |                                                                           |
-| Llama2-13B                    |                                                                         | [✅](models/nlp/large_language_model/llama2-13b/trtllm) |                                                                           |
-| Llama2-70B                    |                                                                         | [✅](models/nlp/large_language_model/llama2-70b/trtllm) |                                                                           |
-| Llama3-70B                    | [✅](models/nlp/large_language_model/llama3-70b/vllm)                    |                                                        |                                                                           |
-| Qwen-7B                       | [✅](models/nlp/large_language_model/qwen-7b/vllm)                       |                                                        |                                                                           |
-| Qwen1.5-7B                    | [✅](models/nlp/large_language_model/qwen1.5-7b/vllm)                    |                                                        | [✅](models/nlp/large_language_model/qwen1.5-7b/text-generation-inference) |
-| Qwen1.5-14B                   | [✅](models/nlp/large_language_model/qwen1.5-14b/vllm)                   |                                                        |                                                                           |
-| Qwen1.5-32B Chat              | [✅](models/nlp/large_language_model/qwen1.5-32b/vllm)                   |                                                        |                                                                           |
-| Qwen1.5-72B                   | [✅](models/nlp/large_language_model/qwen1.5-72b/vllm)                   |                                                        |                                                                           |
-| Qwen2-7B Instruct             | [✅](models/nlp/large_language_model/qwen2-7b/vllm)                      |                                                        |                                                                           |
-| Qwen2-72B Instruct            | [✅](models/nlp/large_language_model/qwen2-72b/vllm)                     |                                                        |                                                                           |
-| StableLM2-1.6B                | [✅](models/nlp/large_language_model/stablelm/vllm)                      |                                                        |                                                                           |
+| Model                         | vLLM                                                   | TRT-LLM                               | TGI                                |
+|-------------------------------|--------------------------------------------------------|---------------------------------------|------------------------------------|
+| Baichuan2-7B                  | [✅](models/nlp/llm/baichuan2-7b/vllm)                  |                                       |                                    |
+| ChatGLM-3-6B                  | [✅](models/nlp/llm/chatglm3-6b/vllm)                   |                                       |                                    |
+| ChatGLM-3-6B-32K              | [✅](models/nlp/llm/chatglm3-6b-32k/vllm)               |                                       |                                    |
+| DeepSeek-R1-Distill-Llama-8B  | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)  |                                       |                                    |
+| DeepSeek-R1-Distill-Llama-70B | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm) |                                       |                                    |
+| DeepSeek-R1-Distill-Qwen-1.5B | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm) |                                       |                                    |
+| DeepSeek-R1-Distill-Qwen-7B   | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)   |                                       |                                    |
+| DeepSeek-R1-Distill-Qwen-14B  | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)  |                                       |                                    |
+| DeepSeek-R1-Distill-Qwen-32B  | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)  |                                       |                                    |
+| Llama2-7B                     | [✅](models/nlp/llm/llama2-7b/vllm)                     | [✅](models/nlp/llm/llama2-7b/trtllm)  |                                    |
+| Llama2-13B                    |                                                        | [✅](models/nlp/llm/llama2-13b/trtllm) |                                    |
+| Llama2-70B                    |                                                        | [✅](models/nlp/llm/llama2-70b/trtllm) |                                    |
+| Llama3-70B                    | [✅](models/nlp/llm/llama3-70b/vllm)                    |                                       |                                    |
+| Qwen-7B                       | [✅](models/nlp/llm/qwen-7b/vllm)                       |                                       |                                    |
+| Qwen1.5-7B                    | [✅](models/nlp/llm/qwen1.5-7b/vllm)                    |                                       | [✅](models/nlp/llm/qwen1.5-7b/tgi) |
+| Qwen1.5-14B                   | [✅](models/nlp/llm/qwen1.5-14b/vllm)                   |                                       |                                    |
+| Qwen1.5-32B Chat              | [✅](models/nlp/llm/qwen1.5-32b/vllm)                   |                                       |                                    |
+| Qwen1.5-72B                   | [✅](models/nlp/llm/qwen1.5-72b/vllm)                   |                                       |                                    |
+| Qwen2-7B Instruct             | [✅](models/nlp/llm/qwen2-7b/vllm)                      |                                       |                                    |
+| Qwen2-72B Instruct            | [✅](models/nlp/llm/qwen2-72b/vllm)                     |                                       |                                    |
+| StableLM2-1.6B                | [✅](models/nlp/llm/stablelm/vllm)                      |                                       |                                    |
 
 ## Computer Vision
 
@@ -75,8 +75,8 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 |                        | INT8  |                                                        | [✅](models/cv/classification/hrnet_w18/ixrt)              |
 | InceptionV3            | FP16  | [✅](models/cv/classification/inception_v3/igie)        | [✅](models/cv/classification/inception_v3/ixrt)           |
 |                        | INT8  | [✅](models/cv/classification/inception_v3/igie)        | [✅](models/cv/classification/inception_v3/ixrt)           |
-| Inception_ResNet_V2    | FP16  |                                                        | [✅](models/cv/classification/inceptionresnetv2/ixrt)      |
-|                        | INT8  |                                                        | [✅](models/cv/classification/inceptionresnetv2/ixrt)      |
+| Inception-ResNet-V2    | FP16  |                                                        | [✅](models/cv/classification/inception_resnet_v2/ixrt)    |
+|                        | INT8  |                                                        | [✅](models/cv/classification/inception_resnet_v2/ixrt)    |
 | Mixer_B                | FP16  | [✅](models/cv/classification/mlp_mixer_base/igie)      |                                                           |
 | MNASNet0_5             | FP16  | [✅](models/cv/classification/mnasnet0_5/igie)          |                                                           |
 | MNASNet0_75            | FP16  | [✅](models/cv/classification/mnasnet0_75/igie)         |                                                           |
@@ -129,48 +129,48 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ### Object Detection
 
-| Model      | Prec. | IGIE                                     | IxRT                                     |
-|------------|-------|------------------------------------------|------------------------------------------|
-| ATSS       | FP16  | [✅](models/cv/detection/atss/igie)       |                                          |
-| CenterNet  | FP16  | [✅](models/cv/detection/centernet/igie)  | [✅](models/cv/detection/centernet/ixrt)  |
-| DETR       | FP16  |                                          | [✅](models/cv/detection/detr/ixrt)       |
-| FCOS       | FP16  | [✅](models/cv/detection/fcos/igie)       | [✅](models/cv/detection/fcos/ixrt)       |
-| FoveaBox   | FP16  | [✅](models/cv/detection/foveabox/igie)   | [✅](models/cv/detection/foveabox/ixrt)   |
-| FSAF       | FP16  | [✅](models/cv/detection/fsaf/igie)       | [✅](models/cv/detection/fsaf/ixrt)       |
-| HRNet      | FP16  | [✅](models/cv/detection/hrnet/igie)      | [✅](models/cv/detection/hrnet/ixrt)      |
-| PAA        | FP16  | [✅](models/cv/detection/paa/igie)        |                                          |
-| RetinaFace | FP16  | [✅](models/cv/detection/retinaface/igie) | [✅](models/cv/detection/retinaface/ixrt) |
-| RetinaNet  | FP16  | [✅](models/cv/detection/retinanet/igie)  |                                          |
-| RTMDet     | FP16  | [✅](models/cv/detection/rtmdet/igie)     |                                          |
-| SABL       | FP16  | [✅](models/cv/detection/sabl/igie)       |                                          |
-| YOLOv3     | FP16  | [✅](models/cv/detection/yolov3/igie)     | [✅](models/cv/detection/yolov3/ixrt)     |
-|            | INT8  | [✅](models/cv/detection/yolov3/igie)     | [✅](models/cv/detection/yolov3/ixrt)     |
-| YOLOv4     | FP16  | [✅](models/cv/detection/yolov4/igie)     | [✅](models/cv/detection/yolov4/ixrt)     |
-|            | INT8  | [✅](models/cv/detection/yolov4/igie16)   | [✅](models/cv/detection/yolov4/ixrt16)   |
-| YOLOv5     | FP16  | [✅](models/cv/detection/yolov5/igie)     | [✅](models/cv/detection/yolov5/ixrt)     |
-|            | INT8  | [✅](models/cv/detection/yolov5/igie)     | [✅](models/cv/detection/yolov5/ixrt)     |
-| YOLOv5s    | FP16  |                                          | [✅](models/cv/detection/yolov5s/ixrt)    |
-|            | INT8  |                                          | [✅](models/cv/detection/yolov5s/ixrt)    |
-| YOLOv6     | FP16  | [✅](models/cv/detection/yolov6/igie)     | [✅](models/cv/detection/yolov6/ixrt)     |
-|            | INT8  |                                          | [✅](models/cv/detection/yolov6/ixrt)     |
-| YOLOv7     | FP16  | [✅](models/cv/detection/yolov7/igie)     | [✅](models/cv/detection/yolov7/ixrt)     |
-|            | INT8  | [✅](models/cv/detection/yolov7/igie)     | [✅](models/cv/detection/yolov7/ixrt)     |
-| YOLOv8     | FP16  | [✅](models/cv/detection/yolov8/igie)     | [✅](models/cv/detection/yolov8/ixrt)     |
-|            | INT8  | [✅](models/cv/detection/yolov8/igie)     | [✅](models/cv/detection/yolov8/ixrt)     |
-| YOLOv9     | FP16  | [✅](models/cv/detection/yolov9/igie)     |                                          |
-| YOLOv10    | FP16  | [✅](models/cv/detection/yolov10/igie)    |                                          |
-| YOLOv11    | FP16  | [✅](models/cv/detection/yolov11/igie)    |                                          |
-| YOLOX      | FP16  | [✅](models/cv/detection/yolox/igie)      | [✅](models/cv/detection/yolox/ixrt)      |
-|            | INT8  | [✅](models/cv/detection/yolox/igie)      | [✅](models/cv/detection/yolox/ixrt)      |
+| Model      | Prec. | IGIE                                            | IxRT                                            |
+|------------|-------|-------------------------------------------------|-------------------------------------------------|
+| ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       |                                                 |
+| CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  |
+| DETR       | FP16  |                                                 | [✅](models/cv/object_detection/detr/ixrt)       |
+| FCOS       | FP16  | [✅](models/cv/object_detection/fcos/igie)       | [✅](models/cv/object_detection/fcos/ixrt)       |
+| FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   |
+| FSAF       | FP16  | [✅](models/cv/object_detection/fsaf/igie)       | [✅](models/cv/object_detection/fsaf/ixrt)       |
+| HRNet      | FP16  | [✅](models/cv/object_detection/hrnet/igie)      | [✅](models/cv/object_detection/hrnet/ixrt)      |
+| PAA        | FP16  | [✅](models/cv/object_detection/paa/igie)        |                                                 |
+| RetinaFace | FP16  | [✅](models/cv/object_detection/retinaface/igie) | [✅](models/cv/object_detection/retinaface/ixrt) |
+| RetinaNet  | FP16  | [✅](models/cv/object_detection/retinanet/igie)  |                                                 |
+| RTMDet     | FP16  | [✅](models/cv/object_detection/rtmdet/igie)     |                                                 |
+| SABL       | FP16  | [✅](models/cv/object_detection/sabl/igie)       |                                                 |
+| YOLOv3     | FP16  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     |
+|            | INT8  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     |
+| YOLOv4     | FP16  | [✅](models/cv/object_detection/yolov4/igie)     | [✅](models/cv/object_detection/yolov4/ixrt)     |
+|            | INT8  | [✅](models/cv/object_detection/yolov4/igie16)   | [✅](models/cv/object_detection/yolov4/ixrt16)   |
+| YOLOv5     | FP16  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     |
+|            | INT8  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     |
+| YOLOv5s    | FP16  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    |
+|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    |
+| YOLOv6     | FP16  | [✅](models/cv/object_detection/yolov6/igie)     | [✅](models/cv/object_detection/yolov6/ixrt)     |
+|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6/ixrt)     |
+| YOLOv7     | FP16  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     |
+|            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     |
+| YOLOv8     | FP16  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     |
+|            | INT8  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     |
+| YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     |                                                 |
+| YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    |                                                 |
+| YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    |                                                 |
+| YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      |
+|            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      |
 
 ### Face Recognition
 
 | Model   | Prec. | IGIE | IxRT                             |
 |---------|-------|------|----------------------------------|
-| FaceNet | FP16  |      | [✅](models/cv/face/facenet/ixrt) |
-|         | INT8  |      | [✅](models/cv/face/facenet/ixrt) |
+| FaceNet | FP16  |      | [✅](models/cv/face_recognition/facenet/ixrt) |
+|         | INT8  |      | [✅](models/cv/face_recognition/facenet/ixrt) |
 
-### OCR
+### OCR (Optical Character Recognition)
 
 | Model         | Prec. | IGIE                                  |
 |---------------|-------|---------------------------------------|
@@ -185,21 +185,21 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | Lightweight OpenPose | FP16  |                                               | [✅](models/cv/pose_estimation/lightweight_openpose/ixrt) |
 | RTMPose              | FP16  | [✅](models/cv/pose_estimation/rtmpose/igie)   | [✅](models/cv/pose_estimation/rtmpose/ixrt)              |
 
-### Segmentation
+### Instance Segmentation
 
-| Model      | Prec. | IGIE | IxRT                                       |
-|------------|-------|------|--------------------------------------------|
-| Mask R-CNN | FP16  |      | [✅](models/cv/segmentation/mask_rcnn/ixrt) |
-| SOLOv1     | FP16  |      | [✅](models/cv/segmentation/solov1/ixrt)    |
+| Model      | Prec. | IGIE | IxRT                                                |
+|------------|-------|------|-----------------------------------------------------|
+| Mask R-CNN | FP16  |      | [✅](models/cv/instance_segmentation/mask_rcnn/ixrt) |
+| SOLOv1     | FP16  |      | [✅](models/cv/instance_segmentation/solov1/ixrt)    |
 
-### Trace
+### Multi-Object Tracking
 
-| Model               | Prec. | IGIE                               | IxRT |
-|---------------------|-------|------------------------------------|------|
-| FastReID            | FP16  | [✅](models/cv/trace/fastreid/igie) |      |
-| DeepSort            | FP16  | [✅](models/cv/trace/deepsort/igie) |      |
-|                     | INT8  | [✅](models/cv/trace/deepsort/igie) |      |
-| RepNet-Vehicle-ReID | FP16  | [✅](models/cv/trace/repnet/igie)   |      |
+| Model               | Prec. | IGIE                                               | IxRT |
+|---------------------|-------|----------------------------------------------------|------|
+| FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) |      |
+| DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      |
+|                     | INT8  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      |
+| RepNet-Vehicle-ReID | FP16  | [✅](models/cv/multi_object_tracking/repnet/igie)   |      |
 
 ## Multimodal
 
@@ -215,22 +215,22 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ## NLP
 
-### Language Modelling
+### PLM (Pre-trained Language Model)
 
-| Model            | Prec. | IGIE                                                 | IxRT                                                 |
-|------------------|-------|------------------------------------------------------|------------------------------------------------------|
-| ALBERT           | FP16  |                                                      | [✅](models/nlp/language_model/albert/ixrt)           |
-| BERT Base NER    | INT8  | [✅](models/nlp/language_model/bert_base_ner/igie)    |                                                      |
-| BERT Base SQuAD  | FP16  | [✅](models/nlp/language_model/bert_base_squad/igie)  | [✅](models/nlp/language_model/bert_base_squad/ixrt)  |
-|                  | INT8  |                                                      | [✅](models/nlp/language_model/bert_base_squad/ixrt)  |
-| BERT Large SQuAD | FP16  | [✅](models/nlp/language_model/bert_large_squad/igie) | [✅](models/nlp/language_model/bert_large_squad/ixrt) |
-|                  | INT8  | [✅](models/nlp/language_model/bert_large_squad/igie) | [✅](models/nlp/language_model/bert_large_squad/ixrt) |
-| DeBERTa          | FP16  |                                                      | [✅](models/nlp/language_model/deberta/ixrt)          |
-| RoBERTa          | FP16  |                                                      | [✅](models/nlp/language_model/roberta/ixrt)          |
-| RoFormer         | FP16  |                                                      | [✅](models/nlp/language_model/roformer/ixrt)         |
-| VideoBERT        | FP16  |                                                      | [✅](models/nlp/language_model/videobert/ixrt)        |
+| Model            | Prec. | IGIE                                      | IxRT                                      |
+|------------------|-------|-------------------------------------------|-------------------------------------------|
+| ALBERT           | FP16  |                                           | [✅](models/nlp/plm/albert/ixrt)           |
+| BERT Base NER    | INT8  | [✅](models/nlp/plm/bert_base_ner/igie)    |                                           |
+| BERT Base SQuAD  | FP16  | [✅](models/nlp/plm/bert_base_squad/igie)  | [✅](models/nlp/plm/bert_base_squad/ixrt)  |
+|                  | INT8  |                                           | [✅](models/nlp/plm/bert_base_squad/ixrt)  |
+| BERT Large SQuAD | FP16  | [✅](models/nlp/plm/bert_large_squad/igie) | [✅](models/nlp/plm/bert_large_squad/ixrt) |
+|                  | INT8  | [✅](models/nlp/plm/bert_large_squad/igie) | [✅](models/nlp/plm/bert_large_squad/ixrt) |
+| DeBERTa          | FP16  |                                           | [✅](models/nlp/plm/deberta/ixrt)          |
+| RoBERTa          | FP16  |                                           | [✅](models/nlp/plm/roberta/ixrt)          |
+| RoFormer         | FP16  |                                           | [✅](models/nlp/plm/roformer/ixrt)         |
+| VideoBERT        | FP16  |                                           | [✅](models/nlp/plm/videobert/ixrt)        |
 
-## Speech
+## Audio
 
 ### Speech Recognition
 
@@ -243,9 +243,9 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ### Recommendation Systems
 
-| Model       | Prec. | IGIE | IxRT                                                    |
-|-------------|-------|------|---------------------------------------------------------|
-| Wide & Deep | FP16  |      | [✅](models/recommendation/ctr-prediction/widedeep/ixrt) |
+| Model       | Prec. | IGIE | IxRT                                                 |
+|-------------|-------|------|------------------------------------------------------|
+| Wide & Deep | FP16  |      | [✅](models/others/recommendation/wide_and_deep/ixrt) |
 
 ---
 

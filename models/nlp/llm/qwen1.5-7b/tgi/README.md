@@ -1,4 +1,4 @@
-# Qwen1.5-7B (TGI)
+# Qwen1.5-7B (Text Generation Inference)
 
 ## Description
 

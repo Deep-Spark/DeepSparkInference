@@ -1,8 +1,8 @@
-# Inception-ResNetV2
+# Inception-ResNet-V2
 
 ## Description
 
-Inception-ResNetV2 is a deep learning model proposed by Google in 2016, which combines the architectures of Inception and ResNet. This model integrates the dense connections of the Inception series with the residual connections of ResNet, aiming to enhance model performance and training efficiency.
+Inception-ResNet-V2 is a deep learning model proposed by Google in 2016, which combines the architectures of Inception and ResNet. This model integrates the dense connections of the Inception series with the residual connections of ResNet, aiming to enhance model performance and training efficiency.
 
 ## Setup
 
@@ -63,7 +63,7 @@ bash scripts/infer_inceptionresnetv2_int8_performance.sh
 
 ## Results
 
-Model             |BatchSize  |Precision |FPS      | Top-1(%) | Top-5(%)    |
-------------------|-----------|----------|---------|----------|-------------|
-InceptionResNetV2 |    64     |   FP16   | 871.74  |  80.20   |  95.18      |
-InceptionResNetV2 |    64     |   INT8   | 1059.35 |  79.73   |  95.04      |
+| Model               | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|---------------------|-----------|-----------|---------|----------|----------|
+| Inception-ResNet-V2 | 64        | FP16      | 871.74  | 80.20    | 95.18    |
+| Inception-ResNet-V2 | 64        | INT8      | 1059.35 | 79.73    | 95.04    |
