@@ -1,18 +1,40 @@
-# MODEL_NAME
+# MODEL_NAME (IGIE/IxRT/vLLM/TGI/TRT-LLM/IxFormer)
 
-## Description
+## Model Description
 
 A brief introduction about this model.
+A brief introduction about this model.
+A brief introduction about this model.
 
-## Setup
+## Supported Environments
 
-### Install (remove this step if not necessary)
+| Iluvatar GPU | IXUCA |
+|--------------|-------|
+| MR-V50       | 4.1.2 |
+| MR-V100      | 4.2.0 |
 
-### Download (remove this step if not necessary)
+## Model Preparation
 
-### Model Conversion (remove this step if not necessary)
+### Prepare Datasets
 
-## Inference
+```bash
+python3 dataset/coco/download_coco.py
+```
+
+### Prepare Pre-trained Weights (for LLM)
+
+Go to huggingface.
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+python3 setup.py install
+```
+
+### Model Conversion
+
+## Model Inference
 
 ### FP16
 
@@ -26,12 +48,13 @@ bash test_fp16.sh
 bash test_int8.sh
 ```
 
-## Results (leave empty for testing team to complete)
+## Model Results
 
-Model | BatchSize | Precision | FPS | ACC
-------|-----------|-----------|-----|----
-MODEL_NAME | | | |
+| Model      | GPU        | Precision | Performance |
+|------------|------------|-----------|-------------|
+| MODEL_NAME | MR-V100 x1 |           |             |
 
-## Referenece (remove if not necessary)
+## References
 
 - [refer-page-name](https://refer-links)
+- [Paper](Paper_link)
