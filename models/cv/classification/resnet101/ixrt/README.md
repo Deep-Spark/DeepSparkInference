@@ -13,7 +13,7 @@ ResNet-101 is a variant of the ResNet (Residual Network) architecture, and it be
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r reuirements.txt
 ```

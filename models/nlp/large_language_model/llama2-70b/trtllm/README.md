@@ -2,7 +2,12 @@
 
 ## Description
 
-we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases. Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work and contribute to the responsible development of LLMs.
+we develop and release Llama 2, a collection of pretrained and fine-tuned large language models (LLMs) ranging in scale
+from 7 billion to 70 billion parameters. Our fine-tuned LLMs, called Llama 2-Chat, are optimized for dialogue use cases.
+Our models outperform open-source chat models on most benchmarks we tested, and based on our human evaluations for
+helpfulness and safety, may be a suitable substitute for closed-source models. We provide a detailed description of our
+approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work
+and contribute to the responsible development of LLMs.
 
 ## Setup
 
@@ -13,16 +18,16 @@ we develop and release Llama 2, a collection of pretrained and fine-tuned large 
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 bash scripts/set_environment.sh .
 ```
 
 ### Download
 
--Model: <https://huggingface.co/meta-llama/Llama-2-70b-chat-hf>
+- Model: <https://huggingface.co/meta-llama/Llama-2-70b-chat-hf>
 
--Dataset:<https://huggingface.co/datasets/cnn_dailymail>
+- Dataset:<https://huggingface.co/datasets/cnn_dailymail>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/llama2-70b-chat"

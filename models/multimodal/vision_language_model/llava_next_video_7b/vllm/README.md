@@ -15,12 +15,12 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 ```
 
 ### Download
 
--Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
+- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
 
 ```bash
 # Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"

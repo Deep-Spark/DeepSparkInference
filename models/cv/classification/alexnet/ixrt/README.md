@@ -2,7 +2,8 @@
 
 ## Description
 
-AlexNet is a classic convolutional neural network architecture. It consists of convolutions, max pooling and dense layers as the basic building blocks.
+AlexNet is a classic convolutional neural network architecture. It consists of convolutions, max pooling and dense
+layers as the basic building blocks.
 
 ## Setup
 
@@ -13,7 +14,7 @@ AlexNet is a classic convolutional neural network architecture. It consists of c
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
@@ -61,7 +62,7 @@ bash scripts/infer_alexnet_int8_performance.sh
 
 ## Results
 
-Model   |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
---------|-----------|----------|----------|----------|--------
-AlexNet |    32     |   FP16   | 17644.90 |  56.54   | 79.08
-AlexNet |    32     |   INT8   | 18276.83 |  55.37   | 79.04
+| Model   | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|---------|-----------|-----------|----------|----------|----------|
+| AlexNet | 32        | FP16      | 17644.90 | 56.54    | 79.08    |
+| AlexNet | 32        | INT8      | 18276.83 | 55.37    | 79.04    |

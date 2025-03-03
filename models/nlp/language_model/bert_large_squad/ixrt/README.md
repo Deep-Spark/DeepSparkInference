@@ -6,6 +6,9 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ## Setup
 
+Get `bert-large-uncased.zip` from [Google
+Drive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
+
 ### NV requirement(tensorrt_version >= 8.6)
 
 ```bash
@@ -59,14 +62,10 @@ pip install onnx pycuda
 bash script/build_engine.sh --bs 32 --int8
 bash script/inference_squad.sh --bs 32 --int8
 ```
-
-## Results
-
 | Model            | BatchSize | Precision | Latency QPS         | exact_match | f1    |
-| ---------------- | --------- | --------- | ------------------- | ----------- | ----- |
+|------------------|-----------|-----------|---------------------|-------------|-------|
 | BERT-Large-SQuAD | 32        | FP16      | 470.26 sentences/s  | 82.36       | 89.68 |
 | BERT-Large-SQuAD | 32        | INT8      | 1490.47 sentences/s | 80.92       | 88.20 |
-
-## Referenece
-
-- [bert-large-uncased.zip](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
+|------------------|-----------|-----------|---------------------|-------------|-------|
+| BERT-Large-SQuAD | 32        | FP16      | 470.26 sentences/s  | 82.36       | 89.68 |
+| BERT-Large-SQuAD | 32        | INT8      | 1490.47 sentences/s | 80.92       | 88.20 |

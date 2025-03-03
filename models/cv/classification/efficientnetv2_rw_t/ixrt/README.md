@@ -13,7 +13,7 @@ EfficientNetV2_rw_t is an enhanced version of the EfficientNet family of convolu
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install tqdm
 pip3 install timm

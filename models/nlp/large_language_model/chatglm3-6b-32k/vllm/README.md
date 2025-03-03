@@ -2,20 +2,25 @@
 
 ## Description
 
-ChatGLM3-6B-32K further enhances the understanding of long text capabilities based on ChatGLM3-6B, enabling better handling of contexts up to 32K in length. Specifically, we have updated the positional encoding and designed more targeted long text training methods, using a 32K context length during the training phase. In practical use, if your context length is mostly within 8K, we recommend using ChatGLM3-6B; if you need to handle context lengths exceeding 8K, we recommend using ChatGLM3-6B-32K.
+ChatGLM3-6B-32K further enhances the understanding of long text capabilities based on ChatGLM3-6B, enabling better
+handling of contexts up to 32K in length. Specifically, we have updated the positional encoding and designed more
+targeted long text training methods, using a 32K context length during the training phase. In practical use, if your
+context length is mostly within 8K, we recommend using ChatGLM3-6B; if you need to handle context lengths exceeding 8K,
+we recommend using ChatGLM3-6B-32K.
 
 ## Setup
 
 ### Install
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+In order to run the model smoothly, you need to get the sdk from [resource
+center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ```bash
 # Install libGL
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install transformers
 ```
@@ -53,5 +58,5 @@ python3 server_inference.py --host 127.0.0.1 --port 12345 --model_path /data/cha
 ## Results
 
 | Model           | Precision | tokens | QPS    |
-| --------------- | --------- | ------ | ------ |
+|-----------------|-----------|--------|--------|
 | ChatGLM3-6B-32K | FP16      | 745    | 110.85 |

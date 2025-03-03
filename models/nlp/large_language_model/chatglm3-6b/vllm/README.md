@@ -2,20 +2,23 @@
 
 ## Description
 
-ChatGLM3-6B is trained on large-scale natural language text data, enabling it to understand and generate text. It can be applied to various natural language processing tasks such as dialogue generation, text summarization, and language translation.
+ChatGLM3-6B is trained on large-scale natural language text data, enabling it to understand and generate text. It can be
+applied to various natural language processing tasks such as dialogue generation, text summarization, and language
+translation.
 
 ## Setup
 
 ### Install
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+In order to run the model smoothly, you need to get the sdk from [resource
+center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ```bash
 # Install libGL
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install vllm
 pip3 install transformers

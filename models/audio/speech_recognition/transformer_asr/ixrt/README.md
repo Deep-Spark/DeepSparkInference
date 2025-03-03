@@ -2,7 +2,9 @@
 
 ## Description
 
-Beam search allows us to exert control over the output of text generation. This is useful because we sometimes know exactly what we want inside the output. For example, in a Neural Machine Translation task, we might know which words must be included in the final translation with a dictionary lookup.
+Beam search allows us to exert control over the output of text generation. This is useful because we sometimes know
+exactly what we want inside the output. For example, in a Neural Machine Translation task, we might know which words
+must be included in the final translation with a dictionary lookup.
 
 ## Setup
 
@@ -79,5 +81,5 @@ python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data
 ## Results
 
 | Model           | BatchSize | Precision | QPS   | CER  |
-| --------------- | --------- | --------- | ----- | ---- |
+|-----------------|-----------|-----------|-------|------|
 | Transformer ASR | 32        | FP16      | 15.64 | 5.95 |

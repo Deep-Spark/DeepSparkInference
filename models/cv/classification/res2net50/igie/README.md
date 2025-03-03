@@ -13,7 +13,7 @@ Res2Net50 is a convolutional neural network architecture that introduces the con
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```

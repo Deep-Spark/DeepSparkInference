@@ -15,7 +15,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ## CentOS
 yum install -y mesa-libGL
 ## Ubuntu
-apt install -y libgl1-mesa-dev
+apt install -y libgl1-mesa-glx
 
 pip3 install -U transformers==4.27.1
 ```
