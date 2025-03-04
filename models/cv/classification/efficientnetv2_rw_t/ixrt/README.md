@@ -1,12 +1,12 @@
 # EfficientNetv2_rw_t
 
-## Description
+## Model Description
 
 EfficientNetV2_rw_t is an enhanced version of the EfficientNet family of convolutional neural network architectures. It builds upon the success of its predecessors by introducing novel advancements aimed at further improving performance and efficiency in various computer vision tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -25,7 +25,7 @@ pip3 install tqdm
 pip3 install cuda-python
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
 
@@ -37,7 +37,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight efficientnetv2_t_agc-3620981a.pth --output efficientnetv2_rw_t.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -52,7 +52,7 @@ bash scripts/infer_efficientnetv2_rw_t_fp16_accuracy.sh
 bash scripts/infer_efficientnetv2_rw_t_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model               |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
 --------------------|-----------|----------|---------|---------|--------

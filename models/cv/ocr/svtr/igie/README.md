@@ -1,8 +1,8 @@
 # SVTR
-## Description
+## Model Description
 SVTR proposes a single vision model for scene text recognition. This model completely abandons sequence modeling within the patch-wise image tokenization framework. Under the premise of competitive accuracy, the model has fewer parameters and faster speed.
 
-## Setup
+## Model Preparation
 ```shell
 # Install libGL
 ## CentOS
@@ -38,7 +38,7 @@ cd ..
 onnxsim SVTR.onnx SVTR_opt.onnx
 ``` 
 
-## Inference
+## Model Inference
 ```shell 
 export DATASETS_DIR=/Path/to/lmdb_evaluation/
 ```
@@ -50,10 +50,10 @@ bash scripts/infer_svtr_fp16_accuracy.sh
 bash scripts/infer_svtr_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 Model   |BatchSize  |Precision |FPS       |Acc       |
 --------|-----------|----------|----------|----------|
 SVTR    |    32     |   FP16   | 4936.47  |  88.29%  |
 
-## Reference
+## References
 PaddleOCR: https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/algorithm/text_recognition/algorithm_rec_svtr.md

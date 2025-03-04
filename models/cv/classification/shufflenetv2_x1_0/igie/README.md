@@ -1,18 +1,18 @@
 # ShuffleNetV2_x1_0
 
-## Description
+## Model Description
 
 ShuffleNet V2_x1_0 is an efficient convolutional neural network (CNN) architecture that emphasizes a balance between computational efficiency and accuracy, particularly suited for deployment on mobile and embedded devices. The model refines the ShuffleNet series by introducing structural innovations that enhance feature reuse and reduce redundancy, all while maintaining simplicity and performance.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/shufflenetv2_x1-5666bf0f80.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight shufflenetv2_x1-5666bf0f80.pth --output shufflenetv2_x1_0.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_shufflenetv2_x1_0_fp16_accuracy.sh
 bash scripts/infer_shufflenetv2_x1_0_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------------- | --------- | --------- | -------- | -------- | -------- |

@@ -1,14 +1,14 @@
 # VideoBERT
 
-## Description
+## Model Description
 
 VideoBERT is a model designed for video understanding tasks, extending the capabilities of BERT (Bidirectional Encoder
 Representations from Transformers) to video data. It enhances video representation learning by integrating both visual
 and textual information into a unified framework.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 apt install -y libnuma-dev
@@ -16,7 +16,7 @@ apt install -y libnuma-dev
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_videobert.tar>
 
@@ -31,7 +31,7 @@ cd ${MODEL_PATH}
 bash ./scripts/prepare_model_and_dataset.sh
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -72,7 +72,7 @@ wget -O workloads/videobert-onnx-fp32.json https://raw.githubusercontent.com/byt
 python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ```
 
-## Results
+## Model Results
 
 | Model     | BatchSize | Precision | QPS   | Top-1 ACC |
 |-----------|-----------|-----------|-------|-----------|

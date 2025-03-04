@@ -1,12 +1,12 @@
 # YOLOv5-m
 
-## Description
+## Model Description
 
 The YOLOv5 architecture is designed for efficient and accurate object detection tasks in real-time scenarios. It employs a single convolutional neural network to simultaneously predict bounding boxes and class probabilities for multiple objects within an image. The YOLOV5m is a medium-sized model.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5m.pt>
 
@@ -45,7 +45,7 @@ python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size 32
 mv yolov5m.onnx /Path/to/checkpoints
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/yolov5/ixrt
@@ -75,7 +75,7 @@ bash scripts/infer_yolov5_int8_accuracy.sh
 bash scripts/infer_yolov5_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
 --------|-----------|----------|---------|----------|-------------|

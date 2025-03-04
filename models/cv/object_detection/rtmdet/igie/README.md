@@ -1,12 +1,12 @@
 # RTMDet
 
-## Description
+## Model Description
 
 RTMDet, presented by the Shanghai AI Laboratory, is a novel framework for real-time object detection that surpasses the efficiency of the YOLO series. The model's architecture is meticulously crafted for optimal efficiency, employing a basic building block consisting of large-kernel depth-wise convolutions in both the backbone and neck, which enhances the model's ability to capture global context.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth>
 
@@ -38,7 +38,7 @@ python3 export.py --weight rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pt
 onnxsim rtmdet.onnx rtmdet_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco/
@@ -53,11 +53,11 @@ bash scripts/infer_rtmdet_fp16_accuracy.sh
 bash scripts/infer_rtmdet_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
 ----------|-----------|----------|----------|----------|---------------|
 RTMDet    |    32     |   FP16   | 2627.15  |  0.619   |  0.403        |
 
-## Reference
+## References
 
 mmdetection: <https://github.com/open-mmlab/mmdetection.git>

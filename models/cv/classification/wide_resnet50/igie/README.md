@@ -1,18 +1,18 @@
 # Wide ResNet50
 
-## Description
+## Model Description
 
 The distinguishing feature of Wide ResNet50 lies in its widened architecture compared to traditional ResNet models. By increasing the width of the residual blocks, Wide ResNet50 enhances the capacity of the network to capture richer and more diverse feature representations, leading to improved performance on various visual recognition tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight wide_resnet50_2-95faca4d.pth --output wide_resnet50.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -48,7 +48,7 @@ bash scripts/infer_wide_resnet50_int8_accuracy.sh
 bash scripts/infer_wide_resnet50_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model         | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------- | --------- | --------- | -------- | -------- | -------- |

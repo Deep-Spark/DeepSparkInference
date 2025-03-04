@@ -1,12 +1,12 @@
 # HRNet-W18
 
-## Description
+## Model Description
 
 HRNet-W18 is a powerful image classification model developed by Jingdong AI Research and released in 2020. It belongs to the HRNet (High-Resolution Network) family of models, known for their exceptional performance in various computer vision tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -29,7 +29,7 @@ mkdir checkpoints
 python3 export_onnx.py --output_model checkpoints/hrnet-w18.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -56,7 +56,7 @@ bash scripts/infer_hrnet_w18_int8_accuracy.sh
 bash scripts/infer_hrnet_w18_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------- | --------- | --------- | ------- | -------- | -------- |

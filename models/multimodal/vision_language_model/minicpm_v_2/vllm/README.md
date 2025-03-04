@@ -1,12 +1,12 @@
 # MiniCPM V2
 
-## Description
+## Model Description
 
 MiniCPM V2 is a compact and efficient language model designed for various natural language processing (NLP) tasks. Building on its predecessor, MiniCPM-V-1, this model integrates advancements in architecture and optimization techniques, making it suitable for deployment in resource-constrained environments.s
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -21,7 +21,7 @@ pip3 install transformers
 pip3 install --user --upgrade pillow -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-### Download
+### Prepare Resources
 
 - Model: <https://huggingface.co/openbmb/MiniCPM-V-2>
 Note: Due to the official weights missing some necessary files for vllm execution, you can download the additional files from here: <https://github.com/HwwwwwwwH/MiniCPM-V-2> to ensure that the file directory matches the structure shown here: <https://github.com/HwwwwwwwH/MiniCPM-V-2>.
@@ -32,7 +32,7 @@ mkdir data
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PT_SDPA_ENABLE_HEAD_DIM_PADDING=1

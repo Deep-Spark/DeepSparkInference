@@ -1,10 +1,10 @@
 # LayoutXLM
 
-## Description
+## Model Description
 
 LayoutXLM is a groundbreaking multimodal pre-trained model for multilingual document understanding, achieving exceptional performance by integrating text, layout, and image data.
 
-## Setup
+## Model Preparation
 
 ```shell
 pip3 install -r requirements.txt
@@ -41,7 +41,7 @@ cd ..
 onnxsim kie_ser.onnx kie_ser_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```shell
 export DATASETS_DIR=/Path/to/XFUND/
@@ -56,12 +56,12 @@ bash scripts/infer_kie_layoutxlm_fp16_accuracy.sh
 bash scripts/infer_kie_layoutxlm_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | FPS    | Hmean  |
 | ------- | --------- | --------- | ------ | ------ |
 | Kie_ser | 8         | FP16      | 107.65 | 93.61% |
 
-## Reference
+## References
 
 PaddleOCR: <https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/algorithm/kie/algorithm_kie_layoutxlm.md>

@@ -1,12 +1,12 @@
 # Resnet18
 
-## Description
+## Model Description
 
 ResNet-18 is a variant of the ResNet (Residual Network) architecture, which was introduced by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun in their 2016 paper, "Deep Residual Learning for Image Recognition." The ResNet architecture was pivotal in addressing the challenges of training very deep neural networks by introducing residual blocks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnet18-f37072fd.pth>
 
@@ -31,7 +31,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model /path/to/resnet18-f37072fd.pth --output_model checkpoints/resnet18.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -59,7 +59,7 @@ bash scripts/infer_resnet18_int8_accuracy.sh
 bash scripts/infer_resnet18_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ---------|-----------|----------|----------|----------|--------

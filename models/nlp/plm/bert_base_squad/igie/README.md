@@ -1,18 +1,18 @@
 # BERT Base SQuAD
 
-## Description
+## Model Description
 
 BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://huggingface.co/csarron/bert-base-uncased-squad-v1>
 
@@ -24,7 +24,7 @@ Dataset: <https://rajpurkar.github.io/SQuAD-explorer>
 python3 export.py --output bert-base-uncased-squad-v1.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/SQuAD/
@@ -39,7 +39,7 @@ bash scripts/infer_bert_base_squad_fp16_accuracy.sh
 bash scripts/infer_bert_base_squad_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | SeqLength | Precision | FPS    | F1 Score |
 | --------------- | --------- | --------- | --------- | ------ | -------- |

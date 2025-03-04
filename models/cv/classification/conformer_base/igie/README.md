@@ -1,18 +1,18 @@
 # Conformer Base
 
-## Description
+## Model Description
 
 Conformer is a novel network architecture that addresses the limitations of conventional Convolutional Neural Networks (CNNs) and visual transformers.  Rooted in the Feature Coupling Unit (FCU), Conformer efficiently fuses local features and global representations at different resolutions through interactive processes. Its concurrent architecture ensures the maximal retention of both local and global features. 
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://drive.google.com/file/d/1oeQ9LSOGKEUaYGu7WTlUGl3KDsQIi0MA/view?usp=sharing>
 
@@ -28,7 +28,7 @@ onnxsim conformer_base.onnx conformer_base_opt.onnx
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -43,12 +43,12 @@ bash scripts/infer_conformer_base_fp16_accuracy.sh
 bash scripts/infer_conformer_base_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------|-----------|----------|----------|----------|--------
 Conformer Base |    32     |   FP16   | 428.73   |  83.83   | 96.59
 
-## Reference
+## References
 
 - [Conformer](https://github.com/pengzhiliang/Conformer)

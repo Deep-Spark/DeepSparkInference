@@ -1,13 +1,13 @@
 # CSPResNet50
 
-## Description
+## Model Description
 
 Neural networks have enabled state-of-the-art approaches to achieve incredible results on computer vision tasks such as object detection.
 CSPResNet50 is the one of best models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -19,7 +19,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -35,7 +35,7 @@ python3 export_onnx.py   \
     --output_model ./checkpoints/cspresnet50.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -64,7 +64,7 @@ bash scripts/infer_cspresnet50_int8_accuracy.sh
 bash scripts/infer_cspresnet50_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model       |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
 ------------|-----------|----------|---------|----------|--------

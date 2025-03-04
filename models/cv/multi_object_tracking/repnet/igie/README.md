@@ -1,18 +1,18 @@
 # RepNet-Vehicle-ReID
 
-## Description
+## Model Description
 
 The paper "Deep Relative Distance Learning: Tell the Difference Between Similar Vehicles" introduces a model named Deep Relative Distance Learning (DRDL), specifically designed for the problem of vehicle re-identification. DRDL employs a dual-branch deep convolutional network architecture, combined with a coupled clusters loss function and a mixed difference network structure, effectively mapping vehicle images into Euclidean space for similarity measurement.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/CaptainEven/RepNet-MDNet-VehicleReID>
 
@@ -27,7 +27,7 @@ python3 export.py --weight epoch_14.pth --output repnet.onnx
 onnxsim repnet.onnx repnet_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/VehicleID/
@@ -42,12 +42,12 @@ bash scripts/infer_repnet_fp16_accuracy.sh
 bash scripts/infer_repnet_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS       |Acc(%)    |
 --------|-----------|----------|----------|----------|
 RepNet  |    32     |   FP16   |1373.579  |  99.88   |
 
-## Reference
+## References
 
 RepNet-MDNet-VehicleReID: <https://github.com/CaptainEven/RepNet-MDNet-VehicleReID>

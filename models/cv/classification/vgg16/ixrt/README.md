@@ -1,13 +1,13 @@
 # VGG16
 
-## Description
+## Model Description
 
 VGG16 is a deep convolutional neural network model developed by the Visual Geometry Group at the University of Oxford.
 It finished second in the 2014 ImageNet Massive Visual Identity Challenge (ILSVRC).
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -19,7 +19,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
 
@@ -32,7 +32,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model /path/to/vgg16-397923af.pth --output_model checkpoints/vgg16.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -60,7 +60,7 @@ bash scripts/infer_vgg16_int8_accuracy.sh
 bash scripts/infer_vgg16_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
 ------|-----------|----------|---------|---------|--------

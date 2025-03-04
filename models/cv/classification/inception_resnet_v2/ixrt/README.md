@@ -1,12 +1,12 @@
 # Inception-ResNet-V2
 
-## Description
+## Model Description
 
 Inception-ResNet-V2 is a deep learning model proposed by Google in 2016, which combines the architectures of Inception and ResNet. This model integrates the dense connections of the Inception series with the residual connections of ResNet, aiming to enhance model performance and training efficiency.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2-520b38e4.pth>
 
@@ -32,7 +32,7 @@ mkdir checkpoints
 python3 export_model.py --output_model /Path/to/checkpoints/inceptionresnetv2.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/inceptionresnetv2/ixrt
@@ -61,7 +61,7 @@ bash scripts/infer_inceptionresnetv2_int8_accuracy.sh
 bash scripts/infer_inceptionresnetv2_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model               | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 |---------------------|-----------|-----------|---------|----------|----------|

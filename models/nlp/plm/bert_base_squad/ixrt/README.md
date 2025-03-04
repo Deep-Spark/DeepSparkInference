@@ -1,10 +1,10 @@
 # BERT Base SQuAD
 
-## Description
+## Model Description
 
 BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
 
-## Setup
+## Model Preparation
 
 ### T4 requirement(tensorrt_version >= 8.6)
 
@@ -39,7 +39,7 @@ cd python
 bash script/prepare.sh v1_1
 ```
 
-## Inference
+## Model Inference
 
 ### On Iluvatar
 
@@ -68,7 +68,7 @@ bash script/build_engine.sh --bs 32 --int8
 bash script/inference_squad.sh --bs 32 --int8
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | Latency QPS | exact_match | f1    |
 | --------------- | --------- | --------- | ----------- | ----------- | ----- |

@@ -1,18 +1,18 @@
 # MobileNetV2
 
-## Description
+## Model Description
 
 MobileNetV2 is an improvement on V1. Its new ideas include Linear Bottleneck and Inverted Residuals, and is based on an inverted residual structure where the input and output of the residual block are thin bottleneck layers. The intermediate expansion layer uses lightweight depthwise convolutions to filter features as a source of non-linearity.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -48,7 +48,7 @@ bash scripts/infer_mobilenet_v2_int8_accuracy.sh
 bash scripts/infer_mobilenet_v2_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model        |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
 -------------|-----------|----------|---------|----------|--------

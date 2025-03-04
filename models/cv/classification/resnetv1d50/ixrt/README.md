@@ -1,12 +1,12 @@
 # ResNetV1D50
 
-## Description
+## Model Description
 
 Residual Networks, or ResNets, learn residual functions with reference to the layer inputs, instead of learning unreferenced functions. Instead of hoping each few stacked layers directly fit a desired underlying mapping, residual nets let these layers fit a residual mapping.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirments.txt
 ```
 
-### Download
+### Prepare Resources
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -29,7 +29,7 @@ mkdir checkpoints
 python3 export_onnx.py --output_model checkpoints/resnet_v1_d50.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -56,7 +56,7 @@ bash scripts/infer_resnetv1d50_int8_accuracy.sh
 bash scripts/infer_resnetv1d50_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model         | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | ------------- | --------- | --------- | ------- | -------- | -------- |

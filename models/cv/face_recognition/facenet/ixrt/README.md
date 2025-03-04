@@ -1,12 +1,12 @@
 # FaceNet
 
-## Description
+## Model Description
 
 Facenet is a facial recognition system originally proposed and developed by Google. It utilizes deep learning techniques, specifically convolutional neural networks (CNNs), to transform facial images into high-dimensional feature vectors. These feature vectors possess high discriminative power, enabling comparison and identification of different faces. The core idea of Facenet is to map faces into a multi-dimensional space of feature vectors, achieving efficient representation and recognition of faces.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz>
 
@@ -56,7 +56,7 @@ wget https://raw.githubusercontent.com/lanrax/Project_dataset/master/facenet_dat
 unzip facenet_datasets.zip
 ```
 
-## Inference
+## Model Inference
 
 Because there are differences in model export, it is necessary to verify the following information before executing inference: In deploy.py, "/last_bn/BatchNormalization_output_0" refers to the output name of the BatchNormalization node in the exported ONNX model, such as "1187". "/avgpool_1a/GlobalAveragePool_output_0" refers to the output name of the GlobalAveragePool node, such as "1178". Additionally, make sure to update "/last_bn/BatchNormalization_output_0" in build_engine.py to the corresponding name, such as "1187".
 
@@ -82,7 +82,7 @@ bash scripts/infer_facenet_int8_accuracy.sh
 bash scripts/infer_facenet_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | FPS       | AUC   | ACC              |
 | ------- | --------- | --------- | --------- | ----- | ---------------- |

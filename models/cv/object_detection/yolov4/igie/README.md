@@ -1,12 +1,12 @@
 # YOLOv4
 
-## Description
+## Model Description
 
 YOLOv4 employs a two-step process, involving regression for bounding box positioning and classification for object categorization. it amalgamates past YOLO family research contributions with novel features like WRC, CSP, CmBN, SAT, Mish activation, Mosaic data augmentation, DropBlock regularization, and CIoU loss.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
 Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
@@ -38,7 +38,7 @@ python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output y
 onnxsim yolov4.onnx yolov4_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco/
@@ -62,14 +62,14 @@ bash scripts/infer_yolov4_int8_accuracy.sh
 bash scripts/infer_yolov4_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95 |
 --------|-----------|----------|----------|----------|-------------|
 yolov4  |    32     |   FP16   |285.218   |  0.741   |   0.506     |
 yolov4  |    32     |   INT8   |413.320   |  0.721   |   0.463     |
 
-## Reference
+## References
 
 DarkNet: <https://github.com/AlexeyAB/darknet>
 Pytorch-YOLOv4: <https://github.com/Tianxiaomo/pytorch-YOLOv4>

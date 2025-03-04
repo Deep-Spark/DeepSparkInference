@@ -1,6 +1,6 @@
 # Mask R-CNN
 
-## Description
+## Model Description
 
 Mask R-CNN (Mask Region-Based Convolutional Neural Network) is an extension of the Faster R-CNN model, which is itself an improvement over R-CNN and Fast R-CNN. Developed by Kaiming He et al., Mask R-CNN is designed for object instance segmentation tasks, meaning it not only detects objects within an image but also generates high-quality segmentation masks for each instance.
 
@@ -29,7 +29,7 @@ Visit [COCO site](https://cocodataset.org/) and get COCO2017 datasets
 - images directory: coco/images/val2017/*.jpg
 - annotations directory: coco/annotations/instances_val2017.json
 
-## Setup
+## Model Preparation
 
 ```bash
 cd scripts/
@@ -47,7 +47,7 @@ bash init.sh
 bash init_nv.sh
 ```
 
-## Inference
+## Model Inference
 
 ### FP16 Performance
 
@@ -59,7 +59,7 @@ bash scripts/infer_mask_rcnn_fp16_performance.sh
 bash scripts/infer_mask_rcnn_fp16_accuracy.sh
 ```
 
-## Results
+## Model Results
 
 Model | BatchSize | Precision | FPS | ACC
 ------|-----------|-----------|-----|----

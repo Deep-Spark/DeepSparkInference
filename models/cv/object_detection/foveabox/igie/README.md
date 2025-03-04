@@ -1,12 +1,12 @@
 # FoveaBox
 
-## Description
+## Model Description
 
 FoveaBox is an advanced anchor-free object detection framework that enhances accuracy and flexibility by directly predicting the existence and bounding box coordinates of objects. Utilizing a Feature Pyramid Network (FPN), it adeptly handles targets of varying scales, particularly excelling with objects of arbitrary aspect ratios. FoveaBox also demonstrates robustness against image deformations.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/foveabox/fovea_r50_fpn_4x4_1x_coco/fovea_r50_fpn_4x4_1x_coco_20200219-ee4d5303.pth>
 
@@ -34,7 +34,7 @@ python3 export.py --weight fovea_r50_fpn_4x4_1x_coco_20200219-ee4d5303.pth --cfg
 onnxsim foveabox.onnx foveabox_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco/
@@ -49,12 +49,12 @@ bash scripts/infer_foveabox_fp16_accuracy.sh
 bash scripts/infer_foveabox_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model    |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
 ---------|-----------|----------|----------|----------|---------------|
 FoveaBox |    32     |   FP16   | 192.496  |  0.531   |  0.346        |
 
-## Reference
+## References
 
 mmdetection: <https://github.com/open-mmlab/mmdetection.git>

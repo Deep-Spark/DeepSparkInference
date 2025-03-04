@@ -1,6 +1,6 @@
 # ChatGLM3-6B-32K (vLLM)
 
-## Description
+## Model Description
 
 ChatGLM3-6B-32K further enhances the understanding of long text capabilities based on ChatGLM3-6B, enabling better
 handling of contexts up to 32K in length. Specifically, we have updated the positional encoding and designed more
@@ -8,9 +8,9 @@ targeted long text training methods, using a 32K context length during the train
 context length is mostly within 8K, we recommend using ChatGLM3-6B; if you need to handle context lengths exceeding 8K,
 we recommend using ChatGLM3-6B-32K.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
 center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -25,7 +25,7 @@ apt install -y libgl1-mesa-glx
 pip3 install transformers
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://www.modelscope.cn/models/ZhipuAI/chatglm3-6b-32k>
 
@@ -55,7 +55,7 @@ python3 -m vllm.entrypoints.openai.api_server --model /data/chatglm/chatglm3-6b-
 python3 server_inference.py --host 127.0.0.1 --port 12345 --model_path /data/chatglm/chatglm3-6b-32k
 ```
 
-## Results
+## Model Results
 
 | Model           | Precision | tokens | QPS    |
 |-----------------|-----------|--------|--------|

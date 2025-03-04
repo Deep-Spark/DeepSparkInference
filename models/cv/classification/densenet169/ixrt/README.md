@@ -1,12 +1,12 @@
 # DenseNet169
 
-## Description
+## Model Description
 
 Dense Convolutional Network (DenseNet), connects each layer to every other layer in a feed-forward fashion. Whereas traditional convolutional networks with L layers have L connections - one between each layer and its subsequent layer - our network has L(L+1)/2 direct connections.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/densenet169-b2777c0a.pth>
 
@@ -30,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight densenet169-b2777c0a.pth --output densenet169.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -45,7 +45,7 @@ bash scripts/infer_densenet169_fp16_accuracy.sh
 bash scripts/infer_densenet169_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------- | --------- | --------- | ------- | -------- | -------- |

@@ -1,18 +1,18 @@
 # MobileNetV3_Small
 
-## Description
+## Model Description
 
 MobileNetV3_Small is a lightweight convolutional neural network architecture designed for efficient mobile and embedded devices. It is part of the MobileNet family, renowned for its compact size and high performance, making it ideal for applications with limited computational resources.The key focus of MobileNetV3_Small is to achieve a balance between model size, speed, and accuracy.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight mobilenet_v3_small-047dcff4.pth --output mobilenetv3_small.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_mobilenet_v3_fp16_accuracy.sh
 bash scripts/infer_mobilenet_v3_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model             |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
 ------------------|-----------|----------|---------|---------|--------

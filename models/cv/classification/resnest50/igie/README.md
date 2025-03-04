@@ -1,12 +1,12 @@
 # ResNeSt50
 
-## Description
+## Model Description
 
 ResNeSt50 is a deep convolutional neural network model based on the ResNeSt architecture, specifically designed to enhance performance in visual recognition tasks such as image classification, object detection, instance segmentation, and semantic segmentation. ResNeSt stands for Split-Attention Networks, a modular network architecture that leverages channel-wise attention mechanisms across different network branches to capture cross-feature interactions and learn diverse representations.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/zhanghang1989/ResNeSt/releases/download/weights_step1/resnest50-528c19ca.pth>
 
@@ -35,7 +35,7 @@ onnxsim resnest50.onnx resnest50_opt.onnx
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -50,12 +50,12 @@ bash scripts/infer_resnest50_fp16_accuracy.sh
 bash scripts/infer_resnest50_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------|-----------|----------|----------|----------|--------
 ResNeSt50 |    32     |   FP16   | 344.453  |  80.93   | 95.347
 
-## Reference
+## References
 
 ResNeSt50: <https://github.com/zhanghang1989/ResNeSt>

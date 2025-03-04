@@ -1,18 +1,18 @@
 # ResNet101
 
-## Description
+## Model Description
 
 ResNet101 is a convolutional neural network architecture that belongs to the ResNet (Residual Network) family.With a total of 101 layers, ResNet101 comprises multiple residual blocks, each containing convolutional layers with batch normalization and rectified linear unit (ReLU) activations. These residual blocks allow the network to effectively capture complex features at different levels of abstraction, leading to superior performance on image recognition tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnet101-63fe2227.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight resnet101-63fe2227.pth --output resnet101.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -48,7 +48,7 @@ bash scripts/infer_resnet101_int8_accuracy.sh
 bash scripts/infer_resnet101_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------|-----------|----------|----------|----------|--------

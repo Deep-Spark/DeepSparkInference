@@ -1,12 +1,12 @@
 # SOLOv1
 
-## Description
+## Model Description
 
 SOLO (Segmenting Objects by Locations) is a new instance segmentation method that differs from traditional approaches by introducing the concept of “instance categories”. Based on the location and size of each instance, SOLO assigns each pixel to a corresponding instance category. This method transforms the instance segmentation problem into a single-shot classification task, simplifying the overall process.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 yum install mesa-libGL
@@ -26,7 +26,7 @@ sh build_mmcv.sh
 sh install_mmcv.sh
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/solo/solo_r50_fpn_3x_coco/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth>
 
@@ -40,7 +40,7 @@ python3 solo_torch2onnx.py --cfg /path/to/solo/solo_r50_fpn_3x_coco.py --checkpo
 mv r50_solo_bs1_800x800.onnx /Path/to/checkpoints/r50_solo_bs1_800x800.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -60,7 +60,7 @@ bash scripts/infer_solov1_fp16_accuracy.sh
 bash scripts/infer_solov1_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95
 --------|-----------|----------|----------|----------|------------

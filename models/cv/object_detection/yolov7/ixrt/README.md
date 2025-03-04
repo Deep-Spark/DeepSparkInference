@@ -1,12 +1,12 @@
 # YOLOv7
 
-## Description
+## Model Description
 
 YOLOv7 is an object detection model based on the YOLO (You Only Look Once) series. It is an improved version of YOLOv5 developed by the Ultralytics team. YOLOv7 aims to enhance the performance and efficiency of object detection through a series of improvements including network architecture, training strategies, and data augmentation techniques, in order to achieve more accurate and faster object detection.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt>
 
@@ -38,7 +38,7 @@ mkdir /Your_Projects/To/checkpoints
 mv yolov7.onnx /Path/to/checkpoints/yolov7m.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/yolov7/ixrt
@@ -68,7 +68,7 @@ bash scripts/infer_yolov7_int8_accuracy.sh
 bash scripts/infer_yolov7_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
 --------|-----------|----------|---------|----------|-------------|

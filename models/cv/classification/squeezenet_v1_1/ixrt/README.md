@@ -1,14 +1,14 @@
 # SqueezeNet 1.1
 
-## Description
+## Model Description
 
 SqueezeNet 1.1 is a deep learning model for image classification, designed to be lightweight and efficient for deployment on resource-constrained devices.
 
 It was developed by researchers at DeepScale and released in 2016.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -20,7 +20,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/squeezenet1_1-b8a52dc0.pth>
 
@@ -33,7 +33,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenet_v1_1.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -62,7 +62,7 @@ bash scripts/infer_squeezenet_v1_1_int8_accuracy.sh
 bash scripts/infer_squeezenet_v1_1_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model          | BatchSize | Precision | FPS   | Top-1(%) | Top-5(%) |
 | -------------- | --------- | --------- | ----- | -------- | -------- |

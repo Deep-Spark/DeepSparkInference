@@ -1,12 +1,12 @@
 # ResNetV1D50
 
-## Description
+## Model Description
 
 ResNetV1D50 is an enhanced version of ResNetV1-50 that incorporates changes like dilated convolutions and adjusted downsampling, leading to better performance in large-scale image classification tasks. Its ability to capture richer image features makes it a popular choice in deep learning models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmclassification/v0/resnet/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth>
 
@@ -35,7 +35,7 @@ python3 export.py --cfg mmpretrain/configs/resnet/resnetv1d50_b32x8_imagenet.py 
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -50,12 +50,12 @@ bash scripts/infer_resnetv1d50_fp16_accuracy.sh
 bash scripts/infer_resnetv1d50_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------- | --------- | --------- | -------- | -------- | -------- |
 | ResNetV1D50 | 32        | FP16      | 4017.92  | 77.517   | 93.538   |
 
-## Reference
+## References
 
 ResNetV1D50: <https://github.com/open-mmlab/mmpretrain>

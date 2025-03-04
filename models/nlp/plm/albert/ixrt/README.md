@@ -1,12 +1,12 @@
 # ALBERT
 
-## Description
+## Model Description
 
 Albert (A Lite BERT) is a variant of the BERT (Bidirectional Encoder Representations from Transformers) model that focuses on efficiency and scalability while maintaining strong performance in natural language processing tasks. The AlBERT model introduces parameter reduction techniques and incorporates self-training strategies to enhance its effectiveness.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 apt install -y libnuma-dev
@@ -14,7 +14,7 @@ apt install -y libnuma-dev
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_albert.tar>
 
@@ -39,7 +39,7 @@ python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/open_albert/
 onnxsim albert-torch-fp32.onnx albert-torch-fp32-sim.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -89,7 +89,7 @@ sed -i 's/tensorrt_legacy/tensorrt/' ./backends/ILUVATAR/runtime_backend_iluvata
 python3 core/perf_engine.py --hardware_type ILUVATAR --task albert-torch-fp32
 ```
 
-## Results
+## Model Results
 
 | Model  | BatchSize | Precision | QPS   | Exact Match | F1 Score |
 | ------ | --------- | --------- | ----- | ----------- | -------- |

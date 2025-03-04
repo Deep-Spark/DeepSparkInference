@@ -1,6 +1,6 @@
 # LlaMa3 70B (vLLM)
 
-## Description
+## Model Description
 
 This model is the Meta Llama 3 large language model series (LLMs) released by Meta, which is a series of pre-trained and
 instruction-tuned generative text models, available in 8B and 70B models. The model is 70B in size and is designed for
@@ -18,9 +18,9 @@ Llama 3 is a major improvement over Llama 2 and other publicly available models:
 
 --Encode the language more efficiently using a larger token vocabulary with 128K tokens
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
 center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -33,7 +33,7 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 ```
 
-### Download
+### Prepare Resources
 
 - Model: <https://huggingface.co/Undi95/Meta-Llama-3-70B-hf>
 
@@ -43,7 +43,7 @@ mkdir data
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7

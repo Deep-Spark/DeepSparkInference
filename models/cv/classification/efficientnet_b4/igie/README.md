@@ -1,18 +1,18 @@
 # EfficientNet B4
 
-## Description
+## Model Description
 
 EfficientNet B4 is a high-performance convolutional neural network model introduced in Google's paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." It is part of the EfficientNet family, which leverages compound scaling to balance depth, width, and input resolution for better accuracy and efficiency.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b4_rwightman-23ab8bcd.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight efficientnet_b4_rwightman-23ab8bcd.pth --output efficientnet_b4.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_efficientnet_b4_fp16_accuracy.sh
 bash scripts/infer_efficientnet_b4_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | --------------- | --------- | --------- | -------- | -------- | -------- |

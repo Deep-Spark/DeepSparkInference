@@ -1,14 +1,14 @@
 # ChatGLM3-6B (vLLM)
 
-## Description
+## Model Description
 
 ChatGLM3-6B is trained on large-scale natural language text data, enabling it to understand and generate text. It can be
 applied to various natural language processing tasks such as dialogue generation, text summarization, and language
 translation.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
 center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -24,7 +24,7 @@ pip3 install vllm
 pip3 install transformers
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://huggingface.co/THUDM/chatglm3-6b>
 

@@ -1,12 +1,12 @@
 # GoogLeNet
 
-## Description
+## Model Description
 
 GoogLeNet is a type of convolutional neural network based on the Inception architecture. It utilises Inception modules, which allow the network to choose between multiple convolutional filter sizes in each block. An Inception network stacks these modules on top of each other, with occasional max-pooling layers with stride 2 to halve the resolution of the grid.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/googlenet-1378be20.pth>
 
@@ -31,7 +31,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model /path/to/googlenet-1378be20.pth --output_model checkpoints/googlenet.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -59,7 +59,7 @@ bash scripts/infer_googlenet_int8_accuracy.sh
 bash scripts/infer_googlenet_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------|-----------|----------|----------|----------|--------

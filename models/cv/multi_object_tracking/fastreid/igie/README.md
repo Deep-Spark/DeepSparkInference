@@ -1,18 +1,18 @@
 # FastReID
 
-## Description
+## Model Description
 
 FastReID is a research platform that implements state-of-the-art re-identification algorithms.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/JDAI-CV/fast-reid/releases/download/v0.1.1/vehicleid_bot_R50-ibn.pth>
 
@@ -31,7 +31,7 @@ python3 tools/deploy/onnx_export.py --config-file configs/VehicleID/bagtricks_R5
 cd ..
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/VehicleID
@@ -46,7 +46,7 @@ bash scripts/infer_fastreid_fp16_accuracy.sh
 bash scripts/infer_fastreid_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model    |BatchSize  |Precision |FPS       |Rank-1(%) |Rank-5(%) |mAP     |
 ---------|-----------|----------|----------|----------|----------|--------|

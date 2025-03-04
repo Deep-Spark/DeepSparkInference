@@ -1,13 +1,13 @@
 # AlexNet
 
-## Description
+## Model Description
 
 AlexNet is a classic convolutional neural network architecture. It consists of convolutions, max pooling and dense
 layers as the basic building blocks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -19,7 +19,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/alexnet-owt-7be5be79.pth>
 
@@ -32,7 +32,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model /path/to/alexnet-owt-7be5be79.pth --output_model checkpoints/alexnet.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -60,7 +60,7 @@ bash scripts/infer_alexnet_int8_accuracy.sh
 bash scripts/infer_alexnet_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 |---------|-----------|-----------|----------|----------|----------|

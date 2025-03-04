@@ -1,12 +1,12 @@
 # DenseNet161
 
-## Description
+## Model Description
 
 DenseNet161 is a convolutional neural network architecture that belongs to the family of Dense Convolutional Networks (DenseNets). Introduced as an extension to the previous DenseNet models, DenseNet161 offers improved performance and deeper network capacity, making it suitable for various computer vision tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/densenet161-8d451a50.pth>
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
@@ -29,7 +29,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight densenet161-8d451a50.pth --output densenet161.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -44,7 +44,7 @@ bash scripts/infer_densenet161_fp16_accuracy.sh
 bash scripts/infer_densenet161_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | ----------- | --------- | --------- | ------- | -------- | -------- |

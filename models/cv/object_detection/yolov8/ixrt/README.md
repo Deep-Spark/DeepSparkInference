@@ -1,12 +1,12 @@
 # YOLOv8
 
-## Description
+## Model Description
 
 Yolov8 combines speed and accuracy in real-time object detection tasks. With a focus on simplicity and efficiency, this model employs a single neural network to make predictions, enabling fast and accurate identification of objects in images or video streams.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt>
 
@@ -33,7 +33,7 @@ python3 export.py --weight yolov8.pt --batch 32
 onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -60,7 +60,7 @@ bash scripts/infer_yolov8_int8_accuracy.sh
 bash scripts/infer_yolov8_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model  | BatchSize | Precision | FPS      | MAP@0.5 |
 | ------ | --------- | --------- | -------- | ------- |

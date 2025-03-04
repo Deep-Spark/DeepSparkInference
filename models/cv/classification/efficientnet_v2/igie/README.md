@@ -1,18 +1,18 @@
 # EfficientNetV2-M
 
-## Description
+## Model Description
 
 EfficientNetV2 M is an optimized model in the EfficientNetV2 series, which was developed by Google researchers. It continues the legacy of the EfficientNet family, focusing on advancing the state-of-the-art in accuracy and efficiency through advanced scaling techniques and architectural innovations.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_v2_m-dc08266a.pth>
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight efficientnet_v2_m-dc08266a.pth --output efficientnet_v2_m.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_efficientnet_v2_fp16_accuracy.sh
 bash scripts/infer_efficientnet_v2_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model            | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ---------------- | --------- | --------- | -------- | -------- | -------- |

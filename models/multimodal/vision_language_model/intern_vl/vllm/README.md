@@ -1,12 +1,12 @@
 # InternVL2-4B
 
-## Description
+## Model Description
 
 InternVL2-4B is a large-scale multimodal model developed by WeTab AI, designed to handle a wide range of tasks involving both text and visual data. With 4 billion parameters, it is capable of understanding and generating complex patterns in data, making it suitable for applications such as image recognition, natural language processing, and multimodal learning.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -23,7 +23,7 @@ pip3 install triton
 pip3 install ixformer
 ```
 
-### Download
+### Prepare Resources
 
 - Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
 
@@ -33,7 +33,7 @@ mkdir -p data/intern_vl
 ln -s /path/to/InternVL2-4B ./data/intern_vl
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1

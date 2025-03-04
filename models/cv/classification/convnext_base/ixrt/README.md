@@ -1,12 +1,12 @@
 # ConvNeXt Base
 
-## Description
+## Model Description
 
 The ConvNeXt Base model represents a significant stride in the evolution of convolutional neural networks (CNNs), introduced by researchers at Facebook AI Research (FAIR) and UC Berkeley. It is part of the ConvNeXt family, which challenges the dominance of Vision Transformers (ViTs) in the realm of visual recognition tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -24,7 +24,7 @@ pip3 install tqdm
 pip3 install cuda-python
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
 
@@ -36,7 +36,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight convnext_base-6075fbad.pth --output convnext_base.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -52,7 +52,7 @@ bash scripts/infer_convnext_base_fp16_accuracy.sh
 bash scripts/infer_convnext_base_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------------- | --------- | --------- | ------- | -------- | -------- |

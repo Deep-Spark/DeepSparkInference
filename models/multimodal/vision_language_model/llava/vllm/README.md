@@ -1,12 +1,12 @@
 # LLava
 
-## Description
+## Model Description
 
 LLaVA is an open-source chatbot trained by fine-tuning LLaMA/Vicuna on GPT-generated multimodal instruction-following data. It is an auto-regressive language model, based on the transformer architecture.The LLaVA-NeXT model was proposed in LLaVA-NeXT: Improved reasoning, OCR, and world knowledge by Haotian Liu, Chunyuan Li, Yuheng Li, Bo Li, Yuanhan Zhang, Sheng Shen, Yong Jae Lee. LLaVa-NeXT (also called LLaVa-1.6) improves upon LLaVa-1.5 by increasing the input image resolution and training on an improved visual instruction tuning dataset to improve OCR and common sense reasoning.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -19,7 +19,7 @@ apt install -y libgl1-mesa-glx
 pip3 install transformers
 ```
 
-### Download
+### Prepare Resources
 
 -llava-v1.6-vicuna-7b-hf: <https://modelscope.cn/models/swift/llava-v1.6-vicuna-7b-hf>
 
@@ -29,7 +29,7 @@ mkdir data
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PT_SDPA_ENABLE_HEAD_DIM_PADDING=1

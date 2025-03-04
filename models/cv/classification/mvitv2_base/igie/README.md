@@ -1,12 +1,12 @@
 # MViTv2-base
 
-## Description
+## Model Description
 
 MViTv2_base is an efficient multi-scale vision Transformer model designed specifically for image classification tasks. By employing a multi-scale structure and hierarchical representation, it effectively captures both global and local image features while maintaining computational efficiency. The MViTv2_base has demonstrated excellent performance on multiple standard datasets and is suitable for a variety of visual recognition tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmclassification/v0/mvit/mvitv2-base_3rdparty_in1k_20220722-9c4f0a17.pth>
 
@@ -38,7 +38,7 @@ onnxsim mvitv2_base.onnx mvitv2_base_opt.onnx
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -53,12 +53,12 @@ bash scripts/infer_mvitv2_base_fp16_accuracy.sh
 bash scripts/infer_mvitv2_base_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------- | --------- | --------- | -------- | -------- | -------- |
 | MViTv2-base | 16        | FP16      | 58.76    | 84.226   | 96.848   |
 
-## Reference
+## References
 
 MViTv2-base: <https://github.com/open-mmlab/mmpretrain>

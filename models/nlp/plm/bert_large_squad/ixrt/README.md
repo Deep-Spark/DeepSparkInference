@@ -1,10 +1,10 @@
 # BERT Large SQuAD
 
-## Description
+## Model Description
 
 BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
 
-## Setup
+## Model Preparation
 
 Get `bert-large-uncased.zip` from [Google
 Drive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
@@ -42,7 +42,7 @@ cd python
 bash script/prepare.sh v1_1
 ```
 
-## Inference
+## Model Inference
 
 ### FP16
 

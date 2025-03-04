@@ -1,12 +1,12 @@
 # EfficientNet B0
 
-## Description
+## Model Description
 
 EfficientNet B0 is a convolutional neural network architecture that belongs to the EfficientNet family, which was introduced by Mingxing Tan and Quoc V. Le in their paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." The EfficientNet family is known for achieving state-of-the-art performance on various computer vision tasks while being more computationally efficient than many existing models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b0_rwightman-3dd342df.pth>
 
@@ -30,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet_b0.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -54,7 +54,7 @@ bash scripts/infer_efficientnet_b0_int8_accuracy.sh
 bash scripts/infer_efficientnet_b0_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | --------------- | --------- | --------- | ------- | -------- | -------- |

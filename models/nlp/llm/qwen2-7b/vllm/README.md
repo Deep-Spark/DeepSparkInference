@@ -1,6 +1,6 @@
 # Qwen2-7B Instruct (vLLM)
 
-## Description
+## Model Description
 
 Qwen2 is the new series of Qwen large language models. For Qwen2, we release a number of base language models and
 instruction-tuned language models ranging from 0.5 to 72 billion parameters, including a Mixture-of-Experts model. This
@@ -13,9 +13,9 @@ reasoning, etc.
 
 Qwen2-7B-Instruct supports a context length of up to 131,072 tokens, enabling the processing of extensive inputs.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -30,7 +30,7 @@ pip3 install triton
 pip3 install ixformer
 ```
 
-### Download
+### Prepare Resources
 
 - Model: https://modelscope.cn/models/Qwen/Qwen2-7B-Instruct
 
@@ -40,7 +40,7 @@ mkdir -p data/qwen2
 ln -s /path/to/Qwen2-7B-Instruct ./data/qwen2
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0

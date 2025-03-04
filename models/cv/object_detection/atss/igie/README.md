@@ -1,12 +1,12 @@
 # ATSS
 
-## Description
+## Model Description
 
 ATSS is an advanced adaptive training sample selection method that effectively enhances the performance of both anchor-based and anchor-free object detectors by dynamically choosing positive and negative samples based on the statistical characteristics of objects. The design of ATSS reduces reliance on hyperparameters, simplifies the sample selection process, and significantly improves detection accuracy without adding extra computational costs.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth>
 
@@ -38,7 +38,7 @@ python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg atss
 onnxsim atss.onnx atss_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco/
@@ -53,13 +53,13 @@ bash scripts/infer_atss_fp16_accuracy.sh
 bash scripts/infer_atss_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model  |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
 -------|-----------|----------|----------|----------|---------------|
 ATSS   |    32     |   FP16   | 81.671   |  0.541   |  0.367        |
 
 
-## Reference
+## References
 
 mmdetection: <https://github.com/open-mmlab/mmdetection.git>

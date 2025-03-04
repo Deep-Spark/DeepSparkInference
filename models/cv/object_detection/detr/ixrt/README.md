@@ -1,12 +1,12 @@
 # DETR
 
-## Description
+## Model Description
 
 DETR (DEtection TRansformer) is a novel approach that views object detection as a direct set prediction problem. This method streamlines the detection process, eliminating the need for many hand-designed components like non-maximum suppression procedures or anchor generation, which are typically used to explicitly encode prior knowledge about the task.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v3.0/detr/detr_r50_8xb2-150e_coco/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth>
 
@@ -31,7 +31,7 @@ mkdir checkpoints
 python3 export_model.py --torch_file /path/to/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -52,7 +52,7 @@ bash scripts/infer_detr_fp16_accuracy.sh
 bash scripts/infer_detr_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95
 --------|-----------|----------|----------|----------|------------

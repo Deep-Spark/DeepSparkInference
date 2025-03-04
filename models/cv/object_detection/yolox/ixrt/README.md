@@ -1,13 +1,13 @@
 # YOLOX
 
-## Description
+## Model Description
 
 YOLOX is an anchor-free version of YOLO, with a simpler design but better performance! It aims to bridge the gap between research and industrial communities.
 For more details, please refer to our [report on Arxiv](https://arxiv.org/abs/2107.08430).
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -19,7 +19,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth>
 
@@ -38,7 +38,7 @@ python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.p
 popd
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 # Set DATASETS_DIR
@@ -73,13 +73,13 @@ bash scripts/infer_yolox_int8_accuracy.sh
 bash scripts/infer_yolox_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model   |BatchSize  |Precision |FPS       |MAP@0.5   |
 --------|-----------|----------|----------|----------|
 yolox   |    32     |   FP16   | 424.53   |  0.656   |
 yolox   |    32     |   INT8   | 832.16   |  0.647   |
 
-## Reference
+## References
 
 YOLOX: <https://github.com/Megvii-BaseDetection/YOLOX>

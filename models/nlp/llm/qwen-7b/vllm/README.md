@@ -1,6 +1,6 @@
 # Qwen-7B (vLLM)
 
-## Description
+## Model Description
 
 Large language models (LLMs) have revolutionized the field of artificial intelligence, enabling natural language
 processing tasks that were previously thought to be exclusive to humans. In this work, we introduce Qwen, the first
@@ -15,9 +15,9 @@ Code-Qwen-Chat, as well as mathematics-focused models, Math-Qwen-Chat, which are
 models demonstrate significantly improved performance in comparison with open-source models, and slightly fall behind
 the proprietary models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
 center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -35,7 +35,7 @@ pip3 install triton
 pip3 install ixformer
 ```
 
-### Download
+### Prepare Resources
 
 - Model: - Model: <https://modelscope.cn/models/qwen/Qwen-7B/summary>
 
@@ -45,7 +45,7 @@ mkdir -p data/qwen
 ln -s /path/to/Qwen-7B ./data/qwen
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1

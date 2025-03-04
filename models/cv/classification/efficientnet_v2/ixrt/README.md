@@ -1,12 +1,12 @@
 # EfficientNetV2
 
-## Description
+## Model Description
 
 EfficientNetV2 is an improved version of the EfficientNet architecture proposed by Google, aiming to enhance model performance and efficiency. Unlike the original EfficientNet, EfficientNetV2 features a simplified design and incorporates a series of enhancement strategies to further boost performance.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
 
@@ -39,7 +39,7 @@ python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet_v2.o
 cd ../../
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/efficientnet_v2/ixrt
@@ -68,7 +68,7 @@ bash scripts/infer_efficientnet_v2_int8_accuracy.sh
 bash scripts/infer_efficientnet_v2_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model          | BatchSize | Precision |   FPS    | Top-1(%) | Top-5(%)
 ---------------|-----------|-----------|----------|----------|--------

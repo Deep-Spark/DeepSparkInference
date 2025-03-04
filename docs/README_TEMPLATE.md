@@ -15,13 +15,11 @@ A brief introduction about this model.
 
 ## Model Preparation
 
-### Prepare Datasets
+### Prepare Resources
 
 ```bash
 python3 dataset/coco/download_coco.py
 ```
-
-### Prepare Pre-trained Weights (for LLM)
 
 Go to huggingface.
 

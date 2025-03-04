@@ -1,18 +1,18 @@
 # DeepSort
 
-## Description
+## Model Description
 
 DeepSort integrates deep neural networks with traditional tracking methods to achieve robust and accurate tracking of objects in video streams. The algorithm leverages a combination of a deep appearance feature extractor and the Hungarian algorithm for data association.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model(ckpt.t7): <https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6>
 
@@ -27,7 +27,7 @@ python3 export.py --weight ckpt.t7 --output deepsort.onnx
 onnxsim deepsort.onnx deepsort_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/market1501/
@@ -51,7 +51,7 @@ bash scripts/infer_deepsort_int8_accuracy.sh
 bash scripts/infer_deepsort_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model    |BatchSize  |Precision |FPS       |Acc(%)    |
 ---------|-----------|----------|----------|----------|

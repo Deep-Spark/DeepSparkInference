@@ -1,12 +1,12 @@
 # Conformer
 
-## Description
+## Model Description
 
 Conformer is a speech recognition model proposed by Google in 2020. It combines the advantages of CNN and Transformer. CNN efficiently extracts local features, while Transformer is more effective in capturing long sequence dependencies. Conformer applies convolution to the Encoder layer of Transformer, enhancing the performance of Transformer in the ASR (Automatic Speech Recognition) domain.
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,7 +18,7 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://github.com/wenet-e2e/wenet/blob/main/docs/pretrained_models.en.md>
 
@@ -50,7 +50,7 @@ bash scripts/infer_conformer_fp16_accuracy.sh
 bash scripts/infer_conformer_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model     | BatchSize | Precision | QPS     | CER    |
 | --------- | --------- | --------- | ------- | ------ |

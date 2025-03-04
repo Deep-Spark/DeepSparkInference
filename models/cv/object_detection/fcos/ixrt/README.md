@@ -1,13 +1,13 @@
 # FCOS
 
-## Description
+## Model Description
 
 FCOS is an anchor-free model based on the Fully Convolutional Network (FCN) architecture for pixel-wise object detection. It implements a proposal-free solution and introduces the concept of centerness.
 For more details, please refer to our [report on Arxiv](https://arxiv.org/abs/1904.01355).
 
-## Setup
+## Model Preparation
 
-### Install
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -32,7 +32,7 @@ sh build_mmcv.sh
 sh install_mmcv.sh
 ```
 
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fcos/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco-0a0d75a8.pth>
 
@@ -65,7 +65,7 @@ python3 tools/deployment/pytorch2onnx.py \
 
 If there are issues such as input parameter mismatch during model export, it may be due to ONNX version. To resolve this, please delete the last parameter (dynamic_slice) from the return value of the_slice_helper function in the /usr/local/lib/python3.10/site-packages/mmcv/onnx/onnx_utils/symbolic_helper.py file.
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -83,7 +83,7 @@ bash scripts/infer_fcos_fp16_accuracy.sh
 bash scripts/infer_fcos_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model | BatchSize | Precision | FPS   | MAP@0.5 | MAP@0.5:0.95 |
 | ----- | --------- | --------- | ----- | ------- | ------------ |
