@@ -1,4 +1,4 @@
-# EfficientNet B2
+# EfficientNet B2 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNet B2 is a member of the EfficientNet family, a series of convolutiona
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b2_rwightman-c35c1473.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -42,5 +42,5 @@ bash scripts/infer_efficientnet_b2_fp16_performance.sh
 ## Model Results
 
 | Model           | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-| --------------- | --------- | --------- | -------- | -------- | -------- |
+|-----------------|-----------|-----------|----------|----------|----------|
 | EfficientNet B2 | 32        | FP16      | 1527.044 | 77.739   | 93.702   |

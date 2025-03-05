@@ -15,6 +15,16 @@ Qwen2-7B-Instruct supports a context length of up to 131,072 tokens, enabling th
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://modelscope.cn/models/Qwen/Qwen2-7B-Instruct>
+
+```bash
+cd models/nlp/large_language_model/qwen2-7b/vllm
+mkdir -p data/qwen2
+ln -s /path/to/Qwen2-7B-Instruct ./data/qwen2
+```
+
 ### Install Dependencies
 
 ```bash
@@ -28,16 +38,6 @@ apt install -y libgl1-mesa-glx
 pip3 install vllm
 pip3 install triton
 pip3 install ixformer
-```
-
-### Prepare Resources
-
-- Model: https://modelscope.cn/models/Qwen/Qwen2-7B-Instruct
-
-```bash
-cd models/nlp/large_language_model/qwen2-7b/vllm
-mkdir -p data/qwen2
-ln -s /path/to/Qwen2-7B-Instruct ./data/qwen2
 ```
 
 ## Model Inference

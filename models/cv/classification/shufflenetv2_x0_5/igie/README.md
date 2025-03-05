@@ -1,4 +1,4 @@
-# ShuffleNetV2_x0_5
+# ShuffleNetV2_x0_5 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ShuffleNetV2_x0_5 is a lightweight convolutional neural network architecture des
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_shufflenetv2_x0_5_fp16_performance.sh
 
 ## Model Results
 
-Model             |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-------------------|-----------|----------|----------|----------|--------
-ShuffleNetV2_x0_5 |    32     |   FP16   | 11677.55 |  60.501  |  81.702
+| Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|-------------------|-----------|-----------|----------|----------|----------|
+| ShuffleNetV2_x0_5 | 32        | FP16      | 11677.55 | 60.501   | 81.702   |

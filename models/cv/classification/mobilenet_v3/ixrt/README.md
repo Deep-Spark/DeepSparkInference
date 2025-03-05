@@ -1,10 +1,16 @@
-# MobileNetV3
+# MobileNetV3 (IxRT)
 
 ## Model Description
 
 MobileNetV3 is a convolutional neural network that is tuned to mobile phone CPUs through a combination of hardware-aware network architecture search (NAS) complemented by the NetAdapt algorithm, and then subsequently improved through novel architecture advances. Advances include (1) complementary search techniques, (2) new efficient versions of nonlinearities practical for the mobile setting, (3) new efficient network design.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/mobilenet_v3_small-047dcff4.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -52,6 +52,6 @@ bash scripts/infer_mobilenet_v3_fp16_performance.sh
 
 ## Model Results
 
-Model       | BatchSize | Precision|   FPS    | Top-1(%) | Top-5(%)
-------------|-----------|----------|----------|----------|--------
-MobileNetV3 |    32     |   FP16   | 8464.36  |  67.62   | 87.42
+| Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------------|-----------|-----------|---------|----------|----------|
+| MobileNetV3 | 32        | FP16      | 8464.36 | 67.62    | 87.42    |

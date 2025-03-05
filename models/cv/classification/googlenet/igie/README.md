@@ -1,4 +1,4 @@
-# GoogleNet
+# GoogleNet (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ Introduced in 2014, GoogleNet revolutionized image classification models by intr
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/googlenet-1378be20.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_googlenet_int8_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%) |Top-5(%)
-----------|-----------|----------|----------|---------|--------
-GoogleNet |    32     |   FP16   | 6564.20  |  62.44  | 84.31
-GoogleNet |    32     |   INT8   | 7910.65  |  61.06  | 83.26
+| Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-----------|-----------|-----------|---------|----------|----------|
+| GoogleNet | 32        | FP16      | 6564.20 | 62.44    | 84.31    |
+| GoogleNet | 32        | INT8      | 7910.65 | 61.06    | 83.26    |

@@ -1,4 +1,4 @@
-# ResNet101
+# ResNet101 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ResNet101 is a convolutional neural network architecture that belongs to the Res
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnet101-63fe2227.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_resnet101_int8_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-ResNet101 |    32     |   FP16   | 2507.074 |  77.331  |  93.520
-ResNet101 |    32     |   INT8   | 5458.890 |  76.719  |  93.348
+| Model     | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|-----------|-----------|-----------|----------|----------|----------|
+| ResNet101 | 32        | FP16      | 2507.074 | 77.331   | 93.520   |
+| ResNet101 | 32        | INT8      | 5458.890 | 76.719   | 93.348   |

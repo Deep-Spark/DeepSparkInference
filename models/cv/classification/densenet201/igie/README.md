@@ -1,4 +1,4 @@
-# DenseNet201
+# DenseNet201 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ DenseNet201 is a deep convolutional neural network that stands out for its uniqu
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/densenet201-c1103571.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

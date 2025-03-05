@@ -1,10 +1,14 @@
-# ResNet34
+# ResNet34 (IxRT)
 
 ## Model Description
 
 Residual Networks, or ResNets, learn residual functions with reference to the layer inputs, instead of learning unreferenced functions. Instead of hoping each few stacked layers directly fit a desired underlying mapping, residual nets let these layers fit a residual mapping.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,10 +21,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -59,7 +59,7 @@ bash scripts/infer_resnet34_int8_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-ResNet34 |    32     |   FP16   | 6179.47  |  73.30   | 91.42
-ResNet34 |    32     |   INT8   | 11256.36 |  73.13   | 91.34
+| Model    | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|----------|-----------|-----------|----------|----------|----------|
+| ResNet34 | 32        | FP16      | 6179.47  | 73.30    | 91.42    |
+| ResNet34 | 32        | INT8      | 11256.36 | 73.13    | 91.34    |

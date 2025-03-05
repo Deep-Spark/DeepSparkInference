@@ -1,4 +1,4 @@
-# RepNet-Vehicle-ReID
+# RepNet-Vehicle-ReID (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ The paper "Deep Relative Distance Learning: Tell the Difference Between Similar 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://github.com/CaptainEven/RepNet-MDNet-VehicleReID>
 
 Dataset: <https://www.pkuml.org/resources/pku-vehicleid.html> to download the VehicleID dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -44,10 +44,10 @@ bash scripts/infer_repnet_fp16_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |Acc(%)    |
---------|-----------|----------|----------|----------|
-RepNet  |    32     |   FP16   |1373.579  |  99.88   |
+| Model  | BatchSize | Precision | FPS      | Acc(%) |
+|--------|-----------|-----------|----------|--------|
+| RepNet | 32        | FP16      | 1373.579 | 99.88  |
 
 ## References
 
-RepNet-MDNet-VehicleReID: <https://github.com/CaptainEven/RepNet-MDNet-VehicleReID>
+- [RepNet-MDNet-VehicleReID](https://github.com/CaptainEven/RepNet-MDNet-VehicleReID)

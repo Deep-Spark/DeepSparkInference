@@ -1,10 +1,16 @@
-# PAA
+# PAA (IGIE)
 
 ## Model Description
 
 PAA (Probabilistic Anchor Assignment) is an algorithm for object detection that adaptively assigns positive and negative anchor samples using a probabilistic model. It employs a Gaussian mixture model to dynamically select positive and negative samples based on score distribution, avoiding the misassignment issues of traditional IoU threshold-based methods. PAA enhances detection accuracy, particularly in complex scenarios, and is compatible with existing detection frameworks.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/paa/paa_r50_fpn_1x_coco/paa_r50_fpn_1x_coco_20200821-936edec3.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/paa/paa_r50_fpn_1x_coco/paa_r50_fpn_1x_coco_20200821-936edec3.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -57,4 +57,4 @@ bash scripts/infer_paa_fp16_performance.sh
 
 ## References
 
-mmdetection: <https://github.com/open-mmlab/mmdetection.git>
+- [mmdetection](https://github.com/open-mmlab/mmdetection.git)

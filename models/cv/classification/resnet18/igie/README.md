@@ -1,4 +1,4 @@
-# ResNet18
+# ResNet18 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ResNet-18 is a relatively compact deep neural network.The ResNet-18 architecture
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnet18-f37072fd.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_resnet18_int8_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-ResNet18 |    32     |   FP16   | 9592.98  |  69.77   | 89.09
-ResNet18 |    32     |   INT8   | 21314.55 |  69.53   | 88.97
+| Model    | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|----------|-----------|-----------|----------|----------|----------|
+| ResNet18 | 32        | FP16      | 9592.98  | 69.77    | 89.09    |
+| ResNet18 | 32        | INT8      | 21314.55 | 69.53    | 88.97    |

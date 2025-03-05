@@ -1,4 +1,4 @@
-# DeepSeek-R1-Distill-Llama-70B
+# DeepSeek-R1-Distill-Llama-70B (vLLM)
 
 ## Model Description
 
@@ -7,16 +7,6 @@ slightly change their configs and tokenizers.  We open-source distilled 1.5B, 7B
 based on Qwen2.5 and Llama3 series to the community.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-```
 
 ### Prepare Resources
 
@@ -28,13 +18,25 @@ mkdir -p data/
 ln -s /path/to/DeepSeek-R1-Distill-Llama-70B ./data/
 ```
 
-## Inference with offline
+### Install Dependencies
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+```
+
+## Model Inference
+
+### Inference with offline
 
 ```bash
 python3 offline_inference.py --model ./data/DeepSeek-R1-Distill-Llama-70B --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096
 ```
 
-## Inference with serve
+### Inference with serve
 
 ```bash
 vllm serve data/DeepSeek-R1-Distill-Llama-70B --tensor-parallel-size 8 --max-model-len 32768 --enforce-eager --trust-remote-code
@@ -42,4 +44,4 @@ vllm serve data/DeepSeek-R1-Distill-Llama-70B --tensor-parallel-size 8 --max-mod
 
 ## References
 
-[DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)
+- [DeepSeek-R1](https://github.com/deepseek-ai/DeepSeek-R1)

@@ -1,4 +1,4 @@
-# BERT Base SQuAD
+# BERT Base SQuAD (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://huggingface.co/csarron/bert-base-uncased-squad-v1>
 
 Dataset: <https://rajpurkar.github.io/SQuAD-explorer>
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

@@ -1,4 +1,4 @@
-# YOLOv9
+# YOLOv9 (IGIE)
 
 ## Model Description
 
@@ -6,15 +6,15 @@ YOLOv9 represents a major leap in real-time object detection by introducing inno
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt>
+
 ### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt>
 
 ## Model Conversion
 
@@ -45,4 +45,4 @@ bash scripts/infer_yolov9_fp16_performance.sh
 
 ## References
 
-YOLOv9: <https://docs.ultralytics.com/models/yolov9/>
+- [YOLOv9](https://docs.ultralytics.com/models/yolov9)

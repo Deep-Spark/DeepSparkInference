@@ -1,4 +1,4 @@
-# RegNet_x_16gf
+# RegNet_x_16gf (IGIE)
 
 ## Model Description
 
@@ -7,17 +7,17 @@ RegNet_x_16gf is a deep convolutional neural network from the RegNet family, int
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/regnet_x_16gf-2007eb11.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -42,6 +42,6 @@ bash scripts/infer_regnet_x_16gf_fp16_performance.sh
 
 ## Model Results
 
-Model             |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
-------------------|-----------|----------|---------|---------|--------
-RegNet_x_16gf     |    32     |   FP16   | 970.928 | 80.028  | 94.922
+| Model         | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|---------------|-----------|-----------|---------|----------|----------|
+| RegNet_x_16gf | 32        | FP16      | 970.928 | 80.028   | 94.922   |

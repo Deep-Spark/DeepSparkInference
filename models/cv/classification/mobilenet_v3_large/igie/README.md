@@ -1,4 +1,4 @@
-# MobileNetV3_Large
+# MobileNetV3_Large (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ MobileNetV3_Large builds upon the success of its predecessors by incorporating s
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mobilenet_v3_large-8738ca79.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_mobilenet_v3_large_fp16_performance.sh
 
 ## Model Results
 
-Model             |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
-------------------|-----------|----------|---------|---------|--------
-MobileNetV3_Large |    32     |   FP16   | 3644.08 | 74.042  | 91.303
+| Model             | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------------------|-----------|-----------|---------|----------|----------|
+| MobileNetV3_Large | 32        | FP16      | 3644.08 | 74.042   | 91.303   |

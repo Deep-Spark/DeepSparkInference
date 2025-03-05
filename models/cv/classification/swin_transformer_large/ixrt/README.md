@@ -1,22 +1,10 @@
-# Swin Transformer Large
+# Swin Transformer Large (IxRT)
 
 ## Model Description
 
 Swin Transformer-Large is a variant of the Swin Transformer, an architecture designed for computer vision tasks, particularly within the realms of image classification, object detection, and segmentation. The Swin Transformer-Large model represents an expanded version with more layers and parameters compared to its base configuration, aiming for improved performance and deeper processing of visual data.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
-export MODEL_PATH=${PROJ_ROOT}/models/cv/classification/swin_transformer_large/ixrt
-cd ${MODEL_PATH}
-
-apt install -y libnuma-dev libgl1-mesa-glx
-
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -28,7 +16,18 @@ or you can :
 
 ```bash
 bash ./scripts/prepare_model_and_dataset.sh
+```
 
+### Install Dependencies
+
+```bash
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/cv/classification/swin_transformer_large/ixrt
+cd ${MODEL_PATH}
+
+apt install -y libnuma-dev libgl1-mesa-glx
+
+pip3 install -r requirements.txt
 ```
 
 ### Model Conversion

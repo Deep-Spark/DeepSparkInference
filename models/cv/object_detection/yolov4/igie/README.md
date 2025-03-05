@@ -1,10 +1,17 @@
-# YOLOv4
+# YOLOv4 (IGIE)
 
 ## Model Description
 
 YOLOv4 employs a two-step process, involving regression for bounding box positioning and classification for object categorization. it amalgamates past YOLO family research contributions with novel features like WRC, CSP, CmBN, SAT, Mish activation, Mosaic data augmentation, DropBlock regularization, and CIoU loss.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
+Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,13 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
-Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -64,12 +64,12 @@ bash scripts/infer_yolov4_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95 |
---------|-----------|----------|----------|----------|-------------|
-yolov4  |    32     |   FP16   |285.218   |  0.741   |   0.506     |
-yolov4  |    32     |   INT8   |413.320   |  0.721   |   0.463     |
+| Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
+|--------|-----------|-----------|---------|---------|--------------|
+| YOLOv4 | 32        | FP16      | 285.218 | 0.741   | 0.506        |
+| YOLOv4 | 32        | INT8      | 413.320 | 0.721   | 0.463        |
 
 ## References
 
-DarkNet: <https://github.com/AlexeyAB/darknet>
-Pytorch-YOLOv4: <https://github.com/Tianxiaomo/pytorch-YOLOv4>
+- [darknet](https://github.com/AlexeyAB/darknet)
+- [pytorch-YOLOv4](https://github.com/Tianxiaomo/pytorch-YOLOv4)

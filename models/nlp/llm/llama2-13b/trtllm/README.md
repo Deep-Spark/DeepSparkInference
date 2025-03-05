@@ -9,6 +9,21 @@ from 7B to 70B.
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://huggingface.co/meta-llama/Llama-2-13b-chat-hf>
+- Dataset:<https://huggingface.co/datasets/cnn_dailymail>
+
+```bash
+# Download model from the website and make sure the model's path is "data/llama2-13b-chat"
+# Download dataset from the website and make sure the dataset's path is "data/datasets_cnn_dailymail"
+mkdir data/
+
+# Please download rouge.py to this path if your server can't attach huggingface.co.
+mkdir -p rouge/
+wget --no-check-certificate https://raw.githubusercontent.com/huggingface/evaluate/main/metrics/rouge/rouge.py -P rouge
+```
+
 ### Install Dependencies
 
 ```bash
@@ -21,26 +36,10 @@ apt install -y libgl1-mesa-glx
 bash scripts/set_environment.sh .
 ```
 
-### Prepare Resources
-
-- Model: <https://huggingface.co/meta-llama/Llama-2-13b-chat-hf>
-- Dataset:<https://huggingface.co/datasets/cnn_dailymail>
-
-```bash
-# Download model from the website and make sure the model's path is "data/llama2-13b-chat"
-# Download dataset from the website and make sure the dataset's path is "data/datasets_cnn_dailymail"
-mkdir data
-
-# Please download rouge.py to this path if your server can't attach huggingface.co.
-mkdir -p rouge/
-wget --no-check-certificate https://raw.githubusercontent.com/huggingface/evaluate/main/metrics/rouge/rouge.py -P rouge
-```
-
 ## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1
-
 ```
 
 ### FP16

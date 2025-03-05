@@ -1,10 +1,16 @@
-# YOLOX
+# YOLOX (IGIE)
 
 ## Model Description
 
 YOLOX is an anchor-free version of YOLO, with a simpler design but better performance! It aims to bridge the gap between research and industrial communities.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -21,24 +27,18 @@ pip3 install -r requirements.txt
 source /opt/rh/devtoolset-7/enable
 ```
 
-### Prepare Resources
-
-Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
-cd YOLOX
+cd YOLOX/
 python3 setup.py develop
 
 # export onnx model
 python3 tools/export_onnx.py -c ../yolox_m.pth -o 13 -n yolox-m --input input --output output --dynamic --output-name ../yolox.onnx
 
-cd ..
+cd ../
 ```
 
 ## Model Inference
@@ -67,11 +67,11 @@ bash scripts/infer_yolox_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |MAP@0.5   |
---------|-----------|----------|----------|----------|
-yolox   |    32     |   FP16   |409.517   |  0.656   |
-yolox   |    32     |   INT8   |844.991   |  0.637   |
+| Model | BatchSize | Precision | FPS     | MAP@0.5 |
+|-------|-----------|-----------|---------|---------|
+| YOLOX | 32        | FP16      | 409.517 | 0.656   |
+| YOLOX | 32        | INT8      | 844.991 | 0.637   |
 
 ## References
 
-YOLOX: <https://github.com/Megvii-BaseDetection/YOLOX>
+- [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX)

@@ -1,10 +1,16 @@
-# ResNet50
+# ResNet50 (IxRT)
 
 ## Model Description
 
 Residual Networks, or ResNets, learn residual functions with reference to the layer inputs, instead of learning unreferenced functions. Instead of hoping each few stacked layers directly fit a desired underlying mapping, residual nets let these layers fit a residual mapping.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/resnet50-0676ba61.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/resnet50-0676ba61.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -61,6 +61,6 @@ bash scripts/infer_resnet50_int8_performance.sh
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-| -------- | --------- | --------- | ------- | -------- | -------- |
+|----------|-----------|-----------|---------|----------|----------|
 | ResNet50 | 32        | FP16      | 4077.58 | 0.76158  | 0.92872  |
 | ResNet50 | 32        | INT8      | 9113.07 | 0.74516  | 0.9287   |

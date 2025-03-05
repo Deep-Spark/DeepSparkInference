@@ -1,4 +1,4 @@
-# MNASNet0_5
+# MNASNet0_5 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ MNASNet0_5 is a neural network architecture optimized for mobile devices, design
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mnasnet0.5_top1_67.823-3ffadce67e.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

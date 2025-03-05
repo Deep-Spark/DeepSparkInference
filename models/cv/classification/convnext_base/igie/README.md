@@ -1,4 +1,4 @@
-# ConvNext Base
+# ConvNext Base (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ The ConvNeXt Base model represents a significant stride in the evolution of conv
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

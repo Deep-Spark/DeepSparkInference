@@ -1,4 +1,4 @@
-# Transformer ASR（BeamSearch）
+# Transformer ASR (IxRT)
 
 ## Model Description
 
@@ -7,12 +7,6 @@ exactly what we want inside the output. For example, in a Neural Machine Transla
 must be included in the final translation with a dictionary lookup.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -49,6 +43,12 @@ results/transformer/8886
 mkdir -p /home/data/speechbrain/aishell/csv_data
 ln -s /PATH/to/data_aishell /home/data/speechbrain/aishell/
 cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
+```
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
 ```
 
 ## Model Inference

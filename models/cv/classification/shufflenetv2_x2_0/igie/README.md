@@ -1,4 +1,4 @@
-# ShuffleNetV2_x2_0
+# ShuffleNetV2_x2_0 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ShuffleNetV2_x2_0 is a lightweight convolutional neural network introduced in th
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/shufflenetv2_x2_0-8be3c8ee.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

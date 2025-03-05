@@ -1,4 +1,4 @@
-# SqueezeNet 1.1
+# SqueezeNet 1.1 (IxRT)
 
 ## Model Description
 
@@ -7,6 +7,12 @@ SqueezeNet 1.1 is a deep learning model for image classification, designed to be
 It was developed by researchers at DeepScale and released in 2016.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/squeezenet1_1-b8a52dc0.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -19,12 +25,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/squeezenet1_1-b8a52dc0.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 

@@ -1,10 +1,16 @@
-# Res2Net50
+# Res2Net50 (IGIE)
 
 ## Model Description
 
 Res2Net50 is a convolutional neural network architecture that introduces the concept of "Residual-Residual Networks" (Res2Nets) to enhance feature representation and model expressiveness, particularly in image recognition tasks.The key innovation of Res2Net50 lies in its hierarchical feature aggregation mechanism, which enables the network to capture multi-scale features more effectively. Unlike traditional ResNet architectures, Res2Net50 incorporates multiple parallel pathways within each residual block, allowing the network to dynamically adjust the receptive field size and aggregate features across different scales.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/res2net/res2net50-w14-s8_3rdparty_8xb32_in1k_20210927-bc967bf1.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/res2net/res2net50-w14-s8_3rdparty_8xb32_in1k_20210927-bc967bf1.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -55,10 +55,10 @@ bash scripts/infer_res2net50_fp16_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-Res2Net50 |    32     |   FP16   | 1641.961 |  78.139  | 93.826
+| Model     | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|-----------|-----------|-----------|----------|----------|----------|
+| Res2Net50 | 32        | FP16      | 1641.961 | 78.139   | 93.826   |
 
 ## References
 
-Res2Net50: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

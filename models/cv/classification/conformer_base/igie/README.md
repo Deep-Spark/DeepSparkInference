@@ -1,4 +1,4 @@
-# Conformer Base
+# Conformer Base (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ Conformer is a novel network architecture that addresses the limitations of conv
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://drive.google.com/file/d/1oeQ9LSOGKEUaYGu7WTlUGl3KDsQIi0MA/view?usp=sharing>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -45,9 +45,9 @@ bash scripts/infer_conformer_base_fp16_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-Conformer Base |    32     |   FP16   | 428.73   |  83.83   | 96.59
+| Model          | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
+|----------------|-----------|-----------|--------|----------|----------|
+| Conformer Base | 32        | FP16      | 428.73 | 83.83    | 96.59    |
 
 ## References
 

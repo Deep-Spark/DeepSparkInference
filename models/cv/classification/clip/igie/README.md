@@ -1,16 +1,10 @@
-# CLIP
+# CLIP (IGIE)
 
 ## Model Description
 
 CLIP (Contrastive Language-Image Pre-Training) is a neural network trained on a variety of (image, text) pairs. It can be instructed in natural language to predict the most relevant text snippet, given an image, without directly optimizing for the task, similarly to the zero-shot capabilities of GPT-2 and 3.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -22,6 +16,12 @@ git clone https://huggingface.co/openai/clip-vit-base-patch32 clip-vit-base-patc
 ```
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -49,6 +49,6 @@ bash scripts/infer_clip_fp16_performance.sh
 
 ## Model Results
 
-Model |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-------|-----------|----------|----------|----------|--------
-CLIP  |    32     |   FP16   | 496.91   |  59.68   | 86.16
+| Model | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
+|-------|-----------|-----------|--------|----------|----------|
+| CLIP  | 32        | FP16      | 496.91 | 59.68    | 86.16    |

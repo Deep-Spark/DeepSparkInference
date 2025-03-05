@@ -1,4 +1,4 @@
-# ResNet50
+# ResNet50 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ResNet-50 is a convolutional neural network architecture that belongs to the Res
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnet50-0676ba61.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_resnet50_int8_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-ResNet50 |    32     |   FP16   | 4417.29  |  76.11  | 92.85
-ResNet50 |    32     |   INT8   | 8628.61  |  75.72  | 92.71
+| Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|----------|-----------|-----------|---------|----------|----------|
+| ResNet50 | 32        | FP16      | 4417.29 | 76.11    | 92.85    |
+| ResNet50 | 32        | INT8      | 8628.61 | 75.72    | 92.71    |

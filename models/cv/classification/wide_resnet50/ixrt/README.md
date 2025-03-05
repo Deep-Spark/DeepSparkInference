@@ -1,4 +1,4 @@
-# Wide ResNet50
+# Wide ResNet50 (IxRT)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ The distinguishing feature of Wide ResNet50 lies in its widened architecture com
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

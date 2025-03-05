@@ -1,10 +1,16 @@
-# YOLOv5s
+# YOLOv5s (IxRT)
 
 ## Model Description
 
 The YOLOv5 architecture is designed for efficient and accurate object detection tasks in real-time scenarios. It employs a single convolutional neural network to simultaneously predict bounding boxes and class probabilities for multiple objects within an image. The YOLOV5s is a tiny model.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -76,7 +76,7 @@ bash scripts/infer_yolov5s_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
---------|-----------|----------|---------|----------|-------------|
-YOLOv5s |    32     |   FP16   | 1112.66 |  0.565   |  0.370      |
-YOLOv5s |    32     |   INT8   | 2440.54 |  0.557   |  0.351      |
+| Model   | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
+|---------|-----------|-----------|---------|---------|--------------|
+| YOLOv5s | 32        | FP16      | 1112.66 | 0.565   | 0.370        |
+| YOLOv5s | 32        | INT8      | 2440.54 | 0.557   | 0.351        |

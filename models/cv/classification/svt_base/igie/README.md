@@ -1,10 +1,16 @@
-# SVT Base
+# SVT Base (IGIE)
 
 ## Model Description
 
 SVT Base is a mid-sized variant of the Sparse Vision Transformer (SVT) series, designed to combine the expressive power of Vision Transformers (ViTs) with the efficiency of sparse attention mechanisms. By employing sparse attention and multi-stage feature extraction, SVT-Base reduces computational complexity while retaining global modeling capabilities.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/twins/twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/twins/twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -60,4 +60,4 @@ bash scripts/infer_svt_base_fp16_performance.sh
 
 ## References
 
-SVT Base: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

@@ -1,4 +1,4 @@
-# MobileNetV2
+# MobileNetV2 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ MobileNetV2 is an improvement on V1. Its new ideas include Linear Bottleneck and
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_mobilenet_v2_int8_performance.sh
 
 ## Model Results
 
-Model        |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
--------------|-----------|----------|---------|----------|--------
-MobileNetV2 |    32     |   FP16   | 6910.65 |  71.96  | 90.60
-MobileNetV2 |    32     |   INT8   | 8155.362 |  71.48  | 90.47
+| Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|-------------|-----------|-----------|----------|----------|----------|
+| MobileNetV2 | 32        | FP16      | 6910.65  | 71.96    | 90.60    |
+| MobileNetV2 | 32        | INT8      | 8155.362 | 71.48    | 90.47    |

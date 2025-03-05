@@ -1,4 +1,4 @@
-# DeBERTa
+# DeBERTa (IxRT)
 
 ## Model Description
 
@@ -11,6 +11,16 @@ fine-tuning to better suit specific downstream tasks, thereby improving the mode
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
+
+Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
+
+```bash
+bash ./scripts/prepare_model_and_dataset.sh
+```
+
 ### Install Dependencies
 
 ```bash
@@ -21,16 +31,6 @@ cd ${MODEL_PATH}
 apt install -y libnuma-dev
 
 pip3 install -r requirements.txt
-```
-
-### Prepare Resources
-
-Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
-
-Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
-
-```bash
-bash ./scripts/prepare_model_and_dataset.sh
 ```
 
 ### Model Conversion

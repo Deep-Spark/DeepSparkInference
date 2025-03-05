@@ -1,18 +1,10 @@
-# ALBERT
+# ALBERT (IxRT)
 
 ## Model Description
 
 Albert (A Lite BERT) is a variant of the BERT (Bidirectional Encoder Representations from Transformers) model that focuses on efficiency and scalability while maintaining strong performance in natural language processing tasks. The AlBERT model introduces parameter reduction techniques and incorporates self-training strategies to enhance its effectiveness.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-apt install -y libnuma-dev
-
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -27,6 +19,14 @@ export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
 export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/albert/ixrt
 cd ${MODEL_PATH}
 bash ./scripts/prepare_model_and_dataset.sh
+```
+
+### Install Dependencies
+
+```bash
+apt install -y libnuma-dev
+
+pip3 install -r requirements.txt
 ```
 
 ### Model Conversion
@@ -52,7 +52,6 @@ export PROJ_PATH=./
 ### Performance
 
 ```bash
-
 bash scripts/infer_albert_fp16_performance.sh
 ```
 

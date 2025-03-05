@@ -6,6 +6,15 @@ LLaVA is an open-source chatbot trained by fine-tuning LLaMA/Vicuna on GPT-gener
 
 ## Model Preparation
 
+### Prepare Resources
+
+-llava-v1.6-vicuna-7b-hf: <https://modelscope.cn/models/swift/llava-v1.6-vicuna-7b-hf>
+
+```bash
+# Download model from the website and make sure the model's path is "data/llava"
+mkdir data/
+```
+
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -17,16 +26,6 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 pip3 install transformers
-```
-
-### Prepare Resources
-
--llava-v1.6-vicuna-7b-hf: <https://modelscope.cn/models/swift/llava-v1.6-vicuna-7b-hf>
-
-```bash
-# Download model from the website and make sure the model's path is "data/llava"
-mkdir data
-
 ```
 
 ## Model Inference

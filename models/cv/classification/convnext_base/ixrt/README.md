@@ -1,10 +1,16 @@
-# ConvNeXt Base
+# ConvNeXt Base (IxRT)
 
 ## Model Description
 
 The ConvNeXt Base model represents a significant stride in the evolution of convolutional neural networks (CNNs), introduced by researchers at Facebook AI Research (FAIR) and UC Berkeley. It is part of the ConvNeXt family, which challenges the dominance of Vision Transformers (ViTs) in the realm of visual recognition tasks.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -15,20 +21,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install tqdm
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 

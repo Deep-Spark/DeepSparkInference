@@ -1,4 +1,4 @@
-# YOLOv10
+# YOLOv10 (IGIE)
 
 ## Model Description
 
@@ -6,23 +6,23 @@ YOLOv10, built on the Ultralytics Python package by researchers at Tsinghua Univ
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt>
+
 ### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
 
-### Prepare Resources
-
-Pretrained model: <https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt>
-
 ## Model Conversion
 
 ```bash
 git clone --depth 1 https://github.com/THU-MIG/yolov10.git
-cd yolov10
+cd yolov10/
 pip3 install -e . --no-deps
-cd ..
+cd ../
 
 python3 export.py --weight yolov10s.pt --batch 32
 
@@ -51,4 +51,4 @@ bash scripts/infer_yolov10_fp16_performance.sh
 
 ## References
 
-YOLOv10: <https://docs.ultralytics.com/models/yolov10/>
+- [YOLOv10](https://docs.ultralytics.com/models/yolov10)

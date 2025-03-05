@@ -1,4 +1,4 @@
-# Wide ResNet101
+# Wide ResNet101 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ Wide ResNet101 is a variant of the ResNet architecture that focuses on increasin
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

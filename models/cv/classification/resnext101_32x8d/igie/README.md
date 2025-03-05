@@ -1,4 +1,4 @@
-# ResNext101_32x8d
+# ResNext101_32x8d (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ ResNeXt101_32x8d is a deep convolutional neural network introduced in the paper 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

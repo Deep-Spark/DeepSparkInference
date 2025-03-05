@@ -1,4 +1,4 @@
-# EfficientNet B3
+# EfficientNet B3 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNet B3 is a member of the EfficientNet family, a series of convolutiona
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b3_rwightman-b3899882.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
