@@ -1,4 +1,4 @@
-# EfficientNet B0
+# EfficientNet B0 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNet-B0 is a lightweight yet highly efficient convolutional neural netwo
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b0_rwightman-7f5810bc.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_efficientnet_b0_fp16_performance.sh
 
 ## Model Results
 
-Model           |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------------|-----------|----------|----------|----------|--------
-EfficientNet_B0 |    32     |   FP16   | 2596.60  |  77.639  | 93.540
+| Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-----------------|-----------|-----------|---------|----------|----------|
+| EfficientNet_B0 | 32        | FP16      | 2596.60 | 77.639   | 93.540   |

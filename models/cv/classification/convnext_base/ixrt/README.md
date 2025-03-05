@@ -1,4 +1,4 @@
-# ConvNeXt Base
+# ConvNeXt Base (IxRT)
 
 ## Model Description
 
@@ -8,6 +8,12 @@ The ConvNeXt Base model represents a significant stride in the evolution of conv
 
 ### Install Dependencies
 
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
 ```bash
 # Install libGL
 ## CentOS
@@ -15,20 +21,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install tqdm
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/convnext_base-6075fbad.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 

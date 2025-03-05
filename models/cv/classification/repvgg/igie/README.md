@@ -1,10 +1,16 @@
-# RepVGG
+# RepVGG (IGIE)
 
 ## Model Description
 
 RepVGG is an innovative convolutional neural network architecture that combines the simplicity of VGG-style inference with a multi-branch topology during training. Through structural re-parameterization, RepVGG achieves high accuracy while significantly improving computational efficiency.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/repvgg/repvgg-A0_8xb32_in1k_20221213-60ae8e23.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/repvgg/repvgg-A0_8xb32_in1k_20221213-60ae8e23.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -58,4 +58,4 @@ bash scripts/infer_repvgg_fp16_performance.sh
 
 ## References
 
-RepVGG: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

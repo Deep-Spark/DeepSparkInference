@@ -1,4 +1,4 @@
-# VGG16
+# VGG16 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ VGG16 is a convolutional neural network (CNN) architecture designed for image cl
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -50,7 +50,7 @@ bash scripts/infer_vgg16_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
---------|-----------|----------|----------|----------|--------
-VGG16   |    32     |   FP16   | 1830.53  |  71.55   | 90.37
-VGG16   |    32     |   INT8   | 3528.01  |  71.53   | 90.32
+| Model | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------|-----------|-----------|---------|----------|----------|
+| VGG16 | 32        | FP16      | 1830.53 | 71.55    | 90.37    |
+| VGG16 | 32        | INT8      | 3528.01 | 71.53    | 90.32    |

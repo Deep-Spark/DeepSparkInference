@@ -1,10 +1,16 @@
-# CSPDarkNet53
+# CSPDarkNet53 (IGIE)
 
 ## Model Description
 
 CSPDarkNet53 is an enhanced convolutional neural network architecture that reduces redundant computations by integrating cross-stage partial network features and truncating gradient flow, thereby maintaining high accuracy while lowering computational costs.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -38,7 +38,6 @@ python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --w
 
 # Use onnxsim optimize onnx model
 onnxsim cspdarknet53.onnx cspdarknet53_opt.onnx
-
 ```
 
 ## Model Inference
@@ -64,4 +63,4 @@ bash scripts/infer_cspdarknet53_fp16_performance.sh
 
 ## References
 
-CSPDarkNet53: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

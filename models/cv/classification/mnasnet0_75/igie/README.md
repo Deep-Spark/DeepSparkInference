@@ -1,4 +1,4 @@
-# MNASNet0_75
+# MNASNet0_75 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ MNASNet0_75 is a lightweight convolutional neural network designed for mobile de
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mnasnet0_75-7090bc5f.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

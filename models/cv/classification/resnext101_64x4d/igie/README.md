@@ -1,4 +1,4 @@
-# ResNext101_64x4d
+# ResNext101_64x4d (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ The ResNeXt101_64x4d is a deep learning model based on the deep residual network
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnext101_64x4d-173b62eb.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

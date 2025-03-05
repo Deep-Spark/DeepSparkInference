@@ -1,4 +1,4 @@
-# ShuffleNetV1
+# ShuffleNetV1 (IxRT)
 
 ## Model Description
 
@@ -6,6 +6,12 @@ ShuffleNet V1 is a lightweight neural network architecture primarily used for im
 It uses techniques such as deep separable convolution and channel shuffle to reduce the number of parameters and computational complexity of the model, thereby achieving low computational resource consumption while maintaining high accuracy.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/shufflenet_v1/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/shufflenet_v1/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -59,6 +59,6 @@ bash scripts/infer_shufflenet_v1_fp16_performance.sh
 
 ## Model Results
 
-Model        |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
--------------|-----------|----------|---------|----------|--------
-ShuffleNetV1 |    32     |   FP16   | 3619.89 |  66.17   | 86.54
+| Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|--------------|-----------|-----------|---------|----------|----------|
+| ShuffleNetV1 | 32        | FP16      | 3619.89 | 66.17    | 86.54    |

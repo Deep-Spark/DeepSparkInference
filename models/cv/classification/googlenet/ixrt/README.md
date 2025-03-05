@@ -1,10 +1,16 @@
-# GoogLeNet
+# GoogLeNet (IxRT)
 
 ## Model Description
 
 GoogLeNet is a type of convolutional neural network based on the Inception architecture. It utilises Inception modules, which allow the network to choose between multiple convolutional filter sizes in each block. An Inception network stacks these modules on top of each other, with occasional max-pooling layers with stride 2 to halve the resolution of the grid.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/googlenet-1378be20.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/googlenet-1378be20.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -61,7 +61,7 @@ bash scripts/infer_googlenet_int8_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-GoogLeNet |    32     |   FP16   | 6470.34  |  62.456  | 84.33
-GoogLeNet |    32     |   INT8   | 9358.11  |  62.106  | 84.30
+| Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-----------|-----------|-----------|---------|----------|----------|
+| GoogLeNet | 32        | FP16      | 6470.34 | 62.456   | 84.33    |
+| GoogLeNet | 32        | INT8      | 9358.11 | 62.106   | 84.30    |

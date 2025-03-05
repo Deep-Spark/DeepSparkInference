@@ -1,4 +1,4 @@
-# BERT Large SQuAD
+# BERT Large SQuAD (IGIE)
 
 ## Model Description
 
@@ -6,22 +6,21 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1>
 
 Dataset: <https://rajpurkar.github.io/SQuAD-explorer>
 
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
+
 ### Model Conversion
 
 ```bash
-
 # Get FP16 Onnx Model
 python3 export.py --output bert-large-uncased-squad-v1.onnx
 
@@ -40,8 +39,7 @@ bash run_qat.sh
 # model: quant_bert_large/pytorch_model.bin or quant_bert_large/model.safetensors
 python3 export_hdf5.py --model quant_bert_large/pytorch_model.bin --model_name large
 
-cd ..
-
+cd ../
 ```
 
 ## Model Inference
@@ -70,7 +68,7 @@ bash scripts/infer_bert_large_squad_int8_performance.sh
 
 ## Model Results
 
-Model            |BatchSize  |SeqLength |Precision |FPS       | F1 Score
------------------|-----------|----------|----------|----------|--------
-Bertlarge(Squad) |    8      |   256    |   FP16   | 302.273  | 91.102
-Bertlarge(Squad) |    8      |   256    |   INT8   | 723.169  | 89.899
+| Model            | BatchSize | SeqLength | Precision | FPS     | F1 Score |
+|------------------|-----------|-----------|-----------|---------|----------|
+| BERT Large SQuAD | 8         | 256       | FP16      | 302.273 | 91.102   |
+| BERT Large SQuAD | 8         | 256       | INT8      | 723.169 | 89.899   |

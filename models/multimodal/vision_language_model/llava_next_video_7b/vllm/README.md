@@ -6,6 +6,15 @@ LLaVA-Next-Video is an open-source chatbot trained by fine-tuning LLM on multimo
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
+
+```bash
+# Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"
+mkdir data/
+```
+
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -16,15 +25,6 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
-```
-
-### Prepare Resources
-
-- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
-
-```bash
-# Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"
-mkdir data
 ```
 
 ## Model Inference

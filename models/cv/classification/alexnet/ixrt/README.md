@@ -1,4 +1,4 @@
-# AlexNet
+# AlexNet (IxRT)
 
 ## Model Description
 
@@ -6,6 +6,12 @@ AlexNet is a classic convolutional neural network architecture. It consists of c
 layers as the basic building blocks.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/alexnet-owt-7be5be79.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/alexnet-owt-7be5be79.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 

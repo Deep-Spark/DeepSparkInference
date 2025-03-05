@@ -1,4 +1,4 @@
-# RegNet_y_1_6gf
+# RegNet_y_1_6gf (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ RegNet is a family of models designed for image classification tasks, as describ
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/regnet_y_1_6gf-b11a554e.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

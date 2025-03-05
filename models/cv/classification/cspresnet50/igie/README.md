@@ -1,10 +1,18 @@
-# CSPResNet50
+# CSPResNet50 (IGIE)
 
 ## Model Description
 
-CSPResNet50 combines the strengths of ResNet50 and CSPNet (Cross-Stage Partial Network) to create a more efficient and high-performing architecture. By splitting and fusing feature maps across stages, CSPResNet50 reduces redundant computations, optimizes gradient flow, and enhances feature representation.
+CSPResNet50 combines the strengths of ResNet50 and CSPNet (Cross-Stage Partial Network) to create a more efficient and
+high-performing architecture. By splitting and fusing feature maps across stages, CSPResNet50 reduces redundant
+computations, optimizes gradient flow, and enhances feature representation.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -17,12 +25,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -61,4 +63,4 @@ bash scripts/infer_cspresnet50_fp16_performance.sh
 
 ## References
 
-CSPResNet50: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

@@ -1,10 +1,20 @@
-# RTMPose
+# RTMPose (IGIE)
 
 ## Model Description
 
 RTMPose, a state-of-the-art framework developed by Shanghai AI Laboratory, excels in real-time multi-person pose estimation by integrating an innovative model architecture with the efficiency of the MMPose foundation. The framework's architecture is meticulously designed to enhance performance and reduce latency, making it suitable for a variety of applications where real-time analysis is crucial.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+```bash
+wget https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
+```
 
 ### Install Dependencies
 
@@ -16,16 +26,6 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
-```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-
-```bash
-wget https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth
 ```
 
 ### Model Conversion
@@ -55,11 +55,10 @@ bash scripts/infer_rtmpose_fp16_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
-----------|-----------|----------|----------|----------|---------------|
-RTMPose   |    32     |   FP16   | 2313.33  |  0.936   |  0.773        |
-
+| Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
+|---------|-----------|-----------|---------|---------|--------------|
+| RTMPose | 32        | FP16      | 2313.33 | 0.936   | 0.773        |
 
 ## References
 
-mmpose: <https://github.com/open-mmlab/mmpose.git>
+- [mmpose](https://github.com/open-mmlab/mmpose.git)

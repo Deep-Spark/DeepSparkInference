@@ -1,4 +1,4 @@
-# EfficientNet_v2_s
+# EfficientNet_v2_s (IxRT)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNetV2 S is an optimized model in the EfficientNetV2 series, which was d
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_v2_s-dd5fe13b.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

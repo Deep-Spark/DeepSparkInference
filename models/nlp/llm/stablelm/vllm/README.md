@@ -10,6 +10,15 @@ contextual relationships, which enhances the quality and accuracy of the generat
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://huggingface.co/stabilityai/stablelm-2-1_6b/tree/main>
+
+```bash
+# Download model from the website and make sure the model's path is "data/stablelm/stablelm-2-1_6b"
+mkdir -p data/stablelm/stablelm-2-1_6b
+```
+
 ### Install Dependencies
 
 ```bash
@@ -19,15 +28,6 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 pip3 install transformers
-```
-
-### Prepare Resources
-
-- Model: <https://huggingface.co/stabilityai/stablelm-2-1_6b/tree/main>
-
-```bash
-# Download model from the website and make sure the model's path is "data/stablelm/stablelm-2-1_6b"
-mkdir -p data/stablelm/stablelm-2-1_6b
 ```
 
 ## Model Inference

@@ -1,4 +1,4 @@
-# BERT Base NER
+# BERT Base NER (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://huggingface.co/bert-base-chinese>
 
 Dataset: <http://s3.bmio.net/kashgari/china-people-daily-ner-corpus.tar.gz>
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -27,11 +27,10 @@ export DATASETS_DIR=/Path/to/china-people-daily-ner-corpus/
 python3 get_weights.py
 
 # Do QAT for INT8 test, will take a long time  
-cd Int8QAT
+cd Int8QAT/
 python3 run_qat.py --model_dir ../test/ --datasets_dir ${DATASETS_DIR}
 python3 export_hdf5.py --model quant_base/pytorch_model.bin
-cd ..
-
+cd ../
 ```
 
 ## Model Inference
@@ -47,6 +46,6 @@ bash scripts/infer_bert_base_ner_int8_performance.sh
 
 ## Model Results
 
-Model            |BatchSize  |SeqLength |Precision |FPS       | F1 Score
------------------|-----------|----------|----------|----------|--------
-Bertbase(NER)    |    8      |   256    |   INT8   | 2067.252 |  96.2
+| Model         | BatchSize | SeqLength | Precision | FPS      | F1 Score |
+|---------------|-----------|-----------|-----------|----------|----------|
+| BERT Base NER | 8         | 256       | INT8      | 2067.252 | 96.2     |

@@ -1,4 +1,4 @@
-# Conformer
+# Conformer (IGIE)
 
 ## Model Description
 
@@ -9,6 +9,12 @@ Conformer applies convolution to the Encoder layer of Transformer, enhancing the
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz>
+
+Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
+
 ### Install Dependencies
 
 ```bash
@@ -16,12 +22,6 @@ pip3 install -r requirements.txt
 cd ctc_decoder/swig && bash setup.sh
 cd ../../
 ```
-
-### Prepare Resources
-
-Pretrained model: <http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz>
-
-Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 
 ### Model Conversion
 

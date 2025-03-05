@@ -1,4 +1,4 @@
-# VideoBERT
+# VideoBERT (IxRT)
 
 ## Model Description
 
@@ -7,14 +7,6 @@ Representations from Transformers) to video data. It enhances video representati
 and textual information into a unified framework.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-apt install -y libnuma-dev
-
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -29,6 +21,14 @@ export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
 export MODEL_PATH=${PROJ_ROOT}/models/nlp/language_model/videobert/ixrt
 cd ${MODEL_PATH}
 bash ./scripts/prepare_model_and_dataset.sh
+```
+
+### Install Dependencies
+
+```bash
+apt install -y libnuma-dev
+
+pip3 install -r requirements.txt
 ```
 
 ## Model Inference

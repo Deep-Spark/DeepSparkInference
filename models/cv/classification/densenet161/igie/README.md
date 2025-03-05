@@ -1,4 +1,4 @@
-# DenseNet161
+# DenseNet161 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ DenseNet161 is a convolutional neural network architecture that belongs to the f
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/densenet161-8d451a50.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

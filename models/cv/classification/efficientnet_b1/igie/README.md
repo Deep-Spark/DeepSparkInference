@@ -1,4 +1,4 @@
-# EfficientNet B1
+# EfficientNet B1 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNet B1 is a convolutional neural network architecture that falls under 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_b1-c27df63c.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_efficientnet_b1_fp16_performance.sh
 
 ## Model Results
 
-Model           |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
-----------------|-----------|----------|---------|---------|--------
-EfficientNet B1 |    32     |   FP16   | 1292.31 | 78.823  | 94.494
+| Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-----------------|-----------|-----------|---------|----------|----------|
+| EfficientNet B1 | 32        | FP16      | 1292.31 | 78.823   | 94.494   |

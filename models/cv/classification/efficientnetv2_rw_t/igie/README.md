@@ -1,4 +1,4 @@
-# EfficientNetv2_rw_t
+# EfficientNetv2_rw_t (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ EfficientNetV2_rw_t is an enhanced version of the EfficientNet family of convolu
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_efficientnetv2_rw_t_fp16_performance.sh
 
 ## Model Results
 
-Model               |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
---------------------|-----------|----------|---------|---------|--------
-Efficientnetv2_rw_t |    32     |   FP16   | 831.678 | 82.306  | 96.163
+| Model               | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|---------------------|-----------|-----------|---------|----------|----------|
+| Efficientnetv2_rw_t | 32        | FP16      | 831.678 | 82.306   | 96.163   |

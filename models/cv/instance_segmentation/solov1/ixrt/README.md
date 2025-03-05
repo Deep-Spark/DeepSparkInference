@@ -1,4 +1,4 @@
-# SOLOv1
+# SOLOv1 (IxRT)
 
 ## Model Description
 
@@ -6,31 +6,33 @@ SOLO (Segmenting Objects by Locations) is a new instance segmentation method tha
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/solo/solo_r50_fpn_3x_coco/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
 ### Install Dependencies
 
 ```bash
-yum install mesa-libGL
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
 
-### Dependency
-
 The inference of the Solov1 model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please inquire with the staff to obtain the relevant libraries.
 
-You can follow here to build: https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh
+You can follow the script [prepare_mmcv.sh](https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh) to build:
 
 ```bash
 cd mmcv
 sh build_mmcv.sh
 sh install_mmcv.sh
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/solo/solo_r50_fpn_3x_coco/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -62,6 +64,6 @@ bash scripts/infer_solov1_fp16_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |MAP@0.5   |MAP@0.5:0.95
---------|-----------|----------|----------|----------|------------
-SOLOv1  |    1      |   FP16   | 24.67    |  0.541   | 0.338
+| Model  | BatchSize | Precision | FPS   | MAP@0.5 | MAP@0.5:0.95 |
+|--------|-----------|-----------|-------|---------|--------------|
+| SOLOv1 | 1         | FP16      | 24.67 | 0.541   | 0.338        |

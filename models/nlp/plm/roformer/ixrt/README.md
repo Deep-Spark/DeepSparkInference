@@ -1,4 +1,4 @@
-# RoFormer
+# RoFormer (IxRT)
 
 ## Model Description
 
@@ -14,15 +14,6 @@ transformer with rotary position embedding, also called RoFormer, on various lon
 datasets.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-apt install -y libnuma-dev
-
-pip3 install -r requirements.txt
-
-```
 
 ### Prepare Resources
 
@@ -45,7 +36,16 @@ rm -f open_roformer.tar
 popd
 ```
 
-### Deal with ONNX
+### Install Dependencies
+
+```bash
+apt install -y libnuma-dev
+
+pip3 install -r requirements.txt
+
+```
+
+### Model Conversion
 
 ```bash
 # export onnx

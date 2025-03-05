@@ -1,4 +1,4 @@
-# DenseNet121
+# DenseNet121 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ DenseNet-121 is a convolutional neural network architecture that belongs to the 
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/densenet121-a639ec97.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_densenet121_fp16_performance.sh
 
 ## Model Results
 
-Model       |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
-------------|-----------|----------|---------|---------|--------
-DenseNet121 |    32     |   FP16   | 2199.75 |  74.40  | 91.931
+| Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------------|-----------|-----------|---------|----------|----------|
+| DenseNet121 | 32        | FP16      | 2199.75 | 74.40    | 91.931   |

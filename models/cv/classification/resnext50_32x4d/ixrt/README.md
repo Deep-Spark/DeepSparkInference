@@ -1,4 +1,4 @@
-# ResNext50_32x4d
+# ResNext50_32x4d (IxRT)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ The ResNeXt50_32x4d model is a convolutional neural network architecture designe
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 

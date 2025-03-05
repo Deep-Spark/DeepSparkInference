@@ -1,4 +1,4 @@
-# FastReID
+# FastReID (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ FastReID is a research platform that implements state-of-the-art re-identificati
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://github.com/JDAI-CV/fast-reid/releases/download/v0.1.1/vehicleid_bot_R50-ibn.pth>
 
 Dataset: <https://www.pkuml.org/resources/pku-vehicleid.html> to download the vehicleid dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -48,6 +48,6 @@ bash scripts/infer_fastreid_fp16_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Rank-1(%) |Rank-5(%) |mAP     |
----------|-----------|----------|----------|----------|----------|--------|
-FastReid |    32     |   FP16   |  1850.78 |  88.39   |  98.45   | 92.79  |
+| Model    | BatchSize | Precision | FPS     | Rank-1(%) | Rank-5(%) | mAP   |
+|----------|-----------|-----------|---------|-----------|-----------|-------|
+| FastReid | 32        | FP16      | 1850.78 | 88.39     | 98.45     | 92.79 |

@@ -9,6 +9,16 @@ have an improved tokenizer adaptive to multiple natural languages and codes.
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://modelscope.cn/models/Qwen/Qwen1.5-32B-Chat>
+
+```bash
+cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-32b/vllm
+mkdir -p data/qwen1.5
+ln -s /path/to/Qwen1.5-32B ./data/qwen1.5
+```
+
 ### Install Dependencies
 
 ```bash
@@ -22,16 +32,6 @@ apt install -y libgl1-mesa-glx
 pip3 install vllm
 pip3 install triton
 pip3 install ixformer
-```
-
-### Prepare Resources
-
-- Model: <https://modelscope.cn/models/Qwen/Qwen1.5-32B-Chat>
-
-```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-32b/vllm
-mkdir -p data/qwen1.5
-ln -s /path/to/Qwen1.5-32B ./data/qwen1.5
 ```
 
 ## Model Inference

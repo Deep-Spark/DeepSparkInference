@@ -10,16 +10,6 @@ not include GQA (except for 32B) and the mixture of SWA and full attention.
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-```
-
 ### Prepare Resources
 
 - Model: <https://modelscope.cn/models/qwen/Qwen1.5-72B/summary>
@@ -28,6 +18,16 @@ apt install -y libgl1-mesa-glx
 cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-72b/vllm
 mkdir data/qwen1.5
 ln -s /path/to/Qwen1.5-72B ./data/qwen1.5
+```
+
+### Install Dependencies
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
 ```
 
 ## Model Inference

@@ -11,21 +11,6 @@ and contribute to the responsible development of LLMs.
 
 ## Model Preparation
 
-### Install Dependencies
-
-In order to run the model smoothly, you need to get the sdk from [resource
-center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
-
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
-bash scripts/set_environment.sh .
-```
-
 ### Prepare Resources
 
 - Model: <https://huggingface.co/meta-llama/Llama-2-7b-chat>
@@ -40,6 +25,21 @@ mkdir data
 # Please download rouge.py to this path if your server can't attach huggingface.co.
 mkdir -p rouge/
 wget --no-check-certificate https://raw.githubusercontent.com/huggingface/evaluate/main/metrics/rouge/rouge.py -P rouge
+```
+
+### Install Dependencies
+
+In order to run the model smoothly, you need to get the sdk from [resource
+center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+bash scripts/set_environment.sh .
 ```
 
 ## Model Inference

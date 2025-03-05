@@ -1,4 +1,4 @@
-# YOLOX
+# YOLOX (IxRT)
 
 ## Model Description
 
@@ -6,6 +6,12 @@ YOLOX is an anchor-free version of YOLO, with a simpler design but better perfor
 For more details, please refer to our [report on Arxiv](https://arxiv.org/abs/2107.08430).
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -75,11 +75,11 @@ bash scripts/infer_yolox_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS       |MAP@0.5   |
---------|-----------|----------|----------|----------|
-yolox   |    32     |   FP16   | 424.53   |  0.656   |
-yolox   |    32     |   INT8   | 832.16   |  0.647   |
+| Model | BatchSize | Precision | FPS    | MAP@0.5 |
+|-------|-----------|-----------|--------|---------|
+| YOLOX | 32        | FP16      | 424.53 | 0.656   |
+| YOLOX | 32        | INT8      | 832.16 | 0.647   |
 
 ## References
 
-YOLOX: <https://github.com/Megvii-BaseDetection/YOLOX>
+- [YOLOX](https://github.com/Megvii-BaseDetection/YOLOX)

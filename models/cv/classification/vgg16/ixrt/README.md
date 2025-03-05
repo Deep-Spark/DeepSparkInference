@@ -1,4 +1,4 @@
-# VGG16
+# VGG16 (IxRT)
 
 ## Model Description
 
@@ -6,6 +6,12 @@ VGG16 is a deep convolutional neural network model developed by the Visual Geome
 It finished second in the 2014 ImageNet Massive Visual Identity Challenge (ILSVRC).
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/vgg16-397923af.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -62,7 +62,7 @@ bash scripts/infer_vgg16_int8_performance.sh
 
 ## Model Results
 
-Model |BatchSize  |Precision |FPS      |Top-1(%) |Top-5(%)
-------|-----------|----------|---------|---------|--------
-VGG16 |    32     |   FP16   | 1777.85 |  71.57  | 90.40
-VGG16 |    32     |   INT8   | 4451.80 |  71.47  | 90.35
+| Model | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------|-----------|-----------|---------|----------|----------|
+| VGG16 | 32        | FP16      | 1777.85 | 71.57    | 90.40    |
+| VGG16 | 32        | INT8      | 4451.80 | 71.47    | 90.35    |

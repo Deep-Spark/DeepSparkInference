@@ -1,4 +1,4 @@
-# YOLOv11
+# YOLOv11 (IGIE)
 
 ## Model Description
 
@@ -6,15 +6,15 @@ YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object 
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt>
+
 ### Install Dependencies
 
 ```bash
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt>
 
 ## Model Conversion
 

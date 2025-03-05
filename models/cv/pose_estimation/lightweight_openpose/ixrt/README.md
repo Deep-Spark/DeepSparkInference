@@ -1,4 +1,4 @@
-# Lightweight OpenPose
+# Lightweight OpenPose (IxRT)
 
 ## Model Description
 
@@ -9,6 +9,11 @@ knees, and ankles. On COCO 2017 Keypoint Detection validation set this code achi
 inference (no flip or any post-processing done).
 
 ## Model Preparation
+
+### Prepare Resources
+
+- dataset: <http://cocodataset.org/#download>
+- checkpoints: <https://download.01.org/opencv/openvino_training_extensions/models/human_pose_estimation/checkpoint_iter_370000.pth>
 
 ### Install Dependencies
 
@@ -21,11 +26,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-- dataset: <http://cocodataset.org/#download>
-- checkpoints: <https://download.01.org/opencv/openvino_training_extensions/models/human_pose_estimation/checkpoint_iter_370000.pth>
 
 ### Model Conversion
 
@@ -64,4 +64,4 @@ bash scripts/infer_lightweight_openpose_fp16_performance.sh
 
 ## References
 
-<https://github.com/Daniil-Osokin/lightweight-human-pose-estimation.pytorch>
+- [lightweight-human-pose-estimation](https://github.com/Daniil-Osokin/lightweight-human-pose-estimation.pytorch)

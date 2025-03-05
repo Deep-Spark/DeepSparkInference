@@ -1,4 +1,4 @@
-# DeepSort
+# DeepSort (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ DeepSort integrates deep neural networks with traditional tracking methods to ac
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model(ckpt.t7): <https://drive.google.com/drive/folders/1xhG0kRH1EX5B9_Iz8gQJb7UNnn_riXi6>
 
 Dataset: <https://zheng-lab.cecs.anu.edu.au/Project/project_reid.html> to download the market1501 dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -53,7 +53,7 @@ bash scripts/infer_deepsort_int8_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Acc(%)    |
----------|-----------|----------|----------|----------|
-DeepSort |    32     |   FP16   |17164.67  |  99.32   |
-DeepSort |    32     |   INT8   |20399.12  |  99.29   |
+| Model    | BatchSize | Precision | FPS      | Acc(%) |
+|----------|-----------|-----------|----------|--------|
+| DeepSort | 32        | FP16      | 17164.67 | 99.32  |
+| DeepSort | 32        | INT8      | 20399.12 | 99.29  |

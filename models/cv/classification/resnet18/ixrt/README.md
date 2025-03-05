@@ -1,4 +1,4 @@
-# Resnet18
+# Resnet18 (IxRT)
 
 ## Model Description
 
@@ -7,6 +7,12 @@ ResNet-18 is a variant of the ResNet (Residual Network) architecture, which was 
 ## Model Preparation
 
 ### Install Dependencies
+
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/resnet18-f37072fd.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ```bash
 # Install libGL
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://download.pytorch.org/models/resnet18-f37072fd.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -61,7 +61,7 @@ bash scripts/infer_resnet18_int8_performance.sh
 
 ## Model Results
 
-Model    |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
----------|-----------|----------|----------|----------|--------
-Resnet18 |    32     |   FP16   | 9592.98  |  69.77   | 89.09
-Resnet18 |    32     |   INT8   | 21314.55 |  69.53   | 88.97
+| Model    | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
+|----------|-----------|-----------|----------|----------|----------|
+| Resnet18 | 32        | FP16      | 9592.98  | 69.77    | 89.09    |
+| Resnet18 | 32        | INT8      | 21314.55 | 69.53    | 88.97    |

@@ -1,22 +1,10 @@
-# FaceNet
+# FaceNet (IxRT)
 
 ## Model Description
 
 Facenet is a facial recognition system originally proposed and developed by Google. It utilizes deep learning techniques, specifically convolutional neural networks (CNNs), to transform facial images into high-dimensional feature vectors. These feature vectors possess high discriminative power, enabling comparison and identification of different faces. The core idea of Facenet is to map faces into a multi-dimensional space of feature vectors, achieving efficient representation and recognition of faces.
 
 ## Model Preparation
-
-### Install Dependencies
-
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
-pip3 install -r requirements.txt
-```
 
 ### Prepare Resources
 
@@ -30,10 +18,21 @@ cd ${DeepSparkInference_PATH}/models/cv/face/facenet/ixrt
 unzip 20180408-102900.zip
 ```
 
+### Install Dependencies
+
+```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+pip3 install -r requirements.txt
+```
+
 ### Model Conversion
 
 ```bash
-
 mkdir -p checkpoints
 mkdir -p facenet_weights
 git clone https://github.com/timesler/facenet-pytorch

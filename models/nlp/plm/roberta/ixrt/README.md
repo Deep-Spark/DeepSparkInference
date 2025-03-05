@@ -1,4 +1,4 @@
-# RoBERTa
+# RoBERTa (IxRT)
 
 ## Model Description
 
@@ -13,6 +13,12 @@ our models and code.
 
 ## Model Preparation
 
+### Prepare Resources
+
+Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta.tar>
+
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
+
 ### Install Dependencies
 
 ```bash
@@ -23,11 +29,7 @@ cd ${MODEL_PATH}
 pip3 install -r requirements.txt
 ```
 
-### Prepare Resources
-
-Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta.tar>
-
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
+### Model Conversion
 
 ```bash
 # Go to path of this model

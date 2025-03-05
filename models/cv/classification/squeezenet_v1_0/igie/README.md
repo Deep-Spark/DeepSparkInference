@@ -1,4 +1,4 @@
-# SqueezeNet1_0
+# SqueezeNet1_0 (IGIE)
 
 ## Model Description
 
@@ -6,17 +6,17 @@ SqueezeNet1_0 is a lightweight convolutional neural network introduced in the pa
 
 ## Model Preparation
 
-### Install Dependencies
-
-```bash
-pip3 install -r requirements.txt
-```
-
 ### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/squeezenet1_0-b66bff10.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -41,6 +41,6 @@ bash scripts/infer_squeezenet_v1_0_fp16_performance.sh
 
 ## Model Results
 
-Model           |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------------|-----------|----------|----------|----------|--------
-Squeezenet_v1_0   |    32     |   FP16   | 7777.50  |  58.08   | 80.39
+| Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-----------------|-----------|-----------|---------|----------|----------|
+| Squeezenet_v1_0 | 32        | FP16      | 7777.50 | 58.08    | 80.39    |

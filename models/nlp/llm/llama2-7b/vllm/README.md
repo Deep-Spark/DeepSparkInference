@@ -11,6 +11,16 @@ and contribute to the responsible development of LLMs.
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://huggingface.co/meta-llama/Llama-2-7b>
+
+```bash
+cd ${DeepSparkInference}/models/nlp/large_language_model/llama2-7b/vllm
+mkdir -p data/llama2
+ln -s /path/to/llama2-7b ./data/llama2
+```
+
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
@@ -27,16 +37,6 @@ apt install -y libgl1-mesa-glx
 pip3 install vllm
 pip3 install triton
 pip3 install ixformer
-```
-
-### Prepare Resources
-
-- Model: <https://huggingface.co/meta-llama/Llama-2-7b>
-
-```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/llama2-7b/vllm
-mkdir -p data/llama2
-ln -s /path/to/llama2-7b ./data/llama2
 ```
 
 ## Model Inference

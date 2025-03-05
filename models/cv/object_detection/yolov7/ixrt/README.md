@@ -1,10 +1,19 @@
-# YOLOv7
+# YOLOv7 (IxRT)
 
 ## Model Description
 
 YOLOv7 is an object detection model based on the YOLO (You Only Look Once) series. It is an improved version of YOLOv5 developed by the Ultralytics team. YOLOv7 aims to enhance the performance and efficiency of object detection through a series of improvements including network architecture, training strategies, and data augmentation techniques, in order to achieve more accurate and faster object detection.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+- val2017: Path/To/val2017/*.jpg
+- annotations: Path/To/annotations/instances_val2017.json
 
 ### Install Dependencies
 
@@ -17,15 +26,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Prepare Resources
-
-Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-
-- 图片目录: Path/To/val2017/*.jpg
-- 标注文件目录: Path/To/annotations/instances_val2017.json
 
 ### Model Conversion
 
@@ -70,7 +70,11 @@ bash scripts/infer_yolov7_int8_performance.sh
 
 ## Model Results
 
-Model   |BatchSize  |Precision |FPS      |MAP@0.5   |MAP@0.5:0.95 |
---------|-----------|----------|---------|----------|-------------|
-YOLOv7  |    32     |   FP16   | 375.41  |  0.693   |  0.506      |
-YOLOv7  |    32     |   INT8   | 816.71  |  0.688   |  0.471      |
+| Model  | BatchSize | Precision | FPS    | MAP@0.5 | MAP@0.5:0.95 |
+|--------|-----------|-----------|--------|---------|--------------|
+| YOLOv7 | 32        | FP16      | 375.41 | 0.693   | 0.506        |
+| YOLOv7 | 32        | INT8      | 816.71 | 0.688   | 0.471        |
+
+## References
+
+- [YOLOv7](https://github.com/WongKinYiu/yolov7)

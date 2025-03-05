@@ -6,6 +6,15 @@ Chameleon, an AI system that mitigates these limitations by augmenting LLMs with
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://huggingface.co/facebook/chameleon-7b>
+
+```bash
+# Download model from the website and make sure the model's path is "data/chameleon-7b"
+mkdir data
+```
+
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -16,15 +25,6 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
-```
-
-### Prepare Resources
-
-- Model: <https://huggingface.co/facebook/chameleon-7b>
-
-```bash
-# Download model from the website and make sure the model's path is "data/chameleon-7b"
-mkdir data
 ```
 
 ## Model Inference

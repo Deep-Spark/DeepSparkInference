@@ -6,6 +6,16 @@ InternVL2-4B is a large-scale multimodal model developed by WeTab AI, designed t
 
 ## Model Preparation
 
+### Prepare Resources
+
+- Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
+
+```bash
+cd ${DeepSparkInference}/models/vision-language-understanding/Intern_VL/vllm
+mkdir -p data/intern_vl
+ln -s /path/to/InternVL2-4B ./data/intern_vl
+```
+
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -21,16 +31,6 @@ apt install -y libgl1-mesa-glx
 pip3 install vllm
 pip3 install triton
 pip3 install ixformer
-```
-
-### Prepare Resources
-
-- Model: <https://huggingface.co/OpenGVLab/InternVL2-4B>
-
-```bash
-cd ${DeepSparkInference}/models/vision-language-understanding/Intern_VL/vllm
-mkdir -p data/intern_vl
-ln -s /path/to/InternVL2-4B ./data/intern_vl
 ```
 
 ## Model Inference

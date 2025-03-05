@@ -1,10 +1,16 @@
-# DeiT-tiny
+# DeiT-tiny (IGIE)
 
 ## Model Description
 
 DeiT Tiny is a lightweight vision transformer designed for data-efficient learning. It achieves rapid training and high accuracy on small datasets through innovative attention distillation methods, while maintaining the simplicity and efficiency of the model.
 
 ## Model Preparation
+
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/deit/deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Prepare Resources
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/deit/deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -35,7 +35,6 @@ python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --we
 
 # Use onnxsim optimize onnx model
 onnxsim deit_tiny.onnx deit_tiny_opt.onnx
-
 ```
 
 ## Model Inference
@@ -61,4 +60,4 @@ bash scripts/infer_deit_tin_fp16_performance.sh
 
 ## References
 
-Deit_tiny: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)
