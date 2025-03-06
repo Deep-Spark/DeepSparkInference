@@ -1,12 +1,18 @@
-# Inception V3
+# Inception V3 (IxRT)
 
-## Description
+## Model Description
 
 Inception v3 is a convolutional neural network architecture designed for image recognition and classification tasks. Developed by Google, it represents an evolution of the earlier Inception models. Inception v3 is characterized by its deep architecture, featuring multiple layers with various filter sizes and efficient use of computational resources. The network employs techniques like factorized convolutions and batch normalization to enhance training stability and accelerate convergence.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/inception_v3_google-0cc3c7bd.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://download.pytorch.org/models/inception_v3_google-0cc3c7bd.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -32,7 +32,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model inception_v3_google-0cc3c7bd.pth --output_model checkpoints/inception_v3.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/inception_v3/ixrt
@@ -61,9 +61,9 @@ bash scripts/infer_inception_v3_int8_accuracy.sh
 bash scripts/infer_inception_v3_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-Inception_v3 |    32     |   FP16   | 3515.29  |  70.64   | 89.33
-Inception_v3 |    32     |   INT8   | 4916.32  |  70.45   | 89.28
+| Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|--------------|-----------|-----------|---------|----------|----------|
+| Inception_v3 | 32        | FP16      | 3515.29 | 70.64    | 89.33    |
+| Inception_v3 | 32        | INT8      | 4916.32 | 70.45    | 89.28    |

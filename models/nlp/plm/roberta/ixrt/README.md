@@ -1,6 +1,6 @@
-# RoBERTa
+# RoBERTa (IxRT)
 
-## Description
+## Model Description
 
 Language model pretraining has led to significant performance gains but careful comparison between different approaches
 is challenging. Training is computationally expensive, often done on private datasets of different sizes, and, as we
@@ -11,9 +11,15 @@ it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. Th
 previously overlooked design choices, and raise questions about the source of recently reported improvements. We release
 our models and code.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta.tar>
+
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
+
+### Install Dependencies
 
 ```bash
 export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
@@ -23,11 +29,7 @@ cd ${MODEL_PATH}
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta.tar>
-
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
+### Model Conversion
 
 ```bash
 # Go to path of this model
@@ -48,7 +50,7 @@ python3 export_onnx.py --model_path open_roberta/roberta-base-squad.pt --output_
 onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta-torch-fp32_sim.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -103,7 +105,7 @@ wget -O workloads/roberta-torch-fp32.json https://raw.githubusercontent.com/byte
 python3 core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | FPS    | F1       | Exact Match |
 |---------|-----------|-----------|--------|----------|-------------|

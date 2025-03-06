@@ -1,6 +1,6 @@
-# AlexNet
+# AlexNet （IGIE)
 
-## Description
+## Model Description
 
 AlexNet, developed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, is a groundbreaking convolutional neural
 network (CNN) architecture that achieved remarkable success in the 2012 ImageNet Large Scale Visual Recognition
@@ -8,19 +8,19 @@ Challenge (ILSVRC). This neural network comprises eight layers, incorporating fi
 connected layers. The architecture employs the Rectified Linear Unit (ReLU) activation function to introduce
 non-linearity, allowing the model to learn complex features from input images.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/alexnet-owt-7be5be79.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -28,7 +28,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight alexnet-owt-7be5be79.pth --output alexnet.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -52,7 +52,7 @@ bash scripts/infer_alexnet_int8_accuracy.sh
 bash scripts/infer_alexnet_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 |---------|-----------|-----------|----------|----------|----------|

@@ -1,12 +1,18 @@
-# CSPDarkNet53
+# CSPDarkNet53 (IGIE)
 
-## Description
+## Model Description
 
 CSPDarkNet53 is an enhanced convolutional neural network architecture that reduces redundant computations by integrating cross-stage partial network features and truncating gradient flow, thereby maintaining high accuracy while lowering computational costs.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -38,10 +38,9 @@ python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --w
 
 # Use onnxsim optimize onnx model
 onnxsim cspdarknet53.onnx cspdarknet53_opt.onnx
-
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -56,12 +55,12 @@ bash scripts/infer_cspdarknet53_fp16_accuracy.sh
 bash scripts/infer_cspdarknet53_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model        | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ------------ | --------- | --------- | -------- | -------- | -------- |
 | CSPDarkNet53 | 32        | FP16      | 3214.387 | 79.063   | 94.492   |
 
-## Reference
+## References
 
-CSPDarkNet53: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

@@ -1,6 +1,6 @@
-# RoFormer
+# RoFormer (IxRT)
 
-## Description
+## Model Description
 
 Position encoding recently has shown effective in the transformer architecture. It enables valuable supervision for
 dependency modeling between elements at different positions of the sequence. In this paper, we first investigate various
@@ -13,18 +13,9 @@ the capability of equipping the linear self-attention with relative position enc
 transformer with rotary position embedding, also called RoFormer, on various long text classification benchmark
 datasets.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-apt install -y libnuma-dev
-
-pip3 install -r requirements.txt
-
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roformer.tar>
 
@@ -45,7 +36,16 @@ rm -f open_roformer.tar
 popd
 ```
 
-### Deal with ONNX
+### Install Dependencies
+
+```bash
+apt install -y libnuma-dev
+
+pip3 install -r requirements.txt
+
+```
+
+### Model Conversion
 
 ```bash
 # export onnx
@@ -56,7 +56,7 @@ onnxsim ./data/open_roformer/roformer-frozen_org.onnx ./data/open_roformer/rofor
 python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --output_path ./data/open_roformer/roformer-frozen.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -110,7 +110,7 @@ sed -i 's/segment:0/segment0/g; s/token:0/token0/g' model_zoo/roformer-tf-fp32.j
 python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
 ```
 
-## Results
+## Model Results
 
 | Model    | BatchSize | Precision | FPS     | ACC     |
 |----------|-----------|-----------|---------|---------|

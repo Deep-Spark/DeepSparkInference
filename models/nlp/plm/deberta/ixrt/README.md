@@ -1,6 +1,6 @@
-# DeBERTa
+# DeBERTa (IxRT)
 
-## Description
+## Model Description
 
 DeBERTa (Decoding-enhanced BERT with disentangled attention) is an enhanced version of the BERT (Bidirectional Encoder
 Representations from Transformers) model. It improves text representation learning by introducing disentangled attention
@@ -9,9 +9,19 @@ self-attention matrix into different parts, focusing on different semantic infor
 capture relationships between texts.By incorporating decoding enhancement techniques, DeBERTa adjusts the decoder during
 fine-tuning to better suit specific downstream tasks, thereby improving the model’s performance on those tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
+
+Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
+
+```bash
+bash ./scripts/prepare_model_and_dataset.sh
+```
+
+### Install Dependencies
 
 ```bash
 export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
@@ -21,16 +31,6 @@ cd ${MODEL_PATH}
 apt install -y libnuma-dev
 
 pip3 install -r requirements.txt
-```
-
-### Download
-
-Pretrained model: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta.tar> >
-
-Dataset: <<https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar> > to download the squad dataset.
-
-```bash
-bash ./scripts/prepare_model_and_dataset.sh
 ```
 
 ### Model Conversion
@@ -43,7 +43,7 @@ python3 remove_clip_and_cast.py
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -96,7 +96,7 @@ sed -i 's/tensorrt_legacy/tensorrt/g' backends/ILUVATAR/common.py
 python3 core/perf_engine.py --hardware_type ILUVATAR --task deberta-torch-fp32
 ```
 
-## Results
+## Model Results
 
 | Model   | BatchSize | Precision | QPS   | Exact Match | F1 Score |
 |---------|-----------|-----------|-------|-------------|----------|

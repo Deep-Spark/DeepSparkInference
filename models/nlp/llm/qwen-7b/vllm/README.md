@@ -1,23 +1,27 @@
 # Qwen-7B (vLLM)
 
-## Description
+## Model Description
 
-Large language models (LLMs) have revolutionized the field of artificial intelligence, enabling natural language
-processing tasks that were previously thought to be exclusive to humans. In this work, we introduce Qwen, the first
-installment of our large language model series. Qwen is a comprehensive language model series that encompasses distinct
-models with varying parameter counts. It includes Qwen, the base pretrained language models, and Qwen-Chat, the chat
-models finetuned with human alignment techniques. The base language models consistently demonstrate superior performance
-across a multitude of downstream tasks, and the chat models, particularly those trained using Reinforcement Learning
-from Human Feedback (RLHF), are highly competitive. The chat models possess advanced tool-use and planning capabilities
-for creating agent applications, showcasing impressive performance even when compared to bigger models on complex tasks
-like utilizing a code interpreter. Furthermore, we have developed coding-specialized models, Code-Qwen and
-Code-Qwen-Chat, as well as mathematics-focused models, Math-Qwen-Chat, which are built upon base language models. These
-models demonstrate significantly improved performance in comparison with open-source models, and slightly fall behind
-the proprietary models.
+Qwen-7B is a cutting-edge large language model developed as part of the Qwen series, offering advanced natural language
+processing capabilities. With 7 billion parameters, it demonstrates exceptional performance across various downstream
+tasks. The model comes in two variants: the base pretrained version and the Qwen-Chat version, which is fine-tuned using
+human alignment techniques. Notably, Qwen-7B exhibits strong tool-use and planning abilities, making it suitable for
+developing intelligent agent applications. It also includes specialized versions for coding (Code-Qwen) and mathematics
+(Math-Qwen), showcasing improved performance in these domains compared to other open-source models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+- Model: - Model: <https://modelscope.cn/models/qwen/Qwen-7B/summary>
+
+```bash
+cd ${DeepSparkInference}/models/nlp/large_language_model/qwen-7b/vllm
+mkdir -p data/qwen
+ln -s /path/to/Qwen-7B ./data/qwen
+```
+
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource
 center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
@@ -35,17 +39,7 @@ pip3 install triton
 pip3 install ixformer
 ```
 
-### Download
-
-- Model: - Model: <https://modelscope.cn/models/qwen/Qwen-7B/summary>
-
-```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen-7b/vllm
-mkdir -p data/qwen
-ln -s /path/to/Qwen-7B ./data/qwen
-```
-
-## Inference
+## Model Inference
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1

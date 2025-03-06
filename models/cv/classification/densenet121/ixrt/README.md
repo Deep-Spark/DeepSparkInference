@@ -1,12 +1,16 @@
-# DenseNet
+# DenseNet (IxRT)
 
-## Description
+## Model Description
 
 Dense Convolutional Network (DenseNet), connects each layer to every other layer in a feed-forward fashion. Whereas traditional convolutional networks with L layers have L connections - one between each layer and its subsequent layer - our network has L(L+1)/2 direct connections.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,10 +22,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -29,7 +29,7 @@ mkdir checkpoints
 python3 export_onnx.py --output_model checkpoints/densenet121.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/path/to/imagenet_val/
@@ -47,7 +47,7 @@ bash scripts/infer_densenet_fp16_accuracy.sh
 bash scripts/infer_densenet_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model    | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------- | --------- | --------- | ------- | -------- | -------- |

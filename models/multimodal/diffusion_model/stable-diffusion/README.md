@@ -4,9 +4,19 @@
 
 Stable Diffusion is a latent text-to-image diffusion model capable of generating photo-realistic images given any text input.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Download the runwayml/stable-diffusion-v1-5 from [huggingface page](https://huggingface.co/runwayml/stable-diffusion-v1-5).
+
+```bash
+cd stable-diffusion
+mkdir -p data/
+ln -s /path/to/stable-diffusion-v1-5 ./data/
+```
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -19,23 +29,13 @@ pip3 install http://files.deepspark.org.cn:880/deepspark/add-ons/diffusers-0.31.
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Download the runwayml/stable-diffusion-v1-5 from [huggingface page](https://huggingface.co/runwayml/stable-diffusion-v1-5).
-
-```bash
-cd stable-diffusion
-mkdir -p data/
-ln -s /path/to/stable-diffusion-v1-5 ./data/
-```
-
-## Inference
+## Model Inference
 
 ```bash
 export ENABLE_IXFORMER_INFERENCE=1
 python3 demo.py
 ```
 
-## Reference
+## References
 
 - [diffusers](https://github.com/huggingface/diffusers)

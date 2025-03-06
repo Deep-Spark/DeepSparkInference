@@ -1,0 +1,8 @@
+tqdm
+onnx
+onnxsim
+ultralytics
+pycocotools
+mmdeploy
+mmdet
+opencv-python==4.6.0.66

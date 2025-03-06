@@ -1,12 +1,19 @@
-# YOLOv4
+# YOLOv4 (IxRT)
 
-## Description
+## Model Description
 
 YOLOv4 employs a two-step process, involving regression for bounding box positioning and classification for object categorization. it amalgamates past YOLO family research contributions with novel features like WRC, CSP, CmBN, SAT, Mish activation, Mosaic data augmentation, DropBlock regularization, and CIoU loss.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
+Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -17,13 +24,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
-Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ### Model Conversion
 
@@ -45,7 +45,7 @@ onnxsim data/yolov4.onnx data/yolov4_sim.onnx
 # Make sure the dataset path is "data/coco"
 ```
 
-## Inference
+## Model Inference
 
 ### FP16
 
@@ -65,14 +65,14 @@ bash scripts/infer_yolov4_int8_accuracy.sh
 bash scripts/infer_yolov4_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model  | BatchSize | Precision | FPS    | MAP@0.5 |
 | ------ | --------- | --------- | ------ | ------- |
 | YOLOv4 | 32        | FP16      | 303.27 | 0.730   |
 | YOLOv4 | 32        | INT8      | 682.14 | 0.608   |
 
-## Reference
+## References
 
-DarkNet: <https://github.com/AlexeyAB/darknet>
-Pytorch-YOLOv4: <https://github.com/Tianxiaomo/pytorch-YOLOv4>
+- [darknet](https://github.com/AlexeyAB/darknet)
+- [pytorch-YOLOv4](https://github.com/Tianxiaomo/pytorch-YOLOv4)

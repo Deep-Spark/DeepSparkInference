@@ -1,52 +1,54 @@
-# BERT Base SQuAD
+# BERT Base SQuAD (IxRT)
 
-## Description
+## Model Description
 
 BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications.
 
-## Setup
+## Model Preparation
 
-### T4 requirement(tensorrt_version >= 8.6)
-
-```bash
-docker pull nvcr.io/nvidia/tensorrt:23.04-py3
-```
-
-## Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Install on Iluvatar
-
-```bash
-cmake -S . -B build
-cmake --build build -j16
-```
-
-### Install on T4
-
-```bash
-cmake -S . -B build -DUSE_TENSORRT=true
-cmake --build build -j16
-```
-
-## Download
+### Prepare Resources
 
 ```bash
 cd python
 bash script/prepare.sh v1_1
 ```
 
-## Inference
+### Install Dependencies
+
+#### Install on Iluvatar
+
+```bash
+cmake -S . -B build
+cmake --build build -j16
+```
+
+#### Install on NV
+
+Require tensorrt_version >= 8.6
+
+```bash
+# Get TensorRT docker image
+docker pull nvcr.io/nvidia/tensorrt:23.04-py3
+# Run TensorRT docker
+```
+
+```bash
+# Install requirements.txt in TensorRT docker
+pip3 install -r requirements.txt
+
+# Build
+cmake -S . -B build -DUSE_TENSORRT=true
+cmake --build build -j16
+```
+
+## Model Inference
 
 ### On Iluvatar
 
 #### FP16
 
 ```bash
-cd script
+cd script/
 
 # FP16
 bash infer_bert_base_squad_fp16_ixrt.sh
@@ -68,7 +70,7 @@ bash script/build_engine.sh --bs 32 --int8
 bash script/inference_squad.sh --bs 32 --int8
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | Latency QPS | exact_match | f1    |
 | --------------- | --------- | --------- | ----------- | ----------- | ----- |

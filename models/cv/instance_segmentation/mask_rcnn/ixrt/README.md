@@ -1,15 +1,12 @@
-# Mask R-CNN
+# Mask R-CNN (IxRT)
 
-## Description
+## Model Description
 
 Mask R-CNN (Mask Region-Based Convolutional Neural Network) is an extension of the Faster R-CNN model, which is itself an improvement over R-CNN and Fast R-CNN. Developed by Kaiming He et al., Mask R-CNN is designed for object instance segmentation tasks, meaning it not only detects objects within an image but also generates high-quality segmentation masks for each instance.
 
-## Prepare
+## Model Preparation
 
-```bash
-# go to current model home path
-cd ${PROJ_ROOT}/models/cv/segmentation/mask_rcnn/ixrt
-```
+### Prepare Resources
 
 Prepare weights and datasets referring to below steps:
 
@@ -29,27 +26,25 @@ Visit [COCO site](https://cocodataset.org/) and get COCO2017 datasets
 - images directory: coco/images/val2017/*.jpg
 - annotations directory: coco/annotations/instances_val2017.json
 
-## Setup
+### Install Dependencies
+
+Prepare on MR GPU
 
 ```bash
 cd scripts/
-```
-
-### Prepare on MR GPU
-
-```bash
 bash init.sh
 ```
 
-### Prepare on NV GPU
+Prepare on NV GPU
 
 ```bash
+cd scripts/
 bash init_nv.sh
 ```
 
-## Inference
+## Model Inference
 
-### FP16 Performance
+### FP16
 
 ```bash
 cd ../
@@ -59,13 +54,13 @@ bash scripts/infer_mask_rcnn_fp16_performance.sh
 bash scripts/infer_mask_rcnn_fp16_accuracy.sh
 ```
 
-## Results
+## Model Results
 
-Model | BatchSize | Precision | FPS | ACC
-------|-----------|-----------|-----|----
-Mask R-CNN | 1 | FP16 | 12.15 | bbox mAP@0.5 :  0.5512, segm mAP@0.5 :  0.5189
+| Model      | BatchSize | Precision | FPS   | ACC                                            |
+|------------|-----------|-----------|-------|------------------------------------------------|
+| Mask R-CNN | 1         | FP16      | 12.15 | bbox mAP@0.5 :  0.5512, segm mAP@0.5 :  0.5189 |
 
-## Referenece
+## Refereneces
 
 - [tensorrtx](https://github.com/wang-xinyu/tensorrtx/tree/master/rcnn)
 - [detectron2](https://github.com/facebookresearch/detectron2)

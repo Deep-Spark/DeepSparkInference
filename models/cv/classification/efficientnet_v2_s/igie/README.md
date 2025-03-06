@@ -1,22 +1,22 @@
-# EfficientNet_v2_s
+# EfficientNet_v2_s (IGIE)
 
-## Description
+## Model Description
 
 EfficientNetV2 S is an optimized model in the EfficientNetV2 series, which was developed by Google researchers. It continues the legacy of the EfficientNet family, focusing on advancing the state-of-the-art in accuracy and efficiency through advanced scaling techniques and architectural innovations.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/efficientnet_v2_s-dd5fe13b.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight efficientnet_v2_s-dd5fe13b.pth --output efficientnet_v2_s.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_efficientnet_v2_s_fp16_accuracy.sh
 bash scripts/infer_efficientnet_v2_s_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------------- | --------- | --------- | -------- | -------- | -------- |

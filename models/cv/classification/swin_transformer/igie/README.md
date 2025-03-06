@@ -1,18 +1,12 @@
-# Swin Transformer
+# Swin Transformer (IGIE)
 
-## Description
+## Model Description
 
 Swin Transformer is a pioneering neural network architecture that introduces a novel approach to handling local and global information in computer vision tasks. Departing from traditional self-attention mechanisms, Swin Transformer adopts a hierarchical design, organizing its attention windows in a shifted manner. This innovation enables more efficient modeling of contextual information across different scales, enhancing the model's capability to capture intricate patterns.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://huggingface.co/docs/transformers/model_doc/swin>
 
@@ -23,6 +17,12 @@ git clone https://huggingface.co/microsoft/swin-tiny-patch4-window7-224 swin-tin
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
+
 ### Model Conversion
 
 ```bash
@@ -32,7 +32,7 @@ python3 export.py --output swin_transformer.onnx
 onnxsim swin_transformer.onnx swin_transformer_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -47,8 +47,8 @@ bash scripts/infer_swin_transformer_fp16_accuracy.sh
 bash scripts/infer_swin_transformer_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model            |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
------------------|-----------|----------|----------|----------|--------
-Swin Transformer |    32     |   FP16   |1104.52   |  80.578  | 95.2
+| Model            | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|------------------|-----------|-----------|---------|----------|----------|
+| Swin Transformer | 32        | FP16      | 1104.52 | 80.578   | 95.2     |

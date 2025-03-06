@@ -1,12 +1,18 @@
-# EfficientNet B3
+# EfficientNet B3 (IxRT)
 
-## Description
+## Model Description
 
 EfficientNet B3 is a member of the EfficientNet family, a series of convolutional neural network architectures that are designed to achieve excellent accuracy and efficiency. Introduced by researchers at Google, EfficientNets utilize the compound scaling method, which uniformly scales the depth, width, and resolution of the network to improve accuracy and efficiency.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/efficientnet_b3_rwightman-b3899882.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -15,17 +21,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
+pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained model: <https://download.pytorch.org/models/efficientnet_b3_rwightman-b3899882.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -33,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight efficientnet_b3_rwightman-b3899882.pth --output efficientnet_b3.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -48,7 +45,7 @@ bash scripts/infer_efficientnet_b3_fp16_accuracy.sh
 bash scripts/infer_efficientnet_b3_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | --------------- | --------- | --------- | ------- | -------- | -------- |

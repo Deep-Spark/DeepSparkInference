@@ -1,12 +1,18 @@
-# RetinaNet
+# RetinaNet (IGIE)
 
-## Description
+## Model Description
 
 RetinaNet, an innovative object detector, challenges the conventional trade-off between speed and accuracy in the realm of computer vision. Traditionally, two-stage detectors, exemplified by R-CNN, achieve high accuracy by applying a classifier to a limited set of candidate object locations. In contrast, one-stage detectors, like RetinaNet, operate over a dense sampling of possible object locations, aiming for simplicity and speed.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/retinanet/retinanet_r50_fpn_1x_coco/retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/retinanet/retinanet_r50_fpn_1x_coco/retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -34,7 +34,7 @@ python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg
 onnxsim retinanet.onnx retinanet_opt.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/coco/
@@ -49,12 +49,12 @@ bash scripts/infer_retinanet_fp16_accuracy.sh
 bash scripts/infer_retinanet_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model     |BatchSize  |Precision |FPS       |IOU@0.5   |IOU@0.5:0.95   |
-----------|-----------|----------|----------|----------|---------------|
-RetinaNet |    32     |   FP16   | 160.52   |  0.515   |  0.335        |
+| Model     | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
+|-----------|-----------|-----------|--------|---------|--------------|
+| RetinaNet | 32        | FP16      | 160.52 | 0.515   | 0.335        |
 
-## Reference
+## References
 
-mmdetection: <https://github.com/open-mmlab/mmdetection.git>
+- [mmdetection](https://github.com/open-mmlab/mmdetection.git)

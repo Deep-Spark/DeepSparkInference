@@ -1,24 +1,12 @@
-# Swin Transformer Large
+# Swin Transformer Large (IxRT)
 
-## Description
+## Model Description
 
 Swin Transformer-Large is a variant of the Swin Transformer, an architecture designed for computer vision tasks, particularly within the realms of image classification, object detection, and segmentation. The Swin Transformer-Large model represents an expanded version with more layers and parameters compared to its base configuration, aiming for improved performance and deeper processing of visual data.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
-export MODEL_PATH=${PROJ_ROOT}/models/cv/classification/swin_transformer_large/ixrt
-cd ${MODEL_PATH}
-
-apt install -y libnuma-dev libgl1-mesa-glx
-
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open-swin-large.tar>
 
@@ -28,7 +16,18 @@ or you can :
 
 ```bash
 bash ./scripts/prepare_model_and_dataset.sh
+```
 
+### Install Dependencies
+
+```bash
+export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE
+export MODEL_PATH=${PROJ_ROOT}/models/cv/classification/swin_transformer_large/ixrt
+cd ${MODEL_PATH}
+
+apt install -y libnuma-dev libgl1-mesa-glx
+
+pip3 install -r requirements.txt
 ```
 
 ### Model Conversion
@@ -42,7 +41,7 @@ python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/s
 
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
@@ -83,7 +82,7 @@ wget -O workloads/swin-large-torch-fp32.json https://raw.githubusercontent.com/b
 python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
 ```
 
-## Results
+## Model Results
 
 | Model                  | BatchSize | Precision | QPS   | Top-1 Acc |
 | ---------------------- | --------- | --------- | ----- | --------- |

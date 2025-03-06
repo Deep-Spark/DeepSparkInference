@@ -1,14 +1,20 @@
-# SqueezeNet 1.0
+# SqueezeNet 1.0 (IxRT)
 
-## Description
+## Model Description
 
 SqueezeNet 1.0 is a deep learning model for image classification, designed to be lightweight and efficient for deployment on resource-constrained devices.
 
 It was developed by researchers at DeepScale and released in 2016.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/squeezenet1_0-b66bff10.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -20,12 +26,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://download.pytorch.org/models/squeezenet1_0-b66bff10.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -33,7 +33,7 @@ mkdir checkpoints
 python3 export_onnx.py --origin_model  /path/to/squeezenet1_0-b66bff10.pth --output_model checkpoints/squeezenetv10.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -61,9 +61,9 @@ bash scripts/infer_squeezenet_v1_0_int8_accuracy.sh
 bash scripts/infer_squeezenet_v1_0_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model          |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
----------------|-----------|----------|---------|----------|--------
-SqueezeNet 1.0 |    32     |   FP16   | 7740.26 |  58.07   | 80.43
-SqueezeNet 1.0 |    32     |   INT8   | 8871.93 |  55.10   | 79.21
+| Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|----------------|-----------|-----------|---------|----------|----------|
+| SqueezeNet 1.0 | 32        | FP16      | 7740.26 | 58.07    | 80.43    |
+| SqueezeNet 1.0 | 32        | INT8      | 8871.93 | 55.10    | 79.21    |

@@ -1,20 +1,14 @@
-# Transformer ASR（BeamSearch）
+# Transformer ASR (IxRT)
 
-## Description
+## Model Description
 
 Beam search allows us to exert control over the output of text generation. This is useful because we sometimes know
 exactly what we want inside the output. For example, in a Neural Machine Translation task, we might know which words
 must be included in the final translation with a dictionary lookup.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://drive.google.com/drive/folders/1_2zN6lbu4zUc0-iq8XbABEm6fl9mohkv>
 
@@ -51,7 +45,13 @@ ln -s /PATH/to/data_aishell /home/data/speechbrain/aishell/
 cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
 ```
 
-## Inference
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
+
+## Model Inference
 
 ### Build faster kernels
 
@@ -78,7 +78,7 @@ python3 builder.py \
 python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
 ```
 
-## Results
+## Model Results
 
 | Model           | BatchSize | Precision | QPS   | CER  |
 |-----------------|-----------|-----------|-------|------|

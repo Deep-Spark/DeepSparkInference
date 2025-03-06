@@ -1,13 +1,17 @@
-# RepVGG
+# RepVGG (IxRT)
 
-## Description
+## Model Description
 
 REPVGG is a family of convolutional neural network (CNN) architectures designed for image classification tasks.
 It was developed by researchers at the University of Oxford and introduced in their paper titled "REPVGG: Making VGG-style ConvNets Great Again" in 2021.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,10 +22,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -35,7 +35,7 @@ python3 export_onnx.py   \
     --output_model ./checkpoints/repvgg_A0.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -55,7 +55,7 @@ bash scripts/infer_repvgg_fp16_accuracy.sh
 bash scripts/infer_repvgg_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model  | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | ------ | --------- | --------- | ------- | -------- | -------- |

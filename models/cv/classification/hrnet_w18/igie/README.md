@@ -1,12 +1,18 @@
-# HRNet-W18
+# HRNet-W18 (IGIE)
 
-## Description
+## Model Description
 
 HRNet, short for High-Resolution Network, presents a paradigm shift in handling position-sensitive vision challenges, such as human pose estimation, semantic segmentation, and object detection.  The distinctive features of HRNet result in semantically richer and spatially more precise representations.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/hrnet/hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -17,12 +23,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained model: <https://download.openmmlab.com/mmclassification/v0/hrnet/hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -35,10 +35,9 @@ python3 export.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weigh
 
 # Use onnxsim optimize onnx model
 onnxsim hrnet_w18.onnx hrnet_w18_opt.onnx
-
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -53,12 +52,12 @@ bash scripts/infer_hrnet_w18_fp16_accuracy.sh
 bash scripts/infer_hrnet_w18_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
 ----------|-----------|----------|----------|----------|--------
 HRNet_w18 |    32     |   FP16   | 954.18   |  76.74   | 93.42
 
-## Reference
+## References
 
-HRNet: <https://github.com/open-mmlab/mmpretrain>
+- [mmpretrain](https://github.com/open-mmlab/mmpretrain)

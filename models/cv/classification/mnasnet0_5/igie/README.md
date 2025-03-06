@@ -1,22 +1,22 @@
-# MNASNet0_5
+# MNASNet0_5 (IGIE)
 
-## Description
+## Model Description
 
 MNASNet0_5 is a neural network architecture optimized for mobile devices, designed through neural architecture search technology. It is characterized by high efficiency and excellent accuracy, offering 50% higher accuracy than MobileNetV2 while maintaining low latency and memory usage. MNASNet0_5 widely uses depthwise separable convolutions, supports multi-scale inputs, and demonstrates good robustness, making it suitable for real-time image recognition tasks in resource-constrained environments.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/mnasnet0.5_top1_67.823-3ffadce67e.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight mnasnet0.5_top1_67.823-3ffadce67e.pth --output mnasnet0_5.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_mnasnet0_5_fp16_accuracy.sh
 bash scripts/infer_mnasnet0_5_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------------- | --------- | --------- | -------- | -------- | -------- |

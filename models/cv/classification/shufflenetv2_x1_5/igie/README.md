@@ -1,22 +1,22 @@
-# ShuffleNetV2_x1_5
+# ShuffleNetV2_x1_5 (IGIE)
 
-## Description
+## Model Description
 
 ShuffleNetV2_x1_5 is a lightweight convolutional neural network specifically designed for efficient image recognition tasks on resource-constrained devices. It achieves high performance and low latency through the introduction of channel shuffling and pointwise group convolutions. Despite its small model size, it offers high accuracy and is suitable for a variety of vision tasks in mobile devices and embedded systems.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/shufflenetv2_x1_5-3c479a10.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight shufflenetv2_x1_5-3c479a10.pth --output shufflenetv2_x1_5.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_shufflenetv2_x1_5_fp16_accuracy.sh
 bash scripts/infer_shufflenetv2_x1_5_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------------- | --------- | --------- | -------- | -------- | -------- |

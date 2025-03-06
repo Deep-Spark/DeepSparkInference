@@ -1,12 +1,21 @@
 # LLaVA-Next-Video-7B
 
-## Description
+## Model Description
 
 LLaVA-Next-Video is an open-source chatbot trained by fine-tuning LLM on multimodal instruction-following data. The model is buit on top of LLaVa-NeXT by tuning on a mix of video and image data to achieves better video understanding capabilities. The videos were sampled uniformly to be 32 frames per clip. The model is a current SOTA among open-source models on VideoMME bench. Base LLM: lmsys/vicuna-7b-v1.5
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
+
+```bash
+# Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"
+mkdir data/
+```
+
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -18,16 +27,7 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 ```
 
-### Download
-
-- Model: <https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf>
-
-```bash
-# Download model from the website and make sure the model's path is "data/LLaVA-NeXT-Video-7B-hf"
-mkdir data
-```
-
-## Inference
+## Model Inference
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/

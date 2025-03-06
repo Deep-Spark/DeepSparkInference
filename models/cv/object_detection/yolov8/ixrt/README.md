@@ -1,12 +1,18 @@
-# YOLOv8
+# YOLOv8 (IxRT)
 
-## Description
+## Model Description
 
 Yolov8 combines speed and accuracy in real-time object detection tasks. With a focus on simplicity and efficiency, this model employs a single neural network to make predictions, enabling fast and accurate identification of objects in images or video streams.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt>
+
+Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,12 +24,6 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt>
-
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-
 ### Model Conversion
 
 ```bash
@@ -33,7 +33,7 @@ python3 export.py --weight yolov8.pt --batch 32
 onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -60,9 +60,9 @@ bash scripts/infer_yolov8_int8_accuracy.sh
 bash scripts/infer_yolov8_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model  | BatchSize | Precision | FPS      | MAP@0.5 |
-| ------ | --------- | --------- | -------- | ------- |
+|--------|-----------|-----------|----------|---------|
 | YOLOv8 | 32        | FP16      | 1511.366 | 0.525   |
 | YOLOv8 | 32        | INT8      | 1841.017 | 0.517   |

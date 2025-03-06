@@ -1,22 +1,22 @@
-# Inception V3
+# Inception V3 (IGIE)
 
-## Description
+## Model Description
 
 Inception v3 is a convolutional neural network architecture designed for image recognition and classification tasks. Developed by Google, it represents an evolution of the earlier Inception models. Inception v3 is characterized by its deep architecture, featuring multiple layers with various filter sizes and efficient use of computational resources. The network employs techniques like factorized convolutions and batch normalization to enhance training stability and accelerate convergence.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/inception_v3_google-0cc3c7bd.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output inception_v3.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -48,9 +48,9 @@ bash scripts/infer_inception_v3_int8_accuracy.sh
 bash scripts/infer_inception_v3_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model        |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
--------------|-----------|----------|----------|----------|--------
-Inception_v3 |    32     |   FP16   | 3557.25  |  69.848  | 88.858
-Inception_v3 |    32     |   INT8   | 3631.80  |  69.022  | 88.412
+| Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|--------------|-----------|-----------|---------|----------|----------|
+| Inception_v3 | 32        | FP16      | 3557.25 | 69.848   | 88.858   |
+| Inception_v3 | 32        | INT8      | 3631.80 | 69.022   | 88.412   |

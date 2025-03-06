@@ -1,13 +1,17 @@
-# CSPResNet50
+# CSPResNet50 (IxRT)
 
-## Description
+## Model Description
 
 Neural networks have enabled state-of-the-art approaches to achieve incredible results on computer vision tasks such as object detection.
 CSPResNet50 is the one of best models.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -18,10 +22,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -35,7 +35,7 @@ python3 export_onnx.py   \
     --output_model ./checkpoints/cspresnet50.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=./
@@ -43,7 +43,6 @@ export DATASETS_DIR=/path/to/imagenet_val
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=./
 export CONFIG_DIR=config/CSPRESNET50_CONFIG
-
 ```
 
 ### FP16
@@ -64,9 +63,9 @@ bash scripts/infer_cspresnet50_int8_accuracy.sh
 bash scripts/infer_cspresnet50_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model       |BatchSize  |Precision |FPS      |Top-1(%)  |Top-5(%)
-------------|-----------|----------|---------|----------|--------
-CSPResNet50 |    32     |   FP16   | 4555.95 |  78.51   | 94.17
-CSPResNet50 |    32     |   INT8   | 8801.94 |  78.15   | 93.95
+| Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|-------------|-----------|-----------|---------|----------|----------|
+| CSPResNet50 | 32        | FP16      | 4555.95 | 78.51    | 94.17    |
+| CSPResNet50 | 32        | INT8      | 8801.94 | 78.15    | 93.95    |

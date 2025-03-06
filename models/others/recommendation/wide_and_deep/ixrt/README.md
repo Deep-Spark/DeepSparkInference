@@ -1,12 +1,18 @@
-# Wide&Deep
+# Wide & Deep (IxRT)
 
-## Description
+## Model Description
 
 Generalized linear models with nonlinear feature transformations are widely used for large-scale regression and classification problems with sparse inputs. Memorization of feature interactions through a wide set of cross-product feature transformations are effective and interpretable, while generalization requires more feature engineering effort. With less feature engineering, deep neural networks can generalize better to unseen feature combinations through low-dimensional dense embeddings learned for the sparse features. However, deep neural networks with embeddings can over-generalize and recommend less relevant items when the user-item interactions are sparse and high-rank. In this paper, we present Wide & Deep learning---jointly trained wide linear models and deep neural networks---to combine the benefits of memorization and generalization for recommender systems. We productionized and evaluated the system on Google Play, a commercial mobile app store with over one billion active users and over one million apps. Online experiment results show that Wide & Deep significantly increased app acquisitions compared with wide-only and deep-only models. We have also open-sourced our implementation in TensorFlow.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_wide_deep_saved_model.tar>
+
+Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv>
+
+### Install Dependencies
 
 ```bash
 apt install -y libnuma-dev
@@ -14,11 +20,7 @@ apt install -y libnuma-dev
 pip3 install -r requirements.txt
 ```
 
-### Download
-
-Pretrained model: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_wide_deep_saved_model.tar>
-
-Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/eval.csv>
+### Model Conversion
 
 ```bash
 # Go to path of this model
@@ -35,7 +37,7 @@ python3 deploy.py --model_path open_wide_deep_saved_model/widedeep_sim.onnx --ou
 python3 change2dynamic.py --model_path open_wide_deep_saved_model/widedeep_sim.onnx --output_path open_wide_deep_saved_model/widedeep_sim.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export ORIGIN_ONNX_NAME=./open_wide_deep_saved_model/widedeep_sim
@@ -80,8 +82,8 @@ wget -O workloads/widedeep-tf-fp32.json https://raw.githubusercontent.com/byteda
 python3 core/perf_engine.py --hardware_type ILUVATAR --task widedeep-tf-fp32
 ```
 
-## Results
+## Model Results
 
-| Model     | BatchSize | Precision | FPS      | ACC     |
-| --------- | --------- | --------- | -------- | ------- |
-| Wide&Deep | 1024      | FP16      | 77073.93 | 0.74597 |
+| Model       | BatchSize | Precision | FPS      | ACC     |
+|-------------|-----------|-----------|----------|---------|
+| Wide & Deep | 1024      | FP16      | 77073.93 | 0.74597 |

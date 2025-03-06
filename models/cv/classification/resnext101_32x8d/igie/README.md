@@ -1,22 +1,22 @@
-# ResNext101_32x8d
+# ResNext101_32x8d (IGIE)
 
-## Description
+## Model Description
 
 ResNeXt101_32x8d is a deep convolutional neural network introduced in the paper "Aggregated Residual Transformations for Deep Neural Networks." It enhances the traditional ResNet architecture by incorporating group convolutions, offering a new dimension for scaling network capacity through "cardinality" (the number of groups) rather than merely increasing depth or width.The model consists of 101 layers and uses a configuration of 32 groups, each with a width of 8 channels. This design improves feature extraction while maintaining computational efficiency.
 
-## Setup
+## Model Preparation
 
-### Install
-
-```bash
-pip3 install -r requirements.txt
-```
-
-### Download
+### Prepare Resources
 
 Pretrained model: <https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
+
+```bash
+pip3 install -r requirements.txt
+```
 
 ### Model Conversion
 
@@ -24,7 +24,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight resnext101_32x8d-8ba56ff5.pth --output resnext101_32x8d.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -39,7 +39,7 @@ bash scripts/infer_resnext101_32x8d_fp16_accuracy.sh
 bash scripts/infer_resnext101_32x8d_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model            | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
 | ---------------- | --------- | --------- | ------ | -------- | -------- |

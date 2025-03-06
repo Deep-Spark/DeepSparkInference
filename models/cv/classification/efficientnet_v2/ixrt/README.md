@@ -1,12 +1,20 @@
-# EfficientNetV2
+# EfficientNetV2 (IxRT)
 
-## Description
+## Model Description
 
-EfficientNetV2 is an improved version of the EfficientNet architecture proposed by Google, aiming to enhance model performance and efficiency. Unlike the original EfficientNet, EfficientNetV2 features a simplified design and incorporates a series of enhancement strategies to further boost performance.
+EfficientNetV2 is an improved version of the EfficientNet architecture proposed by Google, aiming to enhance model
+performance and efficiency. Unlike the original EfficientNet, EfficientNetV2 features a simplified design and
+incorporates a series of enhancement strategies to further boost performance.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -17,12 +25,6 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -39,7 +41,7 @@ python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet_v2.o
 cd ../../
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export PROJ_DIR=/Path/to/efficientnet_v2/ixrt
@@ -68,9 +70,9 @@ bash scripts/infer_efficientnet_v2_int8_accuracy.sh
 bash scripts/infer_efficientnet_v2_int8_performance.sh
 ```
 
-## Results
+## Model Results
 
-Model          | BatchSize | Precision |   FPS    | Top-1(%) | Top-5(%)
----------------|-----------|-----------|----------|----------|--------
-EfficientnetV2 |    32     |   FP16    | 1882.87  |  82.14   | 96.16
-EfficientnetV2 |    32     |   INT8    | 2595.96  |  81.50   | 95.96
+| Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
+|----------------|-----------|-----------|---------|----------|----------|
+| EfficientnetV2 | 32        | FP16      | 1882.87 | 82.14    | 96.16    |
+| EfficientnetV2 | 32        | INT8      | 2595.96 | 81.50    | 95.96    |

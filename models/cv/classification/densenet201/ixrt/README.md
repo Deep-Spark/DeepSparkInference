@@ -1,12 +1,18 @@
-# DenseNet201
+# DenseNet201 (IxRT)
 
-## Description
+## Model Description
 
 DenseNet201 is a deep convolutional neural network that stands out for its unique dense connection architecture, where each layer integrates features from all previous layers, effectively reusing features and reducing the number of parameters. This design not only enhances the network's information flow and parameter efficiency but also increases the model's regularization effect, helping to prevent overfitting. DenseNet201 consists of multiple dense blocks and transition layers, capable of capturing rich feature representations while maintaining computational efficiency, making it suitable for complex image recognition tasks.
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+Pretrained model: <https://download.pytorch.org/models/densenet201-c1103571.pth>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
+
+### Install Dependencies
 
 ```bash
 # Install libGL
@@ -15,20 +21,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install tqdm
-pip3 install onnx
-pip3 install onnxsim
-pip3 install tabulate
-pip3 install ppq
-pip3 install tqdm
-pip3 install cuda-python
+pip3 install -r requirements.txt
 ```
-
-### Download
-
-Pretrained model: <https://download.pytorch.org/models/densenet201-c1103571.pth>
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Model Conversion
 
@@ -36,7 +30,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 python3 export.py --weight densenet201-c1103571.pth --output densenet201.onnx
 ```
 
-## Inference
+## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
@@ -51,7 +45,7 @@ bash scripts/infer_densenet201_fp16_accuracy.sh
 bash scripts/infer_densenet201_fp16_performance.sh
 ```
 
-## Results
+## Model Results
 
 | Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | ----------- | --------- | --------- | -------- | -------- | -------- |

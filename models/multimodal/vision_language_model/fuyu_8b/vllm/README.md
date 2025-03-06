@@ -1,14 +1,23 @@
 # Fuyu-8B
 
-## Description
+## Model Description
 
 Fuyu-8B is a multi-modal text and image transformer trained by Adept AI.
 
 Architecturally, Fuyu is a vanilla decoder-only transformer - there is no image encoder. Image patches are instead linearly projected into the first layer of the transformer, bypassing the embedding lookup. We simply treat the transformer decoder like an image transformer (albeit with no pooling and causal attention).
 
-## Setup
+## Model Preparation
 
-### Install
+### Prepare Resources
+
+- Model: <https://huggingface.co/adept/fuyu-8b>
+
+```bash
+# Download model from the website and make sure the model's path is "data/fuyu-8b"
+mkdir data/
+```
+
+### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
@@ -20,16 +29,7 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 ```
 
-### Download
-
-- Model: <https://huggingface.co/adept/fuyu-8b>
-
-```bash
-# Download model from the website and make sure the model's path is "data/fuyu-8b"
-mkdir data
-```
-
-## Inference
+## Model Inference
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
