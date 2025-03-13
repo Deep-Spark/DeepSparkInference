@@ -8,6 +8,12 @@ attention QKV bias, group query attention, mixture of sliding window attention a
 have an improved tokenizer adaptive to multiple natural languages and codes. For the beta version, temporarily we did
 not include GQA (except for 32B) and the mixture of SWA and full attention.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

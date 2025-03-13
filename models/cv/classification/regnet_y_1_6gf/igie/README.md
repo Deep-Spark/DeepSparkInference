@@ -4,6 +4,12 @@
 
 RegNet is a family of models designed for image classification tasks, as described in the paper "Designing Network Design Spaces". The RegNet design space provides simple and fast networks that work well across a wide range of computational budgets.The architecture of RegNet models is based on the principle of designing network design spaces, which allows for a more systematic exploration of possible network architectures. This makes it easier to understand and modify the architecture.RegNet_y_1_6gf is a specific model within the RegNet family, designed for image classification tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 The FSAF (Feature Selective Anchor-Free) module is an innovative component for single-shot object detection that enhances performance through online feature selection and anchor-free branches. The FSAF module dynamically selects the most suitable feature level for each object instance, rather than relying on traditional anchor-based heuristic methods. This improvement significantly boosts the accuracy of object detection, especially for small targets and in complex scenes. Moreover, compared to existing anchor-based detectors, the FSAF module maintains high efficiency while adding negligible additional inference overhead.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 MobileNetV3 is a convolutional neural network that is tuned to mobile phone CPUs through a combination of hardware-aware network architecture search (NAS) complemented by the NetAdapt algorithm, and then subsequently improved through novel architecture advances. Advances include (1) complementary search techniques, (2) new efficient versions of nonlinearities practical for the mobile setting, (3) new efficient network design.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

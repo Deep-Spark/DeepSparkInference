@@ -5,6 +5,12 @@
 VGG16 is a deep convolutional neural network model developed by the Visual Geometry Group at the University of Oxford.
 It finished second in the 2014 ImageNet Massive Visual Identity Challenge (ILSVRC).
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

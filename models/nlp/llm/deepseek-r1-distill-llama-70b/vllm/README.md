@@ -6,6 +6,12 @@ DeepSeek-R1-Distill models are fine-tuned based on open-source models, using sam
 slightly change their configs and tokenizers.  We open-source distilled 1.5B, 7B, 8B, 14B, 32B, and 70B checkpoints
 based on Qwen2.5 and Llama3 series to the community.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

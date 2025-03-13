@@ -4,6 +4,12 @@
 
 DeepSort integrates deep neural networks with traditional tracking methods to achieve robust and accurate tracking of objects in video streams. The algorithm leverages a combination of a deep appearance feature extractor and the Hungarian algorithm for data association.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

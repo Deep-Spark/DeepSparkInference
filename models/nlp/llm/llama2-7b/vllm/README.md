@@ -9,6 +9,12 @@ helpfulness and safety, may be a suitable substitute for closed-source models. W
 approach to fine-tuning and safety improvements of Llama 2-Chat in order to enable the community to build on our work
 and contribute to the responsible development of LLMs.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 ResNet-18 is a relatively compact deep neural network.The ResNet-18 architecture consists of 18 layers, including convolutional, pooling, and fully connected layers. It incorporates residual blocks, a key innovation that utilizes shortcut connections to facilitate the flow of information through the network.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

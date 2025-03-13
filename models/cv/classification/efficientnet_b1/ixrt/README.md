@@ -4,6 +4,12 @@
 
 EfficientNet B1 is one of the variants in the EfficientNet family of neural network architectures, introduced by Mingxing Tan and Quoc V. Le in their paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." EfficientNet B1 is a scaled-up version of the baseline model (B0) and is designed to achieve better performance on various computer vision tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

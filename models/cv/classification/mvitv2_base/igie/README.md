@@ -4,6 +4,12 @@
 
 MViTv2_base is an efficient multi-scale vision Transformer model designed specifically for image classification tasks. By employing a multi-scale structure and hierarchical representation, it effectively captures both global and local image features while maintaining computational efficiency. The MViTv2_base has demonstrated excellent performance on multiple standard datasets and is suitable for a variety of visual recognition tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -5,6 +5,12 @@
 RegNet_x_16gf is a deep convolutional neural network from the RegNet family, introduced in the paper "Designing Network Design Spaces" by Facebook AI. RegNet models emphasize simplicity, efficiency, and scalability, and they systematically explore design spaces to achieve optimal performance.The x in RegNet_x_16gf indicates it belongs to the RegNetX series, which focuses on optimizing network width and depth, while 16gf refers to its computational complexity of approximately 16 GFLOPs. The model features linear width scaling, group convolutions, and bottleneck blocks, providing high accuracy while maintaining computational efficiency.
 
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

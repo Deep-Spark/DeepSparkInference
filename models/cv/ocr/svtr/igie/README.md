@@ -4,6 +4,12 @@
 
 SVTR proposes a single vision model for scene text recognition. This model completely abandons sequence modeling within the patch-wise image tokenization framework. Under the premise of competitive accuracy, the model has fewer parameters and faster speed.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

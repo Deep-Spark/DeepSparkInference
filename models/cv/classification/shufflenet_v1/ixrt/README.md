@@ -5,6 +5,12 @@
 ShuffleNet V1 is a lightweight neural network architecture primarily used for image classification and object detection tasks.
 It uses techniques such as deep separable convolution and channel shuffle to reduce the number of parameters and computational complexity of the model, thereby achieving low computational resource consumption while maintaining high accuracy.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

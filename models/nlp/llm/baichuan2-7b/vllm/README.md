@@ -7,6 +7,12 @@ high-quality data with 26 trillion tokens, which sounds like a substantial datas
 performance on various authoritative Chinese, multilingual, and domain-specific benchmarks of similar size, indicating
 its excellent capabilities in language understanding and generation.This release includes Base and Chat versions of 7B.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

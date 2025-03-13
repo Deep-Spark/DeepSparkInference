@@ -8,6 +8,12 @@ language processing tasks, including text generation and dialogue systems. Due t
 and diverse dataset, Stable LM 2 1.6B can effectively capture the nuances of language, including grammar, semantics, and
 contextual relationships, which enhances the quality and accuracy of the generated text.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

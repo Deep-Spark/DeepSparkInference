@@ -4,6 +4,12 @@
 
 HRNet-W18 is a powerful image classification model developed by Jingdong AI Research and released in 2020. It belongs to the HRNet (High-Resolution Network) family of models, known for their exceptional performance in various computer vision tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

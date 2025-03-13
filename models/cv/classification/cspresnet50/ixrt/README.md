@@ -5,6 +5,12 @@
 Neural networks have enabled state-of-the-art approaches to achieve incredible results on computer vision tasks such as object detection.
 CSPResNet50 is the one of best models.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

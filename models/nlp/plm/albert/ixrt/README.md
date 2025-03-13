@@ -4,6 +4,12 @@
 
 Albert (A Lite BERT) is a variant of the BERT (Bidirectional Encoder Representations from Transformers) model that focuses on efficiency and scalability while maintaining strong performance in natural language processing tasks. The AlBERT model introduces parameter reduction techniques and incorporates self-training strategies to enhance its effectiveness.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

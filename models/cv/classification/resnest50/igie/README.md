@@ -4,6 +4,12 @@
 
 ResNeSt50 is a deep convolutional neural network model based on the ResNeSt architecture, specifically designed to enhance performance in visual recognition tasks such as image classification, object detection, instance segmentation, and semantic segmentation. ResNeSt stands for Split-Attention Networks, a modular network architecture that leverages channel-wise attention mechanisms across different network branches to capture cross-feature interactions and learn diverse representations.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

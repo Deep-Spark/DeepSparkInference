@@ -6,6 +6,12 @@ SqueezeNet 1.0 is a deep learning model for image classification, designed to be
 
 It was developed by researchers at DeepScale and released in 2016.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

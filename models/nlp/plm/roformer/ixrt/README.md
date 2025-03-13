@@ -13,6 +13,12 @@ the capability of equipping the linear self-attention with relative position enc
 transformer with rotary position embedding, also called RoFormer, on various long text classification benchmark
 datasets.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

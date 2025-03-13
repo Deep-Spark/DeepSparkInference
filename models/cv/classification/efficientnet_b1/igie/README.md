@@ -4,6 +4,12 @@
 
 EfficientNet B1 is a convolutional neural network architecture that falls under the EfficientNet family, known for its remarkable balance between model size and performance. Introduced as part of the EfficientNet series, EfficientNet B1 offers a compact yet powerful solution for various computer vision tasks, including image classification, object detection and segmentation.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

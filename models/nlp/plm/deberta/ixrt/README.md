@@ -9,6 +9,12 @@ self-attention matrix into different parts, focusing on different semantic infor
 capture relationships between texts.By incorporating decoding enhancement techniques, DeBERTa adjusts the decoder during
 fine-tuning to better suit specific downstream tasks, thereby improving the model’s performance on those tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

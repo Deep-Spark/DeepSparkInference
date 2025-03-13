@@ -4,6 +4,12 @@
 
 MobileNetV3_Small is a lightweight convolutional neural network architecture designed for efficient mobile and embedded devices. It is part of the MobileNet family, renowned for its compact size and high performance, making it ideal for applications with limited computational resources.The key focus of MobileNetV3_Small is to achieve a balance between model size, speed, and accuracy.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

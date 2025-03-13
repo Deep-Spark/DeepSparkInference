@@ -4,6 +4,12 @@
 
 VGG16 is a convolutional neural network (CNN) architecture designed for image classification tasks.The architecture of VGG16 is characterized by its simplicity and uniform structure. It consists of 16 convolutional and fully connected layers, organized into five blocks, with the convolutional layers using small 3x3 filters.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

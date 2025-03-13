@@ -4,6 +4,12 @@
 
 MNASNet0_5 is a neural network architecture optimized for mobile devices, designed through neural architecture search technology. It is characterized by high efficiency and excellent accuracy, offering 50% higher accuracy than MobileNetV2 while maintaining low latency and memory usage. MNASNet0_5 widely uses depthwise separable convolutions, supports multi-scale inputs, and demonstrates good robustness, making it suitable for real-time image recognition tasks in resource-constrained environments.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

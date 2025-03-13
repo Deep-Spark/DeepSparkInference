@@ -4,6 +4,12 @@
 
 ShuffleNetV2_x0_5 is a lightweight convolutional neural network architecture designed for efficient image classification and feature extraction, it also incorporates other design optimizations such as depthwise separable convolutions, group convolutions, and efficient building blocks to further reduce computational complexity and improve efficiency.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 Facenet is a facial recognition system originally proposed and developed by Google. It utilizes deep learning techniques, specifically convolutional neural networks (CNNs), to transform facial images into high-dimensional feature vectors. These feature vectors possess high discriminative power, enabling comparison and identification of different faces. The core idea of Facenet is to map faces into a multi-dimensional space of feature vectors, achieving efficient representation and recognition of faces.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

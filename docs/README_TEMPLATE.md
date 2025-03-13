@@ -8,10 +8,9 @@ A brief introduction about this model.
 
 ## Supported Environments
 
-| Iluvatar GPU | IXUCA |
-|--------------|-------|
-| MR-V50       | 4.1.2 |
-| MR-V100      | 4.2.0 |
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
 
 ## Model Preparation
 

@@ -9,6 +9,12 @@ language encoding. Optimized for conversational AI, Llama 3 demonstrates superio
 benchmarks while maintaining strong safety and beneficialness standards. Its 70B version is particularly designed for
 large-scale AI applications, offering enhanced reasoning and instruction-following capabilities.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

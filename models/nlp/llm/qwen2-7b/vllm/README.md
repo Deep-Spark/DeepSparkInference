@@ -13,6 +13,12 @@ reasoning, etc.
 
 Qwen2-7B-Instruct supports a context length of up to 131,072 tokens, enabling the processing of extensive inputs.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

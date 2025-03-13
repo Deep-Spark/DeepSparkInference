@@ -6,6 +6,12 @@ ChatGLM3-6B is trained on large-scale natural language text data, enabling it to
 applied to various natural language processing tasks such as dialogue generation, text summarization, and language
 translation.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -5,6 +5,12 @@
 AlexNet is a classic convolutional neural network architecture. It consists of convolutions, max pooling and dense
 layers as the basic building blocks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

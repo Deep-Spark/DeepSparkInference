@@ -4,6 +4,12 @@
 
 HRNetPose (High-Resolution Network for Pose Estimation) is a high-performance human pose estimation model introduced in the paper "Deep High-Resolution Representation Learning for Human Pose Estimation". It is designed to address the limitations of traditional methods by maintaining high-resolution feature representations throughout the network, enabling more accurate detection of human keypoints.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

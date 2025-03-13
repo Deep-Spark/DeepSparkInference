@@ -5,6 +5,12 @@
 REPVGG is a family of convolutional neural network (CNN) architectures designed for image classification tasks.
 It was developed by researchers at the University of Oxford and introduced in their paper titled "REPVGG: Making VGG-style ConvNets Great Again" in 2021.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

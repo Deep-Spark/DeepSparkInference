@@ -6,6 +6,12 @@ Beam search allows us to exert control over the output of text generation. This 
 exactly what we want inside the output. For example, in a Neural Machine Translation task, we might know which words
 must be included in the final translation with a dictionary lookup.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

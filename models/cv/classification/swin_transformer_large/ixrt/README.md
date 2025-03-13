@@ -4,6 +4,12 @@
 
 Swin Transformer-Large is a variant of the Swin Transformer, an architecture designed for computer vision tasks, particularly within the realms of image classification, object detection, and segmentation. The Swin Transformer-Large model represents an expanded version with more layers and parameters compared to its base configuration, aiming for improved performance and deeper processing of visual data.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

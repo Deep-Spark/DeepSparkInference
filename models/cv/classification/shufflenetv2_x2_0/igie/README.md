@@ -4,6 +4,12 @@
 
 ShuffleNetV2_x2_0 is a lightweight convolutional neural network introduced in the paper "ShuffleNet V2: Practical Guidelines for Efficient CNN Architecture Design" by Megvii (Face++). It is designed to achieve high performance with low computational cost, making it ideal for mobile and embedded devices.The x2_0 in its name indicates a width multiplier of 2.0, meaning the model has twice as many channels compared to the baseline ShuffleNetV2_x1_0. It employs Channel Shuffle to enable efficient information exchange between grouped convolutions, addressing the limitations of group convolutions. The core building block, the ShuffleNetV2 block, features a split-merge design and channel shuffle mechanism, ensuring both high efficiency and accuracy.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

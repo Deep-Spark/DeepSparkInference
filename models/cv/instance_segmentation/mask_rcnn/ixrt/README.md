@@ -4,6 +4,12 @@
 
 Mask R-CNN (Mask Region-Based Convolutional Neural Network) is an extension of the Faster R-CNN model, which is itself an improvement over R-CNN and Fast R-CNN. Developed by Kaiming He et al., Mask R-CNN is designed for object instance segmentation tasks, meaning it not only detects objects within an image but also generates high-quality segmentation masks for each instance.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

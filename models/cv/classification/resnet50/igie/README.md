@@ -4,6 +4,12 @@
 
 ResNet-50 is a convolutional neural network architecture that belongs to the ResNet.The key innovation in ResNet-50 is the introduction of residual blocks, which include shortcut connections (skip connections) to enable the flow of information directly from one layer to another. These shortcut connections help mitigate the vanishing gradient problem and facilitate the training of very deep networks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 Swin Transformer is a pioneering neural network architecture that introduces a novel approach to handling local and global information in computer vision tasks. Departing from traditional self-attention mechanisms, Swin Transformer adopts a hierarchical design, organizing its attention windows in a shifted manner. This innovation enables more efficient modeling of contextual information across different scales, enhancing the model's capability to capture intricate patterns.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

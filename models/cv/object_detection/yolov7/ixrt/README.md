@@ -4,6 +4,12 @@
 
 YOLOv7 is an object detection model based on the YOLO (You Only Look Once) series. It is an improved version of YOLOv5 developed by the Ultralytics team. YOLOv7 aims to enhance the performance and efficiency of object detection through a series of improvements including network architecture, training strategies, and data augmentation techniques, in order to achieve more accurate and faster object detection.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

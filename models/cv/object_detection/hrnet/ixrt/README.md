@@ -4,6 +4,12 @@
 
 HRNet is an advanced deep learning architecture for human pose estimation, characterized by its maintenance of high-resolution representations throughout the entire network process, thereby avoiding the low-to-high resolution recovery step typical of traditional models. The network features parallel multi-resolution subnetworks and enriches feature representation through repeated multi-scale fusion, which enhances the accuracy of keypoint detection. Additionally, HRNet offers computational efficiency and has demonstrated superior performance over previous methods on several standard datasets.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

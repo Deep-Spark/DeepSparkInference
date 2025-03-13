@@ -4,6 +4,12 @@
 
 Res2Net50 is a convolutional neural network architecture that introduces the concept of "Residual-Residual Networks" (Res2Nets) to enhance feature representation and model expressiveness, particularly in image recognition tasks.The key innovation of Res2Net50 lies in its hierarchical feature aggregation mechanism, which enables the network to capture multi-scale features more effectively. Unlike traditional ResNet architectures, Res2Net50 incorporates multiple parallel pathways within each residual block, allowing the network to dynamically adjust the receptive field size and aggregate features across different scales.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

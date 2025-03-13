@@ -4,6 +4,12 @@
 
 The paper "Deep Relative Distance Learning: Tell the Difference Between Similar Vehicles" introduces a model named Deep Relative Distance Learning (DRDL), specifically designed for the problem of vehicle re-identification. DRDL employs a dual-branch deep convolutional network architecture, combined with a coupled clusters loss function and a mixed difference network structure, effectively mapping vehicle images into Euclidean space for similarity measurement.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

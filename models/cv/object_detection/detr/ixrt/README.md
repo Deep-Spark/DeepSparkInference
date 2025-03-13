@@ -4,6 +4,12 @@
 
 DETR (DEtection TRansformer) is a novel approach that views object detection as a direct set prediction problem. This method streamlines the detection process, eliminating the need for many hand-designed components like non-maximum suppression procedures or anchor generation, which are typically used to explicitly encode prior knowledge about the task.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

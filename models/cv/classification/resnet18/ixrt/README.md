@@ -4,6 +4,12 @@
 
 ResNet-18 is a variant of the ResNet (Residual Network) architecture, which was introduced by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun in their 2016 paper, "Deep Residual Learning for Image Recognition." The ResNet architecture was pivotal in addressing the challenges of training very deep neural networks by introducing residual blocks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

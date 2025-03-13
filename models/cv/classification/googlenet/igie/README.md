@@ -4,6 +4,12 @@
 
 Introduced in 2014, GoogleNet revolutionized image classification models by introducing the concept of inception modules. These modules utilize parallel convolutional filters of different sizes, allowing the network to capture features at various scales efficiently. With its emphasis on computational efficiency and the reduction of parameters, GoogleNet achieved competitive accuracy while maintaining a relatively low computational cost.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

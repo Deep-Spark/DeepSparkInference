@@ -4,6 +4,12 @@
 
 FoveaBox is an advanced anchor-free object detection framework that enhances accuracy and flexibility by directly predicting the existence and bounding box coordinates of objects. Utilizing a Feature Pyramid Network (FPN), it adeptly handles targets of varying scales, particularly excelling with objects of arbitrary aspect ratios. FoveaBox also demonstrates robustness against image deformations.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

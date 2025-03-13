@@ -4,6 +4,12 @@
 
 MobileNetV3_Large builds upon the success of its predecessors by incorporating several innovative design strategies to enhance performance. It features larger model capacity and computational resources compared to MobileNetV3_Small, allowing for deeper network architectures and more complex feature representations.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 ResNeXt101_32x8d is a deep convolutional neural network introduced in the paper "Aggregated Residual Transformations for Deep Neural Networks." It enhances the traditional ResNet architecture by incorporating group convolutions, offering a new dimension for scaling network capacity through "cardinality" (the number of groups) rather than merely increasing depth or width.The model consists of 101 layers and uses a configuration of 32 groups, each with a width of 8 channels. This design improves feature extraction while maintaining computational efficiency.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

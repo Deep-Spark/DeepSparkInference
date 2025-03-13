@@ -4,6 +4,12 @@
 
 ATSS is an advanced adaptive training sample selection method that effectively enhances the performance of both anchor-based and anchor-free object detectors by dynamically choosing positive and negative samples based on the statistical characteristics of objects. The design of ATSS reduces reliance on hyperparameters, simplifies the sample selection process, and significantly improves detection accuracy without adding extra computational costs.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

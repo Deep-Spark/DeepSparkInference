@@ -4,6 +4,12 @@
 
 HRNet, short for High-Resolution Network, presents a paradigm shift in handling position-sensitive vision challenges, such as human pose estimation, semantic segmentation, and object detection.  The distinctive features of HRNet result in semantically richer and spatially more precise representations.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

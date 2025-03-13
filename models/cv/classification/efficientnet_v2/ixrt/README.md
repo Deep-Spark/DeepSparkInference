@@ -6,6 +6,12 @@ EfficientNetV2 is an improved version of the EfficientNet architecture proposed 
 performance and efficiency. Unlike the original EfficientNet, EfficientNetV2 features a simplified design and
 incorporates a series of enhancement strategies to further boost performance.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

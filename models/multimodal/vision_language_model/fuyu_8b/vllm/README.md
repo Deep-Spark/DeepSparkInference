@@ -6,6 +6,12 @@ Fuyu-8B is a multi-modal text and image transformer trained by Adept AI.
 
 Architecturally, Fuyu is a vanilla decoder-only transformer - there is no image encoder. Image patches are instead linearly projected into the first layer of the transformer, bypassing the embedding lookup. We simply treat the transformer decoder like an image transformer (albeit with no pooling and causal attention).
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

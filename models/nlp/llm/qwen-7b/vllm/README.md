@@ -9,6 +9,12 @@ human alignment techniques. Notably, Qwen-7B exhibits strong tool-use and planni
 developing intelligent agent applications. It also includes specialized versions for coding (Code-Qwen) and mathematics
 (Math-Qwen), showcasing improved performance in these domains compared to other open-source models.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

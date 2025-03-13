@@ -4,6 +4,12 @@
 
 LayoutXLM is a groundbreaking multimodal pre-trained model for multilingual document understanding, achieving exceptional performance by integrating text, layout, and image data.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

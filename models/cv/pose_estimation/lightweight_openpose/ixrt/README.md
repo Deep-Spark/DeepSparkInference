@@ -8,6 +8,12 @@ inside the image. The pose may contain up to 18 keypoints: ears, eyes, nose, nec
 knees, and ankles. On COCO 2017 Keypoint Detection validation set this code achives 40% AP for the single scale
 inference (no flip or any post-processing done).
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

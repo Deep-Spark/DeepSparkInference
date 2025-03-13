@@ -4,6 +4,12 @@
 
 LLaVA-Next-Video is an open-source chatbot trained by fine-tuning LLM on multimodal instruction-following data. The model is buit on top of LLaVa-NeXT by tuning on a mix of video and image data to achieves better video understanding capabilities. The videos were sampled uniformly to be 32 frames per clip. The model is a current SOTA among open-source models on VideoMME bench. Base LLM: lmsys/vicuna-7b-v1.5
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

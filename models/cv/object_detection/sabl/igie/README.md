@@ -4,6 +4,12 @@
 
 SABL (Side-Aware Boundary Localization) is an innovative approach in object detection that focuses on improving the precision of bounding box localization. It addresses the limitations of traditional bounding box regression methods, such as boundary ambiguity and asymmetric prediction errors, was first proposed in the paper "Side-Aware Boundary Localization for More Precise Object Detection".
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

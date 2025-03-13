@@ -7,6 +7,12 @@ version of the Llama model is now accessible to individuals, creators, researche
 includes model weights and starting code for pre-trained and fine-tuned Llama language models with parameters ranging
 from 7B to 70B.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

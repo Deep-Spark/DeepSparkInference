@@ -4,6 +4,12 @@
 
 ResNet101 is a convolutional neural network architecture that belongs to the ResNet (Residual Network) family.With a total of 101 layers, ResNet101 comprises multiple residual blocks, each containing convolutional layers with batch normalization and rectified linear unit (ReLU) activations. These residual blocks allow the network to effectively capture complex features at different levels of abstraction, leading to superior performance on image recognition tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

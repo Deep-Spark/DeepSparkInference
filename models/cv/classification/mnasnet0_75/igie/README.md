@@ -4,6 +4,12 @@
 
 MNASNet0_75 is a lightweight convolutional neural network designed for mobile devices, introduced in the paper "MNASNet: Multi-Objective Neural Architecture Search for Mobile." The model leverages Multi-Objective Neural Architecture Search (NAS) to achieve a balance between accuracy and efficiency by optimizing both performance and computational cost. With a width multiplier of 0.75, MNASNet0_75 reduces the number of channels compared to the standard MNASNet (width multiplier of 1.0), resulting in fewer parameters.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 ShuffleNetV2_x1_5 is a lightweight convolutional neural network specifically designed for efficient image recognition tasks on resource-constrained devices. It achieves high performance and low latency through the introduction of channel shuffling and pointwise group convolutions. Despite its small model size, it offers high accuracy and is suitable for a variety of vision tasks in mobile devices and embedded systems.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

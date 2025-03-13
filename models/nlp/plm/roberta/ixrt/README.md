@@ -11,6 +11,12 @@ it. Our best model achieves state-of-the-art results on GLUE, RACE and SQuAD. Th
 previously overlooked design choices, and raise questions about the source of recently reported improvements. We release
 our models and code.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

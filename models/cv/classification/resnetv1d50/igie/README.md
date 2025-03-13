@@ -4,6 +4,12 @@
 
 ResNetV1D50 is an enhanced version of ResNetV1-50 that incorporates changes like dilated convolutions and adjusted downsampling, leading to better performance in large-scale image classification tasks. Its ability to capture richer image features makes it a popular choice in deep learning models.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

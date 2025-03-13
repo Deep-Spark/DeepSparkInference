@@ -4,6 +4,12 @@
 
 MLP-Mixer Base is a foundational model in the MLP-Mixer family, designed to use only MLP layers for vision tasks like image classification. Unlike CNNs and Vision Transformers, MLP-Mixer replaces both convolution and self-attention mechanisms with simple MLP layers to process spatial and channel-wise information independently.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

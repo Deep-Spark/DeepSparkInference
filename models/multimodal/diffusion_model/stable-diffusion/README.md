@@ -4,6 +4,12 @@
 
 Stable Diffusion is a latent text-to-image diffusion model capable of generating photo-realistic images given any text input.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

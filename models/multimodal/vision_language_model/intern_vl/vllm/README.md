@@ -4,6 +4,12 @@
 
 InternVL2-4B is a large-scale multimodal model developed by WeTab AI, designed to handle a wide range of tasks involving both text and visual data. With 4 billion parameters, it is capable of understanding and generating complex patterns in data, making it suitable for applications such as image recognition, natural language processing, and multimodal learning.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

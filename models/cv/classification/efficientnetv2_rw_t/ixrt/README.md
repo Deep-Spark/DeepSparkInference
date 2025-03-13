@@ -4,6 +4,12 @@
 
 EfficientNetV2_rw_t is an enhanced version of the EfficientNet family of convolutional neural network architectures. It builds upon the success of its predecessors by introducing novel advancements aimed at further improving performance and efficiency in various computer vision tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

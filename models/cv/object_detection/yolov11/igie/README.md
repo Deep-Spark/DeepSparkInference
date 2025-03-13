@@ -4,6 +4,12 @@
 
 YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object detection model released by Ultralytics. Building upon the advancements of previous YOLO models, such as YOLOv5 and YOLOv8, YOLOv11 introduces comprehensive upgrades to further enhance performance, flexibility, and usability. It is a versatile deep learning model designed for multi-task applications, supporting object detection, instance segmentation, image classification, keypoint pose estimation, and rotated object detection.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

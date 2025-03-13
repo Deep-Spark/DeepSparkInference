@@ -7,6 +7,12 @@ the base language model and the aligned chat model. It is based on the Transform
 attention QKV bias, group query attention, mixture of sliding window attention and full attention, etc. Additionally, we
 have an improved tokenizer adaptive to multiple natural languages and codes. 
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

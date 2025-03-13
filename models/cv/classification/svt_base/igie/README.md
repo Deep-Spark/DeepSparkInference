@@ -4,6 +4,12 @@
 
 SVT Base is a mid-sized variant of the Sparse Vision Transformer (SVT) series, designed to combine the expressive power of Vision Transformers (ViTs) with the efficiency of sparse attention mechanisms. By employing sparse attention and multi-stage feature extraction, SVT-Base reduces computational complexity while retaining global modeling capabilities.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 MiniCPM V2 is a compact and efficient language model designed for various natural language processing (NLP) tasks. Building on its predecessor, MiniCPM-V-1, this model integrates advancements in architecture and optimization techniques, making it suitable for deployment in resource-constrained environments.s
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 EfficientNet B4 is a high-performance convolutional neural network model introduced in Google's paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." It is part of the EfficientNet family, which leverages compound scaling to balance depth, width, and input resolution for better accuracy and efficiency.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

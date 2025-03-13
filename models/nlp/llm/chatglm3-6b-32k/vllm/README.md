@@ -8,6 +8,12 @@ targeted long text training methods, using a 32K context length during the train
 context length is mostly within 8K, we recommend using ChatGLM3-6B; if you need to handle context lengths exceeding 8K,
 we recommend using ChatGLM3-6B-32K.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

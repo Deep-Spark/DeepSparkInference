@@ -6,6 +6,12 @@ CSPResNet50 combines the strengths of ResNet50 and CSPNet (Cross-Stage Partial N
 high-performing architecture. By splitting and fusing feature maps across stages, CSPResNet50 reduces redundant
 computations, optimizes gradient flow, and enhances feature representation.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -8,6 +8,12 @@ Challenge (ILSVRC). This neural network comprises eight layers, incorporating fi
 connected layers. The architecture employs the Rectified Linear Unit (ReLU) activation function to introduce
 non-linearity, allowing the model to learn complex features from input images.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

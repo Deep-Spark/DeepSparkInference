@@ -4,6 +4,12 @@
 
 SqueezeNet1_0 is a lightweight convolutional neural network introduced in the paper "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5MB model size." It was designed to achieve high classification accuracy with significantly fewer parameters, making it highly efficient for resource-constrained environments.The core innovation of SqueezeNet lies in the Fire Module, which reduces parameters using 1x1 convolutions in the "Squeeze layer" and expands feature maps through a mix of 1x1 and 3x3 convolutions in the "Expand layer." Additionally, delayed downsampling improves feature representation and accuracy.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

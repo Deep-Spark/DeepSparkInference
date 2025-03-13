@@ -4,6 +4,12 @@
 
 SOLO (Segmenting Objects by Locations) is a new instance segmentation method that differs from traditional approaches by introducing the concept of “instance categories”. Based on the location and size of each instance, SOLO assigns each pixel to a corresponding instance category. This method transforms the instance segmentation problem into a single-shot classification task, simplifying the overall process.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

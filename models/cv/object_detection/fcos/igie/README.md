@@ -4,6 +4,12 @@
 
 FCOS is an innovative one-stage object detection framework that abandons traditional anchor box dependency and uses a fully convolutional network for per-pixel target prediction. By introducing a centerness branch and multi-scale feature fusion, FCOS enhances detection performance while simplifying the model structure, especially in detecting small and overlapping targets. Additionally, FCOS eliminates the need for hyperparameter tuning related to anchor boxes, streamlining the model training and tuning process.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

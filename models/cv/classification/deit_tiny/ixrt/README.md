@@ -4,6 +4,12 @@
 
 DeiT Tiny is a lightweight vision transformer designed for data-efficient learning. It achieves rapid training and high accuracy on small datasets through innovative attention distillation methods, while maintaining the simplicity and efficiency of the model.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

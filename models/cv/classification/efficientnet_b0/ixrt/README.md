@@ -4,6 +4,12 @@
 
 EfficientNet B0 is a convolutional neural network architecture that belongs to the EfficientNet family, which was introduced by Mingxing Tan and Quoc V. Le in their paper "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks." The EfficientNet family is known for achieving state-of-the-art performance on various computer vision tasks while being more computationally efficient than many existing models.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

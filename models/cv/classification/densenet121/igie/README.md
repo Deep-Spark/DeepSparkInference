@@ -4,6 +4,12 @@
 
 DenseNet-121 is a convolutional neural network architecture that belongs to the family of Dense Convolutional Networks.The network consists of four dense blocks, each containing a varying number of densely connected convolutional layers. Transition layers with pooling operations reduce the spatial dimensions between dense blocks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

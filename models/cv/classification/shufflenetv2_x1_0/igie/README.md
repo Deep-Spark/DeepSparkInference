@@ -4,6 +4,12 @@
 
 ShuffleNet V2_x1_0 is an efficient convolutional neural network (CNN) architecture that emphasizes a balance between computational efficiency and accuracy, particularly suited for deployment on mobile and embedded devices. The model refines the ShuffleNet series by introducing structural innovations that enhance feature reuse and reduce redundancy, all while maintaining simplicity and performance.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 CenterNet is an efficient object detection model that simplifies the traditional object detection process by representing targets as the center points of their bounding boxes and using keypoint estimation techniques to locate these points. This model not only excels in speed, achieving real-time detection while maintaining high accuracy, but also exhibits good versatility, easily extending to tasks such as 3D object detection and human pose estimation. CenterNet's network architecture employs various optimized fully convolutional networks and combines effective loss functions, making the model training and inference process more efficient.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 ResNet-101 is a variant of the ResNet (Residual Network) architecture, and it belongs to a family of deep neural networks introduced by Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun in their 2016 paper, "Deep Residual Learning for Image Recognition." The ResNet architecture is known for its effective use of residual connections, which help in training very deep neural networks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

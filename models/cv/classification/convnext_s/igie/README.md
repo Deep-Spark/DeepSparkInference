@@ -4,6 +4,12 @@
 
 ConvNeXt-S is a small-sized model in the ConvNeXt family, designed to balance performance and computational complexity. With 50.22M parameters and 8.69G FLOPs, it achieves 83.13% Top-1 accuracy on ImageNet-1k. Modernized from traditional ConvNets, ConvNeXt-S incorporates features such as large convolutional kernels (7x7), LayerNorm, and GELU activations, making it highly efficient and scalable.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

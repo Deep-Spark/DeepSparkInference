@@ -6,6 +6,12 @@ VideoBERT is a model designed for video understanding tasks, extending the capab
 Representations from Transformers) to video data. It enhances video representation learning by integrating both visual
 and textual information into a unified framework.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

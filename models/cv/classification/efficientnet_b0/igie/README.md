@@ -4,6 +4,12 @@
 
 EfficientNet-B0 is a lightweight yet highly efficient convolutional neural network architecture. It is part of the EfficientNet family, known for its superior performance in balancing model size and accuracy. Developed with a focus on resource efficiency, EfficientNet-B0 achieves remarkable results across various computer vision tasks, including image classification and feature extraction.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

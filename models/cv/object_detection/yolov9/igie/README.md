@@ -4,6 +4,12 @@
 
 YOLOv9 represents a major leap in real-time object detection by introducing innovations like Programmable Gradient Information (PGI) and the Generalized Efficient Layer Aggregation Network (GELAN), significantly improving efficiency, accuracy, and adaptability. Developed by an open-source team and building on the YOLOv5 codebase, it sets new benchmarks on the MS COCO dataset. YOLOv9's architecture effectively addresses information loss in deep neural networks, enhancing learning capacity and ensuring higher detection accuracy.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

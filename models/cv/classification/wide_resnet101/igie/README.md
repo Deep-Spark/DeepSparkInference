@@ -4,6 +4,12 @@
 
 Wide ResNet101 is a variant of the ResNet architecture that focuses on increasing the network's width (number of channels per layer) rather than its depth. This approach, inspired by the paper "Wide Residual Networks," balances model depth and width to achieve better performance while avoiding the drawbacks of overly deep networks, such as vanishing gradients and feature redundancy.Wide ResNet101 builds upon the standard ResNet101 architecture but doubles (or quadruples) the number of channels in each residual block. This results in significantly improved feature representation, making it suitable for complex tasks like image classification, object detection, and segmentation.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

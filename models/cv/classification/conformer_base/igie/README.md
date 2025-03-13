@@ -4,6 +4,12 @@
 
 Conformer is a novel network architecture that addresses the limitations of conventional Convolutional Neural Networks (CNNs) and visual transformers.  Rooted in the Feature Coupling Unit (FCU), Conformer efficiently fuses local features and global representations at different resolutions through interactive processes. Its concurrent architecture ensures the maximal retention of both local and global features. 
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

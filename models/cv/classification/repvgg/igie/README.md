@@ -4,6 +4,12 @@
 
 RepVGG is an innovative convolutional neural network architecture that combines the simplicity of VGG-style inference with a multi-branch topology during training. Through structural re-parameterization, RepVGG achieves high accuracy while significantly improving computational efficiency.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

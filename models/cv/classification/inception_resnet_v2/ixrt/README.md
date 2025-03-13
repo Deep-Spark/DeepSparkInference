@@ -4,6 +4,12 @@
 
 Inception-ResNet-V2 is a deep learning model proposed by Google in 2016, which combines the architectures of Inception and ResNet. This model integrates the dense connections of the Inception series with the residual connections of ResNet, aiming to enhance model performance and training efficiency.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

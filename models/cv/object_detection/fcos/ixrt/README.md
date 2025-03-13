@@ -5,6 +5,12 @@
 FCOS is an anchor-free model based on the Fully Convolutional Network (FCN) architecture for pixel-wise object detection. It implements a proposal-free solution and introduces the concept of centerness.
 For more details, please refer to our [report on Arxiv](https://arxiv.org/abs/1904.01355).
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

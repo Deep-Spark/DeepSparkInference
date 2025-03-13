@@ -4,6 +4,12 @@
 
 SEResNet50 is an enhanced version of the ResNet50 network integrated with Squeeze-and-Excitation (SE) blocks, which strengthens the network's feature expression capability by explicitly emphasizing useful features and suppressing irrelevant ones. This improvement enables SEResNet50 to demonstrate higher accuracy in various visual recognition tasks compared to the standard ResNet50.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

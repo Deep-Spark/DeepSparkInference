@@ -4,6 +4,12 @@
 
 ResNet152 is a convolutional neural network architecture that is part of the ResNet (Residual Network) family, Comprising 152 layers, At the core of ResNet152 is the innovative residual learning framework, which addresses the challenges associated with training very deep neural networks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

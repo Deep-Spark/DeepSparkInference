@@ -4,6 +4,12 @@
 
 The ResNeXt101_64x4d is a deep learning model based on the deep residual network architecture, which enhances performance and efficiency through the use of grouped convolutions. With a depth of 101 layers and 64 filter groups, it is particularly suited for complex image recognition tasks. While maintaining excellent accuracy, it can adapt to various input sizes
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

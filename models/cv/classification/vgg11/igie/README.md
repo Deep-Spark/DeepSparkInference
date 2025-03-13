@@ -4,6 +4,12 @@
 
 VGG11 is a deep convolutional neural network introduced by the Visual Geometry Group at the University of Oxford in the paper "Very Deep Convolutional Networks for Large-Scale Image Recognition." The model consists of 11 layers with trainable weights, including 8 convolutional layers and 3 fully connected layers. It employs small 3x3 convolutional kernels and 2x2 max-pooling layers to extract hierarchical features from input images. The ReLU activation function is used throughout the network to enhance non-linearity and mitigate the vanishing gradient problem.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

@@ -4,6 +4,12 @@
 
 DenseNet-169 is a variant of the Dense Convolutional Network (DenseNet) architecture, characterized by its 169 layers and a growth rate of 32. This network leverages the dense connectivity pattern, where each layer is connected to every other layer in a feed-forward fashion, resulting in a substantial increase in the number of direct connections compared to traditional convolutional networks. This connectivity pattern facilitates the reuse of features and enhances the flow of information and gradients throughout the network, which is particularly beneficial for deep architectures.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

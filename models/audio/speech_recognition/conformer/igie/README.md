@@ -7,6 +7,12 @@ CNN efficiently extracts local features, while Transformer is more effective in 
 Conformer applies convolution to the Encoder layer of Transformer, enhancing the performance of Transformer in the ASR
 (Automatic Speech Recognition) domain.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources

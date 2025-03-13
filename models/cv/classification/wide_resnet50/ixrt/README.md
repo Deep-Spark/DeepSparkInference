@@ -4,6 +4,12 @@
 
 The distinguishing feature of Wide ResNet50 lies in its widened architecture compared to traditional ResNet models. By increasing the width of the residual blocks, Wide ResNet50 enhances the capacity of the network to capture richer and more diverse feature representations, leading to improved performance on various visual recognition tasks.
 
+## Supported Environments
+
+| Iluvatar GPU | IXUCA SDK |
+|--------------|-----------|
+| MR-V100      | 4.2.0     |
+
 ## Model Preparation
 
 ### Prepare Resources
