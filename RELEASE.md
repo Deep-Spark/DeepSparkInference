@@ -1,5 +1,109 @@
 # DeepSparkInference Release Notes
 
+## 25.03 Release Notes
+
+### 模型与算法
+● 新增了30个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的15个。
+● 新增了DeepSeek R1 Distill模型的推理示例。
+
+
+<table>
+  <tr colspan=4>
+  <th colspan=3>IGIE</th>
+  </tr>
+  <tr>
+    <td>ConvNeXt_S</td>
+    <td>EfficientNet_b4</td>
+    <td>MNASNet0_75</td>
+  </tr>
+  <tr>
+    <td>ResNeXt101_32x8d</td>
+    <td>SqueezeNet1_0</td>
+    <td>VGG11</td>
+  </tr>
+  <tr>
+    <td>SABL</td>
+    <td>YOLOv11</td>
+    <td>CSPResNet50</td>
+  </tr>
+  <tr>
+    <td>Mixer_B</td>
+    <td>Regnet_x_16gf</td>
+    <td>ShuffleNetv2_x2_0</td>
+  </tr>
+  <tr>
+    <td>SVT_base</td>
+    <td>Wide_ResNet101</td>
+    <td>HRNetPose</td>
+  </tr>
+    <th colspan=4>IxRT</th>
+  </tr>
+  <tr>
+    <td>LLaVA-Next-Video-7B</td>
+    <td>Chameleon-7B</td>
+    <td>Fuyu-8B</td>
+  </tr>
+  <tr>
+    <td>CSPDarkNet53</td>
+    <td>DensNet161</td>
+    <td>DensNet169</td>
+  </tr>
+  <tr>
+    <td>InternVL2-4B</td>
+    <td>LLaVA</td>
+    <td>ConvNeXt-Base</td>
+  </tr>
+  <tr>
+    <td>DeiT-tiny</td>
+    <td>DenseNet201</td>
+    <td>EfficientNet-B3</td>
+  </tr>
+  <tr>
+    <td>EfficientNetv2_rw_t</td>
+    <td>EfficientNetv2_s</td>
+    <td>FoveaBox</td>
+  </tr>
+  <tr>
+    <td>FSAF</td>
+    <td>HRNet</td>
+    <td>RetinaFace</td>
+  </tr>
+  </tr>
+    <th colspan=4>大模型推理</th>
+  </tr>
+  <tr>
+    <td>deepseek-r1-distill-llama-8b</td>
+    <td>deepseek-r1-distill-llama-70b</td>
+    <td>deepseek-r1-distill-qwen-1.5b</td>
+  </tr>
+  <tr>
+    <td>deepseek-r1-distill-qwen-7b</td>
+    <td>deepseek-r1-distill-qwen-14b</td>
+    <td>deepseek-r1-distill-qwen-32b</td>
+  </tr>
+</table>
+
+### 问题修复
+● 更新了SVTR、clip、resnetv1d50等模型的分类及名称。
+● 更新了相关模型README说明，增加了模型所支持的IXUCA SDK版本。
+● 调整了llm、multimodal等模型路径，与训练模型一致
+● 同步了vllm、igie、ixrt模型代码
+● 新增了IXRT、NLP推理模型自动化测试的运行脚本。
+● 优化了IGIE推理模型自动化测试的运行脚本。
+● 修复了onnxruntime 1.17.1导致的quantize fail问题。
+● 修复了bert-large-squad在int8下的问题。
+● 修复了YOLOv6 IGIE模型运行推理脚本报错的问题。
+● 修复了mmpretraino 0.24.0与mmcv 2.1.0不兼容问题。
+● 修复了chatglm3-6b-32k模型中中文乱码问题。
+● 修复了vllm模型中SamplingParams初始化问题。
+
+### 版本关联
+DeepSparkInference 25.03对应天数软件栈4.2.0版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，majorli6，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
+
 ## 24.12 Release Notes
 
 ### 模型与算法
