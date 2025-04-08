@@ -191,7 +191,7 @@ def load_pretrained(
                 progress=_DOWNLOAD_PROGRESS,
                 check_hash=_CHECK_HASH,
             )
-            model.load_pretrained("/home/xinchi.tian/pytorch-image-models/timm/models/efficientnetv2_t_agc-3620981a.pth")
+            model.load_pretrained("pytorch-image-models/timm/models/efficientnetv2_t_agc-3620981a.pth")
             return
         else:
             state_dict = load_state_dict_from_url(

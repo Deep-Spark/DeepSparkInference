@@ -36,10 +36,9 @@ pip3 install -r requirements.txt
 
 ```bash
 mkdir checkpoints
-git clone https://github.com/huggingface/pytorch-image-models.git
+git clone -b v1.0.11 https://github.com/huggingface/pytorch-image-models.git
 cp ./export_onnx.py pytorch-image-models/timm/models
-rm pytorch-image-models/timm/models/_builder.py
-mv ./_builder.py pytorch-image-models/timm/models
+cp ./_builder.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm
 mkdir -p /root/.cache/torch/hub/checkpoints/
 wget -P /root/.cache/torch/hub/checkpoints/ https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth

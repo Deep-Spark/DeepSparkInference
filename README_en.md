@@ -10,19 +10,29 @@
 </div>
 <br>
 
-DeepSparkInference推理模型库作为DeepSpark开源社区的核心项目，于2024年3月正式开源，一期甄选了48个推理模型示例，涵盖计算机视觉，自然语言处理，语音识别等领域，后续将逐步拓展更多AI领域。
+DeepSparkInference ModelZoo, as a core project of the DeepSpark open-source community, was officially open-sourced in
+March 2024. The first release selected 48 inference model examples, covering fields such as computer vision, natural
+language processing, and speech recognition. More AI domains will be gradually expanded in the future.
 
-DeepSparkInference中的模型提供了在国产推理引擎IGIE或IxRT下运行的推理示例和指导文档，部分模型提供了基于国产通用GPU[智铠100](https://www.iluvatar.com/productDetails?fullCode=cpjs-yj-tlxltt-zk100)的评测结果。
+The models in DeepSparkInference provide inference examples and guidance documents for running on inference engines IGIE
+or IxRT self-developed by Iluvatar CoreX. Some models provide evaluation results based on the self-developed GPGPU
+Zhikai 100.
 
-IGIE（Iluvatar GPU Inference Engine）是基于TVM框架研发的高性能、高通用、全流程的AI推理引擎。支持多框架模型导入、量化、图优化、多算子库支持、多后端支持、算子自动调优等特性，为推理场景提供易部署、高吞吐量、低延迟的完整方案。
+IGIE (Iluvatar GPU Inference Engine) is a high-performance, highly gene, and end-to-end AI inference engine developed
+based on the TVM framework. It supports multi-framework model, quantization, graph optimization, multi-operator library
+support, multi-backend support, and automatic operator tuning, providing an easy-to-deploy, high-throughput, and
+low-latency complete solution for inference scenarios.
 
-IxRT（Iluvatar CoreX RunTime）是天数智芯自研的高性能推理引擎，专注于最大限度发挥天数智芯通用GPU 的性能，实现各领域模型的高性能推理。IxRT支持动态形状推理、插件和INT8/FP16推理等特性。
+IxRT (Iluvatar CoreX RunTime) is a high-performance inference engine independently developed by Iluvatar CoreX, focusing
+on maximizing the performance of Iluvatar CoreX's GPGPU and achieving high-performance inference for models in various
+fields. IxRT supports features such as dynamic shape inference, plugins, and INT8/FP16 inference.
 
-DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型类别并拓展大模型推理。
+DeepSparkInference will be updated quarterly, and model categories will be gradually enriched, with large model
+inference to be expanded in the future.
 
-## 模型库
+## ModelZoo
 
-### 大语言模型（LLM）
+### LLM (Large Language Model)
 
 | Model                         | vLLM                                                   | TRT-LLM                               | TGI                                | IXUCA SDK |
 |-------------------------------|--------------------------------------------------------|---------------------------------------|------------------------------------|-----------|
@@ -48,9 +58,9 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | Qwen2-72B Instruct            | [✅](models/nlp/llm/qwen2-72b/vllm)                     |                                       |                                    | 4.2.0     |
 | StableLM2-1.6B                | [✅](models/nlp/llm/stablelm/vllm)                      |                                       |                                    | 4.2.0     |
 
-### 计算机视觉（CV）
+### Computer Vision
 
-#### 视觉分类
+#### Classification
 
 | Model                  | Prec. | IGIE                                                   | IxRT                                                      | IXUCA SDK |
 |------------------------|-------|--------------------------------------------------------|-----------------------------------------------------------|-----------|
@@ -139,7 +149,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 |                        | INT8  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.2.0     |
 | Wide ResNet101         | FP16  | [✅](models/cv/classification/wide_resnet101/igie)      |                                                           | 4.2.0     |
 
-#### 目标检测
+#### Object Detection
 
 | Model      | Prec. | IGIE                                            | IxRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
@@ -175,21 +185,21 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
 
-#### 人脸识别
+#### Face Recognition
 
 | Model   | Prec. | IGIE | IxRT                                         | IXUCA SDK |
 |---------|-------|------|----------------------------------------------|-----------|
 | FaceNet | FP16  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.2.0     |
 |         | INT8  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.2.0     |
 
-#### 光学字符识别（OCR）
+#### OCR (Optical Character Recognition)
 
 | Model         | Prec. | IGIE                                  | IXUCA SDK |
 |---------------|-------|---------------------------------------|-----------|
 | Kie_layoutXLM | FP16  | [✅](models/cv/ocr/kie_layoutxlm/igie) | 4.2.0     |
 | SVTR          | FP16  | [✅](models/cv/ocr/svtr/igie)          | 4.2.0     |
 
-#### 姿态估计
+#### Pose Estimation
 
 | Model                | Prec. | IGIE                                          | IxRT                                                     | IXUCA SDK |
 |----------------------|-------|-----------------------------------------------|----------------------------------------------------------|-----------|
@@ -197,14 +207,14 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | Lightweight OpenPose | FP16  |                                               | [✅](models/cv/pose_estimation/lightweight_openpose/ixrt) | 4.2.0     |
 | RTMPose              | FP16  | [✅](models/cv/pose_estimation/rtmpose/igie)   | [✅](models/cv/pose_estimation/rtmpose/ixrt)              | 4.2.0     |
 
-#### 实例分割
+#### Instance Segmentation
 
 | Model      | Prec. | IGIE | IxRT                                                | IXUCA SDK |
 |------------|-------|------|-----------------------------------------------------|-----------|
 | Mask R-CNN | FP16  |      | [✅](models/cv/instance_segmentation/mask_rcnn/ixrt) | 4.2.0     |
 | SOLOv1     | FP16  |      | [✅](models/cv/instance_segmentation/solov1/ixrt)    | 4.2.0     |
 
-#### 多目标跟踪
+#### Multi-Object Tracking
 
 | Model               | Prec. | IGIE                                               | IxRT | IXUCA SDK |
 |---------------------|-------|----------------------------------------------------|------|-----------|
@@ -213,7 +223,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 |                     | INT8  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.2.0     |
 | RepNet-Vehicle-ReID | FP16  | [✅](models/cv/multi_object_tracking/repnet/igie)   |      | 4.2.0     |
 
-### 多模态
+### Multimodal
 
 | Model               | vLLM                                                                  | IxFormer                                                   | IXUCA SDK |
 |---------------------|-----------------------------------------------------------------------|------------------------------------------------------------|-----------|
@@ -225,9 +235,9 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.2.0     |
 | MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v_2/vllm)         |                                                            | 4.2.0     |
 
-### 自然语言处理（NLP）
+### NLP
 
-#### 预训练语言模型（PLM）
+#### PLM (Pre-trained Language Model)
 
 | Model            | Prec. | IGIE                                      | IxRT                                      | IXUCA SDK |
 |------------------|-------|-------------------------------------------|-------------------------------------------|-----------|
@@ -242,18 +252,18 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | RoFormer         | FP16  |                                           | [✅](models/nlp/plm/roformer/ixrt)         | 4.2.0     |
 | VideoBERT        | FP16  |                                           | [✅](models/nlp/plm/videobert/ixrt)        | 4.2.0     |
 
-### 语音
+### Audio
 
-#### 语音识别
+#### Speech Recognition
 
 | Model           | Prec. | IGIE                                                | IxRT                                                      | IXUCA SDK |
 |-----------------|-------|-----------------------------------------------------|-----------------------------------------------------------|-----------|
 | Conformer       | FP16  | [✅](models/audio/speech_recognition/conformer/igie) | [✅](models/audio/speech_recognition/conformer/ixrt)       | 4.2.0     |
 | Transformer ASR | FP16  |                                                     | [✅](models/audio/speech_recognition/transformer_asr/ixrt) | 4.2.0     |
 
-### 其他
+### Others
 
-#### 推荐系统
+#### Recommendation Systems
 
 | Model       | Prec. | IGIE | IxRT                                                 | IXUCA SDK |
 |-------------|-------|------|------------------------------------------------------|-----------|
@@ -261,28 +271,35 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ---
 
-## 社区
+## Community
 
-### 治理
+### Code of Conduct
 
-请参见 DeepSpark Code of Conduct on [Gitee](https://gitee.com/deep-spark/deepspark/blob/master/CODE_OF_CONDUCT.md) or on [GitHub](https://github.com/Deep-Spark/deepspark/blob/main/CODE_OF_CONDUCT.md)。
+Please refer to DeepSpark Code of Conduct on
+[Gitee](https://gitee.com/deep-spark/deepspark/blob/master/CODE_OF_CONDUCT.md) or on
+[GitHub](https://github.com/Deep-Spark/deepspark/blob/main/CODE_OF_CONDUCT.md).
 
-### 交流
+### Contact
 
-请联系 <contact@deepspark.org.cn>。
+Please contact <contact@deepspark.org.cn>.
 
-### 贡献
+### Contribution
 
-请参见 [DeepSparkInference Contributing Guidelines](CONTRIBUTING.md)。
+Please refer to the [DeepSparkInference Contributing Guidelines](CONTRIBUTING.md).
 
-### 免责声明
+### Disclaimers
 
-DeepSparkInference仅提供公共数据集的下载和预处理脚本。这些数据集不属于DeepSparkInference，DeepSparkInference也不对其质量或维护负责。请确保您具有这些数据集的使用许可，基于这些数据集训练的模型仅可用于非商业研究和教育。
+DeepSparkInference only provides download and preprocessing scripts for public datasets. These datasets do not belong to
+DeepSparkInference, and DeepSparkInference is not responsible for their quality or maintenance. Please ensure that you
+have the necessary usage licenses for these datasets. Models trained based on these datasets can only be used for
+non-commercial research and education purposes.
 
-致数据集所有者：
+To dataset owners:
 
-如果不希望您的数据集公布在DeepSparkInference上或希望更新DeepSparkInference中属于您的数据集，请在Gitee或Github上提交issue，我们将按您的issue删除或更新。衷心感谢您对我们社区的支持和贡献。
+If you do not want your dataset to be published on DeepSparkInference or wish to update the dataset that belongs to you
+on DeepSparkInference, please submit an issue on Gitee or Github. We will delete or update it according to your issue.
+We sincerely appreciate your support and contributions to our community.
 
-## 许可证
+## License
 
-本项目许可证遵循[Apache-2.0](LICENSE)。
+This project is released under [Apache-2.0](LICENSE) License.

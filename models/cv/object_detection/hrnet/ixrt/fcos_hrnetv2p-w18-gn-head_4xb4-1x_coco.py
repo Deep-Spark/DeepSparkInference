@@ -156,7 +156,7 @@ test_dataloader = dict(
         ann_file='annotations/instances_val2017.json',
         backend_args=None,
         data_prefix=dict(img='val2017/'),
-        data_root='/home/xinchi.tian/ixrt-modelzoo/data/datasets/coco2017',
+        data_root=data_root,
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
             dict(keep_ratio=True, scale=(
@@ -181,8 +181,7 @@ test_dataloader = dict(
     persistent_workers=True,
     sampler=dict(shuffle=False, type='DefaultSampler'))
 test_evaluator = dict(
-    ann_file=
-    '/home/xinchi.tian/ixrt-modelzoo/data/datasets/coco2017/annotations/instances_val2017.json',
+    ann_file=data_root + 'annotations/image_info_test-dev2017.json',
     backend_args=None,
     format_only=False,
     metric='bbox',
