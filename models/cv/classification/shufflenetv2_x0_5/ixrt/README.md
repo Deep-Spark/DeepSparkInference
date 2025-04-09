@@ -1,4 +1,4 @@
-# ShuffleNetV2_x0_5 (IGIE)
+# ShuffleNetV2 x0_5 (IxRT)
 
 ## Model Description
 
@@ -10,7 +10,7 @@ convolutions, and efficient building blocks to further reduce computational comp
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 |--------|-----------|---------|
-| MR-V100 | 4.2.0     |  25.03  |
+| MR-V100 | 4.3.0     |  25.06  |
 
 ## Model Preparation
 
@@ -23,19 +23,31 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
 pip3 install -r requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight shufflenetv2_x0.5-f707e7126e.pth --output shufflenetv2_x0_5.onnx
+mkdir checkpoints
+python3 export.py --weight shufflenetv2_x0.5-f707e7126e.pth --output checkpoints/shufflenetv2_x0_5.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=./
+export CONFIG_DIR=config/SHUFFLENET_V2_X0_5_CONFIG
+
 ```
 
 ### FP16
@@ -51,4 +63,4 @@ bash scripts/infer_shufflenetv2_x0_5_fp16_performance.sh
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 |-------------------|-----------|-----------|----------|----------|----------|
-| ShuffleNetV2_x0_5 | 32        | FP16      | 11677.55 | 60.501   | 81.702   |
+| ShuffleNetV2 x0_5 | 32        | FP16      | 10680.65 | 60.53    | 81.74    |
