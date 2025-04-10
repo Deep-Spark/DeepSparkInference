@@ -55,73 +55,73 @@ def main():
         sys.exit(-1)
 
     result = {}
-    if model["task_type"] == "cv/classification":
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] == "cv/classification":
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_clf_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # 检测模型
-    if model["task_type"] in ["cv/detection", "cv/pose_estimation"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["cv/object_detection", "cv/pose_estimation"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_detec_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # OCR模型
-    if model["task_type"] in ["cv/ocr"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["cv/ocr"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_ocr_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # Trace模型
-    if model["task_type"] in ["cv/trace"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["cv/trace"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_trace_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # Speech模型
-    if model["task_type"] in ["speech/speech_recognition"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["audio/speech_recognition"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_speech_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # NLP模型
-    if model["task_type"] in ["nlp/language_model"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["nlp/plm"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_nlp_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("models_igie.yaml", "r") as file:
-        models = yaml.safe_load(file)
+    with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
+        models = json.load(file)
 
-    for model in models:
-        if model["name"] == mode_name.lower():
+    for model in models['models']:
+        if model["model_name"] == mode_name.lower() and model["framework"] == "igie":
             return model
     return
 
@@ -135,7 +135,7 @@ def check_model_result(result):
     result["status"] = status
 
 def run_clf_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -143,7 +143,7 @@ def run_clf_testcase(model):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -160,7 +160,7 @@ def run_clf_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
@@ -183,7 +183,7 @@ def run_clf_testcase(model):
     return result
 
 def run_detec_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -192,7 +192,7 @@ def run_detec_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -212,7 +212,7 @@ def run_detec_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -253,7 +253,7 @@ def run_detec_testcase(model):
     return result
 
 def run_ocr_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -262,7 +262,7 @@ def run_ocr_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     unzip /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
@@ -279,7 +279,7 @@ def run_ocr_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -309,7 +309,7 @@ def run_ocr_testcase(model):
     return result
 
 def run_trace_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -318,7 +318,7 @@ def run_trace_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -341,7 +341,7 @@ def run_trace_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -370,7 +370,7 @@ def run_trace_testcase(model):
 
 # BERT series models
 def run_nlp_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -385,7 +385,7 @@ def run_nlp_testcase(model):
 
     prepare_script = f"""
     set -x
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     {mkdir_script}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{target_dir}
     export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
@@ -408,7 +408,7 @@ def run_nlp_testcase(model):
         script = f"""
         set -x
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
@@ -429,7 +429,7 @@ def run_nlp_testcase(model):
     return result
 
 def run_speech_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -438,7 +438,7 @@ def run_speech_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -465,7 +465,7 @@ def run_speech_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         export PYTHONPATH=./wenet:$PYTHONPATH
         echo $PYTHONPATH
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
