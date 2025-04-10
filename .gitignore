@@ -59,7 +59,6 @@ cover/
 # checkpoints and datasets
 checkpoints/
 imagenet_val/
-*.json
 *.onnx
 *.pth
 *.engine

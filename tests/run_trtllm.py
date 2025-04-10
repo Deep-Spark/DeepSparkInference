@@ -56,23 +56,23 @@ def main():
 
     result = {}
     # NLP模型
-    if model["task_type"] in ["nlp/large_language_model"]:
-        logging.info(f"Start running {model['name']} test case:\n{json.dumps(model, indent=4)}")
+    if model["category"] in ["nlp/llm"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
             result = run_nlp_testcase(model)
             check_model_result(result)
-            logging.debug(f"The result of {model['name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['name']} test case.")
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("models_trtllm.yaml", "r") as file:
-        models = yaml.safe_load(file)
+    with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
+        models = json.load(file)
 
     for model in models:
-        if model["name"] == mode_name.lower():
+        if model["model_name"] == mode_name.lower() and model["framework"] == "trtllm":
             return model
     return
 
@@ -86,7 +86,7 @@ def check_model_result(result):
     result["status"] = status
 
 def run_nlp_testcase(model):
-    model_name = model["name"]
+    model_name = model["model_name"]
     result = {
         "name": model_name,
         "result": {},
@@ -96,7 +96,7 @@ def run_nlp_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     set -x
-    cd ../{model['relative_path']}
+    cd ../{model['deepsparkinference_path']}
     bash ci/prepare.sh
     """
 
@@ -111,19 +111,19 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        cd ../{model['relative_path']}
+        cd ../{model['deepsparkinference_path']}
         """
         if model_name == "llama2-7b":
             script = f"""
             set -x
-            cd ../{model['relative_path']}
+            cd ../{model['deepsparkinference_path']}
             bash scripts/test_trtllm_llama2_7b_gpu1_build.sh
             bash scripts/test_trtllm_llama2_7b_gpu1.sh
             """
         elif model_name == "llama2-13b":
             script = f"""
             set -x
-            cd ../{model['relative_path']}
+            cd ../{model['deepsparkinference_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             bash scripts/test_trtllm_llama2_13b_gpu2_build.sh
             bash scripts/test_trtllm_llama2_13b_gpu2.sh
@@ -131,7 +131,7 @@ def run_nlp_testcase(model):
         elif model_name == "llama2-70b":
             script = f"""
             set -x
-            cd ../{model['relative_path']}
+            cd ../{model['deepsparkinference_path']}
             export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
             bash scripts/test_trtllm_llama2_70b_gpu8_build.sh
             bash scripts/test_trtllm_llama2_70b_gpu8.sh
@@ -139,7 +139,7 @@ def run_nlp_testcase(model):
         elif model_name == "qwen1.5-7b":
             script = f"""
             set -x
-            cd ../{model['relative_path']}
+            cd ../{model['deepsparkinference_path']}
             export CUDA_VISIBLE_DEVICES=1
             python3 offline_inference.py --model2path ./data/Qwen1.5-7B
             """
