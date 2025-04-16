@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -34,7 +34,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    checkpoint = "google/vit-base-patch16-224"
+    checkpoint = "vit-base-patch16-224"
     feature_extractor = ViTImageProcessor.from_pretrained(checkpoint)
     model = ViTForImageClassification.from_pretrained(checkpoint)
 

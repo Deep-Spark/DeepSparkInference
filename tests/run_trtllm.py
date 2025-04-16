@@ -71,7 +71,7 @@ def get_model_config(mode_name):
     with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
-    for model in models:
+    for model in models['models']:
         if model["model_name"] == mode_name.lower() and model["framework"] == "trtllm":
             return model
     return

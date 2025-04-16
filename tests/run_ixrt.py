@@ -110,7 +110,7 @@ def get_model_config(mode_name):
     with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
-    for model in models:
+    for model in models['models']:
         if model["model_name"] == mode_name.lower() and model["framework"] == "ixrt":
             return model
     return
@@ -134,6 +134,7 @@ def run_clf_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
     cd ../{model['deepsparkinference_path']}
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     """
     # add pip list info when in debug mode
@@ -207,6 +208,7 @@ def run_detec_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['deepsparkinference_path']}
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     bash ci/prepare.sh
     """
@@ -434,6 +436,7 @@ def run_speech_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['deepsparkinference_path']}
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
     """
