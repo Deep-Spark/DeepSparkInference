@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -33,4 +33,4 @@ cd yolov12
 pip3 install -e .
 cd ..
 
-python3 export.py --weight yolo12n.pt --batch 32
+python3 export.py --weight yolov12n.pt --batch 32

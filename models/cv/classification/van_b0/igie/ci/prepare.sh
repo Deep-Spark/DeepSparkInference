@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -28,6 +28,3 @@ pip3 install -r requirements.txt
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 # export onnx model
 python3 export.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight van-tiny_8xb128_in1k_20220501-385941af.pth --output van_b0.onnx
-
-# Use onnxsim optimize onnx model
-onnxsim van_b0.onnx van_b0_opt.onnx

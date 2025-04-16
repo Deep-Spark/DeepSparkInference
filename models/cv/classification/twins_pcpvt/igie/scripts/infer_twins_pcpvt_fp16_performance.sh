@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -32,4 +32,5 @@ python3 inference.py                                         \
     --engine twins_pcpvt_small_opt_bs_${batchsize}_fp16.so   \
     --batchsize ${batchsize}                                 \
     --input_name input                                       \
-    --datasets ${datasets_path}
+    --datasets ${datasets_path}                              \
+    --perf_only True

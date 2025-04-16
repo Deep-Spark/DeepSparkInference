@@ -54,9 +54,9 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_twins_pcpvt_small_fp16_accuracy.sh
+bash scripts/infer_twins_pcpvt_fp16_accuracy.sh
 # Performance
-bash scripts/infer_twins_pcpvt_small_fp16_performance.sh
+bash scripts/infer_twins_pcpvt_fp16_performance.sh
 ```
 
 ## Model Results
