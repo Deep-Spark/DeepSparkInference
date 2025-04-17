@@ -56,4 +56,4 @@ bash scripts/infer_yolov12_fp16_performance.sh
 
 ## References
 
-YOLOv12: <https://github.com/sunsmarterjie/yolov12>
+- [YOLOv12](https://github.com/sunsmarterjie/yolov12)
