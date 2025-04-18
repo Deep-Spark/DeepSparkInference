@@ -71,10 +71,12 @@ inference to be expanded in the future.
 | ConvNeXt-Base          | FP16  | [✅](models/cv/classification/convnext_base/igie)       | [✅](models/cv/classification/convnext_base/ixrt)          | 4.2.0     |
 | ConvNext-S             | FP16  | [✅](models/cv/classification/convnext_s/igie)          |                                                           | 4.2.0     |
 | ConvNeXt-Small         | FP16  | [✅](models/cv/classification/convnext_small/igie)      | [✅](models/cv/classification/convnext_small/ixrt)         | 4.2.0     |
+| ConvNeXt-Tiny          | FP16  | [✅](models/cv/classification/convnext_tiny/igie)       |                                                           | 4.2.0     |
 | CSPDarkNet53           | FP16  | [✅](models/cv/classification/cspdarknet53/igie)        | [✅](models/cv/classification/cspdarknet53/ixrt)           | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/cspdarknet53/ixrt)           | 4.2.0     |
 | CSPResNet50            | FP16  | [✅](models/cv/classification/cspresnet50/igie)         | [✅](models/cv/classification/cspresnet50/ixrt)            | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/cspresnet50/ixrt)            | 4.2.0     |
+| CSPResNeXt50           | FP16  | [✅](models/cv/classification/cspresnext50/igie)        |                                                           | 4.2.0     |
 | DeiT-tiny              | FP16  | [✅](models/cv/classification/deit_tiny/igie)           | [✅](models/cv/classification/deit_tiny/ixrt)              | 4.2.0     |
 | DenseNet121            | FP16  | [✅](models/cv/classification/densenet121/igie)         | [✅](models/cv/classification/densenet121/ixrt)            | 4.2.0     |
 | DenseNet161            | FP16  | [✅](models/cv/classification/densenet161/igie)         | [✅](models/cv/classification/densenet161/ixrt)            | 4.2.0     |
@@ -87,6 +89,7 @@ inference to be expanded in the future.
 | EfficientNet-B2        | FP16  | [✅](models/cv/classification/efficientnet_b2/igie)     | [✅](models/cv/classification/efficientnet_b2/ixrt)        | 4.2.0     |
 | EfficientNet-B3        | FP16  | [✅](models/cv/classification/efficientnet_b3/igie)     | [✅](models/cv/classification/efficientnet_b3/ixrt)        | 4.2.0     |
 | EfficientNet-B4        | FP16  | [✅](models/cv/classification/efficientnet_b4/igie)     |                                                           | 4.2.0     |
+| EfficientNet-B5        | FP16  | [✅](models/cv/classification/efficientnet_b5/igie)     |                                                           | 4.2.0     |
 | EfficientNetV2         | FP16  | [✅](models/cv/classification/efficientnet_v2/igie)     | [✅](models/cv/classification/efficientnet_v2/ixrt)        | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/efficientnet_v2/ixrt)        | 4.2.0     |
 | EfficientNetv2_rw_t    | FP16  | [✅](models/cv/classification/efficientnetv2_rw_t/igie) | [✅](models/cv/classification/efficientnetv2_rw_t/ixrt)    | 4.2.0     |
@@ -102,6 +105,7 @@ inference to be expanded in the future.
 | Mixer_B                | FP16  | [✅](models/cv/classification/mlp_mixer_base/igie)      |                                                           | 4.2.0     |
 | MNASNet0_5             | FP16  | [✅](models/cv/classification/mnasnet0_5/igie)          |                                                           | 4.2.0     |
 | MNASNet0_75            | FP16  | [✅](models/cv/classification/mnasnet0_75/igie)         |                                                           | 4.2.0     |
+| MNASNet1_0             | FP16  | [✅](models/cv/classification/mnasnet1_0/igie)          |                                                           | 4.2.0     |
 | MobileNetV2            | FP16  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.2.0     |
 |                        | INT8  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.2.0     |
 | MobileNetV3_Large      | FP16  | [✅](models/cv/classification/mobilenet_v3_large/igie)  |                                                           | 4.2.0     |
@@ -109,7 +113,9 @@ inference to be expanded in the future.
 | MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | 4.2.0     |
 | RegNet_x_16gf          | FP16  | [✅](models/cv/classification/regnet_x_16gf/igie)       |                                                           | 4.2.0     |
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.2.0     |
+| RegNet_x_3_2gf         | FP16  | [✅](models/cv/classification/regnet_x_3_2gf/igie)      |                                                           | 4.2.0     |
 | RegNet_y_1_6gf         | FP16  | [✅](models/cv/classification/regnet_y_1_6gf/igie)      |                                                           | 4.2.0     |
+| RegNet_y_16gf          | FP16  | [✅](models/cv/classification/regnet_y_16gf/igie)       |                                                           | 4.2.0     |
 | RepVGG                 | FP16  | [✅](models/cv/classification/repvgg/igie)              | [✅](models/cv/classification/repvgg/ixrt)                 | 4.2.0     |
 | Res2Net50              | FP16  | [✅](models/cv/classification/res2net50/igie)           | [✅](models/cv/classification/res2net50/ixrt)              | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/res2net50/ixrt)              | 4.2.0     |
@@ -137,14 +143,19 @@ inference to be expanded in the future.
 | ShuffleNetV2_x2_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x2_0/igie)   |                                                           | 4.2.0     |
 | SqueezeNet 1.0         | FP16  | [✅](models/cv/classification/squeezenet_v1_0/igie)     | [✅](models/cv/classification/squeezenet_v1_0/ixrt)        | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/squeezenet_v1_0/ixrt)        | 4.2.0     |
-| SqueezeNet 1.1         | FP16  |                                                        | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.2.0     |
+| SqueezeNet 1.1         | FP16  | [✅](models/cv/classification/squeezenet_v1_1/igie)     | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.2.0     |
 | SVT Base               | FP16  | [✅](models/cv/classification/svt_base/igie)            |                                                           | 4.2.0     |
 | Swin Transformer       | FP16  | [✅](models/cv/classification/swin_transformer/igie)    |                                                           | 4.2.0     |
 | Swin Transformer Large | FP16  |                                                        | [✅](models/cv/classification/swin_transformer_large/ixrt) | 4.2.0     |
+| Twins_PCPVT            | FP16  | [✅](models/cv/classification/twins_pcpvt/igie)         |                                                           | 4.2.0     |
+| VAN_B0                 | FP16  | [✅](models/cv/classification/van_b0/igie)              |                                                           | 4.2.0     |
 | VGG11                  | FP16  | [✅](models/cv/classification/vgg11/igie)               |                                                           | 4.2.0     |
 | VGG16                  | FP16  | [✅](models/cv/classification/vgg16/igie)               | [✅](models/cv/classification/vgg16/ixrt)                  | 4.2.0     |
 |                        | INT8  | [✅](models/cv/classification/vgg16/igie)               |                                                           | 4.2.0     |
+| VGG19                  | FP16  | [✅](models/cv/classification/vgg19/igie)               |                                                           | 4.2.0     |
+| VGG19_BN               | FP16  | [✅](models/cv/classification/vgg19_bn/igie)            |                                                           | 4.2.0     |
+| ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 |                                                           | 4.2.0     |
 | Wide ResNet50          | FP16  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.2.0     |
 |                        | INT8  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.2.0     |
 | Wide ResNet101         | FP16  | [✅](models/cv/classification/wide_resnet101/igie)      |                                                           | 4.2.0     |
@@ -182,6 +193,7 @@ inference to be expanded in the future.
 | YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     |                                                 | 4.2.0     |
 | YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    |                                                 | 4.2.0     |
 | YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    |                                                 | 4.2.0     |
+| YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    |                                                 | 4.2.0     |
 | YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
 
