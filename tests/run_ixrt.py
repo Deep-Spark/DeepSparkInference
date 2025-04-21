@@ -107,7 +107,7 @@ def main():
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
+    with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
@@ -133,7 +133,7 @@ def run_clf_testcase(model):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     prepare_script = f"""
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     """
@@ -158,7 +158,7 @@ def run_clf_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         export DATASETS_DIR=/root/data/datasets/imagenet-val
         export PROJ_DIR=./
         export CHECKPOINTS_DIR=./checkpoints
@@ -170,7 +170,7 @@ def run_clf_testcase(model):
 
         if model_name == "swin_transformer_large":
             script = f"""
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
             export OPTIMIER_FILE=/root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py
             export PROJ_PATH=./
@@ -207,7 +207,7 @@ def run_detec_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     bash ci/prepare.sh
@@ -225,7 +225,7 @@ def run_detec_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
 
         export MODEL_PATH=./{model_name}.onnx
@@ -243,7 +243,7 @@ def run_detec_testcase(model):
 
         if model_name == "rtmpose":
             script = f"""
-                cd ../{model['deepsparkinference_path']}
+                cd ../{model['model_path']}
                 python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg
                 """
 
@@ -294,7 +294,7 @@ def run_segmentation_and_face_testcase(model):
     }
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -309,7 +309,7 @@ def run_segmentation_and_face_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         export PROJ_DIR=./
         export CHECKPOINTS_DIR=./checkpoints
@@ -323,7 +323,7 @@ def run_segmentation_and_face_testcase(model):
 
         if model_name == "clip":
             script = f"""
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 inference.py
             """
 
@@ -352,7 +352,7 @@ def run_nlp_testcase(model):
     }
     prepare_script = f"""
     set -x
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     bash ci/prepare.sh
     """
 
@@ -367,7 +367,7 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
         export OPTIMIER_FILE=/root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py
         export PROJ_PATH=./
@@ -392,20 +392,20 @@ def run_nlp_testcase(model):
         if model_name == "bert_base_squad":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}/python
+            cd ../{model['model_path']}/python
             bash script/infer_{model_name}_{prec}_ixrt.sh
             """
         elif model_name == "bert_large_squad":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}/python
+            cd ../{model['model_path']}/python
             bash script/build_engine.sh --bs 32
             bash script/inference_squad.sh --bs 32
             """
             if prec == "int8":
                 script = f"""
                 set -x
-                cd ../{model['deepsparkinference_path']}/python
+                cd ../{model['model_path']}/python
                 bash script/build_engine.sh --bs 32 --int8
                 bash script/inference_squad.sh --bs 32 --int8
                 """
@@ -435,7 +435,7 @@ def run_speech_testcase(model):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -451,14 +451,14 @@ def run_speech_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         if model_name == "transformer_asr":
             script = f"""
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
             """
 

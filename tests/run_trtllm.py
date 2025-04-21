@@ -68,7 +68,7 @@ def main():
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
+    with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
@@ -96,7 +96,7 @@ def run_nlp_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     set -x
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     bash ci/prepare.sh
     """
 
@@ -111,19 +111,19 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         """
         if model_name == "llama2-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             bash scripts/test_trtllm_llama2_7b_gpu1_build.sh
             bash scripts/test_trtllm_llama2_7b_gpu1.sh
             """
         elif model_name == "llama2-13b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             bash scripts/test_trtllm_llama2_13b_gpu2_build.sh
             bash scripts/test_trtllm_llama2_13b_gpu2.sh
@@ -131,7 +131,7 @@ def run_nlp_testcase(model):
         elif model_name == "llama2-70b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
             bash scripts/test_trtllm_llama2_70b_gpu8_build.sh
             bash scripts/test_trtllm_llama2_70b_gpu8.sh
@@ -139,7 +139,7 @@ def run_nlp_testcase(model):
         elif model_name == "qwen1.5-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=1
             python3 offline_inference.py --model2path ./data/Qwen1.5-7B
             """

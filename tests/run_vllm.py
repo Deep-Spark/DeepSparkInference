@@ -68,7 +68,7 @@ def main():
     logging.info(f"Full text result: {result}")
 
 def get_model_config(mode_name):
-    with open("all_deepsparkinference_model_info.json", mode='r', encoding='utf-8') as file:
+    with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
@@ -96,7 +96,7 @@ def run_nlp_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     set -x
-    cd ../{model['deepsparkinference_path']}
+    cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
     bash ci/prepare.sh
     """
@@ -112,109 +112,109 @@ def run_nlp_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         set -x
-        cd ../{model['deepsparkinference_path']}
+        cd ../{model['model_path']}
         """
         if model_name == "baichuan2-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./baichuan2-7b/ --max-tokens 256 --trust-remote-code --chat_template template_baichuan.jinja --temperature 0.0
             """
             if prec == "int8":
                 script = f"""
                 set -x
-                cd ../{model['deepsparkinference_path']}
+                cd ../{model['model_path']}
                 python3 offline_inference.py --model ./baichuan2-7b/int8/ --chat_template template_baichuan.jinja --quantization w8a16 --max-num-seqs 1 --max-model-len 256 --trust-remote-code --temperature 0.0 --max-tokens 256
                 """
         elif model_name == "chatglm3-6b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./chatglm3-6b --trust-remote-code --temperature 0.0 --max-tokens 256
             """
         elif model_name == "chatglm3-6b-32k":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./chatglm3-6b-32k --trust-remote-code --temperature 0.0 --max-tokens 256
             """
         elif model_name == "llama2-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./llama2-7b --max-tokens 256 -tp 1 --temperature 0.0
             """
         elif model_name == "llama3-70b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1,2,3
             python3 offline_inference.py --model ./llama3-70b --max-tokens 256 -tp 4 --temperature 0.0
             """
         elif model_name == "qwen-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./qwen-7b --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
             """
         elif model_name == "qwen1.5-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./qwen1.5-7b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 3096
             """
         elif model_name == "qwen1.5-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./qwen1.5-7b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 3096
             """
         elif model_name == "qwen1.5-14b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./qwen1.5-14b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 896
             """
         elif model_name == "qwen1.5-32b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1,2,3
             python3 offline_inference.py --model ./qwen1.5-32b --max-tokens 256 -tp 4 --temperature 0.0
             """
         elif model_name == "qwen1.5-72b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./qwen1.5-72b --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
             """
         elif model_name == "qwen2-7b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0
             python3 offline_inference.py --model ./qwen2-7b --max-tokens 256 -tp 1 --temperature 0.0
             """
         elif model_name == "qwen2-72b":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
             python3 offline_inference.py --model ./qwen2-72b --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
             """
         elif model_name == "stablelm":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./stablelm --max-tokens 256 -tp 1 --temperature 0.0
             """
         elif model_name == "minicpm-v-2":
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             export PT_SDPA_ENABLE_HEAD_DIM_PADDING=1
             export PATH=/usr/local/corex/bin:${PATH}
             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
@@ -223,7 +223,7 @@ def run_nlp_testcase(model):
         elif model_name.startswith("deepseek-r1-distill-"):
             script = f"""
             set -x
-            cd ../{model['deepsparkinference_path']}
+            cd ../{model['model_path']}
             python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
             """
 
