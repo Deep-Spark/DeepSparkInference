@@ -55,7 +55,7 @@ def main():
         sys.exit(-1)
 
     result = {}
-    if model["category"] == "cv/classification":
+    if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -142,6 +142,7 @@ def run_clf_testcase(model):
     }
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
@@ -159,7 +160,7 @@ def run_clf_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['model_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
@@ -176,8 +177,22 @@ def run_clf_testcase(model):
             except ValueError:
                 print("The string cannot be converted to a float.")
                 result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        if matchs and len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
+        if matchs:
+            if len(matchs) == 2:
+                result["result"][prec]["status"] = "PASS"
+            else:
+                # Define regex pattern to match key-value pairs inside curly braces
+                kv_pattern = r"'(\w+)'\s*:\s*([\d.]+)"
+                # Find all matches
+                kv_matches = re.findall(kv_pattern, sout)
+                for key, value in kv_matches:
+                    result["result"][prec]["status"] = "PASS"
+                    try:
+                        result["result"][prec][key] = float(value)
+                    except ValueError:
+                        print("The string cannot be converted to a float.")
+                        result["result"][prec][key] = value
+
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
