@@ -160,6 +160,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | FCOS       | FP16  | [✅](models/cv/object_detection/fcos/igie)       | [✅](models/cv/object_detection/fcos/ixrt)       | 4.2.0     |
 | FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   | 4.2.0     |
 | FSAF       | FP16  | [✅](models/cv/object_detection/fsaf/igie)       | [✅](models/cv/object_detection/fsaf/ixrt)       | 4.2.0     |
+| GFL        | FP16  | [✅](models/cv/object_detection/gfl/igie)        |                                                 | 4.2.0     |
 | HRNet      | FP16  | [✅](models/cv/object_detection/hrnet/igie)      | [✅](models/cv/object_detection/hrnet/ixrt)      | 4.2.0     |
 | PAA        | FP16  | [✅](models/cv/object_detection/paa/igie)        |                                                 | 4.2.0     |
 | RetinaFace | FP16  | [✅](models/cv/object_detection/retinaface/igie) | [✅](models/cv/object_detection/retinaface/ixrt) | 4.2.0     |
@@ -215,6 +216,12 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 |------------|-------|------|-----------------------------------------------------|-----------|
 | Mask R-CNN | FP16  |      | [✅](models/cv/instance_segmentation/mask_rcnn/ixrt) | 4.2.0     |
 | SOLOv1     | FP16  |      | [✅](models/cv/instance_segmentation/solov1/ixrt)    | 4.2.0     |
+
+#### 语义分割
+
+| Model | Prec. | IGIE                                           | IxRT | IXUCA SDK |
+|-------|-------|------------------------------------------------|------|-----------|
+| UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) |      | 4.2.0     |
 
 #### 多目标跟踪
 
