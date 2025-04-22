@@ -1,0 +1,7 @@
+onnx
+tqdm
+onnxsim
+mmsegmentation==1.2.2
+mmengine==0.10.7
+mmdeploy
+ftfy
