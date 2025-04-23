@@ -6230,6 +6230,64 @@
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
+        },
+        {
+            "model_name": "gfl",
+            "framework": "igie",
+            "release_version": "25.06",
+            "release_sdk": "4.2.0",
+            "release_gpgpu": "BI-V150",
+            "latest_sdk": "4.2.0",
+            "latest_gpgpu": "BI-V150",
+            "category": "cv/object_detection",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/cv/object_detection/gfl/igie",
+            "readme_file": "models/cv/object_detection/gfl/igie/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "coco",
+            "download_url": "https://download.openmmlab.com/mmdetection/v2.0/gfl/gfl_r50_fpn_1x_coco/gfl_r50_fpn_1x_coco_20200629_121244-25944287.pth",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ]
+        },
+        {
+            "model_name": "unet",
+            "framework": "igie",
+            "release_version": "25.06",
+            "release_sdk": "4.2.0",
+            "release_gpgpu": "BI-V150",
+            "latest_sdk": "4.2.0",
+            "latest_gpgpu": "BI-V150",
+            "category": "cv/semantic_segmentation",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/cv/semantic_segmentation/unet/igie",
+            "readme_file": "models/cv/semantic_segmentation/unet/igie/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "cityscapes",
+            "download_url": "https://download.openmmlab.com/mmsegmentation/v0.5/unet/fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes/fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ]
         }
     ]
 }
