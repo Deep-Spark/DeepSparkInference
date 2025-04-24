@@ -4859,7 +4859,7 @@
             "demoType": ""
         },
         {
-            "model_name": "minicpm_v_2",
+            "model_name": "minicpm_v",
             "framework": "vllm",
             "release_version": "25.03",
             "release_sdk": "CoreX 4.2.0",
@@ -4871,8 +4871,8 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/multimodal/vision_language_model/minicpm_v_2/vllm/",
-            "readme_file": "models/multimodal/vision_language_model/minicpm_v_2/vllm/README.md",
+            "model_path": "models/multimodal/vision_language_model/minicpm_v/vllm/",
+            "readme_file": "models/multimodal/vision_language_model/minicpm_v/vllm/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",

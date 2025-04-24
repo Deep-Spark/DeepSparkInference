@@ -242,7 +242,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 | InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           |                                                            | 4.2.0     |
 | LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm)               |                                                            | 4.2.0     |
 | LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.2.0     |
-| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v_2/vllm)         |                                                            | 4.2.0     |
+| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)         |                                                            | 4.2.0     |
 
 ### 自然语言处理（NLP）
 

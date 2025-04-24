@@ -252,7 +252,7 @@ inference to be expanded in the future.
 | InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           |                                                            | 4.2.0     |
 | LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm)               |                                                            | 4.2.0     |
 | LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.2.0     |
-| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v_2/vllm)         |                                                            | 4.2.0     |
+| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)         |                                                            | 4.2.0     |
 
 ### NLP
 

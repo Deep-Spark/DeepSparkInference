@@ -204,15 +204,6 @@ def run_nlp_testcase(model):
             export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./stablelm --max-tokens 256 -tp 1 --temperature 0.0
             """
-        elif model_name == "minicpm-v-2":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            export PT_SDPA_ENABLE_HEAD_DIM_PADDING=1
-            export PATH=/usr/local/corex/bin:${PATH}
-            export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
-            python3 minicpmv-2.0-offline.py --model-path ./minicpm-v-2 --image-path ./dog.jpg
-            """
         elif model_name.startswith("deepseek-r1-distill-"):
             script = f"""
             set -x
