@@ -93,7 +93,6 @@ def run_nlp_testcase(model):
     }
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
-    dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
@@ -164,12 +163,6 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference.py --model ./qwen1.5-7b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 3096
             """
-        elif model_name == "qwen1.5-7b":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            python3 offline_inference.py --model ./qwen1.5-7b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 3096
-            """
         elif model_name == "qwen1.5-14b":
             script = f"""
             set -x
@@ -225,6 +218,42 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+            """
+        elif model_name == "aria":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+            """
+        elif model_name == "h2vol" or model_name == "idefics3":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+            """
+        elif model_name == "minicpm_v":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            PT_SDPA_ENABLE_HEAD_DIM_PADDING=1 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
+            """
+        elif model_name == "mllama":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            export VLLM_FORCE_NCCL_COMM=1
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0 --max-model-len 8192 --max-num-seqs 16
+            """
+        elif model_name == "pixtral":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --tokenizer-mode 'mistral'
             """
 
         r, t = run_script(script)
