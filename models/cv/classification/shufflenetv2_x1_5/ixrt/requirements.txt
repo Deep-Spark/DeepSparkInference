@@ -1,0 +1,6 @@
+onnx
+tqdm
+onnxsim
+tabulate
+ppq
+pycuda
