@@ -1,5 +1,0 @@
-pycuda
-tqdm
-onnx
-onnxsim
-tabulate

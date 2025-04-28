@@ -27,28 +27,32 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
 
 ```bash
 # git clone mmpretrain
-git clone --depth 1 -b v1.1.0 https://github.com/open-mmlab/mmpretrain.git
-(cd mmpretrain/ && python3 setup.py develop)
+git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
+mkdir checkpoints
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output deit_tiny.onnx
+python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output checkpoints/deit_tiny.onnx
 
 # Use onnxsim optimize onnx model
-onnxsim deit_tiny.onnx deit_tiny_opt.onnx
-
+onnxsim checkpoints/deit_tiny.onnx checkpoints/deit_tiny_opt.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/DEIT_TINY_CONFIG
 ```
 
 ### FP16

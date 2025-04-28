@@ -27,14 +27,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --origin_model /path/to/resnet18-f37072fd.pth --output_model checkpoints/resnet18.onnx
+python3 ../../ixrt_common/export.py --model-name resnet18 --weight resnet18-f37072fd.pth --output checkpoints/resnet18.onnx
 ```
 
 ## Model Inference
@@ -43,8 +43,8 @@ python3 export_onnx.py --origin_model /path/to/resnet18-f37072fd.pth --output_mo
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/RESNET18_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/RESNET18_CONFIG
 ```
 
 ### FP16

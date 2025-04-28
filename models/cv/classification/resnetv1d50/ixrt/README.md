@@ -14,6 +14,8 @@ Residual Networks, or ResNets, learn residual functions with reference to the la
 
 ### Prepare Resources
 
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/resnet/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth>
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
@@ -25,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirments.txt
+pip3 install -r ../../ixrt_common/requirments.txt
+pip3 install mmpretrain
 ```
 
 ### Model Conversion
@@ -38,10 +41,11 @@ python3 export_onnx.py --output_model checkpoints/resnet_v1_d50.onnx
 ## Model Inference
 
 ```bash
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/RESNETV1D50_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/config/RESNETV1D50_CONFIG
 ```
 
 ### FP16

@@ -278,10 +278,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -566,10 +568,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.openmmlab.com/mmclassification/v0/deit/deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -629,7 +633,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.image-net.org/download.php",
-            "download_url": "https://local/densenet121.pth",
+            "download_url": "https://download.pytorch.org/models/densenet121-a639ec97.pth",
             "need_third_part": false,
             "precisions": [
                 "fp16"
@@ -820,10 +824,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.pytorch.org/models/densenet201-c1103571.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -882,10 +888,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -1138,10 +1146,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.pytorch.org/models/efficientnet_b3_rwightman-b3899882.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -1233,7 +1243,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.image-net.org/download.php",
-            "download_url": "https://local/efficientnet_v2.pth",
+            "download_url": "https://download.pytorch.org/models/efficientnet_v2_m-dc08266a.pth",
             "need_third_part": false,
             "precisions": [
                 "fp16",
@@ -1297,10 +1307,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.pytorch.org/models/efficientnet_v2_s-dd5fe13b.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -1461,7 +1473,10 @@
             "datasets": "",
             "download_url": "",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16",
+                "int8"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -2135,7 +2150,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.image-net.org/download.php",
-            "download_url": "https://download.pytorch.org/models/resnet101.pth",
+            "download_url": "https://download.pytorch.org/models/resnet101-63fe2227.pth",
             "need_third_part": false,
             "precisions": [
                 "fp16",
@@ -2583,6 +2598,38 @@
             "license": "",
             "model_path": "models/cv/classification/shufflenetv2_x0_5/igie/",
             "readme_file": "models/cv/classification/shufflenetv2_x0_5/igie/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "https://www.image-net.org/download.php",
+            "download_url": "https://download.pytorch.org/models/shufflenetv2_x0.5-f707e7126e.pth",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ],
+            "type": "inference",
+            "hasDemo": false,
+            "demoType": ""
+        },
+        {
+            "model_name": "shufflenetv2_x0_5",
+            "framework": "ixrt",
+            "release_version": "25.06",
+            "release_sdk": "4.2.0",
+            "release_gpgpu": "BI-V150",
+            "latest_sdk": "4.2.0",
+            "latest_gpgpu": "BI-V150",
+            "category": "cv/classification",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/cv/classification/shufflenetv2_x0_5/ixrt/",
+            "readme_file": "models/cv/classification/shufflenetv2_x0_5/ixrt/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",

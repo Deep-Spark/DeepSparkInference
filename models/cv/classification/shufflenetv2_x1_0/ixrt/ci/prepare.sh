@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir -p checkpoints
-python3 export.py --weight shufflenetv2_x1-5666bf0f80.pth --output checkpoints/shufflenetv2_x1_0.onnx
+python3 ../../ixrt_common/export.py --model-name shufflenet_v2_x1_0 --weight shufflenetv2_x1-5666bf0f80.pth --output checkpoints/shufflenetv2_x1_0.onnx

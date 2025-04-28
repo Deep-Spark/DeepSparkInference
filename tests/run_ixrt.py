@@ -132,6 +132,7 @@ def run_clf_testcase(model):
     }
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
+    #TODO: need update mount path because mdb use /root/data
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
@@ -160,10 +161,10 @@ def run_clf_testcase(model):
         script = f"""
         cd ../{model['model_path']}
         export DATASETS_DIR=/root/data/datasets/imagenet-val
-        export PROJ_DIR=./
+        export PROJ_DIR=../../ixrt_common/
         export CHECKPOINTS_DIR=./checkpoints
-        export RUN_DIR=./
-        export CONFIG_DIR=config/{config_name}_CONFIG
+        export RUN_DIR=../../ixrt_common/
+        export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh
         """

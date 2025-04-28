@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/mobilenet_v3.pth --output_model checkpoints/mobilenet_v3.onnx
+python3 ../../ixrt_common/export.py --model-name mobilenet_v3_small --weight mobilenet_v3_small-047dcff4.pth --output checkpoints/mobilenet_v3.onnx

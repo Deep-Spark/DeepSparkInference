@@ -25,8 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/resnet34-b627a593.pth /root/.cache/torch/hub/checkpoints/resnet34-b627a593.pth
-python3 export_onnx.py --output_model checkpoints/resnet34.onnx
+python3 ../../ixrt_common/export.py --model-name resnet34 --weight resnet34-b627a593.pth --output checkpoints/resnet34.onnx

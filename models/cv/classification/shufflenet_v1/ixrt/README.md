@@ -28,7 +28,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install mmcls==0.24.0 mmcv==1.5.3
 ```
 
 ### Model Conversion
@@ -49,9 +50,8 @@ python3 export_onnx.py   \
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/SHUFFLENET_V1_CONFIG
-
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/SHUFFLENET_V1_CONFIG
 ```
 
 ### FP16

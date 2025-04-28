@@ -25,7 +25,8 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
+pip install mmpretrain
 mkdir checkpoints
 mkdir -p /root/.cache/torch/hub/checkpoints/
 ln -s /root/data/checkpoints/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth /root/.cache/torch/hub/checkpoints/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth

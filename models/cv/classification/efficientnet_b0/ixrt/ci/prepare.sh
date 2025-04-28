@@ -25,5 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-python3 export_onnx.py --origin_model /root/data/checkpoints/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet_b0.onnx
+pip install -r ../../ixrt_common/requirements.txt
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name efficientnet_b0 --weight /root/data/checkpoints/efficientnet_b0_rwightman-3dd342df.pth --output checkpoints/efficientnet_b0.onnx

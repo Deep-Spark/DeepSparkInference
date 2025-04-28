@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints 
-python3 export_onnx.py --origin_model /root/data/checkpoints/squeezenet1_0-b66bff10.pth --output_model checkpoints/squeezenetv10.onnx
+python3 ../../ixrt_common/export.py --model-name squeezenet1_0 --weight squeezenet1_0-b66bff10.pth --output checkpoints/squeezenetv10.onnx

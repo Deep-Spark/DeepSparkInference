@@ -14,6 +14,8 @@ HRNet-W18 is a powerful image classification model developed by Jingdong AI Rese
 
 ### Prepare Resources
 
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/hrnet/hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth>
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
@@ -25,23 +27,25 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install mmpretrain
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/hrnet-w18.onnx
+python3 export_onnx.py --output_model checkpoints/hrnet_w18.onnx
 ```
 
 ## Model Inference
 
 ```bash
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/HRNET_W18_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/HRNET_W18_CONFIG
 ```
 
 ### FP16

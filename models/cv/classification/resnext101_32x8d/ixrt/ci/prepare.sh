@@ -25,5 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-python3 export.py --weight resnext101_32x8d-8ba56ff5.pth --output resnext101_32x8d.onnx
+pip3 install -r ../../ixrt_common/requirements.txt
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name resnext101_32x8d --weight resnext101_32x8d-8ba56ff5.pth --output checkpoints/resnext101_32x8d.onnx

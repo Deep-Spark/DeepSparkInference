@@ -45,7 +45,6 @@ do
 done
 
 source ${CONFIG_DIR}
-echo ${QUANT_OBSERVER}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
@@ -63,15 +62,16 @@ SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_sim.onnx
 
 # Simplify Model
 let step++
- echo [STEP ${step}] : Simplify Model
- if [ -f ${SIM_MODEL} ];then
-     echo "  "Simplify Model, ${SIM_MODEL} has been existed
- else
-     python3 ${RUN_DIR}/simplify_model.py \
-     --origin_model $ORIGINE_MODEL    \
-     --output_model ${SIM_MODEL}
-     echo "  "Generate ${SIM_MODEL}
- fi
+echo;
+echo [STEP ${step}] : Simplify Model
+if [ -f ${SIM_MODEL} ];then
+    echo "  "Simplify Model, ${SIM_MODEL} has been existed
+else
+    python3 ${RUN_DIR}/simplify_model.py \
+    --origin_model $ORIGINE_MODEL    \
+    --output_model ${SIM_MODEL}
+    echo "  "Generate ${SIM_MODEL}
+fi
 
 # Quant Model
 if [ $PRECISION == "int8" ];then
@@ -101,36 +101,36 @@ if [ $PRECISION == "int8" ];then
     fi
 fi
 
- # Change Batchsize
- let step++
- echo;
- echo [STEP ${step}] : Change Batchsize
- FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
- if [ -f $FINAL_MODEL ];then
-     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
- else
-     python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
-         --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
-     echo "  "Generate ${FINAL_MODEL}
- fi
+# Change Batchsize
+let step++
+echo;
+echo [STEP ${step}] : Change Batchsize
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
+if [ -f $FINAL_MODEL ];then
+    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
+else
+    python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
+        --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
+    echo "  "Generate ${FINAL_MODEL}
+fi
 
- # Build Engine
- let step++
- echo;
- echo [STEP ${step}] : Build Engine
- ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
- if [ -f $ENGINE_FILE ];then
-     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
- else
-     python3 ${RUN_DIR}/build_i8_engine.py          \
-         --onnx ${FINAL_MODEL}                    \
-         --qparam_json ${CHECKPOINTS_DIR}/quant_cfg.json \
-         --engine ${ENGINE_FILE}
-     echo "  "Generate Engine ${ENGINE_FILE}
- fi
+# Build Engine
+let step++
+echo;
+echo [STEP ${step}] : Build Engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
+if [ -f $ENGINE_FILE ];then
+    echo "  "Build Engine Skip, $ENGINE_FILE has been existed
+else
+    python3 ${RUN_DIR}/build_engine.py          \
+        --precision ${PRECISION}                \
+        --model ${FINAL_MODEL}                    \
+        --engine ${ENGINE_FILE}
+    echo "  "Generate Engine ${ENGINE_FILE}
+fi
 
 # Inference
-# let step++
+let step++
 echo;
 echo [STEP ${step}] : Inference
 python3 ${RUN_DIR}/inference.py     \

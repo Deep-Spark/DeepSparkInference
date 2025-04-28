@@ -51,6 +51,8 @@ echo RUN_DIR : ${RUN_DIR}
 echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
+echo Model Input Name : ${MODEL_INPUT_NAME}
+echo Model Output Name : ${MODEL_OUTPUT_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
 
 step=0
@@ -67,6 +69,34 @@ else
     --origin_model $ORIGINE_MODEL    \
     --output_model ${SIM_MODEL}
     echo "  "Generate ${SIM_MODEL}
+fi
+
+# Quant Model
+if [ $PRECISION == "int8" ];then
+    let step++
+    echo;
+    echo [STEP ${step}] : Quant Model
+    if [[ -z ${QUANT_EXIST_ONNX} ]];then
+        QUANT_EXIST_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
+    fi
+    if [[ -f ${QUANT_EXIST_ONNX} ]];then
+        SIM_MODEL=${QUANT_EXIST_ONNX}
+        echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
+    else
+        python3 ${RUN_DIR}/quant.py            \
+            --model ${SIM_MODEL}               \
+            --model_name ${MODEL_NAME}         \
+            --dataset_dir ${DATASETS_DIR}      \
+            --observer ${QUANT_OBSERVER}       \
+            --disable_quant_names ${DISABLE_QUANT_LIST[@]} \
+            --save_dir $CHECKPOINTS_DIR        \
+            --bsz   ${QUANT_BATCHSIZE}         \
+            --step  ${QUANT_STEP}              \
+            --seed  ${QUANT_SEED}              \
+            --imgsz ${IMGSIZE}
+        SIM_MODEL=${QUANT_EXIST_ONNX}
+        echo "  "Generate ${SIM_MODEL}
+    fi
 fi
 
 # Change Batchsize

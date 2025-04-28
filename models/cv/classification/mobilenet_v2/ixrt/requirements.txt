@@ -1,6 +1,0 @@
-tqdm
-onnxsim
-opencv-python==4.6.0.66
-ppq
-protobuf==3.20.0
-pycuda

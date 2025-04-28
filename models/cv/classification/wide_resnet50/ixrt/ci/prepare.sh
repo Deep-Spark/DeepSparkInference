@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir -p checkpoints/
-python3 export.py --weight /root/data/checkpoints/wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx
+python3 ../../ixrt_common/export.py --model-name wide_resnet50_2 --weight wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx

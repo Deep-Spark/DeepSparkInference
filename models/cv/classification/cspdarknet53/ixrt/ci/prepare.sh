@@ -25,7 +25,8 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 
 python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight /root/data/checkpoints/cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx

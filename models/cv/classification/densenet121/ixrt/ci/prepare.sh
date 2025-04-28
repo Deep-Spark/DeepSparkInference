@@ -25,8 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/densenet121.pth /root/.cache/torch/hub/checkpoints/densenet121-a639ec97.pth
-python3 export_onnx.py --output_model ./checkpoints/densenet121.onnx
+python3 ../../ixrt_common/export.py --model-name densenet121 --weight densenet121-a639ec97.pth --output checkpoints/densenet121.onnx

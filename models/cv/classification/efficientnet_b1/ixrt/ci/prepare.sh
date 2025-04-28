@@ -25,9 +25,7 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 
 mkdir checkpoints
-mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/efficientnet_b1_rwightman-bac287d4.pth /root/.cache/torch/hub/checkpoints/efficientnet_b1_rwightman-bac287d4.pth
-python3 export_onnx.py --output_model checkpoints/efficientnet-b1.onnx
+python3 ../../ixrt_common/export_onnx.py --model-name efficientnet_b1 --output_model checkpoints/efficientnet-b1.onnx

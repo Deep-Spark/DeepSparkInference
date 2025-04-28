@@ -27,7 +27,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
@@ -41,12 +41,11 @@ python3 export_onnx.py --origin_model inception_v3_google-0cc3c7bd.pth --output_
 ## Model Inference
 
 ```bash
-export PROJ_DIR=/Path/to/inception_v3/ixrt
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=/Path/to/inception_v3/ixrt
-export CONFIG_DIR=/Path/to/config/INCEPTION_V3_CONFIG
-export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/INCEPTION_V3_CONFIG
 ```
 
 ### FP16

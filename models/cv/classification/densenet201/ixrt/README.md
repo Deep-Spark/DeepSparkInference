@@ -27,19 +27,24 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight densenet201-c1103571.pth --output densenet201.onnx
+mkdir checkpoints
+python3 export.py --weight densenet201-c1103571.pth --output checkpoints/densenet201.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/DENSENET201_CONFIG
 ```
 
 ### FP16

@@ -1,7 +1,0 @@
-tqdm
-onnx
-onnxsim
-tabulate
-ppq==0.6.6
-protobuf==3.20.3
-pycuda

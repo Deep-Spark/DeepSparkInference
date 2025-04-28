@@ -15,7 +15,7 @@
 import argparse
 
 import torch
-from mmpretrain.apis import init_model
+from mmcls.apis import init_model
 
 class Model(torch.nn.Module):
     def __init__(self, config_file, checkpoint_file):

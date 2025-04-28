@@ -27,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install Pillow
 ```
 
 ### Model Conversion
@@ -41,30 +42,29 @@ python3 export_model.py --output_model /Path/to/checkpoints/inceptionresnetv2.on
 ## Model Inference
 
 ```bash
-export PROJ_DIR=/Path/to/inceptionresnetv2/ixrt
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=/Path/to/inceptionresnetv2/ixrt
-export CONFIG_DIR=/Path/to/config/INCEPTIONRESNETV2_CONFIG
-export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/INCEPTION_RESNET_V2_CONFIG
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_inceptionresnetv2_fp16_accuracy.sh
+bash scripts/infer_inception_resnet_v2_fp16_accuracy.sh
 # Performance
-bash scripts/infer_inceptionresnetv2_fp16_performance.sh
+bash scripts/infer_inception_resnet_v2_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_inceptionresnetv2_int8_accuracy.sh
+bash scripts/infer_inception_resnet_v2_int8_accuracy.sh
 # Performance
-bash scripts/infer_inceptionresnetv2_int8_performance.sh
+bash scripts/infer_inception_resnet_v2_int8_performance.sh
 ```
 
 ## Model Results

@@ -25,7 +25,8 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
+pip3 install mmcls==0.24.0 mmcv==1.5.3
 mkdir -p checkpoints
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 export_onnx.py   \

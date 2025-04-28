@@ -14,6 +14,8 @@ Residual Networks, or ResNets, learn residual functions with reference to the la
 
 ### Prepare Resources
 
+Pretrained model: <https://download.pytorch.org/models/resnet34-b627a593.pth>
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
@@ -25,14 +27,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/resnet34.onnx
+python3 ../../ixrt_common/export.py --model-name resnet34 --weight resnet34-b627a593.pth --output checkpoints/resnet34.onnx
 ```
 
 ## Model Inference
@@ -41,8 +43,8 @@ python3 export_onnx.py --output_model checkpoints/resnet34.onnx
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/RESNET34_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/RESNET34_CONFIG
 ```
 
 ### FP16

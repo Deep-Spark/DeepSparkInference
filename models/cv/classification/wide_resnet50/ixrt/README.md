@@ -21,23 +21,30 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir -p checkpoints/
-python3 export.py --weight wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx
+python3 ../../ixrt_common/export.py --model-name wide_resnet50_2 --weight wide_resnet50_2-95faca4d.pth --output checkpoints/wide_resnet50.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/WIDE_RESNET50_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/WIDE_RESNET50_CONFIG
 ```
 
 ### FP16

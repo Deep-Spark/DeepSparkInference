@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/googlenet.pth --output_model checkpoints/googlenet.onnx
+python3 ../../ixrt_common/export.py --model-name googlenet --weight googlenet-1378be20.pth --output checkpoints/googlenet.onnx
