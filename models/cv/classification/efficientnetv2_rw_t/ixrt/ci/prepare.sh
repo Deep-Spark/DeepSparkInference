@@ -28,4 +28,4 @@ fi
 pip install -r ../../ixrt_common/requirements.txt
 pip install timm
 mkdir checkpoints
-python3 export.py --weight efficientnetv2_t_agc-3620981a.pth --output checkpoints/efficientnetv2_rw_t.onnx
+python3 ../../ixrt_common/export_timm.py --model-name efficientnetv2_rw_t --weight efficientnetv2_t_agc-3620981a.pth --output checkpoints/efficientnetv2_rw_t.onnx

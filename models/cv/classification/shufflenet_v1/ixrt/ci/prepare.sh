@@ -29,7 +29,7 @@ pip install -r ../../ixrt_common/requirements.txt
 pip3 install mmcls==0.24.0 mmcv==1.5.3
 mkdir -p checkpoints
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
-python3 export_onnx.py   \
---config_file ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
---checkpoint_file  /root/data/checkpoints/shufflenet_v1.pth \
---output_model ./checkpoints/shufflenet_v1.onnx
+python3 ../../ixrt_common/export_mmcls.py   \
+--cfg ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
+--weight  /root/data/checkpoints/shufflenet_v1.pth \
+--output ./checkpoints/shufflenet_v1.onnx

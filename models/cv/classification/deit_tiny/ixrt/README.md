@@ -39,7 +39,7 @@ git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 mkdir checkpoints
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output checkpoints/deit_tiny.onnx
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output checkpoints/deit_tiny.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim checkpoints/deit_tiny.onnx checkpoints/deit_tiny_opt.onnx

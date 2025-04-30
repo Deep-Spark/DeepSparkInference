@@ -27,4 +27,4 @@ fi
 
 pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export.py --weight /root/data/checkpoints/densenet161-8d451a50.pth --output checkpoints/densenet161.onnx
+python3 ../../ixrt_common/export.py --model-name densenet161 --weight /root/data/checkpoints/densenet161-8d451a50.pth --output checkpoints/densenet161.onnx

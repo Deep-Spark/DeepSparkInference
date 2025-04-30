@@ -16,7 +16,7 @@ incorporates a series of enhancement strategies to further boost performance.
 
 ### Prepare Resources
 
-Pretrained model: <https://download.pytorch.org/models/efficientnet_v2_m-dc08266a.pth>
+Pretrained model: <https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 

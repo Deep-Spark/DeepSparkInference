@@ -13,13 +13,17 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import timm
 import torch
-import torchvision
 import argparse
-import re
 
 def parse_args():
     parser = argparse.ArgumentParser()
+
+    parser.add_argument("--model-name", 
+                    type=str, 
+                    required=True, 
+                    help="Name of the model.")
 
     parser.add_argument("--weight", 
                     type=str, 
@@ -36,39 +40,25 @@ def parse_args():
 
 def main():
     args = parse_args()
-    
-    model = torchvision.models.densenet161(weights=False)
+    print(f"Loading model: {args.model_name}...")
 
-    state_dict = torch.load(args.weight)
-
-    pattern = re.compile(r'^(.*denselayer\d+\.(?:norm|relu|conv))\.((?:[12])\.(?:weight|bias|running_mean|running_var))$'
-    )
-    for key in list(state_dict.keys()):
-        res = pattern.match(key)
-        if res:
-            new_key = res.group(1) + res.group(2)
-            state_dict[new_key] = state_dict[key]
-            del state_dict[key]
-
-    model.load_state_dict(state_dict)
+    model = timm.create_model(args.model_name, checkpoint_path=args.weight)
     model.eval()
 
-    input_names = ['input']
-    output_names = ['output']
-    dynamic_axes = {'input': {0: '-1'}, 'output': {0: '-1'}}
-    dummy_input = torch.randn(1, 3, 224, 224)
+    dummy_input = torch.randn([32, 3, 288, 288])
 
     torch.onnx.export(
         model, 
         dummy_input, 
         args.output, 
-        input_names = input_names, 
-        dynamic_axes = None, 
-        output_names = output_names,
-        opset_version=13
-    )    
-    
+        opset_version=13, 
+        do_constant_folding=True, 
+        input_names=["input"], 
+        output_names=["output"],
+        dynamic_axes={"input": {0: "batch"}, "output": {0: "batch"}}
+        )
+
     print("Export onnx model successfully! ")
-    
+
 if __name__ == "__main__":
     main()

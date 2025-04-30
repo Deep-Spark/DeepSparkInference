@@ -16,6 +16,7 @@
 import torch
 import torchvision
 import argparse
+import re
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -47,7 +48,19 @@ def main():
         # Fallback for models that do not accept 'pretrained' parameter
         model = getattr(torchvision.models, args.model_name)()
 
-    model.load_state_dict(torch.load(args.weight))
+    state_dict = torch.load(args.weight)
+
+    if args.model_name in ["densenet201", "densenet161", "densenet169"]:
+        pattern = re.compile(r'^(.*denselayer\d+\.(?:norm|relu|conv))\.((?:[12])\.(?:weight|bias|running_mean|running_var))$'
+        )
+        for key in list(state_dict.keys()):
+            res = pattern.match(key)
+            if res:
+                new_key = res.group(1) + res.group(2)
+                state_dict[new_key] = state_dict[key]
+                del state_dict[key]
+
+    model.load_state_dict(state_dict)
     model.eval()
 
     input_names = ['input']

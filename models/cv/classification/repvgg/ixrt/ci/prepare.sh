@@ -29,7 +29,7 @@ pip install -r ../../ixrt_common/requirements.txt
 pip3 install mmcls==0.24.0 mmcv==1.5.3
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir -p checkpoints 
-python3 export_onnx.py   \
-    --config_file ./mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py \
-    --checkpoint_file /root/data/checkpoints/repvgg-A0_3rdparty_4xb64-coslr-120e_in1k_20210909-883ab98c.pth \
-    --output_model ./checkpoints/repvgg_A0.onnx
+python3 ../../ixrt_common/export_mmcls.py   \
+    --cfg ./mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py \
+    --weight /root/data/checkpoints/repvgg-A0_3rdparty_4xb64-coslr-120e_in1k_20210909-883ab98c.pth \
+    --output ./checkpoints/repvgg_A0.onnx

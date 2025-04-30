@@ -28,14 +28,18 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r ../../ixrt_common/requirements.txt
-pip3 install mmpretrain
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
 
 ```bash
+# git clone mmpretrain
+git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
+
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/hrnet_w18.onnx
+# export onnx model
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output checkpoints/hrnet_w18.onnx
 ```
 
 ## Model Inference

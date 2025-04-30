@@ -34,7 +34,7 @@ pip3 install -r ../../ixrt_common/requirements.txt
 
 ```bash
 mkdir checkpoints
-python3 export.py --weight densenet201-c1103571.pth --output checkpoints/densenet201.onnx
+python3 ../../ixrt_common/export.py --model-name densenet201 --weight densenet201-c1103571.pth --output checkpoints/densenet201.onnx
 ```
 
 ## Model Inference

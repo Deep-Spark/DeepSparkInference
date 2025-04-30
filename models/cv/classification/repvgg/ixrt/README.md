@@ -36,10 +36,12 @@ pip3 install mmcls==0.24.0 mmcv==1.5.3
 mkdir checkpoints 
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
-python3 export_onnx.py   \
-    --config_file ./mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py \
-    --checkpoint_file https://download.openmmlab.com/mmclassification/v0/repvgg/repvgg-A0_3rdparty_4xb64-coslr-120e_in1k_20210909-883ab98c.pth \
-    --output_model ./checkpoints/repvgg_A0.onnx
+python3 ../../ixrt_common/export_mmcls.py   \
+    --cfg ./mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py \
+    --weight repvgg-A0_3rdparty_4xb64-coslr-120e_in1k_20210909-883ab98c.pth \
+    --output repvgg_A0.onnx
+
+onnxsim repvgg_A0.onnx checkpoints/repvgg_A0.onnx
 ```
 
 ## Model Inference
