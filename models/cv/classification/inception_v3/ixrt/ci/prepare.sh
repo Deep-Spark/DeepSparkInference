@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/inception_v3.pth --output_model checkpoints/inception_v3.onnx
+python3 ../../ixrt_common/export.py --model-name inception_v3 --weight inception_v3_google-0cc3c7bd.pth --output checkpoints/inception_v3.onnx

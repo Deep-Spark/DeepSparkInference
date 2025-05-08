@@ -28,14 +28,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints 
-python3 export_onnx.py --origin_model /path/to/vgg16-397923af.pth --output_model checkpoints/vgg16.onnx
+python3 ../../ixrt_common/export.py --model-name vgg16 --weight vgg16-397923af.pth --output checkpoints/vgg16.onnx
 ```
 
 ## Model Inference
@@ -44,8 +44,8 @@ python3 export_onnx.py --origin_model /path/to/vgg16-397923af.pth --output_model
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/VGG16_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/VGG16_CONFIG
 ```
 
 ### FP16

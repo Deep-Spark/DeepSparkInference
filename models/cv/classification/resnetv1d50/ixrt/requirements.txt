@@ -1,9 +1,0 @@
-tqdm
-onnx
-onnxsim
-tabulate
-ppq
-mmpretrain
-mmcv-lite
-pycuda
-transformers==4.37.1

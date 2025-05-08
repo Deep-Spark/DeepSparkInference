@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/alexnet-owt-7be5be79.pth --output_model checkpoints/alexnet.onnx
+python3 ../../ixrt_common/export.py --model-name alexnet --weight alexnet-owt-7be5be79.pth --output checkpoints/alexnet.onnx

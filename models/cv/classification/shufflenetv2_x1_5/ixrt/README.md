@@ -27,14 +27,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export.py --weight shufflenetv2_x1_5-3c479a10.pth --output checkpoints/shufflenetv2_x1_5.onnx
+python3 ../../ixrt_common/export.py --model-name shufflenet_v2_x1_5 --weight shufflenetv2_x1_5-3c479a10.pth --output checkpoints/shufflenetv2_x1_5.onnx
 ```
 
 ## Model Inference
@@ -43,8 +43,8 @@ python3 export.py --weight shufflenetv2_x1_5-3c479a10.pth --output checkpoints/s
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/SHUFFLENETV2_X1_5_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/SHUFFLENETV2_X1_5_CONFIG
 ```
 
 ### FP16

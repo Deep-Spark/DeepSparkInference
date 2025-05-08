@@ -25,8 +25,9 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-mkdir checkpoints
+pip install -r ../../ixrt_common/requirements.txt
+pip3 install Pillow
+mkdir -p checkpoints
 mkdir -p /root/.cache/torch/hub/checkpoints/
 ln -s /root/data/checkpoints/inceptionresnetv2-520b38e4.pth /root/.cache/torch/hub/checkpoints/inceptionresnetv2-520b38e4.pth
 python3 export_model.py --output_model ./checkpoints/inceptionresnetv2.onnx

@@ -21,19 +21,30 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight resnext101_64x4d-173b62eb.pth --output resnext101_64x4d.onnx
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name resnext101_64x4d --weight resnext101_64x4d-173b62eb.pth --output checkpoints/resnext101_64x4d.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/RESNEXT101_64X4D_CONFIG
 ```
 
 ### FP16

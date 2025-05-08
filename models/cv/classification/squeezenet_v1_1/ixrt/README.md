@@ -29,14 +29,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-mkdir checkpoints 
-python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --output_model checkpoints/squeezenet_v1_1.onnx
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name squeezenet1_1 --weight squeezenet1_1-b8a52dc0.pth --output checkpoints/squeezenet_v1_1.onnx
 ```
 
 ## Model Inference
@@ -45,8 +45,8 @@ python3 export_onnx.py --origin_model  /path/to/squeezenet1_1-b8a52dc0.pth --out
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/SQUEEZENET_V1_1_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/SQUEEZENET_V1_1_CONFIG
 
 ```
 

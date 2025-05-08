@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/vgg16.pth --output_model checkpoints/vgg16.onnx
+python3 ../../ixrt_common/export.py --model-name vgg16 --weight vgg16-397923af.pth --output checkpoints/vgg16.onnx

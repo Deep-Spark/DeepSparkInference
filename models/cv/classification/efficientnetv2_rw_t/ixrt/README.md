@@ -27,19 +27,25 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip install timm
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight efficientnetv2_t_agc-3620981a.pth --output efficientnetv2_rw_t.onnx
+mkdir checkpoints
+python3 ../../ixrt_common/export_timm.py --model-name efficientnetv2_rw_t --weight efficientnetv2_t_agc-3620981a.pth --output checkpoints/efficientnetv2_rw_t.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/EFFICIENTNETV2_RW_T_CONFIG
 ```
 
 ### FP16

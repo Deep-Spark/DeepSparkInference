@@ -25,8 +25,8 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
+pip install mmcv==1.5.3 mmcls==0.24.0
+unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir checkpoints
-mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth /root/.cache/torch/hub/checkpoints/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth
-python3 export_onnx.py --output_model checkpoints/resnet_v1_d50.onnx
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/resnet/resnetv1d50_b32x8_imagenet.py --weight resnetv1d50_b32x8_imagenet_20210531-db14775a.pth --output checkpoints/resnet_v1_d50.onnx

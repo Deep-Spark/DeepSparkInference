@@ -25,10 +25,12 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip3 install mmcls==0.24.0 mmcv==1.5.3
+pip install -r ../../ixrt_common/requirements.txt
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir -p checkpoints
-python3 export_onnx.py   \
-    --config_file ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
-    --checkpoint_file  /root/data/checkpoints/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
-    --output_model ./checkpoints/cspresnet50.onnx
+python3 ../../ixrt_common/export_mmcls.py   \
+    --cfg ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
+    --weight /root/data/checkpoints/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
+    --output cspresnet50.onnx
+onnxsim cspresnet50.onnx checkpoints/cspresnet50.onnx

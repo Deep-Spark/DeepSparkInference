@@ -27,19 +27,24 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export_onnx.py --origin_model /path/to/efficientnet_b0_rwightman-3dd342df.pth --output_model efficientnet_b0.onnx
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name efficientnet_b0 --weight /path/to/efficientnet_b0_rwightman-3dd342df.pth --output checkpoints/efficientnet_b0.onnx
 ```
 
 ## Model Inference
 
 ```bash
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/EFFICIENTNET_B0_CONFIG
 ```
 
 ### FP16

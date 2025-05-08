@@ -10,7 +10,7 @@ convolutions, and efficient building blocks to further reduce computational comp
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 |--------|-----------|---------|
-| MR-V100 | 4.3.0     |  25.06  |
+| MR-V100 | 4.2.0     |  25.06  |
 
 ## Model Preparation
 
@@ -29,14 +29,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export.py --weight shufflenetv2_x0.5-f707e7126e.pth --output checkpoints/shufflenetv2_x0_5.onnx
+python3 ../../ixrt_common/export.py --model-name shufflenet_v2_x0_5 --weight shufflenetv2_x0.5-f707e7126e.pth --output checkpoints/shufflenetv2_x0_5.onnx
 ```
 
 ## Model Inference
@@ -45,9 +45,8 @@ python3 export.py --weight shufflenetv2_x0.5-f707e7126e.pth --output checkpoints
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/SHUFFLENET_V2_X0_5_CONFIG
-
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/SHUFFLENET_V2_X0_5_CONFIG
 ```
 
 ### FP16

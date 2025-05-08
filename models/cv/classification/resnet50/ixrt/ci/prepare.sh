@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/resnet50.pth --output_model checkpoints/resnet50.onnx
+python3 ../../ixrt_common/export.py --model-name resnet50 --weight resnet50-0676ba61.pth --output checkpoints/resnet50.onnx

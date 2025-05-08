@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
@@ -12,7 +13,6 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-#!/bin/bash
 
 EXIT_STATUS=0
 check_status()
@@ -43,21 +43,34 @@ do
     esac
 done
 
-DATASETS_DIR=${DATASETS_DIR}
-CHECKPOINTS_DIR=${CHECKPOINTS_DIR}
-CONFIG_DIR=${CONFIG_DIR}
 source ${CONFIG_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
 echo DATASETS_DIR : ${DATASETS_DIR}
+echo RUN_DIR : ${RUN_DIR}
 echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
+echo Model Input Name : ${MODEL_INPUT_NAME}
+echo Model Output Name : ${MODEL_OUTPUT_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
 
 step=0
 SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_sim.onnx
+
+# Simplify Model
+let step++
+echo;
+echo [STEP ${step}] : Simplify Model
+if [ -f ${SIM_MODEL} ];then
+    echo "  "Simplify Model, ${SIM_MODEL} has been existed
+else
+    python3 ${RUN_DIR}/simplify_model.py \
+    --origin_model $ORIGINE_MODEL    \
+    --output_model ${SIM_MODEL}
+    echo "  "Generate ${SIM_MODEL}
+fi
 
 # Quant Model
 if [ $PRECISION == "int8" ];then
@@ -71,7 +84,7 @@ if [ $PRECISION == "int8" ];then
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
-        python3 quant.py            \
+        python3 ${RUN_DIR}/quant.py            \
             --model ${SIM_MODEL}               \
             --model_name ${MODEL_NAME}         \
             --dataset_dir ${DATASETS_DIR}      \
@@ -87,7 +100,18 @@ if [ $PRECISION == "int8" ];then
     fi
 fi
 
-FINAL_MODEL=${SIM_MODEL}
+# Change Batchsize
+let step++
+echo;
+echo [STEP ${step}] : Change Batchsize
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
+if [ -f $FINAL_MODEL ];then
+    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
+else
+    python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
+        --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
+    echo "  "Generate ${FINAL_MODEL}
+fi
 
 # Build Engine
 let step++
@@ -97,19 +121,18 @@ ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
-    python3 build_i8_engine.py          \
-         --onnx ${FINAL_MODEL}                    \
-         --qparam_json ${CHECKPOINTS_DIR}/quant_cfg.json \
-         --engine ${ENGINE_FILE}
+    python3 ${RUN_DIR}/build_engine.py          \
+        --precision ${PRECISION}                \
+        --model ${FINAL_MODEL}                    \
+        --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}
 fi
-
 
 # Inference
 let step++
 echo;
 echo [STEP ${step}] : Inference
-python3 inference.py     \
+python3 ${RUN_DIR}/inference.py     \
     --engine_file=${ENGINE_FILE}    \
     --datasets_dir=${DATASETS_DIR}  \
     --imgsz=${IMGSIZE}              \

@@ -25,5 +25,6 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
-python3 export.py --weight /root/data/checkpoints/convnext_small-0c510722.pth --output convnext_small.onnx
+pip install -r ../../ixrt_common/requirements.txt
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name convnext_small --weight /root/data/checkpoints/convnext_small-0c510722.pth --output checkpoints/convnext_small.onnx

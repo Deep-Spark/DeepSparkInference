@@ -29,14 +29,15 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install timm==1.0.11
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-git clone -b v1.0.11 https://github.com/huggingface/pytorch-image-models.git
+git clone -b v1.0.11 --depth=1 https://github.com/huggingface/pytorch-image-models.git
 cp ./export_onnx.py pytorch-image-models/timm/models
 cp ./_builder.py pytorch-image-models/timm/models
 cd pytorch-image-models/timm
@@ -49,12 +50,11 @@ cd ../../
 ## Model Inference
 
 ```bash
-export PROJ_DIR=/Path/to/efficientnet_v2/ixrt
+export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=/Path/to/efficientnet_v2/ixrt
-export CONFIG_DIR=/Path/to/config/EFFICIENTNET_V2_CONFIG
-export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/EFFICIENTNET_V2_CONFIG
 ```
 
 ### FP16

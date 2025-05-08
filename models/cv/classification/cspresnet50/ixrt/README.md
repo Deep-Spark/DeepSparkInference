@@ -15,6 +15,8 @@ CSPResNet50 is the one of best models.
 
 ### Prepare Resources
 
+Pretrained model: <https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth>
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
@@ -26,7 +28,9 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+
+pip3 install mmcls==0.24.0 mmcv==1.5.3
 ```
 
 ### Model Conversion
@@ -36,19 +40,21 @@ mkdir checkpoints
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 python3 export_onnx.py   \
-    --config_file ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
-    --checkpoint_file  https://download.openmmlab.com/mmclassification/v0/cspnet/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
-    --output_model ./checkpoints/cspresnet50.onnx
+    --cfg ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
+    --weight cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
+    --output cspresnet50.onnx
+
+onnxsim cspresnet50.onnx checkpoints/cspresnet50.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export PROJ_DIR=./
-export DATASETS_DIR=/path/to/imagenet_val
+export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/CSPRESNET50_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/CSPRESNET50_CONFIG
 ```
 
 ### FP16

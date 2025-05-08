@@ -27,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
@@ -40,7 +41,7 @@ git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 ## cspdarknet50 is actually cspdarknet53
 wget -O cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth https://download.openmmlab.com/mmclassification/v0/cspnet/cspdarknet50_3rdparty_8xb32_in1k_20220329-bd275287.pth
 
-python3 export.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 
 # Use onnxsim optimize onnx model
 mkdir -p checkpoints
@@ -51,9 +52,11 @@ onnxsim cspdarknet5.onnx checkpoints/cspdarknet53_sim.onnx
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
-export CHECKPOINTS_DIR=/Path/to/checkpoints/
-export CONFIG_DIR=./config/CSPDARKNET53_CONFIG
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/config/CSPDARKNET53_CONFIG
 ```
 
 ### FP16

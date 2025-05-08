@@ -25,8 +25,8 @@ else
     echo "Not Support Os"
 fi
 
-pip install -r requirements.txt
+pip install -r ../../ixrt_common/requirements.txt
+pip install mmcv==1.5.3 mmcls==0.24.0
+unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir checkpoints
-mkdir -p /root/.cache/torch/hub/checkpoints/
-ln -s /root/data/checkpoints/hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth /root/.cache/torch/hub/checkpoints/hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth
-python3 export_onnx.py --output_model checkpoints/hrnet-w18.onnx
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output checkpoints/hrnet_w18.onnx

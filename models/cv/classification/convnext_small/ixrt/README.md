@@ -27,19 +27,24 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight convnext_small-0c510722.pth --output convnext_small.onnx
+mkdir checkpoints
+python3 ../../ixrt_common/export.py --model-name convnext_small --weight convnext_small-0c510722.pth --output checkpoints/convnext_small.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export PROJ_DIR=./
+export DATASETS_DIR=/path/to/imagenet_val/
+export CHECKPOINTS_DIR=./checkpoints
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/CONVNEXT_SMALL_CONFIG
 ```
 
 ### FP16

@@ -21,14 +21,20 @@ Download the [imagenet](https://www.image-net.org/download.php) to download the 
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --origin_model /path/to/mobilenet_v2-b0353104 --output_model checkpoints/mobilenet_v2.onnx
+python3 ../../ixrt_common/export.py --model-name mobilenet_v2 --weight mobilenet_v2-b0353104.pth --output checkpoints/mobilenet_v2.onnx
 ```
 
 ## Model Inference
@@ -37,7 +43,8 @@ python3 export_onnx.py --origin_model /path/to/mobilenet_v2-b0353104 --output_mo
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/MOBILENET_V2_CONFIG
 ```
 
 ### FP16

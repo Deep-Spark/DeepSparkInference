@@ -14,6 +14,8 @@ ResNet-101 is a variant of the ResNet (Residual Network) architecture, and it be
 
 ### Prepare Resources
 
+Pretrained model: <https://download.pytorch.org/models/resnet101-63fe2227.pth>
+
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
@@ -25,14 +27,14 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r reuirements.txt
+pip3 install -r ../../ixrt_common/reuirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --output_model checkpoints/resnet101.onnx
+python3 ../../ixrt_common/export.py --model-name resnet101 --weight resnet101-63fe2227.pth --output checkpoints/resnet101.onnx
 ```
 
 ## Model Inference
@@ -41,8 +43,8 @@ python3 export_onnx.py --output_model checkpoints/resnet101.onnx
 export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
-export CONFIG_DIR=config/RESNET101_CONFIG
+export RUN_DIR=../../ixrt_common/
+export CONFIG_DIR=../../ixrt_common/config/RESNET101_CONFIG
 ```
 
 ### FP16
