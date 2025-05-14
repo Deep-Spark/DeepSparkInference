@@ -21,19 +21,20 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight densenet121-a639ec97.pth --output densenet121.onnx
+python3 ../../igie_common/export.py --model-name densenet121 --weight densenet121-a639ec97.pth --output densenet121.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

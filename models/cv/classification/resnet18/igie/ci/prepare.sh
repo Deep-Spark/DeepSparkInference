@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight resnet18-f37072fd.pth --output resnet18.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name resnet18 --weight resnet18-f37072fd.pth --output resnet18.onnx

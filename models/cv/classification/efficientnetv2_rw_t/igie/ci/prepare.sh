@@ -16,5 +16,6 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight efficientnetv2_t_agc-3620981a.pth --output efficientnetv2_rw_t.onnx
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install timm
+python3 ../../igie_common/export_timm.py --model-name efficientnetv2_rw_t --weight efficientnetv2_t_agc-3620981a.pth --output efficientnetv2_rw_t.onnx

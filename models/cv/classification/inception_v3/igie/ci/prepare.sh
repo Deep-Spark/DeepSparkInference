@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output inception_v3.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name inception_v3 --weight inception_v3_google-0cc3c7bd.pth --output inception_v3.onnx

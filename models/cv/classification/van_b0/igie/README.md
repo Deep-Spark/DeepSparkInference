@@ -27,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
@@ -37,7 +38,7 @@ pip3 install -r requirements.txt
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight van-tiny_8xb128_in1k_20220501-385941af.pth --output van_b0.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight van-tiny_8xb128_in1k_20220501-385941af.pth --output van_b0.onnx
 
 ```
 
@@ -45,6 +46,7 @@ python3 export.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight va
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

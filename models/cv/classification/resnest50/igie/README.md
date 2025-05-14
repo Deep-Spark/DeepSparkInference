@@ -27,14 +27,15 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install git+https://github.com/zhanghang1989/ResNeSt
 ```
 
 ### Model Conversion
 
 ```bash
 # export onnx model
-python3 export.py --weight resnest50-528c19ca.pth --output resnest50.onnx
+python3 ../../igie_common/export.py --model-name resnest50 --weight resnest50-528c19ca.pth --output resnest50.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim resnest50.onnx resnest50_opt.onnx
@@ -45,6 +46,7 @@ onnxsim resnest50.onnx resnest50_opt.onnx
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

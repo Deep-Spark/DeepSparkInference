@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight resnext50_32x4d-7cdf4587.pth --output resnext50_32x4d.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name resnext50_32x4d --weight resnext50_32x4d-7cdf4587.pth --output resnext50_32x4d.onnx

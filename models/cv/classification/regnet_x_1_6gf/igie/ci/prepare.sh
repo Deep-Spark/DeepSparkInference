@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight regnet_x_1_6gf-a12f2b72.pth --output regnet_x_1_6gf.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name regnet_x_1_6gf --weight regnet_x_1_6gf-a12f2b72.pth --output regnet_x_1_6gf.onnx

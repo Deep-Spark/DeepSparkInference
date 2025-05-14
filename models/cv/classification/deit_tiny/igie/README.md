@@ -27,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
@@ -37,7 +38,7 @@ pip3 install -r requirements.txt
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output deit_tiny.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/deit/deit-tiny_pt-4xb256_in1k.py --weight deit-tiny_pt-4xb256_in1k_20220218-13b382a0.pth --output deit_tiny.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim deit_tiny.onnx deit_tiny_opt.onnx
@@ -47,6 +48,7 @@ onnxsim deit_tiny.onnx deit_tiny_opt.onnx
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

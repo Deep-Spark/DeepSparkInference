@@ -1,4 +1,0 @@
-onnx
-tqdm
-onnxsim
-git+https://github.com/zhanghang1989/ResNeSt

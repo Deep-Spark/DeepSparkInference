@@ -20,7 +20,7 @@ model_path="resnet50.onnx"
 datasets_path=${DATASETS_DIR}
 
 # build engine
-python3 build_engine.py                     \
+python3 ${RUN_DIR}build_engine.py                     \
     --model_path ${model_path}              \
     --input input:${batchsize},3,224,224    \
     --precision fp16                        \
@@ -28,7 +28,7 @@ python3 build_engine.py                     \
 
 
 # inference
-python3 inference.py                              \
+python3 ${RUN_DIR}inference.py                              \
     --engine resnet50_bs_${batchsize}_fp16.so     \
     --batchsize ${batchsize}                      \
     --input_name input                            \

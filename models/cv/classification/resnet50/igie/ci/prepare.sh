@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight resnet50-0676ba61.pth --output resnet50.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name resnet50 --weight resnet50-0676ba61.pth --output resnet50.onnx

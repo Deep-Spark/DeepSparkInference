@@ -21,19 +21,20 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight efficientnet_b2_rwightman-c35c1473.pth --output efficientnet_b2.onnx
+python3 ../../igie_common/export.py --model-name efficientnet_b2 --weight efficientnet_b2_rwightman-c35c1473.pth --output efficientnet_b2.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

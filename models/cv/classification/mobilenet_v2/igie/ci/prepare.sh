@@ -16,5 +16,6 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install onnxruntime-gpu==1.18.0
+python3 ../../igie_common/export.py --model-name mobilenet_v2 --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx

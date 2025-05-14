@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight efficientnet_v2_s-dd5fe13b.pth --output efficientnet_v2_s.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name efficientnet_v2_s --weight efficientnet_v2_s-dd5fe13b.pth --output efficientnet_v2_s.onnx

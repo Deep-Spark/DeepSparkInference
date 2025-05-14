@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight mobilenet_v3_large-8738ca79.pth --output mobilenetv3_large.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name mobilenet_v3_large --weight mobilenet_v3_large-8738ca79.pth --output mobilenetv3_large.onnx

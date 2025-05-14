@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight convnext_base-6075fbad.pth --output convnext_base.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name convnext_base --weight convnext_base-6075fbad.pth --output convnext_base.onnx

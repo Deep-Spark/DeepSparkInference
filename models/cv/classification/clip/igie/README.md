@@ -14,14 +14,14 @@ CLIP (Contrastive Language-Image Pre-Training) is a neural network trained on a 
 
 ### Prepare Resources
 
-Pretrained model: <https://huggingface.co/docs/transformers/model_doc/clip>
+Pretrained model: <https://huggingface.co/openai/clip-vit-base-patch32>
+
+Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ```bash
 git lfs install
 git clone https://huggingface.co/openai/clip-vit-base-patch32 clip-vit-base-patch32
 ```
-
-Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 

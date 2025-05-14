@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight wide_resnet50_2-95faca4d.pth --output wide_resnet50.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name wide_resnet50_2 --weight wide_resnet50_2-95faca4d.pth --output wide_resnet50.onnx

@@ -160,7 +160,8 @@ def run_clf_testcase(model):
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
+        export RUN_DIR=../../igie_common/
         cd ../{model['model_path']}
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
         bash scripts/infer_{model_name}_{prec}_performance.sh

@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight resnext101_64x4d-173b62eb.pth --output resnext101_64x4d.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name resnext101_64x4d --weight resnext101_64x4d-173b62eb.pth --output resnext101_64x4d.onnx

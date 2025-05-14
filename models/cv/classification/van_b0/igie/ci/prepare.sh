@@ -24,7 +24,8 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight van-tiny_8xb128_in1k_20220501-385941af.pth --output van_b0.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/van/van-b0_8xb128_in1k.py --weight van-tiny_8xb128_in1k_20220501-385941af.pth --output van_b0.onnx
