@@ -7,7 +7,7 @@ ResNet101 is a convolutional neural network architecture that belongs to the Res
 ## Supported Environments
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
-|--------|-----------|---------|
+| :----: | :----: | :----: |
 | MR-V100 | 4.2.0     |  25.03  |
 
 ## Model Preparation
