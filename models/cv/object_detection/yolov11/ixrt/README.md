@@ -1,4 +1,4 @@
-# YOLOv11 (IGIE)
+# YOLOv11 (IxRT)
 
 ## Model Description
 

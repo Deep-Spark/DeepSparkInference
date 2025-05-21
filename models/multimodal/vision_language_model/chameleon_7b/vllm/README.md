@@ -1,4 +1,4 @@
-# Chameleon
+# Chameleon (vLLM)
 
 ## Model Description
 

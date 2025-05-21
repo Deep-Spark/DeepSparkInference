@@ -1,4 +1,4 @@
-# Pixtral
+# Pixtral (vLLM)
 
 ## Model Description
 

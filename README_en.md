@@ -133,14 +133,14 @@ inference to be expanded in the future.
 | ResNetV1D50            | FP16  | [✅](models/cv/classification/resnetv1d50/igie)         | [✅](models/cv/classification/resnetv1d50/ixrt)            | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/resnetv1d50/ixrt)            | 4.2.0     |
 | ResNeXt50_32x4d        | FP16  | [✅](models/cv/classification/resnext50_32x4d/igie)     | [✅](models/cv/classification/resnext50_32x4d/ixrt)        | 4.2.0     |
-| ResNeXt101_64x4d       | FP16  | [✅](models/cv/classification/resnext101_64x4d/igie)    |                                                           | 4.2.0     |
-| ResNeXt101_32x8d       | FP16  | [✅](models/cv/classification/resnext101_32x8d/igie)    |                                                           | 4.2.0     |
+| ResNeXt101_64x4d       | FP16  | [✅](models/cv/classification/resnext101_64x4d/igie)    |  [✅](models/cv/classification/resnext101_64x4d/ixrt)                                                         | 4.2.0     |
+| ResNeXt101_32x8d       | FP16  | [✅](models/cv/classification/resnext101_32x8d/igie)    |  [✅](models/cv/classification/resnext101_32x8d/ixrt)                                                         | 4.2.0     |
 | SEResNet50             | FP16  | [✅](models/cv/classification/se_resnet50/igie)         |                                                           | 4.2.0     |
 | ShuffleNetV1           | FP16  |                                                        | [✅](models/cv/classification/shufflenet_v1/ixrt)          | 4.2.0     |
-| ShuffleNetV2_x0_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x0_5/igie)   |                                                           | 4.2.0     |
-| ShuffleNetV2_x1_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_0/igie)   |                                                           | 4.2.0     |
-| ShuffleNetV2_x1_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_5/igie)   |                                                           | 4.2.0     |
-| ShuffleNetV2_x2_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x2_0/igie)   |                                                           | 4.2.0     |
+| ShuffleNetV2_x0_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x0_5/igie)   | [✅](models/cv/classification/shufflenetv2_x0_5/ixrt)      | 4.2.0     |
+| ShuffleNetV2_x1_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_0/igie)   | [✅](models/cv/classification/shufflenetv2_x1_0/ixrt)      | 4.2.0     |
+| ShuffleNetV2_x1_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_5/igie)   | [✅](models/cv/classification/shufflenetv2_x1_5/ixrt)      | 4.2.0     |
+| ShuffleNetV2_x2_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x2_0/igie)   | [✅](models/cv/classification/shufflenetv2_x2_0/ixrt)      | 4.2.0     |
 | SqueezeNet 1.0         | FP16  | [✅](models/cv/classification/squeezenet_v1_0/igie)     | [✅](models/cv/classification/squeezenet_v1_0/ixrt)        | 4.2.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/squeezenet_v1_0/ixrt)        | 4.2.0     |
 | SqueezeNet 1.1         | FP16  | [✅](models/cv/classification/squeezenet_v1_1/igie)     | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.2.0     |
@@ -191,9 +191,9 @@ inference to be expanded in the future.
 |            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.2.0     |
 | YOLOv8     | FP16  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.2.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.2.0     |
-| YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     |                                                 | 4.2.0     |
-| YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    |                                                 | 4.2.0     |
-| YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    |                                                 | 4.2.0     |
+| YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     | [✅](models/cv/object_detection/yolov9/ixrt)     | 4.2.0     |
+| YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    | [✅](models/cv/object_detection/yolov10/ixrt)    | 4.2.0     |
+| YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    | [✅](models/cv/object_detection/yolov11/ixrt)    | 4.2.0     |
 | YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    |                                                 | 4.2.0     |
 | YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.2.0     |
@@ -246,13 +246,18 @@ inference to be expanded in the future.
 
 | Model               | vLLM                                                                  | IxFormer                                                   | IXUCA SDK |
 |---------------------|-----------------------------------------------------------------------|------------------------------------------------------------|-----------|
+| Aria                | [✅](models/multimodal/vision_language_model/aria/vllm)                |                                                            | 4.2.0     |
 | Chameleon-7B        | [✅](models/multimodal/vision_language_model/chameleon_7b/vllm)        |                                                            | 4.2.0     |
 | CLIP                |                                                                       | [✅](models/multimodal/vision_language_model/clip/ixformer) | 4.2.0     |
 | Fuyu-8B             | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm)             |                                                            | 4.2.0     |
+| H2OVL Mississippi   | [✅](models/multimodal/vision_language_model/h2vol/vllm)               |                                                            | 4.2.0     |
+| Idefics3            | [✅](models/multimodal/vision_language_model/idefics3/vllm)            |                                                            | 4.2.0     |
 | InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           |                                                            | 4.2.0     |
 | LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm)               |                                                            | 4.2.0     |
 | LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.2.0     |
-| MiniCPM V2          | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)         |                                                            | 4.2.0     |
+| Llama-3.2           | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)              |                                                            | 4.2.0     |
+| MiniCPM-V 2         | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           |                                                            | 4.2.0     |
+| Pixtral             | [✅](models/multimodal/vision_language_model/pixtral/vllm)             |                                                            | 4.2.0     |
 
 ### NLP
 
