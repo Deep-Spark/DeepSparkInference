@@ -22,21 +22,21 @@ datasets_path=${DATASETS_DIR}
 
 if [ ! -e $quantized_model_path ]; then
     # quantize model to int8
-    python3 quantize.py                       \
+    python3 ${RUN_DIR}quantize.py                       \
         --model_path ${model_path}            \
         --out_path ${quantized_model_path}    \
         --datasets ${datasets_path}
 fi
 
 # build engine
-python3 build_engine.py                      \
+python3 ${RUN_DIR}build_engine.py                      \
     --model_path ${quantized_model_path}     \
     --input input:${batchsize},3,224,224     \
     --precision int8                         \
     --engine_path resnet18_bs_${batchsize}_int8.so
 
 # inference
-python3 inference.py                              \
+python3 ${RUN_DIR}inference.py                              \
     --engine resnet18_bs_${batchsize}_int8.so     \
     --batchsize ${batchsize}                      \
     --input_name input                            \

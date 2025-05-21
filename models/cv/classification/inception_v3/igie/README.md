@@ -21,19 +21,20 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight inception_v3_google-0cc3c7bd.pth --output inception_v3.onnx
+python3 ../../igie_common/export.py --model-name inception_v3 --weight inception_v3_google-0cc3c7bd.pth --output inception_v3.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

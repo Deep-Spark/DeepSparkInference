@@ -24,7 +24,8 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-pip install -r requirements.txt
+pip install -r ../../igie_common/requirements.txt
+pip3 install git+https://github.com/zhanghang1989/ResNeSt
 # export onnx model
-python3 export.py --weight resnest50-528c19ca.pth --output resnest50.onnx
+python3 ../../igie_common/export.py --model-name resnest50 --weight resnest50-528c19ca.pth --output resnest50.onnx
 onnxsim resnest50.onnx resnest50_opt.onnx

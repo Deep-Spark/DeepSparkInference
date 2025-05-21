@@ -21,19 +21,21 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install onnxruntime-gpu==1.18.0
 ```
 
 ### Model Conversion
 
 ```bash
-python3 export.py --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx
+python3 ../../igie_common/export.py --model-name mobilenet_v2 --weight mobilenet_v2-7ebf99e0.pth --output mobilenet_v2.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

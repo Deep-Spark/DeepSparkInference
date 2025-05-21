@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight efficientnet_b0_rwightman-7f5810bc.pth --output efficientnet_b0.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name efficientnet_b0 --weight efficientnet_b0_rwightman-7f5810bc.pth --output efficientnet_b0.onnx

@@ -24,6 +24,7 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
-python3 export.py --cfg mmpretrain/configs/seresnet/seresnet50_8xb32_in1k.py --weight se-resnet50_batch256_imagenet_20200804-ae206104.pth --output seresnet50.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/seresnet/seresnet50_8xb32_in1k.py --weight se-resnet50_batch256_imagenet_20200804-ae206104.pth --output seresnet50.onnx

@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight squeezenet1_1-b8a52dc0.pth --output squeezenet1_1.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name squeezenet1_1 --weight squeezenet1_1-b8a52dc0.pth --output squeezenet1_1.onnx

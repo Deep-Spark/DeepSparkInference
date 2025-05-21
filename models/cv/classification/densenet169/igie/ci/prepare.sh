@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight densenet169-b2777c0a.pth --output densenet169.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name densenet169 --weight densenet169-b2777c0a.pth --output densenet169.onnx

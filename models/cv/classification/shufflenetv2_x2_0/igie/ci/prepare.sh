@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight shufflenetv2_x2_0-8be3c8ee.pth --output shufflenetv2_x2_0.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name shufflenet_v2_x2_0 --weight shufflenetv2_x2_0-8be3c8ee.pth --output shufflenetv2_x2_0.onnx

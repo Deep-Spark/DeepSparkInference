@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight convnext_small-0c510722.pth --output convnext_small.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name convnext_small --weight convnext_small-0c510722.pth --output convnext_small.onnx

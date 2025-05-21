@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight googlenet-1378be20.pth --output googlenet.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name googlenet --weight googlenet-1378be20.pth --output googlenet.onnx

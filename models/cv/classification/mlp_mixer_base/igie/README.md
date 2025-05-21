@@ -27,7 +27,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
@@ -37,7 +38,7 @@ pip3 install -r requirements.txt
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/mlp_mixer/mlp-mixer-base-p16_64xb64_in1k.py --weight mixer-base-p16_3rdparty_64xb64_in1k_20211124-1377e3e0.pth --output mlp_mixer_base.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/mlp_mixer/mlp-mixer-base-p16_64xb64_in1k.py --weight mixer-base-p16_3rdparty_64xb64_in1k_20211124-1377e3e0.pth --output mlp_mixer_base.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim mlp_mixer_base.onnx mlp_mixer_base_opt.onnx
@@ -48,6 +49,7 @@ onnxsim mlp_mixer_base.onnx mlp_mixer_base_opt.onnx
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

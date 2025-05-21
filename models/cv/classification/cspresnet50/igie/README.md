@@ -29,7 +29,8 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../igie_common/requirements.txt
+pip3 install mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion
@@ -39,7 +40,7 @@ pip3 install -r requirements.txt
 git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 # export onnx model
-python3 export.py --cfg mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py --weight cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth --output cspresnet50.onnx
+python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py --weight cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth --output cspresnet50.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim cspresnet50.onnx cspresnet50_opt.onnx
@@ -50,6 +51,7 @@ onnxsim cspresnet50.onnx cspresnet50_opt.onnx
 
 ```bash
 export DATASETS_DIR=/Path/to/imagenet_val/
+export RUN_DIR=../../igie_common/
 ```
 
 ### FP16

@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight vgg11-8a719046.pth --output vgg11.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name vgg11 --weight vgg11-8a719046.pth --output vgg11.onnx

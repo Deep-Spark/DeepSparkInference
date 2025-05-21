@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight mnasnet0_75-7090bc5f.pth --output mnasnet0_75.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name mnasnet0_75 --weight mnasnet0_75-7090bc5f.pth --output mnasnet0_75.onnx
