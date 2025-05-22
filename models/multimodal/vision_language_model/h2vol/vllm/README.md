@@ -1,8 +1,12 @@
-# H2ovl
+# H2OVL Mississippi (vLLM)
 
 ## Model Description
 
-The H2OVL-Mississippi-800M is a compact yet powerful vision-language model from H2O.ai, featuring 0.8 billion parameters. Despite its small size, it delivers state-of-the-art performance in text recognition, excelling in the Text Recognition segment of OCRBench and outperforming much larger models in this domain. Built upon the robust architecture of our H2O-Danube language models, the Mississippi-800M extends their capabilities by seamlessly integrating vision and language tasks.
+The H2OVL-Mississippi-800M is a compact yet powerful vision-language model from H2O.ai, featuring 0.8 billion
+parameters. Despite its small size, it delivers state-of-the-art performance in text recognition, excelling in the Text
+Recognition segment of OCRBench and outperforming much larger models in this domain. Built upon the robust architecture
+of our H2O-Danube language models, the Mississippi-800M extends their capabilities by seamlessly integrating vision and
+language tasks.
 
 ## Supported Environments
 

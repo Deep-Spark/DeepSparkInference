@@ -1,8 +1,11 @@
-# Idefics3
+# Idefics3 (vLLM)
 
 ## Model Description
 
-Idefics3 is an open multimodal model that accepts arbitrary sequences of image and text inputs and produces text outputs. The model can answer questions about images, describe visual content, create stories grounded on multiple images, or simply behave as a pure language model without visual inputs. It improves upon Idefics1 and Idefics2, significantly enhancing capabilities around OCR, document understanding and visual reasoning.
+Idefics3 is an open multimodal model that accepts arbitrary sequences of image and text inputs and produces text
+outputs. The model can answer questions about images, describe visual content, create stories grounded on multiple
+images, or simply behave as a pure language model without visual inputs. It improves upon Idefics1 and Idefics2,
+significantly enhancing capabilities around OCR, document understanding and visual reasoning.
 
 ## Supported Environments
 

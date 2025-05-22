@@ -1,8 +1,11 @@
-# ResNext101_64x4d (IGIE)
+# ResNext101_64x4d (IxRT)
 
 ## Model Description
 
-The ResNeXt101_64x4d is a deep learning model based on the deep residual network architecture, which enhances performance and efficiency through the use of grouped convolutions. With a depth of 101 layers and 64 filter groups, it is particularly suited for complex image recognition tasks. While maintaining excellent accuracy, it can adapt to various input sizes
+The ResNeXt101_64x4d is a deep learning model based on the deep residual network architecture, which enhances
+performance and efficiency through the use of grouped convolutions. With a depth of 101 layers and 64 filter groups, it
+is particularly suited for complex image recognition tasks. While maintaining excellent accuracy, it can adapt to
+various input sizes
 
 ## Supported Environments
 

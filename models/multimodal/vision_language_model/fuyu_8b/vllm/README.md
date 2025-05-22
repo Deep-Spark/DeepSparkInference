@@ -1,10 +1,12 @@
-# Fuyu-8B
+# Fuyu-8B (vLLM)
 
 ## Model Description
 
 Fuyu-8B is a multi-modal text and image transformer trained by Adept AI.
 
-Architecturally, Fuyu is a vanilla decoder-only transformer - there is no image encoder. Image patches are instead linearly projected into the first layer of the transformer, bypassing the embedding lookup. We simply treat the transformer decoder like an image transformer (albeit with no pooling and causal attention).
+Architecturally, Fuyu is a vanilla decoder-only transformer - there is no image encoder. Image patches are instead
+linearly projected into the first layer of the transformer, bypassing the embedding lookup. We simply treat the
+transformer decoder like an image transformer (albeit with no pooling and causal attention).
 
 ## Supported Environments
 
