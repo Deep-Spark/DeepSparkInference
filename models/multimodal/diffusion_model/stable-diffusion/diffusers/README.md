@@ -14,7 +14,7 @@ Stable Diffusion is a latent text-to-image diffusion model capable of generating
 
 ### Prepare Resources
 
-Download the runwayml/stable-diffusion-v1-5 from [huggingface page](https://huggingface.co/runwayml/stable-diffusion-v1-5).
+Download the runwayml/stable-diffusion-v1-5 from [huggingface page](https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5).
 
 ```bash
 cd stable-diffusion
