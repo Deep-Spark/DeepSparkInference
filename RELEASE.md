@@ -1,5 +1,89 @@
 # DeepSparkInference Release Notes
 
+## 25.06 Release Notes
+
+### 模型与算法
+
+* 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
+* 新增了6个大模型推理示例，其中支持IxRT推理引擎的6个。
+
+<table>
+  <tr colspan=4>
+  <th colspan=3>IGIE</th>
+  </tr>
+  <tr>
+    <td>ConvNext_Tiny</td>
+    <td>CSPResNeXt50</td>
+    <td>EfficientNet_b5</td>
+  </tr>
+  <tr>
+    <td>MNASNet1_0</td>
+    <td>Twins_PCPVT</td>
+    <td>Regnet_x_3_2gf</td>
+  </tr>
+  <tr>
+    <td>Regnet_y_16gf</td>
+    <td>SqueezeNet1_1</td>
+    <td>VAN_B0</td>
+  </tr>
+  <tr>
+    <td>VGG19</td>
+    <td>VGG19_BN</td>
+    <td>ViT</td>
+  </tr>
+  <tr>
+    <td>GFL</td>
+    <td>YOLOv12</td>
+    <td>UNet</td>
+  </tr>
+    <th colspan=4>IxRT</th>
+  </tr>
+  <tr>
+    <td>YOLOv9</td>
+    <td>YOLOv10y</td>
+    <td>YOLOv11</td>
+  </tr>
+  <tr>
+    <td>ShuffleNetV2_x0_5</td>
+    <td>ShuffleNetV2_x1_0</td>
+    <td>ShuffleNetV2_x1_5</td>
+  </tr>
+  <tr>
+    <td>ShuffleNetV2_x2_0</td>
+    <td>ResNeXt101_64x4d</td>
+    <td>ResNeXt101_32x8d</td>
+  </tr>
+    <th colspan=4>大模型</th>
+  </tr>
+  <tr>
+    <td>AriaForConditionalGeneration</td>
+    <td>PixtralForConditionalGeneration</td>
+    <td>Idefics3ForConditionalGeneration</td>
+  </tr>
+  <tr>
+    <td>H2OVLChatModel</td>
+    <td>MiniCPM-V2</td>
+    <td>Llama-3.2</td>
+  </tr>
+</table>
+
+### 问题修复
+
+* 新增了中英文README说明。
+* 新增了全局模型配置文件。
+* 优化了IxRT执行CV/Classification模型的公共代码。
+* 优化了IGIE执行CV/Classification模型的公共代码。
+* 优化了各模型的README表格居中对齐
+* 更新了stable-diffusion-v1-5模型在huggingface上的链接
+
+### 版本关联
+
+DeepSparkInference 25.06对应天数软件栈4.2.0版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，majorli6，honglyua，qiang.zhang。
+
 ## 25.03 Release Notes
 
 ### 模型与算法
