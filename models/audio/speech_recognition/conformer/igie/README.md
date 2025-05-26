@@ -72,5 +72,5 @@ bash scripts/infer_conformer_fp16_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS      | ACC   |
-|-----------|-----------|-----------|----------|-------|
+| :----: | :----: | :----: | :----: | :----: |
 | Conformer | 32        | FP16      | 1940.759 | 95.29 |

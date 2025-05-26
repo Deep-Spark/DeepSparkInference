@@ -81,5 +81,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task videobert-onnx-fp32
 ## Model Results
 
 | Model     | BatchSize | Precision | QPS   | Top-1 ACC |
-|-----------|-----------|-----------|-------|-----------|
+| :----: | :----: | :----: | :----: | :----: |
 | VideoBERT | 4         | FP16      | 37.68 | 61.67     |

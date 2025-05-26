@@ -51,5 +51,5 @@ bash scripts/infer_vit_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 |  ViT  | 32        | FP16      | 432.257 |  81.4    | 95.977   |

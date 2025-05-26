@@ -51,7 +51,7 @@ vllm serve data/DeepSeek-R1-Distill-Qwen-32B --tensor-parallel-size 4 --max-mode
 ## Model Results
 
 | Model                        | QPS   |
-|------------------------------|-------|
+| :----: | :----: |
 | DeepSeek-R1-Distill-Qwen-32B | 68.30 |
 
 ## References

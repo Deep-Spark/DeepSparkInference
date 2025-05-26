@@ -51,7 +51,7 @@ bash scripts/infer_repnet_fp16_performance.sh
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS      | Acc(%) |
-|--------|-----------|-----------|----------|--------|
+| :----: | :----: | :----: | :----: | :----: |
 | RepNet | 32        | FP16      | 1373.579 | 99.88  |
 
 ## References

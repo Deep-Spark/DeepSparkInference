@@ -63,5 +63,5 @@ python3 offline_inference.py --model2path ./data/qwen1.5/Qwen1.5-7B
 ## Model Results
 
 | Model      | QPS   |
-|------------|-------|
+| :----: | :----: |
 | Qwen1.5-7B | 39.11 |

@@ -65,7 +65,7 @@ bash scripts/infer_lightweight_openpose_fp16_performance.sh
 ## Model Results
 
 | Model                | BatchSize | Precision | FPS       | IOU@0.5 | IOU@0.5:0.95 |
-|----------------------|-----------|-----------|-----------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Lightweight OpenPose | 1         | FP16      | 21030.833 | 0.660   | 0.401        |
 
 ## References

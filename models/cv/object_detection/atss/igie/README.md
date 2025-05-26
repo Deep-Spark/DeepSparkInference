@@ -62,7 +62,7 @@ bash scripts/infer_atss_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | ATSS  | 32        | FP16      | 81.671 | 0.541   | 0.367        |
 
 ## References

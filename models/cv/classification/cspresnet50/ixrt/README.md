@@ -78,6 +78,6 @@ bash scripts/infer_cspresnet50_int8_performance.sh
 ## Model Results
 
 | Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | CSPResNet50 | 32        | FP16      | 4555.95 | 78.51    | 94.17    |
 | CSPResNet50 | 32        | INT8      | 8801.94 | 78.15    | 93.95    |

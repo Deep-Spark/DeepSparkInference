@@ -68,6 +68,6 @@ bash scripts/infer_googlenet_int8_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | GoogLeNet | 32        | FP16      | 6470.34 | 62.456   | 84.33    |
 | GoogLeNet | 32        | INT8      | 9358.11 | 62.106   | 84.30    |

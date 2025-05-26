@@ -67,7 +67,7 @@ bash scripts/infer_svtr_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS     | Acc    |
-|-------|-----------|-----------|---------|--------|
+| :----: | :----: | :----: | :----: | :----: |
 | SVTR  | 32        | FP16      | 4936.47 | 88.29% |
 
 ## References

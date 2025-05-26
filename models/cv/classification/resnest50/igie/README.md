@@ -61,7 +61,7 @@ bash scripts/infer_resnest50_fp16_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | ResNeSt50 | 32        | FP16      | 344.453 | 80.93    | 95.347   |
 
 ## References

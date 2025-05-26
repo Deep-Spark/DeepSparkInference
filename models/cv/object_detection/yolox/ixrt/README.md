@@ -82,7 +82,7 @@ bash scripts/infer_yolox_int8_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | MAP@0.5 |
-|-------|-----------|-----------|--------|---------|
+| :----: | :----: | :----: | :----: | :----: |
 | YOLOX | 32        | FP16      | 424.53 | 0.656   |
 | YOLOX | 32        | INT8      | 832.16 | 0.647   |
 

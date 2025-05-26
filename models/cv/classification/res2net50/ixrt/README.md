@@ -68,6 +68,6 @@ bash scripts/infer_res2net50_int8_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Res2Net50 | 32        | FP16      | 921.37  | 77.92    | 93.71    |
 | Res2Net50 | 32        | INT8      | 1933.74 | 77.80    | 93.62    |

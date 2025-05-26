@@ -46,5 +46,5 @@ python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-72B --max-tokens 256
 ## Model Results
 
 | Model       | QPS   |
-|-------------|-------|
+| :----: | :----: |
 | Qwen1.5-72B | 41.24 |

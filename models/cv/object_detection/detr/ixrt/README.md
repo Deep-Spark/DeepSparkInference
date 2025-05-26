@@ -61,5 +61,5 @@ bash scripts/infer_detr_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS   | MAP@0.5 | MAP@0.5:0.95 |
-|-------|-----------|-----------|-------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | DETR  | 1         | FP16      | 65.84 | 0.370   | 0.198        |

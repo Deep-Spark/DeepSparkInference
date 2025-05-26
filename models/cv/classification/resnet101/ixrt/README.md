@@ -68,6 +68,6 @@ bash scripts/infer_resnet101_int8_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Resnet101 | 32        | FP16      | 2592.04 | 77.36    | 93.56    |
 | Resnet101 | 32        | INT8      | 5760.69 | 76.88    | 93.43    |

@@ -60,6 +60,6 @@ bash scripts/infer_deepsort_int8_performance.sh
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS      | Acc(%) |
-|----------|-----------|-----------|----------|--------|
+| :----: | :----: | :----: | :----: | :----: |
 | DeepSort | 32        | FP16      | 17164.67 | 99.32  |
 | DeepSort | 32        | INT8      | 20399.12 | 99.29  |

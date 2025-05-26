@@ -51,7 +51,7 @@ vllm serve data/DeepSeek-R1-Distill-Llama-8B --tensor-parallel-size 2 --max-mode
 ## Model Results
 
 | Model                        | QPS    |
-|------------------------------|--------|
+| :----: | :----: |
 | DeepSeek-R1-Distill-Llama-8B | 105.33 |
 
 ## References

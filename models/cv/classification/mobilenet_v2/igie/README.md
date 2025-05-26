@@ -59,6 +59,6 @@ bash scripts/infer_mobilenet_v2_int8_performance.sh
 ## Model Results
 
 | Model       | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-|-------------|-----------|-----------|----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | MobileNetV2 | 32        | FP16      | 6910.65  | 71.96    | 90.60    |
 | MobileNetV2 | 32        | INT8      | 8155.362 | 71.48    | 90.47    |

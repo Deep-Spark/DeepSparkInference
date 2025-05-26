@@ -91,5 +91,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task widedeep-tf-fp32
 ## Model Results
 
 | Model       | BatchSize | Precision | FPS      | ACC     |
-|-------------|-----------|-----------|----------|---------|
+| :----: | :----: | :----: | :----: | :----: |
 | Wide & Deep | 1024      | FP16      | 77073.93 | 0.74597 |

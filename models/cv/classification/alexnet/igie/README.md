@@ -62,6 +62,6 @@ bash scripts/infer_alexnet_int8_performance.sh
 ## Model Results
 
 | Model   | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-|---------|-----------|-----------|----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | AlexNet | 32        | FP16      | 20456.16 | 56.53    | 79.05    |
 | AlexNet | 32        | INT8      | 22465.46 | 55.96    | 78.83    |

@@ -62,7 +62,7 @@ bash scripts/infer_fsaf_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | FSAF  | 32        | FP16      | 122.35 | 0.530   | 0.345        |
 
 ## References

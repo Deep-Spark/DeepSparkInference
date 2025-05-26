@@ -62,7 +62,7 @@ bash scripts/infer_yolov6_fp16_performance.sh
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
-|--------|-----------|-----------|---------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | YOLOv6 | 32        | FP16      | 994.902 | 0.617   | 0.448        |
 
 ## References

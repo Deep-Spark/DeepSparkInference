@@ -56,5 +56,5 @@ bash scripts/infer_clip_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
-|-------|-----------|-----------|--------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | CLIP  | 32        | FP16      | 496.91 | 59.68    | 86.16    |

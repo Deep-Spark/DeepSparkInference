@@ -105,5 +105,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task deberta-torch-fp32
 ## Model Results
 
 | Model   | BatchSize | Precision | QPS   | Exact Match | F1 Score |
-|---------|-----------|-----------|-------|-------------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | DeBERTa | 1         | FP16      | 18.58 | 73.76       | 81.24    |

@@ -49,5 +49,5 @@ bash scripts/infer_vgg19_bn_fp16_performance.sh
 ## Model Results
 
 |   Model  | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|----------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | VGG19_BN | 32        | FP16      | 1654.42 | 74.216   | 91.809   |

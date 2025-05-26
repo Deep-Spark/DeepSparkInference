@@ -87,5 +87,5 @@ python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data
 ## Model Results
 
 | Model           | BatchSize | Precision | QPS   | CER  |
-|-----------------|-----------|-----------|-------|------|
+| :----: | :----: | :----: | :----: | :----: |
 | Transformer ASR | 32        | FP16      | 15.64 | 5.95 |

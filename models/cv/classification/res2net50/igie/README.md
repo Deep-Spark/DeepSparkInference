@@ -64,7 +64,7 @@ bash scripts/infer_res2net50_fp16_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-|-----------|-----------|-----------|----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Res2Net50 | 32        | FP16      | 1641.961 | 78.139   | 93.826   |
 
 ## References

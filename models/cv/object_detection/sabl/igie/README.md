@@ -62,7 +62,7 @@ bash scripts/infer_sabl_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | SABL  | 32        | FP16      | 189.42 | 0.530   | 0.356        |
 
 ## References

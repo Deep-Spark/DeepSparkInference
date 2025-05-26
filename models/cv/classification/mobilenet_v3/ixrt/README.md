@@ -59,5 +59,5 @@ bash scripts/infer_mobilenet_v3_fp16_performance.sh
 ## Model Results
 
 | Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | MobileNetV3 | 32        | FP16      | 8464.36 | 67.62    | 87.42    |

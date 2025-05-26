@@ -70,6 +70,6 @@ bash scripts/infer_inception_resnet_v2_int8_performance.sh
 ## Model Results
 
 | Model               | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|---------------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Inception-ResNet-V2 | 64        | FP16      | 871.74  | 80.20    | 95.18    |
 | Inception-ResNet-V2 | 64        | INT8      | 1059.35 | 79.73    | 95.04    |

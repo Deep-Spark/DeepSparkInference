@@ -59,7 +59,7 @@ bash scripts/infer_unet_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    |  mIoU   |
-|-------|-----------|-----------|--------|---------|
+| :----: | :----: | :----: | :----: | :----: |
 | UNet  | 16        | FP16      | 66.265 |  69.48  |
 
 ## References

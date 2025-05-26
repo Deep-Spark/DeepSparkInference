@@ -50,5 +50,5 @@ bash scripts/infer_regnet_x_16gf_fp16_performance.sh
 ## Model Results
 
 | Model         | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|---------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | RegNet_x_16gf | 32        | FP16      | 970.928 | 80.028   | 94.922   |

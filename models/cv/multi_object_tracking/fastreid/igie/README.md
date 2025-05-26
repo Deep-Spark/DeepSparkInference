@@ -55,5 +55,5 @@ bash scripts/infer_fastreid_fp16_performance.sh
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | Rank-1(%) | Rank-5(%) | mAP   |
-|----------|-----------|-----------|---------|-----------|-----------|-------|
+| :----: | :----: | :----: | :----: | :----: | :----: | :----: |
 | FastReid | 32        | FP16      | 1850.78 | 88.39     | 98.45     | 92.79 |

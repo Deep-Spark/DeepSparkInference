@@ -66,6 +66,6 @@ bash scripts/infer_yolov3_int8_performance.sh
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS    | MAP@0.5 | MAP@0.5:0.95 |
-|--------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | YOLOv3 | 32        | FP16      | 312.47 | 0.658   | 0.467        |
 | YOLOv3 | 32        | INT8      | 711.72 | 0.639   | 0.427        |

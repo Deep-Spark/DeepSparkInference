@@ -63,7 +63,7 @@ bash scripts/infer_mask_rcnn_fp16_accuracy.sh
 ## Model Results
 
 | Model      | BatchSize | Precision | FPS   | ACC                                            |
-|------------|-----------|-----------|-------|------------------------------------------------|
+| :----: | :----: | :----: | :----: | :----: |
 | Mask R-CNN | 1         | FP16      | 12.15 | bbox mAP@0.5 :  0.5512, segm mAP@0.5 :  0.5189 |
 
 ## Refereneces

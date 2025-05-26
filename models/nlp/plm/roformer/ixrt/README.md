@@ -119,5 +119,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task roformer-tf-fp32
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | ACC     |
-|----------|-----------|-----------|---------|---------|
+| :----: | :----: | :----: | :----: | :----: |
 | RoFormer | 2         | FP16      | 195.186 | 0.33789 |

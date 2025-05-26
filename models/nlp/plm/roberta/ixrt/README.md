@@ -114,5 +114,5 @@ python3 core/perf_engine.py --hardware_type ILUVATAR --task roberta-torch-fp32
 ## Model Results
 
 | Model   | BatchSize | Precision | FPS    | F1       | Exact Match |
-|---------|-----------|-----------|--------|----------|-------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | RoBERTa | 1         | FP16      | 355.48 | 83.14387 | 76.50175    |

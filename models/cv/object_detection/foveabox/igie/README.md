@@ -58,7 +58,7 @@ bash scripts/infer_foveabox_fp16_performance.sh
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-|----------|-----------|-----------|---------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | FoveaBox | 32        | FP16      | 192.496 | 0.531   | 0.346        |
 
 ## References

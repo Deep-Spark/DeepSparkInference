@@ -66,5 +66,5 @@ bash scripts/infer_shufflenet_v1_fp16_performance.sh
 ## Model Results
 
 | Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|--------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | ShuffleNetV1 | 32        | FP16      | 3619.89 | 66.17    | 86.54    |

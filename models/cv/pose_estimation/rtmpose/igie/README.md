@@ -62,7 +62,7 @@ bash scripts/infer_rtmpose_fp16_performance.sh
 ## Model Results
 
 | Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-|---------|-----------|-----------|---------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | RTMPose | 32        | FP16      | 2313.33 | 0.936   | 0.773        |
 
 ## References

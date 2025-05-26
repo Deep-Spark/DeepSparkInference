@@ -46,5 +46,5 @@ python3 offline_inference.py --model ./data/stablelm/stablelm-2-1_6b --max-token
 ## Model Results
 
 | Model    | QPS   |
-|----------|-------|
+| :----: | :----: |
 | StableLM | 254.3 |

@@ -62,7 +62,7 @@ bash scripts/infer_hrnetpose_fp16_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Input Shape | Precision | FPS     | mAP@0.5(%) |
-|-----------|-----------|-------------|-----------|---------|------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | HRNetPose | 32        | 252x196     | FP16      | 1831.20 | 0.926      |
 
 ## References

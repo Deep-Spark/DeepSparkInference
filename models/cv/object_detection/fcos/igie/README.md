@@ -62,7 +62,7 @@ bash scripts/infer_fcos_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS   | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|-------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | FCOS  | 32        | FP16      | 83.09 | 0.522   | 0.339        |
 
 ## References

@@ -62,7 +62,7 @@ bash scripts/infer_rtmdet_fp16_performance.sh
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-|--------|-----------|-----------|---------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | RTMDet | 32        | FP16      | 2627.15 | 0.619   | 0.403        |
 
 ## References

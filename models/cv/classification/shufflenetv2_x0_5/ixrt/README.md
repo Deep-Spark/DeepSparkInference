@@ -61,5 +61,5 @@ bash scripts/infer_shufflenetv2_x0_5_fp16_performance.sh
 ## Model Results
 
 | Model             | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-|-------------------|-----------|-----------|----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | ShuffleNetV2 x0_5 | 32        | FP16      | 10680.65 | 60.53    | 81.74    |

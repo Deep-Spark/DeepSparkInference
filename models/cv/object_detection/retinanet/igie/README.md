@@ -58,7 +58,7 @@ bash scripts/infer_retinanet_fp16_performance.sh
 ## Model Results
 
 | Model     | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-----------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | RetinaNet | 32        | FP16      | 160.52 | 0.515   | 0.335        |
 
 ## References

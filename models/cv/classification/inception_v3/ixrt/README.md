@@ -69,6 +69,6 @@ bash scripts/infer_inception_v3_int8_performance.sh
 ## Model Results
 
 | Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|--------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Inception_v3 | 32        | FP16      | 3515.29 | 70.64    | 89.33    |
 | Inception_v3 | 32        | INT8      | 4916.32 | 70.45    | 89.28    |

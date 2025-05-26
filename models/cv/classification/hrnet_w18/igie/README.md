@@ -62,9 +62,9 @@ bash scripts/infer_hrnet_w18_fp16_performance.sh
 
 ## Model Results
 
-Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
-----------|-----------|----------|----------|----------|--------
-HRNet_w18 |    32     |   FP16   | 954.18   |  76.74   | 93.42
+|Model     |BatchSize  |Precision |FPS       |Top-1(%)  |Top-5(%)
+| :----:| :----: | :----: | :----: | :----: | :----: |
+| HRNet_w18 |    32     |   FP16   | 954.18   |  76.74   | 93.42 
 
 ## References
 

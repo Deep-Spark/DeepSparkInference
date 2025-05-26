@@ -78,6 +78,6 @@ bash scripts/infer_efficientnet_v2_int8_performance.sh
 ## Model Results
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|----------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | EfficientnetV2 | 32        | FP16      | 1882.87 | 82.14    | 96.16    |
 | EfficientnetV2 | 32        | INT8      | 2595.96 | 81.50    | 95.96    |

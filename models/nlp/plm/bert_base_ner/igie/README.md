@@ -53,5 +53,5 @@ bash scripts/infer_bert_base_ner_int8_performance.sh
 ## Model Results
 
 | Model         | BatchSize | SeqLength | Precision | FPS      | F1 Score |
-|---------------|-----------|-----------|-----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | BERT Base NER | 8         | 256       | INT8      | 2067.252 | 96.2     |

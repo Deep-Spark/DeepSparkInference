@@ -58,7 +58,7 @@ bash scripts/infer_gfl_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | GFL   | 32        | FP16      | 139.78 | 0.552   | 0.378        |
 
 ## References

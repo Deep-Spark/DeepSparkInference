@@ -58,6 +58,6 @@ bash scripts/infer_wide_resnet50_int8_performance.sh
 ## Model Results
 
 | Model         | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
-|---------------|-----------|-----------|----------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Wide ResNet50 | 32        | FP16      | 2312.383 | 78.459   | 94.052   |
 | Wide ResNet50 | 32        | INT8      | 5195.654 | 77.957   | 93.798   |

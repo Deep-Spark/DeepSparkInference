@@ -64,5 +64,5 @@ python3 server_inference.py --host 127.0.0.1 --port 12345 --model_path /data/cha
 ## Model Results
 
 | Model           | Precision | tokens | QPS    |
-|-----------------|-----------|--------|--------|
+| :----: | :----: | :----: | :----: |
 | ChatGLM3-6B-32K | FP16      | 745    | 110.85 |

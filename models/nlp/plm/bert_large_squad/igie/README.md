@@ -75,6 +75,6 @@ bash scripts/infer_bert_large_squad_int8_performance.sh
 ## Model Results
 
 | Model            | BatchSize | SeqLength | Precision | FPS     | F1 Score |
-|------------------|-----------|-----------|-----------|---------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | BERT Large SQuAD | 8         | 256       | FP16      | 302.273 | 91.102   |
 | BERT Large SQuAD | 8         | 256       | INT8      | 723.169 | 89.899   |

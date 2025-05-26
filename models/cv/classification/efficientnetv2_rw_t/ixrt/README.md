@@ -60,5 +60,5 @@ bash scripts/infer_efficientnetv2_rw_t_fp16_performance.sh
 ## Model Results
 
 | Model               | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|---------------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Efficientnetv2_rw_t | 32        | FP16      | 1525.22 | 82.336   | 96.194   |

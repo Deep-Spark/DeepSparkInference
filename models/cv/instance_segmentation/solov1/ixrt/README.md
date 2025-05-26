@@ -71,5 +71,5 @@ bash scripts/infer_solov1_fp16_performance.sh
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS   | MAP@0.5 | MAP@0.5:0.95 |
-|--------|-----------|-----------|-------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | SOLOv1 | 1         | FP16      | 24.67 | 0.541   | 0.338        |

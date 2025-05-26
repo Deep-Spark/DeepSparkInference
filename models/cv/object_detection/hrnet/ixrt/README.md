@@ -58,7 +58,7 @@ bash scripts/infer_hrnet_fp16_performance.sh
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-|-------|-----------|-----------|--------|---------|--------------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | HRNet | 32        | FP16      | 75.199 | 0.491   | 0.327        |
 
 ## References

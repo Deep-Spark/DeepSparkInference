@@ -56,5 +56,5 @@ bash scripts/infer_swin_transformer_fp16_performance.sh
 ## Model Results
 
 | Model            | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|------------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Swin Transformer | 32        | FP16      | 1104.52 | 80.578   | 95.2     |

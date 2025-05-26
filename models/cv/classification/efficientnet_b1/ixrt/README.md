@@ -68,6 +68,6 @@ bash scripts/infer_efficientnet_b1_int8_performance.sh
 ## Model Results
 
 | Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | EfficientNet_B1 | 32        | FP16      | 1517.84 | 77.60    | 93.60    |
 | EfficientNet_B1 | 32        | INT8      | 1817.88 | 75.32    | 92.46    |

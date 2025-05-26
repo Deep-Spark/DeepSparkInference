@@ -49,5 +49,5 @@ bash scripts/infer_squeezenet_v1_0_fp16_performance.sh
 ## Model Results
 
 | Model           | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
-|-----------------|-----------|-----------|---------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Squeezenet_v1_0 | 32        | FP16      | 7777.50 | 58.08    | 80.39    |

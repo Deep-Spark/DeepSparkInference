@@ -62,7 +62,7 @@ bash scripts/infer_retinaface_fp16_performance.sh
 ## Model Results
 
 | Model      | BatchSize | Precision | FPS      | Easy AP(%) | Medium AP (%) | Hard AP(%) |
-|------------|-----------|-----------|----------|------------|---------------|------------|
+| :----: | :----: | :----: | :----: | :----: | :----: | :----: |
 | RetinaFace | 32        | FP16      | 8536.367 | 80.84      | 69.34         | 37.31      |
 
 ## References

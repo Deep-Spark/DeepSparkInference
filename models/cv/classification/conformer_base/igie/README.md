@@ -52,7 +52,7 @@ bash scripts/infer_conformer_base_fp16_performance.sh
 ## Model Results
 
 | Model          | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
-|----------------|-----------|-----------|--------|----------|----------|
+| :----: | :----: | :----: | :----: | :----: | :----: |
 | Conformer Base | 32        | FP16      | 428.73 | 83.83    | 96.59    |
 
 ## References
