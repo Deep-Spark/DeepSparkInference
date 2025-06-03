@@ -75,6 +75,10 @@
 * 优化了IGIE执行CV/Classification模型的公共代码。
 * 优化了各模型的README表格居中对齐
 * 更新了stable-diffusion-v1-5模型在huggingface上的链接
+* 合并了新旧MiniCPM-V2模型代码
+* 修复了hrnet模型代码中的绝对路径
+* 修复了EfficientNetV2模型依赖timm版本问题
+* 更新了文件换行符为LF
 
 ### 版本关联
 
