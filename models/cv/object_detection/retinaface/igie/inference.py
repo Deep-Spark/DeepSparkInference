@@ -132,7 +132,7 @@ class FaceDataset(Dataset):
         return np.concatenate([i[None] for i in im], axis=0), path, shapes, path_ori
 
     def _load_image(self, i):
-        im = cv2.imread(self.img_dir+'/images'+self.imgs_path[i], cv2.IMREAD_COLOR)
+        im = cv2.imread(self.img_dir+'/images/'+self.imgs_path[i], cv2.IMREAD_COLOR)
         h0, w0 = im.shape[:2] 
         r = self.image_size / max(h0, w0)  
         if r != 1:  

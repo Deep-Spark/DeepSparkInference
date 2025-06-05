@@ -56,7 +56,7 @@ export PROJ_PATH=./
 #### FP16
 
 ```bash
-bash scripts/infer_widedeep_fp16_performance.sh
+bash scripts/infer_wide_and_deep_fp16_performance.sh
 ```
 
 ### Accuracy

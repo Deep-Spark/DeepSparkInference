@@ -29,7 +29,7 @@ from wenet.utils.cmvn import load_cmvn
 
 def init_model(configs):
     if configs['cmvn_file'] is not None:
-        mean, istd = load_cmvn(configs['cmvn_file'], configs['is_json_cmvn'])
+        mean, istd = load_cmvn(configs['cmvn_file'], configs['cmvn_conf']['is_json_cmvn'])
         global_cmvn = GlobalCMVN(
             torch.from_numpy(mean).float(),
             torch.from_numpy(istd).float())

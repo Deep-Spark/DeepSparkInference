@@ -22,8 +22,8 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "https://www.openslr.org/33/aishell.tar.gz",
-            "download_url": "http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz",
+            "datasets": "https://www.openslr.org/33/aishell",
+            "download_url": "http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp",
             "need_third_part": true,
             "precisions": [
                 "fp16"
@@ -187,7 +187,9 @@
             "datasets": "https://www.image-net.org/download.php",
             "download_url": "https://huggingface.co/openai/clip-vit-base-patch32",
             "need_third_part": "",
-            "precisions": "",
+            "precisions":  [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -279,7 +281,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.image-net.org/download.php",
-            "download_url": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth",
+            "download_url": "https://download.pytorch.org/models/convnext_base-6075fbad.pth",
             "need_third_part": "",
             "precisions": [
                 "fp16"
@@ -1018,7 +1020,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.image-net.org/download.php",
-            "download_url": "https://download.pytorch.org/models/efficientnet_b1_rwightman-bac287d4.pth",
+            "download_url": "https://download.pytorch.org/models/efficientnet_b1-c27df63c.pth",
             "need_third_part": false,
             "precisions": [
                 "fp16",
@@ -2416,8 +2418,7 @@
             "download_url": "https://download.openmmlab.com/mmclassification/v0/resnet/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth",
             "need_third_part": false,
             "precisions": [
-                "fp16",
-                "int8"
+                "fp16"
             ],
             "type": "inference",
             "hasDemo": false,
@@ -3155,10 +3156,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/tmp",
+            "download_url": "https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3185,10 +3188,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/coco",
+            "download_url": "http://files.deepspark.org.cn:880/deepspark/wts/maskrcnn.wts",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3215,10 +3220,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/coco2017",
+            "download_url": "https://download.openmmlab.com/mmdetection/v2.0/solo/solo_r50_fpn_3x_coco/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3245,10 +3252,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/market1501",
+            "download_url": "https://local/ckpt.t7",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3275,10 +3284,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/VehicleID",
+            "download_url": "https://github.com/JDAI-CV/fast-reid/releases/download/v0.1.1/vehicleid_bot_R50-ibn.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3305,10 +3316,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/VehicleID",
+            "download_url": "https://local/epoch_14.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3559,10 +3572,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/coco",
+            "download_url": "https://download.openmmlab.com/mmdetection/v2.0/foveabox/fovea_r50_fpn_4x4_1x_coco/fovea_r50_fpn_4x4_1x_coco_20200219-ee4d5303.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3621,10 +3636,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/coco",
+            "download_url": "https://download.openmmlab.com/mmdetection/v2.0/fsaf/fsaf_r50_fpn_1x_coco/fsaf_r50_fpn_1x_coco-94ccc51f.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3683,10 +3700,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/coco",
+            "download_url": "https://download.openmmlab.com/mmdetection/v2.0/hrnet/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -3777,10 +3796,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/widerface",
+            "download_url": "https://github.com/biubug6/Face-Detector-1MB-with-landmark/raw/master/weights/mobilenet0.25_Final.pth",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -4688,7 +4709,9 @@
             "datasets": "",
             "download_url": "",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": true,
             "demoType": "image"
@@ -4716,9 +4739,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/facebook/chameleon-7b",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -4748,7 +4773,9 @@
             "datasets": "",
             "download_url": "",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -4776,9 +4803,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/adept/fuyu-8b",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -4806,9 +4835,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/OpenGVLab/InternVL2-4B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": true,
             "demoType": "image-to-text"
@@ -4836,9 +4867,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://modelscope.cn/models/swift/llava-v1.6-vicuna-7b-hf",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -4866,39 +4899,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://modelscope.cn/models/swift/LLaVA-NeXT-Video-7B-hf",
             "need_third_part": "",
-            "precisions": "",
-            "type": "inference",
-            "hasDemo": false,
-            "demoType": ""
-        },
-        {
-            "model_name": "minicpm_v",
-            "framework": "vllm",
-            "release_version": "25.03",
-            "release_sdk": "CoreX 4.2.0",
-            "release_gpgpu": "BI-V150",
-            "latest_sdk": "4.2.0",
-            "latest_gpgpu": "BI-V150",
-            "category": "multimodal/vision_language_model",
-            "toolbox": "",
-            "mdims": "",
-            "dataset": "",
-            "license": "",
-            "model_path": "models/multimodal/vision_language_model/minicpm_v/vllm/",
-            "readme_file": "models/multimodal/vision_language_model/minicpm_v/vllm/README.md",
-            "bitbucket_repo": "",
-            "bitbucket_branch": "",
-            "bitbucket_path": "",
-            "develop_owner": "",
-            "github_repo": "",
-            "github_branch": "",
-            "github_path": "",
-            "datasets": "",
-            "download_url": "",
-            "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5023,9 +5028,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5053,9 +5060,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5083,9 +5092,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5113,9 +5124,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5143,9 +5156,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5173,9 +5188,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": true,
             "demoType": "chat"
@@ -5491,9 +5508,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://modelscope.cn/models/qwen/Qwen1.5-7B",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5651,7 +5670,9 @@
             "datasets": "",
             "download_url": "",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5678,10 +5699,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/china-people-daily-ner-corpus",
+            "download_url": "https://huggingface.co/bert-base-chinese",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "int8"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5708,10 +5731,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/SQuAD",
+            "download_url": "https://huggingface.co/csarron/bert-base-uncased-squad-v1",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5739,9 +5764,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://local/bert_base_uncased_squad",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5768,10 +5795,12 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "",
-            "download_url": "",
+            "datasets": "local/SQuAD",
+            "download_url": "https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5799,9 +5828,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://local/bert-large-uncased",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5829,9 +5860,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_deberta",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5859,9 +5892,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roberta",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5889,9 +5924,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_roformer",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -5919,9 +5956,11 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_videobert",
             "need_third_part": "",
-            "precisions": "",
+            "precisions": [
+                "fp16"
+            ],
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
@@ -6428,7 +6467,7 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "cityscapes",
+            "datasets": "local/cityscapes",
             "download_url": "https://download.openmmlab.com/mmsegmentation/v0.5/unet/fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes/fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth",
             "need_third_part": false,
             "precisions": [
@@ -6855,7 +6894,7 @@
             "demoType": ""
         },
         {
-            "model_name": "mllama",
+            "model_name": "llama-3.2",
             "framework": "vllm",
             "release_version": "25.06",
             "release_sdk": "4.2.0",
@@ -6867,8 +6906,8 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/multimodal/vision_language_model/mllama/vllm",
-            "readme_file": "models/multimodal/vision_language_model/mllama/vllm/README.md",
+            "model_path": "models/multimodal/vision_language_model/llama-3.2/vllm",
+            "readme_file": "models/multimodal/vision_language_model/llama-3.2/vllm/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",

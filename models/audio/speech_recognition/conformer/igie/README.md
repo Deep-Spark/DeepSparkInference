@@ -24,6 +24,12 @@ Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 ### Install Dependencies
 
 ```bash
+# Install libGL
+## CentOS
+yum install sox sox-devel -y
+## Ubuntu
+apt install sox libsox-fmt-all -y
+
 pip3 install -r requirements.txt
 cd ctc_decoder/swig && bash setup.sh
 cd ../../

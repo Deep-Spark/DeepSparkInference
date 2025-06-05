@@ -205,10 +205,14 @@ def run_nlp_testcase(model):
             python3 offline_inference.py --model ./stablelm --max-tokens 256 -tp 1 --temperature 0.0
             """
         elif model_name.startswith("deepseek-r1-distill-"):
+            if model_name == "deepseek-r1-distill-qwen-32b":
+                tp = 4
+            else:
+                tp = 2
             script = f"""
             set -x
             cd ../{model['model_path']}
-            python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+            python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096
             """
         elif model_name == "aria":
             script = f"""
@@ -216,6 +220,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+            """
+        elif model_name == "chameleon_7b" or model_name == "fuyu_8b":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
             """
         elif model_name == "h2vol" or model_name == "idefics3":
             script = f"""
@@ -231,7 +242,7 @@ def run_nlp_testcase(model):
             export VLLM_ASSETS_CACHE=../vllm/
             PT_SDPA_ENABLE_HEAD_DIM_PADDING=1 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
             """
-        elif model_name == "mllama":
+        elif model_name == "llama-3.2":
             script = f"""
             set -x
             cd ../{model['model_path']}
@@ -246,6 +257,27 @@ def run_nlp_testcase(model):
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --tokenizer-mode 'mistral'
             """
+        elif model_name == "llava":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next --max-model-len 4096
+            """
+        elif model_name == "llava_next_video_7b":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next-video --modality video --dtype bfloat16
+            """
+        elif model_name == "intern_vl":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 2048
+            """
 
         r, t = run_script(script)
         sout = r.stdout
@@ -257,6 +289,13 @@ def run_nlp_testcase(model):
             result["result"][prec]["tokens"] = int(matchs.group(1))
             result["result"][prec]["QPS"] = float(matchs.group(2))
             result["result"][prec]["status"] = "PASS"
+        else:
+            pattern = r"Maximum concurrency for (\d+) tokens per request: ([\d.]+)x"
+            matchs = re.search(pattern, sout)
+            if matchs:
+                result["result"][prec]["tokens"] = int(matchs.group(1))
+                result["result"][prec]["QPS"] = float(matchs.group(2))
+                result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
     return result

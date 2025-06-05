@@ -48,9 +48,9 @@ class WiderFaceDetection(data.Dataset):
     def __init__(self, prj_dir, preproc=lt_preproc, input_size=(320, 320)):
         self.preproc = preproc
         self.input_size = input_size
-        self.image_dir = os.path.join(prj_dir, "images")
+        self.image_dir = os.path.join(prj_dir, "val/images")
 
-        testset_list = os.path.join(prj_dir, "wider_val.txt")
+        testset_list = os.path.join(prj_dir, "val/wider_val.txt")
         with open(testset_list, 'r') as fr:
             self.imgs_path = fr.read().split()
 

@@ -22,6 +22,8 @@ reasoning.
 -llava-v1.6-vicuna-7b-hf: <https://modelscope.cn/models/swift/llava-v1.6-vicuna-7b-hf>
 
 ```bash
+cp -r ../../vllm_public_assets/ ./
+
 # Download model from the website and make sure the model's path is "data/llava"
 mkdir data/
 ```

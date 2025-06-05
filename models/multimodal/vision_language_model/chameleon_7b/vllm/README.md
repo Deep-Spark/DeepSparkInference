@@ -17,6 +17,8 @@ Chameleon, an AI system that mitigates these limitations by augmenting LLMs with
 - Model: <https://huggingface.co/facebook/chameleon-7b>
 
 ```bash
+cp -r ../../vllm_public_assets/ ./
+
 # Download model from the website and make sure the model's path is "data/chameleon-7b"
 mkdir data
 ```

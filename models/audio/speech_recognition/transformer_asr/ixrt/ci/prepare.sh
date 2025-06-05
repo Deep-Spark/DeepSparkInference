@@ -32,6 +32,8 @@ cp -r /root/data/checkpoints/8886 results/transformer/
 mkdir -p results/transformer/8886/save
 mkdir -p /home/data/speechbrain/aishell/csv_data
 ln -s /root/data/datasets/AISHELL/data_aishell /home/data/speechbrain/aishell/
+cp /root/data/datasets/rirs_noises.zip /home/data/speechbrain/aishell/
+unzip -o /home/data/speechbrain/aishell/rirs_noises.zip -d /home/data/speechbrain/aishell/
 cp results/transformer/8886/*.csv /home/data/speechbrain/aishell/csv_data
 
 bash build.sh

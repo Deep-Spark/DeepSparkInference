@@ -27,4 +27,4 @@ fi
 
 pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export.py ../../ixrt_common/export.py --model-name resnext50_32x4d --weight resnext50_32x4d-7cdf4587.pth --output checkpoints/resnext50_32x4d.onnx
+python3 ../../ixrt_common/export.py --model-name resnext50_32x4d --weight resnext50_32x4d-7cdf4587.pth --output checkpoints/resnext50_32x4d.onnx

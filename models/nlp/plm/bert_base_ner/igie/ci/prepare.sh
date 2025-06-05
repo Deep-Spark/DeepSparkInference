@@ -16,6 +16,7 @@
 
 set -x
 
+pip3 uninstall numpy
 pip3 install -r requirements.txt
 
 # Get pytorch weights

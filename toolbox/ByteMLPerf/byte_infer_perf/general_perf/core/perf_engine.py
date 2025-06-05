@@ -210,6 +210,9 @@ class PerfEngine:
 
         if accuracy_report:
             base_report['Accuracy'] = accuracy_report
+            metricResult = {}
+            metricResult['metricResult'] = accuracy_report
+            print(metricResult)
 
         # function to test qps and latency
         if workload['test_perf']:

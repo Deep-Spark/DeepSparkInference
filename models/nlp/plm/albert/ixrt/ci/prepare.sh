@@ -35,7 +35,6 @@ pip3 install -r ./ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/requ
 
 # edit madlag/albert-base-v2-squad path
 # sed -i "s#madlag#/${MODEL_PATH}/madlag#" ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/data_loader.py
-mv madlag ./ByteMLPerf/byte_infer_perf/general_perf/
 
 # copy open_squad data
 cp /root/data/datasets/open_squad/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_squad/

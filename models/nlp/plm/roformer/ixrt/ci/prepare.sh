@@ -28,7 +28,8 @@ python3 export_onnx.py --model_path ./data/open_roformer --output_path ./data/op
 
 # Simplify onnx model
 onnxsim ./data/open_roformer/roformer-frozen_org.onnx ./data/open_roformer/roformer-frozen.onnx
-python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --output_path ./data/open_roformer/roformer.onnx
+python3 deploy.py --model_path ./data/open_roformer/roformer-frozen.onnx --output_path ./data/open_roformer/roformer-frozen.onnx
+cp ./data/open_roformer/roformer-frozen.onnx ./data/open_roformer/roformer.onnx
 
 # link ByteMLPerf and install requirements
 ln -s ../../../../../toolbox/ByteMLPerf ./
@@ -39,7 +40,7 @@ sed -i '102s/build_engine/# build_engine/' ./ByteMLPerf/byte_infer_perf/general_
 
 # Move open_roformer
 mkdir -p ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
-mv ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
+cp -r ./data/open_roformer ./ByteMLPerf/byte_infer_perf/general_perf/model_zoo/popular/
 
 # Setup open_cail2019 dataset
 cp /root/data/datasets/open_cail2019/* ./ByteMLPerf/byte_infer_perf/general_perf/datasets/open_cail2019

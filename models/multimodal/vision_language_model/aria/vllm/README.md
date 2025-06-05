@@ -37,6 +37,8 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
+
+pip install transformer==4.48.0
 ```
 
 ## Model Inference
