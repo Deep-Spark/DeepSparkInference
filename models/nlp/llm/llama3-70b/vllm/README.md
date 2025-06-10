@@ -1,4 +1,4 @@
-# LlaMa3 70B (vLLM)
+# Llama3 70B (vLLM)
 
 ## Model Description
 
