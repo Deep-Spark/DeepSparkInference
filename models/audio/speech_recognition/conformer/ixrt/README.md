@@ -20,7 +20,8 @@ Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 
 ```bash
 # Download and put model in conformer_checkpoints
-ln -s /home/deepspark/datasets/INFER/conformer/20210601_u2++_conformer_exp_aishell ./conformer_checkpoints
+wget http://files.deepspark.org.cn:880/deepspark/conformer_checkpoints.tar.gz
+tar xf conformer_checkpoints.tar.gz
 
 # Prepare AISHELL Data
 DATA_DIR=/PATH/to/aishell_test_data

@@ -27,7 +27,8 @@ fi
 
 pip3 install -r requirements.txt
 
-ln -s /root/data/checkpoints/20210601_u2++_conformer_exp_aishell ./conformer_checkpoints
-
-ln -s /root/data/datasets/AISHELL/data_aishell ./aishell_test_data
+ln -s /root/data/checkpoints/conformer_checkpoints.tar.gz ./
+tar xf conformer_checkpoints.tar.gz
+cp /root/data/datasets/aishell_test_data.tar ./
+tar xf aishell_test_data.tar
 bash scripts/aishell_data_prepare.sh ./aishell_test_data ./tools

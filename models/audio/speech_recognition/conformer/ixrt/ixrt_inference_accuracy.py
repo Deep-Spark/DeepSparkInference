@@ -1,17 +1,16 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
+# Copyright (c) 2020 Mobvoi Inc. (authors: Binbin Zhang, Xiaoyu Chen, Di Wu)
 #
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-#         http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import os
 import sys
@@ -21,7 +20,6 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import argparse
 import yaml
 import copy
-import torch
 import numpy as np
 
 from tqdm.contrib import tqdm
@@ -34,14 +32,11 @@ from tensorrt import Dims
 from common import create_engine_context, get_io_bindings,trtapi,setup_io_bindings
 import pickle
 
-import pycuda.autoinit
-import pycuda.driver as cuda
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 
-from utils import make_pad_mask, RelPositionalEncoding
-from postprocess import ctc_greedy_search
-
-
-rel_positional_encoding = RelPositionalEncoding(256, 0.1)
+from load_ixrt_plugin import load_ixrt_plugin
+load_ixrt_plugin()
 
 
 def get_args():
@@ -62,24 +57,36 @@ def get_args():
     return args
 
 
-def tensorrt_infer(engine, context, all_inputs):
 
-    input_names = ["input", "mask", "pos_emb"]
-    output_names = ["output"]
+def ixrt_infer(module, input, seq_lengths):
+    module.set_input(key="input", value=input)
+    module.set_input(key="seq_lengths", value=seq_lengths)
+    module.run()
+    out = module.get_output()
+    return out[0]
 
-    for input_name, input_data in zip(input_names, all_inputs):
-        input_idx = engine.get_binding_index(input_name)
-        input_shape = input_data.shape
-        context.set_binding_shape(input_idx, Dims(input_shape))
 
+def tensorrt_infer(engine,context, features, lengths):
+    
+    input_names=["input","seq_lengths"]
+    output_names=["output"]
+    input_idx = engine.get_binding_index(input_names[0])
+    input_shape = features.shape    
+    context.set_binding_shape(input_idx, Dims(input_shape))
+
+    seq_lengths_idx = engine.get_binding_index(input_names[1])
+    seq_lengths_shape = lengths.shape   
+    context.set_binding_shape(seq_lengths_idx, Dims(seq_lengths_shape))
+    
     inputs, outputs, allocations = setup_io_bindings(engine, context)
     pred_output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
-
-    for i, input_data in enumerate(all_inputs):
-        cuda.memcpy_htod(inputs[i]["allocation"], input_data)
-
+    err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], features, features.nbytes)
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
+    err, = cuda.cuMemcpyHtoD(inputs[1]["allocation"], lengths, lengths.nbytes)
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
     context.execute_v2(allocations)
-    cuda.memcpy_dtoh(pred_output, outputs[0]["allocation"])
+    err, = cuda.cuMemcpyDtoH(pred_output, outputs[0]["allocation"], outputs[0]["nbytes"])
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
     return pred_output
 
 
@@ -87,8 +94,9 @@ def engine_init(engine):
     host_mem = tensorrt.IHostMemory
     logger = tensorrt.Logger(tensorrt.Logger.ERROR)
     engine, context = create_engine_context(engine, logger)
-
+    
     return engine,context
+    
 
 
 def calculate_cer(data, reference_data):
@@ -144,7 +152,7 @@ def main():
     args = get_args()
 
     # 读取配置文件
-    config_fn = os.path.join(args.model_dir, "train.yaml")
+    config_fn = os.path.join(args.model_dir, "config.yaml")
     with open(config_fn, "r") as fin:
         configs = yaml.load(fin, Loader=yaml.FullLoader)
 
@@ -164,7 +172,7 @@ def main():
     dataset_conf["batch_conf"]["batch_size"] = args.batch_size
 
     # Load dict
-    dict_fn = os.path.join(args.model_dir, "units.txt")
+    dict_fn = os.path.join(args.model_dir, "words.txt")
     char_dict = {}
     with open(dict_fn, "r", encoding="utf8") as fin:
         for line in fin:
@@ -199,15 +207,15 @@ def main():
                     feats_lengths.cpu().numpy().astype(np.int32),
                 ]
             )
-        with open(data_path_pkl, "wb") as f:
-            pickle.dump(
-                [
-                    eval_samples,
-                    max_batch_size,
-                    max_feature_length
-                ],
-                f,
-            )
+            with open(data_path_pkl, "wb") as f:
+                pickle.dump(
+                    [
+                        eval_samples,
+                        max_batch_size,
+                        max_feature_length
+                    ],
+                    f,
+                )
     else:
         print(f"load data from tmp: {data_path_pkl}")
         with open(data_path_pkl, "rb") as f:
@@ -221,44 +229,22 @@ def main():
     )
 
     print("*** 2. Load engine ***")
-    engine_path = os.path.join(args.model_dir, f"conformer_encoder_fusion.engine")
+    engine_path = os.path.join(args.model_dir, f"conformer_{args.infer_type}_trt.engine")
     engine, context = engine_init(engine_path)
-
+    
     print("*** 3. Warm up ***")
     if args.warm_up > 0:
         for i in range(args.warm_up):
-            feats_tmp = np.ones((args.batch_size, 1500, 80)).astype(np.float32)
-            feats_lengths_tmp = np.ones((args.batch_size)).astype(np.int32) * 1500
-            mask_tmp = make_pad_mask(feats_lengths_tmp, 1500)
-            mask_len_tmp = mask_tmp.shape[-1]
-            pos_emb_tmp = rel_positional_encoding(mask_len_tmp).numpy()
-            all_inputs = [feats_tmp, mask_tmp, pos_emb_tmp]
-            tensorrt_infer(engine, context, all_inputs)
+            feats_tmp = np.ones((args.batch_size,800,80)).astype(np.float16)
+            feats_lengths_tmp = np.ones((args.batch_size)).astype(np.int32)
+            tensorrt_infer(engine,context, feats_tmp, feats_lengths_tmp)
 
     results = []
     for keys, feats, feats_lengths in tqdm(eval_samples):
-        b, seq_len, feat = feats.shape
-
-        inputs = feats.astype(np.float32)
-        mask = make_pad_mask(feats_lengths, seq_len)
-        mask_len = mask.shape[-1]
-        pos_emb = rel_positional_encoding(mask_len).numpy()
-
-        all_inputs = [inputs, mask, pos_emb]
-        hyps = tensorrt_infer(
-            engine,
-            context,
-            all_inputs
-        )
-
-        ctc_probs = torch.from_numpy(hyps)
-        ctc_lens = torch.from_numpy(feats_lengths)
-        hyps = ctc_greedy_search(ctc_probs, ctc_lens)
-
+        hyps = tensorrt_infer(engine,context, feats, feats_lengths)
         for i, key in enumerate(keys):
             line = f"{key} "
             for w in hyps[i]:
-                w = w - 1
                 if w == eos:
                     break
                 line += char_dict[w]
@@ -271,6 +257,7 @@ def main():
         reference_data.append(line)
 
     cer, corr = calculate_cer(results, reference_data)
+
     target_cer = float(os.environ["Accuracy"])
     metricResult = {"metricResult": {}}
     metricResult["metricResult"]["CER"] = round(cer, 3)
