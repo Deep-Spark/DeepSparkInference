@@ -5,7 +5,7 @@
 ### 模型与算法
 
 * 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
-* 新增了6个大模型推理示例，其中支持IxRT推理引擎的6个。
+* 新增了6个基于vLLM的大语言模型推理示例，其中3个为多模态模型。
 
 <table>
   <tr colspan=4>
@@ -14,71 +14,69 @@
   <tr>
     <td>ConvNext_Tiny</td>
     <td>CSPResNeXt50</td>
-    <td>EfficientNet_b5</td>
+    <td>EfficientNet_B5</td>
   </tr>
   <tr>
+    <td>GFL</td>
     <td>MNASNet1_0</td>
-    <td>Twins_PCPVT</td>
     <td>Regnet_x_3_2gf</td>
   </tr>
   <tr>
     <td>Regnet_y_16gf</td>
     <td>SqueezeNet1_1</td>
-    <td>VAN_B0</td>
+    <td>Twins_PCPVT</td>
   </tr>
   <tr>
-    <td>VGG19</td>
-    <td>VGG19_BN</td>
-    <td>ViT</td>
-  </tr>
-  <tr>
-    <td>GFL</td>
-    <td>YOLOv12</td>
     <td>UNet</td>
+    <td>VAN_B0</td>
+    <td>VGG19</td>
+  </tr>
+  <tr>
+    <td>ViT</td>
+    <td>VGG19_BN</td>
+    <td>YOLOv12</td>
   </tr>
     <th colspan=4>IxRT</th>
   </tr>
   <tr>
-    <td>YOLOv9</td>
-    <td>YOLOv10y</td>
-    <td>YOLOv11</td>
+    <td>ResNeXt101_32x8d</td>
+    <td>ResNeXt101_64x4d</td>
+    <td>ShuffleNetV2_x0_5</td>
   </tr>
   <tr>
-    <td>ShuffleNetV2_x0_5</td>
     <td>ShuffleNetV2_x1_0</td>
     <td>ShuffleNetV2_x1_5</td>
+    <td>ShuffleNetV2_x2_0</td>
   </tr>
   <tr>
-    <td>ShuffleNetV2_x2_0</td>
-    <td>ResNeXt101_64x4d</td>
-    <td>ResNeXt101_32x8d</td>
+    <td>YOLOv9</td>
+    <td>YOLOv10</td>
+    <td>YOLOv11</td>
   </tr>
     <th colspan=4>大模型</th>
   </tr>
   <tr>
-    <td>AriaForConditionalGeneration</td>
-    <td>PixtralForConditionalGeneration</td>
-    <td>Idefics3ForConditionalGeneration</td>
+    <td>Aria (vLLM)</td>
+    <td>H2OVLChatModel (vLLM)</td>
+    <td>Idefics3-8B-Llama3 (vLLM)</td>
   </tr>
   <tr>
-    <td>H2OVLChatModel</td>
-    <td>MiniCPM-V2</td>
-    <td>Llama-3.2</td>
+    <td>Llama-3.2 (vLLM)</td>
+    <td>MiniCPM-V2 (vLLM)</td>
+    <td>Pixtral-12B-2409 (vLLM)</td>
   </tr>
 </table>
 
-### 问题修复
+### 修复更新
 
-* 新增了中英文README说明。
-* 新增了全局模型配置文件。
-* 优化了IxRT执行CV/Classification模型的公共代码。
-* 优化了IGIE执行CV/Classification模型的公共代码。
-* 优化了各模型的README表格居中对齐
-* 更新了stable-diffusion-v1-5模型在huggingface上的链接
-* 合并了新旧MiniCPM-V2模型代码
-* 修复了hrnet模型代码中的绝对路径
-* 修复了EfficientNetV2模型依赖timm版本问题
-* 更新了文件换行符为LF
+* 修复了模型代码中的绝对路径的问题。
+* 修复了EfficientNetV2模型依赖timm版本的问题。
+* 修复了GoogleNet和InceptionV3模型（IGIE）的编译报错问题。
+* 更新了stable-diffusion-v1-5模型在huggingface上的链接。
+* 更新了MiniCPM-V2推理模型代码示例。
+* 优化了IxRT和IGIE中视觉分类模型的公共代码避免重复。
+* 增加了DeepSparkInference全部模型的json配置文件。
+* 增加了模型库首页的英文版README文档。
 
 ### 版本关联
 
