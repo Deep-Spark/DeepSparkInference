@@ -12,8 +12,17 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
 set -euo pipefail
+
+EXIT_STATUS=0
+check_status()
+{
+    ret_code=${PIPESTATUS[0]}
+    if [ ${ret_code} != 0 ]; then
+    echo "fails"
+    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
+    fi
+}
 
 current_path=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
@@ -21,29 +30,17 @@ PROJECT_DIR=${current_path}/..
 DATA_DIR=${current_path}/../aishell_test_data/test
 MODEL_DIR=${current_path}/../conformer_checkpoints
 
-export Accuracy=${Accuracy:=0.052}
+export Accuracy=${Accuracy:=0.05}
 
 cd ${PROJECT_DIR}
 
-echo "Step1.Export Onnx From Checkpoints!"
-python3 convert2onnx.py \
-    --model_name "Conformer" \
-    --model_path=${MODEL_DIR}/final.pt                          \
-    --onnx_path=${MODEL_DIR}/conformer_encoder_fusion.onnx      \
-    --batch_size=8
-
-echo "Step2.Build Engine!"
 python3 build_engine.py \
-    --model_name "Conformer" \
-    --onnx_path=${MODEL_DIR}/conformer_encoder_fusion.onnx        \
-    --engine_path=${MODEL_DIR}/conformer_encoder_fusion.engine    \
-    --max_batch_size=8  \
-    --max_seq_len=1500
+        --onnx_model ${MODEL_DIR}/conformer_fp16_trt.onnx  \
+        --engine ${MODEL_DIR}/conformer_fp16_trt.engine "$@" ;check_status 
 
-echo "Step3.Inference(Test ACC)!"
 python3 ixrt_inference_accuracy.py \
     --infer_type fp16 \
-    --warm_up 3       \
-    --batch_size ${BATCH_SIZE:=8} \
+    --batch_size ${BATCH_SIZE:=24} \
     --data_dir ${DATA_DIR}  \
-    --model_dir ${MODEL_DIR}
+    --model_dir ${MODEL_DIR} "$@"; check_status
+exit ${EXIT_STATUS}

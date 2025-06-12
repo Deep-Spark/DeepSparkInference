@@ -1,48 +1,45 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
+# Copyright (c) 2020 Mobvoi Inc. (authors: Binbin Zhang, Xiaoyu Chen, Di Wu)
 #
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-#         http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import os
 import sys
-import time
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-import argparse
 import yaml
+import time
 import copy
-import torch
+import argparse
+import pickle
 import numpy as np
 
 from tqdm.contrib import tqdm
 from torch.utils.data import DataLoader
+
 from wenet.file_utils import read_symbol_table
 from wenet.dataset import Dataset
-from tools.compute_cer import Calculator, characterize, normalize, default_cluster
+
 import tensorrt
 from tensorrt import Dims
 from common import create_engine_context, get_io_bindings,trtapi,setup_io_bindings
 import pickle
 
-import pycuda.autoinit
-import pycuda.driver as cuda
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 
-from utils import make_pad_mask, RelPositionalEncoding
-from postprocess import ctc_greedy_search
-
-
-rel_positional_encoding = RelPositionalEncoding(256, 0.1)
+from load_ixrt_plugin import load_ixrt_plugin
+load_ixrt_plugin()
 
 
 def get_args():
@@ -62,90 +59,43 @@ def get_args():
     args = parser.parse_args()
     return args
 
-
-def tensorrt_infer(engine, context, all_inputs):
-
-    input_names = ["input", "mask", "pos_emb"]
-    output_names = ["output"]
-
-    for input_name, input_data in zip(input_names, all_inputs):
-        input_idx = engine.get_binding_index(input_name)
-        input_shape = input_data.shape
-        context.set_binding_shape(input_idx, Dims(input_shape))
-
-    inputs, outputs, allocations = setup_io_bindings(engine, context)
-    pred_output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
-
-    for i, input_data in enumerate(all_inputs):
-        cuda.memcpy_htod(inputs[i]["allocation"], input_data)
-
-    context.execute_v2(allocations)
-    cuda.memcpy_dtoh(pred_output, outputs[0]["allocation"])
-    return pred_output
-
-
 def engine_init(engine):
     host_mem = tensorrt.IHostMemory
     logger = tensorrt.Logger(tensorrt.Logger.ERROR)
     engine, context = create_engine_context(engine, logger)
-
+    
     return engine,context
 
+def tensorrt_infer(engine,context, features, lengths):
+    
+    input_names=["input","seq_lengths"]
+    output_names=["output"]
+    input_idx = engine.get_binding_index(input_names[0])
+    input_shape = features.shape    
+    context.set_binding_shape(input_idx, Dims(input_shape))
 
-def calculate_cer(data, reference_data):
-    calculator = Calculator()
-    tochar = True
-    split = None
-    case_sensitive = False
-    ignore_words = set()
-    rec_set = {}
-    for line in data:
-        if tochar:
-            array = characterize(line)
-        else:
-            array = line.strip().split()
-        if len(array) == 0:
-            continue
-        fid = array[0]
-        rec_set[fid] = normalize(array[1:], ignore_words, case_sensitive, split)
+    seq_lengths_idx = engine.get_binding_index(input_names[1])
+    seq_lengths_shape = lengths.shape   
+    context.set_binding_shape(seq_lengths_idx, Dims(seq_lengths_shape))
+    
+    inputs, outputs, allocations = setup_io_bindings(engine, context)
+    pred_output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
+    err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], features, features.nbytes)
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
+    err, = cuda.cuMemcpyHtoD(inputs[1]["allocation"], lengths, lengths.nbytes)
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
+    context.execute_v2(allocations)
+    err, = cuda.cuMemcpyDtoH(pred_output, outputs[0]["allocation"], outputs[0]["nbytes"])
+    assert(err == cuda.CUresult.CUDA_SUCCESS)
+    return pred_output
 
-    default_clusters = {}
-    default_words = {}
-    for line in reference_data:
-        if tochar:
-            array = characterize(line)
-        else:
-            array = line.strip().split()
-        if len(array) == 0:
-            continue
-        fid = array[0]
-        if fid not in rec_set:
-            continue
-        lab = normalize(array[1:], ignore_words, case_sensitive, split)
-        rec = rec_set[fid]
-
-        for word in rec + lab:
-            if word not in default_words:
-                default_cluster_name = default_cluster(word)
-                if default_cluster_name not in default_clusters:
-                    default_clusters[default_cluster_name] = {}
-                if word not in default_clusters[default_cluster_name]:
-                    default_clusters[default_cluster_name][word] = 1
-                default_words[word] = default_cluster_name
-        result = calculator.calculate(lab, rec)
-
-    result = calculator.overall()
-    cer = float(result["ins"] + result["sub"] + result["del"]) / result["all"]
-    corr = result["cor"] / result["all"]
-
-    return cer, corr
 
 
 def main():
     args = get_args()
 
     # 读取配置文件
-    config_fn = os.path.join(args.model_dir, "train.yaml")
+    config_fn = os.path.join(args.model_dir, "config.yaml")
     with open(config_fn, "r") as fin:
         configs = yaml.load(fin, Loader=yaml.FullLoader)
 
@@ -165,14 +115,13 @@ def main():
     dataset_conf["batch_conf"]["batch_size"] = args.batch_size
 
     # Load dict
-    dict_fn = os.path.join(args.model_dir, "units.txt")
+    dict_fn = os.path.join(args.model_dir, "words.txt")
     char_dict = {}
     with open(dict_fn, "r", encoding="utf8") as fin:
         for line in fin:
             arr = line.strip().split()
             assert len(arr) == 2
             char_dict[int(arr[1])] = arr[0]
-    eos = len(char_dict) - 1
 
     data_type = "raw"
     test_data_fn = os.path.join(args.data_dir, "data.list")
@@ -200,15 +149,15 @@ def main():
                     feats_lengths.cpu().numpy().astype(np.int32),
                 ]
             )
-        with open(data_path_pkl, "wb") as f:
-            pickle.dump(
-                [
-                    eval_samples,
-                    max_batch_size,
-                    max_feature_length
-                ],
-                f,
-            )
+            with open(data_path_pkl, "wb") as f:
+                pickle.dump(
+                    [
+                        eval_samples,
+                        max_batch_size,
+                        max_feature_length
+                    ],
+                    f,
+                )
     else:
         print(f"load data from tmp: {data_path_pkl}")
         with open(data_path_pkl, "rb") as f:
@@ -221,40 +170,24 @@ def main():
         f"dataset max shape: batch_size: {max_batch_size}, feat_length: {max_feature_length}"
     )
 
-    print("*** 2. Load engine ***")
-    engine_path = os.path.join(args.model_dir, f"conformer_encoder_fusion.engine")
+    print("*** 2. Load IxRT engine ***")
+    engine_path = os.path.join(args.model_dir, f"conformer_{args.infer_type}_trt.engine")
     engine, context = engine_init(engine_path)
-
     print("*** 3. Warm up ***")
     if args.warm_up > 0:
         for i in range(args.warm_up):
-            feats_tmp = np.ones((args.batch_size, 1500, 80)).astype(np.float32)
-            feats_lengths_tmp = np.ones((args.batch_size)).astype(np.int32) * 1500
-            mask_tmp = make_pad_mask(feats_lengths_tmp, 1500)
-            mask_len_tmp = mask_tmp.shape[-1]
-            pos_emb_tmp = rel_positional_encoding(mask_len_tmp).numpy()
-            all_inputs = [feats_tmp, mask_tmp, pos_emb_tmp]
-            tensorrt_infer(engine, context, all_inputs)
+            feats_tmp = np.ones((args.batch_size,1200,80)).astype(np.float16)
+            feats_lengths_tmp = np.ones((args.batch_size)).astype(np.int32)
+            tensorrt_infer(engine,context, feats_tmp, feats_lengths_tmp)
 
     print("*** 4. Inference ***")
     start_time = time.time()
     num_samples = 0
     results = []
     for keys, feats, feats_lengths in tqdm(eval_samples):
-        b, seq_len, feat = feats.shape
-        num_samples += b
-        inputs = feats.astype(np.float32)
-        mask = make_pad_mask(feats_lengths, seq_len)
-        mask_len = mask.shape[-1]
-        pos_emb = rel_positional_encoding(mask_len).numpy()
-
-        all_inputs = [inputs, mask, pos_emb]
-        hyps = tensorrt_infer(
-            engine,
-            context,
-            all_inputs
-        )
-
+        num_samples += feats.shape[0]
+        hyps = tensorrt_infer(engine,context, feats, feats_lengths)
+        results.append([hyps, keys])
     eval_time = time.time() - start_time
 
     QPS = num_samples / eval_time
@@ -270,7 +203,7 @@ def main():
         exit()
     else:
         print("failed!")
-        exit(1)
+        exit(10)
 
 
 if __name__ == "__main__":
