@@ -94,6 +94,16 @@ def main():
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
 
+    # instance_segmentation模型
+    if model["category"] in ["cv/instance_segmentation"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_instance_segmentation_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
+
     # NLP模型
     if model["category"] in ["nlp/plm", "others/recommendation"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
@@ -191,9 +201,29 @@ def run_clf_testcase(model):
                     match_count += 1
                     result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
                     break
-
         if match_count == len(patterns):
             result["result"][prec]["status"] = "PASS"
+
+        if model_name == "swin_transformer_large":
+            pattern = r'Throughput: (\d+\.\d+) qps'
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                result["result"].setdefault(prec, {"status": "FAIL"})
+                try:
+                    result["result"][prec]["QPS"] = float(m)
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec]["QPS"] = m
+
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            logging.debug(f"matchs:\n{matchs}")
+            for m in matchs:
+                result["result"][prec].update(get_metric_result(m))
+            if len(matchs) == 1:
+                result["result"][prec]["status"] = "PASS"
+        
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
@@ -375,7 +405,9 @@ def run_nlp_testcase(model):
         bash scripts/infer_{model_name}_{prec}_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
         """
-        if model_name == "roformer" or model_name == "widedeep":
+        if model_name == "roformer" or model_name == "wide_and_deep":
+            if model_name == "wide_and_deep":
+               model_name = "widedeep" 
             script += f"""
             python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-tf-fp32
             """
@@ -414,13 +446,23 @@ def run_nlp_testcase(model):
         r, t = run_script(script)
         sout = r.stdout
 
+        pattern = r'Throughput: (\d+\.\d+) qps'
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            try:
+                result["result"][prec]["QPS"] = float(m)
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec]["QPS"] = m
+
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
         logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
             result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 2:
+        if len(matchs) == 1:
             result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
@@ -462,6 +504,59 @@ def run_speech_testcase(model):
             cd ../{model['model_path']}
             python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
             """
+
+        r, t = run_script(script)
+        sout = r.stdout
+        pattern = METRIC_PATTERN
+        matchs = re.findall(pattern, sout)
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        logging.debug(f"matchs:\n{matchs}")
+        for m in matchs:
+            result["result"][prec].update(get_metric_result(m))
+        if len(matchs) == 2:
+            result["result"][prec]["status"] = "PASS"
+
+        result["result"][prec]["Cost time (s)"] = t
+        logging.debug(f"matchs:\n{matchs}")
+    return result
+
+def run_instance_segmentation_testcase(model):
+    model_name = model["model_name"]
+    result = {
+        "name": model_name,
+        "result": {},
+    }
+    d_url = model["download_url"]
+    checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
+    prepare_script = f"""
+    cd ../{model['model_path']}
+    ln -s /root/data/checkpoints/{checkpoint_n} ./
+    ln -s /root/data/datasets/{dataset_n} ./
+    bash ci/prepare.sh
+    ls -l | grep onnx
+    """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
+    run_script(prepare_script)
+
+    for prec in model["precisions"]:
+        logging.info(f"Start running {model_name} {prec} test case")
+        script = f"""
+        cd ../{model['model_path']}
+        export PROJ_DIR=./
+        export DATASETS_DIR=./coco2017/
+        export CHECKPOINTS_DIR=./checkpoints
+        export COCO_GT=./coco2017/annotations/instances_val2017.json
+        export EVAL_DIR=./coco2017/val2017
+        export RUN_DIR=./
+        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        bash scripts/infer_{model_name}_{prec}_performance.sh
+        """
 
         r, t = run_script(script)
         sout = r.stdout

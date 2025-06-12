@@ -72,7 +72,7 @@ def get_model_config(mode_name):
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and model["framework"] == "trtllm":
+        if model["model_name"] == mode_name.lower() and (model["framework"] == "trtllm" or model["framework"] == "tgi"):
             return model
     return
 

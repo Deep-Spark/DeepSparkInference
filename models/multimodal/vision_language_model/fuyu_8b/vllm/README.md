@@ -21,6 +21,8 @@ transformer decoder like an image transformer (albeit with no pooling and causal
 - Model: <https://huggingface.co/adept/fuyu-8b>
 
 ```bash
+cp -r ../../vllm_public_assets/ ./
+
 # Download model from the website and make sure the model's path is "data/fuyu-8b"
 mkdir data/
 ```

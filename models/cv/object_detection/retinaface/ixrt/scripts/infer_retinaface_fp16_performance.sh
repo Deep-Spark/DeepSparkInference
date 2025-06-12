@@ -44,6 +44,7 @@ do
 done
 
 PROJ_DIR=${PROJ_DIR:-"."}
+GT_DIR=${GT_DIR:-"../igie/widerface_evaluate/ground_truth"}
 DATASETS_DIR="${DATASETS_DIR}"
 CHECKPOINTS_DIR="${PROJ_DIR}"
 RUN_DIR="${PROJ_DIR}"

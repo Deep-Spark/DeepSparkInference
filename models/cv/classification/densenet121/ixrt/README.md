@@ -33,8 +33,9 @@ pip3 install -r ../../ixrt_common/requirements.txt
 ### Model Conversion
 
 ```bash
+# download model into /root/.cache/torch/hub/checkpoints/densenet121-a639ec97.pth
 mkdir checkpoints
-python3 ../../ixrt_common/export.py --model-name densenet121 --weight densenet121-a639ec97.pth --output checkpoints/densenet121.onnx
+python3 export.py --output checkpoints/densenet121.onnx
 ```
 
 ## Model Inference

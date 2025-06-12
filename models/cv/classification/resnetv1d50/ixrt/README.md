@@ -28,7 +28,7 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r ../../ixrt_common/requirments.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install mmcv==1.5.3 mmcls==0.24.0 ppq pycuda transformers==4.37.1
 ```
 
 ### Model Conversion

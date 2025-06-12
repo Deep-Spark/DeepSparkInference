@@ -17,8 +17,8 @@
 # MODEL_NAME : 生成onnx/engine的basename
 # ORIGINE_MODEL : 原始onnx文件名称
 IMGSIZE=224
-MODEL_NAME=EfficientNet_b1
-ORIGINE_MODEL=efficientnet-b1.onnx
+MODEL_NAME=efficientnet_b1
+ORIGINE_MODEL=efficientnet_b1.onnx
 
 # QUANT CONFIG (仅PRECISION为int8时生效)
     # QUANT_OBSERVER : 量化策略，可选 [hist_percentile, percentile, minmax, entropy, ema]

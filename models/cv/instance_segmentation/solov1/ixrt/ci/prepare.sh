@@ -44,6 +44,6 @@ cd ..
 
 mkdir -p checkpoints
 ln -s /root/data/checkpoints/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth ./
-ln -s /root/data/datasets/coco ./
+ln -s /root/data/datasets/coco2017 ./
 python3 solo_torch2onnx.py --cfg ./solo_r50_fpn_3x_coco.py --checkpoint ./solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth --batch_size 1
 mv r50_solo_bs1_800x800.onnx ./checkpoints/r50_solo_bs1_800x800.onnx

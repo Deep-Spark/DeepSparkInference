@@ -94,6 +94,16 @@ def main():
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
 
+    # multi_object_tracking模型
+    if model["category"] in ["cv/multi_object_tracking"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_multi_object_tracking_testcase(model)
+            check_model_result(result)
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
+
     # Speech模型
     if model["category"] in ["audio/speech_recognition"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
@@ -159,13 +169,22 @@ def run_clf_testcase(model):
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
-        export RUN_DIR=../../igie_common/
-        cd ../{model['model_path']}
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+        if model_name == "unet":
+            script = f"""
+            export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
+            export RUN_DIR=../../igie_common/
+            cd ../{model['model_path']}
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
+        else:
+            script = f"""
+            export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
+            export RUN_DIR=../../igie_common/
+            cd ../{model['model_path']}
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
 
         r, t = run_script(script)
         sout = r.stdout
@@ -213,9 +232,9 @@ def run_detec_testcase(model):
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
 
-    if model["need_third_part"] and model["3rd_party_repo"]:
-        third_party_repo = model["3rd_party_repo"]
-        prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
+    # if model["need_third_part"] and model["3rd_party_repo"]:
+    #     third_party_repo = model["3rd_party_repo"]
+    #     prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
     prepare_script += "bash ci/prepare.sh\n"
 
     # add pip list info when in debug mode
@@ -341,6 +360,63 @@ def run_trace_testcase(model):
 
     if model["need_third_part"]:
         prepare_script += "unzip /mnt/deepspark/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
+
+    prepare_script += """
+    bash ci/prepare.sh
+    ls -l | grep onnx
+    """
+
+    # add pip list info when in debug mode
+    if utils.is_debug():
+        pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
+        prepare_script = pip_list_script + prepare_script + pip_list_script
+
+    run_script(prepare_script)
+
+    for prec in model["precisions"]:
+        logging.info(f"Start running {model_name} {prec} test case")
+        script = f"""
+        cd ../{model['model_path']}
+        export DATASETS_DIR=./{dataset_n}/
+        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+        bash scripts/infer_{model_name}_{prec}_performance.sh
+        """
+
+        r, t = run_script(script)
+        sout = r.stdout
+        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+        matchs = re.findall(pattern, sout)
+        for m in matchs:
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            try:
+                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
+            except ValueError:
+                print("The string cannot be converted to a float.")
+                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
+        pattern = METRIC_PATTERN
+        matchs = re.findall(pattern, sout)
+        if matchs and len(matchs) == 1:
+            result["result"].setdefault(prec, {})
+            result["result"][prec].update(get_metric_result(matchs[0]))
+            result["result"][prec]["status"] = "PASS"
+        result["result"][prec]["Cost time (s)"] = t
+        logging.debug(f"matchs:\n{matchs}")
+    return result
+
+def run_multi_object_tracking_testcase(model):
+    model_name = model["model_name"]
+    result = {
+        "name": model_name,
+        "result": {},
+    }
+    d_url = model["download_url"]
+    checkpoint_n = d_url.split("/")[-1]
+    dataset_n = model["datasets"].split("/")[-1]
+    prepare_script = f"""
+    cd ../{model['model_path']}
+    ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
+    """
 
     prepare_script += """
     bash ci/prepare.sh

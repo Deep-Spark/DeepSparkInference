@@ -21,6 +21,7 @@ learning.
 
 ```bash
 cd ${DeepSparkInference}/models/vision-language-understanding/Intern_VL/vllm
+cp -r ../../vllm_public_assets/ ./
 mkdir -p data/intern_vl
 ln -s /path/to/InternVL2-4B ./data/intern_vl
 ```

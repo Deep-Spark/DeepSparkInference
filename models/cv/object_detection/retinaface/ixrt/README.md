@@ -47,7 +47,7 @@ python3 torch2onnx.py --model mobilenet0.25_Final.pth --onnx_model mnetv1_retina
 
 ```bash
 export DATASETS_DIR=/Path/to/widerface/
-export GT_DIR=../igie/ground_truth
+export GT_DIR=../igie/widerface_evaluate/ground_truth
 ```
 
 ### FP16

@@ -18,7 +18,8 @@ set -x
 
 pip3 install -r requirements.txt
 
-# clone fast-reid first
+# install fast-reid
+git clone https://github.com/JDAI-CV/fast-reid.git --depth=1
 cd fast-reid
 pip3 install -r docs/requirements.txt
 

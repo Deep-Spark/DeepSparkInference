@@ -16,6 +16,15 @@
 
 set -x
 
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install sox libsox-fmt-all -y
+elif [[ ${ID} == "centos" ]]; then
+    yum install sox sox-devel -y
+else
+    echo "Not Support Os"
+fi
+
 pip3 install -r requirements.txt
 cd ctc_decoder/swig && bash setup.sh
 cd ../../
@@ -39,4 +48,4 @@ onnxsim encoder_bs24_seq384_static.onnx encoder_bs24_seq384_static_opt.onnx
 python3 alter_onnx.py --batch_size 24 --path encoder_bs24_seq384_static_opt.onnx
 
 # Need to unzip aishell to the current directory. For details, refer to data.list
-tar -zxvf aishell.tar.gz
+# tar -zxvf aishell.tar.gz

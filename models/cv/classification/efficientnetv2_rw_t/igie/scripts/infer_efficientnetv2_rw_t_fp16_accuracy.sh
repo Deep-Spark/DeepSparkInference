@@ -28,7 +28,7 @@ python3 ${RUN_DIR}build_engine.py                     \
 
 
 # inference
-python3 ${RUN_DIR}inference.py                                      \
+python3 inference.py                                      \
     --engine efficientnetv2_rw_t_bs_${batchsize}_fp16.so  \
     --batchsize ${batchsize}                              \
     --input_name input                                    \

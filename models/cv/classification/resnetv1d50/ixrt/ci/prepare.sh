@@ -26,7 +26,7 @@ else
 fi
 
 pip install -r ../../ixrt_common/requirements.txt
-pip install mmcv==1.5.3 mmcls==0.24.0
+pip install mmcv==1.5.3 mmcls==0.24.0 ppq pycuda transformers==4.37.1
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir checkpoints
 python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/resnet/resnetv1d50_b32x8_imagenet.py --weight resnetv1d50_b32x8_imagenet_20210531-db14775a.pth --output checkpoints/resnet_v1_d50.onnx

@@ -25,3 +25,4 @@ else
 fi
 
 cp -r ../../vllm_public_assets/ ./
+pip install transformer==4.48.0

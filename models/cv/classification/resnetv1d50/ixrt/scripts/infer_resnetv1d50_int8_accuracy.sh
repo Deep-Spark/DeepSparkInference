@@ -13,6 +13,7 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+set -x
 EXIT_STATUS=0
 check_status()
 {
@@ -28,7 +29,7 @@ WARM_UP=0
 LOOP_COUNT=-1
 RUN_MODE=ACC
 PRECISION=int8
-
+export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 # Update arguments
 index=0
 options=$@
@@ -43,6 +44,7 @@ do
 done
 
 source ${CONFIG_DIR}
+echo ${QUANT_OBSERVER}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
@@ -60,16 +62,15 @@ SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_sim.onnx
 
 # Simplify Model
 let step++
-echo;
-echo [STEP ${step}] : Simplify Model
-if [ -f ${SIM_MODEL} ];then
-    echo "  "Simplify Model, ${SIM_MODEL} has been existed
-else
-    python3 ${RUN_DIR}/simplify_model.py \
-    --origin_model $ORIGINE_MODEL    \
-    --output_model ${SIM_MODEL}
-    echo "  "Generate ${SIM_MODEL}
-fi
+ echo [STEP ${step}] : Simplify Model
+ if [ -f ${SIM_MODEL} ];then
+     echo "  "Simplify Model, ${SIM_MODEL} has been existed
+ else
+     python3 ${RUN_DIR}/simplify_model.py \
+     --origin_model $ORIGINE_MODEL    \
+     --output_model ${SIM_MODEL}
+     echo "  "Generate ${SIM_MODEL}
+ fi
 
 # Quant Model
 if [ $PRECISION == "int8" ];then
@@ -83,7 +84,7 @@ if [ $PRECISION == "int8" ];then
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
-        python3 ${RUN_DIR}/quant.py            \
+        python3 ${RUN_DIR}/quant_i8.py            \
             --model ${SIM_MODEL}               \
             --model_name ${MODEL_NAME}         \
             --dataset_dir ${DATASETS_DIR}      \
@@ -120,15 +121,15 @@ ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
-    python3 ${RUN_DIR}/build_engine.py          \
-        --precision ${PRECISION}                \
-        --model ${FINAL_MODEL}                    \
+    python3 ${RUN_DIR}/build_i8_engine.py          \
+        --onnx ${FINAL_MODEL}                    \
+        --qparam_json ${CHECKPOINTS_DIR}/quant_cfg.json \
         --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}
 fi
 
 # Inference
-let step++
+# let step++
 echo;
 echo [STEP ${step}] : Inference
 python3 ${RUN_DIR}/inference.py     \
