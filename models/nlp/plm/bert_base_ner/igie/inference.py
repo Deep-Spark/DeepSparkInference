@@ -141,7 +141,6 @@ def evaluate(args, input_token_ids, batch_labels, outputs, module, device, categ
         print(f"\n* Mean inference time: {run_time:.5f} ms, Mean fps: {fps:.3f}")
         metricResult["metricResult"]["Mean inference time"] = round(run_time, 5)
         metricResult["metricResult"]["Mean fps"] = round(fps, 3)
-        return metricResult
     else:
         print(f"\ncompute evaluation metrics...")
         X, Y, Z = 1e-10, 1e-10, 1e-10
