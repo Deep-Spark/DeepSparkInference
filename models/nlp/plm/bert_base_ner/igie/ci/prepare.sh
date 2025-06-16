@@ -16,7 +16,7 @@
 
 set -x
 
-pip3 uninstall numpy
+rm -rf /usr/local/corex-4.2.0/lib64/python3/dist-packages/numpy*
 pip3 install -r requirements.txt
 
 # Get pytorch weights

@@ -300,7 +300,7 @@ def run_ocr_testcase(model):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    unzip /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
+    unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
 
@@ -359,7 +359,7 @@ def run_trace_testcase(model):
     """
 
     if model["need_third_part"]:
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
+        prepare_script += "unzip -q /mnt/deepspark/data/3rd_party/fast-reid.zip -d ./fast-reid\n"
 
     prepare_script += """
     bash ci/prepare.sh
@@ -536,8 +536,8 @@ def run_speech_testcase(model):
     """
 
     if model["need_third_part"] and model_name == "conformer":
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip /mnt/deepspark/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
+        prepare_script += "unzip -q /mnt/deepspark/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
+        prepare_script += "unzip -q /mnt/deepspark/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
         prepare_script += "tar -xzvf /mnt/deepspark/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
 
     prepare_script += """

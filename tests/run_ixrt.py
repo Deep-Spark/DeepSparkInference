@@ -462,7 +462,6 @@ def run_nlp_testcase(model):
         logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
             result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 1:
             result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t

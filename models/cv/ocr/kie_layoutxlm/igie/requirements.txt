@@ -8,3 +8,4 @@ paddleocr==2.6.0
 paddle2onnx==1.3.0
 python-bidi
 protobuf==3.20.3
+aistudio-sdk==0.2.6
