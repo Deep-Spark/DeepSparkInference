@@ -32,4 +32,4 @@ unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 ../../ixrt_common/export_mmcls.py   \
 --cfg ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
 --weight  /root/data/checkpoints/shufflenet_v1.pth \
---output ./checkpoints/shufflenet_v1.onnx
+--output ./checkpoints/shufflenetv1.onnx

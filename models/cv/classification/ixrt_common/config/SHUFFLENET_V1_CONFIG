@@ -3,7 +3,7 @@
 # ORIGINE_MODEL : 原始onnx文件名称
 IMGSIZE=224
 MODEL_NAME=ShuffleNet_v1
-ORIGINE_MODEL=shufflenet_v1.onnx
+ORIGINE_MODEL=shufflenetv1.onnx
 
 # QUANT CONFIG (仅PRECISION为int8时生效)
     # QUANT_OBSERVER : 量化策略，可选 [hist_percentile, percentile, minmax, entropy, ema]

@@ -41,7 +41,7 @@ git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 python3 ../../ixrt_common/export_mmcls.py   \
     --cfg ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
     --weight  ./shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth \
-    --output ./checkpoints/shufflenet_v1.onnx
+    --output ./checkpoints/shufflenetv1.onnx
 ```
 
 ## Model Inference

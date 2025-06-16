@@ -18,7 +18,8 @@ set -x
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
-    apt install sox libsox-fmt-all -y
+    apt-get update
+    apt install sox libsox-fmt-all
 elif [[ ${ID} == "centos" ]]; then
     yum install sox sox-devel -y
 else
