@@ -1,6 +1,7 @@
 {
     "models": [
         {
+            "display_name": "Conformer",
             "model_name": "conformer",
             "framework": "igie",
             "release_version": "24.03",
@@ -33,6 +34,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Conformer",
             "model_name": "conformer",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -65,6 +67,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Transformer ASR",
             "model_name": "transformer_asr",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -97,6 +100,7 @@
             "demoType": ""
         },
         {
+            "display_name": "AlexNet",
             "model_name": "alexnet",
             "framework": "igie",
             "release_version": "24.03",
@@ -130,6 +134,7 @@
             "demoType": ""
         },
         {
+            "display_name": "AlexNet",
             "model_name": "alexnet",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -163,6 +168,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CLIP",
             "model_name": "clip",
             "framework": "igie",
             "release_version": "24.03",
@@ -195,6 +201,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Conformer Base",
             "model_name": "conformer_base",
             "framework": "igie",
             "release_version": "24.03",
@@ -227,6 +234,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNeXt-Base",
             "model_name": "convnext_base",
             "framework": "igie",
             "release_version": "24.12",
@@ -259,6 +267,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNext Base",
             "model_name": "convnext_base",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -291,6 +300,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNext-S",
             "model_name": "convnext_s",
             "framework": "igie",
             "release_version": "25.03",
@@ -323,6 +333,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNeXt Small",
             "model_name": "convnext_small",
             "framework": "igie",
             "release_version": "24.09",
@@ -355,6 +366,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNeXt Small",
             "model_name": "convnext_small",
             "framework": "ixrt",
             "release_version": "24.12",
@@ -387,6 +399,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CSPDarkNet53",
             "model_name": "cspdarknet53",
             "framework": "igie",
             "release_version": "25.03",
@@ -419,6 +432,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CSPDarkNet53",
             "model_name": "cspdarknet53",
             "framework": "ixrt",
             "release_version": "24.12",
@@ -452,6 +466,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CSPResNet50",
             "model_name": "cspresnet50",
             "framework": "igie",
             "release_version": "25.03",
@@ -484,6 +499,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CSPResNet50",
             "model_name": "cspresnet50",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -517,6 +533,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeiT-tiny",
             "model_name": "deit_tiny",
             "framework": "igie",
             "release_version": "24.09",
@@ -549,6 +566,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeiT-tiny",
             "model_name": "deit_tiny",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -581,6 +599,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet121",
             "model_name": "densenet121",
             "framework": "igie",
             "release_version": "24.03",
@@ -613,6 +632,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet121",
             "model_name": "densenet121",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -645,6 +665,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet161",
             "model_name": "densenet161",
             "framework": "igie",
             "release_version": "24.06",
@@ -677,6 +698,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet161",
             "model_name": "densenet161",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -709,6 +731,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet169",
             "model_name": "densenet169",
             "framework": "igie",
             "release_version": "24.09",
@@ -741,6 +764,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet169",
             "model_name": "densenet169",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -773,6 +797,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet201",
             "model_name": "densenet201",
             "framework": "igie",
             "release_version": "24.12",
@@ -805,6 +830,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DenseNet201",
             "model_name": "densenet201",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -837,6 +863,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNetv2_rw_t",
             "model_name": "efficientnetv2_rw_t",
             "framework": "igie",
             "release_version": "24.06",
@@ -869,6 +896,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNetv2_rw_t",
             "model_name": "efficientnetv2_rw_t",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -901,6 +929,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B0",
             "model_name": "efficientnet_b0",
             "framework": "igie",
             "release_version": "24.03",
@@ -933,6 +962,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B0",
             "model_name": "efficientnet_b0",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -966,6 +996,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B1",
             "model_name": "efficientnet_b1",
             "framework": "igie",
             "release_version": "24.06",
@@ -998,6 +1029,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B1",
             "model_name": "efficientnet_b1",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -1031,6 +1063,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B2",
             "model_name": "efficientnet_b2",
             "framework": "igie",
             "release_version": "24.09",
@@ -1063,6 +1096,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B2",
             "model_name": "efficientnet_b2",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -1095,6 +1129,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B3",
             "model_name": "efficientnet_b3",
             "framework": "igie",
             "release_version": "24.12",
@@ -1127,6 +1162,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B3",
             "model_name": "efficientnet_b3",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -1159,6 +1195,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet B4",
             "model_name": "efficientnet_b4",
             "framework": "igie",
             "release_version": "25.03",
@@ -1191,6 +1228,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNetV2",
             "model_name": "efficientnet_v2",
             "framework": "igie",
             "release_version": "25.03",
@@ -1223,6 +1261,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNetV2",
             "model_name": "efficientnet_v2",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -1256,6 +1295,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet_v2_s",
             "model_name": "efficientnet_v2_s",
             "framework": "igie",
             "release_version": "25.03",
@@ -1288,6 +1328,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet_v2_s",
             "model_name": "efficientnet_v2_s",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -1320,6 +1361,7 @@
             "demoType": ""
         },
         {
+            "display_name": "GoogLeNet",
             "model_name": "googlenet",
             "framework": "igie",
             "release_version": "24.03",
@@ -1353,6 +1395,7 @@
             "demoType": ""
         },
         {
+            "display_name": "GoogLeNet",
             "model_name": "googlenet",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -1386,6 +1429,7 @@
             "demoType": ""
         },
         {
+            "display_name": "HRNet-W18",
             "model_name": "hrnet_w18",
             "framework": "igie",
             "release_version": "25.03",
@@ -1418,6 +1462,7 @@
             "demoType": ""
         },
         {
+            "display_name": "HRNet-W18",
             "model_name": "hrnet_w18",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -1451,6 +1496,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Inception-ResNet-V2",
             "model_name": "inception_resnet_v2",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -1484,6 +1530,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Inception V3",
             "model_name": "inception_v3",
             "framework": "igie",
             "release_version": "25.03",
@@ -1517,6 +1564,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Inception V3",
             "model_name": "inception_v3",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -1550,6 +1598,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MLP-Mixer Base",
             "model_name": "mlp_mixer_base",
             "framework": "igie",
             "release_version": "25.03",
@@ -1582,6 +1631,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MNASNet0_5",
             "model_name": "mnasnet0_5",
             "framework": "igie",
             "release_version": "24.12",
@@ -1614,6 +1664,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MNASNet0_75",
             "model_name": "mnasnet0_75",
             "framework": "igie",
             "release_version": "25.03",
@@ -1646,6 +1697,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MobileNetV2",
             "model_name": "mobilenet_v2",
             "framework": "igie",
             "release_version": "24.03",
@@ -1679,6 +1731,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MobileNetV2",
             "model_name": "mobilenet_v2",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -1712,6 +1765,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MobileNetV3",
             "model_name": "mobilenet_v3",
             "framework": "igie",
             "release_version": "25.03",
@@ -1744,6 +1798,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MobileNetV3",
             "model_name": "mobilenet_v3",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -1776,6 +1831,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MobileNetV3_Large",
             "model_name": "mobilenet_v3_large",
             "framework": "igie",
             "release_version": "24.06",
@@ -1808,6 +1864,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MViTv2-base",
             "model_name": "mvitv2_base",
             "framework": "igie",
             "release_version": "24.12",
@@ -1840,6 +1897,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RegNet_x_16gf",
             "model_name": "regnet_x_16gf",
             "framework": "igie",
             "release_version": "25.03",
@@ -1872,6 +1930,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RegNet_x_1_6gf",
             "model_name": "regnet_x_1_6gf",
             "framework": "igie",
             "release_version": "24.06",
@@ -1904,6 +1963,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RegNet_y_1_6gf",
             "model_name": "regnet_y_1_6gf",
             "framework": "igie",
             "release_version": "24.12",
@@ -1936,6 +1996,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RepVGG",
             "model_name": "repvgg",
             "framework": "igie",
             "release_version": "24.09",
@@ -1968,6 +2029,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RepVGG",
             "model_name": "repvgg",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2000,6 +2062,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Res2Net50",
             "model_name": "res2net50",
             "framework": "igie",
             "release_version": "24.06",
@@ -2032,6 +2095,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Res2Net50",
             "model_name": "res2net50",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2065,6 +2129,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNeSt50",
             "model_name": "resnest50",
             "framework": "igie",
             "release_version": "24.06",
@@ -2097,6 +2162,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet101",
             "model_name": "resnet101",
             "framework": "igie",
             "release_version": "24.06",
@@ -2130,6 +2196,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet101",
             "model_name": "resnet101",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2163,6 +2230,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet152",
             "model_name": "resnet152",
             "framework": "igie",
             "release_version": "24.06",
@@ -2196,6 +2264,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet18",
             "model_name": "resnet18",
             "framework": "igie",
             "release_version": "24.03",
@@ -2229,6 +2298,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet18",
             "model_name": "resnet18",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2262,6 +2332,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet34",
             "model_name": "resnet34",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2295,6 +2366,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet50",
             "model_name": "resnet50",
             "framework": "igie",
             "release_version": "24.03",
@@ -2328,6 +2400,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNet50",
             "model_name": "resnet50",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -2361,6 +2434,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNetV1D50",
             "model_name": "resnetv1d50",
             "framework": "igie",
             "release_version": "24.12",
@@ -2393,6 +2467,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNetV1D50",
             "model_name": "resnetv1d50",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -2425,6 +2500,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNext101_32x8d",
             "model_name": "resnext101_32x8d",
             "framework": "igie",
             "release_version": "25.03",
@@ -2457,6 +2533,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNext101_64x4d",
             "model_name": "resnext101_64x4d",
             "framework": "igie",
             "release_version": "24.12",
@@ -2489,6 +2566,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNext50_32x4d",
             "model_name": "resnext50_32x4d",
             "framework": "igie",
             "release_version": "24.03",
@@ -2521,6 +2599,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNext50_32x4d",
             "model_name": "resnext50_32x4d",
             "framework": "ixrt",
             "release_version": "24.12",
@@ -2553,6 +2632,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SEResNet50",
             "model_name": "seresnet50",
             "framework": "igie",
             "release_version": "24.09",
@@ -2585,6 +2665,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x0_5",
             "model_name": "shufflenetv2_x0_5",
             "framework": "igie",
             "release_version": "24.06",
@@ -2617,6 +2698,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x1_0",
             "model_name": "shufflenetv2_x1_0",
             "framework": "igie",
             "release_version": "25.03",
@@ -2649,6 +2731,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x1_5",
             "model_name": "shufflenetv2_x1_5",
             "framework": "igie",
             "release_version": "24.12",
@@ -2681,6 +2764,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x2_0",
             "model_name": "shufflenetv2_x2_0",
             "framework": "igie",
             "release_version": "25.03",
@@ -2713,6 +2797,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV1",
             "model_name": "shufflenet_v1",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -2745,6 +2830,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SqueezeNet1_0",
             "model_name": "squeezenet_v1_0",
             "framework": "igie",
             "release_version": "25.03",
@@ -2777,6 +2863,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SqueezeNet1_0",
             "model_name": "squeezenet_v1_0",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -2810,6 +2897,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SqueezeNet1_1",
             "model_name": "squeezenet_v1_1",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -2843,6 +2931,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SVT Base",
             "model_name": "svt_base",
             "framework": "igie",
             "release_version": "25.03",
@@ -2875,6 +2964,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Swin Transformer",
             "model_name": "swin_transformer",
             "framework": "igie",
             "release_version": "24.03",
@@ -2907,6 +2997,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Swin Transformer Large",
             "model_name": "swin_transformer_large",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -2939,6 +3030,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VGG11",
             "model_name": "vgg11",
             "framework": "igie",
             "release_version": "25.03",
@@ -2971,6 +3063,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VGG16",
             "model_name": "vgg16",
             "framework": "igie",
             "release_version": "24.03",
@@ -3004,6 +3097,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VGG16",
             "model_name": "vgg16",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -3037,6 +3131,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Wide ResNet101",
             "model_name": "wide_resnet101",
             "framework": "igie",
             "release_version": "25.03",
@@ -3069,6 +3164,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Wide ResNet50",
             "model_name": "wide_resnet50",
             "framework": "igie",
             "release_version": "24.06",
@@ -3102,6 +3198,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Wide ResNet50",
             "model_name": "wide_resnet50",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -3135,6 +3232,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FaceNet",
             "model_name": "facenet",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -3167,6 +3265,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Mask R-CNN",
             "model_name": "mask_rcnn",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -3199,6 +3298,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SOLOv1",
             "model_name": "solov1",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -3231,6 +3331,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSort",
             "model_name": "deepsort",
             "framework": "igie",
             "release_version": "24.03",
@@ -3263,6 +3364,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FastReID",
             "model_name": "fastreid",
             "framework": "igie",
             "release_version": "24.03",
@@ -3295,6 +3397,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RepNet-Vehicle-ReID",
             "model_name": "repnet",
             "framework": "igie",
             "release_version": "25.03",
@@ -3327,6 +3430,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ATSS",
             "model_name": "atss",
             "framework": "igie",
             "release_version": "24.09",
@@ -3359,6 +3463,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CenterNet",
             "model_name": "centernet",
             "framework": "igie",
             "release_version": "24.06",
@@ -3391,6 +3496,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CenterNet",
             "model_name": "centernet",
             "framework": "ixrt",
             "release_version": "24.12",
@@ -3423,6 +3529,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DETR",
             "model_name": "detr",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -3455,6 +3562,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FCOS",
             "model_name": "fcos",
             "framework": "igie",
             "release_version": "24.09",
@@ -3487,6 +3595,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FCOS",
             "model_name": "fcos",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -3519,6 +3628,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FoveaBox",
             "model_name": "foveabox",
             "framework": "igie",
             "release_version": "24.06",
@@ -3551,6 +3661,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FoveaBox",
             "model_name": "foveabox",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -3583,6 +3694,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FSAF",
             "model_name": "fsaf",
             "framework": "igie",
             "release_version": "24.09",
@@ -3615,6 +3727,7 @@
             "demoType": ""
         },
         {
+            "display_name": "FSAF",
             "model_name": "fsaf",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -3647,6 +3760,7 @@
             "demoType": ""
         },
         {
+            "display_name": "HRNet",
             "model_name": "hrnet",
             "framework": "igie",
             "release_version": "24.06",
@@ -3679,6 +3793,7 @@
             "demoType": ""
         },
         {
+            "display_name": "HRNet",
             "model_name": "hrnet",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -3711,6 +3826,7 @@
             "demoType": ""
         },
         {
+            "display_name": "PAA",
             "model_name": "paa",
             "framework": "igie",
             "release_version": "24.12",
@@ -3743,6 +3859,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RetinaFace",
             "model_name": "retinaface",
             "framework": "igie",
             "release_version": "24.09",
@@ -3775,6 +3892,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RetinaFace",
             "model_name": "retinaface",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -3807,6 +3925,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RetinaNet",
             "model_name": "retinanet",
             "framework": "igie",
             "release_version": "24.03",
@@ -3839,6 +3958,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RTMDet",
             "model_name": "rtmdet",
             "framework": "igie",
             "release_version": "24.09",
@@ -3871,6 +3991,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SABL",
             "model_name": "sabl",
             "framework": "igie",
             "release_version": "25.03",
@@ -3903,6 +4024,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv10",
             "model_name": "yolov10",
             "framework": "igie",
             "release_version": "24.12",
@@ -3935,6 +4057,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv11",
             "model_name": "yolov11",
             "framework": "igie",
             "release_version": "25.03",
@@ -3967,6 +4090,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv3",
             "model_name": "yolov3",
             "framework": "igie",
             "release_version": "24.03",
@@ -4000,6 +4124,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv3",
             "model_name": "yolov3",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -4033,6 +4158,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv4",
             "model_name": "yolov4",
             "framework": "igie",
             "release_version": "24.03",
@@ -4066,6 +4192,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv4",
             "model_name": "yolov4",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -4099,6 +4226,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv5",
             "model_name": "yolov5",
             "framework": "igie",
             "release_version": "24.03",
@@ -4132,6 +4260,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv5",
             "model_name": "yolov5",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -4165,6 +4294,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv5s",
             "model_name": "yolov5s",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -4198,6 +4328,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv6",
             "model_name": "yolov6",
             "framework": "igie",
             "release_version": "24.03",
@@ -4230,6 +4361,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv6",
             "model_name": "yolov6",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -4263,6 +4395,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv7",
             "model_name": "yolov7",
             "framework": "igie",
             "release_version": "24.03",
@@ -4296,6 +4429,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv7",
             "model_name": "yolov7",
             "framework": "ixrt",
             "release_version": "24.06",
@@ -4329,6 +4463,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv8",
             "model_name": "yolov8",
             "framework": "igie",
             "release_version": "24.03",
@@ -4362,6 +4497,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv8",
             "model_name": "yolov8",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -4395,6 +4531,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv9",
             "model_name": "yolov9",
             "framework": "igie",
             "release_version": "24.12",
@@ -4427,6 +4564,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOX",
             "model_name": "yolox",
             "framework": "igie",
             "release_version": "24.03",
@@ -4460,6 +4598,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOX",
             "model_name": "yolox",
             "framework": "ixrt",
             "release_version": "24.03",
@@ -4493,6 +4632,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Kie_layoutXLM",
             "model_name": "kie_layoutxlm",
             "framework": "igie",
             "release_version": "24.12",
@@ -4525,6 +4665,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SVTR",
             "model_name": "svtr",
             "framework": "igie",
             "release_version": "25.03",
@@ -4557,6 +4698,7 @@
             "demoType": ""
         },
         {
+            "display_name": "HRNetPose",
             "model_name": "hrnetpose",
             "framework": "igie",
             "release_version": "25.03",
@@ -4589,6 +4731,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Lightweight OpenPose",
             "model_name": "lightweight_openpose",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -4621,6 +4764,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RTMPose",
             "model_name": "rtmpose",
             "framework": "igie",
             "release_version": "24.09",
@@ -4653,6 +4797,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RTMPose",
             "model_name": "rtmpose",
             "framework": "ixrt",
             "release_version": "24.12",
@@ -4685,6 +4830,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Stable Diffusion 1.5",
             "model_name": "stable-diffusion",
             "framework": "diffusers",
             "release_version": "25.03",
@@ -4717,6 +4863,7 @@
             "demoType": "image"
         },
         {
+            "display_name": "Chameleon-7B",
             "model_name": "chameleon_7b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4749,6 +4896,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CLIP",
             "model_name": "clip",
             "framework": "ixformer",
             "release_version": "25.03",
@@ -4781,6 +4929,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Fuyu-8B",
             "model_name": "fuyu_8b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4813,6 +4962,7 @@
             "demoType": ""
         },
         {
+            "display_name": "InternVL2-4B",
             "model_name": "intern_vl",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4845,6 +4995,7 @@
             "demoType": "image-to-text"
         },
         {
+            "display_name": "LLaVA",
             "model_name": "llava",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4877,6 +5028,7 @@
             "demoType": ""
         },
         {
+            "display_name": "LLaVA-Next-Video-7B",
             "model_name": "llava_next_video_7b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4909,6 +5061,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Baichuan2-7B",
             "model_name": "baichuan2-7b",
             "framework": "vllm",
             "release_version": "24.06",
@@ -4942,6 +5095,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ChatGLM-3-6B",
             "model_name": "chatglm3-6b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -4974,6 +5128,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ChatGLM-3-6B-32K",
             "model_name": "chatglm3-6b-32k",
             "framework": "vllm",
             "release_version": "24.12",
@@ -5006,6 +5161,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Llama-70B",
             "model_name": "deepseek-r1-distill-llama-70b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5038,6 +5194,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Llama-8B",
             "model_name": "deepseek-r1-distill-llama-8b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5070,6 +5227,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Qwen-1.5B",
             "model_name": "deepseek-r1-distill-qwen-1.5b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5102,6 +5260,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Qwen-14B",
             "model_name": "deepseek-r1-distill-qwen-14b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5134,6 +5293,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Qwen-32B",
             "model_name": "deepseek-r1-distill-qwen-32b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5166,6 +5326,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeepSeek-R1-Distill-Qwen-7B",
             "model_name": "deepseek-r1-distill-qwen-7b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5198,6 +5359,7 @@
             "demoType": "chat"
         },
         {
+            "display_name": "Llama2-13B",
             "model_name": "llama2-13b",
             "framework": "trtllm",
             "release_version": "25.03",
@@ -5230,6 +5392,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Llama2-70B",
             "model_name": "llama2-70b",
             "framework": "trtllm",
             "release_version": "25.03",
@@ -5262,6 +5425,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Llama2-7B",
             "model_name": "llama2-7b",
             "framework": "trtllm",
             "release_version": "25.03",
@@ -5294,6 +5458,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Llama2-7B",
             "model_name": "llama2-7b",
             "framework": "vllm",
             "release_version": "24.12",
@@ -5326,6 +5491,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Llama3-70B",
             "model_name": "llama3-70b",
             "framework": "vllm",
             "release_version": "24.09",
@@ -5358,6 +5524,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen-7B",
             "model_name": "qwen-7b",
             "framework": "vllm",
             "release_version": "24.12",
@@ -5390,6 +5557,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen1.5-14B",
             "model_name": "qwen1.5-14b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5422,6 +5590,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen1.5-32B",
             "model_name": "qwen1.5-32b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5454,6 +5623,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen1.5-72B",
             "model_name": "qwen1.5-72b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5486,6 +5656,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen1.5-7B",
             "model_name": "qwen1.5-7b",
             "framework": "tgi",
             "release_version": "25.03",
@@ -5518,6 +5689,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen1.5-7B",
             "model_name": "qwen1.5-7b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5550,6 +5722,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen2-72B",
             "model_name": "qwen2-72b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5582,6 +5755,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Qwen2-7B",
             "model_name": "qwen2-7b",
             "framework": "vllm",
             "release_version": "25.03",
@@ -5614,6 +5788,7 @@
             "demoType": ""
         },
         {
+            "display_name": "StableLM2-1.6B",
             "model_name": "stablelm",
             "framework": "vllm",
             "release_version": "24.12",
@@ -5646,6 +5821,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ALBERT",
             "model_name": "albert",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -5678,6 +5854,7 @@
             "demoType": ""
         },
         {
+            "display_name": "BERT Base NER",
             "model_name": "bert_base_ner",
             "framework": "igie",
             "release_version": "25.03",
@@ -5710,6 +5887,7 @@
             "demoType": ""
         },
         {
+            "display_name": "BERT Base SQuAD",
             "model_name": "bert_base_squad",
             "framework": "igie",
             "release_version": "25.03",
@@ -5742,6 +5920,7 @@
             "demoType": ""
         },
         {
+            "display_name": "BERT Base SQuAD",
             "model_name": "bert_base_squad",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -5774,6 +5953,7 @@
             "demoType": ""
         },
         {
+            "display_name": "BERT Large SQuAD",
             "model_name": "bert_large_squad",
             "framework": "igie",
             "release_version": "25.03",
@@ -5806,6 +5986,7 @@
             "demoType": ""
         },
         {
+            "display_name": "BERT Large SQuAD",
             "model_name": "bert_large_squad",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -5838,6 +6019,7 @@
             "demoType": ""
         },
         {
+            "display_name": "DeBERTa",
             "model_name": "deberta",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -5870,6 +6052,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RoBERTa",
             "model_name": "roberta",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -5902,6 +6085,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RoFormer",
             "model_name": "roformer",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -5934,6 +6118,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VideoBERT",
             "model_name": "videobert",
             "framework": "ixrt",
             "release_version": "24.09",
@@ -5966,6 +6151,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Wide & Deep",
             "model_name": "wide_and_deep",
             "framework": "ixrt",
             "release_version": "25.03",
@@ -5998,6 +6184,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ConvNeXt-Tiny",
             "model_name": "convnext_tiny",
             "framework": "igie",
             "release_version": "25.06",
@@ -6030,6 +6217,7 @@
             "demoType": ""
         },
         {
+            "display_name": "CSPResNeXt50",
             "model_name": "cspresnext50",
             "framework": "igie",
             "release_version": "25.06",
@@ -6062,6 +6250,7 @@
             "demoType": ""
         },
         {
+            "display_name": "EfficientNet-B5",
             "model_name": "efficientnet_b5",
             "framework": "igie",
             "release_version": "25.06",
@@ -6094,6 +6283,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MNASNet1_0",
             "model_name": "mnasnet1_0",
             "framework": "igie",
             "release_version": "25.06",
@@ -6126,6 +6316,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Twins_PCPVT",
             "model_name": "twins_pcpvt",
             "framework": "igie",
             "release_version": "25.06",
@@ -6158,6 +6349,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VAN_B0",
             "model_name": "van_b0",
             "framework": "igie",
             "release_version": "25.06",
@@ -6190,6 +6382,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RegNet_x_3_2gf",
             "model_name": "regnet_x_3_2gf",
             "framework": "igie",
             "release_version": "25.06",
@@ -6222,6 +6415,7 @@
             "demoType": ""
         },
         {
+            "display_name": "RegNet_y_16gf",
             "model_name": "regnet_y_16gf",
             "framework": "igie",
             "release_version": "25.06",
@@ -6254,6 +6448,7 @@
             "demoType": ""
         },
         {
+            "display_name": "SqueezeNet 1.1",
             "model_name": "squeezenet_v1_1",
             "framework": "igie",
             "release_version": "25.06",
@@ -6286,6 +6481,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VGG19",
             "model_name": "vgg19",
             "framework": "igie",
             "release_version": "25.06",
@@ -6318,6 +6514,7 @@
             "demoType": ""
         },
         {
+            "display_name": "VGG19_BN",
             "model_name": "vgg19_bn",
             "framework": "igie",
             "release_version": "25.06",
@@ -6350,6 +6547,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ViT",
             "model_name": "vit",
             "framework": "igie",
             "release_version": "25.06",
@@ -6382,6 +6580,7 @@
             "demoType": ""
         },
         {
+            "display_name": "GFL",
             "model_name": "gfl",
             "framework": "igie",
             "release_version": "25.06",
@@ -6414,6 +6613,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv12",
             "model_name": "yolov12",
             "framework": "igie",
             "release_version": "25.06",
@@ -6446,6 +6646,7 @@
             "demoType": ""
         },
         {
+            "display_name": "UNet",
             "model_name": "unet",
             "framework": "igie",
             "release_version": "25.06",
@@ -6478,6 +6679,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNeXt101_32x8d",
             "model_name": "resnext101_32x8d",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6510,6 +6712,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ResNeXt101_64x4d",
             "model_name": "resnext101_64x4d",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6542,6 +6745,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x0_5",
             "model_name": "shufflenetv2_x0_5",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6574,6 +6778,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x1_0",
             "model_name": "shufflenetv2_x1_0",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6606,6 +6811,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x1_5",
             "model_name": "shufflenetv2_x1_5",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6638,6 +6844,7 @@
             "demoType": ""
         },
         {
+            "display_name": "ShuffleNetV2_x2_0",
             "model_name": "shufflenetv2_x2_0",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6670,6 +6877,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv10",
             "model_name": "yolov10",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6702,6 +6910,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv11",
             "model_name": "yolov11",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6734,6 +6943,7 @@
             "demoType": ""
         },
         {
+            "display_name": "YOLOv9",
             "model_name": "yolov9",
             "framework": "ixrt",
             "release_version": "25.06",
@@ -6766,6 +6976,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Aria",
             "model_name": "aria",
             "framework": "vllm",
             "release_version": "25.06",
@@ -6798,6 +7009,7 @@
             "demoType": ""
         },
         {
+            "display_name": "H2OVL Mississippi",
             "model_name": "h2vol",
             "framework": "vllm",
             "release_version": "25.06",
@@ -6830,6 +7042,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Idefics3",
             "model_name": "idefics3",
             "framework": "vllm",
             "release_version": "25.06",
@@ -6862,6 +7075,7 @@
             "demoType": ""
         },
         {
+            "display_name": "MiniCPM-V 2",
             "model_name": "minicpm_v",
             "framework": "vllm",
             "release_version": "25.06",
@@ -6894,6 +7108,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Llama-3.2",
             "model_name": "llama-3.2",
             "framework": "vllm",
             "release_version": "25.06",
@@ -6926,6 +7141,7 @@
             "demoType": ""
         },
         {
+            "display_name": "Pixtral",
             "model_name": "pixtral",
             "framework": "vllm",
             "release_version": "25.06",
