@@ -1,6 +1,6 @@
 onnx
 tqdm
 mmdet
-mmdeploy
+mmdeploy==1.3.1
 mmengine
 transformers==4.37.1

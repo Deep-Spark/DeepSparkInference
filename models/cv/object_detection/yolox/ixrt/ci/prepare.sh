@@ -29,7 +29,7 @@ pip install -r requirements.txt
 unzip -q /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
 ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
 # install ixrt run
-bash /root/data/3rd_party/ixrt-0.10.0+corex.4.2.0.20250115-linux_x86_64.run
+bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
 cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
 if [ "$1" = "nvidia" ]; then
     cd ../plugin && mkdir -p build && cd build && cmake .. -DUSE_TRT=1 && make -j12

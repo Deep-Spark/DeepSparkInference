@@ -3,3 +3,4 @@ tqdm
 transformers
 bert4torch
 numpy==1.23.5
+h5py

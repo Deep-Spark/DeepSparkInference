@@ -39,7 +39,7 @@ apt install -y libgl1-mesa-glx
 ## Model Inference
 
 ```bash
-python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-14B --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 896
+python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-14B --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 896
 ```
 
 ## Model Results

@@ -156,6 +156,12 @@ def run_clf_testcase(model):
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
+    """
+    if model["category"] == "cv/semantic_segmentation":
+        prepare_script += """
+        pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        """
+    prepare_script += f"""
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -231,6 +237,10 @@ def run_detec_testcase(model):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
+    # for 4.3.0 sdk need pre install mmcv
+    prepare_script += """
+    pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    """
 
     # if model["need_third_part"] and model["3rd_party_repo"]:
     #     third_party_repo = model["3rd_party_repo"]
@@ -296,10 +306,12 @@ def run_ocr_testcase(model):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    # for 4.3.0 sdk need pre install paddle
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
+    pip install /mnt/deepspark/install/paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """

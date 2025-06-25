@@ -2,3 +2,4 @@ tqdm
 onnx
 onnxsim
 pycocotools
+ninja==1.11.1.3

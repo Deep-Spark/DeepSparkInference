@@ -24,8 +24,12 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-
-pip3 install -r requirements.txt
+# before install mmpose==1.3.1 need to install chchumpy==0.70 which is too older that is not compatible with newer Python versions or pip
+# so need to downgrade pip to version 20.2.4
+pip install pip==20.2.4
+pip install mmpose==1.3.1
+pip install --upgrade pip
+pip install -r requirements.txt
 
 # export onnx model
 python3 export.py --weight hrnet_w32_coco_256x192-c78dce93_20200708.pth --cfg td-hm_hrnet-w32_8xb64-210e_coco-256x192.py --input 1,3,256,192  --output hrnetpose.onnx
