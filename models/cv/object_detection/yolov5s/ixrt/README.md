@@ -54,10 +54,10 @@ popd
 
 ```bash
 export PROJ_DIR=/Path/to/yolov5s/ixrt
-export DATASETS_DIR=/Path/to/coco2017/
+export DATASETS_DIR=/Path/to/coco/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-export EVAL_DIR=${DATASETS_DIR}/val2017
+export EVAL_DIR=${DATASETS_DIR}/images/val2017
 export RUN_DIR=${PROJ_DIR}/
 export CONFIG_DIR=config/YOLOV5S_CONFIG
 ```

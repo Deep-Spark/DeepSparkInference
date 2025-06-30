@@ -1,21 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import argparse
 import glob
 import json
@@ -25,8 +10,8 @@ import sys
 
 import torch
 import numpy as np
-import pycuda.autoinit
-import pycuda.driver as cuda
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 
 from coco_labels import coco80_to_coco91_class, labels
 from common import save2json, box_class85to6
@@ -62,7 +47,7 @@ def main(config):
 
     bsz = config.bsz
     num_samples = 5000
-    if config.loop_count > 0 and config.loop_count < num_samples/bsz :
+    if config.loop_count > 0:
         num_samples = bsz * config.loop_count
     num_batch = len(dataloader)
     print("=" * 30)
@@ -109,17 +94,19 @@ def main(config):
         cur_bsz_sample = batch_data.shape[0]
 
         # Set input
-        cuda.memcpy_htod(inputs[0]["allocation"], batch_data)
+        err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], batch_data, batch_data.nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
 
         # Forward
-        start_time = time.time()
+        # start_time = time.time()
         context.execute_v2(allocations)
-        end_time = time.time()
-        forward_time += end_time - start_time
+        # end_time = time.time()
+        # forward_time += end_time - start_time
 
         if config.test_mode == "MAP":
             # Fetch output
-            cuda.memcpy_dtoh(output, outputs[0]["allocation"])
+            err, = cuda.cuMemcpyDtoH(output, outputs[0]["allocation"], outputs[0]["nbytes"])
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
 
             # Step 1 : prepare data to nms
             _, box_num, box_unit = output.shape
@@ -138,10 +125,13 @@ def main(config):
             if config.nms_type == "GPU":
 
                 # Set nms input
-                cuda.memcpy_htod(nms_inputs[0]["allocation"], nms_input)
+                err, = cuda.cuMemcpyHtoD(nms_inputs[0]["allocation"], nms_input, nms_input.nbytes)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
                 nms_context.execute_v2(nms_allocations)
-                cuda.memcpy_dtoh(nms_output0, nms_outputs[0]["allocation"])
-                cuda.memcpy_dtoh(nms_output1, nms_outputs[1]["allocation"])
+                err, = cuda.cuMemcpyDtoH(nms_output0, nms_outputs[0]["allocation"], nms_outputs[0]["nbytes"])
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuMemcpyDtoH(nms_output1, nms_outputs[1]["allocation"], nms_outputs[1]["nbytes"])
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
 
             # Step 3 : post process + save
             pred_boxes = post_process_func(
@@ -154,9 +144,15 @@ def main(config):
             )
             save2json(batch_img_id, pred_boxes, json_result, class_map)
 
-    fps = num_samples / forward_time
+    # fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
+        start_time = time.time()       
+        for i in range(config.loop_count):
+            context.execute_v2(allocations)  
+        end_time = time.time()  
+        forward_time = end_time - start_time      
+        fps = (config.loop_count*config.bsz) / forward_time
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {config.fps_target}")
         if fps >= config.fps_target:
@@ -164,12 +160,12 @@ def main(config):
             exit()
         else:
             print("failed!")
-            exit(1)
+            exit(10)
 
     if config.test_mode == "MAP":
         if len(json_result) == 0:
             print("Predict zero box!")
-            exit(1)
+            exit(10)
 
         if not os.path.exists(config.pred_dir):
             os.makedirs(config.pred_dir)
@@ -180,7 +176,6 @@ def main(config):
         with open(pred_json, "w") as f:
             json.dump(json_result, f)
 
-        start_time = time.time()
         anno_json = config.coco_gt
         anno = COCO(anno_json)  # init annotations api
         pred = anno.loadRes(pred_json)  # init predictions api
@@ -192,18 +187,16 @@ def main(config):
             f"==============================eval {config.model_name} {config.precision} coco map =============================="
         )
         eval.summarize()
-        e2e_time = time.time() - start_time
+
         map, map50 = eval.stats[:2]
-        print(F"E2E time : {e2e_time:.3f} seconds")
         print("MAP@0.5 : ", map50)
         print(f"Accuracy Check : Test {map50} >= target {config.map_target}")
-        print(F"E2E time : {e2e_time:.3f} seconds")
         if map50 >= config.map_target:
             print("pass!")
             exit()
         else:
             print("failed!")
-            exit(1)
+            exit(10)
 
 def parse_config():
     parser = argparse.ArgumentParser()
