@@ -271,7 +271,7 @@ def run_detec_testcase(model):
         export PROJ_DIR=./
         export CHECKPOINTS_DIR=./checkpoints
         export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
-        export EVAL_DIR=./{dataset_n}/val2017
+        export EVAL_DIR=./{dataset_n}/images/val2017
         export RUN_DIR=./
         export CONFIG_DIR=config/{config_name}_CONFIG
 
