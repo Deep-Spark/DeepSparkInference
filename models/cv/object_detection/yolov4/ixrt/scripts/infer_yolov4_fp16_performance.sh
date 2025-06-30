@@ -1,92 +1,186 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
 
 EXIT_STATUS=0
 check_status()
 {
-    if ((${PIPESTATUS[0]} != 0));then
-    EXIT_STATUS=1
+    ret_code=${PIPESTATUS[0]}
+    if [ ${ret_code} != 0 ]; then
+    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
     fi
 }
 
-PROJ_DIR=$(cd $(dirname $0);cd ../; pwd)
-DATASETS_DIR=${DATASETS_DIR:-"${PROJ_DIR}/data/coco"}
-COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-EVAL_DIR=${DATASETS_DIR}/images/val2017
-CHECKPOINTS_DIR="${PROJ_DIR}/data"
-RUN_DIR="${PROJ_DIR}"
-ORIGINE_MODEL=${CHECKPOINTS_DIR}
+# Run paraments
+BSZ=32
+WARM_UP=3
+TGT=1010
+LOOP_COUNT=100
+RUN_MODE=FPS
+PRECISION=float16
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) BSZ=${arguments[index]};;
+      --tgt) TGT=${arguments[index]};;
+    esac
+done
+
+source ${CONFIG_DIR}
+ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
 echo DATASETS_DIR : ${DATASETS_DIR}
 echo RUN_DIR : ${RUN_DIR}
+echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
-echo Model Name : yolov4_darknet
+echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
 
-BATCH_SIZE=16
-CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov4_sim.onnx
+CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
+mkdir -p ${CHECKPOINTS_DIR}
 
-# Cut decoder part
-echo "Cut decoder part"
-FINAL_MODEL=${CHECKPOINTS_DIR}/yolov4_bs${BATCH_SIZE}_without_decoder.onnx
-if [ -f $FINAL_MODEL ];then
-    echo "  "CUT Model Skip, $FINAL_MODEL has been existed
-else
-    python3 ${RUN_DIR}/cut_model.py  \
-        --input_model ${CURRENT_MODEL}     \
-        --output_model ${FINAL_MODEL}      \
-        --input_names input                \
-        --output_names /models.138/conv94/Conv_output_0 /models.149/conv102/Conv_output_0 /models.160/conv110/Conv_output_0
-    echo "  "Generate ${FINAL_MODEL}
+step=0
+faster=0
+CURRENT_MODEL=${ORIGINE_MODEL}
+if [[ ${LAYER_FUSION} == 1 && ${DECODER_FASTER} == 1 ]];then
+    faster=1
 fi
-CURRENT_MODEL=${FINAL_MODEL}
 
-# add decoder op
-FINAL_MODEL=${CHECKPOINTS_DIR}/yolov4_bs${BATCH_SIZE}_with_decoder.onnx
-if [ -f $FINAL_MODEL ];then
-    echo "  "Add Decoder Skip, $FINAL_MODEL has been existed
+# Simplify Model
+let step++
+echo [STEP ${step}] : Simplify Model
+SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_sim.onnx
+if [ -f ${SIM_MODEL} ];then
+    echo "  "Simplify Model skip, ${SIM_MODEL} has been existed
 else
-    python3 ${RUN_DIR}/deploy.py             \
-        --src ${CURRENT_MODEL}               \
-        --dst ${FINAL_MODEL}                 \
-        --decoder_type YoloV3Decoder          \
-        --decoder_input_names /models.138/conv94/Conv_output_0 /models.149/conv102/Conv_output_0 /models.160/conv110/Conv_output_0 \
-        --decoder8_anchor 12 16 19 36 40 28            \
-        --decoder16_anchor 36 75 76 55 72 146          \
-        --decoder32_anchor 142 110 192 243 459 401
+    python3 ${RUN_DIR}/simplify_model.py    \
+    --origin_model ${CURRENT_MODEL}         \
+    --output_model ${SIM_MODEL}
+    echo "  "Generate ${SIM_MODEL}
+fi
+CURRENT_MODEL=${SIM_MODEL}
+
+# Cut Decoder
+let step++
+echo [STEP ${step}] : Cut Decoder
+NO_DECODER_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_without_decoder.onnx
+if [ -f ${NO_DECODER_MODEL} ];then
+    echo "  "Cut Decoder skip, ${SIM_MNO_DECODER_MODELODEL} has been existed
+else
+    python3 ${RUN_DIR}/cut_model.py         \
+    --input_model  ${CURRENT_MODEL}         \
+    --output_model ${NO_DECODER_MODEL}      \
+    --input_names ${MODEL_INPUT_NAMES[@]}   \
+    --output_names ${DECODER_INPUT_NAMES[@]}
+fi
+CURRENT_MODEL=${NO_DECODER_MODEL}
+
+
+# Quant Model
+if [ $PRECISION == "int8" ];then
+    let step++
+    echo;
+    echo [STEP ${step}] : Quant Model
+    if [[ -z ${QUANT_EXIST_ONNX} ]];then
+        QUANT_EXIST_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
+    fi
+    if [[ -f ${QUANT_EXIST_ONNX} ]];then
+        CURRENT_MODEL=${QUANT_EXIST_ONNX}
+        echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
+    else
+        python3 ${RUN_DIR}/quant.py                         \
+            --model ${CURRENT_MODEL}                        \
+            --model_name ${MODEL_NAME}                      \
+            --dataset_dir ${EVAL_DIR}                       \
+            --ann_file ${COCO_GT}                           \
+            --data_process_type ${DATA_PROCESS_TYPE}        \
+            --observer ${QUANT_OBSERVER}                    \
+            --disable_quant_names ${DISABLE_QUANT_LIST[@]}  \
+            --save_dir $CHECKPOINTS_DIR                     \
+            --bsz   ${QUANT_BATCHSIZE}                      \
+            --step  ${QUANT_STEP}                           \
+            --seed  ${QUANT_SEED}                           \
+            --imgsz ${IMGSIZE}
+        echo "  "Generate ${QUANT_EXIST_ONNX}
+    fi
+    CURRENT_MODEL=${QUANT_EXIST_ONNX}
+fi
+
+# Add Decoder
+if [ $LAYER_FUSION == "1" ]; then
+    let step++
+    echo;
+    echo [STEP ${step}] : Add Decoder
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_fusion_no_cancat.onnx
+    if [ -f $FUSION_ONNX ];then
+        echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
+    else
+        python3 ${RUN_DIR}/deploy.py                        \
+            --src ${CURRENT_MODEL}                          \
+            --dst ${FUSION_ONNX}                            \
+            --decoder_type        YoloV3Decoder             \
+            --with_nms             False                   \
+            --decoder_input_names ${DECODER_INPUT_NAMES[@]} \
+            --decoder8_anchor     ${DECODER_8_ANCHOR[@]}    \
+            --decoder16_anchor    ${DECODER_16_ANCHOR[@]}   \
+            --decoder32_anchor    ${DECODER_32_ANCHOR[@]}   \
+            --num_class           ${DECODER_NUM_CLASS}      \
+            --faster              ${faster}
+    fi
+    CURRENT_MODEL=${FUSION_ONNX}
+fi
+
+# Change Batchsize
+let step++
+echo;
+echo [STEP ${step}] : Change Batchsize
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}_without_nms.onnx
+if [ -f $FINAL_MODEL ];then
+    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
+else
+    python3 ${RUN_DIR}/modify_batchsize.py  \
+        --batch_size ${BSZ}                 \
+        --origin_model ${CURRENT_MODEL}     \
+        --output_model ${FINAL_MODEL}
     echo "  "Generate ${FINAL_MODEL}
 fi
 CURRENT_MODEL=${FINAL_MODEL}
 
 # Build Engine
-echo Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/yolov4_fp16.engine
+let step++
+echo;
+echo [STEP ${step}] : Build Engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_without_nms.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
     python3 ${RUN_DIR}/build_engine.py          \
-        --precision float16                        \
+        --precision ${PRECISION}                \
         --model ${CURRENT_MODEL}                \
         --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}
 fi
+if [[ ${RUN_MODE} == "MAP" && ${NMS_TYPE} == "GPU" ]];then
+    NMS_ENGINE=${CHECKPOINTS_DIR}/nms.engine
+    # Build NMS Engine
+    python3 ${RUN_DIR}/build_nms_engine.py      \
+        --bsz ${BSZ}                            \
+        --path ${CHECKPOINTS_DIR}               \
+        --all_box_num ${ALL_BOX_NUM}            \
+        --max_box_pre_img   ${MAX_BOX_PRE_IMG}  \
+        --iou_thresh        ${IOU_THRESH}       \
+        --score_thresh      ${SCORE_THRESH}
+fi
 
 # Inference
-echo Inference
+let step++
+echo;
+echo [STEP ${step}] : Inference
 RUN_BATCH_SIZE=16
 python3 ${RUN_DIR}/inference.py                 \
     --test_mode FPS                             \

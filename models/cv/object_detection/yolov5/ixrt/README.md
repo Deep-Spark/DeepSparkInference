@@ -30,7 +30,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
 ### Model Conversion
@@ -54,13 +54,13 @@ mv yolov5m.onnx /Path/to/checkpoints
 ## Model Inference
 
 ```bash
-export PROJ_DIR=/Path/to/yolov5/ixrt
-export DATASETS_DIR=/Path/to/coco2017/
+export PROJ_DIR=./
+export DATASETS_DIR=/Path/to/coco/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-export EVAL_DIR=${DATASETS_DIR}/val2017
-export RUN_DIR=/Path/to/yolov5/ixrt
-export CONFIG_DIR=config/YOLOV5_CONFIG
+export EVAL_DIR=${DATASETS_DIR}/images/val2017
+export RUN_DIR=../../ixrt_common
+export CONFIG_DIR=../../ixrt_common/config/YOLOV5M_CONFIG
 ```
 
 ### FP16

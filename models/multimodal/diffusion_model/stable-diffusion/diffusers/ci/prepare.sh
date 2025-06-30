@@ -24,5 +24,5 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install http://files.deepspark.org.cn:880/deepspark/add-ons/diffusers-0.31.0-py3-none-any.whl
+pip3 install /mnt/deepspark/data/3rd_party/diffusers-0.31.0-py3-none-any.whl
 pip3 install -r requirements.txt

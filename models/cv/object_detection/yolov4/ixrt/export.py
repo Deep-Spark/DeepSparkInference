@@ -32,11 +32,6 @@ def parse_args():
                     required=True, 
                     help="darknet weights path.")
     
-    parser.add_argument("--batchsize", 
-                    type=int, 
-                    required=True, 
-                    help="Onnx model batchsize.")
-    
     parser.add_argument("--output", 
                     type=str, 
                     required=True, 
@@ -49,7 +44,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    transform_to_onnx(args.cfg, args.weight, args.batchsize, args.output)
+    transform_to_onnx(args.cfg, args.weight, -1, args.output)
     
 if __name__ == "__main__":
     main()

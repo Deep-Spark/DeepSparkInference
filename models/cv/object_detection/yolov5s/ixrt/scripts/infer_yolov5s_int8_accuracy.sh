@@ -1,18 +1,4 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
 
 EXIT_STATUS=0
 check_status()
@@ -48,8 +34,6 @@ ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
 echo DATASETS_DIR : ${DATASETS_DIR}
-echo COCO_GT : ${COCO_GT}
-echo EVAL_DIR : ${EVAL_DIR}
 echo RUN_DIR : ${RUN_DIR}
 echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
@@ -98,7 +82,7 @@ if [ $PRECISION == "int8" ];then
     echo;
     echo [STEP ${step}] : Quant Model
     if [[ -z ${QUANT_EXIST_ONNX} ]];then
-        QUANT_EXIST_ONNX=${CHECKPOINTS_DIR}/quantized_${MODEL_NAME}.onnx
+        QUANT_EXIST_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
     fi
     if [[ -f ${QUANT_EXIST_ONNX} ]];then
         CURRENT_MODEL=${QUANT_EXIST_ONNX}
@@ -112,7 +96,7 @@ if [ $PRECISION == "int8" ];then
             --data_process_type ${DATA_PROCESS_TYPE}        \
             --observer ${QUANT_OBSERVER}                    \
             --disable_quant_names ${DISABLE_QUANT_LIST[@]}  \
-            --save_dir ${CHECKPOINTS_DIR}                     \
+            --save_dir $CHECKPOINTS_DIR                     \
             --bsz   ${QUANT_BATCHSIZE}                      \
             --step  ${QUANT_STEP}                           \
             --seed  ${QUANT_SEED}                           \

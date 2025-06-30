@@ -1519,7 +1519,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "",
-            "download_url": "",
+            "download_url": "http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2-520b38e4.pth",
             "need_third_part": "",
             "precisions": [
                 "fp16",
