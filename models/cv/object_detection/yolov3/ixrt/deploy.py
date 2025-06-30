@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
@@ -77,17 +62,16 @@ def customize_ops(graph, args):
         stride=16,
         faster_impl=args.faster
     )
-    
+    graph = t.AddYoloDecoderOp(
+        inputs=decoder_input[num*2:num*2+1],
+        outputs=["decoder_32"],
+        op_type=args.decoder_type,
+        anchor=args.decoder32_anchor,
+        num_class=args.num_class,
+        stride=32,
+        faster_impl=args.faster
+    )
     if args.decoder64_anchor is not None:
-        graph = t.AddYoloDecoderOp(
-            inputs=decoder_input[num*2:num*2+1],
-            outputs=["decoder_32"],
-            op_type=args.decoder_type,
-            anchor=args.decoder32_anchor,
-            num_class=args.num_class,
-            stride=32,
-            faster_impl=args.faster
-        )
         graph = t.AddYoloDecoderOp(
             inputs=decoder_input[num*2+1:],
             outputs=["decoder_64"],
@@ -102,25 +86,24 @@ def customize_ops(graph, args):
             outputs=["output"],
             axis=1
         )
-    else:
-        graph = t.AddYoloDecoderOp(
-            inputs=decoder_input[num*2:],
-            outputs=["decoder_32"],
-            op_type=args.decoder_type,
-            anchor=args.decoder32_anchor,
-            num_class=args.num_class,
-            stride=32,
-            faster_impl=args.faster
-        )
+    elif args.with_nms:
         graph = t.AddConcatOp(
             inputs=["decoder_32", "decoder_16", "decoder_8"],
             outputs=["output"],
             axis=1
         )
 
-    graph.outputs.clear()
-    graph.add_output("output")
-    graph.outputs["output"].dtype = "FLOAT"
+        graph.outputs.clear()
+        graph.add_output("output")
+        graph.outputs["output"].dtype = "FLOAT"
+    else:
+        graph.outputs.clear()
+        graph.add_output("decoder_8")
+        graph.outputs["decoder_8"].dtype = "FLOAT"
+        graph.add_output("decoder_16")
+        graph.outputs["decoder_16"].dtype = "FLOAT"
+        graph.add_output("decoder_32")
+        graph.outputs["decoder_32"].dtype = "FLOAT"
     return graph
 
 def parse_args():
@@ -128,6 +111,7 @@ def parse_args():
     parser.add_argument("--src", type=str)
     parser.add_argument("--dst", type=str)
     parser.add_argument("--decoder_type", type=str, choices=["YoloV3Decoder", "YoloV5Decoder", "YoloV7Decoder", "YoloxDecoder"])
+    parser.add_argument("--with_nms", type=bool, default=False, help="engine with nms")
     parser.add_argument("--decoder_input_names", nargs='+', type=str)
     parser.add_argument("--decoder8_anchor", nargs='*', type=int)
     parser.add_argument("--decoder16_anchor", nargs='*', type=int)

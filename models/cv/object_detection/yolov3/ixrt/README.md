@@ -51,10 +51,10 @@ mv weights/export.onnx /Path/to/checkpoints/yolov3.onnx
 
 ```bash
 export PROJ_DIR=/Path/to/yolov3/ixrt
-export DATASETS_DIR=/Path/to/coco2017/
+export DATASETS_DIR=/Path/to/coco/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=./coco/annotations/instances_val2017.json
-export EVAL_DIR=./coco/val2017
+export EVAL_DIR=./coco/images/val2017
 export RUN_DIR=/Path/to/yolov3/ixrt
 export CONFIG_DIR=config/YOLOV3_CONFIG
 ```
