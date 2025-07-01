@@ -1,19 +1,5 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import os
+
 import torch
 from tensorrt.deploy.api import *
 from tensorrt.deploy.utils.seed import manual_seed
@@ -93,6 +79,14 @@ def quantize_model(args, model_name, model, dataloader):
         quant_format="qdq",
         disable_quant_names=None)
 
+def add_1190_scale(cfg_name):
+    graph_json = json.load(open(cfg_name))
+
+    graph_json["quant_info"]["1190"] = graph_json["quant_info"]["1189"]
+
+    with open(cfg_name, "w") as fh:
+        json.dump(graph_json, fh, indent=4)
+
 def create_argparser(*args, **kwargs):
     parser = ArgumentParser(*args, **kwargs)
     parser.add_argument("--batch_size", type=int, default=64)
@@ -128,6 +122,8 @@ def main():
     else:
         print("[Error] file name not correct ", args.model)
     quantize_model(args, model_name, model, dataloader)
+    json_name = f"./facenet_weights/{model_name}.json"
+    add_1190_scale(json_name)
 
 if __name__ == "__main__":
     main()

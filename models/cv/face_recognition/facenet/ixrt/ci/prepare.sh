@@ -26,16 +26,6 @@ else
 fi
 
 pip3 install -r requirements.txt
-unzip -q /root/data/checkpoints/20180408-102900.zip -d ./
 unzip -q /root/data/datasets/facenet_datasets.zip -d ./
-mkdir -p checkpoints
 mkdir -p facenet_weights
-cp -r /root/data/3rd_party/facenet-pytorch ./
-cp ./tensorflow2pytorch.py facenet-pytorch
-python3 ./facenet-pytorch/tensorflow2pytorch.py \
-        --facenet_weights_path ./facenet_weights \
-        --facenet_pb_path ./20180408-102900 \
-        --onnx_save_name facenet_export.onnx
-mv facenet_export.onnx ./facenet_weights
-
-sed -i -e 's#/last_bn/BatchNormalization_output_0#1187#g' -e 's#/avgpool_1a/GlobalAveragePool_output_0#1178#g' deploy.py build_engine.py
+cp /root/data/checkpoints/facenet_export.onnx ./facenet_weights

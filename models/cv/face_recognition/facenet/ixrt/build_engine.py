@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import os
 import cv2
 import argparse
@@ -28,13 +13,13 @@ from load_ixrt_plugin import load_ixrt_plugin
 load_ixrt_plugin()
 
 def add_facenet_norm(onnx_model):
-    norm = helper.make_node('FacenetNorm_IxRT', inputs=['/last_bn/BatchNormalization_output_0'] , outputs=['/Pow_1_output_0'], name='facenet_norm_1', size=512)
+    norm = helper.make_node('FacenetNorm_IxRT', inputs=['1189'] , outputs=['1190'], name='facenet_norm_1', size=512)
     
     onnx_model = onnx.load(onnx_model)
     graph = onnx_model.graph
     nodes = graph.node
     graph.node.append(norm)
-    output = onnx.helper.make_tensor_value_info('/Pow_1_output_0', TensorProto.FLOAT, [64, 512, 1, 1])
+    output = onnx.helper.make_tensor_value_info('1190', TensorProto.FLOAT, [64, 512, 1, 1])
     graph = onnx.helper.make_graph(
         graph.node,
         "facenet model",

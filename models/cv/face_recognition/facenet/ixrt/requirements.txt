@@ -1,12 +1,9 @@
-tensorflow
-onnxsim
-scikit-learn
-tf_slim
 tqdm
-pycuda
-onnx
 tabulate
 scipy==1.8.0
-pycocotools
-opencv-python==4.6.0.66
+scikit-learn
+onnx
+onnxsim
 simplejson
+numpy==1.23.5
+opencv-python==4.6.0.66
