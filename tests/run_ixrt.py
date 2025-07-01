@@ -259,6 +259,8 @@ def run_detec_testcase(model):
     run_script(prepare_script)
 
     config_name = model_name.upper()
+    if model_name == "yolov5":
+        config_name = "YOLOV5M"
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")

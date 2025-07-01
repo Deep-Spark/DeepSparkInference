@@ -1,31 +1,18 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
 
 EXIT_STATUS=0
 check_status()
 {
-    if ((${PIPESTATUS[0]} != 0));then
-    EXIT_STATUS=1
+    ret_code=${PIPESTATUS[0]}
+    if [ ${ret_code} != 0 ]; then
+    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
     fi
 }
 
 # Run paraments
 BSZ=32
 WARM_UP=-1
-TGT=-1
+TGT=0.626
 LOOP_COUNT=-1
 RUN_MODE=MAP
 PRECISION=int8
@@ -53,6 +40,9 @@ echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
+
+CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
+mkdir -p ${CHECKPOINTS_DIR}
 
 step=0
 faster=0
@@ -125,7 +115,7 @@ if [ $LAYER_FUSION == "1" ]; then
     let step++
     echo;
     echo [STEP ${step}] : Add Decoder
-    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_fusion.onnx
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_fusion_cancat.onnx
     if [ -f $FUSION_ONNX ];then
         echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
     else
@@ -133,6 +123,7 @@ if [ $LAYER_FUSION == "1" ]; then
             --src ${CURRENT_MODEL}                          \
             --dst ${FUSION_ONNX}                            \
             --decoder_type        YoloV5Decoder             \
+            --with_nms             True                     \
             --decoder_input_names ${DECODER_INPUT_NAMES[@]} \
             --decoder8_anchor     ${DECODER_8_ANCHOR[@]}    \
             --decoder16_anchor    ${DECODER_16_ANCHOR[@]}   \
@@ -147,7 +138,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}}_with_nms.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
@@ -163,7 +154,7 @@ CURRENT_MODEL=${FINAL_MODEL}
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_with_nms.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else

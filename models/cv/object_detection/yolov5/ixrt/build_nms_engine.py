@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import os
 import argparse
 import torch
@@ -21,9 +6,11 @@ from onnx import helper
 from onnx import TensorProto, numpy_helper
 import tensorrt
 
+from load_ixrt_plugin import load_ixrt_plugin
+load_ixrt_plugin()
 def create_onnx(args):
     nms = helper.make_node(
-        "NMS",
+        "DetectionNMS_IxRT",
         name="NMS",
         inputs=["nms_input"],
         outputs=["nms_output0", "nms_output1"],

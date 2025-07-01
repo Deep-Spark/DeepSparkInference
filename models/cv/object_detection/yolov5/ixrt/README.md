@@ -58,9 +58,9 @@ export PROJ_DIR=/Path/to/yolov5/ixrt
 export DATASETS_DIR=/Path/to/coco2017/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-export EVAL_DIR=${DATASETS_DIR}/val2017
+export EVAL_DIR=${DATASETS_DIR}/images/val2017
 export RUN_DIR=/Path/to/yolov5/ixrt
-export CONFIG_DIR=config/YOLOV5_CONFIG
+export CONFIG_DIR=config/YOLOV5M_CONFIG
 ```
 
 ### FP16
