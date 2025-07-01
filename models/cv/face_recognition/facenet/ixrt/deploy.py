@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import onnx
 import os
 import simplejson as json
@@ -34,7 +19,7 @@ def onnx_sim(onnx_name, save_name):
 
 def cut_model(onnx_name):
     input_names = ["input"]
-    output_names = ["/last_bn/BatchNormalization_output_0"]
+    output_names = ["1189"]
     onnx.utils.extract_model(onnx_name, onnx_name, input_names, output_names) 
 
 def fuse_matmul(onnx_name, save_onnx_name):
@@ -94,10 +79,10 @@ def fuse_matmul(onnx_name, save_onnx_name):
             graph.initializer.append(conv_bias_new_initializer)
 
             pre_node.op_type = "Conv"
-            pre_node.input[0] = "/avgpool_1a/GlobalAveragePool_output_0"
+            pre_node.input[0] = "1180"
             pre_node.input[1] = "conv_weights_new"
             pre_node.input.append("conv_bias_new")
-            pre_node.output[0] = "/last_bn/BatchNormalization_output_0"
+            pre_node.output[0] = "1189"
             dilations = onnx.helper.make_attribute("dilations", [1,1])
             group = onnx.helper.make_attribute("group", 1)
             kernel_shape = onnx.helper.make_attribute("kernel_shape", [1,1])
@@ -119,7 +104,7 @@ def fuse_matmul(onnx_name, save_onnx_name):
             graph.node.remove(node)
 
     if find_matmul==1:
-        output = onnx.helper.make_tensor_value_info('/last_bn/BatchNormalization_output_0', TensorProto.FLOAT, [64, 512, 1, 1])
+        output = onnx.helper.make_tensor_value_info('1189', TensorProto.FLOAT, [64, 512, 1, 1])
         graph = onnx.helper.make_graph(
             graph.node,
             "facenet model",
@@ -389,10 +374,10 @@ def add_facenet_norm(cfg_name):
 
     graph_json["nodes"]["facenet_norm_1"] = {
             "inputs": [
-                "/last_bn/BatchNormalization_output_0"
+                "1189"
             ],
             "outputs": [
-                "/Pow_1_output_0"
+                "1190"
             ],
             "op_type": "FacenetNorm",
             "attrbiute": {
@@ -400,7 +385,7 @@ def add_facenet_norm(cfg_name):
             }
         }
     graph_json["output"] = []
-    graph_json["output"].append({"name":"/Pow_1_output_0", "type":"float32"})
+    graph_json["output"].append({"name":"1190", "type":"float32"})
 
     with open(cfg_name, "w") as fh:
         json.dump(graph_json, fh, indent=4)

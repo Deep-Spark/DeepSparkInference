@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -25,8 +10,7 @@ from tqdm import tqdm
 
 import cv2
 import numpy as np
-import pycuda.autoinit
-import pycuda.driver as cuda
+from cuda import cuda, cudart
 import torch
 import tensorrt
 from tensorrt.utils import topk
@@ -58,7 +42,6 @@ def main(config):
         print("Warm Done.")
 
     # Inference
-    metricResult = {"metricResult": {}}
     if config.test_mode == "FPS":
         torch.cuda.synchronize()
         start_time = time.time()
@@ -74,7 +57,6 @@ def main(config):
 
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {config.fps_target}")
-        metricResult["metricResult"]["FPS"] = round(fps, 3)
         if fps >= config.fps_target:
             print("pass!")
             exit()
@@ -86,7 +68,7 @@ def main(config):
 
         classes = []
         embeddings = []
-        start_time = time.time()
+
         for xb, yb in tqdm(embed_loader):
         
             output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
@@ -94,9 +76,11 @@ def main(config):
             xb = xb.numpy()
             xb = np.ascontiguousarray(xb)
 
-            cuda.memcpy_htod(inputs[0]["allocation"], xb)
+            err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], xb, xb.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
             context.execute_v2(allocations)
-            cuda.memcpy_dtoh(output, outputs[0]["allocation"])
+            err, = cuda.cuMemcpyDtoH(output, outputs[0]["allocation"], outputs[0]["nbytes"])
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
 
             output = output.reshape(output.shape[0],output.shape[1])
             #print("output shape ",output.shape)
@@ -104,8 +88,7 @@ def main(config):
             classes.extend(yb[0:current_imgs_num].numpy())
             embeddings.extend(output)
 
-        e2e_time = time.time() - start_time
-        print(f"E2E time: {e2e_time:.3f} seconds")
+
         embeddings_dict = dict(zip(crop_paths,embeddings))
 
         pairs = read_pairs(config.datasets_dir + config.pairs_name)
@@ -122,9 +105,6 @@ def main(config):
         #eer = brentq(lambda x: 1. - x - interpolate.interp1d(fpr, tpr, fill_value="extrapolate")(x), 0., 1.)
         #print('Equal Error Rate (EER): %1.3f' % eer)
 
-        metricResult["metricResult"]["E2E time"] = round(e2e_time, 3)
-        metricResult["metricResult"]["AUC"] = round(auc, 3)
-        metricResult["metricResult"]["Acc"] = round(np.mean(accuracy), 3)
         acc = np.mean(accuracy)
         print(f"Accuracy Check : Test {acc} >= target {config.acc_target}")
         if acc >= config.acc_target:
@@ -133,7 +113,6 @@ def main(config):
         else:
             print("failed!")
             exit(1)
-    print(metricResult)
 
 def parse_config():
     parser = argparse.ArgumentParser()
@@ -157,7 +136,7 @@ def parse_config():
         "--img",
         "--img-size",
         type=int,
-        default=160,
+        default=224,
         help="inference size h,w",
     )
     parser.add_argument("--use_async", action="store_true")

@@ -18,12 +18,6 @@ Pretrained model: <https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0I
 
 Dataset: <https://vis-www.cs.umass.edu/lfw/lfw.tgz> to download the lfw dataset.
 
-```bash
-cd ${DeepSparkInference_PATH}/models/cv/face/facenet/ixrt
-# download and unzip 20180408-102900.zip
-unzip 20180408-102900.zip
-```
-
 ### Install Dependencies
 
 ```bash
@@ -41,14 +35,8 @@ pip3 install -r requirements.txt
 ```bash
 mkdir -p checkpoints
 mkdir -p facenet_weights
-git clone https://github.com/timesler/facenet-pytorch
-# facenet-pytorch/dependencies/facenet is submodule, pls make sure it has been cloned or you can clone directly from https://github.com/davidsandberg/facenet/tree/096ed770f163957c1e56efa7feeb194773920f6e
-mv /Path/facenet/ixrt/tensorflow2pytorch.py facenet-pytorch
-python3 ./facenet-pytorch/tensorflow2pytorch.py \
-        --facenet_weights_path ./facenet_weights \
-        --facenet_pb_path ./20180408-102900 \
-        --onnx_save_name facenet_export.onnx
-mv facenet_export.onnx ./facenet_weights
+cd facenet_weights
+wget http://files.deepspark.org.cn:880/deepspark/facenet_export.onnx
 ```
 
 ### Data preprocessing

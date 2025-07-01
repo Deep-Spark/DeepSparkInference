@@ -3254,7 +3254,7 @@
             "github_repo": "",
             "github_branch": "",
             "github_path": "",
-            "datasets": "local/tmp",
+            "datasets": "local/facenet_datasets",
             "download_url": "https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz",
             "need_third_part": "",
             "precisions": [
