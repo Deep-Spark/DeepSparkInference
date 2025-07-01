@@ -1,10 +1,9 @@
+yapf==0.40.2
+addict==2.4.0
+mmdet==3.3.0
 tqdm
 onnx
 onnxsim
-ultralytics
 pycocotools
-addict
-yapf
-pycuda
-mmdet==2.28.2
 opencv-python==4.6.0.66
+mmengine

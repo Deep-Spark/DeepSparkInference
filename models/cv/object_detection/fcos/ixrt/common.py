@@ -1,23 +1,8 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 import numpy as np
 from tqdm import tqdm
 
 import tensorrt
-import pycuda.driver as cuda
+from cuda import cuda, cudart
 
 # input  : [bsz, box_num, 5(cx, cy, w, h, conf) + class_num(prob[0], prob[1], ...)]
 # output : [bsz, box_num, 6(left_top_x, left_top_y, right_bottom_x, right_bottom_y, class_id, max_prob*conf)]
@@ -33,7 +18,25 @@ def box_class85to6(input):
     nms_input = np.concatenate([x1_y1, x2_y2, class_id, max_prob*conf], axis = -1)
     return nms_input
 
-def save2json(batch_img_id, pred_boxes, json_result):
+def save2json(batch_img_id, pred_boxes, json_result, class_trans):
+    for i, boxes in enumerate(pred_boxes):
+        if boxes is not None:
+            image_id = int(batch_img_id[i])
+            # have no target
+            if image_id == -1:
+                continue
+            for x, y, w, h, c, p in boxes:
+                x, y, w, h, p = float(x), float(y), float(w), float(h), float(p)
+                c = int(c)
+                json_result.append(
+                    {
+                        "image_id": image_id,
+                        "category_id": class_trans[c - 1],
+                        "bbox": [x, y, w, h],
+                        "score": p,
+                    }
+                )
+def save2json_nonms(batch_img_id, pred_boxes, json_result):
     for i, boxes in enumerate(pred_boxes):
         image_id = int(batch_img_id)
         if boxes is not None:
@@ -80,15 +83,17 @@ def get_io_bindings(engine):
         size = np.dtype(tensorrt.nptype(dtype)).itemsize
         for s in shape:
             size *= s
-        allocation = cuda.mem_alloc(size)
+        err, allocation = cudart.cudaMalloc(size)
+        assert err == cudart.cudaError_t.cudaSuccess
         binding = {
             "index": i,
             "name": name,
             "dtype": np.dtype(tensorrt.nptype(dtype)),
             "shape": list(shape),
             "allocation": allocation,
+            "nbytes": size,
         }
-        # print(f"binding {i}, name : {name}  dtype : {np.dtype(tensorrt.nptype(dtype))}  shape : {list(shape)}")
+        print(f"binding {i}, name : {name}  dtype : {np.dtype(tensorrt.nptype(dtype))}  shape : {list(shape)}")
         allocations.append(allocation)
         if engine.binding_is_input(i):
             inputs.append(binding)

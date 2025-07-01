@@ -378,6 +378,23 @@ def run_segmentation_and_face_testcase(model):
             result["result"][prec].update(get_metric_result(m))
         if len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+        else:
+            patterns = {
+                "FPS": r"FPS\s*:\s*(\d+\.?\d*)",
+                "Accuracy": r"Accuracy\s*:\s*(\d+\.?\d*)"
+            }
+
+            combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+            matchs = combined_pattern.finditer(sout)
+            match_count = 0
+            for match in matchs:
+                for name, value in match.groupdict().items():
+                    if value:
+                        match_count += 1
+                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        break
+            if match_count == len(patterns):
+                result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
