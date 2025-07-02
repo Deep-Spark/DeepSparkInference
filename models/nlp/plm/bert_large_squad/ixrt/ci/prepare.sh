@@ -28,14 +28,6 @@ fi
 # install ixrt run
 bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
 
-if [ "$1" = "nvidia" ]; then
-    cmake -S . -B build -DUSE_TENSORRT=true
-    cmake --build build -j16
-else
-    cmake -S . -B build
-    cmake --build build -j16
-fi
-
 pip install -r requirements.txt
-mkdir -p ./python/data
-ln -s /root/data/checkpoints/bert-large-uncased/ ./python/data && ln -s /root/data/datasets/squad/ ./python/data
+mkdir -p ./data
+ln -s /root/data/checkpoints/bert-large-uncased/ ./data && ln -s /root/data/datasets/squad/ ./data
