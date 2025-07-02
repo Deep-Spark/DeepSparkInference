@@ -22,8 +22,8 @@ significantly enhancing capabilities around OCR, document understanding and visu
 ```bash
 cp -r ../../vllm_public_assets/ ./
 
-# Download model from the website and make sure the model's path is "data/Aria"
-mkdir data
+# Download model from the website and make sure the model's path is "idefics3"
+mkdir HuggingFaceM4
 ```
 
 ### Install Dependencies
@@ -36,13 +36,14 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
+
+pip install transformers==4.50.3
 ```
 
 ## Model Inference
 
 ```bash
-export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/Idefics3-8B-Llama3 -tp 4 --max-tokens 256 --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+python3 offline_inference_vision_language.py --model-type idefics3
 ```
 
 ## Model Results

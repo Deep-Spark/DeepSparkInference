@@ -229,7 +229,13 @@ def run_nlp_testcase(model):
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
             """
-        elif model_name == "h2vol" or model_name == "idefics3":
+        elif model_name == "idefics3":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            python3 offline_inference_vision_language.py --model-type idefics3
+            """
+        elif model_name == "h2vol":
             script = f"""
             set -x
             cd ../{model['model_path']}
@@ -240,8 +246,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            export VLLM_ASSETS_CACHE=../vllm/
-            PT_SDPA_ENABLE_HEAD_DIM_PADDING=1 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
+            python3 offline_inference_vision_language.py --model-type minicpmv
             """
         elif model_name == "llama-3.2":
             script = f"""
