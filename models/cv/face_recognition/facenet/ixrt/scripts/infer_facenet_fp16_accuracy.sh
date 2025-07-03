@@ -1,18 +1,3 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
-
 #!/bin/bash
 
 EXIT_STATUS=0
@@ -43,6 +28,7 @@ do
       --tgt) TGT=${arguments[index]};;
     esac
 done
+
 PROJ_DIR=$(cd $(dirname $0);cd ../../; pwd)
 echo PROJ_DIR : ${PROJ_DIR}
 RUN_DIR="${PROJ_DIR}/ixrt/"
@@ -102,13 +88,24 @@ if [ $PRECISION == "int8" ];then
     fi
 fi
 
+# Change Batchsize
+let step++
+echo;
+echo [STEP ${step}] : Change Batchsize
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}.onnx
+if [ -f $FINAL_MODEL ];then
+    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
+else
+    python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
+        --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
+    echo "  "Generate ${FINAL_MODEL}
+fi
 
 # Build Engine
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
 ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
-FINAL_MODEL=${SIM_MODEL}
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
@@ -130,7 +127,7 @@ python3 ${RUN_DIR}/inference.py     \
     --warm_up=${WARM_UP}            \
     --loop_count ${LOOP_COUNT}      \
     --test_mode ${RUN_MODE}         \
-    --fps_target ${TGT}             \
+    --acc_target ${TGT}             \
     --bsz ${BSZ}; check_status
 
 exit ${EXIT_STATUS}
