@@ -25,10 +25,10 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-unzip -q /root/data/3rd_party/onnx_tflite_yolov3.zip -d ./
-cp /root/data/checkpoints/yolov3.weights onnx_tflite_yolov3/weights
+unzip -q /mnt/deepspark/data/3rd_party/onnx_tflite_yolov3.zip -d ./
+cp /mnt/deepspark/data/checkpoints/yolov3.weights onnx_tflite_yolov3/weights
 cd onnx_tflite_yolov3
 python3 detect.py --cfg cfg/yolov3.cfg --weights weights/yolov3.weights
 mv weights/export.onnx ../checkpoints/yolov3.onnx

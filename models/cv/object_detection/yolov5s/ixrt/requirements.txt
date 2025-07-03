@@ -1,6 +1,0 @@
-tqdm
-onnx
-onnxsim
-ultralytics==8.3.97
-pycocotools
-pycuda

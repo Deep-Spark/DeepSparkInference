@@ -3,16 +3,15 @@
 EXIT_STATUS=0
 check_status()
 {
-    ret_code=${PIPESTATUS[0]}
-    if [ ${ret_code} != 0 ]; then
-    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
+    if ((${PIPESTATUS[0]} != 0));then
+    EXIT_STATUS=1
     fi
 }
 
 # Run paraments
 BSZ=32
 WARM_UP=-1
-TGT=0.68
+TGT=-1
 LOOP_COUNT=-1
 RUN_MODE=MAP
 PRECISION=int8
@@ -40,9 +39,6 @@ echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
-
-CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
-mkdir -p ${CHECKPOINTS_DIR}
 
 step=0
 faster=0

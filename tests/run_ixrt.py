@@ -266,22 +266,34 @@ def run_detec_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         result["result"].setdefault(prec, {})
         result["result"].setdefault(prec, {"status": "FAIL"})
-        script = f"""
-        cd ../{model['model_path']}
-        export DATASETS_DIR=./{dataset_n}/
-
-        export MODEL_PATH=./{model_name}.onnx
-
-        export PROJ_DIR=./
-        export CHECKPOINTS_DIR=./checkpoints
-        export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
-        export EVAL_DIR=./{dataset_n}/images/val2017
-        export RUN_DIR=./
-        export CONFIG_DIR=config/{config_name}_CONFIG
-
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+        if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7"]:
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=./{dataset_n}/
+            export MODEL_PATH=./{model_name}.onnx
+            export PROJ_DIR=./
+            export CHECKPOINTS_DIR=./checkpoints
+            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+            export EVAL_DIR=./{dataset_n}/images/val2017
+            export RUN_DIR=../../ixrt_common
+            export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
+        else:
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=./{dataset_n}/
+            export MODEL_PATH=./{model_name}.onnx
+            export PROJ_DIR=./
+            export CHECKPOINTS_DIR=./checkpoints
+            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+            export EVAL_DIR=./{dataset_n}/images/val2017
+            export RUN_DIR=./
+            export CONFIG_DIR=config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
 
         if model_name == "rtmpose":
             script = f"""

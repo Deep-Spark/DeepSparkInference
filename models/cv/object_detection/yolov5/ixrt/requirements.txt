@@ -1,7 +1,0 @@
-tqdm
-onnx
-onnxsim
-ultralytics==8.3.97
-pycocotools
-opencv-python==4.6.0.66
-pycuda
