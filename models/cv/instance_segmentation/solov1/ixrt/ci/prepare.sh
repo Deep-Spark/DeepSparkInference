@@ -27,20 +27,7 @@ fi
 
 pip install -r requirements.txt
 
-cp -r /root/data/3rd_party/mmcv-v1.7.1 ./mmcv
-cp -r -T /root/data/repos/deepsparkhub/toolbox/MMDetection/patch/mmcv/v1.7.1 ./mmcv
-cd mmcv
-rm -rf mmcv/ops/csrc/common/cuda/spconv/ mmcv/ops/csrc/common/utils/spconv/
-rm -f mmcv/ops/csrc/pytorch/cpu/sparse_*
-rm -f mmcv/ops/csrc/pytorch/cuda/fused_spconv_ops_cuda.cu
-rm -f mmcv/ops/csrc/pytorch/cuda/spconv_ops_cuda.cu
-rm -f mmcv/ops/csrc/pytorch/cuda/sparse_*
-rm -f mmcv/ops/csrc/pytorch/sp*
-
-bash clean_mmcv.sh
-bash build_mmcv.sh
-bash install_mmcv.sh
-cd ..
+pip install /root/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
 
 mkdir -p checkpoints
 ln -s /root/data/checkpoints/solo_r50_fpn_3x_coco_20210901_012353-11d224d7.pth ./
