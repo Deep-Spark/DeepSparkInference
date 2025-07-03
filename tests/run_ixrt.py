@@ -264,6 +264,8 @@ def run_detec_testcase(model):
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
+        result["result"].setdefault(prec, {})
+        result["result"].setdefault(prec, {"status": "FAIL"})
         script = f"""
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
@@ -294,7 +296,6 @@ def run_detec_testcase(model):
         combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
         matchs = combined_pattern.finditer(sout)
         for match in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
             for name, value in match.groupdict().items():
                 if value:
                     try:
@@ -306,7 +307,6 @@ def run_detec_testcase(model):
         pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            result["result"].setdefault(prec, {})
             try:
                 result["result"][prec][m[0]] = float(m[1])
             except ValueError:
@@ -318,7 +318,6 @@ def run_detec_testcase(model):
             pattern = METRIC_PATTERN
             matchs = re.findall(pattern, sout)
             if matchs and len(matchs) == 1:
-                result["result"].setdefault(prec, {})
                 result["result"][prec].update(get_metric_result(matchs[0]))
                 result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
