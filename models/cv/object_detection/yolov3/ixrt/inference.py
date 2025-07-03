@@ -10,11 +10,10 @@ import sys
 
 import torch
 import numpy as np
-import cuda.cuda as cuda
-import cuda.cudart as cudart
+from cuda import cuda, cudart
 
 from coco_labels import coco80_to_coco91_class, labels
-from common import save2json, box_class85to6
+from common import save2json, save2json_nonms, box_class85to6
 from common import create_engine_context, get_io_bindings
 from calibration_dataset import create_dataloaders
 from datasets.post_process import get_post_process
@@ -47,7 +46,7 @@ def main(config):
 
     bsz = config.bsz
     num_samples = 5000
-    if config.loop_count > 0:
+    if config.loop_count > 0 and config.loop_count < num_samples/bsz :
         num_samples = bsz * config.loop_count
     num_batch = len(dataloader)
     print("=" * 30)
@@ -67,7 +66,7 @@ def main(config):
     inputs, outputs, allocations = get_io_bindings(engine)
 
     # Load nms_engine
-    if config.test_mode == "MAP" and config.nms_type == "GPU":
+    if config.test_mode == "MAP" and config.nms_type == "GPU" and not config.no_nms:
         nms_engine, nms_context = create_engine_context(config.nms_engine, logger)
         nms_inputs, nms_outputs, nms_allocations = get_io_bindings(nms_engine)
         nms_output0 = np.zeros(nms_outputs[0]["shape"], nms_outputs[0]["dtype"])
@@ -83,8 +82,14 @@ def main(config):
         print("Warm Done.")
 
     # Prepare the output data
-    output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
-    print(f"output shape : {output.shape} output type : {output.dtype}")
+    if config.no_nms:
+        batch_pred_logits = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
+        batch_pred_boxes = np.zeros(outputs[1]["shape"], outputs[1]["dtype"])
+        print(f"pred_logits shape : {batch_pred_logits.shape} pred_logits type : {batch_pred_logits.dtype}")
+        print(f"pred_boxes shape : {batch_pred_boxes.shape} pred_boxes type : {batch_pred_boxes.dtype}")
+    else:
+        output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
+        print(f"output shape : {output.shape} output type : {output.dtype}")
 
     for batch_data, batch_img_shape, batch_img_id in tqdm(dataloader):
         batch_data = batch_data.numpy()
@@ -96,13 +101,14 @@ def main(config):
         # Set input
         err, = cuda.cuMemcpyHtoD(inputs[0]["allocation"], batch_data, batch_data.nbytes)
         assert(err == cuda.CUresult.CUDA_SUCCESS)
-        # Forward
-        # start_time = time.time()
-        context.execute_v2(allocations)
-        # end_time = time.time()
-        # forward_time += end_time - start_time
 
-        if config.test_mode == "MAP":
+        # Forward
+        start_time = time.time()
+        context.execute_v2(allocations)
+        end_time = time.time()
+        forward_time += end_time - start_time
+
+        if config.test_mode == "MAP" and not config.no_nms:
             # Fetch output
             err, = cuda.cuMemcpyDtoH(output, outputs[0]["allocation"], outputs[0]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
@@ -124,6 +130,7 @@ def main(config):
             if config.nms_type == "GPU":
 
                 # Set nms input
+                
                 err, = cuda.cuMemcpyHtoD(nms_inputs[0]["allocation"], nms_input, nms_input.nbytes)
                 assert(err == cuda.CUresult.CUDA_SUCCESS)
                 nms_context.execute_v2(nms_allocations)
@@ -142,16 +149,31 @@ def main(config):
                 max_det=config.max_det
             )
             save2json(batch_img_id, pred_boxes, json_result, class_map)
+        elif config.test_mode == "MAP" and config.no_nms:
+            # Fetch output
+            err, = cuda.cuMemcpyDtoH(batch_pred_logits, outputs[0]["allocation"], outputs[0]["nbytes"])
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemcpyDtoH(batch_pred_boxes, outputs[1]["allocation"], outputs[1]["nbytes"])
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
 
-    # fps = num_samples / forward_time
+            for (pred_logits, pred_boxes, img_h, img_w, img_id) in zip(
+                batch_pred_logits, 
+                batch_pred_boxes, 
+                batch_img_shape[0],
+                batch_img_shape[1], 
+                batch_img_id):
+                pred_boxes = post_process_func(pred_logits, pred_boxes, [img_w, img_h])  
+                # print(img_id)
+                # print(img_w, img_h)
+                
+                # import ipdb
+                # ipdb.set_trace()
+                      
+                save2json_nonms(img_id, pred_boxes, json_result)
+
+    fps = num_samples / forward_time
 
     if config.test_mode == "FPS":
-        start_time = time.time()       
-        for i in range(config.loop_count):
-            context.execute_v2(allocations)  
-        end_time = time.time()  
-        forward_time = end_time - start_time      
-        fps = (config.loop_count*config.bsz) / forward_time
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {config.fps_target}")
         if fps >= config.fps_target:
@@ -159,12 +181,12 @@ def main(config):
             exit()
         else:
             print("failed!")
-            exit(10)
+            exit(1)
 
     if config.test_mode == "MAP":
         if len(json_result) == 0:
             print("Predict zero box!")
-            exit(10)
+            exit(1)
 
         if not os.path.exists(config.pred_dir):
             os.makedirs(config.pred_dir)
@@ -195,7 +217,7 @@ def main(config):
             exit()
         else:
             print("failed!")
-            exit(10)
+            exit(1)
 
 def parse_config():
     parser = argparse.ArgumentParser()
@@ -249,6 +271,7 @@ def parse_config():
     parser.add_argument("--fps_target", type=float, default=-1.0, help="target fps")
     parser.add_argument("--decoder_faster", type=int, default=0, help="decoder faster can use gpu nms directly")
     parser.add_argument("--nms_type", type=str, default="GPU", help="GPU/CPU")
+    parser.add_argument("--no_nms", type=bool, default=False, help="NMS")
 
     config = parser.parse_args()
     print("config:", config)

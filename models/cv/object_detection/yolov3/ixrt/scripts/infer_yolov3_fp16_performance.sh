@@ -3,17 +3,16 @@
 EXIT_STATUS=0
 check_status()
 {
-    ret_code=${PIPESTATUS[0]}
-    if [ ${ret_code} != 0 ]; then
-    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
+    if ((${PIPESTATUS[0]} != 0));then
+    EXIT_STATUS=1
     fi
 }
 
 # Run paraments
 BSZ=32
 WARM_UP=3
-TGT=1010
-LOOP_COUNT=100
+TGT=-1
+LOOP_COUNT=10
 RUN_MODE=FPS
 PRECISION=float16
 
@@ -40,9 +39,6 @@ echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
-
-CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
-mkdir -p ${CHECKPOINTS_DIR}
 
 step=0
 faster=0
@@ -80,7 +76,6 @@ else
 fi
 CURRENT_MODEL=${NO_DECODER_MODEL}
 
-
 # Quant Model
 if [ $PRECISION == "int8" ];then
     let step++
@@ -116,7 +111,7 @@ if [ $LAYER_FUSION == "1" ]; then
     let step++
     echo;
     echo [STEP ${step}] : Add Decoder
-    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_fusion_no_cancat.onnx
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_fusion.onnx
     if [ -f $FUSION_ONNX ];then
         echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
     else
@@ -124,7 +119,6 @@ if [ $LAYER_FUSION == "1" ]; then
             --src ${CURRENT_MODEL}                          \
             --dst ${FUSION_ONNX}                            \
             --decoder_type        YoloV3Decoder             \
-            --with_nms             False                   \
             --decoder_input_names ${DECODER_INPUT_NAMES[@]} \
             --decoder8_anchor     ${DECODER_8_ANCHOR[@]}    \
             --decoder16_anchor    ${DECODER_16_ANCHOR[@]}   \
@@ -139,7 +133,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}_without_nms.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_bs${BSZ}.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
@@ -155,7 +149,7 @@ CURRENT_MODEL=${FINAL_MODEL}
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_without_nms.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
@@ -182,7 +176,7 @@ let step++
 echo;
 echo [STEP ${step}] : Inference
 python3 ${RUN_DIR}/inference.py                 \
-    --model_engine=${ENGINE_FILE}              \
+    --model_engine=${ENGINE_FILE}               \
     --nms_engine=${NMS_ENGINE}                  \
     --coco_gt=${COCO_GT}                        \
     --eval_dir=${EVAL_DIR}                      \

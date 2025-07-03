@@ -11,6 +11,8 @@ def get_post_process(data_process_type):
         return Yolov3Preprocess
     elif data_process_type == "yolox":
         return YoloxPreprocess
+    elif data_process_type == "detr":
+        return DetrPreprocess
     return None
 
 def Yolov3Preprocess(image, img_size):
@@ -54,3 +56,21 @@ def YoloxPreprocess(img, img_size, swap=(2,0,1)):
     padded_img = np.ascontiguousarray(padded_img, dtype=np.float32)
 
     return padded_img
+
+def DetrPreprocess(image, img_size):    
+    # img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    # img = img.resize((img_size, img_size))
+    
+    std = [0.485, 0.456, 0.406] 
+    mean = [0.229, 0.224, 0.225]
+    
+    image = cv2.resize(image, (img_size, img_size))
+    image = image.transpose((2, 0, 1))[::-1]  # HWC to CHW, BGR to RGB
+    image = np.ascontiguousarray(image).astype(np.float32) / 255.0  # 0~1 np array
+    
+    image[0,:,:] = (image[0,:,:]- std[0])/mean[0]
+    image[1,:,:] = (image[1,:,:]- std[1])/mean[1]
+    image[2,:,:] = (image[2,:,:]- std[2])/mean[2]
+    
+    return image
+    

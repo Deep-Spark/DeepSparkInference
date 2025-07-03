@@ -1,6 +1,8 @@
 import cv2
 import math
 import numpy as np
+import torch
+import torch.nn.functional as F
 
 from .common import letterbox, scale_boxes, clip_boxes
 
@@ -11,6 +13,8 @@ def get_post_process(data_process_type):
         return Yolov3Postprocess
     elif data_process_type == "yolox":
         return YoloxPostprocess
+    elif data_process_type == "detr":
+        return DetrPostprocess
     return None
 
 def Yolov3Postprocess(
@@ -113,3 +117,41 @@ def YoloxPostprocess(
         data_offset += max_det * 6
 
     return all_box
+
+def box_cxcywh_to_xyxy(x):
+    x_c, y_c, w, h = x.unbind(-1)
+    b = [(x_c - 0.5 * w), (y_c - 0.5 * h),
+         (x_c + 0.5 * w), (y_c + 0.5 * h)]
+    return torch.stack(b, dim=-1)
+
+
+def convert_to_xywh(boxes):
+    xmin, ymin, xmax, ymax = boxes.unbind(-1)
+    return torch.stack((xmin, ymin, xmax - xmin, ymax - ymin), dim=1)
+
+def DetrPostprocess(pred_logits, pred_boxes, target_sizes):
+    
+    out_logits = torch.from_numpy(pred_logits) 
+    out_bbox = torch.from_numpy(pred_boxes)
+    assert len(target_sizes) == 2
+    
+    prob = F.softmax(out_logits, -1)
+    scores, labels = prob[..., :-1].max(-1)
+    
+    # convert to [x0, y0, x1, y1] format 
+    boxes = box_cxcywh_to_xyxy(out_bbox)
+    # and from relative [0, 1] to absolute [0, height] coordinates
+    img_w, img_h = target_sizes
+    scale_fct = torch.tensor([img_w, img_h, img_w, img_h])
+    boxes = boxes * scale_fct
+   
+    boxes = clip_boxes(boxes, target_sizes)
+    boxes = convert_to_xywh(boxes)
+
+    labels = labels.unsqueeze(1)
+    scores =scores.unsqueeze(1)
+    pred_boxes = torch.cat([
+            boxes, 
+            labels, 
+            scores], dim=1).numpy().tolist()
+    return pred_boxes

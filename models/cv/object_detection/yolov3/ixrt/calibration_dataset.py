@@ -2,9 +2,6 @@ import os
 import torch
 import torchvision.datasets
 from torch.utils.data import DataLoader
-
-
-
 from datasets.coco import CocoDetection
 
 def create_dataloaders(data_path, annFile, img_sz=640, batch_size=32, step=32, workers=2, data_process_type="yolov5"):

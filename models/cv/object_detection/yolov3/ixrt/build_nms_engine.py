@@ -5,9 +5,9 @@ import onnx
 from onnx import helper
 from onnx import TensorProto, numpy_helper
 import tensorrt
+from os.path import dirname, exists, join
+import ctypes
 
-from load_ixrt_plugin import load_ixrt_plugin
-load_ixrt_plugin()
 def create_onnx(args):
     nms = helper.make_node(
         "DetectionNMS_IxRT",
@@ -44,10 +44,24 @@ def create_onnx(args):
     model = onnx.helper.make_model(graph, opset_imports=[op])
     onnx_path = args.path + "/nms.onnx"
     onnx.save(model, onnx_path)
+    
+def load_ixrt_plugin(
+    logger=tensorrt.Logger(tensorrt.Logger.WARNING), namespace="", dynamic_path=""
+):
+    if not dynamic_path:
+        dynamic_path = join(dirname(tensorrt.__file__), "lib", "libixrt_plugin.so")
+    if not exists(dynamic_path):
+        raise FileNotFoundError(
+            f"The ixrt_plugin lib {dynamic_path} is not existed, please provided effective plugin path!"
+        )
+    ctypes.CDLL(dynamic_path, mode=ctypes.RTLD_GLOBAL)
+    tensorrt.init_libnvinfer_plugins(logger, namespace)
+    print(f"Loaded plugin from {dynamic_path}")
 
 def build_engine(args):
     onnx_path = args.path + "/nms.onnx"
     IXRT_LOGGER = tensorrt.Logger(tensorrt.Logger.WARNING)
+    load_ixrt_plugin(IXRT_LOGGER)
     builder = tensorrt.Builder(IXRT_LOGGER)
     EXPLICIT_BATCH = 1 << (int)(tensorrt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
     network = builder.create_network(EXPLICIT_BATCH)

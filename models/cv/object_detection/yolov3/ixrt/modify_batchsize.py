@@ -1,7 +1,5 @@
 import onnx
 import argparse
-import copy
-import numpy as np
 
 def change_input_dim(model, bsz):
     batch_size = bsz
@@ -33,22 +31,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def modify_resize_nodes(model, bsz):
-    print("modify resize")
-    for node in model.graph.node:
-        if node.op_type == "Resize":
-            if len(node.input) >= 4 and node.input[3]:
-                sizes_name = node.input[3]
-                for initializer in model.graph.initializer:
-                    if initializer.name == sizes_name:
-                        shape = copy.deepcopy(onnx.numpy_helper.to_array(initializer))
-                        shape[0] = shape[0] * bsz
-                        new_sizes = np.array(shape, dtype=np.int64)
-                        initializer.CopyFrom(onnx.numpy_helper.from_array(new_sizes, name=initializer.name))
-                        break
-    
 args = parse_args()
 model = onnx.load(args.origin_model)
 change_input_dim(model, args.batch_size)
-modify_resize_nodes(model, args.batch_size)
 onnx.save(model, args.output_model)

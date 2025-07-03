@@ -62,16 +62,17 @@ def customize_ops(graph, args):
         stride=16,
         faster_impl=args.faster
     )
-    graph = t.AddYoloDecoderOp(
-        inputs=decoder_input[num*2:num*2+1],
-        outputs=["decoder_32"],
-        op_type=args.decoder_type,
-        anchor=args.decoder32_anchor,
-        num_class=args.num_class,
-        stride=32,
-        faster_impl=args.faster
-    )
+    
     if args.decoder64_anchor is not None:
+        graph = t.AddYoloDecoderOp(
+            inputs=decoder_input[num*2:num*2+1],
+            outputs=["decoder_32"],
+            op_type=args.decoder_type,
+            anchor=args.decoder32_anchor,
+            num_class=args.num_class,
+            stride=32,
+            faster_impl=args.faster
+        )
         graph = t.AddYoloDecoderOp(
             inputs=decoder_input[num*2+1:],
             outputs=["decoder_64"],
@@ -86,24 +87,25 @@ def customize_ops(graph, args):
             outputs=["output"],
             axis=1
         )
-    elif args.with_nms:
+    else:
+        graph = t.AddYoloDecoderOp(
+            inputs=decoder_input[num*2:],
+            outputs=["decoder_32"],
+            op_type=args.decoder_type,
+            anchor=args.decoder32_anchor,
+            num_class=args.num_class,
+            stride=32,
+            faster_impl=args.faster
+        )
         graph = t.AddConcatOp(
             inputs=["decoder_32", "decoder_16", "decoder_8"],
             outputs=["output"],
             axis=1
         )
 
-        graph.outputs.clear()
-        graph.add_output("output")
-        graph.outputs["output"].dtype = "FLOAT"
-    else:
-        graph.outputs.clear()
-        graph.add_output("decoder_8")
-        graph.outputs["decoder_8"].dtype = "FLOAT"
-        graph.add_output("decoder_16")
-        graph.outputs["decoder_16"].dtype = "FLOAT"
-        graph.add_output("decoder_32")
-        graph.outputs["decoder_32"].dtype = "FLOAT"
+    graph.outputs.clear()
+    graph.add_output("output")
+    graph.outputs["output"].dtype = "FLOAT"
     return graph
 
 def parse_args():
@@ -111,12 +113,11 @@ def parse_args():
     parser.add_argument("--src", type=str)
     parser.add_argument("--dst", type=str)
     parser.add_argument("--decoder_type", type=str, choices=["YoloV3Decoder", "YoloV5Decoder", "YoloV7Decoder", "YoloxDecoder"])
-    parser.add_argument("--with_nms", type=bool, default=False, help="engine with nms")
     parser.add_argument("--decoder_input_names", nargs='+', type=str)
-    parser.add_argument("--decoder8_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder16_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder32_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder64_anchor", nargs='*', type=int, default=None)
+    parser.add_argument("--decoder8_anchor", nargs='*', type=float)
+    parser.add_argument("--decoder16_anchor", nargs='*', type=float)
+    parser.add_argument("--decoder32_anchor", nargs='*', type=float)
+    parser.add_argument("--decoder64_anchor", nargs='*', type=float, default=None)
     parser.add_argument("--num_class", type=int, default=80)
     parser.add_argument("--faster", type=int, default=1)
     parser.add_argument("--focus_input", type=str, default=None)

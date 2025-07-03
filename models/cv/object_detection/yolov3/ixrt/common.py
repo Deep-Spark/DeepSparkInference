@@ -2,8 +2,7 @@ import numpy as np
 from tqdm import tqdm
 
 import tensorrt
-import cuda.cuda as cuda
-import cuda.cudart as cudart
+from cuda import cuda, cudart
 
 # input  : [bsz, box_num, 5(cx, cy, w, h, conf) + class_num(prob[0], prob[1], ...)]
 # output : [bsz, box_num, 6(left_top_x, left_top_y, right_bottom_x, right_bottom_y, class_id, max_prob*conf)]
@@ -37,6 +36,23 @@ def save2json(batch_img_id, pred_boxes, json_result, class_trans):
                         "score": p,
                     }
                 )
+def save2json_nonms(batch_img_id, pred_boxes, json_result):
+    for i, boxes in enumerate(pred_boxes):
+        image_id = int(batch_img_id)
+        if boxes is not None:
+            x, y, w, h, c, p = boxes
+            if image_id!=-1:
+                
+                x, y, w, h, p = float(x), float(y), float(w), float(h), float(p)
+                c = int(c)
+                json_result.append(
+                    {
+                    "image_id": image_id,
+                    "category_id": c,
+                    "bbox": [x, y, w, h],
+                    "score": p,
+                    }
+                    )
 
 def create_engine_context(engine_path, logger):
     with open(engine_path, "rb") as f:
@@ -68,7 +84,7 @@ def get_io_bindings(engine):
         for s in shape:
             size *= s
         err, allocation = cudart.cudaMalloc(size)
-        assert(err == cuda.CUresult.CUDA_SUCCESS)
+        assert err == cudart.cudaError_t.cudaSuccess
         binding = {
             "index": i,
             "name": name,
