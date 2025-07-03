@@ -19,7 +19,7 @@ set -x
 ln -s /root/data/checkpoints/maskrcnn.wts ./python/
 ln -s /root/data/datasets/coco ./coco
 # install ixrt run
-bash /root/data/3rd_party/ixrt-0.10.0+corex.4.2.0.20250115-linux_x86_64.run
+bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
 
 if [ "$1" = "nvidia" ]; then
     cd scripts && bash init_nv.sh

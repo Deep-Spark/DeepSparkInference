@@ -19,8 +19,10 @@ set -x
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
     apt install -y libgl1-mesa-glx
+    apt install sox libsox-fmt-all
 elif [[ ${ID} == "centos" ]]; then
     yum install -y mesa-libGL
+    yum install sox sox-devel -y
 else
     echo "Not Support Os"
 fi

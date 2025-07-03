@@ -27,4 +27,6 @@ fi
 
 pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
+mkdir -p /root/.cache/torch/hub/checkpoints/
+cp /root/data/checkpoints/densenet121-a639ec97.pth /root/.cache/torch/hub/checkpoints/
 python3 export.py --output checkpoints/densenet121.onnx

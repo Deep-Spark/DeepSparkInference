@@ -97,6 +97,10 @@ def run_nlp_testcase(model):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
+    pip install /mnt/deepspark/install/tensorrt_llm-0.12.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install /mnt/deepspark/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    bash /mnt/deepspark/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
+    pip install /mnt/deepspark/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
     """
 
@@ -140,7 +144,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=1
+            bash /mnt/deepspark/install/text-generation-inference-2.1.1_x86_64.run
             python3 offline_inference.py --model2path ./data/Qwen1.5-7B
             """
 

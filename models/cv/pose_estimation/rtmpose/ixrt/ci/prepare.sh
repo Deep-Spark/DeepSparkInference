@@ -24,7 +24,11 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-
+# before install mmpose==1.3.1 need to install chchumpy==0.70 which is too older that is not compatible with newer Python versions or pip
+# so need to downgrade pip to version 20.2.4
+pip install pip==20.2.4
+pip install mmpose==1.3.1
+pip install --upgrade pip
 pip install -r requirements.txt
 
 mkdir -p data/rtmpose

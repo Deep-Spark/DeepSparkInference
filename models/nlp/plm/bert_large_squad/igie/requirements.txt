@@ -2,3 +2,4 @@ onnx
 tqdm
 numpy==1.23.5
 transformers==4.37.1
+h5py

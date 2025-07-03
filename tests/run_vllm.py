@@ -97,6 +97,7 @@ def run_nlp_testcase(model):
     set -x
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
+    pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
     """
 
@@ -167,7 +168,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            python3 offline_inference.py --model ./qwen1.5-14b --max-tokens 256 -tp 1 --temperature 0.0 --max-model-len 896
+            python3 offline_inference.py --model ./qwen1.5-14b --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 896
             """
         elif model_name == "qwen1.5-32b":
             script = f"""
@@ -290,10 +291,10 @@ def run_nlp_testcase(model):
             result["result"][prec]["QPS"] = float(matchs.group(2))
             result["result"][prec]["status"] = "PASS"
         else:
-            pattern = r"Maximum concurrency for (\d+) tokens per request: ([\d.]+)x"
+            pattern = r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x"
             matchs = re.search(pattern, sout)
             if matchs:
-                result["result"][prec]["tokens"] = int(matchs.group(1))
+                result["result"][prec]["tokens"] = int(matchs.group(1).replace(',', ''))
                 result["result"][prec]["QPS"] = float(matchs.group(2))
                 result["result"][prec]["status"] = "PASS"
 

@@ -146,6 +146,12 @@ def run_clf_testcase(model):
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
+    """
+    if model_name == "swin_transformer_large":
+        prepare_script += """
+        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        """
+    prepare_script += """
     bash ci/prepare.sh
     """
     # add pip list info when in debug mode
@@ -161,7 +167,7 @@ def run_clf_testcase(model):
         "FPS": r"FPS\s*:\s*(\d+\.?\d*)",
         "Acc1": r"Acc@1\s*:\s*(\d+\.?\d*)",
         "Acc5": r"Acc@5\s*:\s*(\d+\.?\d*)",
-        "E2E": r"E2E time\s*:\s*(\d+\.\d+)"
+        # "E2E": r"E2E time\s*:\s*(\d+\.\d+)"
     }
 
     combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
@@ -241,6 +247,7 @@ def run_detec_testcase(model):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
+    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
     """
 
@@ -381,11 +388,24 @@ def run_nlp_testcase(model):
         "name": model_name,
         "result": {},
     }
-    prepare_script = f"""
-    set -x
-    cd ../{model['model_path']}
-    bash ci/prepare.sh
-    """
+    if model_name == "roberta" or model_name == "deberta" or model_name == "albert" or model_name == "roformer" or model_name == "videobert" or model_name == "wide_and_deep":
+        prepare_script = f"""
+        set -x
+        cd ../{model['model_path']}
+        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
+        bash ci/prepare.sh
+        """
+    else:
+        prepare_script = f"""
+        set -x
+        cd ../{model['model_path']}
+        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        bash ci/prepare.sh
+        """
 
     # add pip list info when in debug mode
     if utils.is_debug():
@@ -532,6 +552,7 @@ def run_instance_segmentation_testcase(model):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
+    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
     ls -l | grep onnx
     """
