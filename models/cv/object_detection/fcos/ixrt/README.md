@@ -50,7 +50,7 @@ wget http://files.deepspark.org.cn:880/deepspark/fcos_opt.onnx
 export PROJ_DIR=./
 export DATASETS_DIR=./coco/
 export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
+export RUN_DIR=../../ixrt_common
 ```
 
 ### FP16
