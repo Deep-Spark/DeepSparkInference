@@ -259,25 +259,41 @@ def run_detec_testcase(model):
     run_script(prepare_script)
 
     config_name = model_name.upper()
+    if model_name == "yolov5":
+        config_name = "YOLOV5M"
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        cd ../{model['model_path']}
-        export DATASETS_DIR=./{dataset_n}/
-
-        export MODEL_PATH=./{model_name}.onnx
-
-        export PROJ_DIR=./
-        export CHECKPOINTS_DIR=./checkpoints
-        export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
-        export EVAL_DIR=./{dataset_n}/val2017
-        export RUN_DIR=./
-        export CONFIG_DIR=config/{config_name}_CONFIG
-
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+        result["result"].setdefault(prec, {})
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7"]:
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=./{dataset_n}/
+            export MODEL_PATH=./{model_name}.onnx
+            export PROJ_DIR=./
+            export CHECKPOINTS_DIR=./checkpoints
+            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+            export EVAL_DIR=./{dataset_n}/images/val2017
+            export RUN_DIR=../../ixrt_common
+            export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
+        else:
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=./{dataset_n}/
+            export MODEL_PATH=./{model_name}.onnx
+            export PROJ_DIR=./
+            export CHECKPOINTS_DIR=./checkpoints
+            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+            export EVAL_DIR=./{dataset_n}/images/val2017
+            export RUN_DIR=./
+            export CONFIG_DIR=config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
 
         if model_name == "rtmpose":
             script = f"""
@@ -292,7 +308,6 @@ def run_detec_testcase(model):
         combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
         matchs = combined_pattern.finditer(sout)
         for match in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
             for name, value in match.groupdict().items():
                 if value:
                     try:
@@ -304,7 +319,6 @@ def run_detec_testcase(model):
         pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
         matchs = re.findall(pattern, sout)
         for m in matchs:
-            result["result"].setdefault(prec, {})
             try:
                 result["result"][prec][m[0]] = float(m[1])
             except ValueError:
@@ -316,7 +330,6 @@ def run_detec_testcase(model):
             pattern = METRIC_PATTERN
             matchs = re.findall(pattern, sout)
             if matchs and len(matchs) == 1:
-                result["result"].setdefault(prec, {})
                 result["result"][prec].update(get_metric_result(matchs[0]))
                 result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
@@ -376,6 +389,23 @@ def run_segmentation_and_face_testcase(model):
             result["result"][prec].update(get_metric_result(m))
         if len(matchs) == 2:
             result["result"][prec]["status"] = "PASS"
+        else:
+            patterns = {
+                "FPS": r"FPS\s*:\s*(\d+\.?\d*)",
+                "Accuracy": r"Accuracy\s*:\s*(\d+\.?\d*)"
+            }
+
+            combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+            matchs = combined_pattern.finditer(sout)
+            match_count = 0
+            for match in matchs:
+                for name, value in match.groupdict().items():
+                    if value:
+                        match_count += 1
+                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        break
+            if match_count == len(patterns):
+                result["result"][prec]["status"] = "PASS"
 
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")

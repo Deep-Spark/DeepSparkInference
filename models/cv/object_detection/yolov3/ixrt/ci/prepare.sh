@@ -25,7 +25,7 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
 unzip -q /root/data/3rd_party/onnx_tflite_yolov3.zip -d ./
 cp /root/data/checkpoints/yolov3.weights onnx_tflite_yolov3/weights

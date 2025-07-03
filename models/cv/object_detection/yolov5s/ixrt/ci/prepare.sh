@@ -25,7 +25,7 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install -r requirements.txt
+pip3 install -r ../../ixrt_common/requirements.txt
 
 mkdir -p checkpoints
 cp -r /root/data/3rd_party/yolov5 ./

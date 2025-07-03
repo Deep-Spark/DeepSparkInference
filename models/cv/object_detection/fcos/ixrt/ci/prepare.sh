@@ -25,36 +25,6 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
-cp -r /root/data/3rd_party/mmcv-v1.7.1 ./mmcv
-cp -r -T /root/data/repos/deepsparkhub/toolbox/MMDetection/patch/mmcv/v1.7.1 ./mmcv
-cd mmcv
-rm -rf mmcv/ops/csrc/common/cuda/spconv/ mmcv/ops/csrc/common/utils/spconv/
-rm -f mmcv/ops/csrc/pytorch/cpu/sparse_*
-rm -f mmcv/ops/csrc/pytorch/cuda/fused_spconv_ops_cuda.cu
-rm -f mmcv/ops/csrc/pytorch/cuda/spconv_ops_cuda.cu
-rm -f mmcv/ops/csrc/pytorch/cuda/sparse_*
-rm -f mmcv/ops/csrc/pytorch/sp*
-
-sed -i 's/return _slice(g, input, axes, starts, ends, steps, dynamic_slice)/return _slice(g, input, axes, starts, ends, steps)/' mmcv/onnx/onnx_utils/symbolic_helper.py
-
-bash clean_mmcv.sh
-bash build_mmcv.sh
-bash install_mmcv.sh
-cd ..
-
+pip install /root/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
 mkdir -p checkpoints
-cp -r /root/data/3rd_party/mmdetection-v2.25.0 ./mmdetection
-cd mmdetection
-python3 tools/deployment/pytorch2onnx.py \
-    ../fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco.py \
-    /root/data/checkpoints/fcos_center-normbbox-centeronreg-giou_r50_caffe_fpn_gn-head_1x_coco-0a0d75a8.pth \
-    --output-file ../checkpoints/r50_fcos.onnx \
-    --input-img demo/demo.jpg \
-    --test-img tests/data/color.jpg \
-    --shape 800 800 \
-    --show \
-    --verify \
-    --skip-postprocess \
-    --dynamic-export \
-    --cfg-options \
-      model.test_cfg.deploy_nms_pre=-1
+cp /root/data/checkpoints/fcos_opt.onnx checkpoints/
