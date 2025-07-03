@@ -16,13 +16,12 @@ techniques, making it suitable for deployment in resource-constrained environmen
 
 ### Prepare Resources
 
-- Model: <https://huggingface.co/openbmb/MiniCPM-V-2>
+- Model: <https://huggingface.co/openbmb/MiniCPM-V-2_6>
 
 ```bash
 cp -r ../../vllm_public_assets/ ./
 
-# Download model from the website and make sure the model's path is "data/Aria"
-mkdir data
+# Download model from the website and make sure the model's path is "./minicpm_v"
 ```
 
 ### Install Dependencies
@@ -42,8 +41,7 @@ pip install timm==0.9.10
 ## Model Inference
 
 ```bash
-export VLLM_ASSETS_CACHE=../vllm/
-PT_SDPA_ENABLE_HEAD_DIM_PADDING=1 python3 offline_inference_vision_language.py --model data/MiniCPM-V-2 --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
+python3 offline_inference_vision_language.py --model-type minicpmv
 ```
 
 ## Model Results
