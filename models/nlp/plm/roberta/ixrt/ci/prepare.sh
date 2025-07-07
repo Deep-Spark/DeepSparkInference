@@ -19,6 +19,8 @@ set -x
 apt install -y libnuma-dev
 
 pip install -r requirements.txt
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 mkdir -p data
 cp -r /root/data/checkpoints/open_roberta data/

@@ -17,8 +17,6 @@ our models and code.
 | :----: | :----: | :----: |
 | MR-V100 | 4.2.0     |  25.03  |
 
-**This model is compatible with IXUCA SDK up to version 4.2.0.**
-
 ## Model Preparation
 
 ### Prepare Resources
@@ -62,6 +60,7 @@ onnxsim open_roberta/roberta-torch-fp32.onnx open_roberta/roberta-torch-fp32_sim
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 export ORIGIN_ONNX_NAME=./open_roberta/roberta-torch-fp32_sim
 export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
