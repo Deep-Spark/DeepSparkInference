@@ -12,6 +12,8 @@ must be included in the final translation with a dictionary lookup.
 | :----: | :----: | :----: |
 | MR-V100 | 4.2.0     |  25.03  |
 
+**This model is compatible with IXUCA SDK up to version 4.2.0.**
+
 ## Model Preparation
 
 ### Prepare Resources
