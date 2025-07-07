@@ -10,8 +10,6 @@ Swin Transformer-Large is a variant of the Swin Transformer, an architecture des
 | :----: | :----: | :----: |
 | MR-V100 | 4.2.0     |  25.03  |
 
-**This model is compatible with IXUCA SDK up to version 4.2.0.**
-
 ## Model Preparation
 
 ### Prepare Resources
@@ -53,6 +51,7 @@ python3 torch2onnx.py --model_path ./general_perf/model_zoo/popular/swin-large/s
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
 export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py

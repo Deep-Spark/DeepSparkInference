@@ -21,6 +21,8 @@ apt install -y libnuma-dev
 pip install -r requirements.txt
 
 cp /root/data/3rd_party/deberta-torch-fp32.json ./
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_deberta/deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
 onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx

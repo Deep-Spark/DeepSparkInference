@@ -15,8 +15,6 @@ fine-tuning to better suit specific downstream tasks, thereby improving the mode
 | :----: | :----: | :----: |
 | MR-V100 | 4.2.0     |  25.03  |
 
-**This model is compatible with IXUCA SDK up to version 4.2.0.**
-
 ## Model Preparation
 
 ### Prepare Resources
@@ -55,6 +53,7 @@ python3 remove_clip_and_cast.py
 
 ```bash
 git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 export ORIGIN_ONNX_NAME=./deberta-sim-drop-clip-drop-invaild-cast
 export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py

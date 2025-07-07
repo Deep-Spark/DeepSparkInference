@@ -26,6 +26,8 @@ else
 fi
 
 apt install -y libnuma-dev
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
 
 pip install -r requirements.txt
 mkdir -p general_perf/model_zoo/regular

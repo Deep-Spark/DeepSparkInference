@@ -189,7 +189,7 @@ def run_clf_testcase(model):
             script = f"""
             cd ../{model['model_path']}
             export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
-            export OPTIMIER_FILE=/root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py
+            export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
             export PROJ_PATH=./
             bash scripts/infer_swinl_fp16_performance.sh
             cd ./ByteMLPerf/byte_infer_perf/general_perf
@@ -450,7 +450,7 @@ def run_nlp_testcase(model):
         set -x
         cd ../{model['model_path']}
         export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
-        export OPTIMIER_FILE=/root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py
+        export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
         export PROJ_PATH=./
         bash scripts/infer_{model_name}_{prec}_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
