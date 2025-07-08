@@ -481,12 +481,14 @@ def run_nlp_testcase(model):
         elif model_name == "bert_large_squad":
             script = f"""
             set -x
+            cd ../{model['model_path']}/
             bash script/infer_bert_large_squad_fp16_accuracy.sh
             bash script/infer_bert_large_squad_fp16_performance.sh
             """
             if prec == "int8":
                 script = f"""
                 set -x
+                cd ../{model['model_path']}/
                 bash script/infer_bert_large_squad_int8_accuracy.sh
                 bash script/infer_bert_large_squad_int8_performance.sh
                 """
@@ -507,11 +509,28 @@ def run_nlp_testcase(model):
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
-        logging.debug(f"matchs:\n{matchs}")
         for m in matchs:
             result["result"][prec].update(get_metric_result(m))
             result["result"][prec]["status"] = "PASS"
+        
+        if model_name == "bert_large_squad":
+            patterns = {
+                "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
+                "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
+                "f1": r"\"f1\"\s*:\s*(\d+\.?\d*)"
+            }
 
+            combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+            matchs = combined_pattern.finditer(sout)
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            for match in matchs:
+                result["result"][prec]["status"] = "PASS"
+                for name, value in match.groupdict().items():
+                    if value:
+                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        break
+
+        logging.debug(f"matchs:\n{matchs}")
         result["result"][prec]["Cost time (s)"] = t
     return result
 

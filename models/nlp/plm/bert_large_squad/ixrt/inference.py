@@ -408,9 +408,6 @@ if __name__ == '__main__':
             
             qps = math.ceil(len(squad_examples)/args.batch_size)*args.batch_size/infer_time
             print(f"Latency QPS: {qps} sentences/s")
-            metricResult = {"metricResult": {}}
-            metricResult["metricResult"]["qps"] = qps
-            print(metricResult)
 
             with open(output_prediction_file, "w") as f:
                 f.write(json.dumps(all_predictions, indent=4))
