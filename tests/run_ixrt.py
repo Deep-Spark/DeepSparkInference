@@ -481,16 +481,14 @@ def run_nlp_testcase(model):
         elif model_name == "bert_large_squad":
             script = f"""
             set -x
-            cd ../{model['model_path']}/python
-            bash script/build_engine.sh --bs 32
-            bash script/inference_squad.sh --bs 32
+            bash script/infer_bert_large_squad_fp16_accuracy.sh
+            bash script/infer_bert_large_squad_fp16_performance.sh
             """
             if prec == "int8":
                 script = f"""
                 set -x
-                cd ../{model['model_path']}/python
-                bash script/build_engine.sh --bs 32 --int8
-                bash script/inference_squad.sh --bs 32 --int8
+                bash script/infer_bert_large_squad_int8_accuracy.sh
+                bash script/infer_bert_large_squad_int8_performance.sh
                 """
 
         r, t = run_script(script)
