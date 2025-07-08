@@ -16,7 +16,7 @@
 import tf2onnx
 from tf2onnx import tf_loader
 import argparse
-ONNX_OPSET = 11
+ONNX_OPSET = 13
 
 def _convert_graphdef_to_onnx(graph_def,
     inputs=None,
