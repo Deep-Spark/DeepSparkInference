@@ -40,11 +40,12 @@ pip3 install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
 git clone https://github.com/zldrobit/onnx_tflite_yolov3.git
 mv yolov3.weights onnx_tflite_yolov3/weights
-
+cd onnx_tflite_yolov3
 # 修改 detect.py 中 torch.onnx.export() 函数的opset_version=11,会在/weights下生成export.onnx
 python3 detect.py --cfg cfg/yolov3.cfg --weights weights/yolov3.weights
-
-mv weights/export.onnx /Path/to/checkpoints/yolov3.onnx
+mv weights/export.onnx ../checkpoints/yolov3.onnx
+cd ..
+cp config/YOLOV3_CONFIG ../../ixrt_common/config/YOLOV3_CONFIG
 ```
 
 ## Model Inference

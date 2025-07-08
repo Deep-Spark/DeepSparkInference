@@ -33,3 +33,4 @@ cd onnx_tflite_yolov3
 python3 detect.py --cfg cfg/yolov3.cfg --weights weights/yolov3.weights
 mv weights/export.onnx ../checkpoints/yolov3.onnx
 cd ..
+cp config/YOLOV3_CONFIG ../../ixrt_common/config/YOLOV3_CONFIG
