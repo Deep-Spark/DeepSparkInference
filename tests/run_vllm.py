@@ -320,6 +320,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference_vision_language_embedding.py --model ./{model_name} --modality "image" --tensor_parallel_size 1 --task "embed" --trust_remote_code --max_model_len 4096
             """
+        elif model_name == "glm-4v":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["GLM4VForCausalLM"]}'
+            """
 
         r, t = run_script(script)
         sout = r.stdout
