@@ -39,6 +39,7 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
+.vscode/
 .tox/
 .nox/
 .coverage
@@ -63,3 +64,5 @@ imagenet_val/
 *.pth
 *.engine
 data/
+
+[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*/
