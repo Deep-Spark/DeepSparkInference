@@ -298,6 +298,14 @@ def run_nlp_testcase(model):
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_vision_language.py --model ./{model_name} -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["QwenVLForConditionalGeneration"]}'
             """
+        elif model_name == "qwen2_vl":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --max-num-seqs 5
+            """
 
         r, t = run_script(script)
         sout = r.stdout
