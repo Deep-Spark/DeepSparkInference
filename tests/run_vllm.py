@@ -314,6 +314,12 @@ def run_nlp_testcase(model):
             export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
             python3 offline_inference_vision_language.py --model ./{model_name} -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
             """
+        elif model_name == "llava_next_base":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            python3 offline_inference_vision_language_embedding.py --model ./{model_name} --modality "image" --tensor_parallel_size 1 --task "embed" --trust_remote_code --max_model_len 4096
+            """
 
         r, t = run_script(script)
         sout = r.stdout
