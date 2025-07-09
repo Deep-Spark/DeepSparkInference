@@ -1,4 +1,4 @@
-# Qwen2.5_VL (vLLM)
+# Qwen2.5-VL (vLLM)
 
 ## Model Description
 

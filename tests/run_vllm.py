@@ -72,7 +72,7 @@ def get_model_config(mode_name):
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and model["framework"] == "vllm":
+        if model["model_name"] == mode_name.lower() and (model["framework"] == "vllm" or model["framework"] == "lmdeploy"):
             return model
     return
 
@@ -296,7 +296,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["QwenVLForConditionalGeneration"]}'
+            python3 offline_inference_vision_language.py --model ./{model_name} -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{{"architectures": ["QwenVLForConditionalGeneration"]}}'
             """
         elif model_name == "qwen2_vl":
             script = f"""
@@ -325,7 +325,15 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["GLM4VForCausalLM"]}'
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --hf-overrides '{{"architectures": ["GLM4VForCausalLM"]}}'
+            """
+        elif model_name == "internlm3":
+            # lmdeploy pipline requires model path to be a huggingface model id
+            # such as "internlm/internlm-chat-7b", "Qwen/Qwen-7B-Chat ", "baichuan-inc/Baichuan2-7B-Chat" and so on.
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1
             """
 
         r, t = run_script(script)
@@ -333,7 +341,6 @@ def run_nlp_testcase(model):
         pattern = r"tokens: (\d+), QPS: ([\d.]+)"
         matchs = re.search(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
-        logging.debug(f"matchs:\n{matchs}")
         if matchs:
             result["result"][prec]["tokens"] = int(matchs.group(1))
             result["result"][prec]["QPS"] = float(matchs.group(2))
@@ -346,6 +353,11 @@ def run_nlp_testcase(model):
                 result["result"][prec]["QPS"] = float(matchs.group(2))
                 result["result"][prec]["status"] = "PASS"
 
+        if not matchs:
+            pattern = r"Offline inference is successful!"
+            matchs = re.search(pattern, sout)
+            if matchs:
+                result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
     return result
 

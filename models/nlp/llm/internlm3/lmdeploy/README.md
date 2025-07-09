@@ -1,5 +1,3 @@
-
-
 # InternLM3 (LMDeploy)
 
 ## Model Description

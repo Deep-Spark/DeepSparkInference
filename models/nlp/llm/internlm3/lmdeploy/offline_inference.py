@@ -20,7 +20,7 @@ def main(args):
     model_path = args.model_path
     max_new_tokens = args.max_tokens
 
-    backend_config = PytorchEngineConfig(session_len=2048,tp = args.tp)
+    backend_config = PytorchEngineConfig(session_len=2048, tp=args.tp)
     gen_config = GenerationConfig(top_p=0.8,
                                   top_k=40,
                                   temperature=0.8,
@@ -37,6 +37,8 @@ def main(args):
     }]]
     response = pipe(prompts, gen_config=gen_config)
     print(response)
+    if response is not None:
+        print("Offline inference is successful!")
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

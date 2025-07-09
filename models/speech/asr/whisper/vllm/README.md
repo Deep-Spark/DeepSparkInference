@@ -34,3 +34,4 @@ export VLLM_ASSETS_CACHE=../vllm/
 python3 offline_inference_audio_language.py --model /path/to/whisper-large-v3-turbo/ -tp 1 --temperature 0.0 --model-name openai/whisper-large-v3-turbo --max-tokens 200
 ```
 
+## Model Results

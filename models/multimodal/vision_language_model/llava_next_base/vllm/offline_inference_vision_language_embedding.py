@@ -134,6 +134,8 @@ def run_encode(engine_params, modality: QueryModality):
 
     for output in outputs:
         print(output.outputs.embedding)
+        if output.outputs.embedding is not None:
+            print("Offline inference is successful!")
 
 
 
