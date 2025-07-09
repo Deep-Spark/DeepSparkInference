@@ -291,6 +291,13 @@ def run_nlp_testcase(model):
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_audio_language.py --model ./{model_name} -tp 1 --temperature 0.0 --model-name openai/whisper-large-v3-turbo --max-tokens 200
             """
+        elif model_name == "qwen_vl":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["QwenVLForConditionalGeneration"]}'
+            """
 
         r, t = run_script(script)
         sout = r.stdout
