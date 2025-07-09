@@ -306,6 +306,14 @@ def run_nlp_testcase(model):
             export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
             python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --max-num-seqs 5
             """
+        elif model_name == "qwen2_5_vl":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
+            python3 offline_inference_vision_language.py --model ./{model_name} -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
+            """
 
         r, t = run_script(script)
         sout = r.stdout
