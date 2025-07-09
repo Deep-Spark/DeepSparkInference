@@ -56,7 +56,7 @@ def main():
 
     result = {}
     # NLP模型
-    if model["category"] in ["nlp/llm", "multimodal/vision_language_model"]:
+    if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -283,6 +283,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
             python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 2048
+            """
+        elif model_name == "whisper":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_audio_language.py --model ./{model_name} -tp 1 --temperature 0.0 --model-name openai/whisper-large-v3-turbo --max-tokens 200
             """
 
         r, t = run_script(script)
