@@ -19,7 +19,7 @@ do
 done
 project_path=./
 checkpoints_path=${project_path}/data/checkpoints/bert-large-uncased
-datasets_path=${project_path}/data/datasets/squad
+datasets_path=${project_path}/data/datasets
 
 echo 'USE_TRT='${USE_TRT}
 export USE_TRT=$USE_TRT

@@ -5979,7 +5979,8 @@
             "download_url": "https://huggingface.co/neuralmagic/bert-large-uncased-finetuned-squadv1",
             "need_third_part": "",
             "precisions": [
-                "fp16"
+                "fp16",
+                "int8"
             ],
             "type": "inference",
             "hasDemo": false,
@@ -6012,7 +6013,8 @@
             "download_url": "https://local/bert-large-uncased",
             "need_third_part": "",
             "precisions": [
-                "fp16"
+                "fp16",
+                "int8"
             ],
             "type": "inference",
             "hasDemo": false,
