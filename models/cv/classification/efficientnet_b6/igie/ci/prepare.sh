@@ -16,5 +16,5 @@
 
 set -x
 
-pip3 install -r requirements.txt
-python3 export.py --weight efficientnet_b6_lukemelas-24a108a5.pth --output efficientnet_b6.onnx
+pip3 install -r ../../igie_common/requirements.txt
+python3 ../../igie_common/export.py --model-name efficientnet_b6 --weight efficientnet_b6_lukemelas-24a108a5.pth --output efficientnet_b6.onnx
