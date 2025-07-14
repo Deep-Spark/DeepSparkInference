@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -16,15 +16,6 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
 pip3 install -r requirements.txt
-pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-mkdir -p checkpoints
-cp /root/data/checkpoints/fcos_opt.onnx checkpoints/
+mkdir -p checkpoints/
+python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg ../../ixrt_common/retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx

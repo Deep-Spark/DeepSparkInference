@@ -79,9 +79,9 @@ model = dict(
             type='DeltaXYWHBBoxCoder'),
         feat_channels=256,
         in_channels=256,
-        loss_bbox=dict(loss_weight=2.0, type='GIoULoss'),
+        loss_bbox=dict(loss_weight=1.3, type='GIoULoss'),
         loss_centerness=dict(
-            loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=True),
+            loss_weight=0.5, type='CrossEntropyLoss', use_sigmoid=True),
         loss_cls=dict(
             alpha=0.25,
             gamma=2.0,
@@ -89,8 +89,11 @@ model = dict(
             type='FocalLoss',
             use_sigmoid=True),
         num_classes=80,
+        reg_decoded_bbox=True,
+        score_voting=True,
         stacked_convs=4,
-        type='ATSSHead'),
+        topk=9,
+        type='PAAHead'),
     data_preprocessor=dict(
         bgr_to_rgb=True,
         mean=[
@@ -125,10 +128,15 @@ model = dict(
         score_thr=0.05),
     train_cfg=dict(
         allowed_border=-1,
-        assigner=dict(topk=9, type='ATSSAssigner'),
+        assigner=dict(
+            ignore_iof_thr=-1,
+            min_pos_iou=0,
+            neg_iou_thr=0.1,
+            pos_iou_thr=0.1,
+            type='MaxIoUAssigner'),
         debug=False,
         pos_weight=-1),
-    type='ATSS')
+    type='PAA')
 optim_wrapper = dict(
     optimizer=dict(lr=0.01, momentum=0.9, type='SGD', weight_decay=0.0001),
     type='OptimWrapper')
@@ -157,7 +165,7 @@ test_dataloader = dict(
         data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
-            dict(keep_ratio=False, scale=(
+            dict(keep_ratio=True, scale=(
                 800,
                 800,
             ), type='Resize'),
@@ -186,7 +194,7 @@ test_evaluator = dict(
     type='CocoMetric')
 test_pipeline = [
     dict(backend_args=None, type='LoadImageFromFile'),
-    dict(keep_ratio=False, scale=(
+    dict(keep_ratio=True, scale=(
         800,
         800,
     ), type='Resize'),
@@ -245,7 +253,7 @@ val_dataloader = dict(
         data_root='data/coco/',
         pipeline=[
             dict(backend_args=None, type='LoadImageFromFile'),
-            dict(keep_ratio=False, scale=(
+            dict(keep_ratio=True, scale=(
                 800,
                 800,
             ), type='Resize'),

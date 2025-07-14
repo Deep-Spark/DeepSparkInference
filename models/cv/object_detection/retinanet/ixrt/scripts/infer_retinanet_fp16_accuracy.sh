@@ -42,7 +42,7 @@ do
     esac
 done
 
-MODEL_NAME="atss"
+MODEL_NAME="retinanet"
 ORIGINE_MODEL="${CHECKPOINTS_DIR}/${MODEL_NAME}.onnx"
 
 echo CHECKPOINTS_DIR : ${CHECKPOINTS_DIR}
@@ -104,9 +104,8 @@ echo;
 echo [STEP ${step}] : Inference
 python3 ${RUN_DIR}/inference_mmdet.py \
         --engine ${ENGINE_FILE} \
-        --cfg_file ${RUN_DIR}/atss_r50_fpn_1x_coco.py \
-        --perf_only True \
+        --cfg_file ${RUN_DIR}/retinanet_r50_fpn_1x_coco.py \
         --datasets ${DATASETS_DIR} \
         --batchsize ${BSZ} \
-        --fps_target ${TGT}; check_status
+        --acc_target ${TGT}; check_status
 exit ${EXIT_STATUS}

@@ -151,6 +151,7 @@ def main():
             cls_score = []
             box_reg = []
             score_factors = []
+            filename = os.path.basename(args.cfg_file)
             for i in range(len(outputs)):
                 output = np.zeros(outputs[i]["shape"], outputs[i]["dtype"])
                 (err,) = cudart.cudaMemcpy(
@@ -166,18 +167,25 @@ def main():
 
                 output = torch.from_numpy(output)
                 
-                if output.shape[1] == 80:
-                    cls_score.append(output)
-                elif output.shape[1] == 4:
-                    box_reg.append(output)
+                # Handle RetinaNet's output structure differently
+                if filename.lower().startswith("retinanet_"):
+                    if i < len(outputs) / 2:
+                        cls_score.append(output)
+                    else:
+                        box_reg.append(output)
                 else:
-                    score_factors.append(output)
+                    if output.shape[1] == 80:
+                        cls_score.append(output)
+                    elif output.shape[1] == 4:
+                        box_reg.append(output)
+                    else:
+                        score_factors.append(output)
 
             batch_img_metas = [
                 data_samples.metainfo for data_samples in input_data['data_samples']
             ]
             
-            if "fovea_r50" or "fsaf" in args.cfg_file:
+            if filename.lower().startswith(("fovea_r50_", "fsaf_", "retinanet_")):
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, batch_img_metas=batch_img_metas, rescale=True)
             else:
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, score_factors, batch_img_metas=batch_img_metas, rescale=True)

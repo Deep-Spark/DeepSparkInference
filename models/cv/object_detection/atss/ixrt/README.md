@@ -25,21 +25,14 @@ wget https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/a
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
+# Contact the Iluvatar administrator to get the mmcv install package.
 ```
 
 ### Model Conversion
 
 ```bash
-# export onnx model
 mkdir -p checkpoints/
-
 python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg ../../ixrt_common/atss_r50_fpn_1x_coco.py --output checkpoints/atss.onnx
 ```
 
@@ -65,7 +58,7 @@ bash scripts/infer_atss_fp16_performance.sh
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| ATSS  | 32        | FP16      | 131.117 | 0.538   | 0.359        |
+| ATSS  | 32        | FP16      | 133.573 | 0.541   | 0.367        |
 
 ## References
 
