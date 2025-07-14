@@ -26,5 +26,5 @@ else
 fi
 pip3 install -r ../igie/requirements.txt
 mkdir -p checkpoints/
-cp ../igie/atss_r50_fpn_1x_coco.py ./
-python3 ../igie/export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg ./atss_r50_fpn_1x_coco.py --output checkpoints/atss.onnx
+cp ../igie/retinanet_r50_fpn_1x_coco.py ./
+python3 ../igie/export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx

@@ -1,8 +1,8 @@
-# ATSS (IxRT)
+# PAA (IxRT)
 
 ## Model Description
 
-ATSS is an advanced adaptive training sample selection method that effectively enhances the performance of both anchor-based and anchor-free object detectors by dynamically choosing positive and negative samples based on the statistical characteristics of objects. The design of ATSS reduces reliance on hyperparameters, simplifies the sample selection process, and significantly improves detection accuracy without adding extra computational costs.
+PAA (Probabilistic Anchor Assignment) is an algorithm for object detection that adaptively assigns positive and negative anchor samples using a probabilistic model. It employs a Gaussian mixture model to dynamically select positive and negative samples based on score distribution, avoiding the misassignment issues of traditional IoU threshold-based methods. PAA enhances detection accuracy, particularly in complex scenarios, and is compatible with existing detection frameworks.
 
 ## Supported Environments
 
@@ -14,12 +14,12 @@ ATSS is an advanced adaptive training sample selection method that effectively e
 
 ### Prepare Resources
 
-Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth>
+Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/paa/paa_r50_fpn_1x_coco/paa_r50_fpn_1x_coco_20200821-936edec3.pth>
 
 Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
 
 ```bash
-wget https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/atss_r50_fpn_1x_coco_20200209-985f7bd0.pth
+wget https://download.openmmlab.com/mmdetection/v2.0/paa/paa_r50_fpn_1x_coco/paa_r50_fpn_1x_coco_20200821-936edec3.pth
 ```
 
 ### Install Dependencies
@@ -39,8 +39,9 @@ pip3 install -r ../igie/requirements.txt
 
 ```bash
 mkdir -p checkpoints/
-cp ../igie/atss_r50_fpn_1x_coco.py ./
-python3 ../igie/export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg ./atss_r50_fpn_1x_coco.py --output checkpoints/atss.onnx
+cp ../igie/paa_r50_fpn_1x_coco.py ./
+# export onnx model
+python3 ../igie/export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
 ```
 
 ## Model Inference
@@ -56,16 +57,16 @@ export RUN_DIR=../../ixrt_common
 
 ```bash
 # Accuracy
-bash scripts/infer_atss_fp16_accuracy.sh
+bash scripts/infer_paa_fp16_accuracy.sh
 # Performance
-bash scripts/infer_atss_fp16_performance.sh
+bash scripts/infer_paa_fp16_performance.sh
 ```
 
 ## Model Results
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| ATSS  | 32        | FP16      | 131.117 | 0.538   | 0.359        |
+| PAA  | 32        | FP16      | 131.117 | 0.538   | 0.359        |
 
 ## References
 

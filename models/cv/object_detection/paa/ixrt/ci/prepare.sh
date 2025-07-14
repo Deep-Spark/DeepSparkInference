@@ -26,5 +26,5 @@ else
 fi
 pip3 install -r ../igie/requirements.txt
 mkdir -p checkpoints/
-cp ../igie/atss_r50_fpn_1x_coco.py ./
-python3 ../igie/export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg ./atss_r50_fpn_1x_coco.py --output checkpoints/atss.onnx
+cp ../igie/paa_r50_fpn_1x_coco.py ./
+python3 ../igie/export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
