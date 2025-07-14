@@ -24,7 +24,6 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-pip3 install -r ../igie/requirements.txt
+pip3 install -r requirements.txt
 mkdir -p checkpoints/
-cp ../igie/paa_r50_fpn_1x_coco.py ./
-python3 ../igie/export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
+python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx

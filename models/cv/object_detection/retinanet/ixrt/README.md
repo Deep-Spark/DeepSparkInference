@@ -32,16 +32,15 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 # use igie to export onnx
-pip3 install -r ../igie/requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
 mkdir -p checkpoints/
-cp ../igie/retinanet_r50_fpn_1x_coco.py ./
 # export onnx model
-python3 ../igie/export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx
+python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx
 ```
 
 ## Model Inference

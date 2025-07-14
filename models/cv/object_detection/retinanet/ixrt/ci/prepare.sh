@@ -24,7 +24,6 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-pip3 install -r ../igie/requirements.txt
+pip3 install -r requirements.txt
 mkdir -p checkpoints/
-cp ../igie/retinanet_r50_fpn_1x_coco.py ./
-python3 ../igie/export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx
+python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output checkpoints/retinanet.onnx
