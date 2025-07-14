@@ -40,7 +40,7 @@ pip3 install -r requirements.txt
 ```bash
 mkdir -p checkpoints/
 # export onnx model
-python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
+python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg ../../ixrt_common/paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
 ```
 
 ## Model Inference
@@ -65,7 +65,7 @@ bash scripts/infer_paa_fp16_performance.sh
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| PAA  | 32        | FP16      | 131.117 | 0.538   | 0.359        |
+| PAA  | 32        | FP16      | 131.117 | 0.555   | 0.381        |
 
 ## References
 

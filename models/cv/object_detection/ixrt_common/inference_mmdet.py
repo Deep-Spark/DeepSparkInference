@@ -177,7 +177,8 @@ def main():
                 data_samples.metainfo for data_samples in input_data['data_samples']
             ]
             
-            if "fovea_r50" or "fsaf" in args.cfg_file:
+            filename = os.path.basename(args.cfg_file)
+            if filename.lower().startswith(("fovea_r50_", "fsaf_")):
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, batch_img_metas=batch_img_metas, rescale=True)
             else:
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, score_factors, batch_img_metas=batch_img_metas, rescale=True)

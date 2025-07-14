@@ -25,6 +25,6 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
-pip install /root/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
+pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 mkdir -p checkpoints
 cp /root/data/checkpoints/fcos_opt.onnx checkpoints/

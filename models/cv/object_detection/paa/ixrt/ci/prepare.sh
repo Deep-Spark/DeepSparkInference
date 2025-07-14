@@ -26,4 +26,4 @@ else
 fi
 pip3 install -r requirements.txt
 mkdir -p checkpoints/
-python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
+python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg ../../ixrt_common/paa_r50_fpn_1x_coco.py --output checkpoints/paa.onnx
