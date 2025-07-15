@@ -27,7 +27,8 @@ fi
 
 pip3 install -r requirements.txt
 
-git clone --depth 1 https://github.com/iMoonLab/yolov13.git
+# git clone --depth 1 https://github.com/iMoonLab/yolov13.git
+cp -r /mnt/deepspark/data/repos/yolov13 ./
 
 cd yolov13
 pip3 install -e .
