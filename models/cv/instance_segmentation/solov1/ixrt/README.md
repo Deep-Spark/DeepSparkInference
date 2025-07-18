@@ -31,9 +31,10 @@ apt install -y libgl1-mesa-glx
 pip3 install -r requirements.txt
 ```
 
-The inference of the Solov1 model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please inquire with the staff to obtain the relevant libraries.
+The inference of the Solov1 model requires a dependency on a well-adapted mmcv-v1.7.0 library. Please contact the Iluvatar administrator to get the missing packages:
+- mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
 
-You can follow the script [prepare_mmcv.sh](https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh) to build:
+or You can follow the script [prepare_mmcv.sh](https://gitee.com/deep-spark/deepsparkhub/blob/master/toolbox/MMDetection/prepare_mmcv.sh) to build:
 
 ```bash
 cd mmcv

@@ -295,6 +295,13 @@ inference to be expanded in the future.
 
 ---
 
+## Docker
+
+| Docker Installer | IXUCA SDK | Introduction |
+|-----------|--------|--------------|
+| corex-docker-installer-4.3.0-*-py3.10-x86_64.run | 4.3.0 | for small model inference     |
+| corex-docker-installer-4.3.0-*-llm-py3.10-x86_64.run | 4.3.0 | for large model inference  |
+
 ## Community
 
 ### Code of Conduct

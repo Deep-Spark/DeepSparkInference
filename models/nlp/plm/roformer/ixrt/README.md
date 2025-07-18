@@ -45,6 +45,11 @@ popd
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+- tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
 apt install -y libnuma-dev
 

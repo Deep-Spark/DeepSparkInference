@@ -21,6 +21,9 @@ Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the valida
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
 # Install libGL
 ## CentOS
@@ -29,7 +32,6 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r requirements.txt
-# Contact the Iluvatar administrator to get the mmcv install package.
 ```
 
 ### Model Conversion

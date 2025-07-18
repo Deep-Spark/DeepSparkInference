@@ -22,6 +22,10 @@ bash script/prepare.sh v1_1
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 #### Install on Iluvatar
 
 ```bash

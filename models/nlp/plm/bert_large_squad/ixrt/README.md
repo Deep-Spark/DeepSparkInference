@@ -18,6 +18,11 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 Get `bert-large-uncased.zip` from [Google
 Drive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
 
+### Install Dependencies
+
+Contact the Iluvatar administrator to get the missing packages:
+- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ## Model Inference
 

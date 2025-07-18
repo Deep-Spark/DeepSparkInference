@@ -35,18 +35,8 @@ ln -s /path/to/Qwen2-72B ./data/qwen2
 
 ### Install Dependencies
 
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
-# Contact the iluvatar manager to get adapted install packages of vllm, triton, and ixformer
-pip3 install vllm
-pip3 install triton
-pip3 install ixformer
-```
+In order to run the model smoothly, you need to get the sdk from [resource
+center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ## Model Inference
 

@@ -285,6 +285,13 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 ---
 
+## 容器
+
+| Docker Installer | IXUCA SDK | Introduction |
+|-----------|--------|--------------|
+| corex-docker-installer-4.3.0-*-py3.10-x86_64.run | 4.3.0 | 适用小模型推理     |
+| corex-docker-installer-4.3.0-*-llm-py3.10-x86_64.run | 4.3.0 | 适用大模型推理  |
+
 ## 社区
 
 ### 治理

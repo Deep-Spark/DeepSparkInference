@@ -19,6 +19,9 @@ Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
 # Install libGL
 ## CentOS
