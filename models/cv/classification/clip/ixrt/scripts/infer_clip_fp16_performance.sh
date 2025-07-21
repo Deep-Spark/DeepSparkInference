@@ -54,31 +54,29 @@ echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
 
 step=0
-SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_sim.onnx
 
-# Simplify Model
+# Change Input size and Simplify Model
 let step++
 echo;
-echo [STEP ${step}] : Simplify Model
-if [ -f ${SIM_MODEL} ];then
-    echo "  "Simplify Model, ${SIM_MODEL} has been existed
+echo [STEP ${step}] : Change Batchsize and Simplify
+SIM_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}_sim.onnx
+if [ -f $SIM_MODEL ];then
+    echo "  "Change Input size and Simplify Model Skip, $SIM_MODEL has been existed
 else
-    python3 ${RUN_DIR}/simplify_model.py \
-    --origin_model $ORIGINE_MODEL    \
-    --output_model ${SIM_MODEL}
+    onnxsim ${ORIGINE_MODEL} ${SIM_MODEL} \
+        --overwrite-input-shape input_ids:1000,22 pixel_values:${BSZ},3,224,224 attention_mask:1000,22
     echo "  "Generate ${SIM_MODEL}
 fi
 
-# Change Batchsize
+# optimizer
 let step++
 echo;
-echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}.onnx
+echo [STEP ${step}] : Optimizer
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}_sim_end.onnx
 if [ -f $FINAL_MODEL ];then
-    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
+    echo "  "Optimizer Model Skip, $FINAL_MODEL has been existed
 else
-    python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
-        --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
+    python3 ${OPTIMIER_FILE} --onnx ${SIM_MODEL} --model_type vit
     echo "  "Generate ${FINAL_MODEL}
 fi
 

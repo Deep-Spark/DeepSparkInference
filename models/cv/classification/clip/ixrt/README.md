@@ -33,15 +33,18 @@ pip3 install -r requirements.txt
 
 ```bash
 python3 export.py --output clip.onnx
-
-# Use onnxsim optimize onnx model
-onnxsim clip.onnx clip_sim.onnx
 ```
 
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
+export DATASETS_DIR=/path/to/imagenet_val/
+export PROJ_DIR=./
+export CHECKPOINTS_DIR=./
+export RUN_DIR=./
+export CONFIG_DIR=../../ixrt_common/config/CLIP_CONFIG
 ```
 
 ### FP16
@@ -57,4 +60,4 @@ bash scripts/infer_clip_fp16_performance.sh
 
 | Model | BatchSize | Precision | FPS    | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| CLIP  | 32        | FP16      | 496.91 | 59.68    | 86.16    |
+| CLIP  | 32        | FP16      | 350.94 | 59.68    | 86.14    |

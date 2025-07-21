@@ -78,13 +78,19 @@ class ModelRunner:
         self.context.execute_v2(self.allocations)
 
 class ClassificationRunner(ModelRunner):
-    def load_input(self, batch_data):
+    def load_input(self, input_id, image, attention):
         if self.is_ixrt_backend():
-            err, = cuda.cuMemcpyHtoD(self.inputs[0]["allocation"], batch_data, batch_data.nbytes)
+            err, = cuda.cuMemcpyHtoD(self.inputs[0]["allocation"], input_id, input_id.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemcpyHtoD(self.inputs[1]["allocation"], image, image.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemcpyHtoD(self.inputs[2]["allocation"], attention, attention.nbytes)
             assert(err == cuda.CUresult.CUDA_SUCCESS)
 
         elif self.is_ort_backend():
-            self.inputs[0]["allocation"] = batch_data
+            self.inputs[0]["allocation"] = input_id
+            self.inputs[1]["allocation"] = image
+            self.inputs[2]["allocation"] = attention
         else:
             raise
 
@@ -153,12 +159,12 @@ def main(config):
 
         # for input_id, image, attention, label in tqdm(dataloader):
         with tqdm(total= len(dataloader)) as _tqdm:
-            for idx, (batch_data, batch_label) in enumerate(dataloader):
-                batch_data = batch_data.numpy().astype(runner.inputs[0]["dtype"])
-                batch_data = np.ascontiguousarray(batch_data)
-                total_sample += batch_data.shape[0]
+            for idx, (input_id, image, attention, batch_label) in enumerate(dataloader):
+                image = image.astype(runner.inputs[1]["dtype"])
+                image = np.ascontiguousarray(image)
+                total_sample += image.shape[0]
                 
-                runner.load_input(batch_data)
+                runner.load_input(input_id, image, attention)
                 runner.run()
                 output = runner.fetch_output()[0]
 
