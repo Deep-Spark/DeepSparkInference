@@ -174,16 +174,29 @@ def run_clf_testcase(model):
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        cd ../{model['model_path']}
-        export DATASETS_DIR=/root/data/datasets/imagenet-val
-        export PROJ_DIR=../../ixrt_common/
-        export CHECKPOINTS_DIR=./checkpoints
-        export RUN_DIR=../../ixrt_common/
-        export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+        if model_name == "clip":
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=/root/data/datasets/imagenet-val
+            export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
+            export PROJ_DIR=../../ixrt_common/
+            export CHECKPOINTS_DIR=./checkpoints
+            export RUN_DIR=../../ixrt_common/
+            export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
+        else:
+            script = f"""
+            cd ../{model['model_path']}
+            export DATASETS_DIR=/root/data/datasets/imagenet-val
+            export PROJ_DIR=../../ixrt_common/
+            export CHECKPOINTS_DIR=./checkpoints
+            export RUN_DIR=../../ixrt_common/
+            export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
 
         if model_name == "swin_transformer_large":
             script = f"""
