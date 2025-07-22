@@ -1,0 +1,6 @@
+# IMGSIZE : 模型输入hw大小
+# MODEL_NAME : 生成onnx/engine的basename
+# ORIGINE_MODEL : 原始onnx文件名称
+IMGSIZE=224
+MODEL_NAME=Clip
+ORIGINE_MODEL=clip.onnx
