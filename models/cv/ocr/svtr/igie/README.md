@@ -19,6 +19,11 @@ Pretrained model:<https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/rec_svtr_tiny
 
 Dataset: <https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyaybRmHiI?rlkey=2rywtkyuz67b20hk58zkfhh2r&e=1&dl=0> to download the lmdb evaluation datasets.
 
+### Install Dependencies
+
+Contact the Iluvatar administrator to get the missing packages:
+- paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
 # Install libGL
 ## CentOS
