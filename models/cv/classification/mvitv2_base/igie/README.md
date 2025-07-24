@@ -29,6 +29,8 @@ apt install -y libgl1-mesa-glx
 
 pip3 install -r ../../igie_common/requirements.txt
 pip3 install mmcv==1.5.3 mmcls==0.24.0
+Contact the Iluvatar administrator to get the missing packages:
+- igie-0.18.1+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl or later
 ```
 
 ### Model Conversion
@@ -48,7 +50,7 @@ onnxsim mvitv2_base.onnx mvitv2_base_opt.onnx
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/imagenet_val/
+export DATASETS_DIR=/Path/to/imagenet-val/
 export RUN_DIR=../../igie_common/
 ```
 
