@@ -34,7 +34,8 @@ Contact the Iluvatar administrator to get the missing packages:
 ### Model Conversion
 
 ```bash
-python3 export.py --output clip.onnx
+mkdir -p checkpoints/clip
+python3 export.py --output checkpoints/clip/clip.onnx
 ```
 
 ## Model Inference
@@ -44,7 +45,7 @@ git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
 export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export DATASETS_DIR=/path/to/imagenet_val/
 export PROJ_DIR=./
-export CHECKPOINTS_DIR=./
+export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=../../ixrt_common
 export CONFIG_DIR=../../ixrt_common/config/CLIP_CONFIG
 ```

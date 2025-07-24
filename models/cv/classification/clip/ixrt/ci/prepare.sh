@@ -17,6 +17,7 @@
 set -x
 
 pip3 install -r requirements.txt
-python3 export.py --output clip.onnx
+mkdir -p checkpoints/clip
+python3 export.py --output checkpoints/clip/clip.onnx
 cp -r /root/data/3rd_party/iluvatar-corex-ixrt ./
 pip3 install /root/data/install/ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl

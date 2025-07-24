@@ -180,7 +180,7 @@ def run_clf_testcase(model):
             export DATASETS_DIR=/root/data/datasets/imagenet-val
             export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
             export PROJ_DIR=../../ixrt_common/
-            export CHECKPOINTS_DIR=./checkpoints
+            export CHECKPOINTS_DIR=./checkpoints/clip
             export RUN_DIR=../../ixrt_common/
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
             bash scripts/infer_{model_name}_{prec}_accuracy.sh
