@@ -2,5 +2,5 @@
 # MODEL_NAME : 生成onnx/engine的basename
 # ORIGINE_MODEL : 原始onnx文件名称
 IMGSIZE=224
-MODEL_NAME=Clip
+MODEL_NAME=clip
 ORIGINE_MODEL=clip.onnx

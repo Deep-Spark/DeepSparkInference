@@ -14,7 +14,7 @@ from cuda import cuda, cudart
 import torch
 import tensorrt
 
-from calibration_dataset import getdataloader, getmobilenetv1dataloader
+from calibration_dataset import getdataloader, getmobilenetv1dataloader, getclipdataloader
 from common import eval_batch, create_engine_context, get_io_bindings
 
 TRT_LOGGER = tensorrt.Logger(tensorrt.Logger.WARNING)
@@ -101,14 +101,44 @@ class ClassificationRunner(ModelRunner):
         else:
             raise
 
+class ClassificationClipRunner(ClassificationRunner):
+    def load_input(self, input_id, image, attention):
+        if self.is_ixrt_backend():
+            err, = cuda.cuMemcpyHtoD(self.inputs[0]["allocation"], input_id, input_id.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemcpyHtoD(self.inputs[1]["allocation"], image, image.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemcpyHtoD(self.inputs[2]["allocation"], attention, attention.nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+
+        elif self.is_ort_backend():
+            self.inputs[0]["allocation"] = input_id
+            self.inputs[1]["allocation"] = image
+            self.inputs[2]["allocation"] = attention
+        else:
+            raise
+
 def main(config):
     if "MobileNet_v1" in config.engine_file:
         dataloader = getmobilenetv1dataloader(config.datasets_dir, config.loop_count, config.bsz, img_sz=config.imgsz)
+    elif "/clip/" in config.engine_file:
+        input_dict = {}
+        input_name_list = []
+
+        for input_info in ['input_ids:1000,22', 'pixel_values:32,3,224,224', 'attention_mask:1000,22']:
+            input_name, input_shape = input_info.split(":")
+            shape = tuple([int(s) for s in input_shape.split(",")])
+            input_name_list.append(input_name)
+            input_dict[input_name] = shape
+        dataloader = getclipdataloader(config.bsz, config.datasets_dir, input_dict)
     else:
         dataloader = getdataloader(config.datasets_dir, config.loop_count, config.bsz, img_sz=config.imgsz)
 
     logger = tensorrt.Logger(tensorrt.Logger.ERROR)
-    runner = ClassificationRunner(config.engine_file, logger)
+    if "/clip/" in config.engine_file:
+        runner = ClassificationClipRunner(config.engine_file, logger)
+    else:
+        runner = ClassificationRunner(config.engine_file, logger)
 
     # Inference
     if config.test_mode == "FPS":
@@ -147,26 +177,44 @@ def main(config):
         acc_top1, acc_top5 = 0, 0
 
         with tqdm(total= len(dataloader)) as _tqdm:
-            for idx, (batch_data, batch_label) in enumerate(dataloader):
-                batch_data = batch_data.numpy().astype(runner.inputs[0]["dtype"])
-                batch_data = np.ascontiguousarray(batch_data)
-                total_sample += batch_data.shape[0]
-                
-                runner.load_input(batch_data)
-                runner.run()
-                output = runner.fetch_output()[0]
+            if "/clip/" in config.engine_file:
+                for idx, (input_id, image, attention, batch_label) in enumerate(dataloader):
+                    image = image.astype(runner.inputs[1]["dtype"])
+                    image = np.ascontiguousarray(image)
+                    total_sample += image.shape[0]
 
-                # squeeze output shape [32,1000,1,1] to [32,1000] for mobilenet_v2 model
-                if len(output.shape) == 4:
-                    output = output.squeeze(axis=(2,3))
+                    runner.load_input(input_id, image, attention)
+                    runner.run()
+                    output = runner.fetch_output()[0]
 
-                batch_top1, batch_top5 = eval_batch(output, batch_label)
-                acc_top1 += batch_top1
-                acc_top5 += batch_top5
+                    batch_top1, batch_top5 = eval_batch(output, batch_label)
+                    acc_top1 += batch_top1
+                    acc_top5 += batch_top5
 
-                _tqdm.set_postfix(acc_1='{:.4f}'.format(acc_top1/total_sample),
-                                    acc_5='{:.4f}'.format(acc_top5/total_sample))
-                _tqdm.update(1)
+                    _tqdm.set_postfix(acc_1='{:.4f}'.format(acc_top1/total_sample),
+                                      acc_5='{:.4f}'.format(acc_top5/total_sample))
+                    _tqdm.update(1)
+            else:
+                for idx, (batch_data, batch_label) in enumerate(dataloader):
+                    batch_data = batch_data.numpy().astype(runner.inputs[0]["dtype"])
+                    batch_data = np.ascontiguousarray(batch_data)
+                    total_sample += batch_data.shape[0]
+                    
+                    runner.load_input(batch_data)
+                    runner.run()
+                    output = runner.fetch_output()[0]
+
+                    # squeeze output shape [32,1000,1,1] to [32,1000] for mobilenet_v2 model
+                    if len(output.shape) == 4:
+                        output = output.squeeze(axis=(2,3))
+
+                    batch_top1, batch_top5 = eval_batch(output, batch_label)
+                    acc_top1 += batch_top1
+                    acc_top5 += batch_top5
+
+                    _tqdm.set_postfix(acc_1='{:.4f}'.format(acc_top1/total_sample),
+                                        acc_5='{:.4f}'.format(acc_top5/total_sample))
+                    _tqdm.update(1)
 
         print(F"Acc@1 : {acc_top1/total_sample} = {acc_top1}/{total_sample}")
         print(F"Acc@5 : {acc_top5/total_sample} = {acc_top5}/{total_sample}")

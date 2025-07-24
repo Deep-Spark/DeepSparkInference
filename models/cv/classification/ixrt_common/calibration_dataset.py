@@ -4,7 +4,7 @@ from PIL import Image
 
 import torch
 import torchvision.datasets
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torchvision import models
 from torchvision import transforms as T
 
@@ -189,3 +189,69 @@ def getdataloader(dataset_dir, step=20, batch_size=32, workers=2, img_sz=224, to
         num_samples=num_samples,
     )
     return calibration_dataloader
+
+class CLIPImageNetDataset(Dataset):
+    def __init__(self, image_dir_path, seq_len=22, checkpoint="clip-vit-base-patch32"):
+        from transformers import CLIPProcessor
+        from glob import glob
+        import yaml
+        self.image_dir_path = os.path.expanduser(image_dir_path)
+
+        self.label_path = f"{self.image_dir_path}/val.txt"
+        self.img2label = {}
+        with open(self.label_path) as f:
+            lines = f.readlines()
+            for i in lines:
+                image, label = i.split()
+                self.img2label[image] = int(label)
+
+        self.img_list = glob(f"{self.image_dir_path}/*/*")
+
+        with open('imagenet_labels.yaml', 'r') as file:
+            yaml_content = file.read()
+
+        imagenet_labels = yaml.safe_load(yaml_content)
+
+        imagenet_classes = [value for key, value in imagenet_labels['labels'].items()]
+
+        self.processor = CLIPProcessor.from_pretrained(checkpoint)
+        self.label = [f"a photo of a {imagenet_class}" for imagenet_class in imagenet_classes]
+        self.processed_text = self.processor.tokenizer(self.label, return_tensors='pt', padding="max_length", truncation=True, max_length=seq_len)
+        
+        self.input_ids = self.processed_text['input_ids'].numpy()
+        self.attention_mask = self.processed_text['attention_mask'].numpy()
+
+
+    def __getitem__(self, index):
+        image_path = self.img_list[index]
+        image = Image.open(image_path).convert('RGB')
+    
+        image = self.processor.image_processor(image, return_tensors="pt")["pixel_values"].numpy()
+
+        image_name = os.path.basename(image_path)
+        label = self.img2label[image_name]
+
+        return self.input_ids, image, self.attention_mask, label
+
+    def __len__(self):
+        return len(self.img_list)
+
+    @staticmethod
+    def collate_fn(batch):
+        input_ids, image, attention_mask, label = zip(*batch)
+        return input_ids[0], np.concatenate(image), attention_mask[0], label
+
+def getclipdataloader(batch_size, image_dir_path, input_dict):
+    assert len(input_dict) == 3
+    input_name_list = list(input_dict.keys())
+    assert set(["input_ids", "pixel_values", "attention_mask"]) == set(input_name_list), f"clip model from huggingface should use inputs [input_ids, pixel_values, attention_mask]"
+    
+    imagenet_class = input_dict["input_ids"][0]
+    assert imagenet_class == 1000, f"text model should use batch_size = 1000 to do imagenet classification"
+    seq_len = input_dict["input_ids"][1]
+    assert seq_len >= 22, f"clip imagenet classification need seq_len >= 22, got {seq_len}"
+    
+    dataset = CLIPImageNetDataset(image_dir_path, seq_len)
+    dataloader = DataLoader(dataset, batch_size=batch_size, drop_last=True, collate_fn=dataset.collate_fn)
+
+    return dataloader

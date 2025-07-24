@@ -184,7 +184,7 @@ def main():
             batch_img_metas = [
                 data_samples.metainfo for data_samples in input_data['data_samples']
             ]
-            
+
             if filename.lower().startswith(("fovea_r50_", "fsaf_", "retinanet_")):
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, batch_img_metas=batch_img_metas, rescale=True)
             else:
