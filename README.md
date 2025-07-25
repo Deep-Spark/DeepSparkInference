@@ -10,15 +10,15 @@
 </div>
 <br>
 
-DeepSparkInference推理模型库作为DeepSpark开源社区的核心项目，于2024年3月正式开源，一期甄选了48个推理模型示例，涵盖计算机视觉，自然语言处理，语音识别等领域，后续将逐步拓展更多AI领域。
+`DeepSparkInference`推理模型库作为`DeepSpark`开源社区的核心项目，于2024年3月正式开源，一期甄选了48个推理模型示例，涵盖计算机视觉，自然语言处理，语音识别等领域，后续将逐步拓展更多AI领域。
 
-DeepSparkInference中的模型提供了在国产推理引擎IGIE或IxRT下运行的推理示例和指导文档，部分模型提供了基于国产通用GPU[智铠100](https://www.iluvatar.com/productDetails?fullCode=cpjs-yj-tlxltt-zk100)的评测结果。
+`DeepSparkInference`中的模型提供了在国产推理引擎`IGIE`或`ixRT`下运行的推理示例和指导文档，部分模型提供了基于国产通用GPU[智铠100](https://www.iluvatar.com/productDetails?fullCode=cpjs-yj-tlxltt-zk100)的评测结果。
 
-IGIE（Iluvatar GPU Inference Engine）是基于TVM框架研发的高性能、高通用、全流程的AI推理引擎。支持多框架模型导入、量化、图优化、多算子库支持、多后端支持、算子自动调优等特性，为推理场景提供易部署、高吞吐量、低延迟的完整方案。
+`IGIE`（Iluvatar GPU Inference Engine）是基于TVM框架研发的高性能、高通用、全流程的AI推理引擎。支持多框架模型导入、量化、图优化、多算子库支持、多后端支持、算子自动调优等特性，为推理场景提供易部署、高吞吐量、低延迟的完整方案。
 
-IxRT（Iluvatar CoreX RunTime）是天数智芯自研的高性能推理引擎，专注于最大限度发挥天数智芯通用GPU 的性能，实现各领域模型的高性能推理。IxRT支持动态形状推理、插件和INT8/FP16推理等特性。
+`ixRT`（Iluvatar CoreX RunTime）是天数智芯自研的高性能推理引擎，专注于最大限度发挥天数智芯通用GPU 的性能，实现各领域模型的高性能推理。`ixRT`支持动态形状推理、插件和INT8/FP16推理等特性。
 
-DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型类别并拓展大模型推理。
+`DeepSparkInference`将按季度进行版本更新，后续会逐步丰富模型类别并拓展大模型推理。
 
 ## 模型库
 
@@ -52,7 +52,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 视觉分类
 
-| Model                  | Prec. | IGIE                                                   | IxRT                                                      | IXUCA SDK |
+| Model                  | Prec. | IGIE                                                   | ixRT                                                      | IXUCA SDK |
 |------------------------|-------|--------------------------------------------------------|-----------------------------------------------------------|-----------|
 | AlexNet                | FP16  | [✅](models/cv/classification/alexnet/igie)             | [✅](models/cv/classification/alexnet/ixrt)                | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/alexnet/igie)             | [✅](models/cv/classification/alexnet/ixrt)                | 4.3.0     |
@@ -152,7 +152,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 目标检测
 
-| Model      | Prec. | IGIE                                            | IxRT                                            | IXUCA SDK |
+| Model      | Prec. | IGIE                                            | ixRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
 | ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       |                                                 | 4.3.0     |
 | CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  | 4.3.0     |
@@ -190,7 +190,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 人脸识别
 
-| Model   | Prec. | IGIE | IxRT                                         | IXUCA SDK |
+| Model   | Prec. | IGIE | ixRT                                         | IXUCA SDK |
 |---------|-------|------|----------------------------------------------|-----------|
 | FaceNet | FP16  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.3.0     |
 |         | INT8  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.3.0     |
@@ -204,7 +204,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 姿态估计
 
-| Model                | Prec. | IGIE                                          | IxRT                                                     | IXUCA SDK |
+| Model                | Prec. | IGIE                                          | ixRT                                                     | IXUCA SDK |
 |----------------------|-------|-----------------------------------------------|----------------------------------------------------------|-----------|
 | HRNetPose            | FP16  | [✅](models/cv/pose_estimation/hrnetpose/igie) |                                                          | 4.3.0     |
 | Lightweight OpenPose | FP16  |                                               | [✅](models/cv/pose_estimation/lightweight_openpose/ixrt) | 4.3.0     |
@@ -212,20 +212,20 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 实例分割
 
-| Model      | Prec. | IGIE | IxRT                                                | IXUCA SDK |
+| Model      | Prec. | IGIE | ixRT                                                | IXUCA SDK |
 |------------|-------|------|-----------------------------------------------------|-----------|
 | Mask R-CNN | FP16  |      | [✅](models/cv/instance_segmentation/mask_rcnn/ixrt) | 4.2.0     |
 | SOLOv1     | FP16  |      | [✅](models/cv/instance_segmentation/solov1/ixrt)    | 4.3.0     |
 
 #### 语义分割
 
-| Model | Prec. | IGIE                                           | IxRT | IXUCA SDK |
+| Model | Prec. | IGIE                                           | ixRT | IXUCA SDK |
 |-------|-------|------------------------------------------------|------|-----------|
 | UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) |      | 4.3.0     |
 
 #### 多目标跟踪
 
-| Model               | Prec. | IGIE                                               | IxRT | IXUCA SDK |
+| Model               | Prec. | IGIE                                               | ixRT | IXUCA SDK |
 |---------------------|-------|----------------------------------------------------|------|-----------|
 | FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) |      | 4.3.0     |
 | DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.3.0     |
@@ -253,7 +253,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 预训练语言模型（PLM）
 
-| Model            | Prec. | IGIE                                      | IxRT                                      | IXUCA SDK |
+| Model            | Prec. | IGIE                                      | ixRT                                      | IXUCA SDK |
 |------------------|-------|-------------------------------------------|-------------------------------------------|-----------|
 | ALBERT           | FP16  |                                           | [✅](models/nlp/plm/albert/ixrt)           | 4.3.0     |
 | BERT Base NER    | INT8  | [✅](models/nlp/plm/bert_base_ner/igie)    |                                           | 4.3.0     |
@@ -270,7 +270,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 语音识别
 
-| Model           | Prec. | IGIE                                                | IxRT                                                      | IXUCA SDK |
+| Model           | Prec. | IGIE                                                | ixRT                                                      | IXUCA SDK |
 |-----------------|-------|-----------------------------------------------------|-----------------------------------------------------------|-----------|
 | Conformer       | FP16  | [✅](models/audio/speech_recognition/conformer/igie) | [✅](models/audio/speech_recognition/conformer/ixrt)       | 4.3.0     |
 | Transformer ASR | FP16  |                                                     | [✅](models/audio/speech_recognition/transformer_asr/ixrt) | 4.2.0     |
@@ -279,7 +279,7 @@ DeepSparkInference将按季度进行版本更新，后续会逐步丰富模型�
 
 #### 推荐系统
 
-| Model       | Prec. | IGIE | IxRT                                                 | IXUCA SDK |
+| Model       | Prec. | IGIE | ixRT                                                 | IXUCA SDK |
 |-------------|-------|------|------------------------------------------------------|-----------|
 | Wide & Deep | FP16  |      | [✅](models/others/recommendation/wide_and_deep/ixrt) | 4.3.0     |
 

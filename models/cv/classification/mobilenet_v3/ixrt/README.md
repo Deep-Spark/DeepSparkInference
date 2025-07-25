@@ -1,4 +1,4 @@
-# MobileNetV3 (IxRT)
+# MobileNetV3 (ixRT)
 
 ## Model Description
 

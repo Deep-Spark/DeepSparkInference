@@ -1,4 +1,4 @@
-# RoFormer (IxRT)
+# RoFormer (ixRT)
 
 ## Model Description
 

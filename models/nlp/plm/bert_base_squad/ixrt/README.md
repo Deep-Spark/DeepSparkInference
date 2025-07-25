@@ -1,4 +1,4 @@
-# BERT Base SQuAD (IxRT)
+# BERT Base SQuAD (ixRT)
 
 ## Model Description
 

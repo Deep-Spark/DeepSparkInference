@@ -1,4 +1,4 @@
-# DeiT-tiny (IxRT)
+# DeiT-tiny (ixRT)
 
 ## Model Description
 

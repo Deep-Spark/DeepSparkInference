@@ -1,4 +1,4 @@
-# CSPResNeXt50 (IxRT)
+# CSPResNeXt50 (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# EfficientNet B4 (IxRT)
+# EfficientNet B4 (ixRT)
 
 ## Model Description
 

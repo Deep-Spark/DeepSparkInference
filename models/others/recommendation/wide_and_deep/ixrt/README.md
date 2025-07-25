@@ -1,4 +1,4 @@
-# Wide & Deep (IxRT)
+# Wide & Deep (ixRT)
 
 ## Model Description
 

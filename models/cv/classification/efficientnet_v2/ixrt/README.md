@@ -1,4 +1,4 @@
-# EfficientNetV2 (IxRT)
+# EfficientNetV2 (ixRT)
 
 ## Model Description
 

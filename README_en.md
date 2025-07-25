@@ -15,7 +15,7 @@ March 2024. The first release selected 48 inference model examples, covering fie
 language processing, and speech recognition. More AI domains will be gradually expanded in the future.
 
 The models in DeepSparkInference provide inference examples and guidance documents for running on inference engines IGIE
-or IxRT self-developed by Iluvatar CoreX. Some models provide evaluation results based on the self-developed GPGPU
+or ixRT self-developed by Iluvatar CoreX. Some models provide evaluation results based on the self-developed GPGPU
 Zhikai 100.
 
 IGIE (Iluvatar GPU Inference Engine) is a high-performance, highly gene, and end-to-end AI inference engine developed
@@ -23,9 +23,9 @@ based on the TVM framework. It supports multi-framework model, quantization, gra
 support, multi-backend support, and automatic operator tuning, providing an easy-to-deploy, high-throughput, and
 low-latency complete solution for inference scenarios.
 
-IxRT (Iluvatar CoreX RunTime) is a high-performance inference engine independently developed by Iluvatar CoreX, focusing
+ixRT (Iluvatar CoreX RunTime) is a high-performance inference engine independently developed by Iluvatar CoreX, focusing
 on maximizing the performance of Iluvatar CoreX's GPGPU and achieving high-performance inference for models in various
-fields. IxRT supports features such as dynamic shape inference, plugins, and INT8/FP16 inference.
+fields. ixRT supports features such as dynamic shape inference, plugins, and INT8/FP16 inference.
 
 DeepSparkInference will be updated quarterly, and model categories will be gradually enriched, with large model
 inference to be expanded in the future.
@@ -62,7 +62,7 @@ inference to be expanded in the future.
 
 #### Classification
 
-| Model                  | Prec. | IGIE                                                   | IxRT                                                      | IXUCA SDK |
+| Model                  | Prec. | IGIE                                                   | ixRT                                                      | IXUCA SDK |
 |------------------------|-------|--------------------------------------------------------|-----------------------------------------------------------|-----------|
 | AlexNet                | FP16  | [✅](models/cv/classification/alexnet/igie)             | [✅](models/cv/classification/alexnet/ixrt)                | 4.2.0     |
 |                        | INT8  | [✅](models/cv/classification/alexnet/igie)             | [✅](models/cv/classification/alexnet/ixrt)                | 4.2.0     |
@@ -162,7 +162,7 @@ inference to be expanded in the future.
 
 #### Object Detection
 
-| Model      | Prec. | IGIE                                            | IxRT                                            | IXUCA SDK |
+| Model      | Prec. | IGIE                                            | ixRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
 | ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       |                                                 | 4.2.0     |
 | CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  | 4.2.0     |
@@ -200,7 +200,7 @@ inference to be expanded in the future.
 
 #### Face Recognition
 
-| Model   | Prec. | IGIE | IxRT                                         | IXUCA SDK |
+| Model   | Prec. | IGIE | ixRT                                         | IXUCA SDK |
 |---------|-------|------|----------------------------------------------|-----------|
 | FaceNet | FP16  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.2.0     |
 |         | INT8  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.2.0     |
@@ -214,7 +214,7 @@ inference to be expanded in the future.
 
 #### Pose Estimation
 
-| Model                | Prec. | IGIE                                          | IxRT                                                     | IXUCA SDK |
+| Model                | Prec. | IGIE                                          | ixRT                                                     | IXUCA SDK |
 |----------------------|-------|-----------------------------------------------|----------------------------------------------------------|-----------|
 | HRNetPose            | FP16  | [✅](models/cv/pose_estimation/hrnetpose/igie) |                                                          | 4.2.0     |
 | Lightweight OpenPose | FP16  |                                               | [✅](models/cv/pose_estimation/lightweight_openpose/ixrt) | 4.2.0     |
@@ -222,20 +222,20 @@ inference to be expanded in the future.
 
 #### Instance Segmentation
 
-| Model      | Prec. | IGIE | IxRT                                                | IXUCA SDK |
+| Model      | Prec. | IGIE | ixRT                                                | IXUCA SDK |
 |------------|-------|------|-----------------------------------------------------|-----------|
 | Mask R-CNN | FP16  |      | [✅](models/cv/instance_segmentation/mask_rcnn/ixrt) | 4.2.0     |
 | SOLOv1     | FP16  |      | [✅](models/cv/instance_segmentation/solov1/ixrt)    | 4.2.0     |
 
 #### Semantic Segmentation
 
-| Model | Prec. | IGIE                                           | IxRT | IXUCA SDK |
+| Model | Prec. | IGIE                                           | ixRT | IXUCA SDK |
 |-------|-------|------------------------------------------------|------|-----------|
 | UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) |      | 4.2.0     |
 
 #### Multi-Object Tracking
 
-| Model               | Prec. | IGIE                                               | IxRT | IXUCA SDK |
+| Model               | Prec. | IGIE                                               | ixRT | IXUCA SDK |
 |---------------------|-------|----------------------------------------------------|------|-----------|
 | FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) |      | 4.2.0     |
 | DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.2.0     |
@@ -263,7 +263,7 @@ inference to be expanded in the future.
 
 #### PLM (Pre-trained Language Model)
 
-| Model            | Prec. | IGIE                                      | IxRT                                      | IXUCA SDK |
+| Model            | Prec. | IGIE                                      | ixRT                                      | IXUCA SDK |
 |------------------|-------|-------------------------------------------|-------------------------------------------|-----------|
 | ALBERT           | FP16  |                                           | [✅](models/nlp/plm/albert/ixrt)           | 4.2.0     |
 | BERT Base NER    | INT8  | [✅](models/nlp/plm/bert_base_ner/igie)    |                                           | 4.2.0     |
@@ -280,7 +280,7 @@ inference to be expanded in the future.
 
 #### Speech Recognition
 
-| Model           | Prec. | IGIE                                                | IxRT                                                      | IXUCA SDK |
+| Model           | Prec. | IGIE                                                | ixRT                                                      | IXUCA SDK |
 |-----------------|-------|-----------------------------------------------------|-----------------------------------------------------------|-----------|
 | Conformer       | FP16  | [✅](models/audio/speech_recognition/conformer/igie) | [✅](models/audio/speech_recognition/conformer/ixrt)       | 4.2.0     |
 | Transformer ASR | FP16  |                                                     | [✅](models/audio/speech_recognition/transformer_asr/ixrt) | 4.2.0     |
@@ -289,7 +289,7 @@ inference to be expanded in the future.
 
 #### Recommendation Systems
 
-| Model       | Prec. | IGIE | IxRT                                                 | IXUCA SDK |
+| Model       | Prec. | IGIE | ixRT                                                 | IXUCA SDK |
 |-------------|-------|------|------------------------------------------------------|-----------|
 | Wide & Deep | FP16  |      | [✅](models/others/recommendation/wide_and_deep/ixrt) | 4.2.0     |
 

@@ -1,4 +1,4 @@
-# ResNet50 (IxRT)
+# ResNet50 (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# FoveaBox (IxRT)
+# FoveaBox (ixRT)
 
 ## Model Description
 

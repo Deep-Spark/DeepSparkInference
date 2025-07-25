@@ -1,4 +1,4 @@
-# RTMPose (IxRT)
+# RTMPose (ixRT)
 
 ## Model Description
 

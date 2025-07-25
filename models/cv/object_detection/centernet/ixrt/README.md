@@ -1,4 +1,4 @@
-# CenterNet (IxRT)
+# CenterNet (ixRT)
 
 ## Model Description
 

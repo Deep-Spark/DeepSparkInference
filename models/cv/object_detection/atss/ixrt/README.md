@@ -1,4 +1,4 @@
-# ATSS (IxRT)
+# ATSS (ixRT)
 
 ## Model Description
 

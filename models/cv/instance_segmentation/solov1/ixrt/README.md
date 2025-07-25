@@ -1,4 +1,4 @@
-# SOLOv1 (IxRT)
+# SOLOv1 (ixRT)
 
 ## Model Description
 

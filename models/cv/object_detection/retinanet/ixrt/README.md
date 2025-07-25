@@ -1,4 +1,4 @@
-# RetinaNet (IxRT)
+# RetinaNet (ixRT)
 
 ## Model Description
 

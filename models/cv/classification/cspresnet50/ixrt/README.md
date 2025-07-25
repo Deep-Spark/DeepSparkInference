@@ -1,4 +1,4 @@
-# CSPResNet50 (IxRT)
+# CSPResNet50 (ixRT)
 
 ## Model Description
 

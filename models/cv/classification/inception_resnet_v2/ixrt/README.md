@@ -1,4 +1,4 @@
-# Inception-ResNet-V2 (IxRT)
+# Inception-ResNet-V2 (ixRT)
 
 ## Model Description
 

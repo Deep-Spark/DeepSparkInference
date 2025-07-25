@@ -1,4 +1,4 @@
-# Inception V3 (IxRT)
+# Inception V3 (ixRT)
 
 ## Model Description
 

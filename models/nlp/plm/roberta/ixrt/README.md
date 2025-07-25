@@ -1,4 +1,4 @@
-# RoBERTa (IxRT)
+# RoBERTa (ixRT)
 
 ## Model Description
 

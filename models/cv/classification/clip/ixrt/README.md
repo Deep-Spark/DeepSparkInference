@@ -1,4 +1,4 @@
-# CLIP (IxRT)
+# CLIP (ixRT)
 
 ## Model Description
 

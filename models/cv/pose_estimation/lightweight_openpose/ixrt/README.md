@@ -1,4 +1,4 @@
-# Lightweight OpenPose (IxRT)
+# Lightweight OpenPose (ixRT)
 
 ## Model Description
 

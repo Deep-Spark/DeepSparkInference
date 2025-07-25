@@ -1,4 +1,4 @@
-# Resnet101 (IxRT)
+# Resnet101 (ixRT)
 
 ## Model Description
 

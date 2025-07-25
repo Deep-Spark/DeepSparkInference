@@ -1,4 +1,4 @@
-# AlexNet (IxRT)
+# AlexNet (ixRT)
 
 ## Model Description
 

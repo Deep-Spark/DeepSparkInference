@@ -1,4 +1,4 @@
-# ShuffleNetV2_x1_5 (IxRT)
+# ShuffleNetV2_x1_5 (ixRT)
 
 ## Model Description
 

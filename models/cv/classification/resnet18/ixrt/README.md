@@ -1,4 +1,4 @@
-# ResNet18 (IxRT)
+# ResNet18 (ixRT)
 
 ## Model Description
 

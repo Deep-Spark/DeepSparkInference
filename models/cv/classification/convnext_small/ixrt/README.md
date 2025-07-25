@@ -1,4 +1,4 @@
-# ConvNeXt Small (IxRT)
+# ConvNeXt Small (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# Conformer (IxRT)
+# Conformer (ixRT)
 
 ## Model Description
 
