@@ -1,4 +1,4 @@
-# VideoBERT (IxRT)
+# VideoBERT (ixRT)
 
 ## Model Description
 

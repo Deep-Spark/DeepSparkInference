@@ -1,4 +1,4 @@
-# DenseNet169 (IxRT)
+# DenseNet169 (ixRT)
 
 ## Model Description
 

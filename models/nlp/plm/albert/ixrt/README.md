@@ -1,4 +1,4 @@
-# ALBERT (IxRT)
+# ALBERT (ixRT)
 
 ## Model Description
 

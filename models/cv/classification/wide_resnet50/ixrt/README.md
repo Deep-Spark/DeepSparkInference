@@ -1,4 +1,4 @@
-# Wide ResNet50 (IxRT)
+# Wide ResNet50 (ixRT)
 
 ## Model Description
 

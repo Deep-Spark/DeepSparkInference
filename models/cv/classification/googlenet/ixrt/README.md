@@ -1,4 +1,4 @@
-# GoogLeNet (IxRT)
+# GoogLeNet (ixRT)
 
 ## Model Description
 

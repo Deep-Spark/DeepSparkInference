@@ -1,4 +1,4 @@
-# YOLOv4 (IxRT)
+# YOLOv4 (ixRT)
 
 ## Model Description
 

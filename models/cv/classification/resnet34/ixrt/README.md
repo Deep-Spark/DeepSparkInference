@@ -1,4 +1,4 @@
-# ResNet34 (IxRT)
+# ResNet34 (ixRT)
 
 ## Model Description
 

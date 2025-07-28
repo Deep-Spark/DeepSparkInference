@@ -1,4 +1,4 @@
-# HRNet (IxRT)
+# HRNet (ixRT)
 
 ## Model Description
 

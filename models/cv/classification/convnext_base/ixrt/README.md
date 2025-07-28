@@ -1,4 +1,4 @@
-# ConvNeXt Base (IxRT)
+# ConvNeXt Base (ixRT)
 
 ## Model Description
 

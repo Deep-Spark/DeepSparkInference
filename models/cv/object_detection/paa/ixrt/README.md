@@ -1,4 +1,4 @@
-# PAA (IxRT)
+# PAA (ixRT)
 
 ## Model Description
 

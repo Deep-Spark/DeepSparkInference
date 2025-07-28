@@ -1,4 +1,4 @@
-# FaceNet (IxRT)
+# FaceNet (ixRT)
 
 ## Model Description
 

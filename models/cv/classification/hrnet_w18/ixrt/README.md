@@ -1,4 +1,4 @@
-# HRNet-W18 (IxRT)
+# HRNet-W18 (ixRT)
 
 ## Model Description
 

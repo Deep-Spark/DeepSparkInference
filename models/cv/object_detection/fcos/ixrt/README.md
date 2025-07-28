@@ -1,4 +1,4 @@
-# FCOS (IxRT)
+# FCOS (ixRT)
 
 ## Model Description
 

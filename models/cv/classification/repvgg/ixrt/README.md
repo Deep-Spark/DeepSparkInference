@@ -1,4 +1,4 @@
-# RepVGG (IxRT)
+# RepVGG (ixRT)
 
 ## Model Description
 

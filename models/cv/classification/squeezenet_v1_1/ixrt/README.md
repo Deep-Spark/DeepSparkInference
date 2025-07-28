@@ -1,4 +1,4 @@
-# SqueezeNet 1.1 (IxRT)
+# SqueezeNet 1.1 (ixRT)
 
 ## Model Description
 

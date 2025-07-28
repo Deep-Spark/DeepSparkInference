@@ -1,4 +1,4 @@
-# RetinaFace (IxRT)
+# RetinaFace (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# DeBERTa (IxRT)
+# DeBERTa (ixRT)
 
 ## Model Description
 

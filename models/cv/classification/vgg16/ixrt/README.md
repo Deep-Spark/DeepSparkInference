@@ -1,4 +1,4 @@
-# VGG16 (IxRT)
+# VGG16 (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# Transformer ASR (IxRT)
+# Transformer ASR (ixRT)
 
 ## Model Description
 

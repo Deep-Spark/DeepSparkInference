@@ -1,4 +1,4 @@
-# DETR (IxRT)
+# DETR (ixRT)
 
 ## Model Description
 

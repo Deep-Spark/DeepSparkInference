@@ -1,4 +1,4 @@
-# Swin Transformer Large (IxRT)
+# Swin Transformer Large (ixRT)
 
 ## Model Description
 

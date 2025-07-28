@@ -1,4 +1,4 @@
-# Mask R-CNN (IxRT)
+# Mask R-CNN (ixRT)
 
 ## Model Description
 

@@ -1,4 +1,4 @@
-# DenseNet201 (IxRT)
+# DenseNet201 (ixRT)
 
 ## Model Description
 

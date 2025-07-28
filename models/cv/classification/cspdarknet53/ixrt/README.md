@@ -1,4 +1,4 @@
-# CSPDarkNet53 (IxRT)
+# CSPDarkNet53 (ixRT)
 
 ## Model Description
 

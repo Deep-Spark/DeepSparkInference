@@ -1,4 +1,4 @@
-# FSAF (IxRT)
+# FSAF (ixRT)
 
 ## Model Description
 

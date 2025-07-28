@@ -63,3 +63,6 @@ imagenet_val/
 *.pth
 *.engine
 data/
+
+# IDE
+.vscode/

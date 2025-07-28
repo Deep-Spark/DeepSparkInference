@@ -1,4 +1,4 @@
-# YOLOX (IxRT)
+# YOLOX (ixRT)
 
 ## Model Description
 

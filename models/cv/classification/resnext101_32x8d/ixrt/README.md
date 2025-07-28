@@ -1,4 +1,4 @@
-# ResNext101_32x8d (IxRT)
+# ResNext101_32x8d (ixRT)
 
 ## Model Description
 
