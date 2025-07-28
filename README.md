@@ -123,8 +123,8 @@
 | ResNetV1D50            | FP16  | [✅](models/cv/classification/resnetv1d50/igie)         | [✅](models/cv/classification/resnetv1d50/ixrt)            | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/resnetv1d50/ixrt)            | 4.3.0     |
 | ResNeXt50_32x4d        | FP16  | [✅](models/cv/classification/resnext50_32x4d/igie)     | [✅](models/cv/classification/resnext50_32x4d/ixrt)        | 4.3.0     |
-| ResNeXt101_64x4d       | FP16  | [✅](models/cv/classification/resnext101_64x4d/igie)    |  [✅](models/cv/classification/resnext101_64x4d/ixrt)                                                         | 4.3.0     |
-| ResNeXt101_32x8d       | FP16  | [✅](models/cv/classification/resnext101_32x8d/igie)    |  [✅](models/cv/classification/resnext101_32x8d/ixrt)                                                         | 4.3.0     |
+| ResNeXt101_64x4d       | FP16  | [✅](models/cv/classification/resnext101_64x4d/igie)    | [✅](models/cv/classification/resnext101_64x4d/ixrt)       | 4.3.0     |
+| ResNeXt101_32x8d       | FP16  | [✅](models/cv/classification/resnext101_32x8d/igie)    | [✅](models/cv/classification/resnext101_32x8d/ixrt)       | 4.3.0     |
 | SEResNet50             | FP16  | [✅](models/cv/classification/se_resnet50/igie)         |                                                           | 4.3.0     |
 | ShuffleNetV1           | FP16  |                                                        | [✅](models/cv/classification/shufflenet_v1/ixrt)          | 4.3.0     |
 | ShuffleNetV2_x0_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x0_5/igie)   | [✅](models/cv/classification/shufflenetv2_x0_5/ixrt)      | 4.3.0     |
@@ -245,7 +245,7 @@
 | InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           |                                                            | 4.3.0     |
 | LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm)               |                                                            | 4.3.0     |
 | LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.3.0     |
-| Llama-3.2           | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)              |                                                            | 4.3.0     |
+| Llama-3.2           | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           |                                                            | 4.3.0     |
 | MiniCPM-V 2         | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           |                                                            | 4.3.0     |
 | Pixtral             | [✅](models/multimodal/vision_language_model/pixtral/vllm)             |                                                            | 4.3.0     |
 
