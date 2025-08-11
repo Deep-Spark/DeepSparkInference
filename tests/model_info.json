@@ -8032,6 +8032,39 @@
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
+        },
+        {
+            "display_name": "MiniCPM-o 2",
+            "model_name": "minicpm_o",
+            "framework": "vllm",
+            "release_version": "25.09",
+            "release_sdk": "4.3.0",
+            "release_gpgpu": "MR-V100",
+            "latest_sdk": "",
+            "latest_gpgpu": "",
+            "category": "multimodal/vision_language_model",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/multimodal/vision_language_model/minicpm_o/vllm",
+            "readme_file": "models/multimodal/vision_language_model/minicpm_o/vllm/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "",
+            "download_url": "https://huggingface.co/openbmb/MiniCPM-o-2_6",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ],
+            "type": "inference",
+            "hasDemo": false,
+            "demoType": ""
         }
     ]
 }
