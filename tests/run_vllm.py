@@ -335,6 +335,12 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1
             """
+        elif model_name == "minicpm_o":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-model-len 4096 --max-num-seqs 2  --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+            """
 
         r, t = run_script(script)
         sout = r.stdout
