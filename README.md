@@ -1,12 +1,14 @@
-[<img src="https://img.shields.io/badge/Language-English-blue.svg">](README_en.md) [<img src="https://img.shields.io/badge/语言-简体中文-red.svg">](README.md)
+<!-- markdownlint-disable first-line-h1 -->
+<!-- markdownlint-disable html -->
+[<img alt="English" src="https://img.shields.io/badge/Language-English-blue.svg">](README_en.md) [<img alt="Chinese" src="https://img.shields.io/badge/语言-简体中文-red.svg">](README.md)
 
 # DeepSparkInference
 
 <div align="center" style="line-height: 1;">
   <a href="https://www.deepspark.org.cn"><img alt="Homepage"
     src="https://img.shields.io/badge/DeepSpark-Homepage-blue.svg"/></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-dfd.svg"></a>
-  <a href="https://gitee.com/deep-spark/deepsparkinference/releases/latest"><img src="https://img.shields.io/github/v/release/deep-spark/deepsparkinference?color=ffa"></a>
+  <a href="./LICENSE"><img alt="LICENSE" src="https://img.shields.io/badge/license-Apache%202.0-dfd.svg"></a>
+  <a href="https://gitee.com/deep-spark/deepsparkinference/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/deep-spark/deepsparkinference?color=ffa"></a>
 </div>
 <br>
 
@@ -24,42 +26,42 @@
 
 ### 大语言模型（LLM）
 
-| Model                         | Engine     | Supported                                                          | IXUCA SDK |
-|-------------------------------|------------|--------------------------------------------------------------------|-----------|
-| Baichuan2-7B                  | vLLM       | [✅](models/nlp/llm/baichuan2-7b/vllm)                              | 4.3.0     |
-| ChatGLM-3-6B                  | vLLM       | [✅](models/nlp/llm/chatglm3-6b/vllm)                               | 4.3.0     |
-| ChatGLM-3-6B-32K              | vLLM       | [✅](models/nlp/llm/chatglm3-6b-32k/vllm)                           | 4.3.0     |
-| DeepSeek-R1-Distill-Llama-8B  | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)              | 4.3.0     |
-| DeepSeek-R1-Distill-Llama-70B | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm)             | 4.3.0     |
-| DeepSeek-R1-Distill-Qwen-1.5B | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm)             | 4.3.0     |
-| DeepSeek-R1-Distill-Qwen-7B   | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.3.0     |
-| DeepSeek-R1-Distill-Qwen-14B  | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
-| DeepSeek-R1-Distill-Qwen-32B  | vLLM       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
-| ERNIE-4.5-21B-A3B             | FastDeploy | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
-| ERNIE-4.5-300B-A47B           | FastDeploy | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
-| GLM-4V                        | vLLM       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
-| InternLM3                     | LMDeploy   | [✅](models/nlp/llm/internlm3/lmdeploy/)                            | 4.3.0     |
-| Llama2-7B                     | vLLM       | [✅](models/nlp/llm/llama2-7b/vllm)                                 | 4.3.0     |
-| Llama2-7B                     | TRT-LLM    | [✅](models/nlp/llm/llama2-7b/trtllm)                               | 4.3.0     |
-| Llama2-13B                    | TRT-LLM    | [✅](models/nlp/llm/llama2-13b/trtllm)                              | 4.3.0     |
-| Llama2-70B                    | TRT-LLM    | [✅](models/nlp/llm/llama2-70b/trtllm)                              | 4.3.0     |
-| Llama3-70B                    | vLLM       | [✅](models/nlp/llm/llama3-70b/vllm)                                | 4.3.0     |
-| LLaVA-NeXT-based              | vLLM       | [✅](models/multimodal/vision_language_model/llava_next_base/vllm/) | 4.3.0     |
-| MiniCPM O                     | vLLM       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
-| MiniCPM V                     | vLLM       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
-| Qwen-7B                       | vLLM       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
-| Qwen-VL                       | vLLM       | [✅](models/multimodal/vision_language_model/qwen_vl/)              | 4.3.0     |
-| Qwen2-VL                      | vLLM       | [✅](models/multimodal/vision_language_model/qwen2_vl/)             | 4.3.0     |
-| Qwen2.5-VL                    | vLLM       | [✅](models/multimodal/vision_language_model/qwen2.5_vl/)           | 4.3.0     |
-| Qwen1.5-7B                    | vLLM       | [✅](models/nlp/llm/qwen1.5-7b/vllm)                                | 4.3.0     |
-| Qwen1.5-7B                    | TGI        | [✅](models/nlp/llm/qwen1.5-7b/tgi)                                 | 4.3.0     |
-| Qwen1.5-14B                   | vLLM       | [✅](models/nlp/llm/qwen1.5-14b/vllm)                               | 4.3.0     |
-| Qwen1.5-32B Chat              | vLLM       | [✅](models/nlp/llm/qwen1.5-32b/vllm)                               | 4.3.0     |
-| Qwen1.5-72B                   | vLLM       | [✅](models/nlp/llm/qwen1.5-72b/vllm)                               | 4.3.0     |
-| Qwen2-7B Instruct             | vLLM       | [✅](models/nlp/llm/qwen2-7b/vllm)                                  | 4.3.0     |
-| Qwen2-72B Instruct            | vLLM       | [✅](models/nlp/llm/qwen2-72b/vllm)                                 | 4.3.0     |
-| StableLM2-1.6B                | vLLM       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
-| Whisper                       | vLLM       | [✅](models/speech/asr/whisper/vllm/)                               | 4.3.0     |
+| Model                         | Engine       | Supported                                                          | IXUCA SDK |
+|-------------------------------|--------------|--------------------------------------------------------------------|-----------|
+| Baichuan2-7B                  | `vLLM`       | [✅](models/nlp/llm/baichuan2-7b/vllm)                              | 4.3.0     |
+| ChatGLM-3-6B                  | `vLLM`       | [✅](models/nlp/llm/chatglm3-6b/vllm)                               | 4.3.0     |
+| ChatGLM-3-6B-32K              | `vLLM`       | [✅](models/nlp/llm/chatglm3-6b-32k/vllm)                           | 4.3.0     |
+| DeepSeek-R1-Distill-Llama-8B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)              | 4.3.0     |
+| DeepSeek-R1-Distill-Llama-70B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm)             | 4.3.0     |
+| DeepSeek-R1-Distill-Qwen-1.5B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm)             | 4.3.0     |
+| DeepSeek-R1-Distill-Qwen-7B   | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.3.0     |
+| DeepSeek-R1-Distill-Qwen-14B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
+| DeepSeek-R1-Distill-Qwen-32B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
+| ERNIE-4.5-21B-A3B             | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
+| ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
+| GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
+| InternLM3                     | `LMDeploy`   | [✅](models/nlp/llm/internlm3/lmdeploy/)                            | 4.3.0     |
+| Llama2-7B                     | `vLLM`       | [✅](models/nlp/llm/llama2-7b/vllm)                                 | 4.3.0     |
+| Llama2-7B                     | `TRT-LLM`    | [✅](models/nlp/llm/llama2-7b/trtllm)                               | 4.3.0     |
+| Llama2-13B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-13b/trtllm)                              | 4.3.0     |
+| Llama2-70B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-70b/trtllm)                              | 4.3.0     |
+| Llama3-70B                    | `vLLM`       | [✅](models/nlp/llm/llama3-70b/vllm)                                | 4.3.0     |
+| LLaVA-NeXT-based              | `vLLM`       | [✅](models/multimodal/vision_language_model/llava_next_base/vllm/) | 4.3.0     |
+| MiniCPM-o                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
+| MiniCPM-V                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
+| Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
+| Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/)              | 4.3.0     |
+| Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/)             | 4.3.0     |
+| Qwen2.5-VL                    | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2.5_vl/)           | 4.3.0     |
+| Qwen1.5-7B                    | `vLLM`       | [✅](models/nlp/llm/qwen1.5-7b/vllm)                                | 4.3.0     |
+| Qwen1.5-7B                    | `TGI`        | [✅](models/nlp/llm/qwen1.5-7b/tgi)                                 | 4.3.0     |
+| Qwen1.5-14B                   | `vLLM`       | [✅](models/nlp/llm/qwen1.5-14b/vllm)                               | 4.3.0     |
+| Qwen1.5-32B Chat              | `vLLM`       | [✅](models/nlp/llm/qwen1.5-32b/vllm)                               | 4.3.0     |
+| Qwen1.5-72B                   | `vLLM`       | [✅](models/nlp/llm/qwen1.5-72b/vllm)                               | 4.3.0     |
+| Qwen2-7B Instruct             | `vLLM`       | [✅](models/nlp/llm/qwen2-7b/vllm)                                  | 4.3.0     |
+| Qwen2-72B Instruct            | `vLLM`       | [✅](models/nlp/llm/qwen2-72b/vllm)                                 | 4.3.0     |
+| StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
+| Whisper                       | `vLLM`       | [✅](models/speech/asr/whisper/vllm/)                               | 4.3.0     |
 
 ### 计算机视觉（CV）
 
