@@ -23,8 +23,6 @@ issue will be optimized in subsequent versions.
 
 - Model: <https://huggingface.co/baidu/ERNIE-4.5-300B-A47B-Paddle>
 
-
-
 ```sh
 # Pull the docker image
 docker pull ccr-2vdh3abv-pub.cnc.bj.baidubce.com/device/paddle-ixuca:latest
