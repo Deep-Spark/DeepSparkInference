@@ -15,8 +15,7 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ### Prepare Resources
 
-Get `bert-large-uncased.zip` from [Google
-Drive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
+Get `bert-large-uncased.zip` from [GoogleDrive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
 
 ### Install Dependencies
 

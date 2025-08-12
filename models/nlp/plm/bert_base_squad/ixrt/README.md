@@ -90,4 +90,4 @@ bash script/inference_squad.sh --bs 32 --int8
 
 ## Referenece
 
-- [bert-base-uncased.zip](https://drive.google.com/file/d/1_DJDdKBanqJ6h3VGhH78F9EPgE2wK_Tw/view?usp=drive_link)
+- [bert-base-uncased.zip](https://drive.google.com/file/d/1_q7SaiZjwysJ3jWAIQT2Ne-duFdgWivR/view?usp=drive_link)
