@@ -56,7 +56,7 @@ def main():
 
     result = {}
     # NLP模型
-    if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr"]:
+    if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -72,7 +72,7 @@ def get_model_config(mode_name):
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and (model["framework"] == "vllm" or model["framework"] == "lmdeploy"):
+        if model["model_name"] == mode_name.lower() and (model["framework"] == "vllm" or model["framework"] == "lmdeploy" or model["framework"] == "pytorch"):
             return model
     return
 
@@ -340,6 +340,12 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             python3 offline_inference_vision_language.py --model ./{model_name} --max-model-len 4096 --max-num-seqs 2  --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+            """
+        elif model_name == "cosyvoice":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}/CosyVoice
+            python3 inference_test.py
             """
 
         r, t = run_script(script)
