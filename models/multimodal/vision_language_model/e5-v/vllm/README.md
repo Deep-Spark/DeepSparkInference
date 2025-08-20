@@ -1,4 +1,4 @@
-# LLaVA-NeXT-based (vLLM)
+# E5-V (vLLM)
 
 ## Model Description
 
