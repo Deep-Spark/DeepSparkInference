@@ -47,7 +47,7 @@
 | Llama2-13B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-13b/trtllm)                              | 4.3.0     |
 | Llama2-70B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-70b/trtllm)                              | 4.3.0     |
 | Llama3-70B                    | `vLLM`       | [✅](models/nlp/llm/llama3-70b/vllm)                                | 4.3.0     |
-| LLaVA-NeXT-based              | `vLLM`       | [✅](models/multimodal/vision_language_model/llava_next_base/vllm/) | 4.3.0     |
+| E5-V                          | `vLLM`       | [✅](models/multimodal/vision_language_model/e5-v/vllm/)            | 4.3.0     |
 | MiniCPM-o                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
 | MiniCPM-V                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
 | Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
