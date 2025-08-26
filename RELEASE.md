@@ -3,6 +3,97 @@
 <!-- markdownlint-disable no-duplicate-heading -->
 # DeepSparkInference Release Notes
 
+## 25.09 Release Notes
+
+### 模型与算法
+
+* 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持IxRT推理引擎的7个。
+* 新增了11个大语言模型推理示例，涉及vLLM、FastDeploy、LMDeploy等框架。
+
+<table>
+  <tr colspan=4>
+  <th colspan=3>IGIE</th>
+  </tr>
+  <tr>
+    <td>EfficientNet-B6</td>
+    <td>MNASNet1_3</td>
+    <td>Regnet_x_32gf</td>
+  </tr>
+  <tr>
+    <td>Regnet_x_400mf</td>
+    <td>Regnet_y_32gf</td>
+    <td>RegNet_y_400mf</td>
+  </tr>
+  <tr>
+    <td>Regnet_y_3_2gf</td>
+    <td>VGG13</td>
+    <td>VGG13_BN</td>
+  </tr>
+  <tr>
+    <td>YOLOF</td>
+    <td>SSD</td>
+    <td>YOLOv13</td>
+  </tr>
+    <th colspan=4>IxRT</th>
+  </tr>
+  <tr>
+    <td>CLIP</td>
+    <td>CSPResNeXt50</td>
+    <td>EfficientNet-B4</td>
+  </tr>
+  <tr>
+    <td>EfficientNet-B5</td>
+    <td>ATSS</td>
+    <td>PAA</td>
+  </tr>
+  <tr>
+    <td>RetinaNet</td>
+    <td></td>
+    <td></td>
+  </tr>
+    <th colspan=4>大模型</th>
+  </tr>
+  <tr>
+    <td>Whisper (vLLM)</td>
+    <td>GLM-4V (vLLM)</td>
+    <td>MiniCPM-o-2_6 (vLLM)</td>
+  </tr>
+  <tr>
+    <td>Qwen-VL (vLLM)</td>
+    <td>Qwen2-VL (vLLM)</td>
+    <td>Qwen2.5-VL (vLLM)</td>
+  </tr>
+  <tr>
+    <td>E5-V (vLLM)</td>
+    <td>ERNIE-4.5-21B-A3B (FastDeploy)</td>
+    <td>ERNIE-4.5-300B-A47B (FastDeploy)</td>
+  </tr>
+  <tr>
+    <td>InternLM3 (LMDeploy)</td>
+    <td>CosyVoice2-0.5B</td>
+    <td></td>
+  </tr>
+  
+</table>
+
+### 修复更新
+
+* 更新了4.3.0适用大/小模型推理的Docker使用说明。
+* 修复了部分模型依赖缺失问题。
+* 同步了CLIP模型最新代码。
+* 修复了MViTv2-base模型推理问题。
+* 更新了ixRT命名。
+* 修复了BERT Large SQuAD模型链接404问题。
+* 修复了README文件中markdownlint的问题。
+
+### 版本关联
+
+DeepSparkInference 25.09对应天数软件栈4.3.0版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
+
 ## 25.06 Release Notes
 
 ### 模型与算法
