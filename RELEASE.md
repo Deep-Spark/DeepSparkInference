@@ -77,13 +77,13 @@
 
 ### 修复更新
 
-* 更新了4.3.0适用大/小模型推理的Docker使用说明。
-* 修复了部分模型依赖缺失问题。
-* 同步了CLIP模型最新代码。
-* 修复了MViTv2-base模型推理问题。
-* 更新了ixRT命名。
-* 修复了BERT Large SQuAD模型链接404问题。
-* 修复了README文件中markdownlint的问题。
+* 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
+* 修复了BERT Large SQuAD模型链接404问题 (#ICSF66)
+* 修复了部分模型依赖缺失问题
+* 修复了MViTv2-base模型推理问题
+* 修复了README文件中markdownlint的问题
+* 同步了CLIP模型的最新代码
+* 同步了工具箱ByteMLPerf中optimizer的代码 (#ICKHTC)
 
 ### 版本关联
 
