@@ -17,6 +17,7 @@ import tvm
 import argparse
 from tvm import relay
 from tvm.relay.import_model import import_model_to_igie
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -52,6 +53,8 @@ def parse_args():
 
 def main():
     args = parse_args()
+    if os.path.exists(args.engine_path):
+        return
 
     # get input valueinfo
     input_name, input_shape = args.input.split(":")
@@ -63,7 +66,7 @@ def main():
     mod, params = import_model_to_igie(args.model_path, input_dict, backend="igie")
 
     # build engine
-    lib = tvm.relay.build(mod, target=target, params=params, precision=args.precision, required_pass={'MutatePadMod'})
+    lib = tvm.relay.build(mod, target=target, params=params, precision=args.precision)
 
     # export engine
     lib.export_library(args.engine_path)

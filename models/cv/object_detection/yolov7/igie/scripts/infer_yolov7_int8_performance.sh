@@ -29,7 +29,7 @@ if [ ! -e $quantized_model_path ]; then
 fi
 
 # build engine
-python3 build_engine.py                      \
+python3 ../../igie_common/build_engine.py   \
     --model_path ${quantized_model_path}     \
     --input images:${batchsize},3,640,640    \
     --precision int8                         \
