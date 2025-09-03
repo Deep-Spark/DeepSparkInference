@@ -20,7 +20,7 @@ model_path="centernet.onnx"
 datasets_path=${DATASETS_DIR}
 
 # build engine
-python3 build_engine.py                     \
+python3 ../../igie_common/build_engine.py   \
     --model_path ${model_path}              \
     --input input:${batchsize},3,672,672    \
     --precision fp16                        \

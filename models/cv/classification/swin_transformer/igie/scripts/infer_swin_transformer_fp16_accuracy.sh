@@ -20,7 +20,7 @@ model_path="swin_transformer_opt.onnx"
 datasets_path=${DATASETS_DIR}
 
 # build engine
-python3 build_engine.py                            \
+python3 ../../igie_common/build_engine.py          \
     --model_path ${model_path}                     \
     --input pixel_values:${batchsize},3,224,224    \
     --precision fp16                               \

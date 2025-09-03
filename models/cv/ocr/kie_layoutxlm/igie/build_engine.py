@@ -17,6 +17,7 @@ import tvm
 import argparse
 from tvm import relay
 from tvm.relay.import_model import import_model_to_igie
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -53,6 +54,8 @@ def parse_args():
 
 def main():
     args = parse_args()
+    if os.path.exists(args.engine_path):
+        return
 
     # get input valueinfo
     input_dict = {}

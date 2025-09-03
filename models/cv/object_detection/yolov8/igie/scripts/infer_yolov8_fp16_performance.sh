@@ -20,7 +20,7 @@ model_path="yolov8s.onnx"
 datasets_path=${DATASETS_DIR}
 
 # build engine
-python3 build_engine.py                      \
+python3 ../../igie_common/build_engine.py   \
     --model_path ${model_path}               \
     --input images:${batchsize},3,640,640    \
     --precision fp16                         \
