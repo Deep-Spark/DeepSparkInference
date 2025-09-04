@@ -43,6 +43,3 @@ bash script/infer_bert_large_squad_int8_performance.sh
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | BERT-Large-SQuAD   | 32          | FP16        | 470.26 sentences/s    | 82.36         | 89.68   |
 | BERT-Large-SQuAD   | 32          | INT8        | 1490.47 sentences/s   | 80.92         | 88.20   |
-| ------------------ | ----------- | ----------- | --------------------- | ------------- | ------- |
-| BERT-Large-SQuAD   | 32          | FP16        | 470.26 sentences/s    | 82.36         | 89.68   |
-| BERT-Large-SQuAD   | 32          | INT8        | 1490.47 sentences/s   | 80.92         | 88.20   |
