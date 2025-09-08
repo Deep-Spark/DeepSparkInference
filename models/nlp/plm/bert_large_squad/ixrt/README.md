@@ -39,6 +39,8 @@ bash script/infer_bert_large_squad_int8_accuracy.sh
 bash script/infer_bert_large_squad_int8_performance.sh
 ```
 
+## Model Results
+
 | Model              | BatchSize   | Precision   | Latency QPS           | exact_match   | f1      |
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | BERT-Large-SQuAD   | 32          | FP16        | 470.26 sentences/s    | 82.36         | 89.68   |
