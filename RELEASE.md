@@ -11,9 +11,23 @@
 * 新增了11个大语言模型推理示例，涉及[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy)和[vLLM](https://github.com/vllm-project/vllm)等框架。
 
 <table>
-  <tr colspan=4>
-  <th colspan=3>IGIE</th>
+  <th colspan=3>ixRT</th>
+  <tr>
+    <td>ATSS</td>
+    <td>CLIP</td>
+    <td>CSPResNeXt50</td>
   </tr>
+  <tr>
+    <td>EfficientNet-B4</td>
+    <td>EfficientNet-B5</td>
+    <td>PAA</td>
+  </tr>
+  <tr>
+    <td>RetinaNet</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <th colspan=3>IGIE</th>
   <tr>
     <td>EfficientNet-B6</td>
     <td>MNASNet1_3</td>
@@ -34,27 +48,9 @@
     <td>YOLOF</td>
     <td>YOLOv13</td>
   </tr>
-    <th colspan=4>ixRT</th>
-  </tr>
+  <th colspan=3>大模型</th>
   <tr>
-    <td>ATSS</td>
-    <td>CLIP</td>
-    <td>CSPResNeXt50</td>
-  </tr>
-  <tr>
-    <td>EfficientNet-B4</td>
-    <td>EfficientNet-B5</td>
-    <td>PAA</td>
-  </tr>
-  <tr>
-    <td>RetinaNet</td>
-    <td></td>
-    <td></td>
-  </tr>
-    <th colspan=4>大模型</th>
-  </tr>
-  <tr>
-    <td>CosyVoice2-0.5B (PyTorch)</td>
+    <td>CosyVoice2-0.5B</td>
     <td>E5-V (vLLM)</td>
     <td>ERNIE-4.5-21B-A3B (FastDeploy)</td>
   </tr>
