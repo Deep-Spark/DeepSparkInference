@@ -8,7 +8,7 @@
 ### 模型与算法
 
 * 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持ixRT推理引擎的7个。
-* 新增了11个大语言模型推理示例，涉及FastDeploy、LMDeploy和vLLM等框架。
+* 新增了11个大语言模型推理示例，涉及[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy)和[vLLM](https://github.com/vllm-project/vllm)等框架。
 
 <table>
   <tr colspan=4>
@@ -77,13 +77,12 @@
 
 ### 修复更新
 
-* 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
 * 修复了BERT Large SQuAD模型链接404问题 (#ICSF66)
-* 修复了部分模型依赖缺失问题
-* 修复了MViTv2-base模型推理问题
-* 修复了README文件中markdownlint的问题
-* 同步了CLIP模型的最新代码
-* 同步了工具箱ByteMLPerf中optimizer的代码 (#ICKHTC)
+* 修复了4.3.0容器环境下部分模型的依赖缺失问题
+* 修复了MViTv2-base模型推理异常的问题
+* 更新了CLIP模型的最新代码
+* 更新了ByteMLPerf工具箱中optimizer的代码出处 (#ICKHTC)
+* 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
 
 ### 版本关联
 
