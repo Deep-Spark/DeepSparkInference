@@ -7,43 +7,19 @@
 
 ### 模型与算法
 
-* 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持IxRT推理引擎的7个。
-* 新增了11个大语言模型推理示例，涉及vLLM、FastDeploy、LMDeploy等框架。
+* 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持ixRT推理引擎的7个。
+* 新增了11个大语言模型推理示例，涉及[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy)和[vLLM](https://github.com/vllm-project/vllm)等框架。
 
 <table>
-  <tr colspan=4>
-  <th colspan=3>IGIE</th>
-  </tr>
+  <th colspan=3>ixRT</th>
   <tr>
-    <td>EfficientNet-B6</td>
-    <td>MNASNet1_3</td>
-    <td>Regnet_x_32gf</td>
-  </tr>
-  <tr>
-    <td>Regnet_x_400mf</td>
-    <td>Regnet_y_32gf</td>
-    <td>RegNet_y_400mf</td>
-  </tr>
-  <tr>
-    <td>Regnet_y_3_2gf</td>
-    <td>VGG13</td>
-    <td>VGG13_BN</td>
-  </tr>
-  <tr>
-    <td>YOLOF</td>
-    <td>SSD</td>
-    <td>YOLOv13</td>
-  </tr>
-    <th colspan=4>IxRT</th>
-  </tr>
-  <tr>
+    <td>ATSS</td>
     <td>CLIP</td>
     <td>CSPResNeXt50</td>
-    <td>EfficientNet-B4</td>
   </tr>
   <tr>
+    <td>EfficientNet-B4</td>
     <td>EfficientNet-B5</td>
-    <td>ATSS</td>
     <td>PAA</td>
   </tr>
   <tr>
@@ -51,40 +27,58 @@
     <td></td>
     <td></td>
   </tr>
-    <th colspan=4>大模型</th>
+  <th colspan=3>IGIE</th>
+  <tr>
+    <td>EfficientNet-B6</td>
+    <td>MNASNet1_3</td>
+    <td>Regnet_x_32gf</td>
   </tr>
   <tr>
-    <td>Whisper (vLLM)</td>
-    <td>GLM-4V (vLLM)</td>
-    <td>MiniCPM-o-2_6 (vLLM)</td>
+    <td>Regnet_x_400mf</td>
+    <td>Regnet_y_3_2gf</td>
+    <td>Regnet_y_32gf</td>
   </tr>
   <tr>
-    <td>Qwen-VL (vLLM)</td>
-    <td>Qwen2-VL (vLLM)</td>
-    <td>Qwen2.5-VL (vLLM)</td>
+    <td>RegNet_y_400mf</td>
+    <td>SSD</td>
+    <td>VGG13</td>
   </tr>
   <tr>
+    <td>VGG13_BN</td>
+    <td>YOLOF</td>
+    <td>YOLOv13</td>
+  </tr>
+  <th colspan=3>大模型</th>
+  <tr>
+    <td>CosyVoice2-0.5B</td>
     <td>E5-V (vLLM)</td>
     <td>ERNIE-4.5-21B-A3B (FastDeploy)</td>
-    <td>ERNIE-4.5-300B-A47B (FastDeploy)</td>
   </tr>
   <tr>
+    <td>ERNIE-4.5-300B-A47B (FastDeploy)</td>
+    <td>GLM-4V (vLLM)</td>
     <td>InternLM3 (LMDeploy)</td>
-    <td>CosyVoice2-0.5B</td>
+  </tr>
+  <tr>
+    <td>MiniCPM-o-2_6 (vLLM)</td>
+    <td>Qwen-VL (vLLM)</td>
+    <td>Qwen2-VL (vLLM)</td>
+  </tr>
+  <tr>
+    <td>Qwen2.5-VL (vLLM)</td>
+    <td>Whisper (vLLM)</td>
     <td></td>
   </tr>
-  
 </table>
 
 ### 修复更新
 
-* 更新了4.3.0适用大/小模型推理的Docker使用说明。
-* 修复了部分模型依赖缺失问题。
-* 同步了CLIP模型最新代码。
-* 修复了MViTv2-base模型推理问题。
-* 更新了ixRT命名。
-* 修复了BERT Large SQuAD模型链接404问题。
-* 修复了README文件中markdownlint的问题。
+* 修复了BERT Large SQuAD模型链接404问题 (#ICSF66)
+* 修复了4.3.0容器环境下部分模型的依赖缺失问题
+* 修复了MViTv2-base模型推理异常的问题
+* 更新了CLIP模型的最新代码
+* 更新了ByteMLPerf工具箱中optimizer的代码出处 (#ICKHTC)
+* 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
 
 ### 版本关联
 
