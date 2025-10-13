@@ -17,7 +17,33 @@ HRNet is an advanced deep learning architecture for human pose estimation, chara
 
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/hrnet/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth>
 
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+Dataset:
+  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+```bash
+unzip -q -d ./ coco2017labels.zip
+unzip -q -d ./coco/images/ train2017.zip
+unzip -q -d ./coco/images/ val2017.zip
+
+coco
+├── annotations
+│   └── instances_val2017.json
+├── images
+│   ├── train2017
+│   └── val2017
+├── labels
+│   ├── train2017
+│   └── val2017
+├── LICENSE
+├── README.txt
+├── test-dev2017.txt
+├── train2017.cache
+├── train2017.txt
+├── val2017.cache
+└── val2017.txt
+```
 
 ### Install Dependencies
 

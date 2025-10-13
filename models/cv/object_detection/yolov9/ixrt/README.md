@@ -17,6 +17,34 @@ YOLOv9 represents a major leap in real-time object detection by introducing inno
 
 Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt>
 
+Dataset:
+  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+```bash
+unzip -q -d ./ coco2017labels.zip
+unzip -q -d ./coco/images/ train2017.zip
+unzip -q -d ./coco/images/ val2017.zip
+
+coco
+├── annotations
+│   └── instances_val2017.json
+├── images
+│   ├── train2017
+│   └── val2017
+├── labels
+│   ├── train2017
+│   └── val2017
+├── LICENSE
+├── README.txt
+├── test-dev2017.txt
+├── train2017.cache
+├── train2017.txt
+├── val2017.cache
+└── val2017.txt
+```
+
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
