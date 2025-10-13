@@ -18,7 +18,33 @@ YOLOv4 employs a two-step process, involving regression for bounding box positio
 Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
 Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
 
-Dataset: <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+Dataset:
+  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+```bash
+unzip -q -d ./ coco2017labels.zip
+unzip -q -d ./coco/images/ train2017.zip
+unzip -q -d ./coco/images/ val2017.zip
+
+coco
+├── annotations
+│   └── instances_val2017.json
+├── images
+│   ├── train2017
+│   └── val2017
+├── labels
+│   ├── train2017
+│   └── val2017
+├── LICENSE
+├── README.txt
+├── test-dev2017.txt
+├── train2017.cache
+├── train2017.txt
+├── val2017.cache
+└── val2017.txt
+```
 
 ### Install Dependencies
 
