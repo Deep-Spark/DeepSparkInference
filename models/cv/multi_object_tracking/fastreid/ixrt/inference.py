@@ -74,26 +74,6 @@ def parse_args():
 
     return args
 
-def get_dataloader(path, batch_size, num_workers):
-    # data loader
-    query_dir = os.path.join(path, "query")
-    gallery_dir = os.path.join(path, "gallery")
-    transform = torchvision.transforms.Compose([
-        torchvision.transforms.Resize((128, 64)),
-        torchvision.transforms.ToTensor(),
-        torchvision.transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-    ])
-    queryloader = torch.utils.data.DataLoader(
-        torchvision.datasets.ImageFolder(query_dir, transform=transform),
-        batch_size, shuffle=False, num_workers=num_workers
-    )
-    galleryloader = torch.utils.data.DataLoader(
-        torchvision.datasets.ImageFolder(gallery_dir, transform=transform),
-        batch_size, shuffle=True, num_workers=num_workers
-    )
-
-    return queryloader, galleryloader
-
 def main():
     args = parse_args()
 
@@ -129,17 +109,14 @@ def main():
         print("FPS : ", fps)
         print(f"Performance Check : Test {fps} >= target {args.fps_target}")
     else:
+        dataset = SmallVehicleID(args.datasets)
         # get dataloader
-        queryloader, galleryloader = get_dataloader(args.datasets, batch_size, 16)
+        dataloader = torch.utils.data.DataLoader(dataset, batch_size, num_workers=16, drop_last=False)
 
-        query_features = torch.tensor([]).float()
-        query_labels = torch.tensor([]).long()
-        gallery_features = torch.tensor([]).float()
-        gallery_labels = torch.tensor([]).long()
+        reid_evaluator = ReidEvaluator(len(dataset.query))
 
-        # run queryloader
-        for input_data, labels in tqdm(queryloader):
-            # Pad the last batch
+        for data in tqdm(dataloader):
+            input_data = data['images']
             pad_batch = len(input_data) != batch_size
             if pad_batch:
                 origin_size = len(input_data)
@@ -165,59 +142,17 @@ def main():
             )
             assert err == cudart.cudaError_t.cudaSuccess
 
-            features = torch.from_numpy(output)
             if pad_batch:
-                features = features[:origin_size]
+                output = output[:origin_size]
 
-            query_features = torch.cat((query_features, features), dim=0)
-            query_labels = torch.cat((query_labels, labels))
-        
-        # run galleryloader
-        for input_data, labels in tqdm(galleryloader):
-            # Pad the last batch
-            pad_batch = len(input_data) != batch_size
-            if pad_batch:
-                origin_size = len(input_data)
-                input_data = np.resize(input_data, (batch_size, *input_data.shape[1:]))
-            input_data = np.ascontiguousarray(input_data)
+            reid_evaluator.process(data, output)
 
-            (err,) = cudart.cudaMemcpy(
-                inputs[0]["allocation"],
-                input_data,
-                input_data.nbytes,
-                cudart.cudaMemcpyKind.cudaMemcpyHostToDevice,
-            )
-            assert err == cudart.cudaError_t.cudaSuccess
-
-            context.execute_v2(allocations)
-
-            output = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
-            (err,) = cudart.cudaMemcpy(
-                output,
-                outputs[0]["allocation"],
-                outputs[0]["nbytes"],
-                cudart.cudaMemcpyKind.cudaMemcpyDeviceToHost,
-            )
-            assert err == cudart.cudaError_t.cudaSuccess
-
-            features = torch.from_numpy(output)
-            if pad_batch:
-                features = features[:origin_size]
-
-            gallery_features = torch.cat((gallery_features, features), dim=0)
-            gallery_labels = torch.cat((gallery_labels, labels))
-
-        qf = query_features
-        ql = query_labels
-        gf = gallery_features
-        gl = gallery_labels
-        scores = qf.mm(gf.t())
-        res = scores.topk(1, dim=1)[1][:,0]
-        top1_correct = gl[res].eq(ql).sum().item()
-        top1_acc = round(top1_correct / ql.size(0) * 100.0, 2)
-        metricResult = {"metricResult": {"Acc": f"{top1_acc}%"}}
+        results = reid_evaluator.evaluate()
+        metricResult = {"metricResult": {}}
+        for key in results.keys():
+            print(f"\n* {key}: {results[key]}")
+            metricResult["metricResult"][key] = results[key]
         print(metricResult)
-        print(f"\n* Acc: {top1_acc} %")
 
 if __name__ == "__main__":
     main()

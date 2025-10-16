@@ -22,8 +22,8 @@ datasets_path=${DATASETS_DIR}
 # build engine
 python3 build_engine.py                                 \
     --model ${model_path}                          \
-    --precision fp16                                    \
-    --engine_path fast_reid.engine
+    --precision float16                                    \
+    --engine fast_reid.engine
 
 
 # inference
