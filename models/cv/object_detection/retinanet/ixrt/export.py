@@ -12,7 +12,6 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
 import argparse
 
 import torch
@@ -31,7 +30,7 @@ def parse_args():
                     type=str, 
                     required=True, 
                     help="model config file.")
-       
+    
     parser.add_argument("--output", 
                     type=str, 
                     required=True, 
@@ -54,7 +53,8 @@ def main():
     model = task_processor.build_pytorch_model(model_checkpoint)
 
     input_names = ['input']
-    dynamic_axes = {'input': {0: '-1'}}
+    output_names = ['output']
+    dynamic_axes = {'input': {0: '-1'}, 'output': {0: '-1'}}
     dummy_input = torch.randn(1, 3, 800, 800)
 
     torch.onnx.export(
@@ -63,6 +63,7 @@ def main():
         args.output, 
         input_names = input_names, 
         dynamic_axes = dynamic_axes, 
+        output_names = output_names,
         opset_version=13
     )
 
@@ -70,3 +71,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
