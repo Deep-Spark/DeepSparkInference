@@ -1,0 +1,4 @@
+tqdm
+onnx==1.13.0
+huggingface_hub
+ultralytics

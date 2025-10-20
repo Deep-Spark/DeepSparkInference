@@ -168,7 +168,7 @@ def main():
                 output = torch.from_numpy(output)
                 
                 # Handle RetinaNet's output structure differently
-                if filename.lower().startswith("retinanet_"):
+                if filename.lower().startswith("retinanet_") or filename.lower().startswith("yolof_"):
                     if i < len(outputs) / 2:
                         cls_score.append(output)
                     else:
@@ -185,7 +185,7 @@ def main():
                 data_samples.metainfo for data_samples in input_data['data_samples']
             ]
 
-            if filename.lower().startswith(("fovea_r50_", "fsaf_", "retinanet_")):
+            if filename.lower().startswith(("fovea_r50_", "fsaf_", "retinanet_", "yolof_")):
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, batch_img_metas=batch_img_metas, rescale=True)
             else:
                 results_list = runner.model.bbox_head.predict_by_feat(cls_score, box_reg, score_factors, batch_img_metas=batch_img_metas, rescale=True)
