@@ -75,11 +75,21 @@ bash scripts/infer_yolov11_fp16_accuracy.sh
 bash scripts/infer_yolov11_fp16_performance.sh
 ```
 
+### INT8
+
+```bash
+# Accuracy
+bash scripts/infer_yolov11_int8_accuracy.sh
+# Performance
+bash scripts/infer_yolov11_int8_performance.sh
+```
+
 ## Model Results
 
 | Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | ------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv11 | 32        | FP16      | 1519.25 | 0.551   | 0.393        |
+| YOLOv11 | 32        | FP16      | 1328.49 | 0.551   | 0.393        |
+| YOLOv11 | 32        | INT8      | 1538.63 | 0.506   | 0.349        |
 
 ## References
 
