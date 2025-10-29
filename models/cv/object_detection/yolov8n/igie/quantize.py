@@ -147,14 +147,11 @@ def main():
                 args.out_path,
                 calibration_data_reader=calibration,
                 quant_format=QuantFormat.QOperator,
+                op_types_to_quantize=['Conv'],
                 per_channel=False,
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
                 use_external_data_format=False,
-                # nodes_to_exclude= [
-                #     '/model.22/Add_1', '/model.22/Add_2', '/model.22/Concat_4', 
-                #     '/model.22/Concat_5', '/model.22/Mul_2', '/model.22/dfl/Softmax'
-                # ],
                 nodes_to_exclude=['/model.22/Add_9', '/model.22/Concat_24', '/model.22/Concat_25', '/model.22/Mul_3', '/model.22/dfl/Softmax'],
                 calibrate_method=CalibrationMethod.Percentile,
                 extra_options = {
