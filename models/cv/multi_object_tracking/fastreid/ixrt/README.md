@@ -33,7 +33,7 @@ cd fast-reid
 pip3 install -r docs/requirements.txt
 
 # export onnx model
-python3 tools/deploy/onnx_export.py --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
+python3 tools/deploy/onnx_export.py --batch-size 32 --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
 cd ..
 ```
 
@@ -56,4 +56,4 @@ bash scripts/infer_fastreid_fp16_performance.sh
 
 | Model    | BatchSize | Precision | FPS     | Rank-1(%) | Rank-5(%) | mAP   |
 | :----: | :----: | :----: | :----: | :----: | :----: | :----: |
-| FastReid | 32        | FP16      | 2372.42 | 0.808     | 2.160     | 2.11 |
+| FastReid | 32        | FP16      | 2372.42 | 88.40     | 98.45     | 92.80 |
