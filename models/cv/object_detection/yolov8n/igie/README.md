@@ -8,8 +8,7 @@ YOLOv8n combines exceptional speed and competitive accuracy in real-time object 
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.09 |
-| MR-V100 | 4.2.0 | 25.03 |
+| MR-V100 | 4.3.0 | 25.23 |
 
 ## Model Preparation
 
@@ -94,5 +93,5 @@ bash scripts/infer_yolov8n_int8_performance.sh
 
 | Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| YOLOv8n | 32        | FP16      | 1149.667 | 0.526   | 0.373        |
-| YOLOv8n | 32        | INT8      | 1212.266 | 0.503    | 0.348        |
+| YOLOv8n | 32        | FP16      | 1711.793 | 0.526   | 0.373        |
+| YOLOv8n | 32        | INT8      | 1724.377 | 0.503    | 0.348        |

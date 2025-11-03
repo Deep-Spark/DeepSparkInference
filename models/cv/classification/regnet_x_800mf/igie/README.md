@@ -8,13 +8,13 @@ RegNet_x_800mf is a lightweight deep learning model designed with a regularized 
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0     |  25.09  |
+| MR-V100 | 4.3.0     |  25.12  |
 
 ## Model Preparation
 
 ### Prepare Resources
 
-Pretrained model: <https://download.pytorch.org/modelsregnet_x_800mf-94a99ebd.pth> 
+Pretrained model: <https://download.pytorch.org/models/regnet_x_800mf-94a99ebd.pth> 
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -50,4 +50,4 @@ bash scripts/infer_regnet_x_800mf_fp16_performance.sh
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| RegNet_x_800mf | 32        | FP16      | 4630.916| 77.091   | 93.602   |
+| RegNet_x_800mf | 32        | FP16      | 6373.164 | 77.091   | 93.602   |

@@ -26,7 +26,7 @@ from ultralytics.cfg import get_cfg
 from ultralytics.utils import DEFAULT_CFG
 from validator import IGIE_Validator
 
-from utils import COCO2017Dataset, COCO2017Evaluator
+from utils import COCO2017Dataset
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -145,7 +145,7 @@ def main():
         validator = IGIE_Validator(args=cfg_args, save_dir=Path('.'))
         validator.stride = 32
         
-        stats = validator(module, device)
+        validator(module, device)
 
 if __name__ == "__main__":
     main()

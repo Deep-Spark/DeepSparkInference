@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -104,14 +104,12 @@ def parse_args():
 
     return args
 
-class IGIE_Validator(DetectionValidator):
+class IGIEValidator(DetectionValidator):
     def __call__(self, engine, device, data):
         self.data = data
         self.stride = 32
         self.dataloader = self.get_dataloader(self.data.get(self.args.split), self.args.batch)
         self.init_metrics()
-        
-        total_num = 0
 
         # wram up
         for _ in range(3):
@@ -129,9 +127,7 @@ class IGIE_Validator(DetectionValidator):
             engine.set_input(0, tvm.nd.array(imgs, device))
             
             engine.run()
-            
 
-            total_num += self.args.batch
             outputs = engine.get_output(0).asnumpy()
 
             if pad_batch:
@@ -202,9 +198,9 @@ def main():
             'names': coco_classes
         }
 
-        validator = IGIE_Validator(args=cfg_args, save_dir=Path('.'))
+        validator = IGIEValidator(args=cfg_args, save_dir=Path('.'))
         
-        stats = validator(module, device, data)
+        validator(module, device, data)
     
 if __name__ == "__main__":
     main()

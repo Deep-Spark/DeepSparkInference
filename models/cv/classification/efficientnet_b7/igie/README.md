@@ -8,7 +8,7 @@ EfficientNet B7 is an advanced convolutional neural network model created by Goo
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 |--------|-----------|---------|
-| MR-V100| 4.3.0     |  25.09  |
+| MR-V100| 4.3.0     |  25.12  |
 
 ## Model Preparation
 
@@ -50,4 +50,4 @@ bash scripts/infer_efficientnet_b7_fp16_performance.sh
 
 | Model           | BatchSize | Precision | FPS      | Top-1(%) | Top-5(%) |
 | --------------- | --------- | --------- | -------- | -------- | -------- |
-| Efficientnet_b7 | 32        | FP16      | 388.502  | 73.902   | 91.531   |
+| Efficientnet_b7 | 32        | FP16      | 532.606  | 73.902   | 91.531   |
