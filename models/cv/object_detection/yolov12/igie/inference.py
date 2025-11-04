@@ -16,6 +16,7 @@
 import argparse
 import os
 
+import torch
 import tvm
 from tvm import relay
 
@@ -26,7 +27,7 @@ from ultralytics.cfg import get_cfg
 from ultralytics.utils import DEFAULT_CFG
 from validator import IGIE_Validator
 
-
+from utils import COCO2017Dataset
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -75,6 +76,17 @@ def parse_args():
 
     return args
 
+def get_dataloader(data_path, label_path, batch_size, num_workers):
+
+    dataset = COCO2017Dataset(data_path, label_path, image_size=640)
+
+    dataloader = torch.utils.data.DataLoader(dataset,
+                                    batch_size=batch_size,
+                                    drop_last=False,
+                                    num_workers=num_workers,
+                                    collate_fn=dataset.collate_fn)
+    return dataloader
+    
 def main():
     args = parse_args()
 
@@ -134,7 +146,7 @@ def main():
         validator = IGIE_Validator(args=cfg_args, save_dir=Path('.'))
         validator.stride = 32
         
-        stats = validator(module, device)
+        validator(module, device)
 
 if __name__ == "__main__":
     main()

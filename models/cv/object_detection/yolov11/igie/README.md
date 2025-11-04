@@ -8,7 +8,7 @@ YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object 
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.09 |
+| MR-V100 | 4.3.0 | 25.12 |
 | MR-V100 | 4.2.0 | 25.03 |
 
 ## Model Preparation
@@ -75,11 +75,21 @@ bash scripts/infer_yolov11_fp16_accuracy.sh
 bash scripts/infer_yolov11_fp16_performance.sh
 ```
 
+### INT8
+
+```bash
+# Accuracy
+bash scripts/infer_yolov11_int8_accuracy.sh
+# Performance
+bash scripts/infer_yolov11_int8_performance.sh
+```
+
 ## Model Results
 
 | Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | ------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv11 | 32        | FP16      | 1519.25 | 0.551   | 0.393        |
+| YOLOv11 | 32        | FP16      | 1328.49 | 0.551   | 0.393        |
+| YOLOv11 | 32        | INT8      | 1538.63 | 0.506   | 0.349        |
 
 ## References
 

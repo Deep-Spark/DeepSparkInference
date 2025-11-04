@@ -1,21 +1,20 @@
-# YOLOv12 (IGIE)
+# YOLOv8 (IGIE)
 
 ## Model Description
 
-YOLOv12 achieves high precision and efficient real-time object detection by integrating attention mechanisms and innovative architectural design. YOLOv12-N is the lightweight version of this series, optimized for resource-constrained environments, maintaining the core advantages of YOLOv12 while offering fast inference and excellent detection accuracy.
+YOLOv8n combines exceptional speed and competitive accuracy in real-time object detection tasks. With a focus on simplicity and efficiency, this compact model employs a single neural network to make predictions, enabling rapid and reliable identification of objects in images or video streams, making it ideal for resource-constrained environments.
 
 ## Supported Environments
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.12 |
-| MR-V100 | 4.2.0 | 25.06 |
+| MR-V100 | 4.3.0 | 25.23 |
 
 ## Model Preparation
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12n.pt>
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt>
 
 Dataset:
   - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
@@ -51,18 +50,19 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
 pip3 install -r requirements.txt
 ```
 
-## Model Conversion
+### Model Conversion
 
 ```bash
-git clone --depth 1 https://github.com/sunsmarterjie/yolov12.git
-cd yolov12
-pip3 install -e .
-cd ..
-
-python3 export.py --weight yolov12n.pt --batch 32
+python3 export.py --weight yolov8n.pt --batch 32
 ```
 
 ## Model Inference
@@ -75,28 +75,23 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov12_fp16_accuracy.sh
+bash scripts/infer_yolov8n_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov12_fp16_performance.sh
+bash scripts/infer_yolov8n_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov12_int8_accuracy.sh
+bash scripts/infer_yolov8n_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov12_int8_performance.sh
+bash scripts/infer_yolov8n_int8_performance.sh
 ```
-
 
 ## Model Results
 
-| Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-| ------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv12 | 32        | FP16      | 379.749 | 0.559   | 0.403        |
-| YOLOv12 | 32        | INT8      | 305.676 | 0.537   | 0.379        |
-
-## References
-
-- [YOLOv12](https://github.com/sunsmarterjie/yolov12)
+| Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| YOLOv8n | 32        | FP16      | 1711.793 | 0.526   | 0.373        |
+| YOLOv8n | 32        | INT8      | 1724.377 | 0.503    | 0.348        |
