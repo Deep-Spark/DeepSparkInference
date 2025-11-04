@@ -38,6 +38,7 @@
 | DeepSeek-R1-Distill-Qwen-7B   | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-14B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-32B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
+| DeepSeek-OCR                  | `vLLM`       | [✅](models/multimodal/vision_language_model/deepseek-ocr/transformers)   | 4.3.0     |
 | ERNIE-4.5-21B-A3B             | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
 | ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
 | GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
@@ -50,6 +51,9 @@
 | E5-V                          | `vLLM`       | [✅](models/multimodal/vision_language_model/e5-v/vllm/)            | 4.3.0     |
 | MiniCPM-o                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
 | MiniCPM-V                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
+| NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
+| Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
+| PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
 | Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
 | Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/)              | 4.3.0     |
 | Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/)             | 4.3.0     |
@@ -61,8 +65,13 @@
 | Qwen1.5-72B                   | `vLLM`       | [✅](models/nlp/llm/qwen1.5-72b/vllm)                               | 4.3.0     |
 | Qwen2-7B Instruct             | `vLLM`       | [✅](models/nlp/llm/qwen2-7b/vllm)                                  | 4.3.0     |
 | Qwen2-72B Instruct            | `vLLM`       | [✅](models/nlp/llm/qwen2-72b/vllm)                                 | 4.3.0     |
+| Qwen3_Moe                     | `vLLM`       | [✅](models/nlp/llm/qwen3-235b/vllm)                                | dev-only  |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
+| Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | dev-only  |
+| Ultravox                      | `vLLM`       | [✅](models/speech/asr/ultravox/vllm)                               | 4.3.0     |
 | Whisper                       | `vLLM`       | [✅](models/speech/asr/whisper/vllm/)                               | 4.3.0     |
+| XLMRoberta                    | `vLLM`       | [✅](models/multimodal/vision_language_model/xlmroberta/vllm)       | 4.3.0     |
+
 
 ### 计算机视觉（CV）
 
@@ -97,6 +106,7 @@
 | EfficientNet-B4        | FP16  | [✅](models/cv/classification/efficientnet_b4/igie)     | [✅](models/cv/classification/efficientnet_b4/ixrt)        | 4.3.0     |
 | EfficientNet-B5        | FP16  | [✅](models/cv/classification/efficientnet_b5/igie)     | [✅](models/cv/classification/efficientnet_b5/ixrt)        | 4.3.0     |
 | EfficientNet-B6        | FP16  | [✅](models/cv/classification/efficientnet_b6/igie)     |                                                           | 4.3.0     |
+| EfficientNet-B7        | FP16  | [✅](models/cv/classification/efficientnet_b7/igie)     |                                                           | 4.3.0     |
 | EfficientNetV2         | FP16  | [✅](models/cv/classification/efficientnet_v2/igie)     | [✅](models/cv/classification/efficientnet_v2/ixrt)        | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/efficientnet_v2/ixrt)        | 4.3.0     |
 | EfficientNetv2_rw_t    | FP16  | [✅](models/cv/classification/efficientnetv2_rw_t/igie) | [✅](models/cv/classification/efficientnetv2_rw_t/ixrt)    | 4.3.0     |
@@ -122,8 +132,10 @@
 | RegNet_x_16gf          | FP16  | [✅](models/cv/classification/regnet_x_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_3_2gf         | FP16  | [✅](models/cv/classification/regnet_x_3_2gf/igie)      |                                                           | 4.3.0     |
+| RegNet_x_8gf          | FP16  | [✅](models/cv/classification/regnet_x_8gf/igie)         |                                                           | 4.3.0     |
 | RegNet_x_32gf          | FP16  | [✅](models/cv/classification/regnet_x_32gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_400mf         | FP16  | [✅](models/cv/classification/regnet_x_400mf/igie)      |                                                           | 4.3.0     |
+| RegNet_x_800mf         | FP16  | [✅](models/cv/classification/regnet_x_800mf/igie)      |                                                           | 4.3.0     |
 | RegNet_y_1_6gf         | FP16  | [✅](models/cv/classification/regnet_y_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_y_16gf          | FP16  | [✅](models/cv/classification/regnet_y_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_y_3_2gf         | FP16  | [✅](models/cv/classification/regnet_y_3_2gf/igie)      |                                                           | 4.3.0     |
@@ -193,7 +205,7 @@
 | RTMDet     | FP16  | [✅](models/cv/object_detection/rtmdet/igie)     |                                                 | 4.3.0     |
 | SABL       | FP16  | [✅](models/cv/object_detection/sabl/igie)       |                                                 | 4.3.0     |
 | SSD        | FP16  | [✅](models/cv/object_detection/ssd/igie)        |                                                 | 4.3.0     |
-| YOLOF      | FP16  | [✅](models/cv/object_detection/yolof/igie)      |                                                 | 4.3.0     |
+| YOLOF      | FP16  | [✅](models/cv/object_detection/yolof/igie)      | [✅](models/cv/object_detection/yolof/ixrt)    | 4.3.0     |
 | YOLOv3     | FP16  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     | 4.3.0     |
 | YOLOv4     | FP16  | [✅](models/cv/object_detection/yolov4/igie)     | [✅](models/cv/object_detection/yolov4/ixrt)     | 4.3.0     |
@@ -208,11 +220,17 @@
 |            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
 | YOLOv8     | FP16  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.3.0     |
+| YOLOv8n    | FP16  | [✅](models/cv/object_detection/yolov8n/igie)    |                                                  | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov8n/igie)    |                                                  | 4.3.0     |
 | YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     | [✅](models/cv/object_detection/yolov9/ixrt)     | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov9/igie)     |                                                   | 4.3.0     |
 | YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    | [✅](models/cv/object_detection/yolov10/ixrt)    | 4.3.0     |
 | YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    | [✅](models/cv/object_detection/yolov11/ixrt)    | 4.3.0     |
-| YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    |                                                 | 4.3.0     |
-| YOLOv13    | FP16  | [✅](models/cv/object_detection/yolov13/igie)    |                                                 | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov11/igie)     |                                                  | 4.3.0     |
+| YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    | [✅](models/cv/object_detection/yolov12/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov12/igie)     |                                                   | 4.3.0     |
+| YOLOv13    | FP16  | [✅](models/cv/object_detection/yolov13/igie)    | [✅](models/cv/object_detection/yolov13/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov13/igie)     |                                                   | 4.3.0     |
 | YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
 
@@ -255,8 +273,8 @@
 
 | Model               | Prec. | IGIE                                               | ixRT | IXUCA SDK |
 |---------------------|-------|----------------------------------------------------|------|-----------|
-| FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) |      | 4.3.0     |
-| DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.3.0     |
+| FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) | [✅](models/cv/multi_object_tracking/fastreid/ixrt) | 4.3.0     |
+| DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) | [✅](models/cv/multi_object_tracking/deepsort/ixrt) | 4.3.0     |
 |                     | INT8  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.3.0     |
 | RepNet-Vehicle-ReID | FP16  | [✅](models/cv/multi_object_tracking/repnet/igie)   |      | 4.3.0     |
 

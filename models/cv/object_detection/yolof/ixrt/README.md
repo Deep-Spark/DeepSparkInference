@@ -84,7 +84,7 @@ bash scripts/infer_yolof_fp16_performance.sh
 
 | Model | BatchSize | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
 | :----:| :-------: | :-------: | :----: | :-----: | :----------: |
-| YOLOF | 32        | FP16      | 331.10 | 0.527   | 0.343        |
+| YOLOF | 32        | FP16      | 331.06 | 0.527   | 0.343        |
 
 ## References
 

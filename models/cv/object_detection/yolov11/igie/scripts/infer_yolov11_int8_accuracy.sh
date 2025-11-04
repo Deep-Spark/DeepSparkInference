@@ -16,7 +16,7 @@
 #    under the License.
 
 batchsize=32
-model_path="yolo11n_opt.onnx"
+model_path="yolo11n.onnx"
 quantized_model_path="yolo11n_int8.onnx"
 datasets_path=${DATASETS_DIR}
 

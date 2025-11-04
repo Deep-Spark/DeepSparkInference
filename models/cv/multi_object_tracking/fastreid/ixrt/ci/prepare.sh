@@ -24,6 +24,6 @@ cd fast-reid
 pip3 install -r docs/requirements.txt
 
 # export onnx model
-python3 tools/deploy/onnx_export.py --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
+python3 tools/deploy/onnx_export.py --batch-size 32 --config-file configs/VehicleID/bagtricks_R50-ibn.yml --name fast_reid --output ../ --opts MODEL.WEIGHTS ../vehicleid_bot_R50-ibn.pth
 
 cd ..

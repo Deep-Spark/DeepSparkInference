@@ -25,15 +25,16 @@ if [ ! -e $quantized_model_path ]; then
     python3 quantize.py                       \
         --model_path ${model_path}            \
         --out_path ${quantized_model_path}    \
+        --batch ${batchsize}                  \
         --datasets ${datasets_path}
 fi
 
 # build engine
-# python3 ../../igie_common/build_engine.py   \
-#     --model_path ${quantized_model_path}              \
-#     --input images:${batchsize},3,640,640   \
-#     --precision int8                        \
-#     --engine_path yolov13n_bs_${batchsize}_int8.so
+python3 ../../igie_common/build_engine.py   \
+    --model_path ${quantized_model_path}              \
+    --input images:${batchsize},3,640,640   \
+    --precision int8                        \
+    --engine_path yolov13n_bs_${batchsize}_int8.so
 
 
 # inference

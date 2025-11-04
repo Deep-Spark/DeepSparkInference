@@ -2,3 +2,4 @@ onnx
 tqdm
 onnxsim
 ultralytics==8.2.51
+pycocotools

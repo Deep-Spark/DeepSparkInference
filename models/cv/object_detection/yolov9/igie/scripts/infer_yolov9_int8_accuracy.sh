@@ -25,6 +25,7 @@ if [ ! -e $quantized_model_path ]; then
     python3 quantize.py                       \
         --model_path ${model_path}            \
         --out_path ${quantized_model_path}    \
+        --batch ${batchsize}                  \
         --datasets ${datasets_path}
 fi
 

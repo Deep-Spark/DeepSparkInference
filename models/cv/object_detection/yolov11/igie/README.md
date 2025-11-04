@@ -89,7 +89,7 @@ bash scripts/infer_yolov11_int8_performance.sh
 | Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | ------- | --------- | --------- | ------- | ------- | ------------ |
 | YOLOv11 | 32        | FP16      | 1328.49 | 0.551   | 0.393        |
-| YOLOv11 | 32        | INT8      | 1538.63 | 0.506   | 0.349        |
+| YOLOv11 | 32        | INT8      | 1478.113 | 0.506   | 0.349        |
 
 ## References
 

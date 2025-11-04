@@ -347,6 +347,28 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}/CosyVoice
             python3 inference_test.py
             """
+        elif model_name == "phi3_v":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --max-model-len 4096 --temperature 0.0
+            """
+        elif model_name == "paligemma":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256  --trust-remote-code --temperature 0.0 
+            """
+        elif model_name == "xlmroberta":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            python3 offline_inference_scoring.py --model ./{model_name} --task "score" --tensor-parallel-size 1
+            ln -s /mnt/deepspark/data/checkpoints/multilingual-e5-large ./
+            python3 offline_inference_embedding.py --model ./multilingual-e5-large -tp 2
+            """
 
         r, t = run_script(script)
         sout = r.stdout

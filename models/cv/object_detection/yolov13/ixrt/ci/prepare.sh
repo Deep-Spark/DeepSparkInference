@@ -17,13 +17,13 @@
 set -x
 
 pip3 install -r requirements.txt
-cp -r /mnt/deepspark/data/repos/yolov13 ./
+cp -r /root/data/repos/yolov13 ./
 
 cd yolov13
 pip3 install -e .
 cd ..
 
 mkdir checkpoints
-mv yolov13n.pt yolov13.pt
+cp yolov13n.pt yolov13.pt
 python3 export.py --weight yolov13.pt --batch 32
 mv yolov13.onnx checkpoints/

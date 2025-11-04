@@ -61,6 +61,7 @@ cd ..
 mkdir checkpoints
 mv yolov12n.pt yolov12.pt
 python3 export.py --weight yolov12.pt --batch 32
+mv yolov12.onnx checkpoints/
 ```
 
 ## Model Inference
@@ -85,7 +86,7 @@ bash scripts/infer_yolov12_fp16_performance.sh
 
 | Model   | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | ------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv12 | 32        | FP16      | 552.656 | 0.559   | 0.403        |
+| YOLOv12 | 32        | FP16      | 553.685 | 0.559   | 0.403        |
 
 ## References
 
