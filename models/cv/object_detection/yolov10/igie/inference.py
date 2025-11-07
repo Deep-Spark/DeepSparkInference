@@ -143,7 +143,7 @@ def main():
         validator = IGIE_Validator(args=cfg_args, save_dir=Path('.'))
         validator.stride = 32
         
-        stats = validator(module, device)
+        validator(module, device)
 
 if __name__ == "__main__":
     main()

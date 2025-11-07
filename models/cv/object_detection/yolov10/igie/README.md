@@ -59,6 +59,25 @@ pip3 install -r requirements.txt
 ```bash
 git clone --depth 1 https://github.com/THU-MIG/yolov10.git
 cd yolov10/
+
+```
+
+```python
+# 修改如下
+--- a/ultralytics/engine/exporter.py
++++ b/ultralytics/engine/exporter.py
+@@ -373,6 +373,7 @@ class Exporter:
+             elif isinstance(self.model, DetectionModel):
+                 dynamic["output0"] = {0: "batch", 2: "anchors"}  # shape(1, 84,
+ 8400)
+
++        dynamic = {'images': {0: 'batch'}, 'output0': {0: 'batch'}}
+         torch.onnx.export(
+             self.model.cpu() if dynamic else self.model,  # dynamic=True only c
+ompatible with cpu
+```
+
+```bash
 pip3 install -e . --no-deps
 cd ../
 
@@ -79,6 +98,15 @@ export DATASETS_DIR=/Path/to/coco/
 bash scripts/infer_yolov10_fp16_accuracy.sh
 # Performance
 bash scripts/infer_yolov10_fp16_performance.sh
+```
+
+### INT8
+
+```bash
+# Accuracy
+bash scripts/infer_yolov10_int8_accuracy.sh
+# Performance
+bash scripts/infer_yolov10_int8_performance.sh
 ```
 
 ## Model Results
