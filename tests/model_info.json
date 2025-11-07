@@ -4050,7 +4050,8 @@
             "download_url": "https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt",
             "need_third_part": true,
             "precisions": [
-                "fp16"
+                "fp16",
+                "int8"
             ],
             "type": "inference",
             "hasDemo": false,
