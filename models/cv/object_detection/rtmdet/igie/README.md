@@ -21,15 +21,22 @@ Dataset:
   - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
   - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
   - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+  - <http://images.cocodataset.org/annotations/annotations_trainval2017.zip> to download the annotations dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
 unzip -q -d ./coco/images/ train2017.zip
 unzip -q -d ./coco/images/ val2017.zip
+unzip -q -d ./coco annotations_trainval2017.zip
 
 coco
 ├── annotations
-│   └── instances_val2017.json
+│   └── instances_train2017.json
+│   └── instances_val2017.json
+│   └── captions_train2017.json
+│   └── captions_val2017.json
+│   └── person_keypoints_train2017.json
+│   └── person_keypoints_val2017.json
 ├── images
 │   ├── train2017
 │   └── val2017

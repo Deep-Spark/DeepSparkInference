@@ -19,8 +19,42 @@ inference (no flip or any post-processing done).
 
 ### Prepare Resources
 
-- dataset: <http://cocodataset.org/#download>
-- checkpoints: <https://download.01.org/opencv/openvino_training_extensions/models/human_pose_estimation/checkpoint_iter_370000.pth>
+Pretrained model: <https://download.01.org/opencv/openvino_training_extensions/models/human_pose_estimation/checkpoint_iter_370000.pth>
+
+Dataset:
+  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+  - <http://images.cocodataset.org/annotations/annotations_trainval2017.zip> to download the annotations dataset.
+
+```bash
+unzip -q -d ./ coco2017labels.zip
+unzip -q -d ./coco/images/ train2017.zip
+unzip -q -d ./coco/images/ val2017.zip
+unzip -q -d ./coco annotations_trainval2017.zip
+
+coco
+├── annotations
+│   └── instances_train2017.json
+│   └── instances_val2017.json
+│   └── captions_train2017.json
+│   └── captions_val2017.json
+│   └── person_keypoints_train2017.json
+│   └── person_keypoints_val2017.json
+├── images
+│   ├── train2017
+│   └── val2017
+├── labels
+│   ├── train2017
+│   └── val2017
+├── LICENSE
+├── README.txt
+├── test-dev2017.txt
+├── train2017.cache
+├── train2017.txt
+├── val2017.cache
+└── val2017.txt
+```
 
 ### Install Dependencies
 
@@ -50,7 +84,7 @@ onnxsim ./lightweight-human-pose-estimation.pytorch/human-pose-estimation.onnx .
 ## Model Inference
 
 ```bash
-export DATASETS_DIR=/Path/to/coco_pose/
+export DATASETS_DIR=/Path/to/coco/
 export CHECKPOINTS_DIR=/Path/to/checkpoints/
 ```
 
