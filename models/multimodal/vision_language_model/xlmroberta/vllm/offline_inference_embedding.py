@@ -69,3 +69,4 @@ if __name__ == "__main__":
     # Print the outputs.
     for output in outputs:
         print(output.outputs.embedding) # list of hidden_size floats
+        print("Offline inference is successful!")

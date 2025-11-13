@@ -144,13 +144,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference.py --model ./llama2-7b --max-tokens 256 -tp 1 --temperature 0.0
             """
-        elif model_name == "llama3-70b":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=0,1,2,3
-            python3 offline_inference.py --model ./llama3-70b --max-tokens 256 -tp 4 --temperature 0.0
-            """
+        # elif model_name == "llama3-70b": # need 8gpus to run
+        #     script = f"""
+        #     set -x
+        #     cd ../{model['model_path']}
+        #     export CUDA_VISIBLE_DEVICES=0,1,2,3
+        #     python3 offline_inference.py --model ./llama3-70b --max-tokens 256 -tp 4 --temperature 0.0
+        #     """
         elif model_name == "qwen-7b":
             script = f"""
             set -x
@@ -177,13 +177,13 @@ def run_nlp_testcase(model):
             export CUDA_VISIBLE_DEVICES=0,1,2,3
             python3 offline_inference.py --model ./qwen1.5-32b --max-tokens 256 -tp 4 --temperature 0.0
             """
-        elif model_name == "qwen1.5-72b":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=0,1
-            python3 offline_inference.py --model ./qwen1.5-72b --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
-            """
+        # elif model_name == "qwen1.5-72b": # need 8gpus to run
+        #     script = f"""
+        #     set -x
+        #     cd ../{model['model_path']}
+        #     export CUDA_VISIBLE_DEVICES=0,1
+        #     python3 offline_inference.py --model ./qwen1.5-72b --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+        #     """
         elif model_name == "qwen2-7b":
             script = f"""
             set -x
@@ -191,13 +191,13 @@ def run_nlp_testcase(model):
             export CUDA_VISIBLE_DEVICES=0
             python3 offline_inference.py --model ./qwen2-7b --max-tokens 256 -tp 1 --temperature 0.0
             """
-        elif model_name == "qwen2-72b":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-            python3 offline_inference.py --model ./qwen2-72b --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
-            """
+        # elif model_name == "qwen2-72b": # need 8gpus to run
+        #     script = f"""
+        #     set -x
+        #     cd ../{model['model_path']}
+        #     export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+        #     python3 offline_inference.py --model ./qwen2-72b --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
+        #     """
         elif model_name == "stablelm":
             script = f"""
             set -x
@@ -215,13 +215,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096
             """
-        elif model_name == "aria":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
-            """
+        # elif model_name == "aria": # need 8gpus to run
+        #     script = f"""
+        #     set -x
+        #     cd ../{model['model_path']}
+        #     export VLLM_ASSETS_CACHE=../vllm/
+        #     python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+        #     """
         elif model_name == "chameleon_7b" or model_name == "fuyu_8b":
             script = f"""
             set -x
@@ -314,7 +314,7 @@ def run_nlp_testcase(model):
             export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
             python3 offline_inference_vision_language.py --model ./{model_name} -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
             """
-        elif model_name == "llava_next_base":
+        elif model_name == "e5-v":
             script = f"""
             set -x
             cd ../{model['model_path']}
