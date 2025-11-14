@@ -55,9 +55,9 @@
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
 | Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
-| Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/)              | 4.3.0     |
-| Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/)             | 4.3.0     |
-| Qwen2.5-VL                    | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2.5_vl/)           | 4.3.0     |
+| Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/vllm)          | 4.3.0     |
+| Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/vllm)         | 4.3.0     |
+| Qwen2.5-VL                    | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_5_vl/vllm)       | 4.3.0     |
 | Qwen1.5-7B                    | `vLLM`       | [✅](models/nlp/llm/qwen1.5-7b/vllm)                                | 4.3.0     |
 | Qwen1.5-7B                    | `TGI`        | [✅](models/nlp/llm/qwen1.5-7b/tgi)                                 | 4.3.0     |
 | Qwen1.5-14B                   | `vLLM`       | [✅](models/nlp/llm/qwen1.5-14b/vllm)                               | 4.3.0     |
