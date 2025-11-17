@@ -18,9 +18,11 @@ def main(config):
     parser = tensorrt.OnnxParser(network, IXRT_LOGGER)
     parser.parse_from_file(config.model)
 
-    precision = tensorrt.BuilderFlag.INT8 if config.precision == "int8" else tensorrt.BuilderFlag.FP16
-    # print("precision : ", precision)
-    build_config.set_flag(precision)
+    if config.precision == "int8":
+        build_config.set_flag(tensorrt.BuilderFlag.FP16)
+        build_config.set_flag(tensorrt.BuilderFlag.INT8)
+    else:
+        build_config.set_flag(tensorrt.BuilderFlag.FP16)
 
     plan = builder.build_serialized_network(network, build_config)
     engine_file_path = config.engine
