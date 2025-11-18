@@ -33,6 +33,7 @@ from vllm.assets.video import VideoAsset
 
 from vllm import LLM, EngineArgs, SamplingParams
 from utils import sampling_add_cli_args
+import time
 
 # Aria
 def run_aria(question: str, engine_params, modality: str):
@@ -140,8 +141,15 @@ if __name__ == "__main__":
             },
         } for _ in range(args.num_prompts)]
 
+    start_time = time.perf_counter()
     outputs = llm.generate(inputs, sampling_params=sampling_params)
-
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     for o in outputs:
+        num_tokens += len(o.outputs[0].token_ids)
         generated_text = o.outputs[0].text
         print(generated_text)
+    num_requests = len(inputs)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")

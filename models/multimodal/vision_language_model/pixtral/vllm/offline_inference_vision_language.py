@@ -24,6 +24,7 @@ on HuggingFace model repository.
 import sys
 from pathlib import Path
 import io
+import time
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import argparse
 import dataclasses
@@ -98,6 +99,15 @@ if __name__ == "__main__":
         },
     ]
 
+    start_time = time.perf_counter()
     outputs = llm.chat(messages, sampling_params=sampling_params)
-
-    print(outputs[0].outputs[0].text)
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
+    for o in outputs:
+        num_tokens += len(o.outputs[0].token_ids)
+        generated_text = o.outputs[0].text
+        print(generated_text)
+    num_requests = len(messages)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
