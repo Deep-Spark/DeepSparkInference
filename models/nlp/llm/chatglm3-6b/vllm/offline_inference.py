@@ -108,4 +108,6 @@ if __name__ == "__main__":
 
         num_tokens += len(output.outputs[0].token_ids)
         print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
-    print(f"tokens: {num_tokens}, QPS: {num_tokens/duration_time}")
+    num_requests = len(prompts_new)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")

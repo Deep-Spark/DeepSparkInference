@@ -372,12 +372,14 @@ def run_nlp_testcase(model):
 
         r, t = run_script(script)
         sout = r.stdout
-        pattern = r"tokens: (\d+), QPS: ([\d.]+)"
+        pattern = r"requests: (\d+), QPS: ([\d.]+), tokens: ([\d.]+), Token/s: ([\d.]+)"
         matchs = re.search(pattern, sout)
         result["result"].setdefault(prec, {"status": "FAIL"})
         if matchs:
-            result["result"][prec]["tokens"] = int(matchs.group(1))
+            result["result"][prec]["requests"] = int(matchs.group(1))
             result["result"][prec]["QPS"] = float(matchs.group(2))
+            result["result"][prec]["tokens"] = int(matchs.group(3))
+            result["result"][prec]["Token/s"] = float(matchs.group(4))
             result["result"][prec]["status"] = "PASS"
         else:
             pattern = r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x"
