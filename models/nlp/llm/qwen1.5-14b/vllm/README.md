@@ -45,6 +45,6 @@ python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-14B --max-tokens 256
 
 ## Model Results
 
-| Model       | QPS   |
-| :----: | :----: |
-| Qwen1.5-14B | 57.15 |
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen1.5-14B | 3     |  0.387  | 768    | 99.233 |

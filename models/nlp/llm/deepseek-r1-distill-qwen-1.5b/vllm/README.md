@@ -51,9 +51,9 @@ vllm serve data/DeepSeek-R1-Distill-Qwen-1.5B --tensor-parallel-size 2 --max-mod
 
 ## Model Results
 
-| Model                         | QPS    |
-| :----: | :----: |
-| DeepSeek-R1-Distill-Qwen-1.5B | 259.42 |
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| DeepSeek-R1-Distill-Qwen-1.5B | 3     |  0.581  | 768    | 148.912 |
 
 ## References
 

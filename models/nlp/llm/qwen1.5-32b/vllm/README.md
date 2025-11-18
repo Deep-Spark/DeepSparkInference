@@ -37,3 +37,9 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 export CUDA_VISIBLE_DEVICES=0,1,2,3
 python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-32B-Chat --max-tokens 256 -tp 4 --temperature 0.0
 ```
+
+## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen1.5-32B-Chat | 3     |  0.248  | 768    | 63.627 |

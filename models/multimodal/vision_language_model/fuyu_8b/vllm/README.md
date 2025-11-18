@@ -49,3 +49,7 @@ python3 offline_inference_vision_language.py --model ./data/fuyu-8b --max-tokens
 ```
 
 ## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| fuyu-8b | 1 | 0.326   |  17   | 5.379 |

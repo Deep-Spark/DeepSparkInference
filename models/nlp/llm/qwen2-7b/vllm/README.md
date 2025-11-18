@@ -43,3 +43,9 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 export CUDA_VISIBLE_DEVICES=0
 python3 offline_inference.py --model ./data/qwen2/Qwen2-7B-Instruct --max-tokens 256 -tp 1 --temperature 0.0
 ```
+
+## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen2-7B-Instruct | 3     |  0.357  | 768    | 91.521 |

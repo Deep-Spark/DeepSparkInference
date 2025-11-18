@@ -63,7 +63,7 @@ python3 offline_inference.py --model /data/baichuan/Baichuan2-7B-Base/int8/ --ch
 
 ## Model Results
 
-| Model        | Precision | tokens | QPS    |
-| :----: | :----: | :----: | :----: |
-| Baichuan2-7B | FP16      | 768    | 109.27 |
-| Baichuan2-7B | w8a16     | 740    | 59.82  |
+| Model | Precision | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| Baichuan2-7B | FP16      |  3  | 0.439  | 768    | 112.526 |
+| Baichuan2-7B | w8a16     |  3  | 0.248  | 740    | 61.318  |

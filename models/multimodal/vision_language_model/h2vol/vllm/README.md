@@ -48,3 +48,7 @@ python3 offline_inference_vision_language.py --model data/h2ovl-mississippi-800m
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| h2ovl-mississippi-800m | 1     |  0.931  | 27    | 25.158 |

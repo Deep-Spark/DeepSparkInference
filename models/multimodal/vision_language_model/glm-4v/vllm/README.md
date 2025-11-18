@@ -32,3 +32,7 @@ python3 offline_inference_vision_language.py --model /path/to/glm-4v-9b --max-to
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| glm-4v-9b | 1    |  0.17  | 239    | 40.795 |

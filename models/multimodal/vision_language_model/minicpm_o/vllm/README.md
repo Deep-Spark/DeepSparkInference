@@ -41,3 +41,7 @@ python3 offline_inference_vision_language.py --model ./MiniCPM-o-2_6/ --max-mode
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| MiniCPM-o-2_6 | 1    |  0.456 | 16    | 7.341 |

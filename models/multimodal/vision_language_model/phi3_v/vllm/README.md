@@ -36,3 +36,7 @@ python3 offline_inference_vision_language.py --model Phi-3-vision-128k-instruct 
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Phi-3-vision-128k-instruct | 1     |  0.142  | 256    | 36.394 |

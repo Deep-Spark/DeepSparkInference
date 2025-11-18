@@ -141,7 +141,7 @@ def run_encode(engine_params, modality: QueryModality):
         print(output.outputs.embedding)
         if output.outputs.embedding is not None:
             print("Offline inference is successful!")
-    num_requests = len(req_data.prompt)  # 请求的数量
+    num_requests = 1  # 请求的数量
     qps = num_requests / duration_time
     print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
 

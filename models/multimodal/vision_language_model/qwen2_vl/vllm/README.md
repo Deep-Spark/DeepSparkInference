@@ -37,3 +37,7 @@ python3 offline_inference_vision_language.py --model /path/to/Qwen2-VL-7B-Instru
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen2-VL-7B-Instruct | 1    |  0.208  | 74    | 15.417 |

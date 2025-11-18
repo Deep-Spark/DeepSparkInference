@@ -48,3 +48,7 @@ python3 offline_inference_vision_language.py --model data/LLamaV3.2 --max-tokens
 ```
 
 ## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| LLamaV3.2 | 1 | 0.07  |  256   | 18.066 |

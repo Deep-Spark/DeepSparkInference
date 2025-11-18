@@ -84,3 +84,8 @@ Starting benchmark client.
 python3 benchmark_serving.py --host 127.0.0.1 --num-prompts 16 --model /data/chatglm/chatglm3-6b --dataset-name sharegpt \
         --dataset-path /data/dataset/ShareGPT_V3_unfiltered_cleaned_split.json --sharegpt-output-len 130 --trust-remote-code
 ```
+## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| chatglm3-6b | 3 | 0.498  |  664   | 110.353 |

@@ -37,3 +37,9 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 export CUDA_VISIBLE_DEVICES=0,1
 python3 offline_inference_vision_language.py --model ./data/intern_vl/InternVL2-4B --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 2048
 ```
+
+## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| InternVL2-4B | 1 | 0.211  |  206   | 43.496 |

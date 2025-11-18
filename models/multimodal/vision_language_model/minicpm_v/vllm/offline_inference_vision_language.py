@@ -19,7 +19,7 @@ from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset
 from vllm.lora.request import LoRARequest
 from vllm.utils import FlexibleArgumentParser
-
+import time
 
 class ModelRequestData(NamedTuple):
     engine_args: EngineArgs
@@ -233,7 +233,6 @@ def main(args):
 
     start_time = time.perf_counter()
     if args.time_generate:
-        import time
         start_time = time.time()
         outputs = llm.generate(inputs, sampling_params=sampling_params)
         elapsed_time = time.time() - start_time
@@ -250,7 +249,7 @@ def main(args):
         num_tokens += len(o.outputs[0].token_ids)
         generated_text = o.outputs[0].text
         print(generated_text)
-    num_requests = len(inputs)  # 请求的数量
+    num_requests = args.num_prompts  # 请求的数量
     qps = num_requests / duration_time
     print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
 

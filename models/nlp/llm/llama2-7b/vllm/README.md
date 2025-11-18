@@ -39,3 +39,9 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 python3 offline_inference.py --model ./data/llama2/llama2-7b --max-tokens 256 -tp 1 --temperature 0.0
 python3 offline_inference.py --model ./data/llama2/llama2-7b --max-tokens 256 -tp 2 --temperature 0.0
 ```
+
+## Model Results
+
+| Model   | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| llama2-7b | 4     |  0.61  | 1024    | 156.383 |
