@@ -137,7 +137,7 @@ def run_encode(engine_params, modality: QueryModality):
     duration_time = end_time - start_time
     num_tokens = 0
     for output in outputs:
-        num_tokens += len(output.outputs[0].token_ids)
+        num_tokens += len(output.outputs.embedding)
         print(output.outputs.embedding)
         if output.outputs.embedding is not None:
             print("Offline inference is successful!")

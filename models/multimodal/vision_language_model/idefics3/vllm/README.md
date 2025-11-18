@@ -48,3 +48,7 @@ python3 offline_inference_vision_language.py --model-type idefics3
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| Idefics3-8B-Llama3 | 4   |  0.574  | 215    | 30.858 |

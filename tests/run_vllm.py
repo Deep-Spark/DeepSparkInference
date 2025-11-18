@@ -215,13 +215,13 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096
             """
-        # elif model_name == "aria": # need 8gpus to run
-        #     script = f"""
-        #     set -x
-        #     cd ../{model['model_path']}
-        #     export VLLM_ASSETS_CACHE=../vllm/
-        #     python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
-        #     """
+        elif model_name == "aria":
+            script = f"""
+            set -x
+            cd ../{model['model_path']}
+            export VLLM_ASSETS_CACHE=../vllm/
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+            """
         elif model_name == "chameleon_7b" or model_name == "fuyu_8b":
             script = f"""
             set -x

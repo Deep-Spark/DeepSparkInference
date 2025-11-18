@@ -46,3 +46,7 @@ python3 offline_inference_vision_language.py --model-type minicpmv
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| MiniCPM-V-2_6 | 4    |  0.289  | 250    | 18.104 |

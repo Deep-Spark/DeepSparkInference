@@ -75,7 +75,7 @@ if __name__ == "__main__":
     num_tokens = 0
     # Print the outputs.
     for output in outputs:
-        num_tokens += len(output.outputs[0].token_ids)
+        num_tokens += len(output.outputs.embedding)
         print(output.outputs.embedding) # list of hidden_size floats
         print("Offline inference is successful!")
     num_requests = len(prompts)  # 请求的数量

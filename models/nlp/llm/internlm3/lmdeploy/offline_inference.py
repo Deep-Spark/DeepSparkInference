@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import argparse
+import time
 from lmdeploy import pipeline, GenerationConfig, PytorchEngineConfig
 
 def main(args):
@@ -35,10 +36,21 @@ def main(args):
         'role': 'user',
         'content': '请介绍一下上海'
     }]]
+    start_time = time.perf_counter()
     response = pipe(prompts, gen_config=gen_config)
-    print(response)
-    if response is not None:
-        print("Offline inference is successful!")
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+
+    num_tokens = 0
+    # Print the outputs.
+    for i, output in enumerate(response):
+        prompt = prompts[i]  # show the origin prompt. actully prompt is "output.prompt"
+        generated_text = output.text
+        num_tokens += len(output.token_ids)
+        print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
+    num_requests = len(prompts)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

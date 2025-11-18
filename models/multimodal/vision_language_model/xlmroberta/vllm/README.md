@@ -41,3 +41,7 @@ python3 offline_inference_embedding.py --model data/multilingual-e5-large -tp 2
 ```
 
 ## Model Results
+
+| Model           | requests | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: | :----: |
+| multilingual-e5-large | 4    | 14.851  |  4096   | 15207.863 |
