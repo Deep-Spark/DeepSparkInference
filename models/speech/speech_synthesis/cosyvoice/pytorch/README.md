@@ -20,6 +20,7 @@ Pretrained model: <https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B>
 
 ```bash
 pip3 install -r requirements.txt
+pip3 install onnxruntime==1.18.0
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
 # If you failed to clone the submodule due to network failures, please run the following command until success
 cd CosyVoice

@@ -25,3 +25,4 @@ else
 fi
 
 cp -r ../../vllm_public_assets/ ./
+pip install /mnt/deepspark/install/transformers-4.45.2+corex.4.3.0-py3-none-any.whl

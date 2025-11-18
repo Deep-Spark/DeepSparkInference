@@ -30,7 +30,8 @@ mkdir data/
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+Contact the Iluvatar administrator to get the missing packages:
+- transformers-4.45.2+corex.4.3.0-py3-none-any.whl
 
 ```bash
 # Install libGL
