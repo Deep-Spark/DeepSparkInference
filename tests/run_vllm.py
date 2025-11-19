@@ -220,7 +220,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+            python3 offline_inference_vision_language.py --model ./{model_name} --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
             """
         elif model_name == "chameleon_7b" or model_name == "fuyu_8b":
             script = f"""
@@ -370,6 +370,11 @@ def run_nlp_testcase(model):
             python3 offline_inference_embedding.py --model ./multilingual-e5-large -tp 2
             """
 
+        # add benchmark vllm script
+        script += f"""
+            cp -r /mnt/deepspark/data/repos/vllm ./
+            python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code
+        """
         r, t = run_script(script)
         sout = r.stdout
         pattern = r"requests: (\d+), QPS: ([\d.]+), tokens: ([\d.]+), Token/s: ([\d.]+)"
@@ -381,6 +386,12 @@ def run_nlp_testcase(model):
             result["result"][prec]["tokens"] = int(matchs.group(3))
             result["result"][prec]["Token/s"] = float(matchs.group(4))
             result["result"][prec]["status"] = "PASS"
+            benchmark_pattern = r"Throughput: ([\d.]+) requests/s, ([\d.]+) total tokens/s, ([\d.]+) output tokens/s"
+            benchmark_matchs = re.search(benchmark_pattern, sout)
+            if benchmark_matchs:
+                result["result"][prec]["Benchmark QPS"] = float(benchmark_matchs.group(1))
+                result["result"][prec]["Benchmark Total TPS"] = float(benchmark_matchs.group(2))
+                result["result"][prec]["Benchmark Output TPS"] = float(benchmark_matchs.group(3))
         else:
             pattern = r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x"
             matchs = re.search(pattern, sout)

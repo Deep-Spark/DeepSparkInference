@@ -52,3 +52,7 @@ curl http://{server_ip}:{server_port}/v1/chat/completions \
 ```
 
 ## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| internlm3-8b-instruct | 2 | 0.089  |  1187   | 53.076 |

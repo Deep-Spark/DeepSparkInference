@@ -35,3 +35,7 @@ python3 offline_inference_vision_language_embedding.py  --model /path/to/e5-v/  
 ```
 
 ## Model Results
+
+| Model  | requests | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: | :----: |
+| e5-v | 1 | 0.405  |  4096   | 1661.495 |

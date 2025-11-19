@@ -45,7 +45,7 @@ apt install -y libgl1-mesa-glx
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/Aria --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+python3 offline_inference_vision_language.py --model data/Aria --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
 ```
 
 ## Model Results
