@@ -372,6 +372,7 @@ def run_nlp_testcase(model):
 
         # add benchmark vllm script
         script += f"""
+            pip3 install datasets
             cp -r /mnt/deepspark/data/repos/vllm ./
             python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code
         """
