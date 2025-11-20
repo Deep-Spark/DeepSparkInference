@@ -371,11 +371,18 @@ def run_nlp_testcase(model):
             """
 
         # add benchmark vllm script
-        script += f"""
-            pip3 install datasets
-            cp -r /mnt/deepspark/data/repos/vllm ./
-            python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code
-        """
+        if model["category"] == "nlp/llm":
+            script += f"""
+                pip3 install datasets
+                cp -r /mnt/deepspark/data/repos/vllm ./
+                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096
+            """
+        # elif model["category"] == "multimodal/vision_language_model":
+        #     script += f"""
+        #         pip3 install datasets
+        #         cp -r /mnt/deepspark/data/repos/vllm ./
+        #         python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --backend vllm-chat --dataset-name hf --dataset-path ./VisionArena-Chat --num-prompts 1000 --hf-split train
+        #     """
         r, t = run_script(script)
         sout = r.stdout
         pattern = r"requests: (\d+), QPS: ([\d.]+), tokens: ([\d.]+), Token/s: ([\d.]+)"
