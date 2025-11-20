@@ -96,6 +96,7 @@ def run_nlp_testcase(model):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
+    export CUDA_VISIBLE_DEVICES=0,1,3,4
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
     pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
@@ -377,7 +378,7 @@ def run_nlp_testcase(model):
                 script += f"""
                 pip3 install datasets
                 cp -r /mnt/deepspark/data/repos/vllm ./
-                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --chat-template template_baichuan.jinja --max-model-len 896
+                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 896 -tp 2
                 """
             # elif model_name == "qwen1.5-32b" or model_name == "deepseek-r1-distill-qwen-32b":
             #     script += f"""
