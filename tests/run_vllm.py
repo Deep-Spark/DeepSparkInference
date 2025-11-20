@@ -371,18 +371,40 @@ def run_nlp_testcase(model):
             """
 
         # add benchmark vllm script
-        if model["category"] == "nlp/llm":
+        # for LLM models except baichuan2-7b, llama2-7b, qwen-7b and stablelm because these models have no chat template support in vllm benchmark script
+        if model["category"] == "nlp/llm" and model_name not in ["baichuan2-7b", "llama2-7b", "qwen-7b", "stablelm"]:
+            if model_name == "qwen1.5-14b":
+                script += f"""
+                pip3 install datasets
+                cp -r /mnt/deepspark/data/repos/vllm ./
+                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --chat-template template_baichuan.jinja --max-model-len 896
+                """
+            # elif model_name == "qwen1.5-32b" or model_name == "deepseek-r1-distill-qwen-32b":
+            #     script += f"""
+            #     pip3 install datasets
+            #     cp -r /mnt/deepspark/data/repos/vllm ./
+            #     python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4
+            #     """
+            # elif model_name == "deepseek-r1-distill-qwen-14b":
+            #     script += f"""
+            #     pip3 install datasets
+            #     cp -r /mnt/deepspark/data/repos/vllm ./
+            #     python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 2
+            #     """
+            else:
+                script += f"""
+                    pip3 install datasets
+                    cp -r /mnt/deepspark/data/repos/vllm ./
+                    python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4
+                """
+        elif model["category"] == "multimodal/vision_language_model":
             script += f"""
                 pip3 install datasets
                 cp -r /mnt/deepspark/data/repos/vllm ./
-                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096
+                mkdir -p lmarena-ai
+                ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/
+                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --backend vllm-chat --dataset-name hf --dataset-path lmarena-ai/VisionArena-Chat --num-prompts 1000 --hf-split train -tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code
             """
-        # elif model["category"] == "multimodal/vision_language_model":
-        #     script += f"""
-        #         pip3 install datasets
-        #         cp -r /mnt/deepspark/data/repos/vllm ./
-        #         python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --backend vllm-chat --dataset-name hf --dataset-path ./VisionArena-Chat --num-prompts 1000 --hf-split train
-        #     """
         r, t = run_script(script)
         sout = r.stdout
         pattern = r"requests: (\d+), QPS: ([\d.]+), tokens: ([\d.]+), Token/s: ([\d.]+)"
