@@ -205,14 +205,17 @@ def run_nlp_testcase(model):
             """
         elif model_name.startswith("deepseek-r1-distill-"):
             if model_name == "deepseek-r1-distill-qwen-32b":
-                tp = 4
+                script = f"""
+                set -x
+                cd ../{model['model_path']}
+                CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 4 --temperature 0.0 --max-model-len 3096
+                """
             else:
-                tp = 2
-            script = f"""
-            set -x
-            cd ../{model['model_path']}
-            python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096
-            """
+                script = f"""
+                set -x
+                cd ../{model['model_path']}
+                python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 2 --temperature 0.0 --max-model-len 3096
+                """
         elif model_name == "aria":
             script = f"""
             set -x
