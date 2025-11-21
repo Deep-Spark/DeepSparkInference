@@ -14,7 +14,7 @@
 # limitations under the License.
 
 import argparse
-from transformers import AutoModelForCausalLM
+from transformers import AutoModel
 import torch
 
 def get_model_precision(model_name_or_path):
@@ -43,7 +43,7 @@ def get_model_precision(model_name_or_path):
     # 2. Load model config and check dtype (requires loading, might be slow for large models)
     try:
         # Load the model (this can be heavy)
-        model = AutoModelForCausalLM.from_pretrained(
+        model = AutoModel.from_pretrained(
             model_name_or_path,
             trust_remote_code=True,
             # torch_dtype=torch.float16, # Avoid forcing dtype here initially
