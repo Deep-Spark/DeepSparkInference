@@ -19,7 +19,7 @@ import torch
 
 def get_model_precision(model_name_or_path):
     try:
-        config = AutoConfig.from_pretrained(model_name_or_path)
+        config = AutoConfig.from_pretrained(model_name_or_path, trust_remote_code=True)
         dtype_str = getattr(config, "torch_dtype", None)
         if dtype_str:
             if dtype_str == torch.bfloat16:

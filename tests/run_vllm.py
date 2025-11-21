@@ -400,7 +400,7 @@ def run_nlp_testcase(model):
                     CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4
                     python3 /workspace/deepsparkinference/tests/check_precision.py ./{model_name}
                 """
-        elif model["category"] == "multimodal/vision_language_model" and model_name not in ["fuyu_8b", "chameleon_7b", "llava", "llava_next_video_7b",]: # ["aria", "chameleon_7b", "fuyu_8b", "h2vol", "llama-3.2", "pixtral", "llava", "llava_next_video_7b", "intern_vl", "qwen_vl", "qwen2_vl", "qwen2_5_vl", "glm-4v", "phi3_v", "paligemma"]:
+        elif model["category"] == "multimodal/vision_language_model" and model_name not in ["fuyu_8b", "chameleon_7b", "llava", "llava_next_video_7b", "paligemma", "glm-4v", "qwen_vl", "pixtral", "xlmroberta"]:
             script += f"""
                 pip3 install datasets
                 cp -r /mnt/deepspark/data/repos/vllm ./
