@@ -39,6 +39,7 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
+pip install transformers==4.53.0
 ```
 
 ## Model Inference
