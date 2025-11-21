@@ -96,7 +96,6 @@ def run_nlp_testcase(model):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
-    export CUDA_VISIBLE_DEVICES=0,1,3,4
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
     pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
     bash ci/prepare.sh
@@ -156,7 +155,6 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=0,1
             python3 offline_inference.py --model ./qwen-7b --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
             """
         elif model_name == "qwen1.5-7b":
@@ -175,7 +173,7 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            python3 offline_inference.py --model ./qwen1.5-32b --max-tokens 256 -tp 4 --temperature 0.0
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference.py --model ./qwen1.5-32b --max-tokens 256 -tp 4 --temperature 0.0
             """
         # elif model_name == "qwen1.5-72b": # need 8gpus to run
         #     script = f"""
@@ -220,7 +218,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
             """
         elif model_name == "chameleon_7b" or model_name == "fuyu_8b":
             script = f"""
@@ -240,7 +238,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
             """
         elif model_name == "minicpm_v":
             script = f"""
@@ -261,21 +259,21 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --tokenizer-mode 'mistral'
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --tokenizer-mode 'mistral'
             """
         elif model_name == "llava":
             script = f"""
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next --max-model-len 4096
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next --max-model-len 4096
             """
         elif model_name == "llava_next_video_7b":
             script = f"""
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next-video --modality video --dtype bfloat16
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next-video --modality video --dtype bfloat16
             """
         elif model_name == "intern_vl":
             script = f"""
@@ -304,7 +302,7 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
             export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --max-num-seqs 5
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --max-num-seqs 5
             """
         elif model_name == "qwen2_5_vl":
             script = f"""
@@ -312,7 +310,7 @@ def run_nlp_testcase(model):
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
             export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
-            python3 offline_inference_vision_language.py --model ./{model_name} -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
             """
         elif model_name == "e5-v":
             script = f"""
@@ -325,7 +323,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --hf-overrides '{{"architectures": ["GLM4VForCausalLM"]}}'
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --hf-overrides '{{"architectures": ["GLM4VForCausalLM"]}}'
             """
         elif model_name == "internlm3":
             # lmdeploy pipline requires model path to be a huggingface model id
@@ -352,7 +350,7 @@ def run_nlp_testcase(model):
             set -x
             cd ../{model['model_path']}
             export VLLM_ASSETS_CACHE=../vllm/
-            python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --max-model-len 4096 --temperature 0.0
+            CUDA_VISIBLE_DEVICES=0,1,3,4 python3 offline_inference_vision_language.py --model ./{model_name} --max-tokens 256 -tp 4 --trust-remote-code --max-model-len 4096 --temperature 0.0
             """
         elif model_name == "paligemma":
             script = f"""
@@ -378,6 +376,7 @@ def run_nlp_testcase(model):
                 pip3 install datasets
                 cp -r /mnt/deepspark/data/repos/vllm ./
                 python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 896 -tp 2
+                python3 /workspace/deepsparkinference/tests/check_precision.py ./{model_name}
                 """
             # elif model_name == "qwen1.5-32b" or model_name == "deepseek-r1-distill-qwen-32b":
             #     script += f"""
@@ -395,7 +394,8 @@ def run_nlp_testcase(model):
                 script += f"""
                     pip3 install datasets
                     cp -r /mnt/deepspark/data/repos/vllm ./
-                    python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4
+                    CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt --num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4
+                    python3 /workspace/deepsparkinference/tests/check_precision.py ./{model_name}
                 """
         elif model["category"] == "multimodal/vision_language_model":
             script += f"""
@@ -403,7 +403,8 @@ def run_nlp_testcase(model):
                 cp -r /mnt/deepspark/data/repos/vllm ./
                 mkdir -p lmarena-ai
                 ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/
-                python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --backend vllm-chat --dataset-name hf --dataset-path lmarena-ai/VisionArena-Chat --num-prompts 1000 --hf-split train -tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code
+                CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py --model ./{model_name} --backend vllm-chat --dataset-name hf --dataset-path lmarena-ai/VisionArena-Chat --num-prompts 1000 --hf-split train -tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code
+                python3 /workspace/deepsparkinference/tests/check_precision.py ./{model_name}
             """
         r, t = run_script(script)
         sout = r.stdout
@@ -418,10 +419,23 @@ def run_nlp_testcase(model):
             result["result"][prec]["status"] = "PASS"
             benchmark_pattern = r"Throughput: ([\d.]+) requests/s, ([\d.]+) total tokens/s, ([\d.]+) output tokens/s"
             benchmark_matchs = re.search(benchmark_pattern, sout)
+            precision_pattern = r"is likely:\s*([A-Z0-9]+(?:\s*\([^)]*\))?|OTHER\s*\([^)]*\))"
+            precision_match = re.search(precision_pattern, sout)
+            precision_value = "UNKNOWN"
+            if precision_match:
+                precision_str = precision_match.group(1).strip()
+                main_precision_match = re.match(r'^([A-Z0-9]+)', precision_str)
+                if main_precision_match:
+                    precision_value = main_precision_match.group(1)
+                elif precision_str.startswith('OTHER'):
+                    precision_value = 'OTHER'
+                else:
+                    precision_value = precision_str # Return as is if it doesn't match the simple prefix pattern
             if benchmark_matchs:
                 result["result"][prec]["Benchmark QPS"] = float(benchmark_matchs.group(1))
                 result["result"][prec]["Benchmark Total TPS"] = float(benchmark_matchs.group(2))
                 result["result"][prec]["Benchmark Output TPS"] = float(benchmark_matchs.group(3))
+                result["result"][prec]["Benchmark Markdown"] = f"| {model["display_name"]} | {precision_value} | {float(benchmark_matchs.group(1))} | {float(benchmark_matchs.group(2))} | {float(benchmark_matchs.group(3))} |"
         else:
             pattern = r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x"
             matchs = re.search(pattern, sout)
