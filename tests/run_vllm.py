@@ -435,7 +435,7 @@ def run_nlp_testcase(model):
                 result["result"][prec]["Benchmark QPS"] = float(benchmark_matchs.group(1))
                 result["result"][prec]["Benchmark Total TPS"] = float(benchmark_matchs.group(2))
                 result["result"][prec]["Benchmark Output TPS"] = float(benchmark_matchs.group(3))
-                result["result"][prec]["Benchmark Markdown"] = f"| {model["display_name"]} | {precision_value} | {float(benchmark_matchs.group(1))} | {float(benchmark_matchs.group(2))} | {float(benchmark_matchs.group(3))} |"
+                result["result"][prec]["Benchmark Markdown"] = "| " + model["display_name"] + " | " + precision_value + " | " + str(float(benchmark_matchs.group(1))) + " | " + str(float(benchmark_matchs.group(2))) + " | " + str(float(benchmark_matchs.group(3))) + " |"
         else:
             pattern = r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x"
             matchs = re.search(pattern, sout)
