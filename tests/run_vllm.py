@@ -175,7 +175,6 @@ def run_nlp_testcase(model):
             script = f"""
             set -x
             cd ../{model['model_path']}
-            export CUDA_VISIBLE_DEVICES=0,1,2,3
             python3 offline_inference.py --model ./qwen1.5-32b --max-tokens 256 -tp 4 --temperature 0.0
             """
         # elif model_name == "qwen1.5-72b": # need 8gpus to run
