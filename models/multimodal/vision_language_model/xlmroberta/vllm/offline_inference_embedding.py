@@ -63,10 +63,21 @@ if __name__ == "__main__":
     # Create an LLM.
     llm = LLM(**engine_params)
 
+    
+    
+    
+    start_time = time.perf_counter()
     # skip process chat template
     # Generate embedding. The output is a list of EmbeddingRequestOutputs.
     outputs = llm.encode(prompts)
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     # Print the outputs.
     for output in outputs:
+        num_tokens += len(output.outputs.embedding)
         print(output.outputs.embedding) # list of hidden_size floats
         print("Offline inference is successful!")
+    num_requests = len(prompts)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")

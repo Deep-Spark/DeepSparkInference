@@ -36,3 +36,7 @@ python3 offline_inference_vision_language.py --model /path/to/Qwen-VL-Chat -tp 1
 ```
 
 ## Model Results
+
+| Model  | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: |
+| Qwen-VL-Chat |  0.901 | 15    | 13.517 |

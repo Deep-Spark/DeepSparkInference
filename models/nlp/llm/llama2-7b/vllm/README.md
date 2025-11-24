@@ -23,7 +23,7 @@ and contribute to the responsible development of LLMs.
 - Model: <https://huggingface.co/meta-llama/Llama-2-7b>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/llama2-7b/vllm
+cd ${DeepSparkInference}/models/nlp/llm/llama2-7b/vllm
 mkdir -p data/llama2
 ln -s /path/to/llama2-7b ./data/llama2
 ```
@@ -39,3 +39,28 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 python3 offline_inference.py --model ./data/llama2/llama2-7b --max-tokens 256 -tp 1 --temperature 0.0
 python3 offline_inference.py --model ./data/llama2/llama2-7b --max-tokens 256 -tp 2 --temperature 0.0
 ```
+
+## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+If you raise "AttributeError: LlamaTokenizerFast has no attribute default_chat_template.", please add below code into tokenizer_config.json
+
+```json
+"chat_template": "{{- '<s>[INST] ' -}}{%- for message in messages -%}{%- if loop.first and message['role'] == 'system' -%}{{- '<<SYS>>\n' + message['content'] + '\n<</SYS>>\n' -}}{%- elif message['role'] == 'user' and loop.index <= 2 -%}{{- message['content'] + ' [/INST]' -}}{%- elif message['role'] == 'user' -%}{{- '<s>[INST] ' + message['content'] + ' [/INST]' -}}{%- elif message['role'] == 'assistant' -%}{{- ' ' + message['content'] + ' </s>' -}}{%- endif -%}{%- endfor -%}",
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| llama2-7b | FP16     | 1.76  | 1171.87    | 264.29 |

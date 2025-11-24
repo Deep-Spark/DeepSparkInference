@@ -27,7 +27,7 @@ Qwen2-7B-Instruct supports a context length of up to 131,072 tokens, enabling th
 - Model: <https://modelscope.cn/models/Qwen/Qwen2-7B-Instruct>
 
 ```bash
-cd models/nlp/large_language_model/qwen2-7b/vllm
+cd models/nlp/llm/qwen2-7b/vllm
 mkdir -p data/qwen2
 ln -s /path/to/Qwen2-7B-Instruct ./data/qwen2
 ```
@@ -43,3 +43,22 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 export CUDA_VISIBLE_DEVICES=0
 python3 offline_inference.py --model ./data/qwen2/Qwen2-7B-Instruct --max-tokens 256 -tp 1 --temperature 0.0
 ```
+
+## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen2-7B | BF16 | 2.71 | 1873.92 | 406.84 |

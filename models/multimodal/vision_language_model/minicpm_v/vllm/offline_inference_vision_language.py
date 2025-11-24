@@ -19,7 +19,7 @@ from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset
 from vllm.lora.request import LoRARequest
 from vllm.utils import FlexibleArgumentParser
-
+import time
 
 class ModelRequestData(NamedTuple):
     engine_args: EngineArgs
@@ -35,26 +35,6 @@ class ModelRequestData(NamedTuple):
 # MiniCPM-V
 def run_minicpmv_base(questions: list[str], modality: str, model_name):
     assert modality in ["image", "video"]
-    # If you want to use `MiniCPM-o-2_6` with audio inputs, check `audio_language.py` # noqa
-
-    # 2.0
-    # The official repo doesn't work yet, so we need to use a fork for now
-    # For more details, please see: See: https://github.com/vllm-project/vllm/pull/4087#issuecomment-2250397630 # noqa
-    # model_name = "HwwwH/MiniCPM-V-2"
-
-    # 2.5
-    # model_name = "openbmb/MiniCPM-Llama3-V-2_5"
-
-    # 2.6
-    # model_name = "openbmb/MiniCPM-V-2_6"
-    # o2.6
-
-    # modality supports
-    # 2.0: image
-    # 2.5: image
-    # 2.6: image, video
-    # o2.6: image, video, audio
-    # model_name = "openbmb/MiniCPM-o-2_6"
     tokenizer = AutoTokenizer.from_pretrained(model_name,
                                               trust_remote_code=True)
     engine_args = EngineArgs(
@@ -64,14 +44,7 @@ def run_minicpmv_base(questions: list[str], modality: str, model_name):
         trust_remote_code=True,
         disable_mm_preprocessor_cache=args.disable_mm_preprocessor_cache,
     )
-    # NOTE The stop_token_ids are different for various versions of MiniCPM-V
-    # 2.0
-    # stop_token_ids = [tokenizer.eos_id]
 
-    # 2.5
-    # stop_token_ids = [tokenizer.eos_id, tokenizer.eot_id]
-
-    # 2.6 / o2.6
     stop_tokens = ['<|im_end|>', '<|endoftext|>']
     stop_token_ids = [tokenizer.convert_tokens_to_ids(i) for i in stop_tokens]
 
@@ -106,12 +79,6 @@ model_example_map = {
 
 
 def get_multi_modal_input(args):
-    """
-    return {
-        "data": image or video,
-        "question": question,
-    }
-    """
     if args.modality == "image":
         # Input image and question
         image = ImageAsset("cherry_blossom") \
@@ -231,8 +198,8 @@ def main(args):
                 },
             } for i in range(args.num_prompts)]
 
+    start_time = time.perf_counter()
     if args.time_generate:
-        import time
         start_time = time.time()
         outputs = llm.generate(inputs, sampling_params=sampling_params)
         elapsed_time = time.time() - start_time
@@ -241,10 +208,17 @@ def main(args):
     else:
         outputs = llm.generate(inputs, sampling_params=sampling_params)
 
+    outputs = llm.generate(inputs, sampling_params=sampling_params)
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     for o in outputs:
+        num_tokens += len(o.outputs[0].token_ids)
         generated_text = o.outputs[0].text
         print(generated_text)
-
+    num_requests = args.num_prompts  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
 
 if __name__ == "__main__":
     parser = FlexibleArgumentParser(

@@ -48,3 +48,22 @@ python3 offline_inference_vision_language.py --model data/h2ovl-mississippi-800m
 ```
 
 ## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --backend vllm-chat \
+  --dataset-name hf \
+  --dataset-path lmarena-ai/VisionArena-Chat \
+  --num-prompts 10 \
+  --hf-split train
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| H2OVL Mississippi | BF16 | 0.65 | 995.39 | 82.8 |

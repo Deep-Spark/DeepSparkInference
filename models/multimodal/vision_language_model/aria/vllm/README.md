@@ -39,13 +39,33 @@ yum install -y mesa-libGL
 ## Ubuntu
 apt install -y libgl1-mesa-glx
 
+pip install transformers==4.53.0
 ```
 
 ## Model Inference
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/Aria --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16 --tokenizer-mode slow
+python3 offline_inference_vision_language.py --model data/Aria --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
 ```
 
 ## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --backend vllm-chat \
+  --dataset-name hf \
+  --dataset-path lmarena-ai/VisionArena-Chat \
+  --num-prompts 10 \
+  --hf-split train
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Aria | BF16 | 0.31 | 136.92 | 39.3 |

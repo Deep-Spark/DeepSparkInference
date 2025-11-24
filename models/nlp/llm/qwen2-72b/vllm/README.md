@@ -28,7 +28,7 @@ Please refer to this section for detailed instructions on how to deploy Qwen2 fo
 - Model: <https://modelscope.cn/models/Qwen/Qwen2-72B-Instruct>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen2-72b/vllm
+cd ${DeepSparkInference}/models/nlp/llm/qwen2-72b/vllm
 mkdir -p data/qwen2
 ln -s /path/to/Qwen2-72B ./data/qwen2
 ```

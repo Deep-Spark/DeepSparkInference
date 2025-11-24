@@ -42,3 +42,9 @@ apt install -y libgl1-mesa-glx
 export VLLM_ASSETS_CACHE=../vllm/
 python3 offline_inference_vision_language.py --model ./data/chameleon-7b --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
 ```
+
+## Model Results
+
+| Model  | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: |
+| chameleon-7b | 0.136   |  118    | 16.073 |

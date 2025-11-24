@@ -30,7 +30,8 @@ mkdir data/
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+Contact the Iluvatar administrator to get the missing packages:
+- transformers-4.45.2+corex.4.3.0-py3-none-any.whl
 
 ```bash
 # Install libGL
@@ -46,3 +47,9 @@ apt install -y libgl1-mesa-glx
 export VLLM_ASSETS_CACHE=../vllm/
 python3 offline_inference_vision_language.py --model ./data/fuyu-8b --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
 ```
+
+## Model Results
+
+| Model  | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: |
+| fuyu-8b | 0.326   |  17   | 5.379 |

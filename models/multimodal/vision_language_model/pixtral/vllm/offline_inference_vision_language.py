@@ -24,6 +24,7 @@ on HuggingFace model repository.
 import sys
 from pathlib import Path
 import io
+import time
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import argparse
 import dataclasses
@@ -37,7 +38,7 @@ from utils import sampling_add_cli_args
 # Pixtral
 def run_pixtral(question,engine_params):
 
-    prompt = prompt = f"{question}"
+    prompt = f"{question}"
     # Note: The default setting of max_num_seqs (256) and
     # max_model_len (128k) for this model may cause OOM.
     # You may lower either to run this example on lower-end GPUs.
@@ -79,7 +80,7 @@ if __name__ == "__main__":
     image = image.convert("RGB")
     image_data = io.BytesIO()
     image.save(image_data, format='JPEG')
-    image_base64 = image_base64 = base64.b64encode(image_data.getvalue()).decode("utf-8")
+    image_base64 = base64.b64encode(image_data.getvalue()).decode("utf-8")
 
     messages = [
         # {"role": "system", "content": SYSTEM_PROMPT},
@@ -98,6 +99,15 @@ if __name__ == "__main__":
         },
     ]
 
+    start_time = time.perf_counter()
     outputs = llm.chat(messages, sampling_params=sampling_params)
-
-    print(outputs[0].outputs[0].text)
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
+    for o in outputs:
+        num_tokens += len(o.outputs[0].token_ids)
+        generated_text = o.outputs[0].text
+        print(generated_text)
+    num_requests = len(messages)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")

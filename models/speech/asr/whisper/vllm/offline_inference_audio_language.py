@@ -19,6 +19,7 @@
 
 Run `pytest tests/models/encoder_decoder/audio/test_whisper.py`.
 """
+import time
 from typing import Optional
 
 import argparse
@@ -120,11 +121,18 @@ def run_whisper(engine_params,sampling_param,model_name) -> None:
     llm = LLM(**engine_params)
     sampling_params = SamplingParams(**sampling_param)
 
+    
+    start_time = time.perf_counter()
     outputs = llm.generate(prompt_list, sampling_params)
-
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     for output, expected in zip(outputs, expected_list):
+        num_tokens += len(output.outputs[0].token_ids)
         print(output.outputs[0].text)
-        # assert output.outputs[0].text == expected
+    num_requests = len(prompt_list)  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
         
 
 if __name__ == "__main__":

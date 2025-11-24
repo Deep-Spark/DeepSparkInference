@@ -63,7 +63,26 @@ python3 offline_inference.py --model /data/baichuan/Baichuan2-7B-Base/int8/ --ch
 
 ## Model Results
 
-| Model        | Precision | tokens | QPS    |
-| :----: | :----: | :----: | :----: |
-| Baichuan2-7B | FP16      | 768    | 109.27 |
-| Baichuan2-7B | w8a16     | 740    | 59.82  |
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+If you raise "AttributeError: BaichuanTokenizer has no attribute default_chat_template.", please add below code into tokenizer_config.json
+
+```json
+"chat_template": "{{ (messages|selectattr('role', 'equalto', 'system')|list|last).content|trim if (messages|selectattr('role', 'equalto', 'system')|list) else '' }}{%- for message in messages -%}{%- if message['role'] == 'user' -%}{{- '<reserved_106>' + message['content'] -}}{%- elif message['role'] == 'assistant' -%}{{- '<reserved_107>' + message['content'] -}}{%- endif -%}{%- endfor -%}{%- if add_generation_prompt and messages[-1]['role'] != 'assistant' -%}{{- '<reserved_107>' -}}{% endif %}"
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Baichuan2-7B | FP16     | 1.69  | 1168.23    | 252.90 |
+| Baichuan2-7B | w8a16    | 0.248  | 740    | 61.318  |

@@ -64,6 +64,19 @@ python3 server_inference.py --host 127.0.0.1 --port 12345 --model_path /data/cha
 
 ## Model Results
 
-| Model           | Precision | tokens | QPS    |
-| :----: | :----: | :----: | :----: |
-| ChatGLM3-6B-32K | FP16      | 745    | 110.85 |
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| ChatGLM-3-6B-32K | FP16 | 2.72 | 1696.6 | 407.38 |
