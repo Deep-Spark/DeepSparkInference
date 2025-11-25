@@ -24,7 +24,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.openslr.org/33/aishell",
-            "download_url": "http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp",
+            "download_url": "https://wenet-1256283475.cos.ap-shanghai.myqcloud.com/models/wenetspeech/20211025_conformer_exp",
             "need_third_part": true,
             "precisions": [
                 "fp16"
@@ -57,7 +57,7 @@
             "github_branch": "",
             "github_path": "",
             "datasets": "https://www.openslr.org/33/aishell.tar.gz",
-            "download_url": "http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz",
+            "download_url": "https://wenet-1256283475.cos.ap-shanghai.myqcloud.com/models/wenetspeech/20211025_conformer_exp",
             "need_third_part": true,
             "precisions": [
                 "fp16"
