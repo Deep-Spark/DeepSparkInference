@@ -14,6 +14,22 @@
 #    under the License.
 set -euo pipefail
 
+batchsize=24
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 EXIT_STATUS=0
 check_status()
 {
@@ -40,7 +56,7 @@ python3 build_engine.py \
 
 python3 ixrt_inference_performance.py \
     --infer_type fp16 \
-    --batch_size ${BATCH_SIZE:=24} \
+    --batch_size ${batchsize} \
     --data_dir ${DATA_DIR}  \
     --model_dir ${MODEL_DIR} "$@"; check_status
 exit ${EXIT_STATUS}

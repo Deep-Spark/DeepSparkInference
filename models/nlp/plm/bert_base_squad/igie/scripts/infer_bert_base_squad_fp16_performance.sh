@@ -16,6 +16,21 @@
 #    under the License.
 
 batchsize=8
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 seqlen=256
 input_shape=${batchsize},${seqlen}
 model_path="bert-base-uncased-squad-v1.onnx"
