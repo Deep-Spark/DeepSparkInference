@@ -18,7 +18,7 @@ Conformer applies convolution to the Encoder layer of Transformer, enhancing the
 
 ### Prepare Resources
 
-Pretrained model: <http://mobvoi-speech-public.ufile.ucloud.cn/public/wenet/aishell/20211025_conformer_exp.tar.gz>
+Pretrained model: <https://wenet-1256283475.cos.ap-shanghai.myqcloud.com/models/wenetspeech/20211025_conformer_exp.tar.gz>
 
 Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 

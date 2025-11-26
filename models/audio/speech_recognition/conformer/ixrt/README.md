@@ -15,7 +15,7 @@ Conformer is a speech recognition model proposed by Google in 2020. It combines 
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/wenet-e2e/wenet/blob/main/docs/pretrained_models.en.md>
+Pretrained model: <https://github.com/wenet-e2e/wenet/blob/main/docs/pretrained_models.md>
 
 Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 
