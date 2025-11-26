@@ -19,6 +19,20 @@ batchsize=${BATCH_SIZE:-"32"}
 model_path="yolox"
 datasets_path=${DATASETS_DIR}
 
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 # quant
 python3 python/quant.py             \
         --model_name ${model_path}  \

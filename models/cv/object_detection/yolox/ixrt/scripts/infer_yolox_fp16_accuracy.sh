@@ -18,6 +18,20 @@
 batchsize=${BATCH_SIZE:-"32"}
 model_path="yolox"
 datasets_path=${DATASETS_DIR}
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
 DECODER_INPUT_NAMES="/head/obj_preds.0/Conv_output_0 /head/cls_preds.0/Conv_output_0 /head/reg_preds.1/Conv_output_0 /head/cls_preds.1/Conv_output_0 /head/reg_preds.2/Conv_output_0 /head/obj_preds.2/Conv_output_0 /head/cls_preds.2/Conv_output_0"
 
 # cut onnx

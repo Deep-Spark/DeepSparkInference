@@ -20,6 +20,20 @@ model_path="deepsort_opt.onnx"
 quantized_model_path="deepsort_opt_int8.onnx"
 datasets_path=${DATASETS_DIR}
 
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 if [ ! -e $quantized_model_path ]; then
     # quantize model to int8
     python3 quantize.py                       \

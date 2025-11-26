@@ -19,6 +19,20 @@ batchsize=32
 model_path="vit_opt.onnx"
 datasets_path=${DATASETS_DIR}
 
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 # build engine
 python3 ../../igie_common/build_engine.py          \
     --model_path ${model_path}                     \
