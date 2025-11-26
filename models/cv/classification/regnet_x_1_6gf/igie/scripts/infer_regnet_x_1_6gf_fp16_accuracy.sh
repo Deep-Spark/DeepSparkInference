@@ -19,6 +19,20 @@ batchsize=32
 model_path="regnet_x_1_6gf.onnx"
 datasets_path=${DATASETS_DIR}
 
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
+
 # build engine
 python3 ${RUN_DIR}build_engine.py                     \
     --model_path ${model_path}              \
