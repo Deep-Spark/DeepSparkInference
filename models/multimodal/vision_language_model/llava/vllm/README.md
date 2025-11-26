@@ -57,3 +57,9 @@ export VLLM_ASSETS_CACHE=../vllm/
 export CUDA_VISIBLE_DEVICES=0,1,2,3
 python3 offline_inference_vision_language.py --model /path/to/model --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next --max-model-len 4096
 ```
+
+## Model Results
+
+| Model  | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: |
+| llava | 0.286  |  118   | 33.238 |

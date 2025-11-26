@@ -23,6 +23,7 @@ For most models, the prompt format should follow corresponding examples
 on HuggingFace model repository.
 """
 from argparse import Namespace
+import time
 from typing import Literal, NamedTuple, Optional, TypedDict, Union, get_args
 import io
 import base64
@@ -127,17 +128,22 @@ def run_encode(engine_params, modality: QueryModality):
     if req_data.image is not None:
         mm_data["image"] = req_data.image
 
+    start_time = time.perf_counter()
     outputs = req_data.llm.embed({
         "prompt": req_data.prompt,
         "multi_modal_data": mm_data,
     })
-
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     for output in outputs:
+        num_tokens += len(output.outputs.embedding)
         print(output.outputs.embedding)
         if output.outputs.embedding is not None:
             print("Offline inference is successful!")
-
-
+    num_requests = 1  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
 
 if __name__ == "__main__":
     parser = FlexibleArgumentParser(

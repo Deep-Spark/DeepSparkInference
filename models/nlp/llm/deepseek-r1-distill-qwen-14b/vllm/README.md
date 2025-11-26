@@ -51,9 +51,22 @@ vllm serve data/DeepSeek-R1-Distill-Qwen-14B --tensor-parallel-size 2 --max-mode
 
 ## Model Results
 
-| Model                        | QPS   |
-| :----: | :----: |
-| DeepSeek-R1-Distill-Qwen-14B | 88.01 |
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| DeepSeek-R1-Distill-Qwen-14B | BF16 | 1.72 | 1108.68 | 258.27 |
 
 ## References
 

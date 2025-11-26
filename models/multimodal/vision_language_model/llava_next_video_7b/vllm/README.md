@@ -43,3 +43,9 @@ apt install -y libgl1-mesa-glx
 export VLLM_ASSETS_CACHE=../vllm/
 python3 offline_inference_vision_language.py --model ./data/LLaVA-NeXT-Video-7B-hf --max-tokens 256 -tp 4 --trust-remote-code --temperature 0.0 --model-type llava-next-video --modality video  --dtype bfloat16
 ```
+
+## Model Results
+
+| Model  | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: |
+| llava | 0.214 |  162   | 34.674 |

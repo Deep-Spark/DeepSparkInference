@@ -37,3 +37,22 @@ python3 offline_inference_vision_language.py --model /path/to/Qwen2.5-VL-3B-Inst
 ```
 
 ## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --backend vllm-chat \
+  --dataset-name hf \
+  --dataset-path lmarena-ai/VisionArena-Chat \
+  --num-prompts 10 \
+  --hf-split train
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen2.5-VL | BF16 | 0.4 | 339.56 | 50.84 |

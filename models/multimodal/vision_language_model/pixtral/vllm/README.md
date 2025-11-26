@@ -42,3 +42,7 @@ python3 offline_inference_2411_w4a16.py --model data/Pixtral-Large-Instruct-2411
 ```
 
 ## Model Results
+
+| Model  | QPS | tokens | Token/s |
+| :----: | :----: | :----: | :----: |
+| Pixtral-12B-2409 | 0.117  |  256   | 30.053 |

@@ -84,3 +84,21 @@ Starting benchmark client.
 python3 benchmark_serving.py --host 127.0.0.1 --num-prompts 16 --model /data/chatglm/chatglm3-6b --dataset-name sharegpt \
         --dataset-path /data/dataset/ShareGPT_V3_unfiltered_cleaned_split.json --sharegpt-output-len 130 --trust-remote-code
 ```
+## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| ChatGLM-3-6B | FP16 | 2.67 | 1673.69 | 400.72 |

@@ -33,5 +33,10 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
 python3 offline_inference_vision_language.py --model data/paligemma-3b-pt-224 --max-tokens 256  --trust-remote-code --temperature 0.0 
+```
 
 ## Model Results
+
+| Model  | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: |
+| paligemma-3b-pt-224 | 0.152  | 23    | 3.516 |

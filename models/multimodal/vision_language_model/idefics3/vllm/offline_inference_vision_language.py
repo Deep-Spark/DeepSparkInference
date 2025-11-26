@@ -19,6 +19,7 @@ from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset
 from vllm.lora.request import LoRARequest
 from vllm.utils import FlexibleArgumentParser
+import time
 
 class ModelRequestData(NamedTuple):
     engine_args: EngineArgs
@@ -64,12 +65,6 @@ model_example_map = {
 }
 
 def get_multi_modal_input(args):
-    """
-    return {
-        "data": image or video,
-        "question": question,
-    }
-    """
     if args.modality == "image":
         # Input image and question
         image = ImageAsset("cherry_blossom") \
@@ -189,8 +184,8 @@ def main(args):
                 },
             } for i in range(args.num_prompts)]
 
+    start_time = time.perf_counter()
     if args.time_generate:
-        import time
         start_time = time.time()
         outputs = llm.generate(inputs, sampling_params=sampling_params)
         elapsed_time = time.time() - start_time
@@ -198,10 +193,16 @@ def main(args):
 
     else:
         outputs = llm.generate(inputs, sampling_params=sampling_params)
-
+    end_time = time.perf_counter()
+    duration_time = end_time - start_time
+    num_tokens = 0
     for o in outputs:
+        num_tokens += len(o.outputs[0].token_ids)
         generated_text = o.outputs[0].text
         print(generated_text)
+    num_requests = args.num_prompts  # 请求的数量
+    qps = num_requests / duration_time
+    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
 
 
 if __name__ == "__main__":

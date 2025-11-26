@@ -22,7 +22,7 @@ not include GQA (except for 32B) and the mixture of SWA and full attention.
 - Model: <https://modelscope.cn/models/qwen/Qwen1.5-7B/summary>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-7b/text-generation-inference
+cd ${DeepSparkInference}/models/nlp/llm/qwen1.5-7b/text-generation-inference
 mkdir -p data/qwen1.5
 ln -s /path/to/Qwen1.5-7B ./data/qwen1.5
 ```

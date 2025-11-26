@@ -23,7 +23,7 @@ developing intelligent agent applications. It also includes specialized versions
 - Model: - Model: <https://modelscope.cn/models/qwen/Qwen-7B/summary>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen-7b/vllm
+cd ${DeepSparkInference}/models/nlp/llm/qwen-7b/vllm
 mkdir -p data/qwen
 ln -s /path/to/Qwen-7B ./data/qwen
 ```
@@ -39,3 +39,9 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 export CUDA_VISIBLE_DEVICES=0,1
 python3 offline_inference.py --model ./data/qwen/Qwen-7B-Chat --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
 ```
+
+## Model Results
+
+| Model  | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: |
+| Qwen-7B-Chat | 0.581  | 603    | 116.919 |

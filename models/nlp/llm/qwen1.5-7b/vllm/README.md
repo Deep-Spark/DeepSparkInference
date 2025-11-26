@@ -22,7 +22,7 @@ not include GQA (except for 32B) and the mixture of SWA and full attention.
 - Model: <https://modelscope.cn/models/qwen/Qwen1.5-7B/summary>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-7b/vllm
+cd ${DeepSparkInference}/models/nlp/llm/qwen1.5-7b/vllm
 mkdir -p data/qwen1.5
 ln -s /path/to/Qwen1.5-7B ./data/qwen1.5
 ```
@@ -45,6 +45,19 @@ python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-7B --max-tokens 256 
 
 ## Model Results
 
-| Model      | QPS    |
-| :----: | :----: |
-| Qwen1.5-7B | 109.56 |
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen1.5-7B | BF16 | 2.78 | 1929.43 | 417.08 |

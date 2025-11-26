@@ -35,3 +35,7 @@ python3 offline_inference_audio_language.py --model /path/to/whisper-large-v3-tu
 ```
 
 ## Model Results
+
+| Model  | QPS | tokens | Token/s    |
+| :----: | :----: | :----: | :----: |
+| whisper-large-v3-turbo | 9.186 | 1300    | 597.146 |

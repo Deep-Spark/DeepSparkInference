@@ -17,11 +17,11 @@
 set -x
 apt update
 apt-get install sox libsox-dev
-
+pip3 install -r requirements.txt
+pip3 install onnxruntime==1.18.0
 cp -r /mnt/deepspark/data/repos/CosyVoice ./
 cd CosyVoice
 mkdir -p pretrained_models
 ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
-pip3 install -r requirements.txt
 
 cp ../inference_test.py ./

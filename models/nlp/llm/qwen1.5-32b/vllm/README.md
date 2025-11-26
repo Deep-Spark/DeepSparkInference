@@ -21,7 +21,7 @@ have an improved tokenizer adaptive to multiple natural languages and codes.
 - Model: <https://modelscope.cn/models/Qwen/Qwen1.5-32B-Chat>
 
 ```bash
-cd ${DeepSparkInference}/models/nlp/large_language_model/qwen1.5-32b/vllm
+cd ${DeepSparkInference}/models/nlp/llm/qwen1.5-32b/vllm
 mkdir -p data/qwen1.5
 ln -s /path/to/Qwen1.5-32B ./data/qwen1.5
 ```
@@ -37,3 +37,22 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 export CUDA_VISIBLE_DEVICES=0,1,2,3
 python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-32B-Chat --max-tokens 256 -tp 4 --temperature 0.0
 ```
+
+## Model Results
+
+### Benchmarking vLLM
+
+```bash
+git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
+python3 vllm/benchmarks/benchmark_throughput.py \
+  --model {model_name} \
+  --dataset-name sonnet \
+  --dataset-path vllm/benchmarks/sonnet.txt \
+  --num-prompts 10
+```
+
+### Benchmarking Results
+
+| Model | Precision  | QPS | Total TPS | Output TPS |
+| :----: | :----: | :----: | :----: | :----: |
+| Qwen1.5-32B | BF16 | 1.1 | 756.57 | 164.26 |
