@@ -2493,7 +2493,8 @@
             "download_url": "https://download.openmmlab.com/mmclassification/v0/resnet/resnetv1d50_b32x8_imagenet_20210531-db14775a.pth",
             "need_third_part": false,
             "precisions": [
-                "fp16"
+                "fp16",
+                "int8"
             ],
             "type": "inference",
             "hasDemo": false,

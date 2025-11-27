@@ -83,6 +83,8 @@ def post_process(args, prior_data, locs, confs, landms, resizes, img_files, net_
         dets = np.concatenate((dets, landm), axis=1)
 
         # --------------------------------------------------------------------
+        if img_name.startswith("/"):
+            img_name = img_name[1:]
         save_name = os.path.join(args.save_folder, f"{img_name[:-4]}.txt")
         dirname = os.path.dirname(save_name)
         if not os.path.isdir(dirname):
