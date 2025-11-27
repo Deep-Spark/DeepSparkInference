@@ -16,6 +16,7 @@ YOLOv4 employs a two-step process, involving regression for bounding box positio
 ### Prepare Resources
 
 Pretrained cfg: <https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg>
+
 Pretrained model: <https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights>
 
 Dataset:
