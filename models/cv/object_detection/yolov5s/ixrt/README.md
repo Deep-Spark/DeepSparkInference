@@ -18,9 +18,10 @@ The YOLOv5 architecture is designed for efficient and accurate object detection 
 Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -48,6 +49,7 @@ coco
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
@@ -63,18 +65,18 @@ pip3 install -r ../../ixrt_common/requirements.txt
 ### Model Conversion
 
 ```bash
-mkdir -p checkpoints
-git clone https://github.com/ultralytics/yolov5
-# 切换到需要的版本分支
-pushd yolov5/
-git checkout v6.1
+mkdir checkpoints
+git clone -b v6.1 --depth 1 https://github.com/ultralytics/yolov5
 
 # 有一些环境需要安装
 wget https://ultralytics.com/assets/Arial.ttf
-mkdir -p /root/.config/Ultralytics
 cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
 
 # 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
+pushd ./yolov5
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '96 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
+
 python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
 mv yolov5s.onnx ../checkpoints
 popd
