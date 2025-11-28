@@ -72,7 +72,6 @@
 | Whisper                       | `vLLM`       | [✅](models/speech/asr/whisper/vllm/)                               | 4.3.0     |
 | XLMRoberta                    | `vLLM`       | [✅](models/multimodal/vision_language_model/xlmroberta/vllm)       | 4.3.0     |
 
-
 ### 计算机视觉（CV）
 
 #### 视觉分类

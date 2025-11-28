@@ -17,9 +17,10 @@ YOLOv8n combines exceptional speed and competitive accuracy in real-time object 
 Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -47,6 +48,7 @@ coco
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash

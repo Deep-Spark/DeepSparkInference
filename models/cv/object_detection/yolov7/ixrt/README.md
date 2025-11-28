@@ -18,9 +18,10 @@ YOLOv7 is an object detection model based on the YOLO (You Only Look Once) serie
 Pretrained model: <https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -48,6 +49,7 @@ coco
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
@@ -63,12 +65,17 @@ pip3 install -r ../../ixrt_common/requirements.txt
 ### Model Conversion
 
 ```bash
-
 git clone https://github.com/WongKinYiu/yolov7.git
-cd yolov7
+
+pushd ./yolov7
+git checkout a207844b1ce82d204ab36d87d496728d3d2348e7
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '252 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
+
 python3 export.py --weights yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 16
 mkdir /Your_Projects/To/checkpoints
 mv yolov7.onnx /Path/to/checkpoints/yolov7m.onnx
+popd
 ```
 
 ## Model Inference

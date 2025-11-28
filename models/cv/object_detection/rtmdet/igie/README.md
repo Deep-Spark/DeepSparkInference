@@ -18,10 +18,11 @@ RTMDet, presented by the Shanghai AI Laboratory, is a novel framework for real-t
 Pretrained model: <https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
-  - <http://images.cocodataset.org/annotations/annotations_trainval2017.zip> to download the annotations dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+- <http://images.cocodataset.org/annotations/annotations_trainval2017.zip> to download the annotations dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -59,6 +60,7 @@ wget https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
