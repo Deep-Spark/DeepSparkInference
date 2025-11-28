@@ -17,9 +17,10 @@ YOLOF is a lightweight object detection model that focuses on single-level featu
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/yolof/yolof_r50_c5_8x8_1x_coco/yolof_r50_c5_8x8_1x_coco_20210425_024427-8e864411.pth>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -47,6 +48,7 @@ coco
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash

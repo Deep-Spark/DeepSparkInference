@@ -18,9 +18,10 @@ The FSAF (Feature Selective Anchor-Free) module is an innovative component for s
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/fsaf/fsaf_r50_fpn_1x_coco/fsaf_r50_fpn_1x_coco-94ccc51f.pth>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -52,6 +53,7 @@ wget https://download.openmmlab.com/mmdetection/v2.0/fsaf/fsaf_r50_fpn_1x_coco/f
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash

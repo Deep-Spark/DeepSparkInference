@@ -18,9 +18,10 @@ HRNet is an advanced deep learning architecture for human pose estimation, chara
 Pretrained model: <https://download.openmmlab.com/mmdetection/v2.0/hrnet/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco/fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
@@ -48,6 +49,7 @@ coco
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
+
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash

@@ -17,9 +17,10 @@ YOLOv12 achieves high precision and efficient real-time object detection by inte
 Pretrained model: <https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12n.pt>
 
 Dataset:
-  - <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
-  - <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
-  - <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
+
+- <https://github.com/ultralytics/assets/releases/download/v0.0.0/coco2017labels.zip> to download the labels dataset.
+- <http://images.cocodataset.org/zips/val2017.zip> to download the validation dataset.
+- <http://images.cocodataset.org/zips/train2017.zip> to download the train dataset.
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
