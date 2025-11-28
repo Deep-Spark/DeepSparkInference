@@ -47,6 +47,9 @@ python3 change2dynamic.py --model_path open_wide_deep_saved_model/widedeep_sim.o
 ## Model Inference
 
 ```bash
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
+
 export ORIGIN_ONNX_NAME=./open_wide_deep_saved_model/widedeep_sim
 export OPTIMIER_FILE=${IXRT_OSS_ROOT}/tools/optimizer/optimizer.py
 export PROJ_PATH=./

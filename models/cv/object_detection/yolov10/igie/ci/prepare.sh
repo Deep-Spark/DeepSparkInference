@@ -27,7 +27,7 @@ fi
 
 pip3 install -r requirements.txt
 
-git clone --depth 1 https://github.com/THU-MIG/yolov10.git
+cp -r /mnt/deepspark/data/3rd_party/yolov10 ./
 
 cd yolov10
 pip3 install -e . --no-deps

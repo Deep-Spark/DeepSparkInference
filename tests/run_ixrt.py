@@ -289,7 +289,7 @@ def run_detec_testcase(model):
         logging.info(f"Start running {model_name} {prec} test case")
         result["result"].setdefault(prec, {})
         result["result"].setdefault(prec, {"status": "FAIL"})
-        if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof"]:
+        if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
             script = f"""
             cd ../{model['model_path']}
             export DATASETS_DIR=./{dataset_n}/

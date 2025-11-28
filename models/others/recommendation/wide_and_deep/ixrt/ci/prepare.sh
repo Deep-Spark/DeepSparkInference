@@ -19,6 +19,9 @@ set -x
 apt install -y libnuma-dev
 
 pip install -r requirements.txt
+git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
+cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byte_infer_perf/general_perf/backends/ILUVATAR/
+
 cp -r /root/data/checkpoints/open_wide_deep_saved_model ./
 python3 export_onnx.py --model_path open_wide_deep_saved_model --output_path open_wide_deep_saved_model/widedeep.onnx
 
