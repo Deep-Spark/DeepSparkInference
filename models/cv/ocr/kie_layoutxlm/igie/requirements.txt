@@ -9,3 +9,4 @@ paddle2onnx==1.3.0
 python-bidi
 protobuf==3.20.3
 aistudio-sdk==0.2.6
+numpy==1.26.4
