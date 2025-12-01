@@ -1,7 +1,0 @@
-onnx
-nvidia-pyindex
-onnx-graphsurgeon
-cuda-python
-onnxruntime-gpu
-typeguard
-onnxmltools

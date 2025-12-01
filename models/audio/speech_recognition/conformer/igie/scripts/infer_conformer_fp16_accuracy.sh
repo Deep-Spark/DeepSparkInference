@@ -14,10 +14,8 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
+set -euo pipefail
 batchsize=24
-seqlen=384
-model_path="encoder_bs24_seq384_static_opt_matmul.onnx"
 
 # Update arguments
 index=0
@@ -33,22 +31,33 @@ done
 
 echo "batch size is ${batchsize}"
 
-# build engine
-python3 build_engine.py                                                                     \
-    --model_path ${model_path}                                                              \
-    --input speech:${batchsize},${seqlen},80 speech_lengths:${batchsize}                    \
-    --precision fp16                                                                        \
-    --engine_path encoder_bs${batchsize}_seq${seqlen}_fp16.so
+EXIT_STATUS=0
+check_status()
+{
+    ret_code=${PIPESTATUS[0]}
+    if [ ${ret_code} != 0 ]; then
+    echo "fails"
+    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
+    fi
+}
 
-# inference
-python3 inference.py                                          \
-  --engine encoder_bs${batchsize}_seq${seqlen}_fp16.so        \
-  --input speech speech_lengths                               \
-  --label text                                                \
-  --config train.yaml                                         \
-  --test_data data.list                                       \
-  --dict lang_char.txt                                        \
-  --mode ctc_greedy_search                                    \
-  --batch_size ${batchsize}                                   \
-  --seq_len ${seqlen}                                         \
-  --result_file conformer_output_log
+current_path=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+
+PROJECT_DIR=${current_path}/..
+DATA_DIR=${current_path}/../aishell_test_data/test
+MODEL_DIR=${current_path}/../conformer_checkpoints
+
+export Accuracy=${Accuracy:=0.05}
+
+cd ${PROJECT_DIR}
+
+python3 build_engine.py \
+        --onnx_model ${MODEL_DIR}/conformer_fp16_trt.onnx  \
+        --engine ${MODEL_DIR}/conformer_fp16_trt.engine "$@" ;check_status 
+
+python3 ixrt_inference_accuracy.py \
+    --infer_type fp16 \
+    --batch_size ${batchsize} \
+    --data_dir ${DATA_DIR}  \
+    --model_dir ${MODEL_DIR} "$@"; check_status
+exit ${EXIT_STATUS}

@@ -18,17 +18,17 @@ set -x
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
+    apt install sox libsox-fmt-all -y
 elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
+    yum install sox sox-devel -y
 else
     echo "Not Support Os"
 fi
 
 pip3 install -r requirements.txt
 
-ln -s /root/data/checkpoints/conformer_checkpoints.tar.gz ./
-tar xf conformer_checkpoints.tar.gz
+ln -s /root/data/checkpoints/conformer_checkpoints.tar ./
+tar xf conformer_checkpoints.tar
 cp /root/data/datasets/aishell_test_data.tar ./
 tar xf aishell_test_data.tar
 bash scripts/aishell_data_prepare.sh ./aishell_test_data ./tools
