@@ -54,9 +54,9 @@ fi
 echo "Step 2: Downloading model file and config to ./data/bert_base_uncased_squad"
 
 if [ ! -d "./bert_base_uncased_squad" ]; then
-    wget https://drive.google.com/file/d/1_q7SaiZjwysJ3jWAIQT2Ne-duFdgWivR/view?usp=drive_link
-    unzip bert_base_uncased_squad.zip -d ./
-    rm -f bert_base_uncased_squad.zip
+    wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/bert_base_uncased_squad.tar
+    tar -xvf bert_base_uncased_squad.tar -C ./
+    rm -f bert_base_uncased_squad.tar
 else 
     echo 'bert_base_uncased_squad directory existed'
 fi

@@ -3259,7 +3259,8 @@
             "download_url": "https://drive.google.com/open?id=1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz",
             "need_third_part": "",
             "precisions": [
-                "fp16"
+                "fp16",
+                "int8"
             ],
             "type": "inference",
             "hasDemo": false,
