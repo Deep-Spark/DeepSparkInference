@@ -3,3 +3,4 @@ onnx
 onnxsim
 librosa
 soundfile
+pycuda

@@ -547,11 +547,6 @@ def run_speech_testcase(model):
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
 
-    if model["need_third_part"] and model_name == "conformer":
-        prepare_script += "unzip -q /mnt/deepspark/data/3rd_party/kenlm.zip -d ./ctc_decoder/swig/kenlm\n"
-        prepare_script += "unzip -q /mnt/deepspark/data/3rd_party/ThreadPool.zip -d ./ctc_decoder/swig/ThreadPool\n"
-        prepare_script += "tar -xzvf /mnt/deepspark/data/3rd_party/openfst-1.6.3.tar.gz -C ./ctc_decoder/swig/\n"
-
     prepare_script += """
     export PYTHONPATH=`pwd`/wenet:$PYTHONPATH
     echo $PYTHONPATH
@@ -589,10 +584,17 @@ def run_speech_testcase(model):
                 result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
-            result["result"][prec].update(get_metric_result(matchs[0]))
-            result["result"][prec]["status"] = "PASS"
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        if matchs:
+            if len(matchs) == 1:
+                result["result"].setdefault(prec, {})
+                result["result"][prec].update(get_metric_result(matchs[0]))
+                result["result"][prec]["status"] = "PASS"
+            else:
+                for m in matchs:
+                    result["result"][prec].update(get_metric_result(m))
+                if len(matchs) == 2:
+                    result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result

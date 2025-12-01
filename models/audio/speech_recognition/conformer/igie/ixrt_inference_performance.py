@@ -178,6 +178,10 @@ def main():
     print(f"Recognize {num_samples} sentences, {QPS} sentences/s")
     target_qps = float(os.environ["Accuracy"])
     print("QPS: = ", QPS, "target QPS: ", target_qps)
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["QPS"] = round(QPS, 3)
+    metricResult["metricResult"]["target QPS"] = round(target_qps, 3)
+    print(metricResult)
     if QPS >= target_qps:
         print("pass!")
         exit()
