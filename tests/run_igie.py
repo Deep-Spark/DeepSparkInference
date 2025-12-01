@@ -54,6 +54,10 @@ def main():
         logging.error("mode config is empty")
         sys.exit(-1)
 
+    if model["latest_sdk"] < "4.3.0":
+        logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
+        sys.exit(-1)
+
     result = {}
     if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
