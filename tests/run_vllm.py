@@ -53,6 +53,10 @@ def main():
         logging.error("mode config is empty")
         sys.exit(-1)
 
+    if model["latest_sdk"] < "4.3.0":
+        logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
+        sys.exit(-1)
+
     result = {}
     # NLP模型
     if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr", "speech/speech_synthesis"]:
