@@ -21,8 +21,8 @@ Dataset: <https://www.openslr.org/33/> to download the Aishell dataset.
 
 ```bash
 # Download and put model in conformer_checkpoints
-wget http://files.deepspark.org.cn:880/deepspark/conformer_checkpoints.tar.gz
-tar xf conformer_checkpoints.tar.gz
+wget http://files.deepspark.org.cn:880/deepspark/conformer_checkpoints.tar
+tar xf conformer_checkpoints.tar
 
 # Prepare AISHELL Data
 DATA_DIR=/PATH/to/aishell_test_data
@@ -35,9 +35,9 @@ bash scripts/aishell_data_prepare.sh ${DATA_DIR} ${TOOL_DIR}
 ```bash
 # Install libGL
 ## CentOS
-yum install -y mesa-libGL
+yum install sox sox-devel -y
 ## Ubuntu
-apt install -y libgl1-mesa-glx
+apt install sox libsox-fmt-all -y
 
 pip3 install -r requirements.txt
 ```
@@ -57,4 +57,4 @@ bash scripts/infer_conformer_fp16_performance.sh
 
 | Model     | BatchSize | Precision | QPS     | CER    |
 | --------- | --------- | --------- | ------- | ------ |
-| Conformer | 24        | FP16      | 387.821 | 0.0517 |
+| Conformer | 24        | FP16      | 1408.352 | 0.0497 |
