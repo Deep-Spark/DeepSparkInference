@@ -52,12 +52,6 @@ unzip facenet_datasets.zip
 
 ## Model Inference
 
-Because there are differences in model export, it is necessary to verify the following information before executing inference: In deploy.py, "/last_bn/BatchNormalization_output_0" refers to the output name of the BatchNormalization node in the exported ONNX model, such as "1187". "/avgpool_1a/GlobalAveragePool_output_0" refers to the output name of the GlobalAveragePool node, such as "1178". Additionally, make sure to update "/last_bn/BatchNormalization_output_0" in build_engine.py to the corresponding name, such as "1187".
-
-```bash
-sed -i -e 's#/last_bn/BatchNormalization_output_0#1187#g' -e 's#/avgpool_1a/GlobalAveragePool_output_0#1178#g' deploy.py build_engine.py
-```
-
 ### FP16
 
 ```bash

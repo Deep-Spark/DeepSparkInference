@@ -15,7 +15,13 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 
 ### Prepare Resources
 
-Get `bert-large-uncased.zip` from [GoogleDrive](https://drive.google.com/file/d/1eD8QBkbK6YN-_YXODp3tmpp3cZKlrPTA/view?usp=drive_link)
+```bash
+mkdir -p data/datasets
+mkdir -p data/checkpoints
+wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/bert-large-uncased.tar
+tar -xvf bert-large-uncased.tar -C data/checkpoints
+wget https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json -O data/datasets/dev-v1.1.json
+```
 
 ### Install Dependencies
 
