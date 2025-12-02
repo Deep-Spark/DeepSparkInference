@@ -30,8 +30,9 @@ pip3 install -r requirements.txt
 # clone yolov4
 cp -r /root/data/3rd_party/yolov4 ./
 
-mkdir checkpoints
+mkdir data
 # export onnx model
-python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight /root/data/checkpoints/yolov4.weights --output yolov4.onnx
-mv yolov4.onnx checkpoints/yolov4.onnx
-
+python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight /root/data/checkpoints/yolov4.weights --batchsize 16 --output data/yolov4.onnx
+mv yolov4_16_3_608_608_static.onnx data/yolov4.onnx
+onnxsim data/yolov4.onnx data/yolov4_sim.onnx
+ln -s /root/data/datasets/coco data/coco

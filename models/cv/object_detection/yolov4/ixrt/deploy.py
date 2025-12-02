@@ -1,7 +1,73 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
+import copy
+
+from tensorrt.deploy.api import *
+from tensorrt.deploy.backend.onnx.converter import default_converter
+from tensorrt.deploy.backend.torch.executor.operators._operators import to_py_type
+from tensorrt.deploy.ir.operator_attr import BaseOperatorAttr, EmptyAttr
+from tensorrt.deploy.ir.operator_type import OperatorType as OP
+from tensorrt.deploy.ir import operator_attr as attr, Operator, generate_operator_name
+from tensorrt.deploy.fusion import BasePass, PatternGraph, build_sequence_graph, GraphMatcher, PassSequence
+from tensorrt.deploy.ir import Graph
+from tensorrt.deploy.quantizer.quant_operator.base import quant_single_input_operator
+from tensorrt.deploy.backend.onnx.converter import convert_onnx_operator
 from tensorrt.deploy.api import GraphTransform, create_source, create_target
+
+class FuseMishPass(BasePass):
+    def process(self, graph: Graph) -> Graph:
+        pattern = build_sequence_graph([OP.SOFTPLUS, OP.TANH, OP.MUL])
+
+        matcher = GraphMatcher(pattern, strict=False)
+        self.transform = GraphTransform(graph)
+        matcher.findall(graph, self.fuse_mish)
+        return graph
+
+    def fuse_mish(self, graph: Graph, pattern_graph: PatternGraph):
+        softplus = pattern_graph.nodes[0].operator
+        mul = pattern_graph.nodes[-1].operator
+
+        if not self.can_fused(graph, pattern_graph):
+            return
+
+        self.transform.delete_operators_between_op_op(softplus, mul)
+
+        mish_op = Operator(
+            name=generate_operator_name(graph, pattern="Mish_{idx}"),
+            op_type=OP.MISH,
+            inputs=copy.copy(softplus.inputs),
+            outputs=copy.copy(mul.outputs),
+        )
+        mish_op.is_quant_operator = softplus.is_quant_operator and mul.is_quant_operator
+        graph.add_operator(mish_op)
+
+    def can_fused(self, graph: Graph, pattern_graph: PatternGraph):
+        softplus = pattern_graph.nodes[0].operator
+        mul = pattern_graph.nodes[-1].operator
+
+        # 检查 Softplus, tanh 的输出是不是只有一个 OP 使用
+        # 如果有多个 OP 使用，则不能融合
+        for node in pattern_graph.nodes[:2]:
+            next_ops = graph.get_next_operators(node.operator)
+            if len(next_ops) != 1:
+                return False
+
+        # 检查 Mul 的输入是不是和 Softplus 是同源的
+        softplus_prev_op = graph.get_previous_operators(softplus)
+        if len(softplus_prev_op) != 1:
+            return False
+
+        mul_prev_op = graph.get_previous_operators(mul)
+        if len(mul_prev_op) != 2:
+            return False
+
+        for op in mul_prev_op:
+            if op is softplus_prev_op[0]:
+                return True
+
+        return False
+
 
 class Transform:
     def __init__(self, graph):
@@ -86,32 +152,24 @@ def customize_ops(graph, args):
             outputs=["output"],
             axis=1
         )
-    elif args.with_nms:
+    else:
         graph = t.AddConcatOp(
             inputs=["decoder_32", "decoder_16", "decoder_8"],
             outputs=["output"],
             axis=1
         )
 
-        graph.outputs.clear()
-        graph.add_output("output")
-        graph.outputs["output"].dtype = "FLOAT"
-    else:
-        graph.outputs.clear()
-        graph.add_output("decoder_8")
-        graph.outputs["decoder_8"].dtype = "FLOAT"
-        graph.add_output("decoder_16")
-        graph.outputs["decoder_16"].dtype = "FLOAT"
-        graph.add_output("decoder_32")
-        graph.outputs["decoder_32"].dtype = "FLOAT"
+    graph.outputs.clear()
+    graph.add_output("output")
+    graph.outputs["output"].dtype = "FLOAT"
     return graph
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--src", type=str)
     parser.add_argument("--dst", type=str)
     parser.add_argument("--decoder_type", type=str, choices=["YoloV3Decoder", "YoloV5Decoder", "YoloV7Decoder", "YoloxDecoder"])
-    parser.add_argument("--with_nms", type=bool, default=False, help="engine with nms")
     parser.add_argument("--decoder_input_names", nargs='+', type=str)
     parser.add_argument("--decoder8_anchor", nargs='*', type=int)
     parser.add_argument("--decoder16_anchor", nargs='*', type=int)
@@ -125,10 +183,12 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 if __name__ == "__main__":
 
     args = parse_args()
     graph = create_source(args.src)()
     graph = customize_ops(graph, args)
+    graph = FuseMishPass().process(graph)
     create_target(saved_path=args.dst).export(graph)
     print("Surged onnx lies on", args.dst)
