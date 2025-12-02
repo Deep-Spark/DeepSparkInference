@@ -71,25 +71,20 @@ pip3 install -r requirements.txt
 git clone https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
 
 # download weight
-mkdir checkpoints
-wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P checkpoints
+mkdir data
+wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P data
 
 # export onnx model
-python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output yolov4.onnx
-mv yolov4.onnx checkpoints/yolov4.onnx
+python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight data/yolov4.weights --batchsize 16 --output data/yolov4.onnx
+mv yolov4_16_3_608_608_static.onnx data/yolov4.onnx
+
+# Use onnxsim optimize onnx model
+onnxsim data/yolov4.onnx data/yolov4_sim.onnx
+
+# Make sure the dataset path is "data/coco"
 ```
 
 ## Model Inference
-
-```bash
-export PROJ_DIR=./
-export DATASETS_DIR=./coco/
-export CHECKPOINTS_DIR=./checkpoints
-export COCO_GT=./coco/annotations/instances_val2017.json
-export EVAL_DIR=./coco/images/val2017
-export RUN_DIR=./
-export CONFIG_DIR=config/YOLOV4_CONFIG
-```
 
 ### FP16
 
