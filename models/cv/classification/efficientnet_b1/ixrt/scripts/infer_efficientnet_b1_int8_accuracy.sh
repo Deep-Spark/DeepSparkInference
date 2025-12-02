@@ -101,7 +101,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_${BSZ}.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
