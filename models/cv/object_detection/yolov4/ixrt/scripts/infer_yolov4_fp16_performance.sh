@@ -116,7 +116,7 @@ if [ $LAYER_FUSION == "1" ]; then
     let step++
     echo;
     echo [STEP ${step}] : Add Decoder
-    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_fusion_no_cancat.onnx
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_fusion_no_cancat.onnx
     if [ -f $FUSION_ONNX ];then
         echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
     else
@@ -139,7 +139,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}_without_nms.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_bs${BSZ}_without_nms.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
