@@ -28,6 +28,8 @@ def main(config):
     precision = tensorrt.BuilderFlag.INT8 if config.precision == "int8" else tensorrt.BuilderFlag.FP16
     # print("precision : ", precision)
     build_config.set_flag(precision)
+    if config.precision == "int8":
+        build_config.set_flag(tensorrt.BuilderFlag.FP16)
 
     # due to fp16 of elementwise div of swin_v2 will exceed the range of f16 representation， so set fp32.
     if ("swin_v2_s_model_sim" in config.model) and (config.precision == "float16"):

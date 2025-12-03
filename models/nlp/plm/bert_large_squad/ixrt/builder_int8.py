@@ -334,6 +334,7 @@ def build_engine(batch_sizes, sequence_lengths, config, weights_dict):
         network = builder.create_network(explicit_batch_flag) 
         builder_config = builder.create_builder_config()
         builder_config.set_flag(trt.BuilderFlag.INT8)
+        builder_config.set_flag(trt.BuilderFlag.FP16)
 
         # Create the network
         emb_layer = emb_layernorm(builder, network, config, weights_dict, builder_config, sequence_lengths, batch_sizes)
