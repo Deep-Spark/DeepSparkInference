@@ -60,7 +60,10 @@ class WiderFaceDetection(data.Dataset):
         return len(self.imgs_path)
 
     def __getitem__(self, index):
-        img_file = os.path.join(self.image_dir, self.imgs_path[index])
+        img_name = self.imgs_path[index]
+        if img_name.startswith("/"):
+            img_name = img_name[1:]
+        img_file = os.path.join(self.image_dir, img_name)
         img = cv2.imread(img_file, cv2.IMREAD_COLOR)
 
         if self.preproc is not None:
