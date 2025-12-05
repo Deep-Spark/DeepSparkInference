@@ -51,11 +51,11 @@ cd ${PROJECT_DIR}
 
 python3 build_engine.py \
         --onnx_model ${MODEL_DIR}/conformer_fp16_trt.onnx  \
-        --engine ${MODEL_DIR}/conformer_fp16_trt.engine "$@" ;check_status 
+        --engine ${MODEL_DIR}/conformer_fp16_trt.engine;check_status 
 
 python3 ixrt_inference_accuracy.py \
     --infer_type fp16 \
     --batch_size ${batchsize} \
     --data_dir ${DATA_DIR}  \
-    --model_dir ${MODEL_DIR} "$@"; check_status
+    --model_dir ${MODEL_DIR}; check_status
 exit ${EXIT_STATUS}

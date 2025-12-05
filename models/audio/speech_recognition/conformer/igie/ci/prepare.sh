@@ -28,6 +28,7 @@ pip3 install -r requirements.txt
 
 ln -s /mnt/deepspark/data/checkpoints/conformer_checkpoints.tar ./
 tar xf conformer_checkpoints.tar
-cp /mnt/deepspark/data/datasets/aishell_test_data.tar ./
-tar xf aishell_test_data.tar
-bash scripts/aishell_data_prepare.sh ./aishell_test_data ./tools
+ln -s /mnt/deepspark/data/datasets/aishell_test_data ./aishell_test_data
+# cp /mnt/deepspark/data/datasets/aishell_test_data.tar ./
+# tar xf aishell_test_data.tar
+# bash scripts/aishell_data_prepare.sh ./aishell_test_data ./tools
