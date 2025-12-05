@@ -93,7 +93,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_speech_testcase(model)
+            result = run_speech_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -113,7 +113,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -236,6 +236,7 @@ def run_clf_testcase(model, batch_size):
             match_count = 0
             for match in matchs:
                 for name, value in match.groupdict().items():
+                    logging.debug(f"matchs: name: {name}, value: {value}")
                     if value:
                         match_count += 1
                         result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
@@ -268,6 +269,7 @@ def run_clf_testcase(model, batch_size):
     return result
 
 def run_detec_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -295,79 +297,81 @@ def run_detec_testcase(model, batch_size):
     if model_name == "yolov5":
         config_name = "YOLOV5M"
 
+    if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
+        base_script = f"""
+        cd ../{model['model_path']}
+        export DATASETS_DIR=./{dataset_n}/
+        export MODEL_PATH=./{model_name}.onnx
+        export PROJ_DIR=./
+        export CHECKPOINTS_DIR=./checkpoints
+        export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+        export EVAL_DIR=./{dataset_n}/images/val2017
+        export RUN_DIR=../../ixrt_common
+        export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
+        """
+    else:
+        base_script = f"""
+        cd ../{model['model_path']}
+        export DATASETS_DIR=./{dataset_n}/
+        export MODEL_PATH=./{model_name}.onnx
+        export PROJ_DIR=./
+        export CHECKPOINTS_DIR=./checkpoints
+        export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
+        export EVAL_DIR=./{dataset_n}/images/val2017
+        export RUN_DIR=./
+        export CONFIG_DIR=config/{config_name}_CONFIG
+        """
+
     for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        result["result"].setdefault(prec, {})
         result["result"].setdefault(prec, {"status": "FAIL"})
-        if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
-            script = f"""
-            cd ../{model['model_path']}
-            export DATASETS_DIR=./{dataset_n}/
-            export MODEL_PATH=./{model_name}.onnx
-            export PROJ_DIR=./
-            export CHECKPOINTS_DIR=./checkpoints
-            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
-            export EVAL_DIR=./{dataset_n}/images/val2017
-            export RUN_DIR=../../ixrt_common
-            export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
-            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
-            """
-        else:
-            script = f"""
-            cd ../{model['model_path']}
-            export DATASETS_DIR=./{dataset_n}/
-            export MODEL_PATH=./{model_name}.onnx
-            export PROJ_DIR=./
-            export CHECKPOINTS_DIR=./checkpoints
-            export COCO_GT=./{dataset_n}/annotations/instances_val2017.json
-            export EVAL_DIR=./{dataset_n}/images/val2017
-            export RUN_DIR=./
-            export CONFIG_DIR=config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
-            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
+        for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            result["result"].setdefault(prec, {"status": "FAIL"})
+            script = base_script + f"""
+                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
             """
 
-        if model_name == "rtmpose":
-            script = f"""
-                cd ../{model['model_path']}
-                python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg
-                """
+            if model_name == "rtmpose":
+                script = f"""
+                    cd ../{model['model_path']}
+                    python3 predict.py --model data/rtmpose/rtmpose_opt.onnx --precision fp16 --img_path demo/demo.jpg
+                    """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
-        e2e_pattern = r"(?P<E2E>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
-        combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
-        matchs = combined_pattern.finditer(sout)
-        for match in matchs:
-            for name, value in match.groupdict().items():
-                if value:
-                    try:
-                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
-                        break
-                    except ValueError:
-                        print("The string cannot be converted to a float.")
-                        result["result"][prec][name] = value
-        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            try:
-                result["result"][prec][m[0]] = float(m[1])
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec][m[0]] = m[1]
-        if matchs and len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
-        else:
-            pattern = METRIC_PATTERN
+            r, t = run_script(script)
+            sout = r.stdout
+            fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
+            e2e_pattern = r"(?P<E2E>\s*E2E time\s*:\s*(\d+\.\d+)\s)"
+            combined_pattern = re.compile(f"{fps_pattern}|{e2e_pattern}")
+            matchs = combined_pattern.finditer(sout)
+            for match in matchs:
+                for name, value in match.groupdict().items():
+                    if value:
+                        try:
+                            result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                            break
+                        except ValueError:
+                            print("The string cannot be converted to a float.")
+                            result["result"][prec][bs][name] = value
+            pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
             matchs = re.findall(pattern, sout)
-            if matchs and len(matchs) == 1:
-                result["result"][prec].update(get_metric_result(matchs[0]))
+            for m in matchs:
+                try:
+                    result["result"][prec][bs][m[0]] = float(m[1])
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs][m[0]] = m[1]
+            if matchs and len(matchs) == 2:
                 result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Batch Size"] = int(batch_size)
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+            else:
+                pattern = METRIC_PATTERN
+                matchs = re.findall(pattern, sout)
+                if matchs and len(matchs) == 1:
+                    result["result"][prec][bs].update(get_metric_result(matchs[0]))
+                    result["result"][prec]["status"] = "PASS"
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
 
     return result
 
@@ -503,7 +507,8 @@ def run_multi_object_tracking_testcase(model):
     return result
 
 # BERT series models
-def run_nlp_testcase(model):
+def run_nlp_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -535,9 +540,7 @@ def run_nlp_testcase(model):
 
     run_script(prepare_script)
 
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
+    base_script = f"""
         set -x
         cd ../{model['model_path']}
         export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
@@ -545,87 +548,91 @@ def run_nlp_testcase(model):
         export PROJ_PATH=./
         bash scripts/infer_{model_name}_{prec}_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
+    """
+    if model_name == "roformer" or model_name == "wide_and_deep":
+        if model_name == "wide_and_deep":
+            model_name = "widedeep" 
+        base_script += f"""
+        python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-tf-fp32
         """
-        if model_name == "roformer" or model_name == "wide_and_deep":
-            if model_name == "wide_and_deep":
-               model_name = "widedeep" 
-            script += f"""
-            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-tf-fp32
-            """
-        elif model_name == "videobert":
-            script += f"""
-            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-onnx-fp32
-            """
-        else:
-            #  model_name == "roberta" or model_name == "deberta" or model_name == "albert"
-            script += f"""
-            python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-torch-fp32
-            """
+    elif model_name == "videobert":
+        base_script += f"""
+        python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-onnx-fp32
+        """
+    else:
+        #  model_name == "roberta" or model_name == "deberta" or model_name == "albert"
+        base_script += f"""
+        python3 core/perf_engine.py --hardware_type ILUVATAR --task {model_name}-torch-fp32
+        """
 
+    for prec in model["precisions"]:
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        for bs in batch_size_list:
+            logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
+            script = base_script
 
-        if model_name == "bert_base_squad":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}/python
-            bash script/infer_{model_name}_{prec}_ixrt.sh
-            """
-        elif model_name == "bert_large_squad":
-            script = f"""
-            set -x
-            cd ../{model['model_path']}/
-            bash script/infer_bert_large_squad_fp16_accuracy.sh
-            bash script/infer_bert_large_squad_fp16_performance.sh
-            """
-            if prec == "int8":
+            if model_name == "bert_base_squad":
+                script = f"""
+                set -x
+                cd ../{model['model_path']}/python
+                bash script/infer_bert_base_squad_fp16_accuracy.sh --bs {bs}
+                bash script/infer_bert_base_squad_fp16_performance.sh --bs {bs}
+                """
+            elif model_name == "bert_large_squad":
                 script = f"""
                 set -x
                 cd ../{model['model_path']}/
-                bash script/infer_bert_large_squad_int8_accuracy.sh
-                bash script/infer_bert_large_squad_int8_performance.sh
+                bash script/infer_bert_large_squad_fp16_accuracy.sh --bs {bs}
+                bash script/infer_bert_large_squad_fp16_performance.sh --bs {bs}
                 """
+                if prec == "int8":
+                    script = f"""
+                    set -x
+                    cd ../{model['model_path']}/
+                    bash script/infer_bert_large_squad_int8_accuracy.sh --bs {bs}
+                    bash script/infer_bert_large_squad_int8_performance.sh --bs {bs}
+                    """
 
-        r, t = run_script(script)
-        sout = r.stdout
+            r, t = run_script(script)
+            sout = r.stdout
 
-        pattern = r'Throughput: (\d+\.\d+) qps'
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec]["QPS"] = float(m)
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec]["QPS"] = m
+            pattern = r'Throughput: (\d+\.\d+) qps'
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                try:
+                    result["result"][prec][bs]["QPS"] = float(m)
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs]["QPS"] = m
 
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        result["result"].setdefault(prec, {"status": "FAIL"})
-        for m in matchs:
-            result["result"][prec].update(get_metric_result(m))
-            result["result"][prec]["status"] = "PASS"
-        
-        if model_name == "bert_large_squad":
-            patterns = {
-                "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
-                "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
-                "f1": r"\"f1\"\s*:\s*(\d+\.?\d*)"
-            }
-
-            combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
-            matchs = combined_pattern.finditer(sout)
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            for match in matchs:
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                result["result"][prec][bs].update(get_metric_result(m))
                 result["result"][prec]["status"] = "PASS"
-                for name, value in match.groupdict().items():
-                    if value:
-                        result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
-                        break
+            
+            if model_name == "bert_large_squad":
+                patterns = {
+                    "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
+                    "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
+                    "f1": r"\"f1\"\s*:\s*(\d+\.?\d*)"
+                }
 
-        logging.debug(f"matchs:\n{matchs}")
-        result["result"][prec]["Cost time (s)"] = t
+                combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+                matchs = combined_pattern.finditer(sout)
+                for match in matchs:
+                    result["result"][prec]["status"] = "PASS"
+                    for name, value in match.groupdict().items():
+                        if value:
+                            result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                            break
+
+            logging.debug(f"matchs:\n{matchs}")
+            result["result"][prec][bs]["Cost time (s)"] = t
     return result
 
-def run_speech_testcase(model):
+def run_speech_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -649,32 +656,32 @@ def run_speech_testcase(model):
     run_script(prepare_script)
 
     for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
-        cd ../{model['model_path']}
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
-
-        if model_name == "transformer_asr":
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        for bs in batch_size_list:
+            logging.info(f"Start running {model_name} {prec} bs:{bs} test case")
             script = f"""
             cd ../{model['model_path']}
-            python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
             """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
-        result["result"].setdefault(prec, {"status": "FAIL"})
-        logging.debug(f"matchs:\n{matchs}")
-        for m in matchs:
-            result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
+            if model_name == "transformer_asr":
+                script = f"""
+                cd ../{model['model_path']}
+                python3 inference.py hparams/train_ASR_transformer.yaml --data_folder=/home/data/speechbrain/aishell --engine_path transformer.engine 
+                """
 
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+            r, t = run_script(script)
+            sout = r.stdout
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                result["result"][prec][bs].update(get_metric_result(m))
+            if len(matchs) == 2:
+                result["result"][prec]["status"] = "PASS"
+
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
     return result
 
 def run_instance_segmentation_testcase(model):
