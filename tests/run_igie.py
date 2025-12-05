@@ -527,6 +527,7 @@ def run_nlp_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
             script = base_script + f"""
             bash scripts/infer_{model_name}_{prec}_accuracy.sh
@@ -586,6 +587,7 @@ def run_speech_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
             script = base_script + f"""
             bash scripts/infer_{model_name}_{prec}_accuracy.sh

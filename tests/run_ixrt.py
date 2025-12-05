@@ -568,6 +568,7 @@ def run_nlp_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
             script = base_script
 
@@ -658,6 +659,7 @@ def run_speech_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs:{bs} test case")
             script = f"""
             cd ../{model['model_path']}
