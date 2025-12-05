@@ -4864,7 +4864,7 @@
                 "fp16"
             ],
             "type": "inference",
-            "hasDemo": true,
+            "hasDemo": false,
             "demoType": "image"
         },
         {
@@ -4996,7 +4996,7 @@
                 "fp16"
             ],
             "type": "inference",
-            "hasDemo": true,
+            "hasDemo": false,
             "demoType": "image-to-text"
         },
         {
@@ -5360,7 +5360,7 @@
                 "fp16"
             ],
             "type": "inference",
-            "hasDemo": true,
+            "hasDemo": false,
             "demoType": "chat"
         },
         {
