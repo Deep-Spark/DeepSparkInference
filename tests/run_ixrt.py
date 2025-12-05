@@ -49,7 +49,6 @@ def main():
         logging.error("test model case is empty")
         sys.exit(-1)
     batch_size = os.environ.get("BS_LISTS")
-    batch_size_list = batch_size.split(",") if batch_size else []
     model = get_model_config(test_model)
     if not model:
         logging.error("mode config is empty")
@@ -60,25 +59,24 @@ def main():
         sys.exit(-1)
 
     result = {}
-    for bs in batch_size_list:
-        if model["category"] == "cv/classification":
-            logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_clf_testcase(model, bs)
-                check_model_result(result)
-                logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['model_name']} test case.")
+    if model["category"] == "cv/classification":
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_clf_testcase(model, batch_size)
+            check_model_result(result)
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
-        # 检测模型
-        if model["category"] in ["cv/object_detection", "cv/pose_estimation"]:
-            logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
-            d_url = model["download_url"]
-            if d_url is not None:
-                result = run_detec_testcase(model, bs)
-                check_model_result(result)
-                logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
-            logging.info(f"End running {model['model_name']} test case.")
+    # 检测模型
+    if model["category"] in ["cv/object_detection", "cv/pose_estimation"]:
+        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+        d_url = model["download_url"]
+        if d_url is not None:
+            result = run_detec_testcase(model, batch_size)
+            check_model_result(result)
+            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+        logging.info(f"End running {model['model_name']} test case.")
 
     # Segmentation模型
     if model["category"] in ["cv/segmentation", "cv/face_recognition", "multimodal/vision_language_model"]:
@@ -151,6 +149,7 @@ def check_model_result(result):
     result["status"] = status
 
 def run_clf_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -187,11 +186,8 @@ def run_clf_testcase(model, batch_size):
     }
 
     combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
-
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        if model_name == "clip":
-            script = f"""
+    if model_name == "clip":
+        base_script = f"""
             cd ../{model['model_path']}
             export DATASETS_DIR=/root/data/datasets/imagenet-val
             export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
@@ -199,23 +195,19 @@ def run_clf_testcase(model, batch_size):
             export CHECKPOINTS_DIR=./checkpoints/clip
             export RUN_DIR=../../ixrt_common/
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
-            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
-            """
-        else:
-            script = f"""
+        """
+    else:
+        base_script = f"""
             cd ../{model['model_path']}
             export DATASETS_DIR=/root/data/datasets/imagenet-val
             export PROJ_DIR=../../ixrt_common/
             export CHECKPOINTS_DIR=./checkpoints
             export RUN_DIR=../../ixrt_common/
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
-            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
-            """
+        """
 
-        if model_name == "swin_transformer_large":
-            script = f"""
+    if model_name == "swin_transformer_large":
+        base_script = f"""
             cd ../{model['model_path']}
             export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
             export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
@@ -223,45 +215,55 @@ def run_clf_testcase(model, batch_size):
             bash scripts/infer_swinl_fp16_performance.sh
             cd ./ByteMLPerf/byte_infer_perf/general_perf
             python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
+        """
+    for prec in model["precisions"]:
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        for bs in batch_size_list:
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+
+            script = base_script + f"""
+                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
             """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        matchs = combined_pattern.finditer(sout)
-        result["result"].setdefault(prec, {"status": "FAIL"})
-        match_count = 0
-        for match in matchs:
-            for name, value in match.groupdict().items():
-                if value:
-                    match_count += 1
-                    result["result"][prec][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
-                    break
-        if match_count == len(patterns):
-            result["result"][prec]["status"] = "PASS"
+            if model_name == "swin_transformer_large":
+                script = base_script
 
-        if model_name == "swin_transformer_large":
-            pattern = r'Throughput: (\d+\.\d+) qps'
-            matchs = re.findall(pattern, sout)
-            for m in matchs:
-                result["result"].setdefault(prec, {"status": "FAIL"})
-                try:
-                    result["result"][prec]["QPS"] = float(m)
-                except ValueError:
-                    print("The string cannot be converted to a float.")
-                    result["result"][prec]["QPS"] = m
-
-            pattern = METRIC_PATTERN
-            matchs = re.findall(pattern, sout)
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            logging.debug(f"matchs:\n{matchs}")
-            for m in matchs:
-                result["result"][prec].update(get_metric_result(m))
-            if len(matchs) == 1:
+            r, t = run_script(script)
+            sout = r.stdout
+            matchs = combined_pattern.finditer(sout)
+            match_count = 0
+            for match in matchs:
+                for name, value in match.groupdict().items():
+                    if value:
+                        match_count += 1
+                        result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        break
+            if match_count == len(patterns):
                 result["result"][prec]["status"] = "PASS"
 
-        result["result"][prec]["Batch Size"] = int(batch_size)
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+            if model_name == "swin_transformer_large":
+                pattern = r'Throughput: (\d+\.\d+) qps'
+                matchs = re.findall(pattern, sout)
+                for m in matchs:
+                    result["result"].setdefault(prec, {"status": "FAIL"})
+                    try:
+                        result["result"][prec][bs]["QPS"] = float(m)
+                    except ValueError:
+                        print("The string cannot be converted to a float.")
+                        result["result"][prec][bs]["QPS"] = m
+
+                pattern = METRIC_PATTERN
+                matchs = re.findall(pattern, sout)
+                result["result"].setdefault(prec, {"status": "FAIL"})
+                logging.debug(f"matchs:\n{matchs}")
+                for m in matchs:
+                    result["result"][prec][bs].update(get_metric_result(m))
+                if len(matchs) == 1:
+                    result["result"][prec]["status"] = "PASS"
+
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
     return result
 
 def run_detec_testcase(model, batch_size):
