@@ -48,7 +48,8 @@ def main():
     if not test_model:
         logging.error("test model case is empty")
         sys.exit(-1)
-    
+    batch_size = os.environ.get("BS_LISTS")
+    batch_size_list = batch_size.split(",") if batch_size else []
     model = get_model_config(test_model)
     if not model:
         logging.error("mode config is empty")
@@ -59,24 +60,25 @@ def main():
         sys.exit(-1)
 
     result = {}
-    if model["category"] == "cv/classification":
-        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
-        d_url = model["download_url"]
-        if d_url is not None:
-            result = run_clf_testcase(model)
-            check_model_result(result)
-            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['model_name']} test case.")
+    for bs in batch_size_list:
+        if model["category"] == "cv/classification":
+            logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+            d_url = model["download_url"]
+            if d_url is not None:
+                result = run_clf_testcase(model, bs)
+                check_model_result(result)
+                logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['model_name']} test case.")
 
-    # 检测模型
-    if model["category"] in ["cv/object_detection", "cv/pose_estimation"]:
-        logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
-        d_url = model["download_url"]
-        if d_url is not None:
-            result = run_detec_testcase(model)
-            check_model_result(result)
-            logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
-        logging.info(f"End running {model['model_name']} test case.")
+        # 检测模型
+        if model["category"] in ["cv/object_detection", "cv/pose_estimation"]:
+            logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
+            d_url = model["download_url"]
+            if d_url is not None:
+                result = run_detec_testcase(model, bs)
+                check_model_result(result)
+                logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
+            logging.info(f"End running {model['model_name']} test case.")
 
     # Segmentation模型
     if model["category"] in ["cv/segmentation", "cv/face_recognition", "multimodal/vision_language_model"]:
@@ -148,7 +150,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model):
+def run_clf_testcase(model, batch_size):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -197,8 +199,8 @@ def run_clf_testcase(model):
             export CHECKPOINTS_DIR=./checkpoints/clip
             export RUN_DIR=../../ixrt_common/
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
+            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
             """
         else:
             script = f"""
@@ -208,8 +210,8 @@ def run_clf_testcase(model):
             export CHECKPOINTS_DIR=./checkpoints
             export RUN_DIR=../../ixrt_common/
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
+            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
             """
 
         if model_name == "swin_transformer_large":
@@ -256,12 +258,13 @@ def run_clf_testcase(model):
                 result["result"][prec].update(get_metric_result(m))
             if len(matchs) == 1:
                 result["result"][prec]["status"] = "PASS"
-        
+
+        result["result"][prec]["Batch Size"] = int(batch_size)
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model):
+def run_detec_testcase(model, batch_size):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -304,8 +307,8 @@ def run_detec_testcase(model):
             export EVAL_DIR=./{dataset_n}/images/val2017
             export RUN_DIR=../../ixrt_common
             export CONFIG_DIR=../../ixrt_common/config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
+            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
             """
         else:
             script = f"""
@@ -318,8 +321,8 @@ def run_detec_testcase(model):
             export EVAL_DIR=./{dataset_n}/images/val2017
             export RUN_DIR=./
             export CONFIG_DIR=config/{config_name}_CONFIG
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {batch_size}
+            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {batch_size}
             """
 
         if model_name == "rtmpose":
@@ -359,6 +362,7 @@ def run_detec_testcase(model):
             if matchs and len(matchs) == 1:
                 result["result"][prec].update(get_metric_result(matchs[0]))
                 result["result"][prec]["status"] = "PASS"
+        result["result"][prec]["Batch Size"] = int(batch_size)
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
 
