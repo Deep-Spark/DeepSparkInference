@@ -279,20 +279,22 @@
 
 ### 多模态
 
-| Model               | vLLM                                                                  | IxFormer                                                   | IXUCA SDK |
-|---------------------|-----------------------------------------------------------------------|------------------------------------------------------------|-----------|
-| Aria                | [✅](models/multimodal/vision_language_model/aria/vllm)                |                                                            | 4.3.0     |
-| Chameleon-7B        | [✅](models/multimodal/vision_language_model/chameleon_7b/vllm)        |                                                            | 4.3.0     |
-| CLIP                |                                                                       | [✅](models/multimodal/vision_language_model/clip/ixformer) | 4.3.0     |
-| Fuyu-8B             | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm)             |                                                            | 4.3.0     |
-| H2OVL Mississippi   | [✅](models/multimodal/vision_language_model/h2vol/vllm)               |                                                            | 4.3.0     |
-| Idefics3            | [✅](models/multimodal/vision_language_model/idefics3/vllm)            |                                                            | 4.3.0     |
-| InternVL2-4B        | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           |                                                            | 4.3.0     |
-| LLaVA               | [✅](models/multimodal/vision_language_model/llava/vllm)               |                                                            | 4.3.0     |
-| LLaVA-Next-Video-7B | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) |                                                            | 4.3.0     |
-| Llama-3.2           | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           |                                                            | 4.3.0     |
-| MiniCPM-V 2         | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           |                                                            | 4.3.0     |
-| Pixtral             | [✅](models/multimodal/vision_language_model/pixtral/vllm)             |                                                            | 4.3.0     |
+| Model               | Engine   |    Supported                                                           | IXUCA SDK |
+|---------------------|----------|------------------------------------------------------------------------|-----------|
+| Aria                |   vLLM   | [✅](models/multimodal/vision_language_model/aria/vllm)                | 4.3.0     |
+| Chameleon-7B        |   vLLM   | [✅](models/multimodal/vision_language_model/chameleon_7b/vllm)        | 4.3.0     |
+| CLIP                | IxFormer | [✅](models/multimodal/vision_language_model/clip/ixformer)            | 4.3.0     |
+| Fuyu-8B             |   vLLM   | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm)             | 4.3.0     |
+| H2OVL Mississippi   |   vLLM   | [✅](models/multimodal/vision_language_model/h2vol/vllm)               | 4.3.0     |
+| Idefics3            |   vLLM   | [✅](models/multimodal/vision_language_model/idefics3/vllm)            | 4.3.0     |
+| InternVL2-4B        |   vLLM   | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           | 4.3.0     |
+| LLaVA               |   vLLM   | [✅](models/multimodal/vision_language_model/llava/vllm)               | 4.3.0     |
+| LLaVA-Next-Video-7B |   vLLM   | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) | 4.3.0     |
+| Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
+| MiniCPM-V 2         |   vLLM   | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           | 4.3.0     |
+| Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
+| Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
+| Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | 4.3.0     |
 
 ### 自然语言处理（NLP）
 
