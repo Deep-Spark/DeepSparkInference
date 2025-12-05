@@ -219,6 +219,7 @@ def run_clf_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
 
             script = base_script + f"""
@@ -237,7 +238,7 @@ def run_clf_testcase(model, batch_size):
                 for name, value in match.groupdict().items():
                     if value:
                         match_count += 1
-                        result["result"][prec][str(bs)][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                        result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
                         break
             if match_count == len(patterns):
                 result["result"][prec]["status"] = "PASS"
@@ -248,21 +249,21 @@ def run_clf_testcase(model, batch_size):
                 for m in matchs:
                     result["result"].setdefault(prec, {"status": "FAIL"})
                     try:
-                        result["result"][prec][str(bs)]["QPS"] = float(m)
+                        result["result"][prec][bs]["QPS"] = float(m)
                     except ValueError:
                         print("The string cannot be converted to a float.")
-                        result["result"][prec][str(bs)]["QPS"] = m
+                        result["result"][prec][bs]["QPS"] = m
 
                 pattern = METRIC_PATTERN
                 matchs = re.findall(pattern, sout)
                 result["result"].setdefault(prec, {"status": "FAIL"})
                 logging.debug(f"matchs:\n{matchs}")
                 for m in matchs:
-                    result["result"][prec][str(bs)].update(get_metric_result(m))
+                    result["result"][prec][bs].update(get_metric_result(m))
                 if len(matchs) == 1:
                     result["result"][prec]["status"] = "PASS"
 
-            result["result"][prec][str(bs)]["Cost time (s)"] = t
+            result["result"][prec][bs]["Cost time (s)"] = t
             logging.debug(f"matchs:\n{matchs}")
     return result
 
