@@ -1,0 +1,11 @@
+{
+    "llama2-7b-chat": 3584,
+    "llama2-13b-chat": 3584,
+    "llama3-8b-chat": 7680,
+    "llama3-70b-chat": 7680,
+    "baichuan2-13b-chat": 3584,
+    "qwen2-72b-chat-awq": 32256,
+    "llama3.1-8b-chat": 32256,
+    "qwen2.5-14b-chat": 32256,
+    "qwen2-vl-chat": 32256
+}

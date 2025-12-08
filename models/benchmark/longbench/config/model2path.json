@@ -1,0 +1,7 @@
+{
+    "llama2-7b-chat-4k": "meta-llama/Llama-2-7b-chat-hf",
+    "chatglm2-6b": "THUDM/chatglm2-6b",
+    "chatglm2-6b-32k": "THUDM/chatglm2-6b-32k",
+    "vicuna-v1.5-7b-16k": "lmsys/vicuna-7b-v1.5-16k",
+    "llama-2-7B-32K-Instruct": "togethercomputer/Llama-2-7B-32K-Instruct"
+}
