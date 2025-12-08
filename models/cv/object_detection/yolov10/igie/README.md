@@ -54,6 +54,7 @@ Contact the Iluvatar administrator to get the missing packages:
 
 ```bash
 pip3 install -r requirements.txt
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ## Model Conversion
@@ -61,7 +62,6 @@ pip3 install -r requirements.txt
 ```bash
 git clone --depth 1 https://github.com/THU-MIG/yolov10.git
 cd yolov10/
-
 ```
 
 ```python
@@ -84,7 +84,7 @@ pip3 install -e . --no-deps
 cd ../
 
 python3 export.py --weight yolov10s.pt --batch 32
-
+# Make sure numpy < 2.0
 ```
 
 ## Model Inference

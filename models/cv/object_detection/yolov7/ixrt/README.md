@@ -53,29 +53,22 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ### Model Conversion
 
 ```bash
+mkdir checkpoints
 git clone https://github.com/WongKinYiu/yolov7.git
-
-pushd ./yolov7
+cd yolov7
 git checkout a207844b1ce82d204ab36d87d496728d3d2348e7
 # set weights_only=False to be comaptible with pytorch 2.7
 sed -i '252 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
-
-python3 export.py --weights yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 16
-mkdir /Your_Projects/To/checkpoints
-mv yolov7.onnx /Path/to/checkpoints/yolov7m.onnx
-popd
+python3 export.py --weights ../yolov7.pt --grid --end2end --simplify --topk-all 100 --iou-thres 0.65 --conf-thres 0.35 --img-size 640 640 --max-wh 640 --batch-size 16
+cd ..
+mv yolov7.onnx ./checkpoints/yolov7m.onnx
 ```
 
 ## Model Inference

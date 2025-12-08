@@ -24,12 +24,6 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
@@ -47,7 +41,7 @@ export PROJ_DIR=./
 export DATASETS_DIR=/path/to/imagenet_val/
 export CHECKPOINTS_DIR=./checkpoints
 export RUN_DIR=../../ixrt_common/
-export CONFIG_DIR=../../ixrt_common/config/SHUFFLENET_V2_X0_5_CONFIG
+export CONFIG_DIR=../../ixrt_common/config/SHUFFLENETV2_X0_5_CONFIG
 ```
 
 ### FP16

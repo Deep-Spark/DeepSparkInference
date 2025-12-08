@@ -54,13 +54,8 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ### Model Conversion
@@ -69,11 +64,11 @@ pip3 install -r requirements.txt
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
 
-pushd YOLOX
-python3 setup.py develop
+cd YOLOX
+python3 setup.py install
 # export onnx model
 python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-popd
+cd ..
 ```
 
 ## Model Inference
@@ -86,6 +81,7 @@ export DATASETS_DIR=/Path/to/coco/
 cd plugin && mkdir build && cd build
 cmake .. -DIXRT_HOME=/usr/local/corex
 make -j12
+cd ../..
 
 # Build plugin on NVIDIA env
 cd plugin && mkdir build && cd build

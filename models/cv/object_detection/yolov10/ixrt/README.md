@@ -53,13 +53,8 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ## Model Conversion
@@ -68,6 +63,7 @@ pip3 install -r requirements.txt
 mkdir checkpoints
 mv yolov10s.pt yolov10.pt
 python3 export.py --weight yolov10.pt --batch 32
+mv yolov10.onnx ./checkpoints
 ```
 
 ## Model Inference

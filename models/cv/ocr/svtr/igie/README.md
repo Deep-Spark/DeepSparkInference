@@ -25,13 +25,8 @@ Contact the Iluvatar administrator to get the missing packages:
 - paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
+pip3 install paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ## Model Conversion
