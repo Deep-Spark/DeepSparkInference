@@ -1,5 +1,5 @@
 tqdm
-onnx==1.13.0
+onnx==1.18.0
 onnxsim==0.4.36
 pycocotools
 opencv-python==4.8.0.74

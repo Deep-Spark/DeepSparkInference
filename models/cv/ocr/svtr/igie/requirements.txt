@@ -1,5 +1,5 @@
 tqdm
-onnx
+onnx==1.18.0
 onnxsim
 numpy==1.24.0
 Polygon3

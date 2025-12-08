@@ -53,14 +53,8 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
-
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 #update gcc version
 source /opt/rh/devtoolset-7/enable
 ```
@@ -71,7 +65,7 @@ source /opt/rh/devtoolset-7/enable
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
 cd YOLOX/
-python3 setup.py develop
+python3 setup.py install
 
 # export onnx model
 python3 tools/export_onnx.py -c ../yolox_m.pth -o 13 -n yolox-m --input input --output output --dynamic --output-name ../yolox.onnx

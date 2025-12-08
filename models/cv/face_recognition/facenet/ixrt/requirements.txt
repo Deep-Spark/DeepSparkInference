@@ -2,7 +2,7 @@ tqdm
 tabulate
 scipy==1.8.0
 scikit-learn
-onnx
+onnx==1.18.0
 onnxsim
 simplejson
 numpy==1.23.5

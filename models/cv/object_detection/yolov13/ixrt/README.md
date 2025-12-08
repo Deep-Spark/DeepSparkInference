@@ -56,10 +56,12 @@ pip3 install -r requirements.txt
 ```bash
 git clone --depth 1 https://github.com/iMoonLab/yolov13.git
 cd yolov13
-pip3 install -e .
+pip3 install -e . --no-deps
 cd ..
 mv yolov13n.pt yolov13.pt
 python3 export.py --weight yolov13.pt --batch 32
+mkdir checkpoints
+mv yolov13.onnx ./checkpoints
 ```
 
 ## Model Inference

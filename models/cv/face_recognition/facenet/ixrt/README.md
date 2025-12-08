@@ -22,12 +22,6 @@ Dataset: <https://vis-www.cs.umass.edu/lfw/lfw.tgz> to download the lfw dataset.
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
 ```
 
@@ -38,6 +32,7 @@ mkdir -p checkpoints
 mkdir -p facenet_weights
 cd facenet_weights
 wget http://files.deepspark.org.cn:880/deepspark/facenet_export.onnx
+cd ..
 ```
 
 ### Data preprocessing

@@ -56,12 +56,13 @@ pip3 install -r requirements.txt
 ```bash
 git clone --depth 1 https://github.com/sunsmarterjie/yolov12.git
 cd yolov12
-pip3 install -e .
+pip3 install -e . --no-deps
 cd ..
 
 mkdir checkpoints
 mv yolov12n.pt yolov12.pt
 python3 export.py --weight yolov12.pt --batch 32
+# Make sure numpy < 2.0
 mv yolov12.onnx checkpoints/
 ```
 

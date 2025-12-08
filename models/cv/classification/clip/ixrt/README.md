@@ -25,10 +25,13 @@ git clone https://huggingface.co/openai/clip-vit-base-patch32 clip-vit-base-patc
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+
+- ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl or later
+
 ```bash
 pip3 install -r requirements.txt
-Contact the Iluvatar administrator to get the missing packages:
-- ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl or later
+pip3 install ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl
 ```
 
 ### Model Conversion
@@ -45,7 +48,7 @@ git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
 export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 export DATASETS_DIR=/path/to/imagenet_val/
 export PROJ_DIR=./
-export CHECKPOINTS_DIR=./checkpoints
+export CHECKPOINTS_DIR=./checkpoints/clip
 export RUN_DIR=../../ixrt_common
 export CONFIG_DIR=../../ixrt_common/config/CLIP_CONFIG
 ```
