@@ -22,9 +22,11 @@ if [[ ${ID} == "ubuntu" ]]; then
 elif [[ ${ID} == "centos" ]]; then
     yum install -y mesa-libGL
 else
-    echo "Not Support Os"
+    echo "Not Support Os"  resnet50-0676ba61.pth
 fi
 pip3 install -r requirements.txt
-
+mkdir -p /root/.cache/torch/hub/checkpoints/
+cp /root/data/checkpoints/resnet50-0676ba61.pth /root/.cache/torch/hub/checkpoints/
+cp /root/data/checkpoints/detr-r50-e632da11.pth /root/.cache/torch/hub/checkpoints/
 mkdir checkpoints
 python3 export_model.py --torch_file /root/data/checkpoints/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1
