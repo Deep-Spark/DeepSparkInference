@@ -48,7 +48,7 @@ def main():
     if not test_model:
         logging.error("test model case is empty")
         sys.exit(-1)
-    
+    batch_size = os.environ.get("BS_LISTS")
     model = get_model_config(test_model)
     if not model:
         logging.error("mode config is empty")
@@ -63,7 +63,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_clf_testcase(model)
+            result = run_clf_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -73,7 +73,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model)
+            result = run_detec_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -113,7 +113,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_speech_testcase(model)
+            result = run_speech_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -123,7 +123,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, batch_size)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -148,7 +148,8 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model):
+def run_clf_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -177,57 +178,60 @@ def run_clf_testcase(model):
 
     run_script(prepare_script)
 
+    if model_name == "unet":
+        base_script = f"""
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
+        export RUN_DIR=../../igie_common/
+        cd ../{model['model_path']}
+        """
+    else:
+        base_script = f"""
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
+        export RUN_DIR=../../igie_common/
+        cd ../{model['model_path']}
+        """
+
     for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        if model_name == "unet":
-            script = f"""
-            export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
-            export RUN_DIR=../../igie_common/
-            cd ../{model['model_path']}
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
-            """
-        else:
-            script = f"""
-            export DATASETS_DIR=/mnt/deepspark/data/datasets/imagenet-val
-            export RUN_DIR=../../igie_common/
-            cd ../{model['model_path']}
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            script = base_script + f"""
+                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
             """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        if matchs:
-            if len(matchs) == 2:
-                result["result"][prec]["status"] = "PASS"
-            else:
-                # Define regex pattern to match key-value pairs inside curly braces
-                kv_pattern = r"'(\w+)'\s*:\s*([\d.]+)"
-                # Find all matches
-                kv_matches = re.findall(kv_pattern, sout)
-                for key, value in kv_matches:
+            r, t = run_script(script)
+            sout = r.stdout
+            pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                try:
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: m[1], m[2]: m[3]}
+            if matchs:
+                if len(matchs) == 2:
                     result["result"][prec]["status"] = "PASS"
-                    try:
-                        result["result"][prec][key] = float(value)
-                    except ValueError:
-                        print("The string cannot be converted to a float.")
-                        result["result"][prec][key] = value
-
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+                else:
+                    # Define regex pattern to match key-value pairs inside curly braces
+                    kv_pattern = r"'(\w+)'\s*:\s*([\d.]+)"
+                    # Find all matches
+                    kv_matches = re.findall(kv_pattern, sout)
+                    for key, value in kv_matches:
+                        result["result"][prec]["status"] = "PASS"
+                        try:
+                            result["result"][prec][bs][key] = float(value)
+                        except ValueError:
+                            print("The string cannot be converted to a float.")
+                            result["result"][prec][bs][key] = value
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model):
+def run_detec_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -258,46 +262,49 @@ def run_detec_testcase(model):
 
     run_script(prepare_script)
 
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
+    base_script = f"""
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+    """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1]}
-        if matchs and len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
-        else:
-            pattern = METRIC_PATTERN
+    for prec in model["precisions"]:
+        result["result"].setdefault(prec, {"status": "FAIL"})
+        for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            script = base_script + f"""
+                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+            """
+
+            r, t = run_script(script)
+            sout = r.stdout
+            pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
             matchs = re.findall(pattern, sout)
-            if matchs and len(matchs) == 1:
-                result["result"].setdefault(prec, {})
-                result["result"][prec].update(get_metric_result(matchs[0]))
+            for m in matchs:
+                try:
+                    result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: float(m[1]), m[2]: float(m[3])}
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: m[1], m[2]: m[3]}
+            pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                try:
+                    result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: float(m[1])}
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: m[1]}
+            if matchs and len(matchs) == 2:
                 result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+            else:
+                pattern = METRIC_PATTERN
+                matchs = re.findall(pattern, sout)
+                if matchs and len(matchs) == 1:
+                    result["result"][prec][bs].update(get_metric_result(matchs[0]))
+                    result["result"][prec]["status"] = "PASS"
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
 
     return result
 
@@ -477,7 +484,8 @@ def run_multi_object_tracking_testcase(model):
     return result
 
 # BERT series models
-def run_nlp_testcase(model):
+def run_nlp_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -511,32 +519,37 @@ def run_nlp_testcase(model):
 
     run_script(prepare_script)
 
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
+    base_script = f"""
         set -x
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['model_path']}
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
-
-        r, t = run_script(script)
-        sout = r.stdout
-
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
+    """
+    for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
-        logging.debug(f"matchs:\n{matchs}")
-        for m in matchs:
-            result["result"][prec].update(get_metric_result(m))
-        if len(matchs) == 2:
-            result["result"][prec]["status"] = "PASS"
+        for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            script = base_script + f"""
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
 
-        result["result"][prec]["Cost time (s)"] = t
+            r, t = run_script(script)
+            sout = r.stdout
+
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            logging.debug(f"matchs:\n{matchs}")
+            for m in matchs:
+                result["result"][prec][bs].update(get_metric_result(m))
+            if len(matchs) == 2:
+                result["result"][prec]["status"] = "PASS"
+
+            result["result"][prec][bs]["Cost time (s)"] = t
     return result
 
-def run_speech_testcase(model):
+def run_speech_testcase(model, batch_size):
+    batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -565,42 +578,45 @@ def run_speech_testcase(model):
 
     run_script(prepare_script)
 
-    for prec in model["precisions"]:
-        logging.info(f"Start running {model_name} {prec} test case")
-        script = f"""
+    base_script = f"""
         cd ../{model['model_path']}
         export PYTHONPATH=./wenet:$PYTHONPATH
         echo $PYTHONPATH
-        bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
-        """
+    """
 
-        r, t = run_script(script)
-        sout = r.stdout
-        pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-        matchs = re.findall(pattern, sout)
-        for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
-            try:
-                result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
-            except ValueError:
-                print("The string cannot be converted to a float.")
-                result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
-        pattern = METRIC_PATTERN
-        matchs = re.findall(pattern, sout)
+    for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
-        if matchs:
-            if len(matchs) == 1:
-                result["result"].setdefault(prec, {})
-                result["result"][prec].update(get_metric_result(matchs[0]))
-                result["result"][prec]["status"] = "PASS"
-            else:
-                for m in matchs:
-                    result["result"][prec].update(get_metric_result(m))
-                if len(matchs) == 2:
+        for bs in batch_size_list:
+            result["result"][prec].setdefault(bs, {})
+            logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            script = base_script + f"""
+            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+            bash scripts/infer_{model_name}_{prec}_performance.sh
+            """
+
+            r, t = run_script(script)
+            sout = r.stdout
+            pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                try:
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: m[1], m[2]: m[3]}
+            pattern = METRIC_PATTERN
+            matchs = re.findall(pattern, sout)
+            if matchs:
+                if len(matchs) == 1:
+                    result["result"][prec][bs].update(get_metric_result(matchs[0]))
                     result["result"][prec]["status"] = "PASS"
-        result["result"][prec]["Cost time (s)"] = t
-        logging.debug(f"matchs:\n{matchs}")
+                else:
+                    for m in matchs:
+                        result["result"][prec][bs].update(get_metric_result(m))
+                    if len(matchs) == 2:
+                        result["result"][prec]["status"] = "PASS"
+            result["result"][prec][bs]["Cost time (s)"] = t
+            logging.debug(f"matchs:\n{matchs}")
     return result
 
 def get_metric_result(str):
