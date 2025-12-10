@@ -49,44 +49,31 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-
 ```bash
+## CentOS
+yum install -y numactl
+## Ubuntu
+apt install numactl
+
 pip3 install -r requirements.txt
-pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ### Model Conversion
 
 ```bash
 # install yolox
-git clone https://github.com/Megvii-BaseDetection/YOLOX.git
+git clone https://github.com/Megvii-BaseDetection/YOLOX.git --depth=1
 
 cd YOLOX
 python3 setup.py install
 # export onnx model
 python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
-cd ..
 ```
 
 ## Model Inference
 
 ```bash
-# Set DATASETS_DIR
-export DATASETS_DIR=/Path/to/coco/
-
-# Build plugin on ILUVATAR env
-cd plugin && mkdir build && cd build
-cmake .. -DIXRT_HOME=/usr/local/corex
-make -j12
-cd ../..
-
-# Build plugin on NVIDIA env
-cd plugin && mkdir build && cd build
-cmake .. -DUSE_TRT=1
-make -j12
+export DATASETS_DIR=./coco/
 ```
 
 ### FP16

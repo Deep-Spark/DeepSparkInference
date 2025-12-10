@@ -1,5 +1,5 @@
 tqdm
-onnx==1.18.0
+onnx
 onnxsim
 tabulate
 pycocotools
