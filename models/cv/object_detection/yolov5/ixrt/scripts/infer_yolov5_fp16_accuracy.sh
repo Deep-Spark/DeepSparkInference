@@ -3,15 +3,16 @@
 EXIT_STATUS=0
 check_status()
 {
-    if ((${PIPESTATUS[0]} != 0));then
-    EXIT_STATUS=1
+    ret_code=${PIPESTATUS[0]}
+    if [ ${ret_code} != 0 ]; then
+    [[ ${ret_code} -eq 10 && "${TEST_PERF:-1}" -eq 0 ]] || EXIT_STATUS=1
     fi
 }
 
 # Run paraments
 BSZ=32
 WARM_UP=-1
-TGT=-1
+TGT=0.626
 LOOP_COUNT=-1
 RUN_MODE=MAP
 PRECISION=float16
@@ -39,6 +40,9 @@ echo CONFIG_DIR : ${CONFIG_DIR}
 echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
+
+CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
+mkdir -p ${CHECKPOINTS_DIR}
 
 step=0
 faster=0
@@ -111,7 +115,7 @@ if [ $LAYER_FUSION == "1" ]; then
     let step++
     echo;
     echo [STEP ${step}] : Add Decoder
-    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_fusion.onnx
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_fusion_cancat.onnx
     if [ -f $FUSION_ONNX ];then
         echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
     else
@@ -133,7 +137,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_bs${BSZ}.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_bs${BSZ}_with_nms.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
@@ -149,7 +153,7 @@ CURRENT_MODEL=${FINAL_MODEL}
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_with_nms.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
