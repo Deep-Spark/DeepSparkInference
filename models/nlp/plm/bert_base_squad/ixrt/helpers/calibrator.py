@@ -19,8 +19,8 @@
 import tensorrt as trt
 import os
 
-import pycuda.driver as cuda
-import pycuda.autoinit
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 import numpy as np
 import helpers.tokenization as tokenization
 import helpers.data_processing as dp
@@ -80,9 +80,12 @@ class BertCalibrator(trt.IInt8LegacyCalibrator):
                 segment_ids = features[0].segment_ids
                 input_mask = features[0].input_mask
 
-        cuda.memcpy_htod(self.device_inputs[0], input_ids.ravel())
-        cuda.memcpy_htod(self.device_inputs[1], segment_ids.ravel())
-        cuda.memcpy_htod(self.device_inputs[2], input_mask.ravel())
+        err, = cuda.cuMemcpyHtoD(self.device_inputs[0], input_ids.ravel(), input_ids.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
+        err, = cuda.cuMemcpyHtoD(self.device_inputs[1], segment_ids.ravel(), segment_ids.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
+        err, = cuda.cuMemcpyHtoD(self.device_inputs[2], input_mask.ravel(), input_mask.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
 
         self.current_index += self.batch_size
         return self.device_inputs

@@ -38,8 +38,8 @@ import argparse
 import collections
 import numpy as np
 import tensorrt as trt
-import pycuda.driver as cuda
-import pycuda.autoinit
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 
 import helpers.tokenization as tokenization
 import helpers.data_processing as dp
@@ -155,12 +155,13 @@ if __name__ == '__main__':
             raise RuntimeError("Could not find any profile that can run batch size {}.".format(args.batch_size))
 
         # Create a stream in which to copy inputs/outputs and run inference.
-        stream = cuda.Stream()
+        err_dr, stream = cuda.cuStreamCreate(0)
+        assert(err_dr == cuda.CUresult.CUDA_SUCCESS)
         
         # if args.use_trt:
         #     context.active_optimization_profile = selected_profile
         # else:
-        context.set_optimization_profile_async(selected_profile, stream.handle)
+        context.set_optimization_profile_async(selected_profile, stream)
         binding_idx_offset = selected_profile * num_binding_per_profile
 
         input_shape = (args.batch_size, max_seq_length)
@@ -170,11 +171,17 @@ if __name__ == '__main__':
         assert context.all_binding_shapes_specified
 
         # Allocate device memory for inputs.
-        d_inputs = [cuda.mem_alloc(input_nbytes) for binding in range(3)]
+        d_inputs = []
+        for binding in range(3):
+            err, ptr = cuda.cuMemAlloc(input_nbytes)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            d_inputs.append(ptr)
 
         # Allocate output buffer by querying the size from the context. This may be different for different input shapes.
-        h_output = cuda.pagelocked_empty(tuple(context.get_binding_shape(binding_idx_offset + 3)), dtype=np.float32)
-        d_output = cuda.mem_alloc(h_output.nbytes)
+        h_output = np.empty(tuple(context.get_binding_shape(binding_idx_offset + 3)), dtype=np.float32) 
+ 
+        err, d_output = cuda.cuMemAlloc(h_output.nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
 
         def inference(features, tokens):
             global h_output
@@ -191,24 +198,30 @@ if __name__ == '__main__':
                 segment_ids_batch = np.repeat(np.expand_dims(feature.segment_ids, 0), args.batch_size, axis=0)
                 input_mask_batch = np.repeat(np.expand_dims(feature.input_mask, 0), args.batch_size, axis=0)
 
-                input_ids = cuda.register_host_memory(np.ascontiguousarray(input_ids_batch.ravel()))
-                segment_ids = cuda.register_host_memory(np.ascontiguousarray(segment_ids_batch.ravel()))
-                input_mask = cuda.register_host_memory(np.ascontiguousarray(input_mask_batch.ravel()))
+                input_ids = cuda.cuMemHostRegister(np.ascontiguousarray(input_ids_batch.ravel()), input_ids_batch.nbytes)
+                segment_ids = cuda.cuMemHostRegister(np.ascontiguousarray(segment_ids_batch.ravel()), segment_ids_batch.nbytes)
+                input_mask = cuda.cuMemHostRegister(np.ascontiguousarray(input_mask_batch.ravel()), input_mask.nbytes)
 
                 eval_start_time = time.time()
-                cuda.memcpy_htod_async(d_inputs[0], input_ids, stream)
-                cuda.memcpy_htod_async(d_inputs[1], segment_ids, stream)
-                cuda.memcpy_htod_async(d_inputs[2], input_mask, stream)
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[0], input_ids, input_ids.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[1], segment_ids, segment_ids.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[2], input_mask, input_mask.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
 
                 # Run inference
-                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream.handle)
+                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream)
                 # Synchronize the stream
-                stream.synchronize()
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
                 eval_time_elapsed += (time.time() - eval_start_time)
 
                 # Transfer predictions back from GPU
-                cuda.memcpy_dtoh_async(h_output, d_output, stream)
-                stream.synchronize()
+                err, = cuda.cuMemcpyDtoHAsync(h_output, d_output, h_output.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
                 # for x in h_output[0].reshape(-1,2):
                 #     print(x)
                 # Only retrieve and post-process the first batch
@@ -322,10 +335,13 @@ if __name__ == '__main__':
                 for binding in range(3):
                     context.set_binding_shape(binding, (args.batch_size, max_seq_length))
                 assert context.all_binding_shapes_specified
-                cuda.memcpy_htod_async(d_inputs[0], np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel(), stream)
-                cuda.memcpy_htod_async(d_inputs[1], np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel(), stream)
-                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream.handle)
-            stream.synchronize()
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[0], np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel(), np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel().nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[1], np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel(), np.zeros((args.batch_size, max_seq_length), dtype=np.int32).ravel().nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream)
+            err, = cuda.cuStreamSynchronize(stream)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
             
             infer_toal_time = 0
             output_index = 0
@@ -334,20 +350,24 @@ if __name__ == '__main__':
                     context.set_binding_shape(binding, input_ids.shape)
                 assert context.all_binding_shapes_specified
 
-                cuda.memcpy_htod_async(d_inputs[0], input_ids.ravel(), stream)
-                cuda.memcpy_htod_async(d_inputs[1], segment_ids.ravel(), stream)
-                stream.synchronize()
-
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[0], input_ids.ravel(), input_ids.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuMemcpyHtoDAsync(d_inputs[1], segment_ids.ravel(), segment_ids.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
                 infer_start_time = time.time()
-                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream.handle)
-                stream.synchronize()
+                context.execute_async_v2(bindings=[0 for i in range(binding_idx_offset)] +[int(d_inp) for d_inp in d_inputs] + [int(d_output)], stream_handle=stream)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
                 infer_end_time = time.time()
                 infer_time = infer_end_time - infer_start_time
                 infer_toal_time += infer_time
-                
-                cuda.memcpy_dtoh_async(h_output, d_output, stream)
-                stream.synchronize()
-    
+                err, = cuda.cuMemcpyDtoHAsync(h_output, d_output, h_output.nbytes, stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+
                 new_h_output = np.array(h_output.reshape(-1)[:input_ids.shape[0]*input_ids.shape[1]*2]).reshape(input_ids.shape[0], input_ids.shape[1], 2)
                 for index in range(input_ids.shape[0]):
                     networkOutputs.append(_NetworkOutput(
@@ -356,7 +376,12 @@ if __name__ == '__main__':
                         feature_index = index
                     ))
                     output_index += 1
-
+            for i in range(3):
+                err, = cuda.cuMemFree(d_inputs[i])
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+            err, = cuda.cuMemFree(d_output)
+            assert(err == cuda.CUresult.CUDA_SUCCESS)
+            
             output_index = 0
             for (be, bf) in zip(batch_example_list, batch_feature_list):
                 for index in range(len(bf)):
@@ -379,16 +404,10 @@ if __name__ == '__main__':
                 lengths.append(len(features[0].input_ids))
 
             sort_index = np.argsort(lengths)
-            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)
-            print(F"E2E time : {infer_time:.3f} seconds")
+            infer_time, all_predictions = inference_all_dynamic(features_list, squad_examples, sort_index, all_predictions)          
             
             qps = math.ceil(len(squad_examples)/args.batch_size)*args.batch_size/infer_time
             print(f"Latency QPS: {qps} sentences/s")
-
-            metricResult = {"metricResult": {}}
-            metricResult["metricResult"]["E2E time"] = round(infer_time, 3)
-            metricResult["metricResult"]["Latency QPS"] = round(qps, 3)
-            print(metricResult)
 
             with open(output_prediction_file, "w") as f:
                 f.write(json.dumps(all_predictions, indent=4))

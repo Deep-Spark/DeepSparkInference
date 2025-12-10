@@ -28,14 +28,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 import argparse
 import ctypes
 import time
 import numpy as np
 import tensorrt as trt
-import pycuda.driver as cuda
-import pycuda.autoinit
+import cuda.cuda as cuda
+import cuda.cudart as cudart
 
 import numpy as np
 
@@ -44,17 +43,19 @@ from load_ixrt_plugin import load_ixrt_plugin
 
 class DeviceBuffer(object):
     def __init__(self, shape, dtype=trt.int32):
-        self.buf = cuda.mem_alloc(trt.volume(shape) * 4)
+        _, self.buf = cuda.cuMemAlloc(trt.volume(shape) * 4)
 
     def binding(self):
         return int(self.buf)
 
     def free(self):
-        self.buf.free()
+        err, = cuda.cuMemFree(self.buf)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
 
 
 def main():
     parser = argparse.ArgumentParser(description='BERT Inference Benchmark')
+    parser.add_argument("-z", "--use_trt", action="store_false", help="Whether to use tensorRT or IxRT")
     parser.add_argument("-e", "--engine", help='Path to BERT TensorRT engine')
     parser.add_argument('-b', '--batch-size', default=[], action="append", help='Batch size(s) to benchmark. Can be specified multiple times for more than one batch size. This script assumes that the engine has been built with one optimization profile for each batch size, and that these profiles are in order of increasing batch size.', type=int)
     parser.add_argument('-s', '--sequence-length', default=128, help='Sequence length of the BERT model', type=int)
@@ -62,11 +63,12 @@ def main():
     parser.add_argument('-w', '--warm-up-runs', default=10, help='Number of iterations to run prior to benchmarking.', type=int)
     parser.add_argument('-d', '--duration', default=0.0, help='Minimal number of seconds to run when benchmarking each batch size.', type=float)
     parser.add_argument('-r', '--random-seed', required=False, default=12345, help='Random seed.', type=int)
+    parser.add_argument('-t', '--target-qps', default=0, help='Target QPS', type=int)
     args, _ = parser.parse_known_args()
     args.batch_size = args.batch_size or [1]
 
     # Import necessary plugins for BERT TensorRT
-    load_ixrt_plugin(TRT_LOGGER, dynamic_path="../build/libixrt_plugin.so")
+    load_ixrt_plugin(TRT_LOGGER)
 
     with open(args.engine, 'rb') as f:
         runtime = trt.Runtime(TRT_LOGGER)
@@ -92,15 +94,19 @@ def main():
         test_input_mask = np.ones((max(args.batch_size), args.sequence_length), dtype=np.int32)
 
         # Copy input h2d
-        cuda.memcpy_htod(buffers[0].buf, test_word_ids.ravel())
-        cuda.memcpy_htod(buffers[1].buf, test_segment_ids.ravel())
-        cuda.memcpy_htod(buffers[2].buf, test_input_mask.ravel())
+        err, = cuda.cuMemcpyHtoD(buffers[0].buf, test_word_ids.ravel(), test_word_ids.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
+        err, = cuda.cuMemcpyHtoD(buffers[1].buf, test_segment_ids.ravel(), test_segment_ids.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
+        err, = cuda.cuMemcpyHtoD(buffers[2].buf, test_input_mask.ravel(), test_input_mask.ravel().nbytes)
+        assert(err == cuda.CUresult.CUDA_SUCCESS)
 
         num_binding_per_profile = engine.num_bindings // engine.num_optimization_profiles
 
         bench_times = {}
 
-        stream = cuda.Stream()
+        err_dr, stream = cuda.cuStreamCreate(0)
+        assert(err_dr == cuda.CUresult.CUDA_SUCCESS)
         for batch_size in sorted(args.batch_size):
             # # Select engine profile
             selected_profile = -1
@@ -111,7 +117,7 @@ def main():
                     break
             if selected_profile == -1:
                 raise RuntimeError("None of the dynamic shape profiles meets the requirement batch = {} and sequence = {}.".format(batch_size, args.sequence_length))
-            context.set_optimization_profile_async(selected_profile, stream.handle)
+            context.set_optimization_profile_async(selected_profile, stream)
 
             # Each profile has unique bindings
             binding_idx_offset = selected_profile * num_binding_per_profile
@@ -129,41 +135,57 @@ def main():
 
             # Inference
             total_time = 0
-            start = cuda.Event()
-            end = cuda.Event()
+            err_dr, start = cuda.cuEventCreate(0)
+            assert(err_dr == cuda.CUresult.CUDA_SUCCESS)
+            err_dr, end = cuda.cuEventCreate(0)
+            assert(err_dr == cuda.CUresult.CUDA_SUCCESS)
 
             # Warmup
             for _ in range(args.warm_up_runs):
-                context.execute_async_v2(bindings=bindings, stream_handle=stream.handle)
-                stream.synchronize()
+                context.execute_async_v2(bindings=bindings, stream_handle=stream)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
 
             # Timing loop
             times = []
             actual_iterations = 0
             start_time = time.time()
             while actual_iterations < args.iterations or (time.time() - start_time) < args.duration:
-                start.record(stream)
-                context.execute_async_v2(bindings=bindings, stream_handle=stream.handle)
-                end.record(stream)
-                stream.synchronize()
-                times.append(end.time_since(start))
+                cuda.cuEventRecord(start, stream)
+                context.execute_async_v2(bindings=bindings, stream_handle=stream)
+                cuda.cuEventRecord(end, stream)
+                err, = cuda.cuStreamSynchronize(stream)
+                assert(err == cuda.CUresult.CUDA_SUCCESS)
+                _, ms = cuda.cuEventElapsedTime(start, end)
+                times.append(ms)
                 actual_iterations += 1
 
             # Compute average time, 95th percentile time and 99th percentile time.
             bench_times[batch_size] = times
-
+        err_rt, = cudart.cudaStreamDestroy(stream)
+        assert(err_rt == cudart.cudaError_t.cudaSuccess)
         [b.free() for b in buffers]
+        del context
+        del engine
 
         for batch_size, times in bench_times.items():
             total_time = sum(times)
             avg_time = total_time / float(actual_iterations)
-            times.sort()
-            percentile95 = times[int(actual_iterations * 0.95)]
-            percentile99 = times[int(actual_iterations * 0.99)]
-            print("Running {:} iterations with Batch Size: {:}\n\tTotal Time: {:} ms \tAverage Time: {:} ms\t95th Percentile Time: {:} ms\t99th Percentile Time: {:}".format(actual_iterations, batch_size, total_time, avg_time, percentile95, percentile99))
+            # times.sort()
+            # percentile95 = times[int(actual_iterations * 0.95)]
+            # percentile99 = times[int(actual_iterations * 0.99)]
+            # print("Running {:} iterations with Batch Size: {:}\n\tTotal Time: {:} ms \tAverage Time: {:} ms\t95th Percentile Time: {:} ms\t99th Percentile Time: {:}".format(actual_iterations, batch_size, total_time, avg_time, percentile95, percentile99))
+            QPS = 1000.0 / (avg_time / batch_size)
+            print("BatchSize = {:d}, QPS = {:.3f}".format(batch_size, QPS))
+            if QPS >= args.target_qps:
+                print("Performance Check : Test {:.3f} >= target {:.3f}".format(QPS, args.target_qps))
+                print("pass!")
+                exit()
+            else:
+                print("failed!")
+                exit(1)
 
-        del context
-        del engine
+        
 
 if __name__ == '__main__':
     main()

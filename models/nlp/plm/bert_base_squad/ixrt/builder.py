@@ -37,30 +37,31 @@ import sys
 import ctypes
 import os
 import numpy as np
-from builder_utils_int8 import load_pytorch_weights_and_quant
-from builder_utils_int8 import WQKV, BQKV  # Attention Keys
-from builder_utils_int8 import W_AOUT, B_AOUT, W_MID, B_MID, W_LOUT, B_LOUT  # Transformer Keys
-from builder_utils_int8 import SQD_W, SQD_B  # SQuAD Output Keys
-from builder import custom_fc as custom_fc_fp16
+from builder_utils import load_onnx_weights_and_quant, load_pytorch_weights_and_quant
+from builder_utils import WQKV, BQKV  # Attention Keys
+from builder_utils import W_AOUT, B_AOUT, W_MID, B_MID, W_LOUT, B_LOUT  # Transformer Keys
+from builder_utils import SQD_W, SQD_B  # SQuAD Output Keys
 
 trt_version = [int(n) for n in trt.__version__.split('.')]
+plugin_lib_name = "libnvinfer_plugin.so" if os.getenv('USE_TRT') == 'True' else "libixrt_plugin.so"
+print(plugin_lib_name)
 
-TRT_LOGGER = trt.Logger(trt.Logger.ERROR)
+TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
 from load_ixrt_plugin import load_ixrt_plugin
 load_ixrt_plugin(TRT_LOGGER)
 
 plg_registry = trt.get_plugin_registry()
 registry_list = plg_registry.plugin_creator_list
 print("registry_list: ", [registry.name + '/' + registry.plugin_version for registry in registry_list])
-emln_plg_creator = plg_registry.get_plugin_creator("CustomEmbLayerNormPluginDynamic_IxRT", "2", "")
-qkv2_plg_creator = plg_registry.get_plugin_creator("CustomQKVToContextPluginDynamic_IxRT", "3", "")
-skln_plg_creator = plg_registry.get_plugin_creator("CustomSkipLayerNormPluginDynamic_IxRT", "3", "")
+emln_plg_creator = plg_registry.get_plugin_creator("CustomEmbLayerNormPluginDynamic_IxRT", "1", "")
+qkv2_plg_creator = plg_registry.get_plugin_creator("CustomQKVToContextPluginDynamic_IxRT", "1", "")
+skln_plg_creator = plg_registry.get_plugin_creator("CustomSkipLayerNormPluginDynamic_IxRT", "1", "")
+ffn_plg_creator = plg_registry.get_plugin_creator("CustomFFNPluginDynamic_IxRT", "1", "")
 gelu_plg_creator = plg_registry.get_plugin_creator("CustomGeluPluginDynamic_IxRT", "1", "")
-fc_plg_creator = plg_registry.get_plugin_creator("CustomFCPluginDynamic_IxRT", "2", "")
+fc_plg_creator = plg_registry.get_plugin_creator("CustomFCPluginDynamic_IxRT", "1", "")
 
-# 
 class BertConfig:
-    def __init__(self, bert_config_path, use_int8):
+    def __init__(self, bert_config_path, use_fp16, use_trt):
         with open(bert_config_path, "r") as f:
             data = json.load(f)
             self.num_attention_heads = data["num_attention_heads"]
@@ -68,7 +69,8 @@ class BertConfig:
             self.intermediate_size = data["intermediate_size"]
             self.num_hidden_layers = data["num_hidden_layers"]
             self.head_size = self.hidden_size // self.num_attention_heads
-            self.use_int8 = use_int8
+            self.use_fp16 = use_fp16
+            self.use_trt = use_trt
 
 def set_tensor_name(tensor, prefix, name):
     tensor.name = prefix + name
@@ -81,27 +83,18 @@ def set_output_range(layer, maxval, out_idx = 0):
 
 def get_mha_dtype(config):
     dtype = trt.float32
-    if config.use_int8:
-        dtype = trt.int8
+    if config.use_fp16:
+        dtype = trt.float16
     return int(dtype)
 
-def custom_fc(prefix, config, init_dict, network, input_tensor, out_dims, W, B):
-    pf_out_dims = trt.PluginField("out_dims", np.array([out_dims], dtype=np.int32), trt.PluginFieldType.INT32)
+def custom_fc(network, input_tensor, out_dims, W, B):
+    pf_out_dims = trt.PluginField("out_dims", np.array(out_dims, dtype=np.int32), trt.PluginFieldType.INT32)
+    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), dtype=np.int32), trt.PluginFieldType.INT32)
     pf_W = trt.PluginField("W", W, trt.PluginFieldType.FLOAT32)
-    
-    fields = [pf_out_dims, pf_W]
-
-    if config.use_int8:
-        amax_vec = [init_dict[prefix + "wei_amax"]]
-        if B is not None:
-            pf_B = trt.PluginField("Bias", B, trt.PluginFieldType.FLOAT32)
-            amax_vec.append(init_dict[prefix + "out_amax"])
-            pf_amax = trt.PluginField("fc_amax", np.array(amax_vec, np.float32), trt.PluginFieldType.FLOAT32)
-            fields.append(pf_B)
-            fields.append(pf_amax)
-        else:
-            pf_amax = trt.PluginField("fc_amax", np.array(amax_vec, np.float32), trt.PluginFieldType.FLOAT32)
-            fields.append(pf_amax)
+    fields = [pf_out_dims, pf_type, pf_W]
+    if B is not None:
+        pf_B = trt.PluginField("B", B, trt.PluginFieldType.FLOAT32)
+        fields.append(pf_B)
 
     pfc = trt.PluginFieldCollection(fields)
     fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
@@ -121,36 +114,25 @@ def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask)
     Ball = init_dict[prefix + BQKV]
 
     # FC_attention
-    mult_all = custom_fc(prefix + "self_qkv_", config, init_dict, network, input_tensor, 3*hidden_size, Wall, Ball)
-    set_output_range(mult_all, init_dict[prefix + "self_qkv_out_amax"])
+    mult_all = custom_fc(network, input_tensor, 3 * hidden_size, Wall, Ball)
 
     has_mask = imask is not None
-
     # QKV2CTX
+    pf_type = trt.PluginField("type_id", np.array([get_mha_dtype(config)], np.int32), trt.PluginFieldType.INT32)
     pf_hidden_size = trt.PluginField("hidden_size", np.array([hidden_size], np.int32), trt.PluginFieldType.INT32)
     pf_num_heads = trt.PluginField("num_heads", np.array([num_heads], np.int32), trt.PluginFieldType.INT32)
-    fields = [pf_hidden_size, pf_num_heads]
-    dq_probs = [
-                init_dict[prefix + "arrange_qkv_amax"],
-                init_dict[prefix + "softmax_in_amax"],
-                init_dict[prefix + "softmax_out_amax"] 
-                ]
-    pf_dq = trt.PluginField("dq_probs", np.array(dq_probs, np.float32), trt.PluginFieldType.FLOAT32)
-    fields.append(pf_dq)
-    
-    pfc = trt.PluginFieldCollection(fields)
+    pf_has_mask = trt.PluginField("has_mask", np.array([has_mask], np.int32), trt.PluginFieldType.INT32)
+    pfc = trt.PluginFieldCollection([pf_hidden_size, pf_num_heads, pf_has_mask, pf_type])
     qkv2ctx_plug = qkv2_plg_creator.create_plugin("qkv2ctx", pfc)
 
     qkv_in = [mult_all.get_output(0)]
     if has_mask:
         qkv_in.append(imask)
     qkv2ctx = network.add_plugin_v2(qkv_in, qkv2ctx_plug)
-    if config.use_int8:
-        set_output_range(qkv2ctx, init_dict[prefix + "output_dense_in_amax"])
     return qkv2ctx
 
 
-def skipln(prefix, config, init_dict, network, input_tensor, skip, residual, is_last_layer, bias=None):
+def skipln(prefix, config, init_dict, network, input_tensor, skip, bias=None):
     """
     Add the skip layer
     """
@@ -158,77 +140,81 @@ def skipln(prefix, config, init_dict, network, input_tensor, skip, residual, is_
     hidden_size = idims[2]
 
     dtype = trt.float32
-    if config.use_int8:
-        dtype = trt.int8
-
-    wbeta = init_dict[prefix + "beta"]
-    wgamma = init_dict[prefix + "gamma"]
+    if config.use_fp16:
+        dtype = trt.float16
 
     pf_ld = trt.PluginField("ld", np.array([hidden_size], np.int32), trt.PluginFieldType.INT32)
+    wbeta = init_dict[prefix + "beta"]
     pf_beta = trt.PluginField("beta", wbeta, trt.PluginFieldType.FLOAT32)
+    wgamma = init_dict[prefix + "gamma"]
     pf_gamma = trt.PluginField("gamma", wgamma, trt.PluginFieldType.FLOAT32)
     pf_type = trt.PluginField("type_id", np.array([int(dtype)], np.int32), trt.PluginFieldType.INT32)
 
     fields = [pf_ld, pf_beta, pf_gamma, pf_type ]
+
     if bias is not None:
         pf_bias = trt.PluginField("bias", bias, trt.PluginFieldType.FLOAT32)
         fields.append(pf_bias)
-    if is_last_layer:
-        pf_fp32 = trt.PluginField("output_fp32", np.array([1], np.int32), trt.PluginFieldType.INT32)
-        fields.append(pf_fp32)
 
     pfc = trt.PluginFieldCollection(fields)
     skipln_plug = skln_plg_creator.create_plugin("skipln", pfc)
 
     skipln_inputs = [input_tensor, skip]
-    if config.use_int8:
-        skipln_inputs.append(residual)
     layer = network.add_plugin_v2(skipln_inputs, skipln_plug)
     return layer
 
-def ffn(prefix, config, init_dict, network, input_tensor, residual, is_last_layer):
+def ffn_trt(prefix, config, init_dict, network, input_tensor):
      # FC1 + GELU
     B_mid = init_dict[prefix + B_MID]
     W_mid = init_dict[prefix + W_MID]
-
-    mid_dense = custom_fc(prefix + "intermediate_dense_", config, init_dict, network, input_tensor, config.intermediate_size, W_mid, None)
-    set_output_range(mid_dense, init_dict[prefix + "intermediate_dense_out_amax"])
+    mid_dense = network.add_fully_connected(input_tensor, config.intermediate_size, W_mid, B_mid)
 
     dtype = trt.float32
-
-    if config.use_int8:
-        dtype = trt.int8
-
+    if config.use_fp16:
+        dtype = trt.float16
     pf_type = trt.PluginField("type_id", np.array([int(dtype)], np.int32), trt.PluginFieldType.INT32)
-    pf_ld = trt.PluginField("ld", np.array([int(config.intermediate_size)], np.int32), trt.PluginFieldType.INT32)
-    fields = [pf_type, pf_ld]
-    if config.use_int8:
-        pf_bias = trt.PluginField("bias", B_mid, trt.PluginFieldType.FLOAT32)
-        fields.append(pf_bias)
-    
-    pfc = trt.PluginFieldCollection(fields)
+    pf_ld = trt.PluginField("ld", np.array([config.hidden_size], np.int32), trt.PluginFieldType.INT32)
+
+    pfc = trt.PluginFieldCollection([pf_type, pf_ld])
     gelu_plug = gelu_plg_creator.create_plugin("gelu", pfc)
 
     gelu_inputs = [mid_dense.get_output(0)]
     gelu_layer = network.add_plugin_v2(gelu_inputs, gelu_plug)
 
-    if config.use_int8:
-        set_output_range(gelu_layer, init_dict[prefix + "output_dense_in_amax"])
-
     intermediate_act = gelu_layer.get_output(0)
-    # set_tensor_name(intermediate_act, prefix, "gelu")
 
     # FC2
     # Dense to hidden size
     B_lout = init_dict[prefix + B_LOUT]
     W_lout = init_dict[prefix + W_LOUT]
-    out_dense = custom_fc(prefix + "output_dense_", config, init_dict, network, intermediate_act, config.hidden_size, W_lout, None)
-    set_output_range(out_dense, init_dict[prefix + "output_dense_out_amax"])
+    out_dense = network.add_fully_connected(intermediate_act, config.hidden_size, W_lout, B_lout)
+    B_lout = None
 
-    out_layer = skipln(prefix + "output_layernorm_", config, init_dict, network, out_dense.get_output(0), input_tensor, residual, is_last_layer, B_lout)
+    out_layer = skipln(prefix + "output_layernorm_", config, init_dict, network, out_dense.get_output(0), input_tensor, B_lout)
     return out_layer
 
-def transformer_layer_opt(prefix, config, init_dict, network, input_tensor, imask, residual, is_last_layer):
+def ffn(prefix, config, init_dict, network, input_tensor):
+    # FC1 + GELU
+    B_mid = init_dict[prefix + B_MID]
+    W_mid = init_dict[prefix + W_MID]
+    B_lout = init_dict[prefix + B_LOUT]
+    W_lout = init_dict[prefix + W_LOUT]
+    pf_out_dim = trt.PluginField("out_dims", np.array(config.hidden_size, np.int32), trt.PluginFieldType.INT32)
+    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), np.int32), trt.PluginFieldType.INT32)
+    pf_W1 = trt.PluginField("W1", W_mid, trt.PluginFieldType.FLOAT32)
+    pf_W2 = trt.PluginField("W2", W_lout, trt.PluginFieldType.FLOAT32)
+    pf_B1 = trt.PluginField("B1", B_mid, trt.PluginFieldType.FLOAT32)
+    pf_act_type = trt.PluginField("act_type", np.array(int(3), np.int32), trt.PluginFieldType.INT32)
+    pfc = trt.PluginFieldCollection([pf_out_dim, pf_type, pf_W1, pf_W2, pf_B1, pf_act_type])
+    ffn_plug = ffn_plg_creator.create_plugin("ffn", pfc)
+
+    ffn_inputs = [input_tensor]
+    ffn_layer = network.add_plugin_v2(ffn_inputs, ffn_plug)
+
+    out_layer = skipln(prefix + "output_layernorm_", config, init_dict, network, ffn_layer.get_output(0), input_tensor, B_lout)
+    return out_layer
+
+def transformer_layer_opt(prefix, config, init_dict, network, input_tensor, imask):
     """
     Add the transformer layer
     """
@@ -241,34 +227,27 @@ def transformer_layer_opt(prefix, config, init_dict, network, input_tensor, imas
     # FC0
     B_aout = init_dict[prefix + B_AOUT]
     W_aout = init_dict[prefix + W_AOUT]
-    attention_out_fc = custom_fc(prefix + "attention_output_dense_", config, init_dict, network, attention_heads, hidden_size, W_aout, None)
-    set_output_range(attention_out_fc, init_dict[prefix + "attention_output_dense_out_amax"])   
+    attention_out_fc = custom_fc(network, attention_heads, hidden_size, W_aout, B_aout)
+    B_aout = None     
     
-    skiplayer = skipln(prefix + "attention_output_layernorm_", config, init_dict, network, attention_out_fc.get_output(0), input_tensor, residual, False, B_aout)
-    if config.use_int8:
-        set_output_range(skiplayer, init_dict[prefix + "intermediate_dense_in_amax"])
-    
-    ffn_layer = ffn(prefix, config, init_dict, network, skiplayer.get_output(0), skiplayer.get_output(1), is_last_layer)
+    skiplayer = skipln(prefix + "attention_output_layernorm_",config, init_dict, network, attention_out_fc.get_output(0), input_tensor, B_aout)
+    attention_ln = skiplayer.get_output(0)
+
+    if config.use_trt:
+        ffn_layer = ffn_trt(prefix, config, init_dict, network, attention_ln)
+    else:
+        ffn_layer = ffn(prefix, config, init_dict, network, attention_ln)
     return ffn_layer
 
-def bert_model(config, init_dict, network, input_tensor, input_mask, residual):
+def bert_model(config, init_dict, network, input_tensor, input_mask):
     """
     Create the bert model
     """
     prev_input = input_tensor
     for layer in range(0, config.num_hidden_layers):
-        ss = "l{}_".format(layer) 
-        out_layer = transformer_layer_opt(ss, config,  init_dict, network, prev_input, input_mask, residual,
-                                          True if config.use_int8 and layer == config.num_hidden_layers - 1 else False)
+        ss = "l{}_".format(layer)   
+        out_layer = transformer_layer_opt(ss, config,  init_dict, network, prev_input, input_mask)
         prev_input = out_layer.get_output(0)
-        residual = None
-        if config.use_int8:
-            residual = out_layer.get_output(1)
-        if layer < config.num_hidden_layers - 1:
-            set_output_range(out_layer, init_dict["l{}_".format(layer+1) + "attention_self_qkv_in_amax"])
-        else:
-            set_output_range(out_layer, 1)
-
     return prev_input
 
 def squad_output(prefix, config, init_dict, network, input_tensor):
@@ -282,7 +261,12 @@ def squad_output(prefix, config, init_dict, network, input_tensor):
     W_out = init_dict[prefix + SQD_W]
     B_out = init_dict[prefix + SQD_B]
 
-    dense = custom_fc_fp16(network, input_tensor, 2, W_out, B_out)
+    dense = custom_fc(network, input_tensor, 2, W_out, B_out)
+
+    if config.use_trt:
+        OUT = network.add_shuffle(dense.get_output(0))
+        OUT.second_transpose = (1, 0, 2)
+        return OUT
     return dense
 
 def emb_layernorm(builder, network, config, weights_dict, builder_config, sequence_lengths, batch_sizes):
@@ -309,18 +293,23 @@ def emb_layernorm(builder, network, config, weights_dict, builder_config, sequen
     wtokemb = trt.PluginField("bert_embeddings_token_type_embeddings", weights_dict["bert_embeddings_token_type_embeddings"], trt.PluginFieldType.FLOAT32)
     wposemb = trt.PluginField("bert_embeddings_position_embeddings", weights_dict["bert_embeddings_position_embeddings"], trt.PluginFieldType.FLOAT32)
 
-    output_fp16 = trt.PluginField("output_fp16", np.array([1]).astype(np.int32), trt.PluginFieldType.INT32)
+    output_fp16 = trt.PluginField("output_fp16", np.array([1 if config.use_fp16 else 0]).astype(np.int32), trt.PluginFieldType.INT32)
     mha_type = trt.PluginField("mha_type_id", np.array([get_mha_dtype(config)], np.int32), trt.PluginFieldType.INT32)
 
     pfc = trt.PluginFieldCollection([wbeta, wgamma, wwordemb, wtokemb, wposemb, output_fp16, mha_type])
     fn = emln_plg_creator.create_plugin("embeddings", pfc)
 
-    inputs = [input_ids, segment_ids, input_mask]
+    if config.use_trt:
+        input_ids = network.add_shuffle(input_ids)
+        input_ids.second_transpose = (1, 0)
+        segment_ids = network.add_shuffle(segment_ids)
+        segment_ids.second_transpose = (1, 0)
+        input_mask = network.add_shuffle(input_mask)
+        input_mask.second_transpose = (1, 0)
+        inputs = [input_ids.get_output(0), segment_ids.get_output(0), input_mask.get_output(0)]
+    else:
+        inputs = [input_ids, segment_ids, input_mask]
     emb_layer = network.add_plugin_v2(inputs, fn)
-    
-    if config.use_int8:
-        set_output_range(emb_layer, weights_dict["l0_attention_self_qkv_in_amax"])
-        set_output_range(emb_layer, 1.0, 1)
     return emb_layer
 
 def build_engine(batch_sizes, sequence_lengths, config, weights_dict):
@@ -328,20 +317,15 @@ def build_engine(batch_sizes, sequence_lengths, config, weights_dict):
 
     builder = trt.Builder(TRT_LOGGER)
     with builder.create_network(explicit_batch_flag) as network, builder.create_builder_config() as builder_config:
-        network = builder.create_network(explicit_batch_flag) 
-        builder_config = builder.create_builder_config()
-        builder_config.set_flag(trt.BuilderFlag.INT8)
+        if config.use_fp16:
+            builder_config.set_flag(trt.BuilderFlag.FP16)
 
         # Create the network
         emb_layer = emb_layernorm(builder, network, config, weights_dict, builder_config, sequence_lengths, batch_sizes)
         embeddings = emb_layer.get_output(0)
         mask_idx = emb_layer.get_output(1)
-
-        residual_buffer = None
-        if config.use_int8:
-            residual_buffer = emb_layer.get_output(2)
-
-        bert_out = bert_model(config, weights_dict, network, embeddings, mask_idx, residual_buffer)
+        
+        bert_out = bert_model(config, weights_dict, network, embeddings, mask_idx)
 
         squad_logits = squad_output("cls_", config, weights_dict, network, bert_out)
         squad_logits_out = squad_logits.get_output(0)
@@ -353,9 +337,13 @@ def build_engine(batch_sizes, sequence_lengths, config, weights_dict):
         build_time_elapsed = (time.time() - build_start_time)
         TRT_LOGGER.log(TRT_LOGGER.INFO, "build engine in {:.3f} Sec".format(build_time_elapsed))
         return plan
-    
+
+def str2bool(v):
+    return v.lower() in ('yes', 'true')    
+
 def main():
     parser = argparse.ArgumentParser(description="TensorRT BERT Sample", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("-z", "--use_trt", type=str2bool, default=False, help = "Whether to use tensorRT or IxRT")
     parser.add_argument("-x", "--onnx", required=False, help="The ONNX model file path.")
     parser.add_argument("-pt", "--pytorch", required=False, help="The PyTorch checkpoint file path.")
     parser.add_argument("-o", "--output", required=True, default="bert_base_384.engine", help="The bert engine file, ex bert.engine")
@@ -364,7 +352,6 @@ def main():
     parser.add_argument("-c", "--config-dir", required=True,
                         help="The folder containing the bert_config.json, which can be downloaded e.g. from https://github.com/google-research/bert#pre-trained-models or by running download_models.py in dle/TensorFlow/LanguageModeling/BERT/data/pretrained_models_google")
     parser.add_argument("-f", "--fp16", action="store_true", help="Indicates that inference should be run in FP16 precision", required=False)
-    parser.add_argument("-i", "--int8", action="store_true", help="Indicates that inference should be run in INT8 precision", required=False)
     parser.add_argument("-j", "--squad-json", default="squad/dev-v1.1.json", help="squad json dataset used for int8 calibration", required=False)
     parser.add_argument("-v", "--vocab-file", default="./pre-trained_model/uncased_L-24_H-1024_A-16/vocab.txt", help="Path to file containing entire understandable vocab", required=False)
     parser.add_argument("--verbose", action="store_true", help="Turn on verbose logger and set profiling verbosity to DETAILED", required=False)
@@ -384,20 +371,18 @@ def main():
     if args.verbose:
         TRT_LOGGER.min_severity = TRT_LOGGER.VERBOSE
 
-    bert_config_path = os.path.join(args.config_dir, "config.json")
+    bert_config_path = args.config_dir
     TRT_LOGGER.log(TRT_LOGGER.INFO, "Using configuration file: {:}".format(bert_config_path))
 
-    config = BertConfig(bert_config_path, args.int8)
+    config = BertConfig(bert_config_path, args.fp16, args.use_trt)
 
     if args.onnx != None:
-        if args.int8:
-            raise RuntimeError("int8 onnx not supported now!!!")
+        weights_dict = load_onnx_weights_and_quant(args.onnx, config)
     elif args.pytorch != None:
         weights_dict = load_pytorch_weights_and_quant(args.pytorch, config)
     else:
         raise RuntimeError("You need either specify TF checkpoint using option --ckpt or ONNX using option --onnx to build TRT BERT model.")
 
-    # engine = build_engine(args.batch_size, args.workspace_size, args.sequence_length, config, weights_dict, args.squad_json, args.vocab_file, None, args.calib_num, args.verbose)
     with build_engine(args.batch_size, args.sequence_length, config, weights_dict) as serialized_engine:
         TRT_LOGGER.log(TRT_LOGGER.INFO, "Saving Engine to {:}".format(args.output))
         with open(args.output, "wb") as fout:

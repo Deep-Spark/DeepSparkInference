@@ -16,27 +16,6 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
-pip install -r requirements.txt
-
-# install ixrt run
-bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
-
-if [ "$1" = "nvidia" ]; then
-    cmake -S . -B build -DUSE_TENSORRT=true
-    cmake --build build -j16
-else
-    cmake -S . -B build
-    cmake --build build -j16
-fi
-
-mkdir -p ./python/data
-ln -s /root/data/checkpoints/bert_base_uncased_squad/ ./python/data && ln -s /root/data/datasets/squad/ ./python/data
+mkdir -p data/datasets/bert_base_squad/
+mkdir -p data/checkpoints/bert_base_squad
+ln -s /root/data/checkpoints/bert_base_uncased_squad/ ./data/checkpoints/bert_base_squad && ln -s /root/data/datasets/squad ./data/datasets/bert_base_squad/

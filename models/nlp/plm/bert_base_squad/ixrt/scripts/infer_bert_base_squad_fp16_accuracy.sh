@@ -14,8 +14,8 @@
 #    under the License.
 set -eo pipefail
 
-BSZ=32
-TGT=86
+BSZ=1
+TGT=88.5
 USE_TRT=False
 
 # Update arguments
@@ -32,33 +32,31 @@ do
     esac
 done
 
-current_path=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-project_path=$(realpath ${current_path}/..)
-echo ${project_path}
-checkpoints_path=${project_path}/data/bert_base_uncased_squad/
-datasets_path=${project_path}/data/
+project_path=./
+checkpoints_path=${project_path}/data/checkpoints/bert_base_squad/bert_base_uncased_squad
+datasets_path=${project_path}/data/datasets/bert_base_squad/
 
 echo 'USE_TRT='${USE_TRT}
 export USE_TRT=$USE_TRT
 
-echo "Step1 Build Engine Int8(bert base squad)!"
-cd ${project_path}/ixrt
-python3 builder_int8.py -pt ${checkpoints_path}/bert_base_int8_qat.bin \
-                -o ${checkpoints_path}/bert_base_int8_b${BSZ}.engine \
-                -b 1 ${BSZ} ${BSZ} \
-                -s 1 384 384 \
-                -i \
-                -c ${checkpoints_path}
+echo "Step1 Build Engine FP16(bert base squad)!"
+python3 builder.py -x ${checkpoints_path}/bert_base_squad.onnx \
+                   -w 4096 \
+                   -o ${checkpoints_path}/bert_base_b${BSZ}.engine \
+                   -s 1 384 384 \
+                   -b 1 ${BSZ} ${BSZ}\
+                   --fp16 \
+                   -c ${checkpoints_path}/config.json \
+                   -z ${USE_TRT}
 
 echo "Step2 Run dev.json and generate json"
-python3 inference.py -e ${checkpoints_path}/bert_base_int8_b${BSZ}.engine \
-                        -b ${BSZ} \
+python3 inference.py -e ${checkpoints_path}/bert_base_b${BSZ}.engine \
                         -s 384 \
+                        -b ${BSZ} \
                         -sq ${datasets_path}/squad/dev-v1.1.json \
                         -v ${checkpoints_path}/vocab.txt \
-                        -o ${checkpoints_path}/predictions-bert_base_int8_b${BSZ}.json \
-                        -z ${USE_TRT} \
-                        -i
+                        -o ${checkpoints_path}/predictions-bert_base_b${BSZ}.json \
+                        -z ${USE_TRT}
 
 echo "Step3 Inference(test F1-score)"
-python3 evaluate-v1.1.py  ${datasets_path}/squad/dev-v1.1.json  ${checkpoints_path}/predictions-bert_base_int8_b${BSZ}.json ${TGT}
+python3 evaluate-v1.1.py  ${datasets_path}/squad/dev-v1.1.json  ${checkpoints_path}/predictions-bert_base_b${BSZ}.json ${TGT}
