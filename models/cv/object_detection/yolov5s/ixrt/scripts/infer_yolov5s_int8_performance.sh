@@ -40,6 +40,9 @@ echo ====================== Model Info ======================
 echo Model Name : ${MODEL_NAME}
 echo Onnx Path : ${ORIGINE_MODEL}
 
+CHECKPOINTS_DIR=${CHECKPOINTS_DIR}/tmp
+mkdir -p ${CHECKPOINTS_DIR}
+
 step=0
 faster=0
 CURRENT_MODEL=${ORIGINE_MODEL}

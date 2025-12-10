@@ -86,11 +86,11 @@ popd
 
 ```bash
 export PROJ_DIR=./
-export DATASETS_DIR=./coco/
 export DATASETS_DIR=/Path/to/coco/
+export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 export EVAL_DIR=${DATASETS_DIR}/images/val2017
-export RUN_DIR=../../ixrt_common/
+export RUN_DIR=../../ixrt_common
 export CONFIG_DIR=../../ixrt_common/config/YOLOV5M_CONFIG
 ```
 
