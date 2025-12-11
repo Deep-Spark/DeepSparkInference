@@ -194,12 +194,19 @@ def run_clf_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
-            script = base_script + f"""
-                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-            """
 
             r, t = run_script(script)
             sout = r.stdout
@@ -270,12 +277,28 @@ def run_detec_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                export_onnx_script = ""
+                if model_name == "yolov5s":
+                    export_onnx_script = f"""
+                        cd ../{model['model_path']}/yolov5
+                        python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
+                        mv yolov5s.onnx ../checkpoints
+                        rm -rf ../checkpoints/tmp
+                        cd -
+                    """
+                script = export_onnx_script + base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
-            script = base_script + f"""
-                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-            """
 
             r, t = run_script(script)
             sout = r.stdout
@@ -494,10 +517,10 @@ def run_nlp_testcase(model, batch_size):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
-    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1"}
+    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1", "transformer": ""}
     target_dir = target_dirs[model_name]
     dirname = os.path.dirname(target_dir)
-    mkdir_script = f"mkdir -p {dirname}" if dirname else ""
+    mkdir_script = f"mkdir -p {dirname}" if dirname != "" else ""
 
     prepare_script = f"""
     set -x
@@ -527,12 +550,19 @@ def run_nlp_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
-            script = base_script + f"""
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
-            """
 
             r, t = run_script(script)
             sout = r.stdout
@@ -587,12 +617,19 @@ def run_speech_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
-            script = base_script + f"""
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh
-            bash scripts/infer_{model_name}_{prec}_performance.sh
-            """
 
             r, t = run_script(script)
             sout = r.stdout

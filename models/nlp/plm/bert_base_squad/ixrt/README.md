@@ -16,69 +16,26 @@ BERT is designed to pre-train deep bidirectional representations from unlabeled 
 ### Prepare Resources
 
 ```bash
-cd python
-bash script/prepare.sh v1_1
+mkdir -p data/datasets/bert_base_squad/squad
+mkdir -p data/checkpoints/bert_base_squad
+wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/bert_base_uncased_squad.tar
+tar -xvf bert_base_uncased_squad.tar -C data/checkpoints/bert_base_squad/
+wget https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json -O data/datasets/bert_base_squad/squad/dev-v1.1.json
 ```
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-
-#### Install on Iluvatar
-
 ```bash
-cmake -S . -B build
-cmake --build build -j16
-```
-
-#### Install on NV
-
-Require tensorrt_version >= 8.6
-
-```bash
-# Get TensorRT docker image
-docker pull nvcr.io/nvidia/tensorrt:23.04-py3
-# Run TensorRT docker
-```
-
-```bash
-# Install requirements.txt in TensorRT docker
 pip3 install -r requirements.txt
-
-# Build
-cmake -S . -B build -DUSE_TENSORRT=true
-cmake --build build -j16
 ```
 
 ## Model Inference
 
-### On Iluvatar
-
-#### FP16
+### FP16
 
 ```bash
-cd script/
-
-# FP16
-bash infer_bert_base_squad_fp16_ixrt.sh
-
-# INT8
-bash infer_bert_base_squad_int8_ixrt.sh
-```
-
-### On NV
-
-```bash
-# FP16
-# use --bs to set max_batch_size (dynamic) 
-bash script/build_engine.sh --bs 32
-bash script/inference_squad.sh --bs 32
-
-# INT8
-bash script/build_engine.sh --bs 32 --int8
-bash script/inference_squad.sh --bs 32 --int8
+bash scripts/infer_bert_base_squad_fp16_accuracy.sh
+bash scripts/infer_bert_base_squad_fp16_performance.sh
 ```
 
 ## Model Results
@@ -86,7 +43,6 @@ bash script/inference_squad.sh --bs 32 --int8
 | Model           | BatchSize | Precision | Latency QPS | exact_match | f1    |
 | --------------- | --------- | --------- | ----------- | ----------- | ----- |
 | BERT Base SQuAD | 32        | FP16      | 1444.69     | 80.92       | 88.20 |
-| BERT Base SQuAD | 32        | INT8      | 2325.20     | 78.41       | 86.97 |
 
 ## Referenece
 

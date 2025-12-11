@@ -34,21 +34,22 @@ done
 echo "batch size is ${batchsize}"
 
 # quant
-python3 python/quant.py             \
+python3 quant.py             \
         --model_name ${model_path}  \
         --model ${model_path}.onnx      \
         --dataset_dir ${datasets_path}/val2017      \
         --ann_file ${datasets_path}/annotations/instances_val2017.json      \
-        --save_dir ./
+        --save_dir ./       \
+        --bsz ${batchsize}
 
 # build engine
-python3 python/build_engine_by_write_qparams.py         \
+python3 build_engine_by_write_qparams.py         \
         --onnx quantized_yolox.onnx                     \
         --qparam_json quant_cfg.json                    \
         --engine ${model_path}_int8.engine
 
 # inference
-python3 python/inference.py                             \
+python3 inference.py                             \
         --engine ${model_path}_int8.engine              \
         --batchsize ${batchsize}                        \
         --datasets ${datasets_path}

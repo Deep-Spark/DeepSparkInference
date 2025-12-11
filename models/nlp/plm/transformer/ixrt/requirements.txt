@@ -1,0 +1,6 @@
+numpy==1.26.4
+cython
+antlr4-python3-runtime==4.9.3
+sacrebleu==2.5.1
+bitarray
+scikit-learn

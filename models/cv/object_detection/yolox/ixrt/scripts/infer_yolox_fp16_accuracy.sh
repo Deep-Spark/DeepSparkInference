@@ -35,26 +35,26 @@ echo "batch size is ${batchsize}"
 DECODER_INPUT_NAMES="/head/obj_preds.0/Conv_output_0 /head/cls_preds.0/Conv_output_0 /head/reg_preds.1/Conv_output_0 /head/cls_preds.1/Conv_output_0 /head/reg_preds.2/Conv_output_0 /head/obj_preds.2/Conv_output_0 /head/cls_preds.2/Conv_output_0"
 
 # cut onnx
-python3 python/cut_model.py                             \
+python3 cut_model.py                             \
         --input_model ${model_path}.onnx                \
         --output_model ${model_path}_cut.onnx           \
         --input_names images                            \
-        --output_names ${DECODER_INPUT_NAMES[@]}        
+        --output_names ${DECODER_INPUT_NAMES[@]}
 
 # create onnx
-python3 python/deploy.py                        \
+python3 deploy.py                        \
         --src ${model_path}_cut.onnx            \
         --dst ${model_path}_decoder.onnx
 
+
 # build engine
-python3 python/build_engine.py                  \
+python3 build_engine.py                  \
         --model ${model_path}.onnx              \
         --precision float16                     \
         --engine ${model_path}_decoder.engine
 
 # inference
-python3 python/inference.py                             \
+python3 inference.py                             \
         --engine ${model_path}_decoder.engine           \
         --batchsize ${batchsize}                        \
         --datasets ${datasets_path}
-

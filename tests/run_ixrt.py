@@ -219,13 +219,19 @@ def run_clf_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
-
-            script = base_script + f"""
-                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-            """
 
             if model_name == "swin_transformer_large":
                 script = base_script
@@ -325,13 +331,44 @@ def run_detec_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                export_onnx_script = ""
+                if model_name == "yolov5":
+                    export_onnx_script = f"""
+                        cd ../{model['model_path']}/yolov5
+                        python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size {bs}
+                        mv yolov5m.onnx ../checkpoints
+                        rm -rf ../checkpoints/tmp
+                        cd -
+                    """
+                elif model_name == "yolox":
+                    export_onnx_script = f"""
+                        cd ../{model['model_path']}/YOLOX
+                        python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size {bs}
+                        rm -rf ../checkpoints/tmp
+                        cd -
+                    """
+                elif model_name == "yolov5s":
+                    export_onnx_script = f"""
+                        cd ../{model['model_path']}/yolov5
+                        python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
+                        mv yolov5s.onnx ../checkpoints
+                        rm -rf ../checkpoints/tmp
+                        cd -
+                    """
+                script = export_onnx_script + base_script + f"""
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
             result["result"].setdefault(prec, {"status": "FAIL"})
-            script = base_script + f"""
-                bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-            """
 
             if model_name == "rtmpose":
                 script = f"""
@@ -568,30 +605,26 @@ def run_nlp_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            script = base_script
+            if bs == "None":
+                bs = "Default"
+                if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
+                    script = f"""
+                        set -x
+                        cd ../{model['model_path']}/
+                        bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                        bash scripts/infer_{model_name}_{prec}_performance.sh
+                    """
+            else:
+                if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
+                    script = f"""
+                        set -x
+                        cd ../{model['model_path']}/
+                        bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                        bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
-            script = base_script
-
-            if model_name == "bert_base_squad":
-                script = f"""
-                set -x
-                cd ../{model['model_path']}/python
-                bash script/infer_bert_base_squad_{prec}_ixrt.sh --bs {bs}
-                """
-            elif model_name == "bert_large_squad":
-                script = f"""
-                set -x
-                cd ../{model['model_path']}/
-                bash script/infer_bert_large_squad_fp16_accuracy.sh --bs {bs}
-                bash script/infer_bert_large_squad_fp16_performance.sh --bs {bs}
-                """
-                if prec == "int8":
-                    script = f"""
-                    set -x
-                    cd ../{model['model_path']}/
-                    bash script/infer_bert_large_squad_int8_accuracy.sh --bs {bs}
-                    bash script/infer_bert_large_squad_int8_performance.sh --bs {bs}
-                    """
 
             r, t = run_script(script)
             sout = r.stdout
@@ -611,7 +644,7 @@ def run_nlp_testcase(model, batch_size):
                 result["result"][prec][bs].update(get_metric_result(m))
                 result["result"][prec]["status"] = "PASS"
             
-            if model_name == "bert_large_squad":
+            if model_name == "bert_large_squad" or model_name == "bert_base_squad":
                 patterns = {
                     "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
                     "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
@@ -658,13 +691,21 @@ def run_speech_testcase(model, batch_size):
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
+            if bs == "None":
+                bs = "Default"
+                script = f"""
+                    cd ../{model['model_path']}
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                """
+            else:
+                script = f"""
+                    cd ../{model['model_path']}
+                    bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs:{bs} test case")
-            script = f"""
-            cd ../{model['model_path']}
-            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-            """
 
             if model_name == "transformer_asr":
                 script = f"""
