@@ -304,7 +304,7 @@ inference to be expanded in the future.
 | MiniCPM-V 2         |   vLLM   | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
-| Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | 4.3.0     |
+| Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |
 ### NLP
 
 #### PLM (Pre-trained Language Model)
