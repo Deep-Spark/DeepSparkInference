@@ -8,6 +8,7 @@ MViTv2_base is an efficient multi-scale vision Transformer model designed specif
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
+| MR-V100 | dev-only     |  25.12  |
 | MR-V100 | 4.2.0     |  25.03  |
 
 ## Model Preparation
@@ -21,16 +22,8 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../igie_common/requirements.txt
 pip3 install mmcv==1.5.3 mmcls==0.24.0
-Contact the Iluvatar administrator to get the missing packages:
-- igie-0.18.1+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl or later
 ```
 
 ### Model Conversion
@@ -44,7 +37,6 @@ python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/mvit/mvitv2-b
 
 # Use onnxsim optimize onnx model
 onnxsim mvitv2_base.onnx mvitv2_base_opt.onnx
-
 ```
 
 ## Model Inference

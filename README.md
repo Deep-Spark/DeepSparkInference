@@ -127,7 +127,7 @@
 |                        | INT8  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.3.0     |
 | MobileNetV3_Large      | FP16  | [✅](models/cv/classification/mobilenet_v3_large/igie)  |                                                           | 4.3.0     |
 | MobileNetV3_Small      | FP16  | [✅](models/cv/classification/mobilenet_v3/igie)        | [✅](models/cv/classification/mobilenet_v3/ixrt)           | 4.3.0     |
-| MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | 4.2.0     |
+| MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | dev-only   |
 | RegNet_x_16gf          | FP16  | [✅](models/cv/classification/regnet_x_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_3_2gf         | FP16  | [✅](models/cv/classification/regnet_x_3_2gf/igie)      |                                                           | 4.3.0     |

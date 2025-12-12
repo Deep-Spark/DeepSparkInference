@@ -1870,7 +1870,7 @@
             "release_version": "24.12",
             "release_sdk": "4.1.2",
             "release_gpgpu": "MR-V100",
-            "latest_sdk": "4.2.0",
+            "latest_sdk": "4.4.0",
             "latest_gpgpu": "",
             "category": "cv/classification",
             "toolbox": "",
