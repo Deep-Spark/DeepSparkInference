@@ -130,6 +130,19 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
     checkpoint_n = model["download_url"].split("/")[-1]
     base_script = f"set -x\ncd ../{model_path}\n"
 
+    if model_name in [
+        "deepseek-r1-distill-llama-70b","llama3-70b",
+        "qwen1.5-72b"]:
+        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096"
+    elif model_name == "qwen2-72b":
+        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768"
+    elif model_name == "nvlm":
+        return base_script + f"""
+            export VLLM_ASSETS_CACHE=../vllm/
+            export VLLM_FORCE_NCCL_COMM=1
+            python3 offline_inference_vision_language.py --model ./{model_name} -tp 8
+            """
+
     # Handle models with prefix (cannot use match)
     if model_name.startswith("deepseek-r1-distill-"):
         tp = "4" if model_name == "deepseek-r1-distill-qwen-32b" else "2"
@@ -286,8 +299,21 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
 
 # --- Main function (now simple and low complexity) ---
 def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
+    get_num_devices_script = "ixsmi -L | wc -l"
+    result, _ = run_script(get_num_devices_script)
+    num_devices = int(result.stdout.strip())
+    logging.info(f"Detected number of GPU devices: {num_devices}")
     model_name = model["model_name"]
     checkpoint_n = model["download_url"].split("/")[-1]
+    if num_devices < 8 and model_name in [
+        "deepseek-r1-distill-llama-70b","llama3-70b",
+        "qwen1.5-72b","qwen2-72b","nvlm"   ]:
+        logging.warning(f"Skipping test for {model_name} due to insufficient GPU devices ({num_devices} detected).")
+        return {"name": model_name, "result": {}, "status": "SKIPPED"}
+    
+    if model_name in ["qwen3-235b","step3","ultravox"]:
+        logging.warning(f"Skipping test for {model_name} as it is not supported in this script.")
+        return {"name": model_name, "result": {}, "status": "SKIPPED"}
 
     prepare_script = f"""
 set -x

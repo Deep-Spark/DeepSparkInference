@@ -40,7 +40,7 @@ apt install -y libgl1-mesa-glx
 ## Model Inference
 
 ```bash
-export CUDA_VISIBLE_DEVICES=0,1
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python3 offline_inference.py --model ./data/qwen1.5/Qwen1.5-72B --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096
 ```
 
