@@ -204,10 +204,11 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
     model_name = model["model_name"]
     category = model["category"]
 
-    excluded_llms = {"baichuan2-7b", "llama2-7b", "qwen-7b", "stablelm"}
+    excluded_llms = {"baichuan2-7b", "llama2-7b", "qwen-7b", "stablelm", "deepseek-r1-distill-llama-70b","llama3-70b",
+        "qwen1.5-72b", "qwen2-72b"}
     excluded_vlms = {
         "fuyu_8b", "chameleon_7b", "llava", "llava_next_video_7b", "paligemma",
-        "glm-4v", "qwen_vl", "pixtral", "xlmroberta"
+        "glm-4v", "qwen_vl", "pixtral", "xlmroberta", "nvlm"
     }
 
     common_bench = (
@@ -307,7 +308,7 @@ def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
     checkpoint_n = model["download_url"].split("/")[-1]
     if num_devices < 8 and model_name in [
         "deepseek-r1-distill-llama-70b","llama3-70b",
-        "qwen1.5-72b","qwen2-72b","nvlm"   ]:
+        "qwen1.5-72b","qwen2-72b","nvlm"]:
         logging.warning(f"Skipping test for {model_name} due to insufficient GPU devices ({num_devices} detected).")
         return {"name": model_name, "result": {}, "status": "SKIPPED"}
     
