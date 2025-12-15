@@ -40,18 +40,6 @@ echo Onnx Path : ${ORIGINE_MODEL}
 BATCH_SIZE=32
 CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov6s.onnx
 
-# fuse silu
-# FINAL_MODEL=${CHECKPOINTS_DIR}/yolov6_bs${BATCH_SIZE}_fused.onnx
-# if [ -f $FINAL_MODEL ];then
-#     echo "  "Fuse silu Skip, $FINAL_MODEL has been existed
-# else
-#     python3 ${RUN_DIR}/deploy.py             \
-#         --src ${CURRENT_MODEL}               \
-#         --dst ${FINAL_MODEL}                 
-#     echo "  "Generate ${FINAL_MODEL}
-# fi
-# CURRENT_MODEL=${FINAL_MODEL}
-
 # Build Engine
 echo Build Engine
 ENGINE_FILE=${CHECKPOINTS_DIR}/yolov6s_fp16.engine
