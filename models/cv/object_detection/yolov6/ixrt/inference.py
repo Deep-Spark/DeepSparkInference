@@ -64,7 +64,7 @@ class EvalerIXRT(Evaler):
         dataloader = init_data(None,'val')
         pred_results = []
         
-        input_name = "input"
+        input_name = "images"
         host_mem = tensorrt.IHostMemory
         logger = tensorrt.Logger(tensorrt.Logger.ERROR)
         engine, context = create_engine_context(args.model_engine, logger)

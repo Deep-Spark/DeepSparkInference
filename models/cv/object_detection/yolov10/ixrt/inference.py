@@ -119,7 +119,7 @@ class IxRT_Validator(DetectionValidator):
         
         total_num = 0
 
-        input_name = "input"
+        input_name = "images"
         host_mem = tensorrt.IHostMemory
         logger = tensorrt.Logger(tensorrt.Logger.ERROR)
         engine, context = create_engine_context(config.model_engine, logger)

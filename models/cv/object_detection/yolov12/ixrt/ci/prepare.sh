@@ -17,7 +17,7 @@
 set -x
 pip3 install -r requirements.txt
 
-git clone --depth 1 https://github.com/sunsmarterjie/yolov12.git
+cp -r /root/data/3rd_party/yolov12 ./
 cd yolov12
 pip3 install -e .
 cd ..

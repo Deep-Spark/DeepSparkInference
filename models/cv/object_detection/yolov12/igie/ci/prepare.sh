@@ -16,18 +16,9 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install -r requirements.txt
 
-git clone --depth 1 https://github.com/sunsmarterjie/yolov12.git
+cp -r /mnt/deepspark/data/3rd_party/yolov12 ./
 
 cd yolov12
 pip3 install -e .
