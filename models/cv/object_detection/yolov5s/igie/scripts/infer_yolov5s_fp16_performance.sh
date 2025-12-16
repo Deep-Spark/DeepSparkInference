@@ -12,7 +12,7 @@ check_status()
 # Run paraments
 BSZ=32
 WARM_UP=3
-TGT=840
+TGT=-1
 LOOP_COUNT=100
 RUN_MODE=FPS
 PRECISION=float16

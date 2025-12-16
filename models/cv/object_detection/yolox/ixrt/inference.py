@@ -208,7 +208,7 @@ def main():
         end_time = time.time()
         forward_time = end_time - start_time
         fps = args.loop_count / forward_time * batch_size
-        print(f"\n* Mean fps: {fps}")
+        print("FPS : ", fps)
     else:
         # get dataloader
         dataloader = get_dataloader(data_path, label_path, batch_size, args.num_workers)
