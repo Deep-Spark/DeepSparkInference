@@ -3,6 +3,82 @@
 <!-- markdownlint-disable no-duplicate-heading -->
 # DeepSparkInference Release Notes
 
+## 25.12 Release Notes
+
+### 模型与算法
+
+* 新增了15个推理小模型示例，其中支持IGIE推理引擎的9个，支持ixRT推理引擎的6个。
+* 新增了8个大语言模型推理示例，其中7个使用[vLLM](https://github.com/vllm-project/vllm)，1个使用Diffusers。
+
+<table>
+  <th colspan=3>ixRT</th>
+  <tr>
+      <td>DeepSort</td>
+      <td>FastReID</td>
+      <td>Transformer</td>
+  </tr>
+  <tr>
+      <td>YOLOF </td>
+      <td>YOLOv12</td>
+      <td>YOLOv13</td>
+  </tr>
+  <th colspan=3>IGIE</th>
+  <tr>
+      <td>EfficientNet-B7</td>
+      <td>FreeAnchor</td>
+      <td>RegNet_X_800MF </td>
+  </tr>
+  <tr>
+      <td>RegNet_X_8GF</td>
+      <td>PISA</td>
+      <td>YOLOv8-N </td>
+  </tr>
+  <tr>
+    <td>YOLOv9</td>
+    <td>YOLOv10</td>
+    <td>YOLOv11</td>
+  </tr>
+  <th colspan=3>LLM</th>
+  <tr>
+      <td>NVLM-D (vLLM)</td>
+      <td>PaliGemma (vLLM)</td>
+      <td>Phi-3 Vision (vLLM)</td>
+  </tr>
+  <tr>
+      <td>Pixtral (vLLM)</td>
+      <td>Qwen3Moe (vLLM)</td>
+      <td>Stable Diffusion 3 (Diffusers)</td>
+  </tr>
+  <tr>
+      <td>Step3-VL (vLLM)</td>
+      <td>XLM-RoBERTa (vLLM)</td>
+      <td></td>
+</table>
+
+### 修复更新
+
+* 新增了对模型推理的batchsize参数配置的支持，并在CI中添加相应测试 (#ID8SDF, #IDBGCP)
+* 新增了vLLM推理模型的benchmark脚本支持 (#ID8TTL)
+* 优化了21个推理小模型的README指导文档说明 (#IDBBZV)
+* 更新了Conformer IGIE和BERT Large SQuAD ixRT模型失效的链接 (#ID8KFK, #ID9RDW)
+* 修复了CosyVoice2-0.5B模型推理报错的问题 (#ID5Y84)
+* 修复了Fuyu-8B模型推理报错的问题 (#ID5Y8O)
+* 修复了YOLOv8 ixRT模型推理日志中的警告打印问题 (#IDC1OI)
+* 修复了Conformer模型解读异常问题 (#ID9RDQ)
+* 修复了EfficientNet-B1和YOLOv4模型int8推理精度异常的问题 (#ID912Z)
+* 修复了ResNetV1d-50和RetinaFace ixRT模型推理报错的问题 (#ID931D, ID94XO)
+* 修复了YOLO系列模型在在PyTorch 2.7环境导出ONNX时的兼容报错问题 (#ID95LK)
+* 修复了8个推理小模型在CI上运行报错的问题 (#ID9DH4)
+* 修复了YOLOv4 ixRT模型量化ONNX报错的问题 (#IDA3BX)
+
+### 版本关联
+
+DeepSparkInference 25.12对应天数软件栈4.3.0版本。
+
+### 感谢以下社区贡献者
+
+YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
+
 ## 25.09 Release Notes
 
 ### 模型与算法
