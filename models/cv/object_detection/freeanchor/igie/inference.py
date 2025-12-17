@@ -146,7 +146,7 @@ def main():
 
             runner.test_evaluator.process(data_samples=batch_data_samples, data_batch=input_data)
 
-            runner.test_evaluator.evaluate(len(runner.test_dataloader.dataset))
+        metrics = runner.test_evaluator.evaluate(len(runner.test_dataloader.dataset))
 
 if __name__ == "__main__":
     main()
