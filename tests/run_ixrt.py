@@ -647,8 +647,8 @@ def run_nlp_testcase(model, batch_size):
             if model_name == "bert_large_squad" or model_name == "bert_base_squad":
                 patterns = {
                     "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
-                    "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
-                    "f1": r"\"f1\"\s*:\s*(\d+\.?\d*)"
+                    "exact_match": r"\'exact_match\'\s*:\s*(\d+\.?\d*)",
+                    "f1": r"\'f1\'\s*:\s*(\d+\.?\d*)"
                 }
 
                 combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))

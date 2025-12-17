@@ -233,6 +233,27 @@ def run_clf_testcase(model, batch_size):
                         except ValueError:
                             print("The string cannot be converted to a float.")
                             result["result"][prec][bs][key] = value
+            
+            if model_name == "resnet50_sample" or model_name == "vgg16_sample":
+                patterns = {
+                    "FPS": r"FPS\s*:\s*(\d+\.?\d*)",
+                    "Acc1": r"Acc@1\s*:\s*(\d+\.?\d*)",
+                    "Acc5": r"Acc@5\s*:\s*(\d+\.?\d*)",
+                    "Latency": r"Latency\s*:\s*(\d+\.\d+)"
+                }
+
+                combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+                matchs = combined_pattern.finditer(sout)
+                match_count = 0
+                for match in matchs:
+                    for name, value in match.groupdict().items():
+                        logging.debug(f"matchs: name: {name}, value: {value}")
+                        if value:
+                            match_count += 1
+                            result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                            break
+                if match_count == len(patterns):
+                    result["result"][prec]["status"] = "PASS"
             result["result"][prec][bs]["Cost time (s)"] = t
             logging.debug(f"matchs:\n{matchs}")
     return result
@@ -522,7 +543,7 @@ def run_nlp_testcase(model, batch_size):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
-    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1", "transformer": ""}
+    target_dirs = {"bert_base_squad": "csarron/bert-base-uncased-squad-v1", "bert_base_ner":"test", "bert_large_squad": "neuralmagic/bert-large-uncased-finetuned-squadv1", "transformer": "", "bert_base_squad_sample": "", "bert_large_squad_sample": ""}
     target_dir = target_dirs[model_name]
     dirname = os.path.dirname(target_dir)
     mkdir_script = f"mkdir -p {dirname}" if dirname != "" else ""
@@ -574,12 +595,27 @@ def run_nlp_testcase(model, batch_size):
 
             pattern = METRIC_PATTERN
             matchs = re.findall(pattern, sout)
-            logging.debug(f"matchs:\n{matchs}")
             for m in matchs:
                 result["result"][prec][bs].update(get_metric_result(m))
             if len(matchs) == 2:
                 result["result"][prec]["status"] = "PASS"
+            
+            if model_name == "bert_large_squad_sample" or model_name == "bert_base_squad_sample":
+                patterns = {
+                    "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
+                    "exact_match": r"\'exact_match\'\s*:\s*(\d+\.?\d*)",
+                    "f1": r"\'f1\'\s*:\s*(\d+\.?\d*)"
+                }
 
+                combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
+                matchs = combined_pattern.finditer(sout)
+                for match in matchs:
+                    result["result"][prec]["status"] = "PASS"
+                    for name, value in match.groupdict().items():
+                        if value:
+                            result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
+                            break
+            logging.debug(f"matchs:\n{matchs}")
             result["result"][prec][bs]["Cost time (s)"] = t
     return result
 
