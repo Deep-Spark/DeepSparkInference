@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -146,8 +146,7 @@ def main():
 
             runner.test_evaluator.process(data_samples=batch_data_samples, data_batch=input_data)
 
-        metrics = runner.test_evaluator.evaluate(len(runner.test_dataloader.dataset))        
-    
+            runner.test_evaluator.evaluate(len(runner.test_dataloader.dataset))
 
 if __name__ == "__main__":
     main()
