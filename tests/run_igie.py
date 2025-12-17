@@ -323,19 +323,22 @@ def run_detec_testcase(model, batch_size):
 
             r, t = run_script(script)
             sout = r.stdout
-            fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
             pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
-            combined_pattern = re.compile(f"{fps_pattern}|{pattern}")
-            matchs = combined_pattern.finditer(sout)
-            for match in matchs:
-                for name, value in match.groupdict().items():
-                    if value:
-                        try:
-                            result["result"][prec][bs][name] = float(f"{float(value.split(':')[1].strip()):.3f}")
-                            break
-                        except ValueError:
-                            print("The string cannot be converted to a float.")
-                            result["result"][prec][bs][name] = value
+            matchs = re.findall(pattern, sout)
+            for m in matchs:
+                result["result"].setdefault(prec, {"status": "FAIL"})
+                try:
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
+                except ValueError:
+                    print("The string cannot be converted to a float.")
+                    result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: m[1], m[2]: m[3]}
+
+            if not matchs:
+                fps_pattern = r"(?P<FPS>FPS\s*:\s*(\d+\.?\d*))"
+                matchs = re.findall(fps_pattern, sout)
+                for match in matchs:
+                    name = "FPS"
+                    result["result"][prec][bs][name] = float(f"{float(match[1].strip()):.3f}")
             pattern = r"Average Precision  \(AP\) @\[ (IoU=0.50[:\d.]*)\s*\| area=   all \| maxDets=\s?\d+\s?\] =\s*([\d.]+)"
             matchs = re.findall(pattern, sout)
             for m in matchs:
