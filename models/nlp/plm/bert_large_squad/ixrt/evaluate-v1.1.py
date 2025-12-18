@@ -113,4 +113,4 @@ if __name__ == '__main__':
     with open(args.prediction_file) as prediction_file:
         predictions = json.load(prediction_file)
         f1_acc = float(args.f1_acc)
-    print(json.dumps(evaluate(dataset, predictions, f1_acc)))
+    print(evaluate(dataset, predictions, f1_acc))
