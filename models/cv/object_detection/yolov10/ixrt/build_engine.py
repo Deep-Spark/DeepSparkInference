@@ -25,9 +25,9 @@ def main(config):
 
     profile = builder.create_optimization_profile()
     profile.set_shape("images",
-                        Dims([1, 3, 640, 640]),
                         Dims([32, 3, 640, 640]),
-                        Dims([64, 3, 640, 640]),
+                        Dims([32, 3, 640, 640]),
+                        Dims([32, 3, 640, 640]),
     )
     build_config.add_optimization_profile(profile)
 

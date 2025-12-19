@@ -31,7 +31,7 @@ pip3 install -r requirements.txt
 source /opt/rh/devtoolset-7/enable
 
 # install yolox
-unzip -q /mnt/deepspark/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
+cp -r /mnt/deepspark/data/repos/YOLOX ./
 cd YOLOX
 python3 setup.py develop
 

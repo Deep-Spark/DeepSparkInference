@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import yaml
 import subprocess
 import json
 import re
@@ -58,12 +57,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
+
     result = {}
     if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_clf_testcase(model, batch_size)
+            result = run_clf_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -148,7 +149,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model, batch_size):
+def run_clf_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -166,6 +167,11 @@ def run_clf_testcase(model, batch_size):
         prepare_script += """
         pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
         """
+    if model_name in ["resnet50_sample", "vgg16_sample"]:
+        if whl_url and whl_url != "None":
+            prepare_script += f"""
+            pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
+            """
     prepare_script += f"""
     bash ci/prepare.sh
     ls -l | grep onnx

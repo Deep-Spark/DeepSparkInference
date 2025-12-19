@@ -25,6 +25,15 @@ else
     echo "Not Support Os"
 fi
 
+if [ -f /etc/system-release ]; then
+    if grep -qi "Kylin" /etc/system-release; then
+        pip3 install --no-cache-dir --force-reinstall --upgrade --index-url https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn scikit-learn
+        pip3 install numpy==1.26.4
+        yum install -y libgomp
+        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+    fi
+fi
+
 pip3 install -r requirements.txt
 # reference: https://github.com/facebookresearch/fairseq/commit/3d262bb25690e4eb2e7d3c1309b1e9c406ca4b99
 ln -s /mnt/deepspark/data/3rd_party/fairseq ../

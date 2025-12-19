@@ -26,6 +26,6 @@ else
 fi
 
 pip install -r requirements.txt
-unzip -q /root/data/repos/yolox-f00a798c8bf59f43ab557a2f3d566afa831c8887.zip -d ./
+cp -r /root/data/repos/YOLOX ./
 ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
 cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
