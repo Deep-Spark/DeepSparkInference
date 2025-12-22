@@ -3,9 +3,26 @@
 <!-- markdownlint-disable no-duplicate-heading -->
 # DeepSparkInference Release Notes
 
-## 25.12 Release Notes
+## Release Versioning
 
-### 模型与算法
+本项目采用基于发布年月的版本号命名策略，格式为 YY.MM，发布节奏为按季度发布，一般在每年的 3/6/9/12 月发布正式版本，版本号对应为 YY.03/YY.06/YY.09/YY.12。已发布版本与 IXUCA SDK 关联关系如下表所示：
+
+| Release Date | Release Version | IXUCA SDK |
+|--------------|-----------------|-----------|
+| Dec 2025     | 25.12           | v4.3.0    |
+| Sep 2025     | 25.09           | v4.3.0    |
+| Jun 2025     | 25.06           | v4.2.0    |
+| Mar 2025     | 25.03           | v4.2.0    |
+| Dec 2024     | 24.12           | v4.1.2    |
+| Sep 2024     | 24.09           | v4.1.2    |
+| Jun 2024     | 24.06           | v4.0.0    |
+| Mar 2024     | 24.03           | v4.0.0    |
+
+## Release Notes
+
+### DeepSparkInference 25.12
+
+#### 模型与算法
 
 * 新增了15个推理小模型示例，其中支持IGIE推理引擎的9个，支持ixRT推理引擎的6个。
 * 新增了8个大语言模型推理示例，其中7个使用[vLLM](https://github.com/vllm-project/vllm)，1个使用Diffusers。
@@ -55,7 +72,7 @@
       <td></td>
 </table>
 
-### 修复更新
+#### 修复更新
 
 * 新增了对模型推理的batchsize参数配置的支持，并在CI中添加相应测试 (#ID8SDF, #IDBGCP)
 * 新增了vLLM推理模型的benchmark脚本支持 (#ID8TTL)
@@ -71,17 +88,17 @@
 * 修复了8个推理小模型在CI上运行报错的问题 (#ID9DH4)
 * 修复了YOLOv4 ixRT模型量化ONNX报错的问题 (#IDA3BX)
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 25.12对应天数软件栈4.3.0版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 
-## 25.09 Release Notes
+### DeepSparkInference 25.09
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持ixRT推理引擎的7个。
 * 新增了11个大语言模型推理示例，涉及[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy)和[vLLM](https://github.com/vllm-project/vllm)等框架。
@@ -147,7 +164,7 @@ YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
   </tr>
 </table>
 
-### 修复更新
+#### 修复更新
 
 * 修复了BERT Large SQuAD模型链接404问题 (#ICSF66)
 * 修复了4.3.0容器环境下部分模型的依赖缺失问题
@@ -156,17 +173,17 @@ YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 * 更新了ByteMLPerf工具箱中optimizer的代码出处 (#ICKHTC)
 * 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 25.09对应天数软件栈4.3.0版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 
-## 25.06 Release Notes
+### DeepSparkInference 25.06
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
 * 新增了6个基于vLLM的大语言模型推理示例，其中3个为多模态模型。
@@ -231,7 +248,7 @@ YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
   </tr>
 </table>
 
-### 修复更新
+#### 修复更新
 
 * 修复了模型代码中的绝对路径的问题。
 * 修复了EfficientNetV2模型依赖timm版本的问题。
@@ -242,17 +259,17 @@ YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 * 增加了DeepSparkInference全部模型的json配置文件。
 * 增加了模型库首页的英文版README文档。
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 25.06对应天数软件栈4.2.0版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，majorli6，honglyua，qiang.zhang。
 
-## 25.03 Release Notes
+### DeepSparkInference 25.03
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了25个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的10个。
 * 新增了11个大模型推理示例，其中6个为DeepSeek-R1蒸馏模型。
@@ -332,7 +349,7 @@ YoungPeng，majorli6，honglyua，qiang.zhang。
   </tr>
 </table>
 
-### 问题修复
+#### 问题修复
 
 * 新增了IxRT的NLP推理模型的自动化测试运行脚本。
 * 优化了IGIE推理模型自动化测试的运行脚本。
@@ -344,17 +361,17 @@ YoungPeng，majorli6，honglyua，qiang.zhang。
 * 修复了vLLM模型中SamplingParams的初始化问题。
 * 更新了所有模型README文档格式，补充了模型所支持的IXUCA SDK版本。
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 25.03对应天数软件栈4.2.0版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，majorli6，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
-## 24.12 Release Notes
+### DeepSparkInference 24.12
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
 * 新增了9个大语言模型的推理示例，其中支持vLLM的8个，支持ixFormer的1个。
@@ -425,26 +442,26 @@ YoungPeng，majorli6，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
   </tr>
 </table>
 
-### 问题修复
+#### 问题修复
 
 * 新增了IGIE推理模型自动化测试的运行脚本。
 * 修复了YOLOv8 IxRT模型运行推理脚本报错的问题。
 * 更新了YOLOv9和YOLOv10的IGIE模型的配置文件。
 * 完善了IxRT模型BERT，Mask RCNN，MobileNetV2和YOLOX的end2end推理时间打印。
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 24.12对应天数软件栈4.1.2版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
 ---
 
-## 24.09 Release Notes
+### DeepSparkInference 24.09
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了29个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的14个。
 
@@ -512,26 +529,26 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
   * Qwen1.5-14B (vLLM)
   * Qwen1.5-72B (vLLM)
 
-### 问题修复
+#### 问题修复
 
 * 修复了BERT Base SQUAD模型在NV环境上int8精度异常的问题。
 * 修复了Mask RCNN模型在NV 24.04环境上运行编译报错的问题。
 * 修复了CLIP IGIE模型对transformers版本有依赖的问题。
 * 完善了IxRT部分模型的end2end推理时间打印。
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 24.09对应天数软件栈4.1.2版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，qiang.zhang。
 
 ---
 
-## 24.06 Release Notes
+### DeepSparkInference 24.06
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了33个推理小模型示例，其中支持IGIE推理引擎的16个，支持IxRT推理引擎的15个。
 
@@ -598,24 +615,24 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，
   * Llama2-7B (TensorRT-LLM)
   * Qwen-7B (Text Generation Inference)
 
-### 问题修复
+#### 问题修复
 
 * 修复了YOLOX IxRT 插件编译会报错的问题。
 * 完善了libGL依赖在Ubuntu上安装的帮助说明。
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 24.06对应天数软件栈4.0.0版本。
 
-### 感谢以下社区贡献者
+#### 感谢以下社区贡献者
 
 YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，cheneychen2023，qiang.zhang。
 
 ---
 
-## 24.03 Release Notes
+### DeepSparkInference 24.03
 
-### 模型与算法
+#### 模型与算法
 
 * 新增了48个推理模型示例，其中支持IGIE推理引擎的28个，支持IxRT推理引擎的20个。
 
@@ -699,6 +716,6 @@ YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，cheneychen2
         <td>YOLOX</td>
 </table>
 
-### 版本关联
+#### 版本关联
 
 DeepSparkInference 24.03对应天数软件栈4.0.0版本。
