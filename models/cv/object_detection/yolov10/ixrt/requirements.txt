@@ -3,5 +3,7 @@ onnx
 onnxsim
 pycocotools
 opencv-python==4.8.0.74
-ultralytics==8.2.51
 cuda-python
+requests
+huggingface_hub==0.25.2
+matplotlib

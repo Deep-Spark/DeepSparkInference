@@ -20,5 +20,12 @@ pip3 install -r requirements.txt
 
 mkdir checkpoints
 mv yolov10s.pt yolov10.pt
+
+cp -r /root/data/3rd_party/yolov10 ./
+
+cd yolov10
+pip3 install -e . --no-deps
+cd ..
+
 python3 export.py --weight yolov10.pt --batch 32
 mv yolov10.onnx checkpoints/

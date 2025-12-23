@@ -14,7 +14,7 @@
 #    under the License.
 
 import argparse
-from ultralytics import YOLO
+from ultralytics import YOLOv10
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -35,9 +35,9 @@ def parse_args():
 def main():
     args = parse_args()
     
-    model = YOLO(args.weight).cpu()
+    model = YOLOv10(args.weight).cpu()
     
-    model.export(format='onnx', batch=args.batch, imgsz=(640, 640), opset=11)
+    model.export(format='onnx', batch=args.batch, imgsz=(640, 640), optimize=True, simplify=True, opset=13)
     
 if __name__ == "__main__":
     main()

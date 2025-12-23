@@ -33,7 +33,7 @@ from ultralytics.data import converter
 from ultralytics.utils import DEFAULT_CFG
 from ultralytics.data.utils import check_det_dataset
 from ultralytics.utils.metrics import ConfusionMatrix
-from ultralytics.models.yolo.detect import DetectionValidator
+from ultralytics.models.yolov10 import YOLOv10DetectionValidator
 
 coco_classes = {0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 
                 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 
@@ -110,12 +110,13 @@ def parse_args():
 
     return args
 
-class IxRT_Validator(DetectionValidator):
+class IxRT_Validator(YOLOv10DetectionValidator):
     def __call__(self, config, data):
         self.data = data
         self.stride = 32
         self.dataloader = self.get_dataloader(self.data.get(self.args.split), self.args.batch)
         self.init_metrics()
+        self.stats = {'tp': [], 'conf': [], 'pred_cls': [], 'target_cls': []}
         
         total_num = 0
 
@@ -217,7 +218,7 @@ class IxRT_Validator(DetectionValidator):
         self.confusion_matrix = ConfusionMatrix(nc=80)
         self.seen = 0
         self.jdict = []
-        self.stats = dict(tp=[], conf=[], pred_cls=[], target_cls=[], target_img=[])
+        self.stats = []
 
 def main():
     config = parse_args()
