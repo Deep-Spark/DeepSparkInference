@@ -62,24 +62,10 @@ pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```bash
 git clone --depth 1 https://github.com/THU-MIG/yolov10.git
 cd yolov10/
-```
-
-```python
-# 修改如下
---- a/ultralytics/engine/exporter.py
-+++ b/ultralytics/engine/exporter.py
-@@ -373,6 +373,7 @@ class Exporter:
-             elif isinstance(self.model, DetectionModel):
-                 dynamic["output0"] = {0: "batch", 2: "anchors"}  # shape(1, 84,
- 8400)
-
-+        dynamic = {'images': {0: 'batch'}, 'output0': {0: 'batch'}}
-         torch.onnx.export(
-             self.model.cpu() if dynamic else self.model,  # dynamic=True only c
-ompatible with cpu
-```
-
-```bash
+git checkout 453c6e38a51e9d1d5a2aa5fb7f1014a711913397
+sed -i "375i\\
+        dynamic = {'images': {0: 'batch'}, 'output0': {0: 'batch'}}
+" 'ultralytics/engine/exporter.py'
 pip3 install -e . --no-deps
 cd ../
 

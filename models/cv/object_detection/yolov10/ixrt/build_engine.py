@@ -25,9 +25,9 @@ def main(config):
 
     profile = builder.create_optimization_profile()
     profile.set_shape("images",
+                        Dims([1, 3, 640, 640]),
                         Dims([32, 3, 640, 640]),
-                        Dims([32, 3, 640, 640]),
-                        Dims([32, 3, 640, 640]),
+                        Dims([64, 3, 640, 640]),
     )
     build_config.add_optimization_profile(profile)
 
@@ -43,7 +43,7 @@ def main(config):
     num_inputs = network.num_inputs
     for i in range(num_inputs):
         input_tensor = network.get_input(i)
-        input_tensor.shape = Dims([32, 3, 640, 640])
+        input_tensor.shape = Dims([-1, 3, 640, 640])
 
     plan = builder.build_serialized_network(network, build_config)
     engine_file_path = config.engine

@@ -57,7 +57,18 @@ pip3 install -r requirements.txt
 ```bash
 mkdir checkpoints
 mv yolov10s.pt yolov10.pt
+
+git clone --depth 1 https://github.com/THU-MIG/yolov10.git
+cd yolov10/
+git checkout 453c6e38a51e9d1d5a2aa5fb7f1014a711913397
+sed -i "375i\\
+        dynamic = {'images': {0: 'batch'}, 'output0': {0: 'batch'}}
+" 'ultralytics/engine/exporter.py'
+pip3 install -e . --no-deps
+cd ../
+
 python3 export.py --weight yolov10.pt --batch 32
+# Make sure numpy < 2.0
 mv yolov10.onnx ./checkpoints
 ```
 
