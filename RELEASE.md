@@ -87,6 +87,7 @@
 * 修复了 YOLO 系列模型在在 PyTorch 2.7 环境导出 ONNX 时的兼容报错问题 (#ID95LK)
 * 修复了 8 个推理小模型在 CI 上运行报错的问题 (#ID9DH4)
 * 修复了 YOLOv4 ixRT 模型量化 ONNX 报错的问题 (#IDA3BX)
+* 修复了 YOLOv10 ixRT 模型 dynamic shape 的问题（#IDAOW0）
 
 #### 版本关联
 
