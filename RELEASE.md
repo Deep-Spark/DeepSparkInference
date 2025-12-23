@@ -83,7 +83,7 @@
 * 修复了 YOLOv8 ixRT 模型推理日志中的警告打印问题 (#IDC1OI)
 * 修复了 Conformer 模型解读异常问题 (#ID9RDQ)
 * 修复了 EfficientNet-B1 和 YOLOv4 模型 int8 推理精度异常的问题 (#ID912Z)
-* 修复了 ResNetV1d-50 和 RetinaFace ixRT 模型推理报错的问题 (#ID931D, ID94XO)
+* 修复了 ResNetV1d-50 和 RetinaFace ixRT 模型推理报错的问题 (#ID931D, #ID94XO)
 * 修复了 YOLO 系列模型在在 PyTorch 2.7 环境导出 ONNX 时的兼容报错问题 (#ID95LK)
 * 修复了 8 个推理小模型在 CI 上运行报错的问题 (#ID9DH4)
 * 修复了 YOLOv4 ixRT 模型量化 ONNX 报错的问题 (#IDA3BX)
