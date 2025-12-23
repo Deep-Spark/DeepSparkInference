@@ -24,8 +24,8 @@
 
 #### 模型与算法
 
-* 新增了15个推理小模型示例，其中支持IGIE推理引擎的9个，支持ixRT推理引擎的6个。
-* 新增了8个大语言模型推理示例，其中7个使用[vLLM](https://github.com/vllm-project/vllm)，1个使用Diffusers。
+* 新增了 15 个推理小模型示例，其中支持 IGIE 推理引擎的 9 个，支持 ixRT 推理引擎的 6 个。
+* 新增了 8 个大语言模型推理示例，其中 7 个使用 [vLLM](https://github.com/vllm-project/vllm)，1 个使用 Diffusers。
 
 <table>
   <th colspan=3>ixRT</th>
@@ -74,23 +74,23 @@
 
 #### 修复更新
 
-* 新增了对模型推理的batchsize参数配置的支持，并在CI中添加相应测试 (#ID8SDF, #IDBGCP)
-* 新增了vLLM推理模型的benchmark脚本支持 (#ID8TTL)
-* 优化了21个推理小模型的README指导文档说明 (#IDBBZV)
-* 更新了Conformer IGIE和BERT Large SQuAD ixRT模型失效的链接 (#ID8KFK, #ID9RDW)
-* 修复了CosyVoice2-0.5B模型推理报错的问题 (#ID5Y84)
-* 修复了Fuyu-8B模型推理报错的问题 (#ID5Y8O)
-* 修复了YOLOv8 ixRT模型推理日志中的警告打印问题 (#IDC1OI)
-* 修复了Conformer模型解读异常问题 (#ID9RDQ)
-* 修复了EfficientNet-B1和YOLOv4模型int8推理精度异常的问题 (#ID912Z)
-* 修复了ResNetV1d-50和RetinaFace ixRT模型推理报错的问题 (#ID931D, ID94XO)
-* 修复了YOLO系列模型在在PyTorch 2.7环境导出ONNX时的兼容报错问题 (#ID95LK)
-* 修复了8个推理小模型在CI上运行报错的问题 (#ID9DH4)
-* 修复了YOLOv4 ixRT模型量化ONNX报错的问题 (#IDA3BX)
+* 新增了对模型推理的 batchsize 参数配置的支持，并在 CI 中添加相应测试 (#ID8SDF, #IDBGCP)
+* 新增了 vLLM 推理模型的 benchmark 脚本支持 (#ID8TTL)
+* 优化了 21 个推理小模型的 README 指导文档说明 (#IDBBZV)
+* 更新了 Conformer IGIE 和 BERT Large SQuAD ixRT 模型失效的链接 (#ID8KFK, #ID9RDW)
+* 修复了 CosyVoice2-0.5B 模型推理报错的问题 (#ID5Y84)
+* 修复了 Fuyu-8B 模型推理报错的问题 (#ID5Y8O)
+* 修复了 YOLOv8 ixRT 模型推理日志中的警告打印问题 (#IDC1OI)
+* 修复了 Conformer 模型解读异常问题 (#ID9RDQ)
+* 修复了 EfficientNet-B1 和 YOLOv4 模型 int8 推理精度异常的问题 (#ID912Z)
+* 修复了 ResNetV1d-50 和 RetinaFace ixRT 模型推理报错的问题 (#ID931D, ID94XO)
+* 修复了 YOLO 系列模型在在 PyTorch 2.7 环境导出 ONNX 时的兼容报错问题 (#ID95LK)
+* 修复了 8 个推理小模型在 CI 上运行报错的问题 (#ID9DH4)
+* 修复了 YOLOv4 ixRT 模型量化 ONNX 报错的问题 (#IDA3BX)
 
 #### 版本关联
 
-DeepSparkInference 25.12对应天数软件栈4.3.0版本。
+DeepSparkInference 25.12 对应天数软件栈 4.3.0 版本。
 
 #### 感谢以下社区贡献者
 
@@ -100,8 +100,8 @@ YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 
 #### 模型与算法
 
-* 新增了19个推理小模型示例，其中支持IGIE推理引擎的12个，支持ixRT推理引擎的7个。
-* 新增了11个大语言模型推理示例，涉及[FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy)和[vLLM](https://github.com/vllm-project/vllm)等框架。
+* 新增了 19 个推理小模型示例，其中支持 IGIE 推理引擎的 12 个，支持 ixRT 推理引擎的 7 个。
+* 新增了 11 个大语言模型推理示例，涉及 [FastDeploy](https://github.com/PaddlePaddle/FastDeploy)、[LMDeploy](https://github.com/InternLM/lmdeploy) 和 [vLLM](https://github.com/vllm-project/vllm) 等框架。
 
 <table>
   <th colspan=3>ixRT</th>
@@ -166,16 +166,16 @@ YoungPeng，anders，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 
 #### 修复更新
 
-* 修复了BERT Large SQuAD模型链接404问题 (#ICSF66)
-* 修复了4.3.0容器环境下部分模型的依赖缺失问题
-* 修复了MViTv2-base模型推理异常的问题
-* 更新了CLIP模型的最新代码
-* 更新了ByteMLPerf工具箱中optimizer的代码出处 (#ICKHTC)
-* 更新了4.3.0适用大/小模型推理的Docker使用说明 (#ICLDBK)
+* 修复了 BERT Large SQuAD 模型链接 404 问题 (#ICSF66)
+* 修复了 4.3.0 容器环境下部分模型的依赖缺失问题
+* 修复了 MViTv2-base 模型推理异常的问题
+* 更新了 CLIP 模型的最新代码
+* 更新了 ByteMLPerf 工具箱中 optimizer 的代码出处 (#ICKHTC)
+* 更新了 4.3.0 适用大/小模型推理的 Docker 使用说明 (#ICLDBK)
 
 #### 版本关联
 
-DeepSparkInference 25.09对应天数软件栈4.3.0版本。
+DeepSparkInference 25.09 对应天数软件栈 4.3.0 版本。
 
 #### 感谢以下社区贡献者
 
@@ -185,8 +185,8 @@ YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 
 #### 模型与算法
 
-* 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
-* 新增了6个基于vLLM的大语言模型推理示例，其中3个为多模态模型。
+* 新增了 24 个推理小模型示例，其中支持 IGIE 推理引擎的 15 个，支持 IxRT 推理引擎的 9 个。
+* 新增了 6 个基于 vLLM 的大语言模型推理示例，其中 3 个为多模态模型。
 
 <table>
   <tr colspan=4>
@@ -251,17 +251,17 @@ YoungPeng，fhfang，郭寒冰，qiang.zhang，majorli6，honglyua。
 #### 修复更新
 
 * 修复了模型代码中的绝对路径的问题。
-* 修复了EfficientNetV2模型依赖timm版本的问题。
-* 修复了GoogleNet和InceptionV3模型（IGIE）的编译报错问题。
-* 更新了stable-diffusion-v1-5模型在huggingface上的链接。
-* 更新了MiniCPM-V2推理模型代码示例。
-* 优化了IxRT和IGIE中视觉分类模型的公共代码避免重复。
-* 增加了DeepSparkInference全部模型的json配置文件。
-* 增加了模型库首页的英文版README文档。
+* 修复了 EfficientNetV2 模型依赖 timm 版本的问题。
+* 修复了 GoogleNet 和 InceptionV3 模型（IGIE）的编译报错问题。
+* 更新了 stable-diffusion-v1-5 模型在 huggingface 上的链接。
+* 更新了 MiniCPM-V2 推理模型代码示例。
+* 优化了 IxRT 和 IGIE 中视觉分类模型的公共代码避免重复。
+* 增加了 DeepSparkInference 全部模型的 json 配置文件。
+* 增加了模型库首页的英文版 README 文档。
 
 #### 版本关联
 
-DeepSparkInference 25.06对应天数软件栈4.2.0版本。
+DeepSparkInference 25.06 对应天数软件栈 4.2.0 版本。
 
 #### 感谢以下社区贡献者
 
@@ -271,8 +271,8 @@ YoungPeng，majorli6，honglyua，qiang.zhang。
 
 #### 模型与算法
 
-* 新增了25个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的10个。
-* 新增了11个大模型推理示例，其中6个为DeepSeek-R1蒸馏模型。
+* 新增了 25 个推理小模型示例，其中支持 IGIE 推理引擎的 15 个，支持 IxRT 推理引擎的 10 个。
+* 新增了 11 个大模型推理示例，其中 6 个为 DeepSeek-R1 蒸馏模型。
 
 <table>
   <tr colspan=4>
@@ -351,19 +351,19 @@ YoungPeng，majorli6，honglyua，qiang.zhang。
 
 #### 问题修复
 
-* 新增了IxRT的NLP推理模型的自动化测试运行脚本。
-* 优化了IGIE推理模型自动化测试的运行脚本。
-* 修复了onnxruntime 1.17.1导致的quantize fail问题。
-* 修复了BERT模型在INT8精度下的问题。
-* 修复了YOLOv6 IGIE模型运行推理脚本报错的问题。
-* 修复了mmpretraino 0.24.0与mmcv 2.1.0版本不兼容问题。
-* 修复了ChatGLM3-6B-32k模型中的中文乱码问题。
-* 修复了vLLM模型中SamplingParams的初始化问题。
-* 更新了所有模型README文档格式，补充了模型所支持的IXUCA SDK版本。
+* 新增了 IxRT 的 NLP 推理模型的自动化测试运行脚本。
+* 优化了 IGIE 推理模型自动化测试的运行脚本。
+* 修复了 onnxruntime 1.17.1 导致的 quantize fail 问题。
+* 修复了 BERT 模型在 INT8 精度下的问题。
+* 修复了 YOLOv6 IGIE 模型运行推理脚本报错的问题。
+* 修复了 mmpretraino 0.24.0 与 mmcv 2.1.0 版本不兼容问题。
+* 修复了 ChatGLM3-6B-32k 模型中的中文乱码问题。
+* 修复了 vLLM 模型中 SamplingParams 的初始化问题。
+* 更新了所有模型 README 文档格式，补充了模型所支持的 IXUCA SDK 版本。
 
 #### 版本关联
 
-DeepSparkInference 25.03对应天数软件栈4.2.0版本。
+DeepSparkInference 25.03 对应天数软件栈 4.2.0 版本。
 
 #### 感谢以下社区贡献者
 
@@ -373,8 +373,8 @@ YoungPeng，majorli6，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
 #### 模型与算法
 
-* 新增了24个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的9个。
-* 新增了9个大语言模型的推理示例，其中支持vLLM的8个，支持ixFormer的1个。
+* 新增了 24 个推理小模型示例，其中支持 IGIE 推理引擎的 15 个，支持 IxRT 推理引擎的 9 个。
+* 新增了 9 个大语言模型的推理示例，其中支持 vLLM 的 8 个，支持 ixFormer 的 1 个。
 
 <table>
   <tr align="left">
@@ -444,14 +444,14 @@ YoungPeng，majorli6，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
 #### 问题修复
 
-* 新增了IGIE推理模型自动化测试的运行脚本。
-* 修复了YOLOv8 IxRT模型运行推理脚本报错的问题。
-* 更新了YOLOv9和YOLOv10的IGIE模型的配置文件。
-* 完善了IxRT模型BERT，Mask RCNN，MobileNetV2和YOLOX的end2end推理时间打印。
+* 新增了 IGIE 推理模型自动化测试的运行脚本。
+* 修复了 YOLOv8 IxRT 模型运行推理脚本报错的问题。
+* 更新了 YOLOv9 和 YOLOv10 的 IGIE 模型的配置文件。
+* 完善了 IxRT 模型 BERT，Mask RCNN，MobileNetV2 和 YOLOX 的 end2end 推理时间打印。
 
 #### 版本关联
 
-DeepSparkInference 24.12对应天数软件栈4.1.2版本。
+DeepSparkInference 24.12 对应天数软件栈 4.1.2 版本。
 
 #### 感谢以下社区贡献者
 
@@ -463,7 +463,7 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
 #### 模型与算法
 
-* 新增了29个推理小模型示例，其中支持IGIE推理引擎的15个，支持IxRT推理引擎的14个。
+* 新增了 29 个推理小模型示例，其中支持 IGIE 推理引擎的 15 个，支持 IxRT 推理引擎的 14 个。
 
 <table>
     <tr align="left">
@@ -522,7 +522,7 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
     </tr>
 </table>
 
-* 新增了5个大语言模型的推理示例。
+* 新增了 5 个大语言模型的推理示例。
   * Llama3-70B (TensorRT-LLM)
   * Qwen1.5-7B (Text Generation Inference)
   * Qwen1.5-7B (vLLM)
@@ -531,14 +531,14 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，honglyua，qiang.zhang。
 
 #### 问题修复
 
-* 修复了BERT Base SQUAD模型在NV环境上int8精度异常的问题。
-* 修复了Mask RCNN模型在NV 24.04环境上运行编译报错的问题。
-* 修复了CLIP IGIE模型对transformers版本有依赖的问题。
-* 完善了IxRT部分模型的end2end推理时间打印。
+* 修复了 BERT Base SQUAD 模型在 NV 环境上 int8 精度异常的问题。
+* 修复了 Mask RCNN 模型在 NV 24.04 环境上运行编译报错的问题。
+* 修复了 CLIP IGIE 模型对 transformers 版本有依赖的问题。
+* 完善了 IxRT 部分模型的 end2end 推理时间打印。
 
 #### 版本关联
 
-DeepSparkInference 24.09对应天数软件栈4.1.2版本。
+DeepSparkInference 24.09 对应天数软件栈 4.1.2 版本。
 
 #### 感谢以下社区贡献者
 
@@ -550,7 +550,7 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，
 
 #### 模型与算法
 
-* 新增了33个推理小模型示例，其中支持IGIE推理引擎的16个，支持IxRT推理引擎的15个。
+* 新增了 33 个推理小模型示例，其中支持 IGIE 推理引擎的 16 个，支持 IxRT 推理引擎的 15 个。
 
 <table>
     <tr align="left">
@@ -609,7 +609,7 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，
     </tr>
 </table>
 
-* 新增了4个大语言模型的推理示例。
+* 新增了 4 个大语言模型的推理示例。
   * Baichuan2-7B (vLLM)
   * ChatGLM-3-6B (vLLM)
   * Llama2-7B (TensorRT-LLM)
@@ -617,12 +617,12 @@ YoungPeng，majorli，xinchi.tian，xiaomei.wang，wenfeng.zhang，haoyanlong，
 
 #### 问题修复
 
-* 修复了YOLOX IxRT 插件编译会报错的问题。
-* 完善了libGL依赖在Ubuntu上安装的帮助说明。
+* 修复了 YOLOX IxRT 插件编译会报错的问题。
+* 完善了 libGL 依赖在 Ubuntu 上安装的帮助说明。
 
 #### 版本关联
 
-DeepSparkInference 24.06对应天数软件栈4.0.0版本。
+DeepSparkInference 24.06 对应天数软件栈 4.0.0 版本。
 
 #### 感谢以下社区贡献者
 
@@ -634,7 +634,7 @@ YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，cheneychen2
 
 #### 模型与算法
 
-* 新增了48个推理模型示例，其中支持IGIE推理引擎的28个，支持IxRT推理引擎的20个。
+* 新增了 48 个推理模型示例，其中支持 IGIE 推理引擎的 28 个，支持 IxRT 推理引擎的 20 个。
 
 <table>
     <tr align="left">
@@ -718,4 +718,4 @@ YoungPeng，majorli，xinchi.tian，tianxi-yi，may，xiaomei.wang，cheneychen2
 
 #### 版本关联
 
-DeepSparkInference 24.03对应天数软件栈4.0.0版本。
+DeepSparkInference 24.03 对应天数软件栈 4.0.0 版本。

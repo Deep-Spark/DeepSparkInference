@@ -12,13 +12,13 @@
 </div>
 <br>
 
-`DeepSparkInference`推理模型库作为`DeepSpark`开源社区的核心项目，于2024年3月正式开源，一期甄选了48个推理模型示例，涵盖计算机视觉，自然语言处理，语音识别等领域，后续将逐步拓展更多AI领域。
+`DeepSparkInference`推理模型库作为 DeepSpark 开源社区的核心项目，于 2024 年 3 月正式开源，一期甄选了 48 个推理模型示例，涵盖计算机视觉，自然语言处理，语音识别等领域，后续将逐步拓展更多 AI 领域。
 
-`DeepSparkInference`中的模型提供了在国产推理引擎`IGIE`或`ixRT`下运行的推理示例和指导文档，部分模型提供了基于国产通用GPU[智铠100](https://www.iluvatar.com/productDetails?fullCode=cpjs-yj-tlxltt-zk100)的评测结果。
+`DeepSparkInference`中的模型提供了在国产推理引擎`IGIE`或`ixRT`下运行的推理示例和指导文档，部分模型提供了基于国产通用 GPU [智铠 100](https://www.iluvatar.com/productDetails?fullCode=cpjs-yj-tlxltt-zk100) 的评测结果。
 
-`IGIE`（Iluvatar GPU Inference Engine）是基于TVM框架研发的高性能、高通用、全流程的AI推理引擎。支持多框架模型导入、量化、图优化、多算子库支持、多后端支持、算子自动调优等特性，为推理场景提供易部署、高吞吐量、低延迟的完整方案。
+`IGIE`（Iluvatar GPU Inference Engine）是基于 TVM 框架研发的高性能、高通用、全流程的 AI 推理引擎。支持多框架模型导入、量化、图优化、多算子库支持、多后端支持、算子自动调优等特性，为推理场景提供易部署、高吞吐量、低延迟的完整方案。
 
-`ixRT`（Iluvatar CoreX RunTime）是天数智芯自研的高性能推理引擎，专注于最大限度发挥天数智芯通用GPU 的性能，实现各领域模型的高性能推理。`ixRT`支持动态形状推理、插件和INT8/FP16推理等特性。
+`ixRT`（Iluvatar CoreX RunTime）是天数智芯自研的高性能推理引擎，专注于最大限度发挥天数智芯通用 GPU 的性能，实现各领域模型的高性能推理。`ixRT`支持动态形状推理、插件和 INT8/FP16 推理等特性。
 
 `DeepSparkInference`将按季度进行版本更新，后续会逐步丰富模型类别并拓展大模型推理。
 
@@ -355,12 +355,12 @@
 
 ### 免责声明
 
-DeepSparkInference仅提供公共数据集的下载和预处理脚本。这些数据集不属于DeepSparkInference，DeepSparkInference也不对其质量或维护负责。请确保您具有这些数据集的使用许可，基于这些数据集训练的模型仅可用于非商业研究和教育。
+DeepSparkInference 仅提供公共数据集的下载和预处理脚本。这些数据集不属于 DeepSparkInference，DeepSparkInference 也不对其质量或维护负责。请确保您具有这些数据集的使用许可，基于这些数据集训练的模型仅可用于非商业研究和教育。
 
 致数据集所有者：
 
-如果不希望您的数据集公布在DeepSparkInference上或希望更新DeepSparkInference中属于您的数据集，请在Gitee或Github上提交issue，我们将按您的issue删除或更新。衷心感谢您对我们社区的支持和贡献。
+如果不希望您的数据集公布在 DeepSparkInference 上或希望更新 DeepSparkInference 中属于您的数据集，请在 Gitee 或 Github 上提交 issue，我们将按您的 issue 删除或更新。衷心感谢您对我们社区的支持和贡献。
 
 ## 许可证
 
-本项目许可证遵循[Apache-2.0](LICENSE)。
+本项目许可证遵循 [Apache-2.0](LICENSE)。
