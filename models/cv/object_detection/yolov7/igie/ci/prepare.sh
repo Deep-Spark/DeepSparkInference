@@ -25,15 +25,15 @@ else
     echo "Not Support Os"
 fi
 
+if [ -f /etc/system-release ]; then
+    if grep -qi "Kylin" /etc/system-release; then
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+    fi
+fi
+
 pip3 install -r requirements.txt
 
-# clone yolov7
-REPO_URL="https://gitee.com/monkeycc/yolov7.git"
-TARGET_DIR="yolov7"
-if [ ! -d "$TARGET_DIR" ]; then
-    git clone --depth 1 "$REPO_URL" "$TARGET_DIR"
-fi
-cd $TARGET_DIR
-
+cp -r /mnt/deepspark/data/3rd_party/yolov7 ./
+cd yolov7
 # export onnx model
 python3 export.py --weights ../yolov7.pt --simplify --img-size 640 640 --dynamic-batch --grid

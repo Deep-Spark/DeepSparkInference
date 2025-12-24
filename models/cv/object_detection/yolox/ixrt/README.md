@@ -65,7 +65,8 @@ pip3 install -r requirements.txt
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git --depth=1
 
 cd YOLOX
-python3 setup.py install
+pip3 install -v -e . --no-build-isolation
+sed -i 's/torch.onnx._export/torch.onnx.export/g' tools/export_onnx.py
 # export onnx model
 python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
 ```

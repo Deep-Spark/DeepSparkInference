@@ -68,7 +68,9 @@ pip3 install -r requirements.txt
 # clone yolov7
 git clone https://github.com/WongKinYiu/yolov7.git
 cd yolov7
-
+git checkout a207844b1ce82d204ab36d87d496728d3d2348e7
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '252 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
 # export onnx model
 python3 export.py --weights ../yolov7.pt --simplify --img-size 640 640 --dynamic-batch --grid
 

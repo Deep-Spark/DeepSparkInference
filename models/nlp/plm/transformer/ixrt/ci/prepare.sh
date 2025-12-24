@@ -31,6 +31,7 @@ if [ -f /etc/system-release ]; then
         pip3 install numpy==1.26.4
         yum install -y libgomp
         export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
     fi
 fi
 

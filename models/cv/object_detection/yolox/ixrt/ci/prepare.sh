@@ -28,4 +28,5 @@ fi
 pip install -r requirements.txt
 cp -r /root/data/repos/YOLOX ./
 ln -s /root/data/checkpoints/yolox_m.pth ./YOLOX/
-cd YOLOX && python3 setup.py develop && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32
+sed -i 's/torch.onnx._export/torch.onnx.export/g' ./YOLOX/tools/export_onnx.py
+cd YOLOX && pip3 install -v -e . --no-build-isolation && python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size 32

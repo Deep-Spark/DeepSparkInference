@@ -16,6 +16,12 @@
 
 set -x
 
+if [ -f /etc/system-release ]; then
+    if grep -qi "Kylin" /etc/system-release; then
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+    fi
+fi
+
 pip3 install -r ../../ixrt_common/requirements.txt
 
 mkdir -p checkpoints
