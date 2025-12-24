@@ -40,10 +40,10 @@ def main(config):
         build_config.set_flag(tensorrt.BuilderFlag.FP16)
 
     # set dynamic
-    num_inputs = network.num_inputs
-    for i in range(num_inputs):
-        input_tensor = network.get_input(i)
-        input_tensor.shape = Dims([-1, 3, 640, 640])
+    # num_inputs = network.num_inputs
+    # for i in range(num_inputs):
+    #     input_tensor = network.get_input(i)
+    #     input_tensor.shape = Dims([-1, 3, 640, 640])
 
     plan = builder.build_serialized_network(network, build_config)
     engine_file_path = config.engine
