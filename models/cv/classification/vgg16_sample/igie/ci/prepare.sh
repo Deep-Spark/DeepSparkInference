@@ -29,5 +29,4 @@ else
 fi
 
 pip3 install pycocotools pytest opencv-python==4.6.0.66 tqdm
-pip3 install /mnt/deepspark/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ln -s /mnt/deepspark/data/checkpoints/vgg16.onnx ./

@@ -172,6 +172,10 @@ def run_clf_testcase(model, batch_size, whl_url):
             prepare_script += f"""
             pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
             """
+        else:
+            prepare_script += """
+            pip install /mnt/deepspark/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+            """
     prepare_script += f"""
     bash ci/prepare.sh
     ls -l | grep onnx
