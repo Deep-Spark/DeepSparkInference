@@ -24,6 +24,7 @@ pip3 install onnxruntime==1.18.0
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
 # If you failed to clone the submodule due to network failures, please run the following command until success
 cd CosyVoice
+git checkout 2db78e705835e56778f69b80cae51e4314d635b0
 git submodule update --init --recursive
 
 mkdir -p pretrained_models
@@ -39,12 +40,12 @@ sudo yum install sox sox-devel
 ## Model Inference
 
 ```bash
-cp ../inference_test.py ./
-python3 inference_test.py
+# make sure run cosyvoice2_example() in example.py 
+python3 example.py
 ```
 
 ## Model Results
 
 ## References
 
-- [CosyVoice](https://github.com/FunAudioLLM/CosyVoice/commit/0a496c18f78ca993c63f6d880fcc60778bfc85c1)
+- [CosyVoice](https://github.com/FunAudioLLM/CosyVoice/commit/2db78e705835e56778f69b80cae51e4314d635b0)
