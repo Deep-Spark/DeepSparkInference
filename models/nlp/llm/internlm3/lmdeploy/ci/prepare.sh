@@ -15,4 +15,3 @@
 # limitations under the License.
 
 set -x
-pip install /mnt/deepspark/data/install/lmdeploy-0.7.2+corex.4.3.0-py3-none-any.whl

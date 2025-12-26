@@ -324,6 +324,10 @@ ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
 pip install {whl_url}`curl -s {whl_url} | grep -o 'xformers-[^"]*\.whl' | head -n1`
 bash ci/prepare.sh
 """
+    if model_name == "internlm3":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'lmdeploy-[^"]*\.whl' | head -n1`
+        """
 
     if utils.is_debug():
         pip_list = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
