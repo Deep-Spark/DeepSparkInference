@@ -616,7 +616,7 @@ def run_nlp_testcase(model, batch_size):
                 bs = "Default"
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
                     if model_name == "transformer" and platform.machine() == "aarch64":
-                        script = """
+                        script = f"""
                         set -x
                         export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
                         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
@@ -634,7 +634,7 @@ def run_nlp_testcase(model, batch_size):
             else:
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
                     if model_name == "transformer" and platform.machine() == "aarch64":
-                        script = """
+                        script = f"""
                         set -x
                         export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
                         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
