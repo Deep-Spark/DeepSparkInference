@@ -74,7 +74,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model, batch_size)
+            result = run_detec_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -84,7 +84,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_ocr_testcase(model)
+            result = run_ocr_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -164,18 +164,13 @@ def run_clf_testcase(model, batch_size, whl_url):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
     if model["category"] == "cv/semantic_segmentation":
-        prepare_script += """
-        pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
         """
     if model_name in ["resnet50_sample", "vgg16_sample"]:
-        if whl_url and whl_url != "None":
-            prepare_script += f"""
-            pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
-            """
-        else:
-            prepare_script += """
-            pip install /mnt/deepspark/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-            """
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
+        """
     prepare_script += f"""
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -268,7 +263,7 @@ def run_clf_testcase(model, batch_size, whl_url):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model, batch_size):
+def run_detec_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -284,8 +279,8 @@ def run_detec_testcase(model, batch_size):
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
     # for 4.3.0 sdk need pre install mmcv
-    prepare_script += """
-    pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    prepare_script += f"""
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
 
     # if model["need_third_part"] and model["3rd_party_repo"]:
@@ -375,7 +370,7 @@ def run_detec_testcase(model, batch_size):
 
     return result
 
-def run_ocr_testcase(model):
+def run_ocr_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -389,7 +384,7 @@ def run_ocr_testcase(model):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    pip install /mnt/deepspark/install/paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """

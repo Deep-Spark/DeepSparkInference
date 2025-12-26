@@ -57,13 +57,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
     result = {}
     # NLP模型
     if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -299,7 +300,7 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
 
 
 # --- Main function (now simple and low complexity) ---
-def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
+def run_nlp_testcase(model: Dict[str, Any], whl_url: str) -> Dict[str, Any]:
     get_num_devices_script = "ixsmi -L | wc -l"
     result, _ = run_script(get_num_devices_script)
     num_devices = int(result.stdout.strip())
@@ -320,7 +321,7 @@ def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
 set -x
 cd ../{model['model_path']}
 ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
-pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+pip install {whl_url}`curl -s {whl_url} | grep -o 'xformers-[^"]*\.whl' | head -n1`
 bash ci/prepare.sh
 """
 
