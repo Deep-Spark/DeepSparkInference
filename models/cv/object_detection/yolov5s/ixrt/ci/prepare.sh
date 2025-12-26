@@ -16,19 +16,9 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
-if [ -f /etc/system-release ]; then
-    if grep -qi "Kylin" /etc/system-release; then
-        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
-    fi
+if [[ $(uname -m) == "aarch64" ]]; then
+    echo "Architecture is aarch64."
+    export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
 fi
 
 pip3 install -r ../../ixrt_common/requirements.txt

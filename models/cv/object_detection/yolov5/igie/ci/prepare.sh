@@ -16,10 +16,9 @@
 
 set -x
 
-if [ -f /etc/system-release ]; then
-    if grep -qi "Kylin" /etc/system-release; then
-        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
-    fi
+if [[ $(uname -m) == "aarch64" ]]; then
+    echo "Architecture is aarch64."
+    export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
 fi
 
 pip3 install -r requirements.txt

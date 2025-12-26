@@ -16,16 +16,13 @@
 
 set -x
 
-if [ -f /etc/redhat-release ]; then
-    if grep -qi "CentOS" /etc/redhat-release; then
-        yum install -y numactl
-    fi
-elif [ -f /etc/system-release ]; then
-    if grep -qi "Kylin" /etc/system-release; then
-        yum install -y numactl
-    fi
-else
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
     apt install numactl
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y numactl
+else
+    echo "Not Support Os"
 fi
 
 pip3 install pycocotools pytest opencv-python==4.6.0.66 tqdm

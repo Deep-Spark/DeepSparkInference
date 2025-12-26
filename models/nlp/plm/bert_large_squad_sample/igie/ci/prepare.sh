@@ -21,16 +21,13 @@ mkdir -p ./data/datasets/bert_large_squad
 ln -s /mnt/deepspark/data/checkpoints/bert-large-uncased ./data/checkpoints/bert_large_squad/
 ln -s /mnt/deepspark/data/datasets/squad ./data/datasets/bert_large_squad/
 
-if [ -f /etc/redhat-release ]; then
-    if grep -qi "CentOS" /etc/redhat-release; then
-        yum install -y numactl
-    fi
-elif [ -f /etc/system-release ]; then
-    if grep -qi "Kylin" /etc/system-release; then
-        yum install -y numactl
-    fi
+ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
+if [[ ${ID} == "ubuntu" ]]; then
+    apt install numactl
+elif [[ ${ID} == "centos" ]]; then
+    yum install -y numactl
 else
-    apt install -y numactl
+    echo "Not Support Os"
 fi
 
 pip3 install --no-dependencies transformers
