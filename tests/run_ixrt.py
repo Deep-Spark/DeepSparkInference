@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import platform
 import yaml
 import subprocess
 import json
@@ -328,6 +329,11 @@ def run_detec_testcase(model, batch_size):
         export CONFIG_DIR=config/{config_name}_CONFIG
         """
 
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -609,20 +615,40 @@ def run_nlp_testcase(model, batch_size):
             if bs == "None":
                 bs = "Default"
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = """
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh
                         bash scripts/infer_{model_name}_{prec}_performance.sh
-                    """
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                            bash scripts/infer_{model_name}_{prec}_performance.sh
+                        """
             else:
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = """
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                         bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-                    """
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                        """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
 

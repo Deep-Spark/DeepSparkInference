@@ -16,11 +16,6 @@
 
 set -x
 
-if [[ $(uname -m) == "aarch64" ]]; then
-    echo "Architecture is aarch64."
-    export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
-fi
-
 pip3 install -r requirements.txt
 
 python3 export.py --weight yolov5m.pt --output yolov5m.onnx

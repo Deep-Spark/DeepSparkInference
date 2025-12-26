@@ -29,9 +29,7 @@ if [[ $(uname -m) == "aarch64" ]]; then
     echo "Architecture is aarch64."
     pip3 install --no-cache-dir --force-reinstall --upgrade --index-url https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn scikit-learn
     pip3 install numpy==1.26.4
-    yum install -y libgomp
-    export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
-    export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+    apt install -y libgomp1
 fi
 
 pip3 install -r requirements.txt

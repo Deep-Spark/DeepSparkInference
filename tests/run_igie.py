@@ -21,7 +21,7 @@ import logging
 import os
 import sys
 import argparse
-
+import platform
 import utils
 
 # 配置日志
@@ -305,6 +305,11 @@ def run_detec_testcase(model, batch_size):
         export DATASETS_DIR=./{dataset_n}/
     """
 
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -586,6 +591,11 @@ def run_nlp_testcase(model, batch_size):
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['model_path']}
     """
+    if model_name == "transformer" and platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
