@@ -1,4 +1,4 @@
-# YOLOv8 (ixRT)
+# YOLOv8s (IGIE)
 
 ## Model Description
 
@@ -15,7 +15,7 @@ Yolov8 combines speed and accuracy in real-time object detection tasks. With a f
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov8n.pt>
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt>
 
 Dataset:
 
@@ -48,49 +48,53 @@ coco
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+
+- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
+# Install libGL
+## CentOS
+yum install -y mesa-libGL
+## Ubuntu
+apt install -y libgl1-mesa-glx
+
 pip3 install -r requirements.txt
 ```
 
 ### Model Conversion
 
 ```bash
-mkdir -p checkpoints/
-mv yolov8n.pt yolov8.pt
-python3 export.py --weight yolov8.pt --batch 32
-onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
+python3 export.py --weight yolov8s.pt --batch 32
 ```
 
 ## Model Inference
 
 ```bash
-export PROJ_DIR=./
-export DATASETS_DIR=/path/to/coco/
-export CHECKPOINTS_DIR=./checkpoints
-export RUN_DIR=./
+export DATASETS_DIR=/Path/to/coco/
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8_fp16_accuracy.sh
+bash scripts/infer_yolov8s_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov8_fp16_performance.sh
+bash scripts/infer_yolov8s_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8_int8_accuracy.sh
+bash scripts/infer_yolov8s_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov8_int8_performance.sh
+bash scripts/infer_yolov8s_int8_performance.sh
 ```
 
 ## Model Results
 
-| Model  | BatchSize | Precision | FPS      | MAP@0.5 |
-| :----: | :----: | :----: | :----: | :----: |
-| YOLOv8 | 32        | FP16      | 1511.366 | 0.525   |
-| YOLOv8 | 32        | INT8      | 1841.017 | 0.517   |
+| Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| YOLOv8s | 32        | FP16      | 1002.98 | 0.617   | 0.449        |
+| YOLOv8s | 32        | INT8      | 1392.29 | 0.604   | 0.429        |

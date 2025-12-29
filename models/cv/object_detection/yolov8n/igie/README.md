@@ -1,4 +1,4 @@
-# YOLOv8 (IGIE)
+# YOLOv8n (IGIE)
 
 ## Model Description
 
