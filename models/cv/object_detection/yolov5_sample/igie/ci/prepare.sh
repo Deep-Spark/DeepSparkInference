@@ -16,7 +16,7 @@
 
 set -x
 
-pip3 install pycocotools
+pip3 install pycocotools onnxsim pycuda
 pip3 install tqdm
 pip3 install opencv-python==4.6.0.66
 

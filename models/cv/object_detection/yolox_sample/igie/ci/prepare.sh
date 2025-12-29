@@ -25,7 +25,7 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install pycocotools
+pip3 install pycocotools onnxsim pycuda
 pip3 install loguru
 pip3 install tabulate
 pip3 install tqdm
