@@ -306,7 +306,7 @@ def run_detec_testcase(model, batch_size, whl_url):
     if model_name == "yolov5":
         config_name = "YOLOV5M"
 
-    if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
+    if model_name in ["yolov3", "yolov5m", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
         base_script = f"""
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
@@ -347,7 +347,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 """
             else:
                 export_onnx_script = ""
-                if model_name == "yolov5":
+                if model_name == "yolov5m":
                     export_onnx_script = f"""
                         cd ../{model['model_path']}/yolov5
                         python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size {bs}
@@ -355,7 +355,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
-                elif model_name == "yolox":
+                elif model_name == "yoloxm":
                     export_onnx_script = f"""
                         cd ../{model['model_path']}/YOLOX
                         python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size {bs}
