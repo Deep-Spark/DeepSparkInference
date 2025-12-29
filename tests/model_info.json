@@ -4467,8 +4467,8 @@
             "demoType": ""
         },
         {
-            "display_name": "YOLOv8",
-            "model_name": "yolov8",
+            "display_name": "YOLOv8s",
+            "model_name": "yolov8s",
             "framework": "igie",
             "release_version": "24.03",
             "release_sdk": "4.0.0",
@@ -4480,8 +4480,8 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/cv/object_detection/yolov8/igie/",
-            "readme_file": "models/cv/object_detection/yolov8/igie/README.md",
+            "model_path": "models/cv/object_detection/yolov8s/igie/",
+            "readme_file": "models/cv/object_detection/yolov8s/igie/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",
@@ -4501,8 +4501,8 @@
             "demoType": ""
         },
         {
-            "display_name": "YOLOv8",
-            "model_name": "yolov8",
+            "display_name": "YOLOv8n",
+            "model_name": "yolov8n",
             "framework": "ixrt",
             "release_version": "24.09",
             "release_sdk": "4.1.2",
@@ -4514,8 +4514,8 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/cv/object_detection/yolov8/ixrt/",
-            "readme_file": "models/cv/object_detection/yolov8/ixrt/README.md",
+            "model_path": "models/cv/object_detection/yolov8n/ixrt/",
+            "readme_file": "models/cv/object_detection/yolov8n/ixrt/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",
