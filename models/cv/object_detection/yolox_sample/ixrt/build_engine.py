@@ -22,6 +22,9 @@ def main(config):
     # print("precision : ", precision)
     build_config.set_flag(precision)
 
+    if config.precision == "int8":
+        build_config.set_flag(tensorrt.BuilderFlag.FP16)
+
     plan = builder.build_serialized_network(network, build_config)
     engine_file_path = config.engine
     with open(engine_file_path, "wb") as f:
