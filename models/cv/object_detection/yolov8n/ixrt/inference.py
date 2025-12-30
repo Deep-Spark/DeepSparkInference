@@ -205,6 +205,12 @@ class IxRT_Validator(DetectionValidator):
 
             return stats
 
+    def preprocess(self, batch):
+        """Preprocess without PyTorch device transfer."""
+        if 'img' in batch:
+            batch['img'] = batch['img'].float() / 255.0
+        return batch
+
     def init_metrics(self):
         """Initialize evaluation metrics for YOLO."""
         val = self.data.get(self.args.split, '')  # validation path
@@ -214,10 +220,11 @@ class IxRT_Validator(DetectionValidator):
         self.names = self.data['names']
         self.nc = len(self.names)
         self.metrics.names = self.names
-        self.confusion_matrix = ConfusionMatrix(nc=80)
+        self.confusion_matrix = ConfusionMatrix(names=self.names)
         self.seen = 0
         self.jdict = []
-        self.stats = dict(tp=[], conf=[], pred_cls=[], target_cls=[], target_img=[])
+        self.end2end = False
+        self.is_lvis = isinstance(val, str) and "lvis" in val and not self.is_coco  # is LVIS
 
 def main():
     config = parse_args()
