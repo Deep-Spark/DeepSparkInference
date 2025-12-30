@@ -43,7 +43,25 @@ cp ../inference_test.py ./
 python3 inference_test.py
 ```
 
+## Model Eval
+```bash
+git clone https://github.com/FunAudioLLM/CV3-Eval.git
+cd CV3-Eval
+pip3 install -r requirements.txt
+cp ../get_infer_wavs.py scripts/
+cp ../inference.sh scripts/
+
+# if you want to run eval for en/hrad_en set, please add the following command
+# cp -f ../run_wer.py utils/
+
+cp ../run_inference_fp16_eval.sh ./
+bash run_inference_fp16_eval.sh
+```
+
 ## Model Results
+| Model | Model Size | Precision | test-zh<br>CER/WER(%) ↓ | test_zh<br>Speaker Similarity(%) ↑ |
+| :---- | :----: | :----: | :----: | :----: |
+| CosyVoice2 | 0.5B | FP16 | 4.525 | 77.23 |
 
 ## References
 
