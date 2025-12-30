@@ -31,7 +31,7 @@ do
 done
 
 PROJ_DIR=./
-DATASETS_DIR="${PROJ_DIR}/data/datasets/coco"
+DATASETS_DIR="${PROJ_DIR}/coco"
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 EVAL_DIR=${DATASETS_DIR}/images/val2017
 CHECKPOINTS_DIR="${PROJ_DIR}/checkpoints"
