@@ -5,6 +5,9 @@ import numpy as np
 from tensorrt.deploy import static_quantize
 
 import torch
+import sys
+sys.path.append("/home/haoyuan.chen/temp/inferencesamples/benchmarks/cv/detection/yolov3/tensorrt")
+print(sys.path)
 from calibration_dataset import create_dataloaders
 
 def setseed(seed=42):

@@ -16,20 +16,9 @@
 
 set -x
 
-pip3 install -r ../../ixrt_common/requirements.txt
+pip3 install pycocotools onnxsim pycuda
+pip3 install tqdm
+pip3 install opencv-python==4.6.0.66
 
 mkdir -p checkpoints
-cp -r /mnt/deepspark/data/3rd_party/yolov5 ./
-
-cd yolov5/
-
-# 有一些环境需要安装
-# wget https://ultralytics.com/assets/Arial.ttf
-mkdir -p /root/.config/Ultralytics
-cp /mnt/deepspark/data/3rd_party/Arial.ttf /root/.config/Ultralytics/Arial.ttf
-
-ln -s /mnt/deepspark/data/checkpoints/yolov5s.pt ./
-# 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
-python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
-mv yolov5s.onnx ../checkpoints
-cd ..
+ln -s /mnt/deepspark/data/datasets/corex-inference-data-4.0.0/checkpoints/yolov5s/yolov5s.onnx ./checkpoints/

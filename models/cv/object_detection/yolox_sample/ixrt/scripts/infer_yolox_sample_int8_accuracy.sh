@@ -11,11 +11,11 @@ check_status()
 
 # Run paraments
 BSZ=32
-WARM_UP=3
-TGT=-1
-LOOP_COUNT=100
-RUN_MODE=FPS
-PRECISION=float16
+WARM_UP=-1
+TGT=0.645
+LOOP_COUNT=-1
+RUN_MODE=MAP
+PRECISION=int8
 
 # Update arguments
 index=0
@@ -36,7 +36,7 @@ COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 EVAL_DIR=${DATASETS_DIR}/images/val2017
 CHECKPOINTS_DIR="${PROJ_DIR}/checkpoints"
 RUN_DIR="${PROJ_DIR}"
-CONFIG_DIR="${RUN_DIR}/config/YOLOV5S_CONFIG"
+CONFIG_DIR="${RUN_DIR}/config/YOLOXM_CONFIG"
 source ${CONFIG_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 
@@ -76,6 +76,7 @@ CURRENT_MODEL=${SIM_MODEL}
 let step++
 echo [STEP ${step}] : Cut Decoder
 NO_DECODER_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_without_decoder.onnx
+DECODER_INPUT_NAMES=("${DECODER0_INPUT_NAMES[@]}" "${DECODER1_INPUT_NAMES[@]}" "${DECODER2_INPUT_NAMES[@]}")
 if [ -f ${NO_DECODER_MODEL} ];then
     echo "  "Cut Decoder skip, ${SIM_MNO_DECODER_MODELODEL} has been existed
 else
@@ -122,21 +123,21 @@ if [ $LAYER_FUSION == "1" ]; then
     let step++
     echo;
     echo [STEP ${step}] : Add Decoder
-    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}_fusion_no_cancat.onnx
+    FUSION_ONNX=${CHECKPOINTS_DIR}/${MODEL_NAME}}_quant_fusion_cancat.onnx
     if [ -f $FUSION_ONNX ];then
         echo "  "Add Decoder Skip, $FUSION_ONNX has been existed
     else
         python3 ${RUN_DIR}/deploy.py                        \
             --src ${CURRENT_MODEL}                          \
             --dst ${FUSION_ONNX}                            \
-            --decoder_type        YoloV5Decoder             \
-            --with_nms             False                    \
+            --decoder_type        YoloxDecoder              \
+            --with_nms             True                   \
             --decoder_input_names ${DECODER_INPUT_NAMES[@]} \
-            --decoder8_anchor     ${DECODER_8_ANCHOR[@]}    \
-            --decoder16_anchor    ${DECODER_16_ANCHOR[@]}   \
-            --decoder32_anchor    ${DECODER_32_ANCHOR[@]}   \
             --num_class           ${DECODER_NUM_CLASS}      \
-            --faster              ${faster}
+            --faster              ${faster}                 \
+            --focus_input         images_DequantizeLinear_Output       \
+            --focus_output        ${FOCUS_OUTPUT_EDGE}      \
+            --focus_last_node     ${FOCUS_LAST_NODE}
     fi
     CURRENT_MODEL=${FUSION_ONNX}
 fi
@@ -145,7 +146,7 @@ fi
 let step++
 echo;
 echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_bs${BSZ}_without_nms.onnx
+FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_bs${BSZ}_with_nms.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
 else
@@ -161,13 +162,12 @@ CURRENT_MODEL=${FINAL_MODEL}
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_without_nms.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}_with_nms.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
     python3 ${RUN_DIR}/build_engine.py          \
         --precision ${PRECISION}                \
-        --bsz ${BSZ}                            \
         --model ${CURRENT_MODEL}                \
         --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}
@@ -202,7 +202,7 @@ python3 ${RUN_DIR}/inference.py                 \
     --model_name ${MODEL_NAME}                  \
     --precision  ${PRECISION}                   \
     --pred_dir   ${CHECKPOINTS_DIR}             \
-    --fps_target ${TGT}                         \
+    --map_target ${TGT}                         \
     --max_det ${MAX_BOX_PRE_IMG}                \
     --nms_type ${NMS_TYPE}                      \
     --bsz ${BSZ}; check_status
