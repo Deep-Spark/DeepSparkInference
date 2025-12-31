@@ -15,13 +15,14 @@
 # limitations under the License.
 
 set -x
-apt update
-apt-get install sox libsox-dev
+git clone https://github.com/FunAudioLLM/CV3-Eval.git
+cd CV3-Eval
 pip3 install -r requirements.txt
-pip3 install onnxruntime==1.18.0
-cp -r /mnt/deepspark/data/repos/CosyVoice ./
-cd CosyVoice
-mkdir -p pretrained_models
-ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
+cp ../get_infer_wavs.py scripts/
+cp ../inference.sh scripts/
 
-cp ../inference_test.py ./
+# if you want to run eval for en/hrad_en set, please add the following command
+# cp -f ../run_wer.py utils/
+
+cp ../run_inference_fp16_eval.sh ./
+bash run_inference_fp16_eval.sh
