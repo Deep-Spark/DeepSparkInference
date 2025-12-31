@@ -136,7 +136,7 @@ def get_model_config(mode_name):
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and model["framework"] == "igie":
+        if model["model_name"] == mode_name.lower() and (model["framework"] == "igie" or model["framework"] == "paddlepaddle"):
             return model
     return
 
@@ -278,10 +278,15 @@ def run_detec_testcase(model, batch_size, whl_url):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
-    # for 4.3.0 sdk need pre install mmcv
+
     prepare_script += f"""
     pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
+
+    if model_name == "rtdetr":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        """
 
     # if model["need_third_part"] and model["3rd_party_repo"]:
     #     third_party_repo = model["3rd_party_repo"]

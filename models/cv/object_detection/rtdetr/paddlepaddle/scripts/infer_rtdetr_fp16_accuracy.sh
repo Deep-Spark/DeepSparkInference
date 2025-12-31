@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -15,10 +15,26 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+batchsize=32
+datasets_path=${DATASETS_DIR}
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
+
+echo "batch size is ${batchsize}"
 
 python3 test_det.py \
     --model_path output_inference/rtdetr_r101vd_6x_coco \
     --config PaddleDetection-2.8.1/deploy/auto_compression/configs/rtdetr_reader.yml \
     --precision fp16 \
-    --dataset_dir /home/datasets/coco \
-    --batch_size 32
+    --dataset_dir ${datasets_path} \
+    --batch_size ${batchsize}

@@ -1,4 +1,4 @@
-# RTDETR (Paddle)
+# RTDETR (PaddlePaddle)
 
 ## Model Description
 
@@ -8,8 +8,7 @@ RT-DETR is the first real-time end-to-end object detector. Specifically, we desi
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.09 |
-| MR-V100 | 4.2.0 | 25.03 |
+| MR-V100 | dev-only | 26.03 |
 
 ## Model Preparation
 
@@ -55,7 +54,13 @@ coco
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+
+- paddlepaddle-3.1.0+corex*.whl
+
 ```bash
+pip3 install paddlepaddle-3.1.0+corex*.whl
+pip3 install scikit-learn
 # Install PaddleDetection
 wget https://github.com/PaddlePaddle/PaddleDetection/archive/refs/tags/v2.8.1.zip
 unzip v2.8.1.zip
@@ -69,26 +74,19 @@ rm -rf v2.8.1.zip
 ### Model Conversion
 
 ```bash
+mkdir -p output_inference
 # export paddle inference model
-python export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=https://bj.bcebos.com/v1/paddledet/models/rtdetr_r101vd_6x_coco.pdparams --output_dir=output_inference
+python3 export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=https://bj.bcebos.com/v1/paddledet/models/rtdetr_r101vd_6x_coco.pdparams --output_dir=output_inference
 ```
 
 ## Model Inference
 
 ```bash
-python3 test_det.py \
-    --model_path output_inference/rtdetr_r101vd_6x_coco \
-    --config PaddleDetection-2.8.1/deploy/auto_compression/configs/rtdetr_reader.yml \
-    --precision fp16 \
-    --dataset_dir /home/datasets/coco \
-    --batch_size 32 \
-    --perf_only True
+export DATASETS_DIR=/Path/to/coco/
 ```
 
 ### FP16
-
 ```bash
-
 # Accuracy
 bash scripts/infer_rtdetr_fp16_accuracy.sh
 # Performance
