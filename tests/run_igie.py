@@ -48,7 +48,8 @@ def main():
         logging.error("test model case is empty")
         sys.exit(-1)
     batch_size = os.environ.get("BS_LISTS")
-    model = get_model_config(test_model)
+    model_framework = os.environ.get("MODEL_FW").lower()
+    model = get_model_config(test_model, model_framework)
     if not model:
         logging.error("mode config is empty")
         sys.exit(-1)
@@ -131,12 +132,12 @@ def main():
 
     logging.info(f"Full text result: {result}")
 
-def get_model_config(mode_name):
+def get_model_config(mode_name, model_framework):
     with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and (model["framework"] == "igie" or model["framework"] == "paddlepaddle"):
+        if model["model_name"] == mode_name.lower() and model["framework"] == model_framework:
             return model
     return
 

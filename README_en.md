@@ -246,6 +246,11 @@ inference to be expanded in the future.
 | Model      | Prec. | PaddlePaddle                                            | IXUCA SDK |
 |------------|-------|---------------------------------------------------------|-----------|
 | RTDETR     | FP16  | [✅](models/cv/object_detection/rtdetr/paddlepaddle)    | dev-only  |
+
+| Model      | Prec. | Pytorch                                            | IXUCA SDK |
+|------------|-------|-------------------------------------------------|-----------|
+| YOLOv8n       | FP16  | [✅](models/cv/object_detection/yolov8n/pytorch)   | dev-only    |
+
 #### Face Recognition
 
 | Model   | Prec. | IGIE | ixRT                                         | IXUCA SDK |
