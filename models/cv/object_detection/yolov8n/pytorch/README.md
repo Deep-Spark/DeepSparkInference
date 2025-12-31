@@ -1,20 +1,20 @@
-# YOLOv8m (Pytorch)
+# YOLOv8n (Pytorch)
 
 ## Model Description
 
-YOLOv8m combines exceptional speed and competitive accuracy in real-time object detection tasks. With a focus on simplicity and efficiency, this compact model employs a single neural network to make predictions, enabling rapid and reliable identification of objects in images or video streams, making it ideal for resource-constrained environments.
+YOLOv8n combines exceptional speed and competitive accuracy in real-time object detection tasks. With a focus on simplicity and efficiency, this compact model employs a single neural network to make predictions, enabling rapid and reliable identification of objects in images or video streams, making it ideal for resource-constrained environments.
 
 ## Supported Environments
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.23 |
+| MR-V100 | dev-only | 26.03 |
 
 ## Model Preparation
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8m.pt>
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt>
 
 Dataset:
 
@@ -58,21 +58,20 @@ export DATASETS_DIR=/Path/to/coco/
 
 ### Generate coco.yaml
 ```bash
-bash ci/prepare.sh
+bash generate_coco.sh
 ```
 
 ### FP16
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8m_fp16_accuracy.sh
+bash scripts/infer_yolov8n_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov8m_fp16_performance.sh
+bash scripts/infer_yolov8n_fp16_performance.sh
 ```
-
 
 ## Model Results
 
 | Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| YOLOv8m | 32        | FP16      | 134 |  0.668    | 0.502        |
+| YOLOv8n | 32        | FP16      | 134 |  0.526    | 0.374        |

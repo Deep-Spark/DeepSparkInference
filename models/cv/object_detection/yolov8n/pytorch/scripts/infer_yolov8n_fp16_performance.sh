@@ -15,10 +15,24 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+batchsize=32
+
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) batchsize=${arguments[index]};;
+    esac
+done
 
 python3 inference.py \
-    --weight yolov8m.pt \
+    --weight yolov8n.pt \
     --datasets ./coco.yaml \
     --half \
     --imgsz 640 \
-    --bsize 32 
+    --bsize ${batchsize} \
+    --perf_only
