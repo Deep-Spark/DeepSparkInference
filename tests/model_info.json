@@ -9263,6 +9263,39 @@
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
+        },
+        {
+            "display_name": "RTDETR",
+            "model_name": "rtdetr",
+            "framework": "paddlepaddle",
+            "release_version": "26.01",
+            "release_sdk": "4.4.0",
+            "release_gpgpu": "MR-V100",
+            "latest_sdk": "4.4.0",
+            "latest_gpgpu": "MR-V100",
+            "category": "cv/object_detection",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/cv/object_detection/rtdetr/paddlepaddle",
+            "readme_file": "models/cv/object_detection/rtdetr/paddlepaddle/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "local/coco",
+            "download_url": "https://bj.bcebos.com/v1/paddledet/models/rtdetr_r101vd_6x_coco.pdparams",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ],
+            "type": "inference",
+            "hasDemo": false,
+            "demoType": ""
         }
     ]
 }

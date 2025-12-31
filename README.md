@@ -233,6 +233,11 @@
 | YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
 
+
+| Model      | Prec. | PaddlePaddle                                            | IXUCA SDK |
+|------------|-------|---------------------------------------------------------|-----------|
+| RTDETR     | FP16  | [✅](models/cv/object_detection/rtdetr/paddlepaddle)    | dev-only  |
+
 #### 人脸识别
 
 | Model   | Prec. | IGIE | ixRT                                         | IXUCA SDK |
