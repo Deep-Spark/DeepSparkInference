@@ -52,9 +52,7 @@ def main():
         dtype_str = "fp16" if args.half else "fp32"
         speed = results.speed["inference"]
         fps = round(1000 / (speed + eps), 2)
-        print(
-            f'Benchmark {dtype_str} fps: {fps} inference time : {round(speed, 2)} (ms/frame) '
-        )
-    
+        print(f"\n* Mean inference time: {round(speed, 2)} ms, Mean fps: {fps:.3f}")
+
 if __name__ == "__main__":
     main()
