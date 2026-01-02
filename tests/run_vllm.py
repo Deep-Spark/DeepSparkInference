@@ -228,7 +228,7 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             bench = (
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
                 f"--model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4"
+                "--num-prompts 10 --trust-remote-code --max-model-len 3096 -tp 4"
             )
         return script + common_bench + bench
 
