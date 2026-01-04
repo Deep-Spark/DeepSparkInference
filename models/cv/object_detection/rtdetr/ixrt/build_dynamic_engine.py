@@ -29,7 +29,7 @@ def main(config):
     network = builder.create_network(EXPLICIT_BATCH)
     build_config = builder.create_builder_config()
     profile = builder.create_optimization_profile()
-    profile.set_shape("image", Dims([1, 3, 640, 640]), Dims([32, 3, 640, 640]), Dims([32, 3, 640, 640]))
+    profile.set_shape("image", Dims([1, 3, 640, 640]), Dims([32, 3, 640, 640]), Dims([64, 3, 640, 640]))
     build_config.add_optimization_profile(profile)
     parser = tensorrt.OnnxParser(network, IXRT_LOGGER)
     parser.parse_from_file(config.model)
