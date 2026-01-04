@@ -29,9 +29,9 @@ Dataset: <https://lf-bytemlperf.17mh.cn/obj/bytemlperf-zoo/open_squad.tar>
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- tensorflow-*.whl
+- ixrt-*.whl
+- cuda_python-*.whl
 
 ```bash
 export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE

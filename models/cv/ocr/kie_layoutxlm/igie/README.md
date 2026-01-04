@@ -22,7 +22,7 @@ Dataset: <https://paddleocr.bj.bcebos.com/ppstructure/dataset/XFUND.tar> to down
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- paddlepaddle-*.whl
 
 ```bash
 pip3 install -r requirements.txt

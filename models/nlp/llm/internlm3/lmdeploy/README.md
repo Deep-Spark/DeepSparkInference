@@ -21,11 +21,8 @@ InternLM3 has open-sourced an 8-billion parameter instruction model, InternLM3-8
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
-
-```bash
-pip install lmdeploy-0.7.2+corex.4.3.0-py3-none-any.whl
-```
+Contact the Iluvatar administrator to get the missing packages:
+- lmdeploy-*.whl
 
 ## Model Inference
 

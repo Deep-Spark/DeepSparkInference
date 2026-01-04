@@ -50,7 +50,7 @@ coco
 
 Contact the Iluvatar administrator to get the missing packages:
 
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- mmcv-*.whl
 
 ```bash
 # Install libGL

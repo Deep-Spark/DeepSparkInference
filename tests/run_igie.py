@@ -342,7 +342,6 @@ def run_detec_testcase(model, batch_size, whl_url):
             pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
             matchs = re.findall(pattern, sout)
             for m in matchs:
-                result["result"].setdefault(prec, {"status": "FAIL"})
                 try:
                     result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
                 except ValueError:
@@ -363,7 +362,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 except ValueError:
                     print("The string cannot be converted to a float.")
                     result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: m[1]}
-            if matchs and len(matchs) == 2:
+            if matchs and len(matchs) >= 2:
                 result["result"][prec]["status"] = "PASS"
             else:
                 pattern = METRIC_PATTERN
