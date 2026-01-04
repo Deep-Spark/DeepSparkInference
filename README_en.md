@@ -212,6 +212,8 @@ inference to be expanded in the future.
 | RetinaFace | FP16  | [✅](models/cv/object_detection/retinaface/igie) | [✅](models/cv/object_detection/retinaface/ixrt) | 4.3.0     |
 | RetinaNet  | FP16  | [✅](models/cv/object_detection/retinanet/igie)  | [✅](models/cv/object_detection/retinanet/ixrt)  | 4.3.0     |
 | RTMDet     | FP16  | [✅](models/cv/object_detection/rtmdet/igie)     |                                                 | 4.3.0     |
+| RTDETR     | FP16  | [✅](models/cv/object_detection/rtdetr/igie)     | [✅](models/cv/object_detection/rtdetr/ixrt)    | dev-only  |
+|            | INT8  | [✅](models/cv/object_detection/rtdetr/igie)     |                                                 | dev-only   |
 | SABL       | FP16  | [✅](models/cv/object_detection/sabl/igie)       |                                                 | 4.3.0     |
 | SSD        | FP16  | [✅](models/cv/object_detection/ssd/igie)        |                                                 | 4.3.0     |
 | YOLOF      | FP16  | [✅](models/cv/object_detection/yolof/igie)      | [✅](models/cv/object_detection/yolof/ixrt)    | 4.3.0     |
