@@ -21,14 +21,14 @@ output_dir=$3
 
 OS_ID=$(awk -F= '/^ID=/{print $2}' /etc/os-release | tr -d '"')
 if [[ "$OS_ID" == "ubuntu" ]]; then
-    sudo apt-get install -y sox libsox-dev libmagic1 libmagic-dev libgl1 libglib2.0-0
-    sudo apt-get update && sudo apt-get install -y ffmpeg
+    apt-get install -y sox libsox-dev libmagic1 libmagic-dev libgl1 libglib2.0-0
+    apt-get update && apt-get install -y ffmpeg
 elif [[ "$OS_ID" == "centos" ]]; then
-    sudo yum install -y sox sox-devel file-devel mesa-libGL
-    sudo yum install -y epel-release
-    sudo yum install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
-    sudo yum install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-    sudo yum install -y ffmpeg ffmpeg-devel
+    yum install -y sox sox-devel file-devel mesa-libGL
+    yum install -y epel-release
+    yum install -y https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+    yum install -y https://mirrors.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+    yum install -y ffmpeg ffmpeg-devel
     ffmpeg -version
 fi
 

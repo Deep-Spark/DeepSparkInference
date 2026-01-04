@@ -98,6 +98,7 @@ for lang in ${test_set}; do
         exit 1
     fi
     {
+        echo {\'metricResult\': {\'CER/WER\': $wer_score, \'Speaker Similarity\': $spk_simi_score}}
         echo "CER/WER: $wer_score"
         echo "Speaker Similarity: $spk_simi_score"
     } | tee "${decode_dir}/${name_without_extension}/eval.log"

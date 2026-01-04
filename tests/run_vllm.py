@@ -164,7 +164,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             return base_script + f"python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1"
 
         case "cosyvoice":
-            return base_script + "cd CosyVoice\npython3 inference_test.py"
+            return base_script + "cd CV3-Eval\nbash run_inference_fp16_eval.sh"
 
         case "xlmroberta":
             return base_script + (
@@ -292,12 +292,22 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
             "status": "PASS"
         }
 
+    matchs = re.findall(METRIC_PATTERN, sout)
+    if matchs and len(matchs) == 1:
+        result_entry.update(get_metric_result(matchs[0]))
+        result_entry["status"] = "PASS"
+        return result_entry
+
     # Final fallback: generic success message
     if "Offline inference is successful!" in sout:
         return {"status": "PASS"}
 
     return result_entry
 
+def get_metric_result(str):
+    if str:
+        return json.loads(str.replace("'", "\""))["metricResult"]
+    return None
 
 # --- Main function (now simple and low complexity) ---
 def run_nlp_testcase(model: Dict[str, Any], whl_url: str) -> Dict[str, Any]:
