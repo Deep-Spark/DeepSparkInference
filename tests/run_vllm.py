@@ -222,13 +222,13 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             bench = (
                 "python3 vllm/benchmarks/benchmark_throughput.py --model ./qwen1.5-14b "
                 "--dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 896 -tp 2"
+                "--num-prompts 10 --trust-remote-code --max-model-len 896 -tp 2"
             )
         else:
             bench = (
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
                 f"--model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4"
+                "--num-prompts 10 --trust-remote-code --max-model-len 3096 -tp 4"
             )
         return script + common_bench + bench
 
@@ -239,7 +239,7 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
             f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
             "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
-            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code"
+            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust-remote-code"
         )
         return script + common_bench + bench
 
