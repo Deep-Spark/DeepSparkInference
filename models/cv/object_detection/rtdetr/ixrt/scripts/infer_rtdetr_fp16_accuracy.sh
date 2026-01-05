@@ -47,7 +47,7 @@ done
 PROJ_DIR=./
 DATASETS_DIR=${DATASETS_DIR}
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-EVAL_DIR=${DATASETS_DIR}/val2017
+EVAL_DIR=${DATASETS_DIR}/images/val2017
 CHECKPOINTS_DIR="${PROJ_DIR}/checkpoints"
 RUN_DIR="${PROJ_DIR}"
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/rtdetrv3_r18vd_6x_coco_image_sim.onnx

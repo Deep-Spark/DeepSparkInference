@@ -76,7 +76,7 @@ export PROJ_DIR=./
 export DATASETS_DIR=/path/to/coco2017/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
-export EVAL_DIR=${DATASETS_DIR}/val2017
+export EVAL_DIR=${DATASETS_DIR}/images/val2017
 export RUN_DIR=./
 export CONFIG_DIR=config/DETR_CONFIG
 ```

@@ -25,10 +25,9 @@ Dataset:
 
 ```bash
 unzip -q -d ./ coco2017labels.zip
-unzip -q -d ./coco/images/ train2017.zip
-unzip -q -d ./coco/images/ val2017.zip
+unzip -q -d ./coco/ train2017.zip
+unzip -q -d ./coco/ val2017.zip
 unzip -q -d ./coco annotations_trainval2017.zip
-
 coco
 ├── annotations
 │   └── instances_train2017.json
@@ -37,9 +36,8 @@ coco
 │   └── captions_val2017.json
 │   └── person_keypoints_train2017.json
 │   └── person_keypoints_val2017.json
-├── images
-│   ├── train2017
-│   └── val2017
+├── val2017
+├── train2017
 ├── labels
 │   ├── train2017
 │   └── val2017
@@ -63,12 +61,13 @@ pip3 install paddlepaddle-3.1.0+corex*.whl
 pip3 install scikit-learn
 # Install PaddleDetection
 wget https://github.com/PaddlePaddle/PaddleDetection/archive/refs/tags/v2.8.1.zip
-unzip v2.8.1.zip
+unzip PaddleDetection-2.8.1.zip
 cd PaddleDetection-2.8.1
 
 pip3 install -r requirements.txt
 pip3 install -e .
-rm -rf v2.8.1.zip
+cd ..
+rm -rf PaddleDetection-2.8.1.zip
 ```
 
 ### Model Conversion
