@@ -23,6 +23,16 @@ on HuggingFace model repository.
 """
 import sys
 from pathlib import Path
+import argparse as _argparse
+# ====== PATCH: 兼容旧版 argparse 不支持 'deprecated' ======
+_original_add_argument = _argparse._ArgumentGroup.add_argument
+
+def _patched_add_argument(self, *args, **kwargs):
+    kwargs.pop('deprecated', None)
+    return _original_add_argument(self, *args, **kwargs)
+
+_argparse._ArgumentGroup.add_argument = _patched_add_argument
+# =========================================================
 import io
 import time
 import argparse
