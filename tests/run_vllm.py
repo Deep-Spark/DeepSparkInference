@@ -136,7 +136,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
         "qwen1.5-72b"]:
         return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096"
     elif model_name == "qwen2-72b":
-        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768"
+        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.92 --max-model-len 32768"
     elif model_name == "nvlm":
         return base_script + f"""
             export VLLM_ASSETS_CACHE=../vllm/
