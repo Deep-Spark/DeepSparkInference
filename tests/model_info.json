@@ -9429,6 +9429,39 @@
             "type": "inference",
             "hasDemo": false,
             "demoType": ""
+        },
+        {
+            "display_name": "DeepSeek-OCR",
+            "model_name": "deepseek-ocr",
+            "framework": "vllm",
+            "release_version": "26.03",
+            "release_sdk": "4.4.0",
+            "release_gpgpu": "MR-V100",
+            "latest_sdk": "4.4.0",
+            "latest_gpgpu": "",
+            "category": "multimodal/vision_language_model",
+            "toolbox": "",
+            "mdims": "",
+            "dataset": "",
+            "license": "",
+            "model_path": "models/multimodal/vision_language_model/deepseek-ocr/vllm",
+            "readme_file": "models/multimodal/vision_language_model/deepseek-ocr/vllm/README.md",
+            "bitbucket_repo": "",
+            "bitbucket_branch": "",
+            "bitbucket_path": "",
+            "develop_owner": "",
+            "github_repo": "",
+            "github_branch": "",
+            "github_path": "",
+            "datasets": "",
+            "download_url": "https://huggingface.co/deepseek-ai/DeepSeek-OCR",
+            "need_third_part": false,
+            "precisions": [
+                "fp16"
+            ],
+            "type": "inference",
+            "hasDemo": false,
+            "demoType": ""
         }
     ]
 }
