@@ -61,7 +61,7 @@ wget https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_nano_8xb32
 
 Contact the Iluvatar administrator to get the missing packages:
 
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- mmcv-*.whl
 
 ```bash
 # Install libGL

@@ -22,11 +22,10 @@ Dataset: <https://www.dropbox.com/scl/fo/zf04eicju8vbo4s6wobpq/ALAXXq2iwR6wKJyay
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- paddlepaddle-*.whl
 
 ```bash
 pip3 install -r requirements.txt
-pip3 install paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ## Model Conversion

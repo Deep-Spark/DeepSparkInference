@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import platform
 import yaml
 import subprocess
 import json
@@ -58,12 +59,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
+
     result = {}
     if model["category"] == "cv/classification":
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_clf_testcase(model, batch_size)
+            result = run_clf_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -73,7 +76,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model, batch_size)
+            result = run_detec_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -103,7 +106,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_instance_segmentation_testcase(model)
+            result = run_instance_segmentation_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -113,7 +116,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model, batch_size)
+            result = run_nlp_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -148,7 +151,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model, batch_size):
+def run_clf_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -163,8 +166,8 @@ def run_clf_testcase(model, batch_size):
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     """
     if model_name == "swin_transformer_large":
-        prepare_script += """
-        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
         """
     prepare_script += """
     bash ci/prepare.sh
@@ -274,7 +277,7 @@ def run_clf_testcase(model, batch_size):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model, batch_size):
+def run_detec_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -288,7 +291,7 @@ def run_detec_testcase(model, batch_size):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     """
 
@@ -326,6 +329,11 @@ def run_detec_testcase(model, batch_size):
         export EVAL_DIR=./{dataset_n}/images/val2017
         export RUN_DIR=./
         export CONFIG_DIR=config/{config_name}_CONFIG
+        """
+
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
         """
 
     for prec in model["precisions"]:
@@ -544,7 +552,7 @@ def run_multi_object_tracking_testcase(model):
     return result
 
 # BERT series models
-def run_nlp_testcase(model, batch_size):
+def run_nlp_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -555,18 +563,17 @@ def run_nlp_testcase(model, batch_size):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
         """
     else:
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
         """
 
@@ -609,20 +616,40 @@ def run_nlp_testcase(model, batch_size):
             if bs == "None":
                 bs = "Default"
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = f"""
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh
                         bash scripts/infer_{model_name}_{prec}_performance.sh
-                    """
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                            bash scripts/infer_{model_name}_{prec}_performance.sh
+                        """
             else:
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = f"""
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                         bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-                    """
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                        """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
 
@@ -726,7 +753,7 @@ def run_speech_testcase(model, batch_size):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_instance_segmentation_testcase(model):
+def run_instance_segmentation_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -739,7 +766,7 @@ def run_instance_segmentation_testcase(model):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     ls -l | grep onnx
     """

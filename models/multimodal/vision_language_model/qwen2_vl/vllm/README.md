@@ -24,10 +24,6 @@ cp -r ../../vllm_public_assets/ ./
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
-```bash
-pip install transformers==4.50.3
-```
-
 ## Model Inference
 
 ```bash

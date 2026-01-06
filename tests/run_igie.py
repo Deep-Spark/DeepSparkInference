@@ -21,7 +21,7 @@ import logging
 import os
 import sys
 import argparse
-
+import platform
 import utils
 
 # 配置日志
@@ -48,7 +48,8 @@ def main():
         logging.error("test model case is empty")
         sys.exit(-1)
     batch_size = os.environ.get("BS_LISTS")
-    model = get_model_config(test_model)
+    model_framework = os.environ.get("MODEL_FW").lower()
+    model = get_model_config(test_model, model_framework)
     if not model:
         logging.error("mode config is empty")
         sys.exit(-1)
@@ -74,7 +75,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model, batch_size)
+            result = run_detec_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -84,7 +85,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_ocr_testcase(model)
+            result = run_ocr_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -131,12 +132,12 @@ def main():
 
     logging.info(f"Full text result: {result}")
 
-def get_model_config(mode_name):
+def get_model_config(mode_name, model_framework):
     with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and model["framework"] == "igie":
+        if model["model_name"] == mode_name.lower() and model["framework"] == model_framework:
             return model
     return
 
@@ -164,14 +165,13 @@ def run_clf_testcase(model, batch_size, whl_url):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
     if model["category"] == "cv/semantic_segmentation":
-        prepare_script += """
-        pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
         """
     if model_name in ["resnet50_sample", "vgg16_sample"]:
-        if whl_url and whl_url != "None":
-            prepare_script += f"""
-            pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
-            """
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
+        """
     prepare_script += f"""
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -264,7 +264,7 @@ def run_clf_testcase(model, batch_size, whl_url):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model, batch_size):
+def run_detec_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -279,10 +279,15 @@ def run_detec_testcase(model, batch_size):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
-    # for 4.3.0 sdk need pre install mmcv
-    prepare_script += """
-    pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
+    prepare_script += f"""
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
+
+    if model_name == "rtdetr":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        """
 
     # if model["need_third_part"] and model["3rd_party_repo"]:
     #     third_party_repo = model["3rd_party_repo"]
@@ -300,6 +305,11 @@ def run_detec_testcase(model, batch_size):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
     """
+
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
 
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
@@ -332,7 +342,6 @@ def run_detec_testcase(model, batch_size):
             pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
             matchs = re.findall(pattern, sout)
             for m in matchs:
-                result["result"].setdefault(prec, {"status": "FAIL"})
                 try:
                     result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
                 except ValueError:
@@ -353,7 +362,7 @@ def run_detec_testcase(model, batch_size):
                 except ValueError:
                     print("The string cannot be converted to a float.")
                     result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: m[1]}
-            if matchs and len(matchs) == 2:
+            if matchs and len(matchs) >= 2:
                 result["result"][prec]["status"] = "PASS"
             else:
                 pattern = METRIC_PATTERN
@@ -366,7 +375,7 @@ def run_detec_testcase(model, batch_size):
 
     return result
 
-def run_ocr_testcase(model):
+def run_ocr_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -380,7 +389,7 @@ def run_ocr_testcase(model):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    pip install /mnt/deepspark/install/paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -582,6 +591,11 @@ def run_nlp_testcase(model, batch_size):
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['model_path']}
     """
+    if model_name == "transformer" and platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:

@@ -33,7 +33,7 @@ source /opt/rh/devtoolset-7/enable
 # install yolox
 cp -r /mnt/deepspark/data/repos/YOLOX ./
 cd YOLOX
-python3 setup.py develop
-
+pip3 install -v -e . --no-build-isolation
+sed -i 's/torch.onnx._export/torch.onnx.export/g' tools/export_onnx.py
 # export onnx model
 python3 tools/export_onnx.py -c ../yolox_m.pth -o 13 -n yolox-m --input input --output output --dynamic --output-name ../yolox.onnx

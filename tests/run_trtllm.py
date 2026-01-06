@@ -58,13 +58,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
     result = {}
     # NLP模型
     if model["category"] in ["nlp/llm"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -89,7 +90,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_nlp_testcase(model):
+def run_nlp_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -101,10 +102,9 @@ def run_nlp_testcase(model):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
-    pip install /mnt/deepspark/install/tensorrt_llm-0.12.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-    pip install /mnt/deepspark/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-    bash /mnt/deepspark/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
-    pip install /mnt/deepspark/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorrt_llm-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     """
 

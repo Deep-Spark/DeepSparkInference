@@ -57,13 +57,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
     result = {}
     # NLP模型
     if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -163,7 +164,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             return base_script + f"python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1"
 
         case "cosyvoice":
-            return base_script + "cd CosyVoice\npython3 inference_test.py"
+            return base_script + "cd CV3-Eval\nbash run_inference_fp16_eval.sh"
 
         case "xlmroberta":
             return base_script + (
@@ -221,13 +222,13 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             bench = (
                 "python3 vllm/benchmarks/benchmark_throughput.py --model ./qwen1.5-14b "
                 "--dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 896 -tp 2"
+                "--num-prompts 10 --trust-remote-code --max-model-len 896 -tp 2"
             )
         else:
             bench = (
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
                 f"--model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4"
+                "--num-prompts 10 --trust-remote-code --max-model-len 3096 -tp 4"
             )
         return script + common_bench + bench
 
@@ -238,7 +239,7 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
             f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
             "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
-            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code"
+            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust-remote-code"
         )
         return script + common_bench + bench
 
@@ -291,15 +292,25 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
             "status": "PASS"
         }
 
+    matchs = re.findall(METRIC_PATTERN, sout)
+    if matchs and len(matchs) == 1:
+        result_entry.update(get_metric_result(matchs[0]))
+        result_entry["status"] = "PASS"
+        return result_entry
+
     # Final fallback: generic success message
     if "Offline inference is successful!" in sout:
         return {"status": "PASS"}
 
     return result_entry
 
+def get_metric_result(str):
+    if str:
+        return json.loads(str.replace("'", "\""))["metricResult"]
+    return None
 
 # --- Main function (now simple and low complexity) ---
-def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
+def run_nlp_testcase(model: Dict[str, Any], whl_url: str) -> Dict[str, Any]:
     get_num_devices_script = "ixsmi -L | wc -l"
     result, _ = run_script(get_num_devices_script)
     num_devices = int(result.stdout.strip())
@@ -320,9 +331,13 @@ def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
 set -x
 cd ../{model['model_path']}
 ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
-pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+pip install {whl_url}`curl -s {whl_url} | grep -o 'xformers-[^"]*\.whl' | head -n1`
 bash ci/prepare.sh
 """
+    if model_name == "internlm3":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'lmdeploy-[^"]*\.whl' | head -n1`
+        """
 
     if utils.is_debug():
         pip_list = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"

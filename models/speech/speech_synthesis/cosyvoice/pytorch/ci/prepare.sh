@@ -21,7 +21,20 @@ pip3 install -r requirements.txt
 pip3 install onnxruntime==1.18.0
 cp -r /mnt/deepspark/data/repos/CosyVoice ./
 cd CosyVoice
+git checkout 2db78e705835e56778f69b80cae51e4314d635b0
 mkdir -p pretrained_models
 ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
 
-cp ../inference_test.py ./
+python3 example.py
+
+cd ..
+mkdir -p /root/.cache/modelscope/hub/iic
+ln -s /mnt/deepspark/data/checkpoints/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch /root/.cache/modelscope/hub/iic/
+cp -r /mnt/deepspark/data/repos/CV3-Eval ./
+cd CV3-Eval
+mv ../CosyVoice ./
+pip3 install -r requirements.txt
+pip3 install jiwer==3.1.0
+cp ../get_infer_wavs.py scripts/
+cp ../inference.sh scripts/
+cp ../run_inference_fp16_eval.sh ./
