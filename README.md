@@ -211,29 +211,29 @@
 |            | INT8  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     | 4.3.0     |
 | YOLOv4     | FP16  | [✅](models/cv/object_detection/yolov4/igie)     | [✅](models/cv/object_detection/yolov4/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov4/igie16)   | [✅](models/cv/object_detection/yolov4/ixrt16)   | 4.3.0     |
-| YOLOv5     | FP16  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     | 4.3.0     |
+| YOLOv5m    | FP16  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
 | YOLOv5s    | FP16  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
 |            | INT8  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
-| YOLOv6     | FP16  | [✅](models/cv/object_detection/yolov6/igie)     | [✅](models/cv/object_detection/yolov6/ixrt)     | 4.3.0     |
-|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6/ixrt)     | 4.3.0     |
+| YOLOv6s    | FP16  | [✅](models/cv/object_detection/yolov6s/igie)     | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
+|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
 | YOLOv7     | FP16  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
 | YOLOv8n    | FP16  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
 | YOLOv8s    | FP16  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
-| YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     | [✅](models/cv/object_detection/yolov9/ixrt)     | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov9/igie)     |                                                   | 4.3.0     |
-| YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    | [✅](models/cv/object_detection/yolov10/ixrt)    | 4.3.0     |
-| YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    | [✅](models/cv/object_detection/yolov11/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov11/igie)     |                                                  | 4.3.0     |
-| YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    | [✅](models/cv/object_detection/yolov12/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov12/igie)     |                                                   | 4.3.0     |
-| YOLOv13    | FP16  | [✅](models/cv/object_detection/yolov13/igie)    | [✅](models/cv/object_detection/yolov13/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov13/igie)     |                                                   | 4.3.0     |
-| YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
+| YOLOv9s    | FP16  | [✅](models/cv/object_detection/yolov9s/igie)     | [✅](models/cv/object_detection/yolov9s/ixrt)     | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov9s/igie)     |                                                   | 4.3.0     |
+| YOLOv10s   | FP16  | [✅](models/cv/object_detection/yolov10s/igie)    | [✅](models/cv/object_detection/yolov10s/ixrt)    | 4.3.0     |
+| YOLOv11n   | FP16  | [✅](models/cv/object_detection/yolov11n/igie)    | [✅](models/cv/object_detection/yolov11n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov11n/igie)     |                                                  | 4.3.0     |
+| YOLOv12n   | FP16  | [✅](models/cv/object_detection/yolov12n/igie)    | [✅](models/cv/object_detection/yolov12n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov12n/igie)     |                                                   | 4.3.0     |
+| YOLOv13n   | FP16  | [✅](models/cv/object_detection/yolov13n/igie)    | [✅](models/cv/object_detection/yolov13n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov13n/igie)     |                                                   | 4.3.0     |
+| YOLOXm     | FP16  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
 
 
 | Model      | Prec. | PaddlePaddle                                            | IXUCA SDK |
