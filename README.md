@@ -50,8 +50,9 @@
 | Llama2-70B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-70b/trtllm)                              | 4.3.0     |
 | Llama3-70B                    | `vLLM`       | [✅](models/nlp/llm/llama3-70b/vllm)                                | 4.3.0     |
 | E5-V                          | `vLLM`       | [✅](models/multimodal/vision_language_model/e5-v/vllm/)            | 4.3.0     |
-| MiniCPM-o                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
-| MiniCPM-V                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
+| MiniCPM-o-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-o-2/vllm/)     | 4.3.0     |
+| MiniCPM-V-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-2/vllm/)     | 4.3.0     |
+| MiniCPM-V-4                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-4/vllm/)     | 4.4.0     |
 | NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
@@ -303,7 +304,6 @@
 | LLaVA               |   vLLM   | [✅](models/multimodal/vision_language_model/llava/vllm)               | 4.3.0     |
 | LLaVA-Next-Video-7B |   vLLM   | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) | 4.3.0     |
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
-| MiniCPM-V 2         |   vLLM   | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |

@@ -96,7 +96,8 @@ _VISION_MODEL_CONFIGS = {
     "fuyu_8b": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 2"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "idefics3": ("offline_inference_vision_language.py", ["--model-type idefics3"], None, []),
     "h2vol": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--disable-mm-preprocessor-cache"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
-    "minicpm_v": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
+    "minicpm-v-2": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
+    "minicpm-v-4": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
     "llama-3.2": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 2", "--max-model-len 8192", "--max-num-seqs 16"], None, ["VLLM_ASSETS_CACHE=../vllm/", "VLLM_FORCE_NCCL_COMM=1"]),
     "pixtral": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--tokenizer-mode 'mistral'"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "llava": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--model-type llava-next", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
@@ -107,7 +108,7 @@ _VISION_MODEL_CONFIGS = {
     "qwen2_5_vl": ("offline_inference_vision_language.py", ["-tp 4", "--max-token 256"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/", "ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1"]),
     "e5-v": ("offline_inference_vision_language_embedding.py", ["--modality \"image\"", "--tensor_parallel_size 1", "--task \"embed\"", "--max_model_len 4096"], None, []),
     "glm-4v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--hf-overrides '{\"architectures\": [\"GLM4VForCausalLM\"]}'"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
-    "minicpm_o": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
+    "minicpm-o-2": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
     "phi3_v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "paligemma": ("offline_inference_vision_language.py", ["--max-tokens 256"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "deepseek-ocr": ("offline_inference_vision_language.py", ["--model-type deepseek_ocr"], None, []),
@@ -182,7 +183,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             )
 
         # Vision-language models
-        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm_v" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm_o" | "phi3_v" | "paligemma" | "deepseek-ocr":
+        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm-v-2" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma" | "minicpm-v-4" | "deepseek-ocr":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
