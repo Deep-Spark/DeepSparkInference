@@ -110,6 +110,7 @@ _VISION_MODEL_CONFIGS = {
     "minicpm_o": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
     "phi3_v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "paligemma": ("offline_inference_vision_language.py", ["--max-tokens 256"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
+    "deepseek-ocr": ("offline_inference_vision_language.py", ["--model-type deepseek_ocr"], None, []),
 }
 
 # Standard LLM configs
@@ -181,7 +182,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             )
 
         # Vision-language models
-        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm_v" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm_o" | "phi3_v" | "paligemma":
+        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm_v" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm_o" | "phi3_v" | "paligemma" | "deepseek-ocr":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
