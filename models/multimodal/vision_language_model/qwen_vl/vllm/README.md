@@ -18,6 +18,7 @@ Qwen-VL (Qwen Large Vision Language Model) is the visual multimodal version of t
 
 ```bash
 cp -r ../../vllm_public_assets/ ./
+# download model and make sure model path is ./qwen_vl
 ```
 
 ### Install Dependencies
@@ -32,7 +33,7 @@ pip install matplotlib
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model /path/to/Qwen-VL-Chat -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["QwenVLForConditionalGeneration"]}'
+python3 offline_inference_vision_language.py --model-type qwen_vl
 ```
 
 ## Model Results

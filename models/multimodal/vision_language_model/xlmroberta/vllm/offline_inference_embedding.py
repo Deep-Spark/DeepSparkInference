@@ -1,54 +1,25 @@
-#!/bin/bash
-# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License. You may obtain
-# a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-import sys
-from pathlib import Path
-import os
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
 
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
-import argparse
-import dataclasses
-import inspect
-import logging
-import time
+from argparse import Namespace
 
-import torch
-from utils import load_chat_template, sampling_add_cli_args
-from vllm import LLM, EngineArgs, SamplingParams
+from vllm import LLM, EngineArgs
+from vllm.utils.argparse_utils import FlexibleArgumentParser
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+
+def parse_args():
+    parser = FlexibleArgumentParser()
     parser = EngineArgs.add_cli_args(parser)
-    parser = sampling_add_cli_args(parser)
-    args = parser.parse_args()
+    # Set example specific arguments
+    parser.set_defaults(
+        model="intfloat/e5-small",
+        runner="pooling",
+        enforce_eager=True,
+    )
+    return parser.parse_args()
 
-    engine_args = [attr.name for attr in dataclasses.fields(EngineArgs)]
-    sampling_args = [
-        param.name
-        for param in list(
-            inspect.signature(SamplingParams).parameters.values()
-        )
-    ]
-    engine_params = {attr: getattr(args, attr) for attr in engine_args}
-    sampling_params = {
-        attr: getattr(args, attr) for attr in sampling_args if args.__contains__(attr)
-    }
 
-    model_name = os.path.dirname(args.model).rsplit("/")[-1]
-
+def main(args: Namespace):
     # Sample prompts.
     prompts = [
         "Hello, my name is",
@@ -57,27 +28,24 @@ if __name__ == "__main__":
         "The future of AI is",
     ]
 
-    # Create a sampling params object.
-    sampling_params = SamplingParams(**sampling_params)
-
     # Create an LLM.
-    llm = LLM(**engine_params)
+    # You should pass runner="pooling" for embedding models
+    llm = LLM(**vars(args))
 
-    
-    
-    
-    start_time = time.perf_counter()
-    # skip process chat template
     # Generate embedding. The output is a list of EmbeddingRequestOutputs.
-    outputs = llm.encode(prompts)
-    end_time = time.perf_counter()
-    duration_time = end_time - start_time
-    num_tokens = 0
+    outputs = llm.embed(prompts)
+
     # Print the outputs.
-    for output in outputs:
-        num_tokens += len(output.outputs.embedding)
-        print(output.outputs.embedding) # list of hidden_size floats
-        print("Offline inference is successful!")
-    num_requests = len(prompts)  # 请求的数量
-    qps = num_requests / duration_time
-    print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")
+    print("\nGenerated Outputs:\n" + "-" * 60)
+    for prompt, output in zip(prompts, outputs):
+        embeds = output.outputs.embedding
+        embeds_trimmed = (
+            (str(embeds[:16])[:-1] + ", ...]") if len(embeds) > 16 else embeds
+        )
+        print(f"Prompt: {prompt!r} \nEmbeddings: {embeds_trimmed} (size={len(embeds)})")
+        print("-" * 60)
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    main(args)

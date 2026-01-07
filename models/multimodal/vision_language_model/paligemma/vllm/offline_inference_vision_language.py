@@ -23,7 +23,16 @@ on HuggingFace model repository.
 """
 import sys
 from pathlib import Path
-import os
+import argparse as _argparse
+# ====== PATCH: 兼容旧版 argparse 不支持 'deprecated' ======
+_original_add_argument = _argparse._ArgumentGroup.add_argument
+
+def _patched_add_argument(self, *args, **kwargs):
+    kwargs.pop('deprecated', None)
+    return _original_add_argument(self, *args, **kwargs)
+
+_argparse._ArgumentGroup.add_argument = _patched_add_argument
+# =========================================================
 import time
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import argparse
@@ -90,14 +99,14 @@ if __name__ == "__main__":
     parser = EngineArgs.add_cli_args(parser)
     parser = sampling_add_cli_args(parser)
     args = parser.parse_args()
-    engine_args = [attr.name for attr in dataclasses.fields(EngineArgs)]
+    engine_args = EngineArgs.from_cli_args(args)
+    engine_params = dataclasses.asdict(engine_args)
     sampling_args = [
         param.name
         for param in list(
             inspect.signature(SamplingParams).parameters.values()
         )
     ]
-    engine_params = {attr: getattr(args, attr) for attr in engine_args}
     sampling_params = {
         attr: getattr(args, attr) for attr in sampling_args if args.__contains__(attr)
     }

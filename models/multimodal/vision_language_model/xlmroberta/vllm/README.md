@@ -21,7 +21,7 @@ RoBERTa is a transformers model pretrained on a large corpus in a self-supervise
 
 ```bash
 # Download model from the website and make sure the model's path is "data/bge-reranker-v2-m3" "data/multilingual-e5-large"
-mkdir data
+mkdir -p data
 ```
 
 ### Install Dependencies
@@ -32,7 +32,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 
 ### Sentence Pair Scoring Modeling
 ```bash
-python3 offline_inference_scoring.py --model data/bge-reranker-v2-m3 --task "score" --tensor-parallel-size 1
+python3 offline_inference_scoring.py --model data/bge-reranker-v2-m3
 ```
 
 ### Text Embedding
