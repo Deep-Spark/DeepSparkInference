@@ -12,6 +12,7 @@ Aria is a multimodal native MoE model. It features:
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | vLLM | Release |
 | :----: | :----: | :----: | :----: |
+| MR-V100 | 4.4.0 | >=0.11.2 | 26.03 |
 | MR-V100 | 4.3.0 | >=0.6.4 | 25.09 |
 | MR-V100 | 4.2.0 | >=0.6.6 | 25.06 |
 
@@ -31,16 +32,6 @@ mkdir data
 ### Install Dependencies
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
-
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
-pip install transformers==4.53.0
-```
 
 ## Model Inference
 

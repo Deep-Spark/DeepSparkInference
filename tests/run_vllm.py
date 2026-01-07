@@ -183,13 +183,22 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             )
 
         # Vision-language models
-        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm-v-2" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma" | "minicpm-v-4" | "deepseek-ocr":
+        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
             gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
             arg_str = " ".join(args)
             cmd = f"{gpu_prefix}python3 {script_file} --model ./{model_name} {arg_str} --trust-remote-code --temperature 0.0"
+            return base_script + env_lines + cmd
+
+        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4":
+            config = _VISION_MODEL_CONFIGS[model_name]
+            script_file, args, gpus, envs = config
+            env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
+            gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
+            arg_str = " ".join(args)
+            cmd = f"{gpu_prefix}python3 {script_file} {arg_str}"
             return base_script + env_lines + cmd
 
         # Standard LLMs
