@@ -1,4 +1,4 @@
-# MiniCPM-o 2 (vLLM)
+# MiniCPM-o-2 (vLLM)
 
 ## Model Description
 
@@ -47,7 +47,7 @@ python3 offline_inference_vision_language.py --model ./MiniCPM-o-2_6/ --max-mode
 ```bash
 git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
 python3 vllm/benchmarks/benchmark_throughput.py \
-  --model {model_name} \
+  --model ./MiniCPM-o-2_6 \
   --backend vllm-chat \
   --dataset-name hf \
   --dataset-path lmarena-ai/VisionArena-Chat \
@@ -59,4 +59,4 @@ python3 vllm/benchmarks/benchmark_throughput.py \
 
 | Model | Precision  | QPS | Total TPS | Output TPS |
 | :----: | :----: | :----: | :----: | :----: |
-| MiniCPM-o 2 | BF16 | 0.59 | 258.0 | 75.57 |
+| MiniCPM-o-2 | BF16 | 0.59 | 258.0 | 75.57 |

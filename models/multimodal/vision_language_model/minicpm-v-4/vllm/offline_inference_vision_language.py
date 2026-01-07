@@ -18,14 +18,15 @@ from vllm import LLM, EngineArgs, SamplingParams
 from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset
 from vllm.lora.request import LoRARequest
-from vllm.utils import FlexibleArgumentParser
+from vllm.utils.argparse_utils import FlexibleArgumentParser
 import time
 
 class ModelRequestData(NamedTuple):
     engine_args: EngineArgs
     prompts: list[str]
-    stop_token_ids: Optional[list[int]] = None
-    lora_requests: Optional[list[LoRARequest]] = None
+    stop_token_ids: list[int] | None = None
+    lora_requests: list[LoRARequest] | None = None
+    sampling_params: list[SamplingParams] | None = None
 
 
 # NOTE: The default `max_num_seqs` and `max_model_len` may result in OOM on
@@ -42,7 +43,7 @@ def run_minicpmv_base(questions: list[str], modality: str, model_name):
         max_model_len=4096,
         max_num_seqs=2,
         trust_remote_code=True,
-        disable_mm_preprocessor_cache=args.disable_mm_preprocessor_cache,
+        limit_mm_per_prompt={modality: 1},
     )
 
     stop_tokens = ['<|im_end|>', '<|endoftext|>']
@@ -70,7 +71,7 @@ def run_minicpmv_base(questions: list[str], modality: str, model_name):
     )
 
 def run_minicpmv(questions: list[str], modality: str) -> ModelRequestData:
-    return run_minicpmv_base(questions, modality, "./minicpm_v")
+    return run_minicpmv_base(questions, modality, "./minicpm-v-4")
 
 
 model_example_map = {

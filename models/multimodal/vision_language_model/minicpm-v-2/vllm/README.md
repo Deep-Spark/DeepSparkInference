@@ -1,4 +1,4 @@
-# MiniCPM-V 2 (vLLM)
+# MiniCPM-V-2 (vLLM)
 
 ## Model Description
 
@@ -22,7 +22,7 @@ techniques, making it suitable for deployment in resource-constrained environmen
 ```bash
 cp -r ../../vllm_public_assets/ ./
 
-# Download model from the website and make sure the model's path is "./minicpm_v"
+# Download model from the website and make sure the model's path is "./minicpm-v-2"
 ```
 
 ### Install Dependencies
@@ -30,12 +30,6 @@ cp -r ../../vllm_public_assets/ ./
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip install timm==0.9.10
 ```
 
@@ -52,7 +46,7 @@ python3 offline_inference_vision_language.py --model-type minicpmv
 ```bash
 git clone https://github.com/vllm-project/vllm.git -b v0.8.3 --depth=1
 python3 vllm/benchmarks/benchmark_throughput.py \
-  --model {model_name} \
+  --model ./minicpm-v-2 \
   --backend vllm-chat \
   --dataset-name hf \
   --dataset-path lmarena-ai/VisionArena-Chat \
@@ -64,4 +58,4 @@ python3 vllm/benchmarks/benchmark_throughput.py \
 
 | Model | Precision  | QPS | Total TPS | Output TPS |
 | :----: | :----: | :----: | :----: | :----: |
-| MiniCPM-V 2 | BF16 | 0.59 | 251.25 | 75.32 |
+| MiniCPM-V-2 | BF16 | 0.59 | 251.25 | 75.32 |
