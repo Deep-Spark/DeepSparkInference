@@ -1,0 +1,60 @@
+# .pre-commit-config.yaml 核心配置
+repos:
+  # 1. 基础 Git 钩子：检查提交规范
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0 # 使用最新稳定版本
+    hooks:
+      # - id: trailing-whitespace  # 移除行尾多余空格
+      #   files: .*\.(md|py|sh|bash)$
+      #   exclude: ^docs/.*|.gitee/.*  # 排除文档和配置文件夹
+      # - id: end-of-file-fixer   # 确保文件以空行结尾
+      #   files: .*\.(md|py|sh|bash)$
+      - id: mixed-line-ending
+        args: ["--fix=lf"] # 自动将混合换行符转为 LF
+        stages: [commit]
+      - id: check-yaml # 检查 YAML 文件语法
+        exclude: models/audio/speech_recognition/transformer_asr/ixrt/hparams/train_ASR_transformer.yaml
+      - id: check-json # 检查 JSON 文件语法
+      - id: check-added-large-files # 禁止提交大文件（默认>500KB）
+        args: ["--maxkb=1000"] # 开源项目可放宽到1MB
+      - id: check-merge-conflict # 检查是否有未解决的合并冲突
+      - id: detect-private-key # 禁止提交私钥（安全关键）
+  # 2. 代码格式化工具：统一代码风格
+  # - repo: https://github.com/psf/black
+  #   rev: 24.8.0
+  #   hooks:
+  #   - id: black
+  #     language_version: python3  # 指定Python版本（按需调整）
+  #     args: ['--line-length=120']  # 行长度适配开源项目习惯
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.0
+    hooks:
+      - id: flake8
+        args:
+          - --count
+          - --select=E9,F63,F7,F82,E721,F401
+          - --per-file-ignores=__init__.py:F401
+          - --show-source
+          - --statistics
+          - --max-line-length=120
+          - --ignore=E203,W503
+  ## WIP: not work yet
+  - repo: local
+    hooks:
+      - id: check-commit-email
+        name: Check Commit Email
+        entry: bash ./tests/pre-commit/check_commit_email.sh # 脚本路径
+        language: system # 使用系统Shell执行
+        verbose: true # 显示详细信息
+        stages: [commit-msg]
+        pass_filenames: false
+        always_run: true
+  # check license
+  - repo: local
+    hooks:
+      - id: check-license-copyright
+        name: Check License Copyright
+        entry: python ./tests/pre-commit/check_license_copyright.py
+        language: python
+        files: .*\.(sh|bash)$
