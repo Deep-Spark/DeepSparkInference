@@ -30,7 +30,7 @@ import base64
 from PIL import Image
 from vllm import LLM
 from vllm.multimodal.utils import fetch_image
-from vllm.utils import FlexibleArgumentParser
+from vllm.utils.argparse_utils import FlexibleArgumentParser
 from vllm import LLM, EngineArgs
 import dataclasses
 

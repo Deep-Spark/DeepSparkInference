@@ -14,6 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import argparse as _argparse
+# ====== PATCH: 兼容旧版 argparse 不支持 'deprecated' ======
+_original_add_argument = _argparse._ArgumentGroup.add_argument
+
+def _patched_add_argument(self, *args, **kwargs):
+    kwargs.pop('deprecated', None)
+    return _original_add_argument(self, *args, **kwargs)
+
+_argparse._ArgumentGroup.add_argument = _patched_add_argument
+# =========================================================
 
 from vllm import LLM
 import argparse
@@ -25,8 +35,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser = EngineArgs.add_cli_args(parser)
     args = parser.parse_args()
-    engine_args = [attr.name for attr in dataclasses.fields(EngineArgs)]
-    engine_params = {attr: getattr(args, attr) for attr in engine_args}
+    engine_args = EngineArgs.from_cli_args(args)
+    engine_params = dataclasses.asdict(engine_args)
     # Sample prompts.
     text_1 = "What is the capital of France?"
     texts_2 = [

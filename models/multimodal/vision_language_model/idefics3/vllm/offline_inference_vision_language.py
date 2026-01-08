@@ -18,7 +18,7 @@ from vllm import LLM, EngineArgs, SamplingParams
 from vllm.assets.image import ImageAsset
 from vllm.assets.video import VideoAsset
 from vllm.lora.request import LoRARequest
-from vllm.utils import FlexibleArgumentParser
+from vllm.utils.argparse_utils import FlexibleArgumentParser
 import time
 
 class ModelRequestData(NamedTuple):

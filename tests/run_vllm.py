@@ -252,6 +252,14 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
             "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust-remote-code"
         )
+        if model_name == "deepseek-ocr":
+            bench = (
+                "mkdir -p lmarena-ai\n"
+                "ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/\n"
+                "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
+                f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
+                "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
+            )
         return script + common_bench + bench
 
     return script
