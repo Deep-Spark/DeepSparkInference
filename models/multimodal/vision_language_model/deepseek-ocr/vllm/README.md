@@ -31,23 +31,50 @@ cp -r ../../vllm_public_assets/ ./
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
-
 ## Model Inference
+
+## Offline Inference
 
 ```bash
 python3 offline_inference_vision_language.py --model-type deepseek_ocr
 ```
 
-## Model Results
+### Model Results
 
-### Benchmarking vLLM
+#### Benchmarking vLLM
 
 ```bash
 vllm bench throughput --model ./deepseek-ocr --backend vllm-chat --dataset-name hf --dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10  --hf-split train --trust_remote_code
 ```
 
-### Benchmarking Results
+#### Benchmarking Results
 
 | Model | Precision  | QPS | Total TPS | Output TPS |
 | :----: | :----: | :----: | :----: | :----: |
 | DeepSeek-OCR | BF16 | 1.12 | 912.13 | 142.78 |
+
+## Online Inference (Client-Server Mode)
+
+In addition to offline inference scripts, this repository also supports the online inference mode based on the vLLM API Server.
+
+### Start the server(Server)
+
+Please modify according to the actual model path /path/to/DeepSeek-OCR/.
+
+```bash
+vllm serve /mnt/app_auto/models_zoo/deepseek_models/DeepSeek-OCR/ --logits_processors vllm.model_executor.models.deepseek_ocr:NGramPerReqLogitsProcessor --no-enable-prefix-caching --mm-processor-cache-gb 0
+```
+
+### Run the client (Client)
+
+After the server starts up, use `online_inference_vision_language.py` to send requests.
+
+#### Run with custom parameters
+
+```bash
+python3 online_inference_vision_language.py \
+  --image-url "https://pic1.zhimg.com/v2-1b8eed3577af0c15d5bb9c78e09e7c18_1440w.jpg" \
+  --model-name "/mnt/app_auto/models_zoo/deepseek_models/DeepSeek-OCR/" \
+  --prompt "Summarize this document."
+```
+
