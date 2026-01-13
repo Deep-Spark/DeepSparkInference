@@ -370,6 +370,13 @@ def run_detec_testcase(model, batch_size, whl_url):
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
+                elif model_name == "yolov8n":
+                    export_onnx_script = f"""
+                        cd ../{model['model_path']}
+                        python3 export.py --weight yolov8.pt --batch {bs}
+                        rm -rf checkpoints/*
+                        onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
+                    """
                 script = export_onnx_script + base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                     bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}

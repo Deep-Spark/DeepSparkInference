@@ -40,6 +40,18 @@ echo Onnx Path : ${ORIGINE_MODEL}
 BATCH_SIZE=32
 CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov8.onnx
 
+# Update arguments
+index=0
+options=$@
+arguments=($options)
+for argument in $options
+do
+    index=`expr $index + 1`
+    case $argument in
+      --bs) BATCH_SIZE=${arguments[index]};;
+    esac
+done
+
 # quant
 FINAL_MODEL=${CHECKPOINTS_DIR}/quantized_yolov8_bs${BATCH_SIZE}.onnx
 if [ -f $FINAL_MODEL ];then
@@ -74,11 +86,10 @@ fi
 
 # Inference
 echo Inference
-RUN_BATCH_SIZE=32
 python3 ${RUN_DIR}/inference.py                 \
     --model_engine ${ENGINE_FILE}                \
     --warm_up 2                                 \
-    --bsz ${RUN_BATCH_SIZE}                         \
+    --bsz ${BATCH_SIZE}                         \
     --imgsz 640                              \
     --datasets ${DATASETS_DIR}               \
     --perf_only true                         \
