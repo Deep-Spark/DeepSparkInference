@@ -18,10 +18,10 @@ set -x
 apt update
 apt-get install sox libsox-dev
 pip3 install -r requirements.txt
-pip3 install onnxruntime==1.18.0
+pip3 install onnxruntime==1.18.0 transformers==4.49.0
 cp -r /mnt/deepspark/data/repos/CosyVoice ./
 cd CosyVoice
-git checkout 2db78e705835e56778f69b80cae51e4314d635b0
+git checkout 1dcc59676fe3fa863f983ab7820e481560c73be7
 mkdir -p pretrained_models
 ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
 
@@ -34,7 +34,7 @@ cp -r /mnt/deepspark/data/repos/CV3-Eval ./
 cd CV3-Eval
 mv ../CosyVoice ./
 pip3 install -r requirements.txt
-pip3 install jiwer==3.1.0
+pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==2.4.0
 cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
 cp ../run_inference_fp16_eval.sh ./
