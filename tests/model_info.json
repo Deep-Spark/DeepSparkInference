@@ -4277,7 +4277,7 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/cv/object_detection/yolov5m/igie/",
+            "model_path": "models/cv/object_detection/yolov5m/ixrt/",
             "readme_file": "models/cv/object_detection/yolov5m/ixrt/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
