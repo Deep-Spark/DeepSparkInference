@@ -284,14 +284,15 @@ def run_detec_testcase(model, batch_size, whl_url):
     pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
 
+    if platform.machine() == "aarch64":
+        prepare_script = """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """ + prepare_script
+
     if model_name == "rtdetr":
         prepare_script += f"""
         pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
         """
-
-    # if model["need_third_part"] and model["3rd_party_repo"]:
-    #     third_party_repo = model["3rd_party_repo"]
-    #     prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
     prepare_script += "bash ci/prepare.sh\n"
 
     # add pip list info when in debug mode
@@ -324,13 +325,13 @@ def run_detec_testcase(model, batch_size, whl_url):
                 export_onnx_script = ""
                 if model_name == "yolov5s":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5s.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
-                script = export_onnx_script + base_script + f"""
+                script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                     bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """

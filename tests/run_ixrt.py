@@ -295,6 +295,11 @@ def run_detec_testcase(model, batch_size, whl_url):
     bash ci/prepare.sh
     """
 
+    if platform.machine() == "aarch64":
+        prepare_script = """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """ + prepare_script
+
     # add pip list info when in debug mode
     if utils.is_debug():
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
@@ -303,8 +308,6 @@ def run_detec_testcase(model, batch_size, whl_url):
     run_script(prepare_script)
 
     config_name = model_name.upper()
-    if model_name == "yolov5":
-        config_name = "YOLOV5M"
 
     if model_name in ["yolov3", "yolov5m", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
         base_script = f"""
@@ -349,7 +352,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 export_onnx_script = ""
                 if model_name == "yolov5m":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5m.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
@@ -357,14 +360,14 @@ def run_detec_testcase(model, batch_size, whl_url):
                     """
                 elif model_name == "yoloxm":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/YOLOX
+                        cd YOLOX
                         python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size {bs}
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
                 elif model_name == "yolov5s":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5s.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
@@ -372,12 +375,11 @@ def run_detec_testcase(model, batch_size, whl_url):
                     """
                 elif model_name == "yolov8n":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}
                         python3 export.py --weight yolov8.pt --batch {bs}
                         rm -rf checkpoints/*
                         onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
                     """
-                script = export_onnx_script + base_script + f"""
+                script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                     bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
