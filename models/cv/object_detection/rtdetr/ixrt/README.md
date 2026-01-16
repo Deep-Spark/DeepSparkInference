@@ -86,4 +86,4 @@ bash scripts/infer_rtdetr_fp16_performance.sh
 
 | Model  | BatchSize | Precision |  FPS  | IOU@0.5 | IOU@0.5:0.95 |
 |:------:|:---------:|:---------:|:-----:|:-------:|:------------:|
-| RT-DETR|     32    |   FP16    | 71.4  |  0.729  |     0.543    |
+| RT-DETR|     32    |   FP16    | 326.427 |  0.656  |     0.480    |

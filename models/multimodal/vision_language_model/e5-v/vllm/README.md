@@ -31,7 +31,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ## Model Inference
 
 ```bash
-python3 offline_inference_vision_language_embedding.py  --model /path/to/e5-v/  --modality "image" --tensor_parallel_size 1 --task "embed" --trust_remote_code --max_model_len 4096
+python3 offline_inference_vision_language_embedding.py --model-name e5-v
 ```
 
 ## Model Results
