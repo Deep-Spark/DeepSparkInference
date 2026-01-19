@@ -22,6 +22,7 @@ More details can be found in https://github.com/kongds/E5-V
 
 ```bash
 cp -r ../../vllm_public_assets/ ./
+# download model into ./e5-v
 ```
 
 ### Install Dependencies
@@ -31,7 +32,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ## Model Inference
 
 ```bash
-python3 offline_inference_vision_language_embedding.py --model-name e5-v
+python3 offline_inference_vision_language_embedding.py --model-name e5_v
 ```
 
 ## Model Results

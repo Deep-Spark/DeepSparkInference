@@ -139,6 +139,8 @@ def main():
     qps = num_reqs / duration if duration > 0 else 0
     token_per_sec = num_tokens / duration if duration > 0 else 0
 
+    print(f"requests: {num_reqs}, QPS: {qps}, tokens: {num_tokens}, Token/s: {token_per_sec}")
+
     print(f"\n📊 Summary:")
     print(f"   Requests: {num_reqs}")
     print(f"   QPS: {qps:.2f}")

@@ -11,7 +11,6 @@ on HuggingFace model repository.
 import time
 import random
 from typing import NamedTuple
-from contextlib import contextmanager
 from dataclasses import asdict
 from vllm.assets.image import ImageAsset
 from vllm.multimodal.image import convert_image_mode

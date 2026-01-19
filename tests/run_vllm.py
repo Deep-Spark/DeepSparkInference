@@ -106,7 +106,7 @@ _VISION_MODEL_CONFIGS = {
     "qwen_vl": ("offline_inference_vision_language.py", ["--model-type qwen_vl"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "qwen2_vl": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-num-seqs 5"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/", "ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1"]),
     "qwen2_5_vl": ("offline_inference_vision_language.py", ["-tp 4", "--max-token 256"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/", "ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1"]),
-    "e5-v": ("offline_inference_vision_language_embedding.py", ["---model-name e5-v"], None, []),
+    "e5-v": ("offline_inference_vision_language_embedding.py", ["--model-name e5_v"], None, []),
     "glm-4v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--hf-overrides '{\"architectures\": [\"GLM4VForCausalLM\"]}'"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "minicpm-o-2": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
     "phi3_v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
@@ -183,18 +183,16 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             )
 
         # Vision-language models
-        case "aria" | "chameleon_7b" | "fuyu_8b" | "h2vol" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma":
+        case "aria" | "chameleon_7b" | "fuyu_8b" | "h2vol" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen2_vl" | "qwen2_5_vl" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
             gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
             arg_str = " ".join(args)
             cmd = f"{gpu_prefix}python3 {script_file} --model ./{model_name} {arg_str} --trust-remote-code --temperature 0.0"
-            if model_name == "e5-v":
-                cmd = f"{gpu_prefix}python3 {script_file}"
             return base_script + env_lines + cmd
 
-        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl":
+        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl" | "e5-v":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")

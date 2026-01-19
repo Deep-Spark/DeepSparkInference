@@ -198,7 +198,6 @@ def main(args):
     else:
         outputs = llm.generate(inputs, sampling_params=sampling_params)
 
-    outputs = llm.generate(inputs, sampling_params=sampling_params)
     end_time = time.perf_counter()
     duration_time = end_time - start_time
     num_tokens = 0

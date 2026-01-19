@@ -73,7 +73,7 @@ def run_e5_v(query: Query) -> ModelRequestData:
         raise ValueError(f"Unsupported query modality: '{modality}'")
 
     engine_args = EngineArgs(
-        model="royokong/e5-v",
+        model="./e5-v",
         runner="pooling",
         max_model_len=4096,
         limit_mm_per_prompt={"image": 1},
