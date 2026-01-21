@@ -35,6 +35,7 @@ logging.basicConfig(
 )
 
 METRIC_PATTERN = r"{'metricResult':.*}"
+G_BIND_CMD = os.environ.get("BIND_CMD", "")
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -215,7 +216,7 @@ def run_clf_testcase(model, batch_size, whl_url):
             export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
             export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
             export PROJ_PATH=./
-            bash scripts/infer_swinl_fp16_performance.sh
+            {G_BIND_CMD} bash scripts/infer_swinl_fp16_performance.sh
             cd ./ByteMLPerf/byte_infer_perf/general_perf
             python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
         """
@@ -226,12 +227,12 @@ def run_clf_testcase(model, batch_size, whl_url):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -339,6 +340,7 @@ def run_detec_testcase(model, batch_size, whl_url):
         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
         """
 
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -346,7 +348,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 export_onnx_script = ""
@@ -381,7 +383,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                     """
                 script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -461,7 +463,7 @@ def run_segmentation_and_face_testcase(model):
         export RUN_DIR=./
 
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         if model_name == "clip":
@@ -536,7 +538,7 @@ def run_multi_object_tracking_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -599,7 +601,7 @@ def run_nlp_testcase(model, batch_size, whl_url):
         export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
         export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
         export PROJ_PATH=./
-        bash scripts/infer_{model_name}_fp16_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_fp16_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
     """
     if model_name == "roformer" or model_name == "wide_and_deep":
@@ -632,14 +634,14 @@ def run_nlp_testcase(model, batch_size, whl_url):
                         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                        bash scripts/infer_{model_name}_{prec}_performance.sh
+                        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                         """
                     else:
                         script = f"""
                             set -x
                             cd ../{model['model_path']}/
                             bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                            bash scripts/infer_{model_name}_{prec}_performance.sh
+                            {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                         """
             else:
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
@@ -650,14 +652,14 @@ def run_nlp_testcase(model, batch_size, whl_url):
                         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                        bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                         """
                     else:
                         script = f"""
                             set -x
                             cd ../{model['model_path']}/
                             bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                            bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                            {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                         """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
@@ -732,13 +734,13 @@ def run_speech_testcase(model, batch_size):
                 script = f"""
                     cd ../{model['model_path']}
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = f"""
                     cd ../{model['model_path']}
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs:{bs} test case")
@@ -798,7 +800,7 @@ def run_instance_segmentation_testcase(model, whl_url):
         export EVAL_DIR=./coco2017/val2017
         export RUN_DIR=./
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
