@@ -61,6 +61,7 @@ def main():
         sys.exit(-1)
 
     whl_url = os.environ.get("WHL_URL")
+    utils.ensure_numactl_installed()
 
     result = {}
     if model["category"] == "cv/classification":
