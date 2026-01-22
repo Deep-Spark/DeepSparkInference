@@ -1,5 +1,6 @@
 import onnx
 import argparse
+import numpy as np
 
 def change_input_dim(model, bsz):
     batch_size = bsz
@@ -22,6 +23,19 @@ def change_input_dim(model, bsz):
         else:
             # set batch size of 1
             dim1.dim_value = 1
+    # Modify Reshape params: (1, -1)--->(batch_size, -1)
+    shape_edges = []
+    for node in model.graph.node:
+        if node.op_type == "Reshape":
+            shape_name = node.input[-1]
+            shape_edges.append(shape_name)
+
+    shape_edges = list(set(shape_edges))
+    for data in model.graph.initializer:
+        if data.name in shape_edges:
+            raw_data = np.frombuffer(data.raw_data, np.int64).copy()
+            raw_data[0] = batch_size
+            data.raw_data = raw_data.tobytes()
 
 def parse_args():
     parser = argparse.ArgumentParser()
