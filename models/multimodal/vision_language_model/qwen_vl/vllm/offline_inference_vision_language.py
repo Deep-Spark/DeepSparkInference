@@ -286,6 +286,7 @@ def main(args):
         )
     end_time = time.perf_counter()
     duration_time = end_time - start_time
+    num_tokens = 0
 
     print("-" * 50)
     for o in outputs:
