@@ -684,7 +684,9 @@ def run_nlp_testcase(model, batch_size, whl_url):
                 patterns = {
                     "LatencyQPS": r"Latency QPS\s*:\s*(\d+\.?\d*)",
                     "exact_match": r"\'exact_match\'\s*:\s*(\d+\.?\d*)",
-                    "f1": r"\'f1\'\s*:\s*(\d+\.?\d*)"
+                    "f1": r"\'f1\'\s*:\s*(\d+\.?\d*)",
+                    "exact_match": r"\"exact_match\"\s*:\s*(\d+\.?\d*)",
+                    "f1": r"\"f1\"\s*:\s*(\d+\.?\d*)"
                 }
 
                 combined_pattern = re.compile("|".join(f"(?P<{name}>{pattern})" for name, pattern in patterns.items()))
