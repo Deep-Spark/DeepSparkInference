@@ -6885,8 +6885,8 @@
             "demoType": ""
         },
         {
-            "display_name": "YOLOv10",
-            "model_name": "yolov10",
+            "display_name": "YOLOv10s",
+            "model_name": "yolov10s",
             "framework": "ixrt",
             "release_version": "25.06",
             "release_sdk": "4.2.0",
@@ -6898,8 +6898,8 @@
             "mdims": "",
             "dataset": "",
             "license": "",
-            "model_path": "models/cv/object_detection/yolov10/ixrt",
-            "readme_file": "models/cv/object_detection/yolov10/ixrt/README.md",
+            "model_path": "models/cv/object_detection/yolov10s/ixrt",
+            "readme_file": "models/cv/object_detection/yolov10s/ixrt/README.md",
             "bitbucket_repo": "",
             "bitbucket_branch": "",
             "bitbucket_path": "",
