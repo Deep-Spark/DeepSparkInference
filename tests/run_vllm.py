@@ -357,6 +357,10 @@ bash ci/prepare.sh
         prepare_script += f"""
         pip install {whl_url}`curl -s {whl_url} | grep -o 'lmdeploy-[^"]*\.whl' | head -n1`
         """
+    if model_name == "pixtral":
+        prepare_script += f"""
+        pip uninstall -y xformers
+        """
 
     if utils.is_debug():
         pip_list = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
