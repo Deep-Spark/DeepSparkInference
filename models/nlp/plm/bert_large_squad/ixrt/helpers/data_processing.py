@@ -159,14 +159,14 @@ def convert_example_to_features(doc_tokens, question_text, tokenizer, max_seq_le
         input_mask = [1] * len(input_ids)
 
         # Zero-pad up to the sequence length.
-        while len(input_ids) < max_seq_length:
-            input_ids.append(0)
-            input_mask.append(0)
-            segment_ids.append(0)
+        # while len(input_ids) < max_seq_length:
+        #     input_ids.append(0)
+        #     input_mask.append(0)
+        #     segment_ids.append(0)
 
-        assert len(input_ids) == max_seq_length
-        assert len(input_mask) == max_seq_length
-        assert len(segment_ids) == max_seq_length
+        # assert len(input_ids) == max_seq_length
+        # assert len(input_mask) == max_seq_length
+        # assert len(segment_ids) == max_seq_length
 
         def create_int_feature(values):
             feature = np.asarray(values, dtype=np.int32, order=None)

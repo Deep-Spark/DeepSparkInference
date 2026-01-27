@@ -34,15 +34,15 @@ Contact the Iluvatar administrator to get the missing packages:
 ### FP16
 
 ```bash
-bash script/infer_bert_large_squad_fp16_accuracy.sh
-bash script/infer_bert_large_squad_fp16_performance.sh
+bash scripts/infer_bert_large_squad_fp16_accuracy.sh
+bash scripts/infer_bert_large_squad_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
-bash script/infer_bert_large_squad_int8_accuracy.sh
-bash script/infer_bert_large_squad_int8_performance.sh
+bash scripts/infer_bert_large_squad_int8_accuracy.sh
+bash scripts/infer_bert_large_squad_int8_performance.sh
 ```
 
 ## Model Results
