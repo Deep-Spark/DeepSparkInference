@@ -18,4 +18,4 @@ set -x
 
 mkdir -p data/datasets/bert_base_squad/
 mkdir -p data/checkpoints/bert_base_squad
-ln -s /root/data/checkpoints/bert_base_uncased_squad/ ./data/checkpoints/bert_base_squad && ln -s /root/data/datasets/squad ./data/datasets/bert_base_squad/
+cp -r /root/data/checkpoints/bert_base_uncased_squad/ ./data/checkpoints/bert_base_squad && ln -s /root/data/datasets/squad ./data/datasets/bert_base_squad/

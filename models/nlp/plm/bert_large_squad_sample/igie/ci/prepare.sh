@@ -18,7 +18,7 @@ set -x
 
 mkdir -p ./data/checkpoints/bert_large_squad
 mkdir -p ./data/datasets/bert_large_squad
-ln -s /mnt/deepspark/data/checkpoints/bert-large-uncased ./data/checkpoints/bert_large_squad/
+cp -r /mnt/deepspark/data/checkpoints/bert-large-uncased ./data/checkpoints/bert_large_squad/
 ln -s /mnt/deepspark/data/datasets/squad ./data/datasets/bert_large_squad/
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')

@@ -288,6 +288,7 @@ def main(args):
     duration_time = end_time - start_time
 
     print("-" * 50)
+    num_tokens = 0
     for o in outputs:
         num_tokens += len(o.outputs[0].token_ids)
         generated_text = o.outputs[0].text

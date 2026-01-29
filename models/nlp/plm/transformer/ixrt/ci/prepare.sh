@@ -45,5 +45,5 @@ python3 setup.py build_ext --inplace
 cd ixrt/
 mkdir -p data/datasets/
 mkdir -p data/checkpoints
-ln -s /root/data/datasets/corex-inference-data-4.0.0/checkpoints/transformer/wmt14.en-fr.joined-dict.transformer ./data/checkpoints/
+cp -r /root/data/datasets/corex-inference-data-4.0.0/checkpoints/transformer/wmt14.en-fr.joined-dict.transformer ./data/checkpoints/
 ln -s /root/data/datasets/corex-inference-data-4.0.0/datasets/wmt14.en-fr.joined-dict.newstest2014 ./data/datasets/
