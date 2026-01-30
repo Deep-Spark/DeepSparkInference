@@ -31,7 +31,7 @@ CPU_AFFINITY=$(ixsmi topo -m|grep "^GPU0" |awk '{print $(NF-1)}')
 
 if [[ ! -f "${MODEL_DIR}/Encoder.engine" ||  ! -f "${MODEL_DIR}/Decoder.engine" ]]; then
     echo "Build Engine."
-    python3 ../igie/build_engine.py \
+    python3 ../plugin/build_engine.py \
         --model_dir ${MODEL_DIR}  
 fi
 
