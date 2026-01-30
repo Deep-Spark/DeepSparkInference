@@ -33,6 +33,7 @@ logging.basicConfig(
 )
 
 METRIC_PATTERN = r"{'metricResult':.*}"
+G_BIND_CMD = os.environ.get("BIND_CMD", "")
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -59,6 +60,7 @@ def main():
         sys.exit(-1)
 
     whl_url = os.environ.get("WHL_URL")
+    utils.ensure_numactl_installed()
 
     result = {}
     if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
@@ -204,12 +206,12 @@ def run_clf_testcase(model, batch_size, whl_url):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -319,7 +321,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 export_onnx_script = ""
@@ -333,7 +335,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                     """
                 script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -408,7 +410,7 @@ def run_ocr_testcase(model, whl_url):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -470,7 +472,7 @@ def run_trace_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -527,7 +529,7 @@ def run_multi_object_tracking_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -604,12 +606,12 @@ def run_nlp_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -686,12 +688,12 @@ def run_speech_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
