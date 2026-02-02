@@ -55,6 +55,7 @@ inference to be expanded in the future.
 | ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
 | GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
 | InternLM3                     | `LMDeploy`   | [✅](models/nlp/llm/internlm3/lmdeploy/)                            | 4.3.0     |
+| InternLM3                     | `vLLM`       | [✅](models/nlp/llm/internlm3/vllm/)                                | 4.4.0     |
 | Llama2-7B                     | `vLLM`       | [✅](models/nlp/llm/llama2-7b/vllm)                                 | 4.3.0     |
 | Llama2-7B                     | `TRT-LLM`    | [✅](models/nlp/llm/llama2-7b/trtllm)                               | 4.3.0     |
 | Llama2-13B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-13b/trtllm)                              | 4.3.0     |
@@ -79,6 +80,7 @@ inference to be expanded in the future.
 | Qwen2-7B Instruct             | `vLLM`       | [✅](models/nlp/llm/qwen2-7b/vllm)                                  | 4.3.0     |
 | Qwen2-72B Instruct            | `vLLM`       | [✅](models/nlp/llm/qwen2-72b/vllm)                                 | 4.3.0     |
 | Qwen3_Moe                     | `vLLM`       | [✅](models/nlp/llm/qwen3-235b/vllm)                                | dev-only  |
+| Qwen3-8B                      | `vLLM`       | [✅](models/nlp/llm/qwen3/vllm)                                     | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
 | Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | dev-only  |
 | Ultravox                      | `vLLM`       | [✅](models/speech/asr/ultravox/vllm)                               | 4.3.0     |
@@ -183,7 +185,7 @@ inference to be expanded in the future.
 | SqueezeNet 1.1         | FP16  | [✅](models/cv/classification/squeezenet_v1_1/igie)     | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/squeezenet_v1_1/ixrt)        | 4.3.0     |
 | SVT Base               | FP16  | [✅](models/cv/classification/svt_base/igie)            |                                                           | 4.3.0     |
-| Swin Transformer       | FP16  | [✅](models/cv/classification/swin_transformer/igie)    |                                                           | 4.3.0     |
+| Swin Transformer       | FP16  | [✅](models/cv/classification/swin_transformer/igie)    | [✅](models/cv/classification/swin_transformer/ixrt)     | 4.3.0     |
 | Swin Transformer Large | FP16  |                                                        | [✅](models/cv/classification/swin_transformer_large/ixrt) | 4.3.0     |
 | Twins_PCPVT            | FP16  | [✅](models/cv/classification/twins_pcpvt/igie)         |                                                           | 4.3.0     |
 | VAN_B0                 | FP16  | [✅](models/cv/classification/van_b0/igie)              |                                                           | 4.3.0     |
@@ -210,6 +212,7 @@ inference to be expanded in the future.
 | FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   | 4.3.0     |
 | FSAF       | FP16  | [✅](models/cv/object_detection/fsaf/igie)       | [✅](models/cv/object_detection/fsaf/ixrt)       | 4.3.0     |
 | GFL        | FP16  | [✅](models/cv/object_detection/gfl/igie)        |                                                 | 4.3.0     |
+| Grounding DINO | FP16  |                                               | [✅](models/cv/object_detection/grounding_dino/ixrt) | 4.4.0 |
 | HRNet      | FP16  | [✅](models/cv/object_detection/hrnet/igie)      | [✅](models/cv/object_detection/hrnet/ixrt)      | 4.3.0     |
 | PAA        | FP16  | [✅](models/cv/object_detection/paa/igie)        | [✅](models/cv/object_detection/paa/ixrt)        | 4.3.0     |
 | RetinaFace | FP16  | [✅](models/cv/object_detection/retinaface/igie) | [✅](models/cv/object_detection/retinaface/ixrt) | 4.3.0     |
@@ -265,10 +268,11 @@ inference to be expanded in the future.
 
 #### OCR (Optical Character Recognition)
 
-| Model         | Prec. | IGIE                                  | IXUCA SDK |
-|---------------|-------|---------------------------------------|-----------|
-| Kie_layoutXLM | FP16  | [✅](models/cv/ocr/kie_layoutxlm/igie) | 4.3.0     |
-| SVTR          | FP16  | [✅](models/cv/ocr/svtr/igie)          | 4.3.0     |
+| Model         | Prec. | IGIE                                  |     ixRT                              | IXUCA SDK |
+|---------------|-------|---------------------------------------|---------------------------------------|-----------|
+| Kie_layoutXLM | FP16  | [✅](models/cv/ocr/kie_layoutxlm/igie) |                                     |  4.3.0     |
+| SVTR          | FP16  | [✅](models/cv/ocr/svtr/igie)          |                                     |  4.3.0     |
+| CRNN          | FP16  |                                         | [✅](models/cv/ocr/crnn/ixrt)      |  4.4.0     |
 
 #### Pose Estimation
 
@@ -287,9 +291,9 @@ inference to be expanded in the future.
 
 #### Semantic Segmentation
 
-| Model | Prec. | IGIE                                           | ixRT | IXUCA SDK |
-|-------|-------|------------------------------------------------|------|-----------|
-| UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) |      | 4.3.0     |
+| Model | Prec. | IGIE                                           | ixRT                                           | IXUCA SDK |
+|-------|-------|------------------------------------------------|------------------------------------------------|-----------|
+| UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) | [✅](models/cv/semantic_segmentation/unet/ixrt)  | 4.3.0     |
 
 #### Multi-Object Tracking
 
@@ -298,7 +302,7 @@ inference to be expanded in the future.
 | FastReID            | FP16  | [✅](models/cv/multi_object_tracking/fastreid/igie) | [✅](models/cv/multi_object_tracking/fastreid/ixrt) | 4.3.0     |
 | DeepSort            | FP16  | [✅](models/cv/multi_object_tracking/deepsort/igie) | [✅](models/cv/multi_object_tracking/deepsort/ixrt) | 4.3.0     |
 |                     | INT8  | [✅](models/cv/multi_object_tracking/deepsort/igie) |      | 4.3.0     |
-| RepNet-Vehicle-ReID | FP16  | [✅](models/cv/multi_object_tracking/repnet/igie)   |      | 4.3.0     |
+| RepNet-Vehicle-ReID | FP16  | [✅](models/cv/multi_object_tracking/repnet/igie)   | [✅](models/cv/multi_object_tracking/repnet/ixrt)   | 4.3.0     |
 
 ### Multimodal
 
@@ -307,6 +311,7 @@ inference to be expanded in the future.
 | Aria                |   vLLM   | [✅](models/multimodal/vision_language_model/aria/vllm)                | 4.3.0     |
 | Chameleon-7B        |   vLLM   | [✅](models/multimodal/vision_language_model/chameleon_7b/vllm)        | 4.3.0     |
 | CLIP                | IxFormer | [✅](models/multimodal/vision_language_model/clip/ixformer)            | 4.3.0     |
+| DeepSeek-VL2-tiny   |   vLLM   | [✅](models/multimodal/vision_language_model/deepseek-vl2/vllm)        | 4.4.0     |
 | Fuyu-8B             |   vLLM   | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm)             | 4.3.0     |
 | H2OVL Mississippi   |   vLLM   | [✅](models/multimodal/vision_language_model/h2vol/vllm)               | 4.3.0     |
 | Idefics3            |   vLLM   | [✅](models/multimodal/vision_language_model/idefics3/vllm)            | 4.3.0     |
@@ -316,6 +321,7 @@ inference to be expanded in the future.
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
+| Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/diffusers)  | 4.4.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |
 ### NLP
 

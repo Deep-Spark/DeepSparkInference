@@ -42,7 +42,7 @@ done
 
 IXRT_DIR=$(python3 -c "import ixrt; print(ixrt.__file__)" | xargs dirname)
 
-IXRT_OSS_PATH="${OSS_ENV:-/mnt/deepspark/data/3rd_party/iluvatar-corex-ixrt}"
+IXRT_OSS_PATH="${OSS_ENV:-/root/data/3rd_party/iluvatar-corex-ixrt}"
 
 if [ -d "$IXRT_OSS_PATH" ]; then
     OSS_PATH="$IXRT_OSS_PATH/tools/optimizer"

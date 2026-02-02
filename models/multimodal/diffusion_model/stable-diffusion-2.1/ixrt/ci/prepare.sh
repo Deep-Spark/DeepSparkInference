@@ -15,7 +15,7 @@
 # limitations under the License.
 
 set -x
-
+pip3 install torch transformers diffusers onnx onnxsim Pillow numpy scikit-image opencv-python==4.5.5.64
 mkdir -p checkpoints
 ln -s /root/data/checkpoints/stable_diffusion_2_1_ixrt checkpoints/
 mkdir -p datasets

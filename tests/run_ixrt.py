@@ -64,7 +64,7 @@ def main():
     utils.ensure_numactl_installed()
 
     result = {}
-    if model["category"] == "cv/classification":
+    if model["category"] in ["cv/classification"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -124,7 +124,7 @@ def main():
         logging.info(f"End running {model['model_name']} test case.")
     
     # multi_object_tracking模型
-    if model["category"] in ["cv/multi_object_tracking", "speech/speech_synthesis"]:
+    if model["category"] in ["cv/multi_object_tracking", "cv/semantic_segmentation", "cv/ocr", "multimodal/diffusion_model", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -542,7 +542,12 @@ def run_multi_object_tracking_testcase(model):
         {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
-        if model_name == "cosyvoice":
+        if model_name == "stable-diffusion-2.1":
+            script = f"""
+            cd ../{model['model_path']}
+            bash infer_fp16_stable_diffusion_2_1.sh
+            """
+        elif model_name == "cosyvoice":
             script = f"""
             cd ../{model['model_path']}/CosyVoice
             bash scripts/infer_cosyvoice2_fp16.sh

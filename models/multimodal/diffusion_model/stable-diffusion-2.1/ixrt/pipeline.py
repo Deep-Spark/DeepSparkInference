@@ -390,6 +390,14 @@ class StableDiffusionPipeline:
         print('|-----------------|--------------|')
         print('Throughput: {:.2f} image/s'.format(batch_size*1000./walltime_ms))
 
+        metricResult = {"metricResult": {}}
+        metricResult["metricResult"]["CLIP"] = cudart.cudaEventElapsedTime(self.events['clip'][0], self.events['clip'][1])[1]
+        metricResult["metricResult"]["UNetx20"] = cudart.cudaEventElapsedTime(self.events['denoise'][0], self.events['denoise'][1])[1]
+        metricResult["metricResult"]["VAE-Dec"] = cudart.cudaEventElapsedTime(self.events['vae'][0], self.events['vae'][1])[1]
+        metricResult["metricResult"]["Pipeline"] = walltime_ms
+        metricResult["metricResult"]["Throughput"] = batch_size*1000./walltime_ms
+        print(metricResult)
+
     def CheckImageResult(self):
         print(f"correct image path {self.correct_image_path}, generate image path {self.gen_image_path}")
         if self.correct_image_path == '' or self.gen_image_path == '':

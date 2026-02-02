@@ -76,7 +76,7 @@ def get_model_config(mode_name):
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and (model["framework"] == "vllm" or model["framework"] == "lmdeploy" or model["framework"] == "pytorch"):
+        if model["model_name"] == mode_name.lower() and (model["framework"] == "vllm" or model["framework"] == "pytorch"):
             return model
     return
 
@@ -112,6 +112,7 @@ _VISION_MODEL_CONFIGS = {
     "phi3_v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "paligemma": ("offline_inference_vision_language.py", ["--max-tokens 256"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "deepseek-ocr": ("offline_inference_vision_language.py", ["--model-type deepseek_ocr"], None, []),
+    "deepseek-vl2":  ("offline_inference_vision_language.py", ["--model-type deepseek_vl_v2"], None, []),
 }
 
 # Standard LLM configs
@@ -125,6 +126,7 @@ _LLM_CONFIGS = {
     "qwen1.5-32b": ("--max-tokens 256 -tp 4 --temperature 0.0", "0,1,3,4"),
     "qwen2-7b": ("--max-tokens 256 -tp 1 --temperature 0.0", "0"),
     "stablelm": ("--max-tokens 256 -tp 1 --temperature 0.0", "0,1"),
+    "qwen3-8b": ("--max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0", "0"),
 }
 
 def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
@@ -163,7 +165,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             return base_script + cmd
 
         case "internlm3":
-            return base_script + f"python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1"
+            return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 --max-model-len 8192 -tp 1 --trust-remote-code --temperature 0.0"
 
         case "cosyvoice":
             return base_script + "cd CV3-Eval\nbash run_inference_fp16_eval.sh"
@@ -192,7 +194,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             cmd = f"{gpu_prefix}python3 {script_file} --model ./{model_name} {arg_str} --trust-remote-code --temperature 0.0"
             return base_script + env_lines + cmd
 
-        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl" | "e5-v":
+        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl" | "e5-v" | "deepseek-vl2":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
@@ -202,7 +204,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             return base_script + env_lines + cmd
 
         # Standard LLMs
-        case "chatglm3-6b" | "chatglm3-6b-32k" | "llama2-7b" | "qwen-7b" | "qwen1.5-7b" | "qwen1.5-14b" | "qwen1.5-32b" | "qwen2-7b" | "stablelm":
+        case "chatglm3-6b" | "chatglm3-6b-32k" | "llama2-7b" | "qwen-7b" | "qwen1.5-7b" | "qwen1.5-14b" | "qwen1.5-32b" | "qwen2-7b" | "stablelm" | "qwen3-8b":
             args, gpus = _LLM_CONFIGS[model_name]
             gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
             return base_script + f"{gpu_prefix}python3 offline_inference.py --model ./{model_name} {args}"
@@ -235,6 +237,13 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
                 "--dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
                 "--num-prompts 10 --trust-remote-code --max-model-len 896 -tp 2"
             )
+        # TODO: after 4.4.0, we should use vllm bench throughput command
+        elif model_name == "qwen3-8b":
+            bench = (
+                "vllm bench throughput --model  ./qwen3-8b "
+                "--dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
+                "--num-prompts 10 --trust-remote-code"
+            )
         else:
             bench = (
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
@@ -259,6 +268,21 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
                 f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
                 "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
+            )
+        # TODO: after 4.4.0, we should use vllm bench throughput command
+        if model_name == "deepseek-vl2":
+            bench = (
+                "mkdir -p lmarena-ai\n"
+                "ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/\n"
+                "CUDA_VISIBLE_DEVICES=0,1,3,4 vllm bench throughput --model deepseek-ai/deepseek-vl2-tiny --backend vllm-chat --dataset-name hf --dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train --hf-overrides '{\"architectures\": [\"DeepseekVLV2ForCausalLM\"]}' --max-model-len 4096"
+            )
+        elif model_name == "internlm3":
+            bench = (
+                "mkdir -p lmarena-ai\n"
+                "ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/\n"
+                "CUDA_VISIBLE_DEVICES=0,1,3,4 vllm bench throughput"
+                f"--model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt"
+                "--num-prompts 10 --trust-remote-code"
             )
         return script + common_bench + bench
 
@@ -353,10 +377,6 @@ ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
 pip install {whl_url}`curl -s {whl_url} | grep -o 'xformers-[^"]*\.whl' | head -n1`
 bash ci/prepare.sh
 """
-    if model_name == "internlm3":
-        prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'lmdeploy-[^"]*\.whl' | head -n1`
-        """
 
     if utils.is_debug():
         pip_list = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
