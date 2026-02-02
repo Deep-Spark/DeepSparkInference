@@ -45,6 +45,10 @@ def main(config):
         print('精度异常')
         exit(1)
     print('stoi_score:',stoi_score)
+    metricResult = {"metricResult": {}}
+    metricResult["metricResult"]["execute_time"] = forward_time
+    metricResult["metricResult"]["stoi_score"] = stoi_score
+    print(metricResult)
     exit()
 
 

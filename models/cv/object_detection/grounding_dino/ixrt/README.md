@@ -17,6 +17,7 @@ Grounding DINO is a state-of-the-art open-set (or zero-shot) object detection mo
 Pretrained model: <http://files.deepspark.org.cn:880/deepspark/data/checkpoints/grounded_static_1x800x1200x128_sim_end.onnx>
 
 ```bash
+pip install transformers
 mkdir -p checkpoints
 # download model into checkpoints
 ```

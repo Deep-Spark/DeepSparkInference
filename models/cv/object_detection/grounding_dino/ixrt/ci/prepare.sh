@@ -15,5 +15,6 @@
 # limitations under the License.
 
 set -x
+pip install transformers
 mkdir -p checkpoints
 ln -s /root/data/checkpoints/grounded_static_1x800x1200x128_sim_end.onnx ./checkpoints/
