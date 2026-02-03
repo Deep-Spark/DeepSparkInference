@@ -30,6 +30,11 @@ do
     esac
 done
 
+if [[ ${BSZ} == 1 ]]; then
+    LOOP_COUNT=1000
+    echo "set LOOP_COUNT=${LOOP_COUNT} for bsz=1 !"
+fi
+
 source ${CONFIG_DIR}
 ORIGINE_MODEL=${CHECKPOINTS_DIR}/${ORIGINE_MODEL}
 

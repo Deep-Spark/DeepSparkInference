@@ -30,6 +30,11 @@ do
     esac
 done
 
+if [[ ${BSZ} == 1 ]]; then
+    LOOP_COUNT=1000
+    echo "set LOOP_COUNT=${LOOP_COUNT} for bsz=1 !"
+fi
+
 PROJ_DIR=./
 DATASETS_DIR="${PROJ_DIR}/coco"
 COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json

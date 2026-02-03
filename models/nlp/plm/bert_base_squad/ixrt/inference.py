@@ -331,7 +331,8 @@ if __name__ == '__main__':
                 batch_feature_list.append(batch_feature)
 
             # warm up
-            for i in range(20):
+            loop_count = 1000 if args.batch_size == 1 else 20
+            for i in range(loop_count):
                 for binding in range(3):
                     context.set_binding_shape(binding, (args.batch_size, max_seq_length))
                 assert context.all_binding_shapes_specified
