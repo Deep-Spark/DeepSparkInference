@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -151,7 +151,11 @@ def main():
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
                 use_external_data_format=False,
-                op_types_to_quantize = ['Conv'],
+                nodes_to_exclude= [
+                    '/model.23/Add_1', '/model.23/Add_2', '/model.23/Concat_4', 
+                    '/model.23/Concat_5', '/model.23/Mul_2', '/model.10/m/m.0/attn/Softmax', 
+                    '/model.23/dfl/Softmax'
+                ],
                 calibrate_method=CalibrationMethod.Percentile,
                 extra_options = {
                     'ActivationSymmetric': True, 
