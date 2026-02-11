@@ -17,7 +17,7 @@ modelscope==1.20.0
 networkx==3.1
 omegaconf==2.3.0
 onnx==1.16.0
-openai-whisper==20231117
+openai-whisper
 protobuf==4.25
 pyarrow==18.1.0
 pydantic==2.7.0

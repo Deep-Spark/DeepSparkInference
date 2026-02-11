@@ -124,7 +124,7 @@ def main():
         logging.info(f"End running {model['model_name']} test case.")
     
     # multi_object_tracking模型
-    if model["category"] in ["cv/multi_object_tracking"]:
+    if model["category"] in ["cv/multi_object_tracking", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -542,12 +542,18 @@ def run_multi_object_tracking_testcase(model):
         {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
+        if model_name == "cosyvoice":
+            script = f"""
+            cd ../{model['model_path']}/CosyVoice
+            bash scripts/infer_cosyvoice2_fp16.sh
+            """
+
         r, t = run_script(script)
         sout = r.stdout
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
+        result["result"].setdefault(prec, {"status": "FAIL"})
         for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
             try:
                 result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
             except ValueError:
@@ -556,7 +562,6 @@ def run_multi_object_tracking_testcase(model):
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
             result["result"][prec].update(get_metric_result(matchs[0]))
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t

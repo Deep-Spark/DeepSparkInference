@@ -15,27 +15,22 @@
 # limitations under the License.
 
 set -x
-apt update
 apt-get install sox libsox-dev
-pip3 install -r requirements.txt
-pip3 install onnxruntime==1.18.0 transformers==4.49.0
-cp -r /mnt/deepspark/data/repos/CosyVoice ./
+pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ 
+pip install onnxsim
+cp -r /root/data/repos/CosyVoice ./
 cd CosyVoice
-git checkout 1dcc59676fe3fa863f983ab7820e481560c73be7
+git checkout 1fc843514689daa61b471f1bc862893b3a5035a7
+# cp modify files
+cp -rf ../cosyvoice ./
+cp ../asset/zero_shot_reference.wav ./asset/
+cp -r ../scripts ./
+cp ../build_dynamic_engine.py ./
+cp ../inference.py ./
+
 rm -rf pretrained_models
 mkdir -p pretrained_models
-ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
-
-# python3 example.py
-
-cd ..
-mkdir -p /root/.cache/modelscope/hub/iic
-ln -s /mnt/deepspark/data/checkpoints/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch /root/.cache/modelscope/hub/iic/
-cp -r /mnt/deepspark/data/repos/CV3-Eval ./
-cd CV3-Eval
-mv ../CosyVoice ./
-pip3 install -r requirements.txt
-pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==2.4.0
-cp ../get_infer_wavs.py scripts/
-cp ../inference.sh scripts/
-cp ../run_inference_fp16_eval.sh ./
+ln -s /root/data/checkpoints/CosyVoice2-0.5B pretrained_models/
+# remove old engine
+rm ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp16.mygpu.plan
+onnxsim ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp32.onnx ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp32_sim.onnx
