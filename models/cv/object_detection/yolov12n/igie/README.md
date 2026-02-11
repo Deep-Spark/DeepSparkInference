@@ -60,6 +60,9 @@ cd yolov12
 pip3 install -e . --no-deps
 cd ..
 
+# download the weight from the recommend link
+wget https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12n.pt
+
 python3 export.py --weight yolov12n.pt --batch 32
 # Make sure numpy < 2.0
 ```

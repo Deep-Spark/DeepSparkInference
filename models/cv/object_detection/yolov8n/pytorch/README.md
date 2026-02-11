@@ -50,6 +50,13 @@ coco
 pip3 install -r requirements.txt
 ```
 
+### Model Conversion
+
+```bash
+# download the weight from the recommend link
+wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n.pt
+```
+
 ## Model Inference
 
 ```bash

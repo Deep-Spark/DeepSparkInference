@@ -58,6 +58,10 @@ git clone --depth 1 https://github.com/iMoonLab/yolov13.git
 cd yolov13
 pip3 install -e . --no-deps
 cd ..
+
+# download the weight from the recommend link
+wget https://github.com/iMoonLab/yolov13/releases/download/yolov13/yolov13n.pt
+
 mv yolov13n.pt yolov13.pt
 python3 export.py --weight yolov13.pt --batch 32
 mkdir checkpoints

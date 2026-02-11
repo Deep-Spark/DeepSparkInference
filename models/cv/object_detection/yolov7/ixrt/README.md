@@ -55,6 +55,9 @@ pip3 install -r ../../ixrt_common/requirements.txt
 ### Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt
+
 mkdir checkpoints
 git clone https://github.com/WongKinYiu/yolov7.git
 cd yolov7

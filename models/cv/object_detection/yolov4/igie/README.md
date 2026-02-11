@@ -66,6 +66,9 @@ pip3 install -r requirements.txt
 # clone yolov4
 git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
 
+# download the weight from the recommend link
+wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
+
 # export onnx model
 python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output yolov4.onnx
 

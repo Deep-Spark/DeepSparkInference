@@ -64,6 +64,9 @@ sed -i "375i\\
 pip3 install -e . --no-deps
 cd ../
 
+# download the weight from the recommend link
+wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt
+
 python3 export.py --weight yolov10s.pt --batch 32
 # Make sure numpy < 2.0
 ```

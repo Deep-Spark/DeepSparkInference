@@ -60,6 +60,9 @@ pip3 install -r requirements.txt
 ```bash
 mkdir -p checkpoints/
 
+# download the weight from the recommend link
+wget https://download.openmmlab.com/mmdetection/v2.0/yolof/yolof_r50_c5_8x8_1x_coco/yolof_r50_c5_8x8_1x_coco_20210425_024427-8e864411.pth
+
 # export onnx model
 python3 export.py --weight yolof_r50_c5_8x8_1x_coco_20210425_024427-8e864411.pth --cfg ../../ixrt_common/yolof_r50-c5_8xb8-1x_coco.py --output checkpoints/yolof.onnx
 ```

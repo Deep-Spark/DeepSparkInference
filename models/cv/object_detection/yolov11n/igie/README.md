@@ -55,6 +55,9 @@ pip3 install -r requirements.txt
 ## Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt
+
 python3 export.py --weight yolo11n.pt --batch 32
 # Make sure numpy < 2.0
 ```

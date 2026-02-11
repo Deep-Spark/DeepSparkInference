@@ -61,6 +61,9 @@ pip3 install -r requirements.txt
 ### Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/meituan/YOLOv6/releases/download/0.4.0/yolov6s.pt
+
 # install yolov6
 git clone https://github.com/meituan/YOLOv6.git
 cd YOLOv6

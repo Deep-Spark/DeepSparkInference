@@ -57,6 +57,9 @@ source /opt/rh/devtoolset-7/enable
 ### Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth
+
 # install yolox
 git clone https://github.com/Megvii-BaseDetection/YOLOX.git
 cd YOLOX/

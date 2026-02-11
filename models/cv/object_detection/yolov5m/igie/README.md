@@ -55,6 +55,9 @@ pip3 install -r requirements.txt
 ### Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
+
 python3 export.py --weight yolov5m.pt --output yolov5m.onnx
 # Make sure numpy < 2.0
 # Use onnxsim optimize onnx model

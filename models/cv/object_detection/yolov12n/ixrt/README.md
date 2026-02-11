@@ -59,6 +59,9 @@ cd yolov12
 pip3 install -e . --no-deps
 cd ..
 
+# download the weight from the recommend link
+wget https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12n.pt
+
 mkdir checkpoints
 mv yolov12n.pt yolov12.pt
 python3 export.py --weight yolov12.pt --batch 32

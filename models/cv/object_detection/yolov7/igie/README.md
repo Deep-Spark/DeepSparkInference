@@ -61,6 +61,9 @@ pip3 install -r requirements.txt
 ### Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt
+
 # clone yolov7
 git clone https://github.com/WongKinYiu/yolov7.git
 cd yolov7

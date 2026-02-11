@@ -55,6 +55,9 @@ pip3 install -r requirements.txt
 ## Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt
+
 python3 export.py --weight yolov9s.pt --batch 32
 ```
 

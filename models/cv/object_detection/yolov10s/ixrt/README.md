@@ -55,6 +55,9 @@ pip3 install -r requirements.txt
 ## Model Conversion
 
 ```bash
+# download the weight from the recommend link
+wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt
+
 mkdir checkpoints
 mv yolov10s.pt yolov10.pt
 

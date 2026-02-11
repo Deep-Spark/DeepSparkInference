@@ -60,6 +60,9 @@ cd yolov13
 pip3 install -e . --no-deps
 cd ..
 
+# download the weight from the recommend link
+wget https://github.com/iMoonLab/yolov13/releases/download/yolov13/yolov13n.pt
+
 python3 export.py --weight yolov13n.pt --batch 32
 # Make sure numpy < 2.0
 ```
