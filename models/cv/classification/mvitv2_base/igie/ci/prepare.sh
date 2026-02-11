@@ -17,7 +17,8 @@
 set -x
 
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install /mnt/deepspark/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
+pip3 install mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/mvit/mvitv2-base_8xb256_in1k.py --weight mvitv2-base_3rdparty_in1k_20220722-9c4f0a17.pth --output mvitv2_base.onnx
 onnxsim mvitv2_base.onnx mvitv2_base_opt.onnx

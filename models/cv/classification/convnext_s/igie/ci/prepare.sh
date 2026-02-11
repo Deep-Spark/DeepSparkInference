@@ -25,7 +25,8 @@ else
 fi
 
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install /mnt/deepspark/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
+pip3 install mmcls==0.24.0
 # git clone mmpretrain
 # git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./

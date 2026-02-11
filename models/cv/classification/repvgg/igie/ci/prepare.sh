@@ -25,6 +25,9 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0 mmengine
+pip3 install /mnt/deepspark/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
+pip3 install mmcls==0.24.0 mmengine
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '334 s/map_location)/map_location, weights_only=False)/' /usr/local/lib/python3.10/site-packages/mmcv/runner/checkpoint.py
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/repvgg/repvgg-A0_4xb64-coslr-120e_in1k.py --weight repvgg-A0_8xb32_in1k_20221213-60ae8e23.pth --output repvgg.onnx

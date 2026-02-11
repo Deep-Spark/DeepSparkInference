@@ -289,11 +289,13 @@ def run_detec_testcase(model, batch_size, whl_url):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    mmcv_whl = whl_url.replace("apps", "add-on")
+    print(f"mmcv_whl: {mmcv_whl}")
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+    pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     """
 
@@ -774,11 +776,12 @@ def run_instance_segmentation_testcase(model, whl_url):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    mmcv_whl = whl_url.replace("apps", "add-on")
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+    pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     ls -l | grep onnx
     """
