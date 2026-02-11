@@ -290,7 +290,6 @@ def run_detec_testcase(model, batch_size, whl_url):
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
     mmcv_whl = whl_url.replace("apps", "add-on")
-    print(f"mmcv_whl: {mmcv_whl}")
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
