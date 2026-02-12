@@ -1,4 +1,4 @@
-# YOLOv11n (IGIE)
+# YOLOv11m (IGIE)
 
 ## Model Description
 
@@ -15,7 +15,7 @@ YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object 
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt>
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11m.pt>
 
 Dataset:
 
@@ -48,17 +48,19 @@ coco
 
 ### Install Dependencies
 
+Contact the Iluvatar administrator to get the missing packages:
+
+- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 ```bash
 pip3 install -r requirements.txt
+pip3 install mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
 ```
 
 ## Model Conversion
 
 ```bash
-# download the weight from the recommend link
-wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt
-
-python3 export.py --weight yolo11n.pt --batch 32
+python3 export.py --weight yolo11m.pt --batch 32
 # Make sure numpy < 2.0
 ```
 
@@ -72,26 +74,26 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov11n_fp16_accuracy.sh
+bash scripts/infer_yolov11m_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov11n_fp16_performance.sh
+bash scripts/infer_yolov11m_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov11n_int8_accuracy.sh
+bash scripts/infer_yolov11m_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov11n_int8_performance.sh
+bash scripts/infer_yolov11m_int8_performance.sh
 ```
 
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-|----------|-----------|-----------|---------|---------|--------------|
-| YOLOv11n | 32        | FP16      | 1652.02 | 0.551   | 0.393        |
-| YOLOv11n | 32        | INT8      | 1995.32 | 0.507   | 0.349        |
+| -------- | --------- | --------- | ------- | ------- | ------------ |
+| YOLOv11m | 32        | FP16      | 507.64  | 0.681   | 0.513        |
+| YOLOv11m | 32        | INT8      | 835.60  | 0.665   | 0.488        |
 
 ## References
 
