@@ -20,10 +20,11 @@ Pretrained model: <https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B>
 
 ```bash
 pip3 install -r requirements.txt
-pip3 install onnxruntime==1.18.0
+pip3 install onnxruntime==1.18.0 transformers==4.49.0
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
-# If you failed to clone the submodule due to network failures, please run the following command until success
 cd CosyVoice
+git checkout 1dcc59676fe3fa863f983ab7820e481560c73be7
+# If you failed to clone the submodule due to network failures, please run the following command until success
 git submodule update --init --recursive
 
 mkdir -p pretrained_models
@@ -39,12 +40,32 @@ sudo yum install sox sox-devel
 ## Model Inference
 
 ```bash
-cp ../inference_test.py ./
-python3 inference_test.py
+# Make sure run cosyvoice2_example() in example.py, default is run cosyvoice3_example()
+python3 example.py
+```
+
+## Model Eval
+```bash
+git clone https://github.com/FunAudioLLM/CV3-Eval.git
+cd CV3-Eval
+mv ../CosyVoice ./
+pip3 install -r requirements.txt
+pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==2.4.0
+cp ../get_infer_wavs.py scripts/
+cp ../inference.sh scripts/
+
+# if you want to run eval for en/hrad_en set, please add the following command
+# cp -f ../run_wer.py utils/
+
+cp ../run_inference_fp16_eval.sh ./
+bash run_inference_fp16_eval.sh
 ```
 
 ## Model Results
+| Model | Model Size | Precision | test-zh<br>CER/WER(%) ↓ | test_zh<br>Speaker Similarity(%) ↑ |
+| :---- | :----: | :----: | :----: | :----: |
+| CosyVoice2 | 0.5B | FP16 | 4.525 | 77.23 |
 
 ## References
 
-- [CosyVoice](https://github.com/FunAudioLLM/CosyVoice/commit/0a496c18f78ca993c63f6d880fcc60778bfc85c1)
+- [CosyVoice](https://github.com/FunAudioLLM/CosyVoice/commit/1dcc59676fe3fa863f983ab7820e481560c73be7)

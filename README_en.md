@@ -42,6 +42,7 @@ inference to be expanded in the future.
 | ChatGLM-3-6B                  | `vLLM`       | [✅](models/nlp/llm/chatglm3-6b/vllm)                               | 4.3.0     |
 | ChatGLM-3-6B-32K              | `vLLM`       | [✅](models/nlp/llm/chatglm3-6b-32k/vllm)                           | 4.3.0     |
 | CosyVoice2-0.5B               | `PyTorch`    | [✅](models/speech/speech_synthesis/cosyvoice/pytorch)              | 4.3.0     |
+| CosyVoice2-0.5B               | `ixRT`       | [✅](models/speech/speech_synthesis/cosyvoice/ixrt)                 | dev-only  |
 | DeepSeek-R1-Distill-Llama-8B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Llama-70B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm)             | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-1.5B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm)             | 4.3.0     |
@@ -49,6 +50,7 @@ inference to be expanded in the future.
 | DeepSeek-R1-Distill-Qwen-14B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-32B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
 | DeepSeek-OCR                  | `Transformers` | [✅](models/multimodal/vision_language_model/deepseek-ocr/transformers) | 4.3.0 |
+| DeepSeek-OCR                  | `vLLM`       | [✅](models/multimodal/vision_language_model/deepseek-ocr/vllm)     | dev-only  |
 | ERNIE-4.5-21B-A3B             | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
 | ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
 | GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
@@ -59,8 +61,9 @@ inference to be expanded in the future.
 | Llama2-70B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-70b/trtllm)                              | 4.3.0     |
 | Llama3-70B                    | `vLLM`       | [✅](models/nlp/llm/llama3-70b/vllm)                                | 4.3.0     |
 | E5-V                          | `vLLM`       | [✅](models/multimodal/vision_language_model/e5-v/vllm/)            | 4.3.0     |
-| MiniCPM-o                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_o/vllm/)       | 4.3.0     |
-| MiniCPM-V                     | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm_v/vllm/)       | 4.3.0     |
+| MiniCPM-o-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-o-2/vllm/)     | 4.3.0     |
+| MiniCPM-V-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-2/vllm/)     | 4.3.0     |
+| MiniCPM-V-4                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-4/vllm/)     | dev-only  |
 | NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
@@ -212,6 +215,8 @@ inference to be expanded in the future.
 | RetinaFace | FP16  | [✅](models/cv/object_detection/retinaface/igie) | [✅](models/cv/object_detection/retinaface/ixrt) | 4.3.0     |
 | RetinaNet  | FP16  | [✅](models/cv/object_detection/retinanet/igie)  | [✅](models/cv/object_detection/retinanet/ixrt)  | 4.3.0     |
 | RTMDet     | FP16  | [✅](models/cv/object_detection/rtmdet/igie)     |                                                 | 4.3.0     |
+| RTDETR     | FP16  | [✅](models/cv/object_detection/rtdetr/igie)     | [✅](models/cv/object_detection/rtdetr/ixrt)    | dev-only  |
+|            | INT8  | [✅](models/cv/object_detection/rtdetr/igie)     |                                                 | dev-only   |
 | SABL       | FP16  | [✅](models/cv/object_detection/sabl/igie)       |                                                 | 4.3.0     |
 | SSD        | FP16  | [✅](models/cv/object_detection/ssd/igie)        |                                                 | 4.3.0     |
 | YOLOF      | FP16  | [✅](models/cv/object_detection/yolof/igie)      | [✅](models/cv/object_detection/yolof/ixrt)    | 4.3.0     |
@@ -219,29 +224,37 @@ inference to be expanded in the future.
 |            | INT8  | [✅](models/cv/object_detection/yolov3/igie)     | [✅](models/cv/object_detection/yolov3/ixrt)     | 4.3.0     |
 | YOLOv4     | FP16  | [✅](models/cv/object_detection/yolov4/igie)     | [✅](models/cv/object_detection/yolov4/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov4/igie16)   | [✅](models/cv/object_detection/yolov4/ixrt16)   | 4.3.0     |
-| YOLOv5     | FP16  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov5/igie)     | [✅](models/cv/object_detection/yolov5/ixrt)     | 4.3.0     |
+| YOLOv5m    | FP16  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
 | YOLOv5s    | FP16  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
 |            | INT8  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
-| YOLOv6     | FP16  | [✅](models/cv/object_detection/yolov6/igie)     | [✅](models/cv/object_detection/yolov6/ixrt)     | 4.3.0     |
-|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6/ixrt)     | 4.3.0     |
+| YOLOv6s    | FP16  | [✅](models/cv/object_detection/yolov6s/igie)     | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
+|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
 | YOLOv7     | FP16  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
-| YOLOv8     | FP16  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov8/igie)     | [✅](models/cv/object_detection/yolov8/ixrt)     | 4.3.0     |
-| YOLOv8n    | FP16  | [✅](models/cv/object_detection/yolov8n/igie)    |                                                  | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov8n/igie)    |                                                  | 4.3.0     |
-| YOLOv9     | FP16  | [✅](models/cv/object_detection/yolov9/igie)     | [✅](models/cv/object_detection/yolov9/ixrt)     | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov9/igie)     |                                                   | 4.3.0     |
-| YOLOv10    | FP16  | [✅](models/cv/object_detection/yolov10/igie)    | [✅](models/cv/object_detection/yolov10/ixrt)    | 4.3.0     |
-| YOLOv11    | FP16  | [✅](models/cv/object_detection/yolov11/igie)    | [✅](models/cv/object_detection/yolov11/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov11/igie)     |                                                  | 4.3.0     |
-| YOLOv12    | FP16  | [✅](models/cv/object_detection/yolov12/igie)    | [✅](models/cv/object_detection/yolov12/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov12/igie)     |                                                   | 4.3.0     |
-| YOLOv13    | FP16  | [✅](models/cv/object_detection/yolov13/igie)    | [✅](models/cv/object_detection/yolov13/ixrt)    | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolov13/igie)     |                                                   | 4.3.0     |
-| YOLOX      | FP16  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
-|            | INT8  | [✅](models/cv/object_detection/yolox/igie)      | [✅](models/cv/object_detection/yolox/ixrt)      | 4.3.0     |
+| YOLOv8n    | FP16  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
+| YOLOv8s    | FP16  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
+| YOLOv9s    | FP16  | [✅](models/cv/object_detection/yolov9s/igie)     | [✅](models/cv/object_detection/yolov9s/ixrt)     | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov9s/igie)     |                                                   | 4.3.0     |
+| YOLOv10s   | FP16  | [✅](models/cv/object_detection/yolov10s/igie)    | [✅](models/cv/object_detection/yolov10s/ixrt)    | 4.3.0     |
+| YOLOv11n   | FP16  | [✅](models/cv/object_detection/yolov11n/igie)    | [✅](models/cv/object_detection/yolov11n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov11n/igie)     |                                                  | 4.3.0     |
+| YOLOv12n   | FP16  | [✅](models/cv/object_detection/yolov12n/igie)    | [✅](models/cv/object_detection/yolov12n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov12n/igie)     |                                                   | 4.3.0     |
+| YOLOv13n   | FP16  | [✅](models/cv/object_detection/yolov13n/igie)    | [✅](models/cv/object_detection/yolov13n/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov13n/igie)     |                                                   | 4.3.0     |
+| YOLOXm     | FP16  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
+
+| Model      | Prec. | PaddlePaddle                                            | IXUCA SDK |
+|------------|-------|---------------------------------------------------------|-----------|
+| RTDETR     | FP16  | [✅](models/cv/object_detection/rtdetr/paddlepaddle)    | dev-only  |
+
+| Model      | Prec. | Pytorch                                            | IXUCA SDK |
+|------------|-------|-------------------------------------------------|-----------|
+| YOLOv8n       | FP16  | [✅](models/cv/object_detection/yolov8n/pytorch)   | dev-only    |
 
 #### Face Recognition
 
@@ -301,7 +314,6 @@ inference to be expanded in the future.
 | LLaVA               |   vLLM   | [✅](models/multimodal/vision_language_model/llava/vllm)               | 4.3.0     |
 | LLaVA-Next-Video-7B |   vLLM   | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) | 4.3.0     |
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
-| MiniCPM-V 2         |   vLLM   | [✅](models/multimodal/vision_language_model/minicpm_v/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |

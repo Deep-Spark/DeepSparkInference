@@ -48,10 +48,6 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-
 ```bash
 # Install libGL
 ## CentOS
@@ -68,6 +64,10 @@ pip3 install -r ../../ixrt_common/requirements.txt
 
 mkdir checkpoints
 git clone https://github.com/zldrobit/onnx_tflite_yolov3.git
+
+# download the weight from the recommend link
+wget https://pjreddie.com/media/files/yolov3.weights
+
 mv yolov3.weights onnx_tflite_yolov3/weights
 cd onnx_tflite_yolov3
 # 修改 detect.py 中 torch.onnx.export() 函数的opset_version=11,会在/weights下生成export.onnx

@@ -27,11 +27,10 @@ git clone https://huggingface.co/openai/clip-vit-base-patch32 clip-vit-base-patc
 
 Contact the Iluvatar administrator to get the missing packages:
 
-- ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl or later
+- ixrt-*.whl
 
 ```bash
 pip3 install -r requirements.txt
-pip3 install ixrt-1.0.0a0+corex.4.3.0.20250723-cp310-cp310-linux_x86_64.whl
 ```
 
 ### Model Conversion

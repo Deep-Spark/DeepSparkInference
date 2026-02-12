@@ -31,7 +31,7 @@ mkdir data/
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- transformers-4.45.2+corex.4.3.0-py3-none-any.whl
+- transformers-*.whl
 
 ```bash
 # Install libGL

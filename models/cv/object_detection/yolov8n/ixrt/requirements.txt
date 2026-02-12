@@ -1,0 +1,7 @@
+tqdm
+onnx
+onnxsim
+pycocotools
+opencv-python==4.8.0.74
+ultralytics
+cuda-python

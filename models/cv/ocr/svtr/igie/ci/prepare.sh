@@ -42,5 +42,3 @@ cd ..
 
 # Use onnxsim optimize onnx model
 onnxsim SVTR.onnx SVTR_opt.onnx
-# should update igie
-pip install http://sw.iluvatar.ai/download/corex/daily_packages/ivcore11/x86_64/20250220/apps/py3.10/igie-0.18.0+corex.4.2.0.20250220-cp310-cp310-linux_x86_64.whl

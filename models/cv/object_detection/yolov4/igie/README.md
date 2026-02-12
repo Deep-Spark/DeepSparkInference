@@ -50,10 +50,6 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-
 ```bash
 # Install libGL
 ## CentOS
@@ -69,6 +65,9 @@ pip3 install -r requirements.txt
 ```bash
 # clone yolov4
 git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
+
+# download the weight from the recommend link
+wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 
 # export onnx model
 python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output yolov4.onnx

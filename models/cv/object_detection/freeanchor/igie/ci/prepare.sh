@@ -17,7 +17,7 @@
 set -x
 
 pip3 install -r requirements.txt
-pip3 install /mnt/deepspark/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 # export onnx model
 python3 export.py --weight retinanet_free_anchor_r50_fpn_1x_coco_20200130-0f67375f.pth --cfg freeanchor_r50_fpn_1x_coco.py --output freeanchor_r50.onnx
 

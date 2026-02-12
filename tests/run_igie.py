@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import yaml
 import subprocess
 import json
 import re
@@ -22,7 +21,7 @@ import logging
 import os
 import sys
 import argparse
-
+import platform
 import utils
 
 # 配置日志
@@ -34,6 +33,7 @@ logging.basicConfig(
 )
 
 METRIC_PATTERN = r"{'metricResult':.*}"
+G_BIND_CMD = os.environ.get("BIND_CMD", "")
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -49,7 +49,8 @@ def main():
         logging.error("test model case is empty")
         sys.exit(-1)
     batch_size = os.environ.get("BS_LISTS")
-    model = get_model_config(test_model)
+    model_framework = os.environ.get("MODEL_FW").lower()
+    model = get_model_config(test_model, model_framework)
     if not model:
         logging.error("mode config is empty")
         sys.exit(-1)
@@ -58,12 +59,15 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
+    utils.ensure_numactl_installed()
+
     result = {}
     if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_clf_testcase(model, batch_size)
+            result = run_clf_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -73,7 +77,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model, batch_size)
+            result = run_detec_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -83,7 +87,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_ocr_testcase(model)
+            result = run_ocr_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -130,12 +134,12 @@ def main():
 
     logging.info(f"Full text result: {result}")
 
-def get_model_config(mode_name):
+def get_model_config(mode_name, model_framework):
     with open("model_info.json", mode='r', encoding='utf-8') as file:
         models = json.load(file)
 
     for model in models['models']:
-        if model["model_name"] == mode_name.lower() and model["framework"] == "igie":
+        if model["model_name"] == mode_name.lower() and model["framework"] == model_framework:
             return model
     return
 
@@ -148,7 +152,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model, batch_size):
+def run_clf_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -163,8 +167,12 @@ def run_clf_testcase(model, batch_size):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
     if model["category"] == "cv/semantic_segmentation":
-        prepare_script += """
-        pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+        """
+    if model_name in ["resnet50_sample", "vgg16_sample"]:
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
         """
     prepare_script += f"""
     bash ci/prepare.sh
@@ -198,12 +206,12 @@ def run_clf_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -258,7 +266,7 @@ def run_clf_testcase(model, batch_size):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model, batch_size):
+def run_detec_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -273,14 +281,20 @@ def run_detec_testcase(model, batch_size):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
-    # for 4.3.0 sdk need pre install mmcv
-    prepare_script += """
-    pip install /mnt/deepspark/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
+    prepare_script += f"""
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
 
-    # if model["need_third_part"] and model["3rd_party_repo"]:
-    #     third_party_repo = model["3rd_party_repo"]
-    #     prepare_script += f"unzip /mnt/deepspark/data/3rd_party/{third_party_repo}.zip -d ./\n"
+    if platform.machine() == "aarch64":
+        prepare_script = """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """ + prepare_script
+
+    if model_name == "rtdetr":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        """
     prepare_script += "bash ci/prepare.sh\n"
 
     # add pip list info when in debug mode
@@ -295,6 +309,11 @@ def run_detec_testcase(model, batch_size):
         export DATASETS_DIR=./{dataset_n}/
     """
 
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -302,21 +321,21 @@ def run_detec_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 export_onnx_script = ""
                 if model_name == "yolov5s":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5s.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
-                script = export_onnx_script + base_script + f"""
+                script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -326,7 +345,6 @@ def run_detec_testcase(model, batch_size):
             pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
             matchs = re.findall(pattern, sout)
             for m in matchs:
-                result["result"].setdefault(prec, {"status": "FAIL"})
                 try:
                     result["result"][prec][bs] = result["result"][prec][bs] | {m[0]: float(m[1]), m[2]: float(m[3])}
                 except ValueError:
@@ -347,7 +365,7 @@ def run_detec_testcase(model, batch_size):
                 except ValueError:
                     print("The string cannot be converted to a float.")
                     result["result"][prec][bs] = result["result"][prec].get(bs, {}) | {m[0]: m[1]}
-            if matchs and len(matchs) == 2:
+            if matchs and len(matchs) >= 2:
                 result["result"][prec]["status"] = "PASS"
             else:
                 pattern = METRIC_PATTERN
@@ -360,7 +378,7 @@ def run_detec_testcase(model, batch_size):
 
     return result
 
-def run_ocr_testcase(model):
+def run_ocr_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -374,7 +392,7 @@ def run_ocr_testcase(model):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    pip install /mnt/deepspark/install/paddlepaddle-3.0.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -392,7 +410,7 @@ def run_ocr_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -454,7 +472,7 @@ def run_trace_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -511,7 +529,7 @@ def run_multi_object_tracking_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)
@@ -576,6 +594,11 @@ def run_nlp_testcase(model, batch_size):
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         cd ../{model['model_path']}
     """
+    if model_name == "transformer" and platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -583,12 +606,12 @@ def run_nlp_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -665,12 +688,12 @@ def run_speech_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")

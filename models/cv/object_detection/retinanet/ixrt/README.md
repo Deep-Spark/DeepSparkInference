@@ -53,7 +53,7 @@ wget https://download.openmmlab.com/mmdetection/v2.0/retinanet/retinanet_r50_fpn
 
 Contact the Iluvatar administrator to get the missing packages:
 
-- mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- mmcv-*.whl
 
 ```bash
 pip3 install -r requirements.txt

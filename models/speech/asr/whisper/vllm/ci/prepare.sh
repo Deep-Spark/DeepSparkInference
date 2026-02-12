@@ -16,5 +16,4 @@
 
 set -x
 
-pip3 install transformers==4.50.3
 pip3 install librosa

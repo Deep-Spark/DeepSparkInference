@@ -105,6 +105,12 @@ class PreProcessDatasets(DetectionValidator):
 
         return datasets
 
+    def preprocess(self, batch):
+        """Preprocess without PyTorch device transfer (for TVM)."""
+        if 'img' in batch:
+            batch['img'] = batch['img'].float() / 255.0
+        return batch
+
 class CalibrationDataset(torch.utils.data.Dataset):
     def __init__(self, datasets):
         self.datasets = datasets

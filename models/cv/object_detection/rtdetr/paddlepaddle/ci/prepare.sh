@@ -1,0 +1,26 @@
+#!/bin/bash
+# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -x
+pip3 install scikit-learn
+unzip -q /mnt/deepspark/data/3rd_party/v2.8.1.zip -d ./
+cd PaddleDetection-2.8.1
+pip3 install -r requirements.txt
+pip3 install -e .
+cd ..
+mkdir -p output_inference
+# export paddle inference model
+python3 export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=./rtdetr_r101vd_6x_coco.pdparams --output_dir=output_inference

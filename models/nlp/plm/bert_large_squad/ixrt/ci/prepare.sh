@@ -27,4 +27,4 @@ fi
 
 mkdir -p data/datasets
 mkdir -p data/checkpoints
-ln -s /root/data/checkpoints/bert-large-uncased data/checkpoints && ln -s /root/data/datasets/squad data/datasets
+cp -r /root/data/checkpoints/bert-large-uncased data/checkpoints && ln -s /root/data/datasets/squad data/datasets

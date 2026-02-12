@@ -57,13 +57,14 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
     result = {}
     # NLP模型
     if model["category"] in ["nlp/llm", "multimodal/vision_language_model", "speech/asr", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model)
+            result = run_nlp_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -95,20 +96,22 @@ _VISION_MODEL_CONFIGS = {
     "fuyu_8b": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 2"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "idefics3": ("offline_inference_vision_language.py", ["--model-type idefics3"], None, []),
     "h2vol": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--disable-mm-preprocessor-cache"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
-    "minicpm_v": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
+    "minicpm-v-2": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
+    "minicpm-v-4": ("offline_inference_vision_language.py", ["--model-type minicpmv"], None, []),
     "llama-3.2": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 2", "--max-model-len 8192", "--max-num-seqs 16"], None, ["VLLM_ASSETS_CACHE=../vllm/", "VLLM_FORCE_NCCL_COMM=1"]),
     "pixtral": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--tokenizer-mode 'mistral'"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "llava": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--model-type llava-next", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "llava_next_video_7b": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--model-type llava-next-video", "--modality video", "--dtype bfloat16"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "intern_vl": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 2", "--max-model-len 2048"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
-    "qwen_vl": ("offline_inference_vision_language.py", ["-tp 1", "--hf-overrides '{\"architectures\": [\"QwenVLForConditionalGeneration\"]}'"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
+    "qwen_vl": ("offline_inference_vision_language.py", ["--model-type qwen_vl"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
     "qwen2_vl": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-num-seqs 5"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/", "ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1"]),
     "qwen2_5_vl": ("offline_inference_vision_language.py", ["-tp 4", "--max-token 256"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/", "ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1"]),
-    "e5-v": ("offline_inference_vision_language_embedding.py", ["--modality \"image\"", "--tensor_parallel_size 1", "--task \"embed\"", "--max_model_len 4096"], None, []),
+    "e5-v": ("offline_inference_vision_language_embedding.py", ["--model-name e5_v"], None, []),
     "glm-4v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--hf-overrides '{\"architectures\": [\"GLM4VForCausalLM\"]}'"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
-    "minicpm_o": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
+    "minicpm-o-2": ("offline_inference_vision_language.py", ["--max-model-len 4096", "--max-num-seqs 2", "--disable-mm-preprocessor-cache"], None, []),
     "phi3_v": ("offline_inference_vision_language.py", ["--max-tokens 256", "-tp 4", "--max-model-len 4096"], "0,1,3,4", ["VLLM_ASSETS_CACHE=../vllm/"]),
     "paligemma": ("offline_inference_vision_language.py", ["--max-tokens 256"], None, ["VLLM_ASSETS_CACHE=../vllm/"]),
+    "deepseek-ocr": ("offline_inference_vision_language.py", ["--model-type deepseek_ocr"], None, []),
 }
 
 # Standard LLM configs
@@ -135,7 +138,7 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
         "qwen1.5-72b"]:
         return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096"
     elif model_name == "qwen2-72b":
-        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768"
+        return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.92 --max-model-len 32768"
     elif model_name == "nvlm":
         return base_script + f"""
             export VLLM_ASSETS_CACHE=../vllm/
@@ -163,13 +166,13 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             return base_script + f"python3 offline_inference.py --model-path /mnt/deepspark/data/checkpoints/{checkpoint_n} --tp 1"
 
         case "cosyvoice":
-            return base_script + "cd CosyVoice\npython3 inference_test.py"
+            return base_script + "cd CV3-Eval\nbash run_inference_fp16_eval.sh"
 
         case "xlmroberta":
             return base_script + (
-                "python3 offline_inference_scoring.py --model ./xlmroberta --task \"score\" --tensor-parallel-size 1\n"
+                "python3 offline_inference_scoring.py --model ./xlmroberta \n"
                 "ln -s /mnt/deepspark/data/checkpoints/multilingual-e5-large ./\n"
-                "python3 offline_inference_embedding.py --model ./multilingual-e5-large -tp 2"
+                "python3 offline_inference_embedding.py --model ./multilingual-e5-large"
             )
 
         case "whisper":
@@ -180,13 +183,22 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             )
 
         # Vision-language models
-        case "aria" | "chameleon_7b" | "fuyu_8b" | "idefics3" | "h2vol" | "minicpm_v" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen_vl" | "qwen2_vl" | "qwen2_5_vl" | "e5-v" | "glm-4v" | "minicpm_o" | "phi3_v" | "paligemma":
+        case "aria" | "chameleon_7b" | "fuyu_8b" | "h2vol" | "llama-3.2" | "pixtral" | "llava" | "llava_next_video_7b" | "intern_vl" | "qwen2_vl" | "qwen2_5_vl" | "glm-4v" | "minicpm-o-2" | "phi3_v" | "paligemma":
             config = _VISION_MODEL_CONFIGS[model_name]
             script_file, args, gpus, envs = config
             env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
             gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
             arg_str = " ".join(args)
             cmd = f"{gpu_prefix}python3 {script_file} --model ./{model_name} {arg_str} --trust-remote-code --temperature 0.0"
+            return base_script + env_lines + cmd
+
+        case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl" | "e5-v":
+            config = _VISION_MODEL_CONFIGS[model_name]
+            script_file, args, gpus, envs = config
+            env_lines = "\n".join(f"export {e}" for e in envs) + ("\n" if envs else "")
+            gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
+            arg_str = " ".join(args)
+            cmd = f"{gpu_prefix}python3 {script_file} {arg_str}"
             return base_script + env_lines + cmd
 
         # Standard LLMs
@@ -221,13 +233,13 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             bench = (
                 "python3 vllm/benchmarks/benchmark_throughput.py --model ./qwen1.5-14b "
                 "--dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 896 -tp 2"
+                "--num-prompts 10 --trust-remote-code --max-model-len 896 -tp 2"
             )
         else:
             bench = (
                 "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
                 f"--model ./{model_name} --dataset-name sonnet --dataset-path vllm/benchmarks/sonnet.txt "
-                "--num-prompts 10 --trust_remote_code --max-model-len 3096 -tp 4"
+                "--num-prompts 10 --trust-remote-code --max-model-len 3096 -tp 4"
             )
         return script + common_bench + bench
 
@@ -238,8 +250,16 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
             "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
             f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
             "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
-            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust_remote_code"
+            "-tp 4 --max-model-len 4096 --max-num-seqs 2 --trust-remote-code"
         )
+        if model_name == "deepseek-ocr":
+            bench = (
+                "mkdir -p lmarena-ai\n"
+                "ln -s /mnt/deepspark/data/datasets/VisionArena-Chat lmarena-ai/\n"
+                "CUDA_VISIBLE_DEVICES=0,1,3,4 python3 vllm/benchmarks/benchmark_throughput.py "
+                f"--model ./{model_name} --backend vllm-chat --dataset-name hf "
+                "--dataset-path lmarena-ai/VisionArena-Chat --num-prompts 10 --hf-split train "
+            )
         return script + common_bench + bench
 
     return script
@@ -283,13 +303,19 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
         return result_entry
 
     # Fallback pattern for concurrency
-    match = re.search(r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x", sout)
-    if match:
-        return {
-            "tokens": int(match.group(1).replace(",", "")),
-            "QPS": float(match.group(2)),
-            "status": "PASS"
-        }
+    # match = re.search(r"Maximum concurrency for ([0-9,]+) tokens per request:\s*([0-9.]+)x", sout)
+    # if match:
+    #     return {
+    #         "tokens": int(match.group(1).replace(",", "")),
+    #         "QPS": float(match.group(2)),
+    #         "status": "PASS"
+    #     }
+
+    matchs = re.findall(METRIC_PATTERN, sout)
+    if matchs and len(matchs) == 1:
+        result_entry.update(get_metric_result(matchs[0]))
+        result_entry["status"] = "PASS"
+        return result_entry
 
     # Final fallback: generic success message
     if "Offline inference is successful!" in sout:
@@ -297,9 +323,13 @@ def _parse_script_output(sout: str, prec: str, display_name: str) -> Dict[str, A
 
     return result_entry
 
+def get_metric_result(str):
+    if str:
+        return json.loads(str.replace("'", "\""))["metricResult"]
+    return None
 
 # --- Main function (now simple and low complexity) ---
-def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
+def run_nlp_testcase(model: Dict[str, Any], whl_url: str) -> Dict[str, Any]:
     get_num_devices_script = "ixsmi -L | wc -l"
     result, _ = run_script(get_num_devices_script)
     num_devices = int(result.stdout.strip())
@@ -320,9 +350,13 @@ def run_nlp_testcase(model: Dict[str, Any]) -> Dict[str, Any]:
 set -x
 cd ../{model['model_path']}
 ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{model_name}
-pip install /mnt/deepspark/install/xformers-0.0.26.post1+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+pip install {whl_url}`curl -s {whl_url} | grep -o 'xformers-[^"]*\.whl' | head -n1`
 bash ci/prepare.sh
 """
+    if model_name == "internlm3":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'lmdeploy-[^"]*\.whl' | head -n1`
+        """
 
     if utils.is_debug():
         pip_list = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"

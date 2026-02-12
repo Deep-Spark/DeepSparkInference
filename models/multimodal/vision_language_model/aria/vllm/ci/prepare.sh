@@ -15,14 +15,5 @@
 # limitations under the License.
 
 set -x
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
 
 cp -r ../../vllm_public_assets/ ./
-pip install transformers==4.53.0

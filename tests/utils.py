@@ -14,6 +14,9 @@
 # limitations under the License.
 
 import os
+import shutil
+import subprocess
+import sys
 
 def is_debug():
     is_debug_flag = os.environ.get("IS_DEBUG")
@@ -21,3 +24,36 @@ def is_debug():
         return True
     else:
         return False
+
+def ensure_numactl_installed():
+
+    G_BIND_CMD = os.environ.get("BIND_CMD", "")
+
+    if "numactl" not in G_BIND_CMD:
+        return  
+
+    if shutil.which("numactl") is not None:
+        return  
+
+    install_commands = [
+        ["apt-get", "update"], ["apt-get", "install", "-y", "numactl"],
+        ["yum", "install", "-y", "numactl"],
+        ["dnf", "install", "-y", "numactl"]
+    ]
+
+    for i, cmd_list in enumerate(install_commands):
+        try:
+            if cmd_list[0] == "apt-get" and i == 0:
+                subprocess.run(["apt-get", "update"], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                continue
+            elif cmd_list[0] == "apt-get" and i == 1:
+                pass
+
+            subprocess.run(cmd_list, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            print("install numactl completed.")
+            return
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            continue  
+
+    print("failed to auto install numactl.", file=sys.stderr)
+    sys.exit(1)

@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import platform
 import yaml
 import subprocess
 import json
@@ -34,6 +35,7 @@ logging.basicConfig(
 )
 
 METRIC_PATTERN = r"{'metricResult':.*}"
+G_BIND_CMD = os.environ.get("BIND_CMD", "")
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -58,12 +60,15 @@ def main():
         logging.error(f"model name {model['model_name']} is not support for IXUCA SDK v4.3.0.")
         sys.exit(-1)
 
+    whl_url = os.environ.get("WHL_URL")
+    utils.ensure_numactl_installed()
+
     result = {}
     if model["category"] == "cv/classification":
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_clf_testcase(model, batch_size)
+            result = run_clf_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -73,7 +78,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_detec_testcase(model, batch_size)
+            result = run_detec_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -103,7 +108,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_instance_segmentation_testcase(model)
+            result = run_instance_segmentation_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -113,13 +118,13 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model, batch_size)
+            result = run_nlp_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
     
     # multi_object_tracking模型
-    if model["category"] in ["cv/multi_object_tracking"]:
+    if model["category"] in ["cv/multi_object_tracking", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -148,7 +153,7 @@ def check_model_result(result):
                 break
     result["status"] = status
 
-def run_clf_testcase(model, batch_size):
+def run_clf_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -163,8 +168,8 @@ def run_clf_testcase(model, batch_size):
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     """
     if model_name == "swin_transformer_large":
-        prepare_script += """
-        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
         """
     prepare_script += """
     bash ci/prepare.sh
@@ -212,7 +217,7 @@ def run_clf_testcase(model, batch_size):
             export ORIGIN_ONNX_NAME=./swin-large-torch-fp32
             export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
             export PROJ_PATH=./
-            bash scripts/infer_swinl_fp16_performance.sh
+            {G_BIND_CMD} bash scripts/infer_swinl_fp16_performance.sh
             cd ./ByteMLPerf/byte_infer_perf/general_perf
             python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
         """
@@ -223,12 +228,12 @@ def run_clf_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -274,7 +279,7 @@ def run_clf_testcase(model, batch_size):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_detec_testcase(model, batch_size):
+def run_detec_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -288,9 +293,14 @@ def run_detec_testcase(model, batch_size):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     """
+
+    if platform.machine() == "aarch64":
+        prepare_script = """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """ + prepare_script
 
     # add pip list info when in debug mode
     if utils.is_debug():
@@ -300,10 +310,8 @@ def run_detec_testcase(model, batch_size):
     run_script(prepare_script)
 
     config_name = model_name.upper()
-    if model_name == "yolov5":
-        config_name = "YOLOV5M"
 
-    if model_name in ["yolov3", "yolov5", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
+    if model_name in ["yolov3", "yolov5m", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
         base_script = f"""
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
@@ -328,6 +336,12 @@ def run_detec_testcase(model, batch_size):
         export CONFIG_DIR=config/{config_name}_CONFIG
         """
 
+    if platform.machine() == "aarch64":
+        base_script += """
+        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
+        """
+
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -335,36 +349,42 @@ def run_detec_testcase(model, batch_size):
                 bs = "Default"
                 script = base_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 export_onnx_script = ""
-                if model_name == "yolov5":
+                if model_name == "yolov5m":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5m.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
-                elif model_name == "yolox":
+                elif model_name == "yoloxm":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/YOLOX
+                        cd YOLOX
                         python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size {bs}
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
                 elif model_name == "yolov5s":
                     export_onnx_script = f"""
-                        cd ../{model['model_path']}/yolov5
+                        cd yolov5
                         python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size {bs}
                         mv yolov5s.onnx ../checkpoints
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
-                script = export_onnx_script + base_script + f"""
+                elif model_name == "yolov8n":
+                    export_onnx_script = f"""
+                        python3 export.py --weight yolov8.pt --batch {bs}
+                        rm -rf checkpoints/*
+                        onnxsim yolov8.onnx ./checkpoints/yolov8.onnx
+                    """
+                script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
@@ -444,7 +464,7 @@ def run_segmentation_and_face_testcase(model):
         export RUN_DIR=./
 
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         if model_name == "clip":
@@ -519,15 +539,21 @@ def run_multi_object_tracking_testcase(model):
         cd ../{model['model_path']}
         export DATASETS_DIR=./{dataset_n}/
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
+
+        if model_name == "cosyvoice":
+            script = f"""
+            cd ../{model['model_path']}/CosyVoice
+            bash scripts/infer_cosyvoice2_fp16.sh
+            """
 
         r, t = run_script(script)
         sout = r.stdout
         pattern = r"\* ([\w\d ]+):\s*([\d.]+)[ ms%]*, ([\w\d ]+):\s*([\d.]+)[ ms%]*"
         matchs = re.findall(pattern, sout)
+        result["result"].setdefault(prec, {"status": "FAIL"})
         for m in matchs:
-            result["result"].setdefault(prec, {"status": "FAIL"})
             try:
                 result["result"][prec] = result["result"][prec] | {m[0]: float(m[1]), m[2]: float(m[3])}
             except ValueError:
@@ -536,7 +562,6 @@ def run_multi_object_tracking_testcase(model):
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
         if matchs and len(matchs) == 1:
-            result["result"].setdefault(prec, {})
             result["result"][prec].update(get_metric_result(matchs[0]))
             result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
@@ -544,7 +569,7 @@ def run_multi_object_tracking_testcase(model):
     return result
 
 # BERT series models
-def run_nlp_testcase(model, batch_size):
+def run_nlp_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -555,18 +580,17 @@ def run_nlp_testcase(model, batch_size):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install /root/data/install/tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        bash /root/data/install/ixrt-1.0.0.alpha+corex.4.3.0-linux_x86_64.run
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
         """
     else:
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install /root/data/install/ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-        pip install /root/data/install/cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
         """
 
@@ -583,7 +607,7 @@ def run_nlp_testcase(model, batch_size):
         export ORIGIN_ONNX_NAME=./data/open_{model_name}/{model_name}
         export OPTIMIER_FILE=./iluvatar-corex-ixrt/tools/optimizer/optimizer.py
         export PROJ_PATH=./
-        bash scripts/infer_{model_name}_fp16_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_fp16_performance.sh
         cd ./ByteMLPerf/byte_infer_perf/general_perf
     """
     if model_name == "roformer" or model_name == "wide_and_deep":
@@ -609,20 +633,40 @@ def run_nlp_testcase(model, batch_size):
             if bs == "None":
                 bs = "Default"
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = f"""
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                        bash scripts/infer_{model_name}_{prec}_performance.sh
-                    """
+                        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh
+                            {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
+                        """
             else:
                 if model_name in ["bert_base_squad", "bert_large_squad", "transformer"]:
-                    script = f"""
+                    if model_name == "transformer" and platform.machine() == "aarch64":
+                        script = f"""
                         set -x
+                        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+                        export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
                         cd ../{model['model_path']}/
                         bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                        bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
-                    """
+                        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                        """
+                    else:
+                        script = f"""
+                            set -x
+                            cd ../{model['model_path']}/
+                            bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
+                            {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                        """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs: {bs} test case")
 
@@ -696,13 +740,13 @@ def run_speech_testcase(model, batch_size):
                 script = f"""
                     cd ../{model['model_path']}
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh
-                    bash scripts/infer_{model_name}_{prec}_performance.sh
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
                 """
             else:
                 script = f"""
                     cd ../{model['model_path']}
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
-                    bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
+                    {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs:{bs} test case")
@@ -726,7 +770,7 @@ def run_speech_testcase(model, batch_size):
             logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_instance_segmentation_testcase(model):
+def run_instance_segmentation_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -739,7 +783,7 @@ def run_instance_segmentation_testcase(model):
     cd ../{model['model_path']}
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
-    pip install /root/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -762,7 +806,7 @@ def run_instance_segmentation_testcase(model):
         export EVAL_DIR=./coco2017/val2017
         export RUN_DIR=./
         bash scripts/infer_{model_name}_{prec}_accuracy.sh
-        bash scripts/infer_{model_name}_{prec}_performance.sh
+        {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh
         """
 
         r, t = run_script(script)

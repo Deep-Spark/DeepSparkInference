@@ -14,6 +14,8 @@ outperform many of the available open source and closed chat models on common in
 | MR-V100 | 4.3.0 | 25.09 |
 | MR-V100 | 4.2.0 | 25.06 |
 
+**This model is compatible with IXUCA SDK up to version 4.3.0.**
+
 ## Model Preparation
 
 ### Prepare Resources

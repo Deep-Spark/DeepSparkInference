@@ -26,23 +26,23 @@ wget https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v1.1.json -O data/da
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- ixrt-1.0.0a0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
-- cuda_python-11.8.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- ixrt-*.whl
+- cuda_python-*.whl
 
 ## Model Inference
 
 ### FP16
 
 ```bash
-bash script/infer_bert_large_squad_fp16_accuracy.sh
-bash script/infer_bert_large_squad_fp16_performance.sh
+bash scripts/infer_bert_large_squad_fp16_accuracy.sh
+bash scripts/infer_bert_large_squad_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
-bash script/infer_bert_large_squad_int8_accuracy.sh
-bash script/infer_bert_large_squad_int8_performance.sh
+bash scripts/infer_bert_large_squad_int8_accuracy.sh
+bash scripts/infer_bert_large_squad_int8_performance.sh
 ```
 
 ## Model Results

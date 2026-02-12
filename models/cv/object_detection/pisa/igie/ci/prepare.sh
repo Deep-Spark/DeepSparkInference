@@ -17,7 +17,7 @@
 set -x
 
 pip3 install -r requirements.txt
-pip3 install /mnt/deepspark/data/install/mmcv-2.1.0+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+
 # export onnx model
 python3 export.py --weight pisa_retinanet_r50_fpn_1x_coco-76409952.pth --cfg pisa_retinanet_r50_fpn_1x_coco.py --output pisa.onnx
 

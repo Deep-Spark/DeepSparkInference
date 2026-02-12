@@ -42,5 +42,5 @@ center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX offic
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-python3 offline_inference.py --model ./data/qwen2/Qwen2-72B --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.98 --max-model-len 32768
+python3 offline_inference.py --model ./Qwen2-72B --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.92 --max-model-len 32768
 ```

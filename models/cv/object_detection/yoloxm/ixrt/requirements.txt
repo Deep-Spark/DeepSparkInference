@@ -1,0 +1,9 @@
+tqdm
+onnx==1.18.0
+onnxsim
+tabulate
+pycocotools
+ppq
+pycuda
+opencv-python==4.6.0.66
+ninja==1.11.1.3

@@ -27,6 +27,7 @@ fi
 
 pip install -r requirements.txt
 
+# it need low mmcv version
 pip install /root/data/install/mmcv_full-1.7.0+corex.20250108131027-cp310-cp310-linux_x86_64.whl
 
 mkdir -p checkpoints

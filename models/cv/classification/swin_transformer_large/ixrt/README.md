@@ -28,7 +28,7 @@ bash ./scripts/prepare_model_and_dataset.sh
 ### Install Dependencies
 
 Contact the Iluvatar administrator to get the missing packages:
-- tensorflow-2.16.2+corex.4.3.0-cp310-cp310-linux_x86_64.whl
+- tensorflow-*.whl
 
 ```bash
 export PROJ_ROOT=/PATH/TO/DEEPSPARKINFERENCE

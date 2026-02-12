@@ -1,6 +1,5 @@
 tqdm
 onnx
 pycocotools
-# FAILed in 8.2.51
-ultralytics==8.1.34
+ultralytics
 opencv-python

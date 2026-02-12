@@ -31,16 +31,6 @@ mkdir HuggingFaceM4
 
 In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
-```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
-pip install transformers==4.50.3
-```
-
 ## Model Inference
 
 ```bash
