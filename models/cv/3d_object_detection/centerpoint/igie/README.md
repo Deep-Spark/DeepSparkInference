@@ -22,7 +22,14 @@ Three-dimensional objects are commonly represented as 3D boxes in a point-cloud.
 ```
 cd ./CenterPoint
 pip3 install -r requirements.txt
+
+export PATH=/usr/local/corex-4.4.0/bin:$PATH
+export CUDA_PATH=/usr/local/corex-4.4.0
+export CUDA_HOME=/usr/local/corex-4.4.0
+export LD_LIBRARY_PATH=/usr/local/corex-4.4.0/lib64:$LD_LIBRARY_PATH
+bash setup.sh 
 ```
+
 
 代码中用到det3d库，配置一下pythonpath，同时，要用到NuScenesEval，也要配置一下。
 ```
