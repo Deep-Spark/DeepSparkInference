@@ -36,7 +36,7 @@ echo "batch size is ${batchsize}"
 # build engine
 python3 ${RUN_DIR}build_engine.py                     \
     --model_path ${model_path}              \
-    --input input:${batchsize},3,288,288    \
+    --input input:${batchsize},3,224,224    \
     --precision fp16                        \
     --engine_path mobilevit_s_bs_${batchsize}_fp16.so
 
