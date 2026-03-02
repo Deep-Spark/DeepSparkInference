@@ -35,9 +35,9 @@ bash scripts/infer_grounding_dino_fp16_performance.sh
 
 ## Model Results
 
-| Model | Precision | FPS    | IOU@0.5 | IOU@0.5:0.95 |
-| :----: | :----: | :----: | :----: | :----: |
-| Grounding DINO | FP16      | 75.199 | 0.491   | 0.327        |
+| Model | Precision | FPS    | output_logits | output_boxes | boxes_filt |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| Grounding DINO | FP16      |  7.474 | (1, 900, 256) 921600   | (1, 900, 4) 14400  | torch.Size([8, 4]) |
 
 ## References
 
