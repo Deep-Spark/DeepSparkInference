@@ -12,6 +12,8 @@ Whisper large-v3-turbo is a finetuned version of a pruned Whisper large-v3. In o
 | :----: | :----: | :----: |
 | MR-V100 | 4.3.0     |  25.09  |
 
+**This model is compatible with IXUCA SDK up to version 4.3.0.**
+
 ## Model Preparation
 
 ### Prepare Resources

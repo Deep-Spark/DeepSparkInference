@@ -22,6 +22,8 @@ cp -r /root/data/3rd_party/YOLOv6 ./
 
 cd YOLOv6
 pip3 install -r requirements.txt
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '25 s/map_location)/map_location, weights_only=False)/' yolov6/utils/checkpoint.py
 
 ln -s /root/data/checkpoints/yolov6s.pt ./
 # export onnx model

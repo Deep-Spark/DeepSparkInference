@@ -25,7 +25,7 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 # export onnx model
 python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/twins/twins-pcpvt-small_8xb128_in1k.py --weight twins-pcpvt-small_3rdparty_8xb128_in1k_20220126-ef23c132.pth --output twins_pcpvt_small.onnx

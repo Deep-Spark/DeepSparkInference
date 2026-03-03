@@ -72,7 +72,8 @@ git clone https://github.com/meituan/YOLOv6.git
 
 pushd YOLOv6
 pip3 install -r requirements.txt
-
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '25 s/map_location)/map_location, weights_only=False)/' yolov6/utils/checkpoint.py
 # export onnx model
 python3 deploy/ONNX/export_onnx.py --weights ../yolov6s.pt --img 640 --batch-size 32 --simplify
 mv ../yolov6s.onnx ../data/

@@ -52,7 +52,7 @@ model = dict(
 
 
 dataset_type = 'DRIVEDataset'
-data_root = "datasets/DRIVE"
+data_root = '{{fileDirname}}/../../../../../../data/datasets/DRIVE'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 img_scale = (584, 565)

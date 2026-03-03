@@ -59,6 +59,7 @@ coco
 ### Install Dependencies
 
 ```bash
+pip3 install --no-build-isolation mmcv==1.5.3
 pip3 install -r requirements.txt
 ```
 

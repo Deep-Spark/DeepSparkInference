@@ -1,10 +1,21 @@
 import sys
 from pathlib import Path
 import os
+import argparse as _argparse
+import dataclasses
+
+# ====== PATCH: 兼容旧版 argparse 不支持 'deprecated' ======
+_original_add_argument = _argparse._ArgumentGroup.add_argument
+
+def _patched_add_argument(self, *args, **kwargs):
+    kwargs.pop('deprecated', None)
+    return _original_add_argument(self, *args, **kwargs)
+
+_argparse._ArgumentGroup.add_argument = _patched_add_argument
+# =========================================================
 
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import argparse
-import dataclasses
 import inspect
 import logging
 import time
@@ -26,14 +37,16 @@ if __name__ == "__main__":
     parser = sampling_add_cli_args(parser)
     args = parser.parse_args()
 
-    engine_args = [attr.name for attr in dataclasses.fields(EngineArgs)]
+    engine_args = EngineArgs.from_cli_args(args)
+    engine_params = dataclasses.asdict(engine_args)
+
     sampling_args = [
         param.name
         for param in list(
             inspect.signature(SamplingParams).parameters.values()
         )
     ]
-    engine_params = {attr: getattr(args, attr) for attr in engine_args}
+
     sampling_params = {
         attr: getattr(args, attr) for attr in sampling_args if args.__contains__(attr)
     }
@@ -62,20 +75,24 @@ if __name__ == "__main__":
         logging.warning(
             "If you are using a non chat model, please pass the --remove_chat_template in CLI."
         )
-        logging.warning(
-            "For now, openai api chat interface(v1/chat/completions) need you provide a chat template to process prompt(str) for better results. "
-            "Otherwise, you have to use the default chat template, which may lead to bad answers. But, the process of building chat input is complex "
-            "for some models and the rule of process can not be written as a jinja file. Fortunately, the v1/completions interface support List[int] "
-            "params. This means you can process the prompt firstly, then send the List[int] to v1/completions and consider it as v1/chat/completions "
-            "to use when you use openai api."
-        )
-        tokenizer = llm.get_tokenizer()
-        prompts_new = []
-        for prompt in prompts:
-            input_idx = (
-                tokenizer.build_chat_input(prompt)["input_ids"][0].cpu().tolist()
+        # Try use transformers's apply_chat_template, if chat_template is None, will use defalut template.
+        # For some old models, the default template may cause bad answers. we don't consider this situation,
+        # because the Transformers team is advancing the chat template. For more informatino about it,
+        # please refer to https://huggingface.co/docs/transformers/main/chat_templating
+        try:
+            load_chat_template(llm.get_tokenizer(), args.chat_template)
+            prompts_new = []
+            for prompt in prompts:
+                messages = [{"role": "user", "content": prompt}]
+                text = llm.get_tokenizer().apply_chat_template(
+                    messages, tokenize=False, add_generation_prompt=True
+                )
+                prompts_new.append(text)
+        except:
+            logging.warning(
+                "use tokenizer apply_chat_template function failed, may because of low transformers version...(try use transformers>=4.34.0)"
             )
-            prompts_new.append(input_idx)
+            prompts_new = prompts
 
     # Generate texts from the prompts. The output is a list of RequestOutput objects
     # that contain the prompt, generated text, and other information.
@@ -108,7 +125,6 @@ if __name__ == "__main__":
 
         num_tokens += len(output.outputs[0].token_ids)
         print(f"Prompt: {prompt}\nGenerated text: {generated_text} \n")
-
     num_requests = len(prompts_new)  # 请求的数量
     qps = num_requests / duration_time
     print(f"requests: {num_requests}, QPS: {qps}, tokens: {num_tokens}, Token/s: {num_tokens/duration_time}")

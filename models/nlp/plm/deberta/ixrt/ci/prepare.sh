@@ -26,6 +26,7 @@ cp -r iluvatar-corex-ixrt/tools/optimizer/ ../../../../../toolbox/ByteMLPerf/byt
 
 python3 torch2onnx.py --model_path /root/data/checkpoints/open_deberta/deberta-base-squad.pt --output_path deberta-torch-fp32.onnx
 onnxsim deberta-torch-fp32.onnx deberta-torch-fp32-sim.onnx
+pip3 install onnx==1.18.0
 python3 remove_clip_and_cast.py
 
 mkdir -p data/open_deberta

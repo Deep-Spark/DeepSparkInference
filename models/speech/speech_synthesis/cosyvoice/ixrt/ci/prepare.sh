@@ -15,6 +15,7 @@
 # limitations under the License.
 
 set -x
+apt update
 apt-get install sox libsox-dev
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ 
 pip install onnxsim
@@ -31,6 +32,4 @@ cp ../inference.py ./
 rm -rf pretrained_models
 mkdir -p pretrained_models
 ln -s /root/data/checkpoints/CosyVoice2-0.5B pretrained_models/
-# remove old engine
-rm ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp16.mygpu.plan
 onnxsim ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp32.onnx ./pretrained_models/CosyVoice2-0.5B/flow.decoder.estimator.fp32_sim.onnx
