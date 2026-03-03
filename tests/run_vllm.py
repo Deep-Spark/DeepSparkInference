@@ -190,6 +190,8 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
             arg_str = " ".join(args)
             cmd = f"{gpu_prefix}python3 {script_file} --model ./{model_name} {arg_str} --trust-remote-code --temperature 0.0"
+            if model_name == "glm-4v":
+                cmd = f"{gpu_prefix}python3 glm-4.6v.py"
             return base_script + env_lines + cmd
 
         case "deepseek-ocr" | "minicpm-v-2" | "minicpm-v-4" | "idefics3" | "qwen_vl" | "e5-v":
