@@ -17,3 +17,4 @@
 set -x
 
 cp -r ../../vllm_public_assets/ ./
+pip install transformers==5.0.0rc0
