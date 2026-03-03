@@ -35,7 +35,7 @@ def main(args: Namespace):
     num_tokens = 0
     start_time = time.perf_counter()
     # Generate embedding. The output is a list of EmbeddingRequestOutputs.
-    outputs = llm.encode(prompts)
+    outputs = llm.embed(prompts)
     end_time = time.perf_counter()
     duration_time = end_time - start_time
 

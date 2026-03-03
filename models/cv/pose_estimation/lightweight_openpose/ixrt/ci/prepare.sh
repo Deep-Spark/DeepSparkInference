@@ -25,6 +25,7 @@ else
     echo "Not Support Os"
 fi
 
+pip3 install --no-build-isolation mmcv==1.5.3
 pip install -r requirements.txt
 
 cp -r /root/data/3rd_party/lightweight-human-pose-estimation.pytorch ./

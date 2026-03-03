@@ -100,7 +100,7 @@ def load_and_cache_examples(dataset_dir,
     cached_features_file = os.path.join(dataset_dir, "cached_{}_{}_{}".format("squad_v1.1" if use_v1 else "squad_v2.0", "dev" if evaluate else "train", checkpoint.split("/")[-1]))
 
     if os.path.exists(cached_features_file):
-        features_and_dataset = torch.load(cached_features_file)
+        features_and_dataset = torch.load(cached_features_file, weights_only=False)
         features, dataset, examples = (features_and_dataset["features"], features_and_dataset["dataset"], features_and_dataset["examples"])
     else:
         assert os.path.exists(dataset_dir)

@@ -1,4 +1,4 @@
-onnx==1.18.0
+onnx
 tqdm
 onnxsim
 mmdet==3.3.0

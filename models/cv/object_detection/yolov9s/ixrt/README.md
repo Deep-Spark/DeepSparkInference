@@ -60,6 +60,10 @@ wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt
 
 mkdir -p checkpoints/
 mv yolov9s.pt yolov9.pt
+
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '781 s/map_location=\"cpu\")/map_location=\"cpu\", weights_only=False)/' /usr/local/lib/python3.10/site-packages/ultralytics/nn/tasks.py
+
 python3 export.py --weight yolov9.pt --batch 32
 onnxsim yolov9.onnx ./checkpoints/yolov9.onnx
 ```

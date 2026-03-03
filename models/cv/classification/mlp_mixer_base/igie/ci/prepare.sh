@@ -26,7 +26,7 @@ else
 fi
 
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 # export onnx model
 python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/mlp_mixer/mlp-mixer-base-p16_64xb64_in1k.py --weight mixer-base-p16_3rdparty_64xb64_in1k_20211124-1377e3e0.pth --output mlp_mixer_base.onnx
