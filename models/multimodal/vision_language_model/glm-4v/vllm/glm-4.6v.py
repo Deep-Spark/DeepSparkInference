@@ -24,6 +24,8 @@ model = Glm4vMoeForConditionalGeneration.from_pretrained(
     device_map="auto",
     offload_folder="/mnt/deepspark/data/checkpoints/GLM-4.6V/offload",
     offload_state_dict=True,
+    ignore_mismatched_sizes=True,
+    trust_remote_code=True,
 )
 inputs = processor.apply_chat_template(
     messages,
