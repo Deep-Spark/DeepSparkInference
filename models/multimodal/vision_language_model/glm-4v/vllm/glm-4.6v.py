@@ -8,7 +8,7 @@ messages = [
         "content": [
             {
                 "type": "image",
-                "url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Grayscale_8bits_palette_sample_image.png"
+                "url": "./Grayscale_8bits_palette_sample_image.png"
             },
             {
                 "type": "text",
