@@ -125,7 +125,7 @@ def main():
             module.run()
 
         model_name = "ViT-B-32"
-        model, _, preprocess = open_clip.create_model_and_transforms(model_name, pretrained="openai")
+        model, _, preprocess = open_clip.create_model_and_transforms(model_name, pretrained="./vit_base_patch32_clip_224.openai/open_clip_model.safetensors")
         tokenizer = open_clip.get_tokenizer(model_name)
         
         from open_clip import IMAGENET_CLASSNAMES as imagenet_classnames

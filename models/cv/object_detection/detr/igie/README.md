@@ -13,8 +13,6 @@ DETR (DEtection TRansformer) is a novel approach that views object detection as 
 
 ## Model Preparation
 
-this is a fork version of official detr https://github.com/facebookresearch/detr.git
-
 ### Prepare Resources
 
 Pretrained model: <https://dl.fbaipublicfiles.com/detr/detr-r50-e632da11.pth>
@@ -55,13 +53,15 @@ Contact the Iluvatar administrator to get the missing packages:
 - mmcv-*.whl
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
+git clone https://github.com/facebookresearch/detr.git
+cp -r detr/* ./
 
-pip3 install -r requirements.txt
+# change images size
+sed -i '105 s/size = get_size(image.size, size, max_size)/size = (800, 800)/' ./datasets/transforms.py
+
+pip3 install --no-build-isolation -r requirements.txt
+pip3 install onnxsim
+pip install -U pycocotools
 ```
 
 ### Model Conversion

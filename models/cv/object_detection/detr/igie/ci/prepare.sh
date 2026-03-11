@@ -15,7 +15,16 @@
 # limitations under the License.
 
 set -x
+cp -r /mnt/deepspark/data/repos/detr/* ./
 
-pip3 install -r ../../igie_common/requirements.txt
-pip3 install timm
-python3 export.py --model-name mobilevit_s --output mobilevit_s.onnx
+# change images size
+sed -i '105 s/size = get_size(image.size, size, max_size)/size = (800, 800)/' ./datasets/transforms.py
+
+pip3 install --no-build-isolation -r requirements.txt
+pip3 install onnxsim
+pip install -U pycocotools
+mkdir -p /root/.cache/torch/hub/checkpoints/
+ln -s /mnt/deepspark/data/checkpoints/resnet50-0676ba61.pth  /root/.cache/torch/hub/checkpoints/
+python3 export.py --no_aux_loss --eval --resume detr-r50-e632da11.pth --coco_path ./coco
+
+onnxsim detr.onnx detr_opt.onnx

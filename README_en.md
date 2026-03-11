@@ -108,6 +108,7 @@ inference to be expanded in the future.
 | CSPResNeXt50           | FP16  | [✅](models/cv/classification/cspresnext50/igie)        | [✅](models/cv/classification/cspresnext50/ixrt)           | 4.3.0     |
 | DeiT-tiny              | FP16  | [✅](models/cv/classification/deit_tiny/igie)           | [✅](models/cv/classification/deit_tiny/ixrt)              | 4.3.0     |
 | DenseNet121            | FP16  | [✅](models/cv/classification/densenet121/igie)         | [✅](models/cv/classification/densenet121/ixrt)            | 4.3.0     |
+|                        | INT8  | [✅](models/cv/classification/densenet121/igie)         |                                                            | 4.4.0     |
 | DenseNet161            | FP16  | [✅](models/cv/classification/densenet161/igie)         | [✅](models/cv/classification/densenet161/ixrt)            | 4.3.0     |
 | DenseNet169            | FP16  | [✅](models/cv/classification/densenet169/igie)         | [✅](models/cv/classification/densenet169/ixrt)            | 4.3.0     |
 | DenseNet201            | FP16  | [✅](models/cv/classification/densenet201/igie)         | [✅](models/cv/classification/densenet201/ixrt)            | 4.3.0     |
@@ -142,6 +143,7 @@ inference to be expanded in the future.
 |                        | INT8  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.3.0     |
 | MobileNetV3_Large      | FP16  | [✅](models/cv/classification/mobilenet_v3_large/igie)  |                                                           | 4.3.0     |
 | MobileNetV3_Small      | FP16  | [✅](models/cv/classification/mobilenet_v3/igie)        | [✅](models/cv/classification/mobilenet_v3/ixrt)           | 4.3.0     |
+| Mobilevit_s            | FP16  | [✅](models/cv/classification/mobilevit_s/igie)         |                                                             | 4.4.0     |
 | MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | dev-only  |
 | RegNet_x_16gf          | FP16  | [✅](models/cv/classification/regnet_x_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.3.0     |
@@ -197,6 +199,8 @@ inference to be expanded in the future.
 | VGG19                  | FP16  | [✅](models/cv/classification/vgg19/igie)               |                                                           | 4.3.0     |
 | VGG19_BN               | FP16  | [✅](models/cv/classification/vgg19_bn/igie)            |                                                           | 4.3.0     |
 | ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 |                                                           | 4.3.0     |
+| ViT-B-32               | FP16  | [✅](models/cv/classification/vit_b_32/igie)            |                                                           | 4.4.0     |
+| ViT-L-14               | FP16  | [✅](models/cv/classification/vit_l_14/igie)            |                                                           | 4.4.0     |
 | Wide ResNet50          | FP16  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
 | Wide ResNet101         | FP16  | [✅](models/cv/classification/wide_resnet101/igie)      |                                                           | 4.3.0     |
@@ -229,8 +233,8 @@ inference to be expanded in the future.
 |            | INT8  | [✅](models/cv/object_detection/yolov4/igie16)   | [✅](models/cv/object_detection/yolov4/ixrt16)   | 4.3.0     |
 | YOLOv5m    | FP16  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov5m/igie)     | [✅](models/cv/object_detection/yolov5m/ixrt)     | 4.3.0     |
-| YOLOv5s    | FP16  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
-|            | INT8  |                                                 | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
+| YOLOv5s    | FP16  | [✅](models/cv/object_detection/yolov5s/igie)    | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov5s/igie)    | [✅](models/cv/object_detection/yolov5s/ixrt)    | 4.3.0     |
 | YOLOv6s    | FP16  | [✅](models/cv/object_detection/yolov6s/igie)     | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
 |            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
 | YOLOv7     | FP16  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
@@ -242,12 +246,17 @@ inference to be expanded in the future.
 | YOLOv9s    | FP16  | [✅](models/cv/object_detection/yolov9s/igie)     | [✅](models/cv/object_detection/yolov9s/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov9s/igie)     |                                                   | 4.3.0     |
 | YOLOv10s   | FP16  | [✅](models/cv/object_detection/yolov10s/igie)    | [✅](models/cv/object_detection/yolov10s/ixrt)    | 4.3.0     |
+| YOLOv11m   | FP16  | [✅](models/cv/object_detection/yolov11m/igie)    |                                                   | 4.4.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov11m/igie)     |                                                  | 4.4.0     |
 | YOLOv11n   | FP16  | [✅](models/cv/object_detection/yolov11n/igie)    | [✅](models/cv/object_detection/yolov11n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov11n/igie)     |                                                  | 4.3.0     |
+| YOLOv11s   | FP16  | [✅](models/cv/object_detection/yolov11s/igie)    |                                                   | 4.4.0     |
+|            | INT8  | [✅](models/cv/object_detection/yolov11s/igie)     |                                                  | 4.4.0     |
 | YOLOv12n   | FP16  | [✅](models/cv/object_detection/yolov12n/igie)    | [✅](models/cv/object_detection/yolov12n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov12n/igie)     |                                                   | 4.3.0     |
 | YOLOv13n   | FP16  | [✅](models/cv/object_detection/yolov13n/igie)    | [✅](models/cv/object_detection/yolov13n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov13n/igie)     |                                                   | 4.3.0     |
+| YOLOv26n   | FP16  | [✅](models/cv/object_detection/yolov26n/igie)    |                                                   | 4.4.0     |
 | YOLOXm     | FP16  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
 

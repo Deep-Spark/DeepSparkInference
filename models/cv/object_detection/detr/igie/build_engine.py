@@ -1,4 +1,4 @@
-# Copyright (c) 2024, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2026, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -47,6 +47,8 @@ def parse_args():
 def main():
 
     args = parse_args()
+    if os.path.exists(args.engine_path):
+        return
 
     input_dict = {"tensor": [args.batch_size, 3, 800, 800], "mask": [args.batch_size, 800, 800]}
 

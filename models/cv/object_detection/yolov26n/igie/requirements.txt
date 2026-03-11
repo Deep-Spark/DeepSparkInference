@@ -1,4 +1,5 @@
 tqdm
+onnxsim
 onnx==1.16.0
 huggingface_hub
 ultralytics==8.4.16

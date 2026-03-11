@@ -16,15 +16,7 @@
 
 set -x
 
-pip3 install -r requirements.txt
-pip3 install open_clip_torch
+pip3 install -r ../../igie_common/requirements.txt
 pip3 install timm
-
-# set weights_only=False to be comaptible with pytorch 2.7 
-sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
-
-python3 export.py --model-name ViT-L-14 --weight ViT-L-14.pt --output vit_l_14.onnx
-
-onnxsim vit_l_14.onnx vit_l_14_opt.onnx
-
-ln -s /mnt/deepspark/data/checkpoints/vit_large_patch14_clip_224.openai ./
+python3 export.py --model-name mobilevit_s.cvnets_in1k --output mobilevit_s.onnx
+onnxsim mobilevit_s.onnx mobilevit_s_opt.onnx
