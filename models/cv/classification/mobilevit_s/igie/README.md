@@ -1,4 +1,4 @@
-# Mobilevit_s
+# Mobilevit_s (IGIE)
 
 ## Model Description
 
@@ -14,7 +14,7 @@ The MobileViT-S model is a light-weight, general-purpose vision transformer desi
 
 ### Prepare Resources
 
-Pretrained model: <https://huggingface.co/timm/mobilevit_s.cvnets_in1k/tree/main>
+Pretrained model: <https://huggingface.co/timm/mobilevit_s.cvnets_in1k>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -28,9 +28,9 @@ pip3 install timm
 ### Model Conversion
 
 ```bash
-
+# downloand mobilevit_s.cvnets_in1k from huggingface into ./mobilevit_s.cvnets_in1k
 # export onnxmodel from timm
-python3 export.py --model-name mobilevit_s --output mobilevit_s.onnx
+python3 export.py --model-name mobilevit_s.cvnets_in1k --output mobilevit_s.onnx
 
 # use onnxsim optimize onnx model
 onnxsim mobilevit_s.onnx mobilevit_s_opt.onnx

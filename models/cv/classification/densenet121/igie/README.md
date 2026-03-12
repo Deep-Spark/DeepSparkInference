@@ -47,8 +47,18 @@ bash scripts/infer_densenet121_fp16_accuracy.sh
 bash scripts/infer_densenet121_fp16_performance.sh
 ```
 
+### INT8
+
+```bash
+# Accuracy
+bash scripts/infer_densenet121_int8_accuracy.sh
+# Performance
+bash scripts/infer_densenet121_int8_performance.sh
+```
+
 ## Model Results
 
 | Model       | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| DenseNet121 | 32        | FP16      | 2199.75 | 74.40    | 91.931   |
+| DenseNet121 | 32        | FP16      | 1894.092 | 74.40    | 91.931   |
+| DenseNet121 | 32        | INT8      | 2093.822 | 70.675    | 89.561   |

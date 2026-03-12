@@ -16,7 +16,7 @@
 #    under the License.
 
 batchsize=32
-model_path="mobilevit_s_opt.onnx"
+model_path="yolo26n_opt.onnx"
 datasets_path=${DATASETS_DIR}
 
 # Update arguments
@@ -34,17 +34,16 @@ done
 echo "batch size is ${batchsize}"
 
 # build engine
-python3 ${RUN_DIR}build_engine.py                     \
+python3 ../../igie_common/build_engine.py   \
     --model_path ${model_path}              \
-    --input input:${batchsize},3,288,288    \
+    --input images:${batchsize},3,640,640   \
     --precision fp16                        \
-    --engine_path mobilevit_s_bs_${batchsize}_fp16.so
+    --engine_path yolo26n_bs_${batchsize}_fp16.so
 
 
 # inference
-python3 inference.py                                      \
-    --engine mobilevit_s_bs_${batchsize}_fp16.so  \
-    --batchsize ${batchsize}                              \
-    --input_name input                                    \
-    --datasets ${datasets_path}                           \
-    --perf_only True
+python3 inference.py                          \
+    --engine yolo26n_bs_${batchsize}_fp16.so  \
+    --batchsize ${batchsize}                  \
+    --input_name images                       \
+    --datasets ${datasets_path}

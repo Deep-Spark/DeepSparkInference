@@ -30,10 +30,15 @@ pip3 install timm
 ### Model Conversion
 
 ```bash
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
+
 python3 export.py --model-name ViT-B-32 --weight ViT-B-32.pt --output vit_b_32.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim vit_b_32.onnx vit_b_32_opt.onnx
+
+# download https://huggingface.co/timm/vit_base_patch32_clip_224.openai into ./vit_base_patch32_clip_224.openai
 ```
 
 ## Model Inference
@@ -46,9 +51,9 @@ export DATASETS_DIR=/Path/to/imagenet_val/
 
 ```bash
 # Accuracy
-bash scripts/infer_vit_fp16_accuracy.sh
+bash scripts/infer_vit_b_32_fp16_accuracy.sh
 # Performance
-bash scripts/infer_vit_fp16_performance.sh
+bash scripts/infer_vit_b_32_fp16_performance.sh
 ```
 
 ## Model Results

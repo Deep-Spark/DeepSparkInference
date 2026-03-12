@@ -30,10 +30,15 @@ pip3 install timm
 ### Model Conversion
 
 ```bash
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
+
 python3 export.py --model-name ViT-L-14 --weight ViT-L-14.pt --output vit_l_14.onnx
 
 # Use onnxsim optimize onnx model
 onnxsim vit_l_14.onnx vit_l_14_opt.onnx
+
+# download https://huggingface.co/timm/vit_large_patch14_clip_224.openai into ./vit_large_patch14_clip_224.openai
 ```
 
 ## Model Inference

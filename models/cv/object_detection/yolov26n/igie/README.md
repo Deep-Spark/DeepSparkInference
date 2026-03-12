@@ -1,20 +1,20 @@
-# YOLOv11m (IGIE)
+# YOLOv26n (IGIE)
 
 ## Model Description
 
-YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object detection model released by Ultralytics. Building upon the advancements of previous YOLO models, such as YOLOv5 and YOLOv8, YOLOv11 introduces comprehensive upgrades to further enhance performance, flexibility, and usability. It is a versatile deep learning model designed for multi-task applications, supporting object detection, instance segmentation, image classification, keypoint pose estimation, and rotated object detection.
+YOLOv26 is the latest generation of real-time detection models released by Ultralytics in 2026. Its core evolution lies in the native NMS-Free design, enabling direct end-to-end output from model to prediction. By incorporating the MuSGD optimizer and STAL strategy, it significantly streamlines post-processing logic while further enhancing inference speed and small object detection precision.
 
 ## Supported Environments
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.4.0 | 26.03 |
+| MR-V100 | 4.4.0     |  26.03  |
 
 ## Model Preparation
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11m.pt>
+Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt>
 
 Dataset:
 
@@ -47,20 +47,20 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-*
-
 ```bash
 pip3 install -r requirements.txt
-pip3 install mmcv-*.whl
 ```
 
 ## Model Conversion
 
 ```bash
-python3 export.py --weight yolo11m.pt --batch 32
-# Make sure numpy < 2.0
+# download the weight from the recommend link
+wget https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt
+
+python3 export.py --weight yolo26n.pt --batch 32
+
+# Use onnxsim optimize onnx model
+onnxsim yolo26n.onnx yolo26n_opt.onnx
 ```
 
 ## Model Inference
@@ -73,27 +73,17 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov11m_fp16_accuracy.sh
+bash scripts/infer_yolov26n_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov11m_fp16_performance.sh
-```
-
-### INT8
-
-```bash
-# Accuracy
-bash scripts/infer_yolov11m_int8_accuracy.sh
-# Performance
-bash scripts/infer_yolov11m_int8_performance.sh
+bash scripts/infer_yolov26n_fp16_performance.sh
 ```
 
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | -------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv11m | 32        | FP16      | 507.64  | 0.681   | 0.513        |
-| YOLOv11m | 32        | INT8      | 835.60  | 0.665   | 0.488        |
+| YOLOv26n | 32        | FP16      | 1344.11 |  0.558  | 0.402        |
 
 ## References
 
-YOLOv11: <https://docs.ultralytics.com/zh/models/yolo11/>
+- [YOLOv26](https://github.com/ultralytics/ultralytics)

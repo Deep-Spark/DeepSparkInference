@@ -20,6 +20,11 @@ pip3 install -r requirements.txt
 pip3 install open_clip_torch
 pip3 install timm
 
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
+
 python3 export.py --model-name ViT-B-32 --weight ViT-B-32.pt --output vit_b_32.onnx
 
 onnxsim vit_b_32.onnx vit_b_32_opt.onnx
+
+ln -s /mnt/deepspark/data/checkpoints/vit_base_patch32_clip_224.openai ./

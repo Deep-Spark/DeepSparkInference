@@ -15,16 +15,16 @@
 # limitations under the License.
 
 set -x
+cp -r /mnt/deepspark/data/repos/detr/* ./
 
-pip3 install -r requirements.txt
-pip3 install open_clip_torch
-pip3 install timm
+# change images size
+sed -i '105 s/size = get_size(image.size, size, max_size)/size = (800, 800)/' ./datasets/transforms.py
 
-# set weights_only=False to be comaptible with pytorch 2.7 
-sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
+pip3 install --no-build-isolation -r requirements.txt
+pip3 install onnxsim
+pip install -U pycocotools
+mkdir -p /root/.cache/torch/hub/checkpoints/
+ln -s /mnt/deepspark/data/checkpoints/resnet50-0676ba61.pth  /root/.cache/torch/hub/checkpoints/
+python3 export.py --no_aux_loss --eval --resume detr-r50-e632da11.pth --coco_path ./coco
 
-python3 export.py --model-name ViT-L-14 --weight ViT-L-14.pt --output vit_l_14.onnx
-
-onnxsim vit_l_14.onnx vit_l_14_opt.onnx
-
-ln -s /mnt/deepspark/data/checkpoints/vit_large_patch14_clip_224.openai ./
+onnxsim detr.onnx detr_opt.onnx

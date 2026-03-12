@@ -1,8 +1,8 @@
-# YOLOv11m (IGIE)
+# YOLOv5s (IGIE)
 
 ## Model Description
 
-YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object detection model released by Ultralytics. Building upon the advancements of previous YOLO models, such as YOLOv5 and YOLOv8, YOLOv11 introduces comprehensive upgrades to further enhance performance, flexibility, and usability. It is a versatile deep learning model designed for multi-task applications, supporting object detection, instance segmentation, image classification, keypoint pose estimation, and rotated object detection.
+The YOLOv5 architecture is designed for efficient and accurate object detection tasks in real-time scenarios. It employs a single convolutional neural network to simultaneously predict bounding boxes and class probabilities for multiple objects within an image.
 
 ## Supported Environments
 
@@ -14,7 +14,7 @@ YOLOv11 is the latest generation of the YOLO (You Only Look Once) series object 
 
 ### Prepare Resources
 
-Pretrained model: <https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11m.pt>
+Pretrained model: <https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt>
 
 Dataset:
 
@@ -47,20 +47,20 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-*
-
 ```bash
 pip3 install -r requirements.txt
-pip3 install mmcv-*.whl
 ```
 
-## Model Conversion
+### Model Conversion
 
 ```bash
-python3 export.py --weight yolo11m.pt --batch 32
+# download the weight from the recommend link
+wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt
+
+python3 export.py --weight yolov5s.pt --output yolov5s.onnx
 # Make sure numpy < 2.0
+# Use onnxsim optimize onnx model
+onnxsim yolov5s.onnx yolov5s_opt.onnx
 ```
 
 ## Model Inference
@@ -73,27 +73,23 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov11m_fp16_accuracy.sh
+bash scripts/infer_yolov5s_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov11m_fp16_performance.sh
+bash scripts/infer_yolov5s_fp16_performance.sh
 ```
 
 ### INT8
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov11m_int8_accuracy.sh
+bash scripts/infer_yolov5s_int8_accuracy.sh
 # Performance
-bash scripts/infer_yolov11m_int8_performance.sh
+bash scripts/infer_yolov5s_int8_performance.sh
 ```
 
 ## Model Results
 
-| Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
-| -------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv11m | 32        | FP16      | 507.64  | 0.681   | 0.513        |
-| YOLOv11m | 32        | INT8      | 835.60  | 0.665   | 0.488        |
-
-## References
-
-YOLOv11: <https://docs.ultralytics.com/zh/models/yolo11/>
+| Model   | BatchSize | Precision | FPS      | MAP@0.5 | MAP@0.5:0.95 |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| YOLOv5s | 32        | FP16      | 1433.13  | 0.567   | 0.374        |
+| YOLOv5s | 32        | INT8      | 2832.94  | 0.556   | 0.357        |

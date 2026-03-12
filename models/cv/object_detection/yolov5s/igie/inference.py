@@ -13,18 +13,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import sys
+import os
 import argparse
 import tvm
 import torch
-import torchvision
 import numpy as np
 from tvm import relay
 from tqdm import tqdm
 
-import open_clip
-from timm.data import create_dataset, create_loader
-
+from utils import COCO2017Dataset, COCO2017Evaluator
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -68,6 +65,16 @@ def parse_args():
                         type=float,
                         default=None,
                         help="Model inference FPS target.")
+    
+    parser.add_argument("--conf",
+                        type=float,
+                        default=0.001,
+                        help="confidence threshold.")
+    
+    parser.add_argument("--iou",
+                        type=float,
+                        default=0.65,
+                        help="iou threshold.")
 
     parser.add_argument("--perf_only",
                         type=bool,
@@ -78,30 +85,23 @@ def parse_args():
 
     return args
 
-def get_topk_accuracy(pred, label):
-    if isinstance(pred, np.ndarray):
-        pred = torch.from_numpy(pred)
-        
-    if isinstance(label, np.ndarray):
-        label = torch.from_numpy(label)
-    
-    top1_acc = 0
-    top5_acc = 0
-    for idx in range(len(label)):
-        label_value = label[idx]
-        if label_value == torch.topk(pred[idx].float(), 1).indices.data:
-            top1_acc += 1
-            top5_acc += 1
+def get_dataloader(data_path, label_path, batch_size, num_workers):
 
-        elif label_value in torch.topk(pred[idx].float(), 5).indices.data:
-            top5_acc += 1
-            
-    return top1_acc, top5_acc
+    dataset = COCO2017Dataset(data_path, label_path, image_size=640)
+
+    dataloader = torch.utils.data.DataLoader(dataset,
+                                    batch_size=batch_size,
+                                    drop_last=False,
+                                    num_workers=num_workers,
+                                    collate_fn=dataset.collate_fn)
+    return dataloader
 
 def main():
     args = parse_args()
 
     batch_size = args.batchsize
+    data_path = os.path.join(args.datasets, "images", "val2017")
+    label_path = os.path.join(args.datasets, "annotations", "instances_val2017.json")
 
     # create iluvatar target & device
     target = tvm.target.iluvatar(model="MR", options="-libs=cudnn,cublas,ixinfer")    
@@ -124,62 +124,37 @@ def main():
         for _ in range(args.warmup):
             module.run()
 
-        model_name = "ViT-B-32"
-        model, _, preprocess = open_clip.create_model_and_transforms(model_name, pretrained="./vit_base_patch32_clip_224.openai/open_clip_model.safetensors")
-        tokenizer = open_clip.get_tokenizer(model_name)
+        # get dataloader
+        dataloader = get_dataloader(data_path, label_path, batch_size, args.num_workers)
+
+        # get evaluator
+        evaluator = COCO2017Evaluator(label_path=label_path,
+                                    conf_thres=args.conf,
+                                    iou_thres=args.iou,
+                                    image_size=640)
         
-        from open_clip import IMAGENET_CLASSNAMES as imagenet_classnames
-
-        with torch.no_grad():
-            texts = tokenizer([f"a photo of a {c}" for c in imagenet_classnames])
-            text_features = model.encode_text(texts)
-            classifier_weights = (text_features / text_features.norm(dim=-1, keepdim=True)).cpu().numpy()
-
-        dataset = create_dataset('imagenet', root=args.datasets, split='validation', transform=preprocess)
-        dataloader = create_loader(dataset, input_size=(3, 224, 224), batch_size=batch_size, is_training=False, use_prefetcher=False)
-        
-        top1_acc = 0
-        top5_acc = 0
-        total_num = 0
-
-        for image, label in tqdm(dataloader):
-
-            image = image.cpu().numpy()
-            lable = label.cpu().numpy()
-
-            # pad the last batch
+        for all_inputs in tqdm(dataloader):
+            image = all_inputs[0]
             pad_batch = len(image) != batch_size
-            
             if pad_batch:
                 origin_size = len(image)
                 image = np.resize(image, (batch_size, *image.shape[1:]))
-
+            
             module.set_input(args.input_name, tvm.nd.array(image, device))
-
-            # run inference
+            
             module.run()
-            
-            pred = module.get_output(0).asnumpy()
 
-            if pad_batch:
-                pred = pred[:origin_size]
-            
-            pred /= np.linalg.norm(pred, axis=-1, keepdims=True)
-
-            pred = 100.0 * np.dot(pred, classifier_weights.T)
-
-            # get batch accuracy
-            batch_top1_acc, batch_top5_acc = get_topk_accuracy(pred, label)
-
-            top1_acc += batch_top1_acc
-            top5_acc += batch_top5_acc
-            total_num += batch_size
-
-        result_stat = {}
-        result_stat["acc@1"] = round(top1_acc / total_num * 100.0, 3)
-        result_stat["acc@5"] = round(top5_acc / total_num * 100.0, 3)
-
-        print(f"\n* Top1 acc: {result_stat['acc@1']} %, Top5 acc: {result_stat['acc@5']} %")
-
+            all_outputs = []
+            num_outputs = module.get_num_outputs()
+            for i in range(num_outputs):
+                output = module.get_output(i).asnumpy()
+                if pad_batch:
+                    output = output[:origin_size]
+                all_outputs.append(output)
+               
+            evaluator.evaluate(all_outputs[0], all_inputs)
+    
+        evaluator.summary()
+    
 if __name__ == "__main__":
     main()
