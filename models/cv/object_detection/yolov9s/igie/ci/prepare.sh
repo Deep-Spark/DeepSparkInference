@@ -27,4 +27,7 @@ fi
 
 pip3 install -r requirements.txt
 
+# set weights_only=False to be comaptible with pytorch 2.7
+sed -i '781 s/map_location=\"cpu\")/map_location=\"cpu\", weights_only=False)/' /usr/local/lib/python3.10/site-packages/ultralytics/nn/tasks.py
+
 python3 export.py --weight yolov9s.pt --batch 32

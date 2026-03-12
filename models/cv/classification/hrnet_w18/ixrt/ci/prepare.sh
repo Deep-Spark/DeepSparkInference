@@ -26,7 +26,7 @@ else
 fi
 
 pip install -r ../../ixrt_common/requirements.txt
-pip install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 mkdir checkpoints
 python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output checkpoints/hrnet_w18.onnx

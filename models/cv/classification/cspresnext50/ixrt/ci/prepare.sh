@@ -17,7 +17,7 @@
 set -x
 
 pip install -r ../../ixrt_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
 
 python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/cspnet/cspresnext50_8xb32_in1k.py --weight cspresnext50_3rdparty_8xb32_in1k_20220329-2cc84d21.pth --output cspresnext50.onnx

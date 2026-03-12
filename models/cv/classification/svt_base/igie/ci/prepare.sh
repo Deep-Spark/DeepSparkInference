@@ -26,7 +26,7 @@ else
 fi
 
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 # export onnx model
 python3 ../../igie_common/export_mmcls.py --cfg mmpretrain/configs/twins/twins-svt-base_8xb128_in1k.py --weight twins-svt-base_3rdparty_8xb128_in1k_20220126-e31cc8e9.pth --output svt_base.onnx

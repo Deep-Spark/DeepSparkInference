@@ -28,7 +28,7 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r ../../ixrt_common/requirements.txt
-pip3 install mmcls==0.24.0 mmcv==1.5.3
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion

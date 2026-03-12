@@ -29,7 +29,9 @@ yum install -y mesa-libGL
 apt install -y libgl1-mesa-glx
 
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0 mmengine
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0 mmengine
+# set weights_only=False to be comaptible with pytorch 2.7 
+sed -i '318 s/map_location)/map_location, weights_only=False)/' /usr/local/lib/python3.10/site-packages/mmcv/runner/checkpoint.py
 ```
 
 ### Model Conversion

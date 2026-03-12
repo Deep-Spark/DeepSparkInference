@@ -23,7 +23,7 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 
 ```bash
 pip3 install -r ../../igie_common/requirements.txt
-pip3 install mmcv==1.5.3 mmcls==0.24.0
+pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 ```
 
 ### Model Conversion

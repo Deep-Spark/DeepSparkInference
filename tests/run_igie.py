@@ -162,13 +162,14 @@ def run_clf_testcase(model, batch_size, whl_url):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    mmcv_whl = whl_url.replace("apps", "add-on")
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
     if model["category"] == "cv/semantic_segmentation":
         prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+        pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
         """
     if model_name in ["resnet50_sample", "vgg16_sample"]:
         prepare_script += f"""
@@ -276,6 +277,7 @@ def run_detec_testcase(model, batch_size, whl_url):
     d_url = model["download_url"]
     checkpoint_n = d_url.split("/")[-1]
     dataset_n = model["datasets"].split("/")[-1]
+    mmcv_whl = whl_url.replace("apps", "add-on")
     prepare_script = f"""
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
@@ -283,7 +285,7 @@ def run_detec_testcase(model, batch_size, whl_url):
     """
 
     prepare_script += f"""
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+    pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
     """
 
     if platform.machine() == "aarch64":
