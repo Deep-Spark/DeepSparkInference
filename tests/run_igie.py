@@ -598,7 +598,7 @@ def run_nlp_testcase(model, batch_size):
     """
     if model_name == "transformer" and platform.machine() == "aarch64":
         base_script += """
-        export LD_PRELOAD=$(find /usr/local/lib/python3.10/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
+        export LD_PRELOAD=$(find /usr/local/lib/python3.*/site-packages/scikit_learn.libs -name "libgomp*.so.1.0.0" | head -n1)
         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
         """
     for prec in model["precisions"]:
