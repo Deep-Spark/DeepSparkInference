@@ -9,6 +9,7 @@ Qwen2.5-VL is not only proficient in recognizing common objects such as flowers,
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
 | MR-V100 | 4.3.0     |  25.09  |
+| MR-V100 | 4.4.0     |  26.03  |
 
 ## Model Preparation
 
@@ -30,6 +31,49 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 export VLLM_ASSETS_CACHE=../vllm/
 export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
 python3 offline_inference_vision_language.py --model /path/to/Qwen2.5-VL-3B-Instruct/ -tp 4 --trust-remote-code --temperature 0.0 --max-token 256
+```
+
+### Qwen2.5-VL-32B-Instruct (W8A8/W4A16)
+
+#### Performance Test
+
+1. Set environment variables:
+```bash
+export VLLM_ENFORCE_CUDA_GRAPH=1
+```
+
+2. Start server:
+```bash
+vllm serve /path/to/model  --max-num-seqs 1 --max-model-len 98304 --limit_mm_per_prompt '{"image": 5}' --disable-cascade-attn --tensor-parallel-size 4 --gpu_memory_utilization 0.9 --pipeline-parallel-size 1 --host 0.0.0.0 --port 8000  --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "level": 0}'
+```
+
+3. Run client:
+```bash
+# Use the pre-copied guidellm
+cd guidellm && pip install .
+pip install beautifulsoup4
+cd ..
+guidellm --data "prompt_tokens=512,generated_tokens=512,images=1,width=1770,height=1180" --data-type emulated --model /path/to/model --target "http://localhost:8000/v1" --max-requests 1
+```
+
+### Qwen2.5-VL-72B-Instruct (W4A16)
+
+#### Performance Test
+
+1. Set environment variables:
+```bash
+export VLLM_ENFORCE_CUDA_GRAPH=1
+```
+
+2. Start server:
+```bash
+vllm serve /path/to/model  --max-num-seqs 1 --max-model-len 98304 --limit_mm_per_prompt '{"image": 5}' --disable-cascade-attn --tensor-parallel-size 8 --gpu_memory_utilization 0.9 --pipeline-parallel-size 1 --host 0.0.0.0 --port 8000 --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "level": 0}'
+```
+
+3. Run client:
+```bash
+# Same as 32B version
+guidellm --data "prompt_tokens=512,generated_tokens=512,images=1,width=1770,height=1180" --data-type emulated --model /path/to/model --target "http://localhost:8000/v1" --max-requests 1
 ```
 
 ## Model Results

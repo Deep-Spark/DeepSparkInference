@@ -26,7 +26,7 @@
 #### 模型与算法
 
 * 新增了 16 个推理小模型示例，其中支持 IGIE 推理引擎的 10 个，支持 ixRT 推理引擎的 6 个。
-* 新增了 7 个大语言模型推理示例，其中 5 个使用 [vLLM](https://github.com/vllm-project/vllm)，2 个使用 ixRT。
+* 新增了 18 个大语言模型推理示例，其中 12 个使用 [vLLM](https://github.com/vllm-project/vllm)，6 个使用 [xDiT](https://github.com/xdit-team/xDiT)，2 个使用 ixRT。
 
 <table>
   <th colspan=3>IGIE</th>
@@ -63,19 +63,34 @@
   </tr>
   <th colspan=3>LLM</th>
   <tr>
+      <td>DeepSeek-V3.1 (vLLM)</td>
       <td>DeepSeek-VL2 (vLLM)</td>
       <td>DeepSeek-OCR (vLLM)</td>
-      <td>MiniCPM-V-4 (vLLM)</td>
   </tr>
   <tr>
       <td>InternLM3 (vLLM)</td>
+      <td>MiniCPM-V-4 (vLLM)</td>
       <td>Qwen3-8B (vLLM)</td>
-      <td>Stable Diffusion 2.1 (ixRT)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-32B (vLLM)</td>
+      <td>Qwen3-30B-A3B (vLLM)</td>
+      <td>Qwen3-235B-A22B (vLLM)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-Next-80B (vLLM)</td>
+      <td>FLUX.1-Dev(xDiT)</td>
+      <td>HunyuanVideo(xDiT)</td>
+  </tr>
+  <tr>
+      <td>Wan2.1-T2V-14B(xDiT)</td>
+      <td>Wan2.2-TI2V-5B(xDiT)</td>
+      <td>HunyuanDiT-v1.2(xDiT)</td>
   </tr>
     <tr>
+      <td>SD3-Medium(xDiT)</td>
       <td>CosyVoice (ixRT)</td>
-      <td></td>
-      <td></td>
+      <td>Stable Diffusion 2.1 (ixRT)</td>
   </tr>
 </table>
 

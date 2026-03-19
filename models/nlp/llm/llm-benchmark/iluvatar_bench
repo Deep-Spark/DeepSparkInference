@@ -1,0 +1,181 @@
+#!/usr/local/bin/python3
+
+import argparse
+from argparse import ArgumentParser
+
+from evalscope import __version__
+from evalscope.cli.base import CLICommand
+
+from bench_serving import define_sgl_bench_args, run_benchmark
+
+class PerfBenchCMD(CLICommand):
+    name = 'perf'
+
+    def __init__(self, args):
+        self.args = args
+
+    @classmethod
+    def subparser_func(cls, args):
+        """
+        Function which will be called for a specific sub parser.
+        This method creates an instance of PerfBenchCMD from parsed arguments.
+        """
+        return cls(args)
+
+    @staticmethod
+    def define_args(parsers: ArgumentParser):
+        """ define args for create pipeline template command.
+        """
+        from evalscope.perf.arguments import add_argument
+
+        parser = parsers.add_parser(PerfBenchCMD.name)
+        add_argument(parser)
+        parser.set_defaults(
+            max_tokens=1024,
+            min_tokens=1024,
+            min_prompt_length=1024,
+            max_prompt_length=1024,
+            api='openai',
+            url='http://127.0.0.1:30000/v1/completions'
+        )
+        parser.set_defaults(func=PerfBenchCMD.subparser_func)
+
+    def execute(self):
+        try:
+            from evalscope.perf.main import run_perf_benchmark
+        except ImportError as e:
+            raise ImportError(
+                f'Failed to import run_perf_benchmark from evalscope.perf.main, due to {e}. '
+                "Please run `pip install 'evalscope[perf]'`."
+            )
+
+        run_perf_benchmark(self.args)
+
+
+class EvalCMD(CLICommand):
+    name = 'eval'
+
+    def __init__(self, args):
+        self.args = args
+
+    @classmethod
+    def subparser_func(cls, args):
+        """
+        Function which will be called for a specific sub parser.
+        This method creates an instance of EvalCMD from parsed arguments.
+        """
+        return cls(args)
+
+    @staticmethod
+    def define_args(parsers: ArgumentParser):
+        """ define args for create pipeline template command.
+        """
+        from evalscope.arguments import add_argument
+
+        parser = parsers.add_parser(EvalCMD.name)
+        add_argument(parser)
+        parser.set_defaults(
+            api_key='EMPTY',
+            api_url='http://127.0.0.1:30000/v1',
+            eval_type='server'
+        )
+        parser.set_defaults(func=EvalCMD.subparser_func)
+
+    def execute(self):
+        from evalscope.run import run_task
+
+        run_task(self.args)
+
+
+class StartAppCMD(CLICommand):
+    name = 'app'
+
+    def __init__(self, args):
+        self.args = args
+
+    @classmethod
+    def subparser_func(cls, args):
+        """
+        Function which will be called for a specific sub parser.
+        This method creates an instance of StartAppCMD from parsed arguments.
+        """
+        return cls(args)
+
+    @staticmethod
+    def define_args(parsers: ArgumentParser):
+        """ define args for create pipeline template command.
+        """
+        from evalscope.app import add_argument
+
+        parser = parsers.add_parser(StartAppCMD.name)
+        add_argument(parser)
+        parser.set_defaults(func=StartAppCMD.subparser_func)
+
+    def execute(self):
+        try:
+            from evalscope.app import create_app
+        except ImportError as e:
+            raise ImportError(
+                f'Failed to import create_app from evalscope.app, due to {e}. '
+                "Please run `pip install 'evalscope[app]'`."
+            )
+
+        create_app(self.args)
+
+class SGLPerfCMD(CLICommand):
+    name = 'sgl-perf'
+
+    def __init__(self, args):
+        self.args = args
+
+    @classmethod
+    def subparser_func(cls, args):
+        """
+        Function which will be called for a specific sub parser.
+        """
+        return cls(args)
+
+    @staticmethod
+    def define_args(parsers: ArgumentParser):
+        """ define args for sgl-perf command. """
+
+        parser = parsers.add_parser(SGLPerfCMD.name, 
+                                    help='Run SGLang performance benchmark (bench_serving.py)')
+
+        define_sgl_bench_args(parser)
+
+        parser.set_defaults(func=SGLPerfCMD.subparser_func)
+
+    def execute(self):
+        if run_benchmark is None:
+            raise ImportError(
+                "Failed to import 'run_benchmark' from 'bench_serving'. "
+                "Command 'sgl-perf' cannot execute."
+            )
+
+        run_benchmark(self.args)
+
+def run_cmd():
+    parser = argparse.ArgumentParser('EvalScope Command Line tool', usage='evalscope <command> [<args>]')
+    parser.add_argument('-v', '--version', action='version', version=f'evalscope {__version__}')
+    subparsers = parser.add_subparsers(help='EvalScope command line helper.')
+
+    PerfBenchCMD.define_args(subparsers)
+    EvalCMD.define_args(subparsers)
+    StartAppCMD.define_args(subparsers)
+
+    # sgl-perf
+    SGLPerfCMD.define_args(subparsers)
+
+    args = parser.parse_args()
+
+    if not hasattr(args, 'func'):
+        parser.print_help()
+        exit(1)
+
+    cmd = args.func(args)
+    cmd.execute()
+
+
+if __name__ == '__main__':
+    run_cmd()
