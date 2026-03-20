@@ -9,6 +9,7 @@ Step3 is cutting-edge multimodal reasoning model—built on a Mixture-of-Experts
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
 | MR-V100 | dev-only | 25.12 |
+| MR-V100 | 4.4.0 | 26.03 |
 
 ## Model Preparation
 
@@ -32,6 +33,51 @@ pip3 install -r requirements.txt
 ```
 
 ## Model Inference
+
+### Inference with W4A8
+
+#### Performance Test
+
+1. Set environment variables:
+```bash
+export VLLM_W8A8_MOE_USE_W4A8=1
+export VLLM_ENFORCE_CUDA_GRAPH=1
+```
+
+2. Start server:
+```bash
+vllm serve /path/to/model --limit-mm-per-prompt '{"image":5}'  --gpu-memory-utilization 0.92 --port 12347 --trust-remote-code --disable-cascade-attn  --no-enable-prefix-caching  --max-model-len 65536   --tensor-parallel-size 4 --pipeline-parallel-size 4  --max-num-seqs 1024  --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "level": 0}'
+```
+
+3. Run client (Input1024, Output1024, BS10):
+```bash
+vllm bench serve --num-prompts 4*[max-concurrency] --model /path/to/model --dataset-name random --random-input-len 1024 --random-output-len 1024 --max-concurrency 10 --host 0.0.0.0 --port 12347  --disable-tqdm --ignore-eos
+```
+
+#### Accuracy Test
+
+4. The evaluation scripts are already included in this directory:
+```bash
+# eval_dataset.py and eval_dataset_w8a8.py are in the current directory
+pip install fire
+```
+
+5. Set environment variables:
+```bash
+export VLLM_W8A8_MOE_USE_W4A8=1
+export VLLM_ENFORCE_CUDA_GRAPH=1
+```
+
+6. Start server:
+```bash
+vllm serve /path/to/model --limit-mm-per-prompt '{"image":5}'  --gpu-memory-utilization 0.92 --port 12347 --trust-remote-code --disable-cascade-attn  --no-enable-prefix-caching  --max-model-len 65536   --tensor-parallel-size 4 --pipeline-parallel-size 4  --max-num-seqs 1024  --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "level": 0}'
+```
+
+7. Run client (MMMU dataset):
+```bash
+pip install fire
+python3 eval_dataset.py --dataset_name MMMU_BETA --model /path/to/model  --ip 127.0.0.1 --port 12347 --num_workers 8
+```
 
 ### Inference with w8a8
 #### Starting w8a8 server

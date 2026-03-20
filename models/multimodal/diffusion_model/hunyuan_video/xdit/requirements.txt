@@ -1,0 +1,9 @@
+yunchang
+diffusers
+ftfy
+transformers>=4.55
+numpy==1.26.4
+imageio
+imageio-ffmpeg
+distvae
+

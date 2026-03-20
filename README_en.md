@@ -46,7 +46,7 @@ inference to be expanded in the future.
 | DeepSeek-R1-Distill-Llama-8B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Llama-70B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm)             | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-1.5B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm)             | 4.3.0     |
-| DeepSeek-R1-Distill-Qwen-7B   | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.3.0     |
+| DeepSeek-R1-Distill-Qwen-7B   | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.4.0     |
 | DeepSeek-R1-Distill-Qwen-14B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-32B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
 | DeepSeek-OCR                  | `Transformers` | [✅](models/multimodal/vision_language_model/deepseek-ocr/transformers) | 4.3.0 |
@@ -71,7 +71,7 @@ inference to be expanded in the future.
 | Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
 | Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/vllm)          | 4.3.0     |
 | Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/vllm)         | 4.3.0     |
-| Qwen2.5-VL                    | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_5_vl/vllm)       | 4.3.0     |
+| Qwen2.5-VL                    | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_5_vl/vllm)       | 4.4.0     |
 | Qwen1.5-7B                    | `vLLM`       | [✅](models/nlp/llm/qwen1.5-7b/vllm)                                | 4.3.0     |
 | Qwen1.5-7B                    | `TGI`        | [✅](models/nlp/llm/qwen1.5-7b/tgi)                                 | 4.3.0     |
 | Qwen1.5-14B                   | `vLLM`       | [✅](models/nlp/llm/qwen1.5-14b/vllm)                               | 4.3.0     |
@@ -80,9 +80,14 @@ inference to be expanded in the future.
 | Qwen2-7B Instruct             | `vLLM`       | [✅](models/nlp/llm/qwen2-7b/vllm)                                  | 4.3.0     |
 | Qwen2-72B Instruct            | `vLLM`       | [✅](models/nlp/llm/qwen2-72b/vllm)                                 | 4.3.0     |
 | Qwen3_Moe                     | `vLLM`       | [✅](models/nlp/llm/qwen3-235b/vllm)                                | dev-only  |
-| Qwen3-8B                      | `vLLM`       | [✅](models/nlp/llm/qwen3/vllm)                                     | 4.4.0     |
+| Qwen3-8B                      | `vLLM`       | [✅](models/nlp/llm/qwen3-8b/vllm)                                  | 4.4.0     |
+| Qwen3-32B                     | `vLLM`       | [✅](models/nlp/llm/qwen3-32b/vllm)                                 | 4.4.0     |
+| Qwen3-30B-A3B-Thinking        | `vLLM`       | [✅](models/nlp/llm/qwen3-30b-a3b-thinking/vllm)                   | 4.4.0     |
+| Qwen3-235B-A22B-Thinking      | `vLLM`       | [✅](models/nlp/llm/qwen3-235b-a22b-thinking/vllm)                 | 4.4.0     |
+| Qwen3-Next-80B-A3B            | `vLLM`       | [✅](models/nlp/llm/qwen3-next-80b-a3b/vllm)                       | 4.4.0     |
+| DeepSeek-V3.1                 | `vLLM`       | [✅](models/nlp/llm/deepseek-v3.1/vllm)                            | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
-| Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | dev-only  |
+| Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | 4.4.0     |
 | Ultravox                      | `vLLM`       | [✅](models/speech/asr/ultravox/vllm)                               | 4.3.0     |
 | Whisper                       | `vLLM`       | [✅](models/speech/asr/whisper/vllm/)                               | 4.3.0     |
 | XLMRoberta                    | `vLLM`       | [✅](models/multimodal/vision_language_model/xlmroberta/vllm)       | 4.3.0     |
@@ -332,6 +337,12 @@ inference to be expanded in the future.
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
 | Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/diffusers)  | 4.4.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |
+| FLUX.1-Dev          | xDiT   | [✅](models/multimodal/diffusion_model/flux.1-dev/xdit)                 | 4.4.0     |
+| HunyuanVideo        | xDiT   | [✅](models/multimodal/diffusion_model/hunyuan_video/xdit)              | 4.4.0     |
+| Wan2.1-T2V-14B      | xDiT   | [✅](models/multimodal/diffusion_model/wan2.1-t2v-14b/xdit)            | 4.4.0     |
+| Wan2.2-TI2V-5B      | xDiT   | [✅](models/multimodal/diffusion_model/wan2.2-ti2v-5b/xdit)            | 4.4.0     |
+| HunyuanDiT-v1.2     | xDiT   | [✅](models/multimodal/diffusion_model/hunyuanDit-v1.2/xdit)           | 4.4.0     |
+| SD3-Medium          | xDiT   | [✅](models/multimodal/diffusion_model/stable-diffusion-3-medium/xdit) | 4.4.0     |
 ### NLP
 
 #### PLM (Pre-trained Language Model)

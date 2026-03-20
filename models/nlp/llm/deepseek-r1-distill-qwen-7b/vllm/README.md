@@ -10,6 +10,7 @@ based on Qwen2.5 and Llama3 series to the community.
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
+| MR-V100 | 4.4.0 | 26.03 |
 | MR-V100 | 4.3.0 | 25.09 |
 | MR-V100 | 4.2.0 | 25.03 |
 
@@ -47,6 +48,31 @@ python3 offline_inference.py --model ./data/DeepSeek-R1-Distill-Qwen-7B --max-to
 
 ```bash
 vllm serve data/DeepSeek-R1-Distill-Qwen-7B --tensor-parallel-size 2 --max-model-len 32768 --enforce-eager --trust-remote-code
+```
+
+### Inference with W4A8
+
+#### Performance Test
+
+1. Use the pre-copied ``llm-benchmark``:
+```bash
+cd ../../llm-benchmark
+pip3 install -r requirements.txt
+```
+
+2. Set environment variables:
+```bash
+export VLLM_ENFORCE_CUDA_GRAPH=1
+```
+
+4. Start server (DeepSeek-R1-Distill-Qwen-7B BF16):
+```bash
+vllm serve /path/to/model --trust-remote-code --pipeline-parallel-size=1 --tensor-parallel-size=1 --max-model-len 20480 --gpu-memory-utilization 0.9 --disable-cascade-attn --no-enable-prefix-caching --no-enable_chunked_prefill --compilation-config '{"cudagraph_mode": "FULL_DECODE_ONLY", "level": 0}'
+```
+
+5. Run client (Input2048, Output1024, BS8):
+```bash
+./iluvatar_bench sgl-perf --backend vllm --host 0.0.0.0 --port 8000 --model /path/to/model --dataset-name random --dataset-path /path/to/ShareGPT_V3_unfiltered_cleaned_split.json --num-prompts 8 --random-input 2048 --max-concurrency 8 --tokenize-prompt --random-range-ratio 1 --random-output 1024
 ```
 
 ## Model Results

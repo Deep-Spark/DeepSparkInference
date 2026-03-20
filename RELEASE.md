@@ -9,6 +9,7 @@
 
 | Release Date | Release Version | IXUCA SDK |
 |--------------|-----------------|-----------|
+| Mar 2026     | 26.03           | v4.4.0    |
 | Dec 2025     | 25.12           | v4.3.0    |
 | Sep 2025     | 25.09           | v4.3.0    |
 | Jun 2025     | 25.06           | v4.2.0    |
@@ -19,6 +20,104 @@
 | Mar 2024     | 24.03           | v4.0.0    |
 
 ## Release Notes
+
+### DeepSparkInference 26.03
+
+#### 模型与算法
+
+* 新增了 16 个推理小模型示例，其中支持 IGIE 推理引擎的 10 个，支持 ixRT 推理引擎的 6 个。
+* 新增了 18 个大语言模型推理示例，其中 12 个使用 [vLLM](https://github.com/vllm-project/vllm)，6 个使用 [xDiT](https://github.com/xdit-team/xDiT)，2 个使用 ixRT。
+
+<table>
+  <th colspan=3>IGIE</th>
+  <tr>
+      <td>MobileViT-S</td>
+      <td>ViT-B-32</td>
+      <td>ViT-L-14</td>
+  </tr>
+  <tr>
+      <td>DETR</td>
+      <td>RT-DETR</td>
+      <td>YOLOv11m</td>
+  </tr>
+  <tr>
+      <td>YOLOv11s</td>
+      <td>YOLOv26n</td>
+      <td>YOLOv5s</td>
+  </tr>
+  <tr>
+      <td>DenseNet121(int8)</td>
+      <td></td>
+      <td></td>
+  </tr>
+  <th colspan=3>ixRT</th>
+  <tr>
+      <td>Swin Transformer</td>
+      <td>RepNet</td>
+      <td>Grounding DINO</td>
+  </tr>
+  <tr>
+      <td>RT-DETR</td>
+      <td>CRNN</td>
+      <td>UNet</td>
+  </tr>
+  <th colspan=3>LLM</th>
+  <tr>
+      <td>DeepSeek-V3.1 (vLLM)</td>
+      <td>DeepSeek-VL2 (vLLM)</td>
+      <td>DeepSeek-OCR (vLLM)</td>
+  </tr>
+  <tr>
+      <td>InternLM3 (vLLM)</td>
+      <td>MiniCPM-V-4 (vLLM)</td>
+      <td>Qwen3-8B (vLLM)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-32B (vLLM)</td>
+      <td>Qwen3-30B-A3B (vLLM)</td>
+      <td>Qwen3-235B-A22B (vLLM)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-Next-80B (vLLM)</td>
+      <td>FLUX.1-Dev(xDiT)</td>
+      <td>HunyuanVideo(xDiT)</td>
+  </tr>
+  <tr>
+      <td>Wan2.1-T2V-14B(xDiT)</td>
+      <td>Wan2.2-TI2V-5B(xDiT)</td>
+      <td>HunyuanDiT-v1.2(xDiT)</td>
+  </tr>
+    <tr>
+      <td>SD3-Medium(xDiT)</td>
+      <td>CosyVoice (ixRT)</td>
+      <td>Stable Diffusion 2.1 (ixRT)</td>
+  </tr>
+</table>
+
+#### 修复更新
+
+* 适配了 IXUCA SDK 4.4.0 版本的 CI 测试流程
+* 修复了 IGIE MViTv2-base 模型运行时缺少 pkg_resources 模块的问题
+* 修复了 vLLM 推理模型的 deprecated 参数错误并升级为离线推理模式
+* 修复了 DeepSeek-R1-Distill-Llama-8B 模型在 vLLM 0.11.2 版本上的兼容性问题
+* 修复了 Qwen-VL、Qwen2-VL、Qwen2.5-VL、Whisper 等模型的参数错误问题
+* 修复了 Pixtral 模型在 vLLM 0.11.2 版本上的兼容性问题
+* 修复了 ixRT RT-DETR 模型在 batchsize 为 64 时运行报错的问题
+* 修复了多个模型的 trust_remote_code 参数配置问题
+* 修复了 IGIE YOLOv8n 模型与 ultralytics 版本的兼容性问题
+* 修复了 YOLOx 模型的数据集路径问题
+* 修复了 IGIE ResNet 和 VGG16 模型在安装 TensorFlow 时的报错问题
+* 修复了 protobuf 版本导致的兼容性问题
+* 新增了 ARM 架构的核心绑定命令支持
+* 新增了 YOLOv8n ixRT 模型的 batchsize 参数支持
+
+#### 版本关联
+
+DeepSparkInference 26.03 对应天数软件栈 4.4.0 版本。
+
+#### 感谢以下社区贡献者
+
+YoungPeng，honglyua，majorli6，shengyan.zhao，yougouda，jinrui.zhang，tianyu，anders。
 
 ### DeepSparkInference 25.12
 
