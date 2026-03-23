@@ -326,7 +326,7 @@
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
-| Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/diffusers)  | 4.4.0     |
+| Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/ixrt)  | 4.4.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |
 | FLUX.1-Dev          | xDiT   | [✅](models/multimodal/diffusion_model/flux.1-dev/xdit)                 | 4.4.0     |
 | HunyuanVideo        | xDiT   | [✅](models/multimodal/diffusion_model/hunyuan_video/xdit)              | 4.4.0     |

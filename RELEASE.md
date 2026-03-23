@@ -26,7 +26,7 @@
 #### 模型与算法
 
 * 新增了 16 个推理小模型示例，其中支持 IGIE 推理引擎的 10 个，支持 ixRT 推理引擎的 6 个。
-* 新增了 18 个大语言模型推理示例，其中 12 个使用 [vLLM](https://github.com/vllm-project/vllm)，6 个使用 [xDiT](https://github.com/xdit-team/xDiT)，2 个使用 ixRT。
+* 新增了 18 个大语言模型推理示例，其中 10 个使用 [vLLM](https://github.com/vllm-project/vllm)，6 个使用 [xDiT](https://github.com/xdit-project/xDiT)，2 个使用 ixRT。
 
 <table>
   <th colspan=3>IGIE</th>
