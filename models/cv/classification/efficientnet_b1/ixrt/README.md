@@ -15,7 +15,7 @@ EfficientNet B1 is one of the variants in the EfficientNet family of neural netw
 
 ### Prepare Resources
 
-Pretrained model: <https://download.pytorch.org/models/efficientnet_b1-c27df63c.pth>
+Pretrained model: <http://files.deepspark.org.cn:880/deepspark/data/checkpoints/efficientnet_b1.onnx>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
@@ -34,8 +34,7 @@ pip3 install -r ../../ixrt_common/requirements.txt
 ### Model Conversion
 
 ```bash
-mkdir checkpoints
-python3 ../../ixrt_common/export.py --model-name efficientnet_b1 --weight efficientnet_b1-c27df63c.pth --output checkpoints/efficientnet_b1.onnx
+mkdir -p checkpoints && wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/efficientnet_b1.onnx checkpoints/efficientnet_b1.onnx
 ```
 
 ## Model Inference
