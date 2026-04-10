@@ -52,6 +52,7 @@ def fix_quantize_axis_attribute(model_path, output_path):
     which is out of range for 1-D tensors like biases.  Setting axis=0
     is safe for both per-tensor (scalar scale/zp) and per-channel cases.
     """
+
     model = onnx.load(model_path)
     quantize_node_types = {"QuantizeLinear", "DequantizeLinear", "DynamicQuantizeLinear"}
     for node in model.graph.node:
