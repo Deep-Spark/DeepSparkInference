@@ -2,6 +2,7 @@ import onnx
 import argparse
 import numpy as np
 
+
 def change_input_dim(model, bsz):
     batch_size = bsz
 
@@ -37,6 +38,23 @@ def change_input_dim(model, bsz):
             raw_data[0] = batch_size
             data.raw_data = raw_data.tobytes()
 
+def change_reshape_batch(model, bsz):
+    batch_size = int(bsz) if not isinstance(bsz, int) else bsz
+    initializer_map = {init.name: init for init in model.graph.initializer}
+    for node in model.graph.node:
+        if node.op_type == 'Reshape' and len(node.input) >= 2:
+            shape_name = node.input[1]
+            if shape_name not in initializer_map:
+                continue
+            init = initializer_map[shape_name]
+            shape_val = np.array(onnx.numpy_helper.to_array(init))
+            if len(shape_val) >= 1 and shape_val[0] > 0 and shape_val[0] != batch_size:
+                old_val = shape_val[0]
+                shape_val[0] = batch_size
+                new_init = onnx.numpy_helper.from_array(shape_val, name=shape_name)
+                init.CopyFrom(new_init)
+                print(f"  Reshape {node.name}: shape[0] {old_val} -> {batch_size}")
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch_size", type=int)
@@ -48,4 +66,5 @@ def parse_args():
 args = parse_args()
 model = onnx.load(args.origin_model)
 change_input_dim(model, args.batch_size)
+change_reshape_batch(model, args.batch_size)
 onnx.save(model, args.output_model)
