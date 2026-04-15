@@ -2,3 +2,4 @@ onnx
 tqdm
 onnxsim
 transformers==4.37.1
+onnxscript
