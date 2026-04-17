@@ -14,18 +14,12 @@
 #    under the License.
 import argparse
 from pathlib import Path
-from transformers.onnx import export
-from transformers.models.vit import ViTOnnxConfig
-from transformers import ViTImageProcessor, ViTForImageClassification
-from transformers.utils import is_torch_available, TensorType
 import torch
+from transformers import ViTImageProcessor, ViTForImageClassification
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output",
-                        type=str,
-                        required=True,
-                        help="export onnx model path.")
+    parser.add_argument("--output", type=str, required=True, help="export onnx model path.")
     args = parser.parse_args()
     return args
 
@@ -33,47 +27,46 @@ def main():
     args = parse_args()
 
     checkpoint = "vit-base-patch16-224"
+
+    # 1. 加载模型和预处理器
+    print(f"Loading model: {checkpoint}")
     feature_extractor = ViTImageProcessor.from_pretrained(checkpoint)
     model = ViTForImageClassification.from_pretrained(checkpoint)
 
+    # 2. 设置模型为评估模式 
+    model.eval()
+
     save_path = Path(args.output)
 
-    class StaticViTOnnxConfig(ViTOnnxConfig):
-        default_fixed_batch = 1
+    # 3. 构造一个标准的 Dummy Input
+    # ViT 标准输入格式: (Batch_Size, Channels, Height, Width)
+    # 这里固定为 1, 3, 224, 224
+    dummy_input = torch.randn(1, 3, 224, 224)
 
-        @property
-        def inputs(self):
-            orig_inputs = super().inputs
-            orig_inputs["pixel_values"] = {
-                0: "batch_size",  
-                # 1: "channels",   
-                # 2: "height",    
-                # 3: "width",    
-            }
-            orig_inputs["pixel_values"] = {0: "batch_size", 1: 3, 2: 224, 3: 224}
-            return orig_inputs
+    print("Starting PyTorch Native Export...")
 
+    # 4. 使用 PyTorch 原生导出
+    try:
+        torch.onnx.export(
+            model,
+            dummy_input,
+            str(save_path),
+            export_params=True,        # 导出训练参数（权重）
+            opset_version=17,          # 使用较新的 opset
+            do_constant_folding=True,  # 优化常数折叠
+            input_names=['pixel_values'],  # <--- 关键修复：必须与推理脚本预期的名称一致
+            output_names=['output'],   # 指定输出名称
+            dynamic_axes={             # 定义动态轴
+                'pixel_values': {0: 'batch_size'}, # <--- 关键修复：键名必须与 input_names 对应
+                'output': {0: 'batch_size'}
+            },
+            dynamo=False               # 强制使用旧版稳定导出器，避开 PyTorch 2.7 的 bug
+        )
+        print(f"✅ Export onnx model successfully to {save_path}!")
 
-        def generate_dummy_inputs_for_validation(self, reference_tensors, preprocessor):
-            dummy_inputs = super().generate_dummy_inputs_for_validation(reference_tensors, preprocessor)
-            if is_torch_available() and isinstance(dummy_inputs.get("pixel_values"), torch.Tensor):
-                if dummy_inputs["pixel_values"].shape != (1, 3, 224, 224):
-                     dummy_inputs["pixel_values"] = torch.ones((1, 3, 224, 224), dtype=dummy_inputs["pixel_values"].dtype, device=dummy_inputs["pixel_values"].device)
-            return dummy_inputs
-
-
-    onnx_config = StaticViTOnnxConfig(model.config)
-
-    export(
-        preprocessor=feature_extractor,
-        model=model,
-        config=onnx_config, 
-        #opset=onnx_config.default_onnx_opset,
-        opset=17,
-        output=save_path
-    )
-
-    print("Export onnx model successfully! ")
+    except Exception as e:
+        print(f"❌ Export failed: {e}")
+        print("Tip: If error persists, try removing 'dynamo=False' or downgrading PyTorch.")
 
 if __name__ == "__main__":
     main()
