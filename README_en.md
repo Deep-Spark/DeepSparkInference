@@ -111,6 +111,7 @@ inference to be expanded in the future.
 | CSPResNet50            | FP16  | [✅](models/cv/classification/cspresnet50/igie)         | [✅](models/cv/classification/cspresnet50/ixrt)            | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/cspresnet50/ixrt)            | 4.3.0     |
 | CSPResNeXt50           | FP16  | [✅](models/cv/classification/cspresnext50/igie)        | [✅](models/cv/classification/cspresnext50/ixrt)           | 4.3.0     |
+| DeiT-B                 | FP16  |                                                          | [✅](models/cv/classification/deit_b/ixrt)              | 4.4.0     |
 | DeiT-tiny              | FP16  | [✅](models/cv/classification/deit_tiny/igie)           | [✅](models/cv/classification/deit_tiny/ixrt)              | 4.3.0     |
 | DenseNet121            | FP16  | [✅](models/cv/classification/densenet121/igie)         | [✅](models/cv/classification/densenet121/ixrt)            | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/densenet121/igie)         |                                                            | 4.4.0     |
@@ -144,6 +145,7 @@ inference to be expanded in the future.
 | MNASNet0_75            | FP16  | [✅](models/cv/classification/mnasnet0_75/igie)         |                                                           | 4.3.0     |
 | MNASNet1_0             | FP16  | [✅](models/cv/classification/mnasnet1_0/igie)          |                                                           | 4.3.0     |
 | MNASNet1_3             | FP16  | [✅](models/cv/classification/mnasnet1_3/igie)          |                                                           | 4.3.0     |
+| MobileNetV1            | FP16  |                                                        | [✅](models/cv/classification/mobilenet_v1/ixrt)           | 4.4.0     |
 | MobileNetV2            | FP16  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/mobilenet_v2/igie)        | [✅](models/cv/classification/mobilenet_v2/ixrt)           | 4.3.0     |
 | MobileNetV3_Large      | FP16  | [✅](models/cv/classification/mobilenet_v3_large/igie)  |                                                           | 4.3.0     |
@@ -203,7 +205,7 @@ inference to be expanded in the future.
 |                        | INT8  | [✅](models/cv/classification/vgg16/igie)               |                                                           | 4.3.0     |
 | VGG19                  | FP16  | [✅](models/cv/classification/vgg19/igie)               |                                                           | 4.3.0     |
 | VGG19_BN               | FP16  | [✅](models/cv/classification/vgg19_bn/igie)            |                                                           | 4.3.0     |
-| ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 |                                                           | 4.3.0     |
+| ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 | [✅](models/cv/classification/vit/ixit)                  | 4.3.0    |
 | ViT-B-32               | FP16  | [✅](models/cv/classification/vit_b_32/igie)            |                                                           | 4.4.0     |
 | ViT-L-14               | FP16  | [✅](models/cv/classification/vit_l_14/igie)            |                                                           | 4.4.0     |
 | Wide ResNet50          | FP16  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
@@ -284,9 +286,10 @@ inference to be expanded in the future.
 
 | Model         | Prec. | IGIE                                  |     ixRT                              | IXUCA SDK |
 |---------------|-------|---------------------------------------|---------------------------------------|-----------|
+| CRNN          | FP16  |                                         | [✅](models/cv/ocr/crnn/ixrt)      |  4.4.0     |
+| DBNet         | FP16  |                                        |  [✅](models/cv/ocr/dbnet/ixrt)     |  4.4.0     |
 | Kie_layoutXLM | FP16  | [✅](models/cv/ocr/kie_layoutxlm/igie) |                                     |  4.3.0     |
 | SVTR          | FP16  | [✅](models/cv/ocr/svtr/igie)          |                                     |  4.3.0     |
-| CRNN          | FP16  |                                         | [✅](models/cv/ocr/crnn/ixrt)      |  4.4.0     |
 
 #### Pose Estimation
 
@@ -307,6 +310,7 @@ inference to be expanded in the future.
 
 | Model | Prec. | IGIE                                           | ixRT                                           | IXUCA SDK |
 |-------|-------|------------------------------------------------|------------------------------------------------|-----------|
+| DDRNet | FP16  |                                               | [✅](models/cv/semantic_segmentation/ddrnet/ixrt)  | 4.4.0     |
 | UNet  | FP16  | [✅](models/cv/semantic_segmentation/unet/igie) | [✅](models/cv/semantic_segmentation/unet/ixrt)  | 4.3.0     |
 
 #### Multi-Object Tracking
@@ -367,6 +371,7 @@ inference to be expanded in the future.
 | Model           | Prec. | IGIE                                                | ixRT                                                      | IXUCA SDK |
 |-----------------|-------|-----------------------------------------------------|-----------------------------------------------------------|-----------|
 | Conformer       | FP16  | [✅](models/audio/speech_recognition/conformer/igie) | [✅](models/audio/speech_recognition/conformer/ixrt)       | 4.3.0     |
+| DeepSpeech2     | FP16  |                                                      | [✅](models/speech/speech_recognition/deepspeech2/ixrt)     | 4.4.0     |
 | Transformer ASR | FP16  |                                                     | [✅](models/audio/speech_recognition/transformer_asr/ixrt) | 4.2.0     |
 
 ### Others
