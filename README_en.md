@@ -49,13 +49,15 @@ inference to be expanded in the future.
 | DeepSeek-R1-Distill-Qwen-7B   | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-7b/vllm)               | 4.4.0     |
 | DeepSeek-R1-Distill-Qwen-14B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-14b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-32B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-32b/vllm)              | 4.3.0     |
-| DeepSeek-OCR                  | `Transformers` | [✅](models/multimodal/vision_language_model/deepseek-ocr/transformers) | 4.3.0 |
+| DeepSeek-OCR                  | `Transformers` | [✅](models/multimodal/vision_language_model/deepseek-ocr/transformers)  | 4.3.0 |
 | DeepSeek-OCR                  | `vLLM`       | [✅](models/multimodal/vision_language_model/deepseek-ocr/vllm)     | dev-only  |
 | ERNIE-4.5-21B-A3B             | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
 | ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
+| ERNIE-4.5-VL-28B-A3B-Thinking | `Transformers` | [✅](models/multimodal/vision_language_model/ernie-4.5-vl-28b-a3b-thinking/transformers/) | 4.4.0     |
 | GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
 | InternLM3                     | `LMDeploy`   | [✅](models/nlp/llm/internlm3/lmdeploy/)                            | 4.3.0     |
 | InternLM3                     | `vLLM`       | [✅](models/nlp/llm/internlm3/vllm/)                                | 4.4.0     |
+| IndexTTS-2                    | `IndexTTS`       | [✅](models/speech/speech_synthesis/indextts-2/indextts/)       | 4.4.0     |
 | Llama2-7B                     | `vLLM`       | [✅](models/nlp/llm/llama2-7b/vllm)                                 | 4.3.0     |
 | Llama2-7B                     | `TRT-LLM`    | [✅](models/nlp/llm/llama2-7b/trtllm)                               | 4.3.0     |
 | Llama2-13B                    | `TRT-LLM`    | [✅](models/nlp/llm/llama2-13b/trtllm)                              | 4.3.0     |
@@ -68,6 +70,7 @@ inference to be expanded in the future.
 | NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
+| PaddleOCR-VL                  | `Transformers` | [✅](models/multimodal/vision_language_model/paddleocr-vl-1.5/transformers)  | 4.4.0 |
 | Qwen-7B                       | `vLLM`       | [✅](models/nlp/llm/qwen-7b/vllm)                                   | 4.3.0     |
 | Qwen-VL                       | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen_vl/vllm)          | 4.3.0     |
 | Qwen2-VL                      | `vLLM`       | [✅](models/multimodal/vision_language_model/qwen2_vl/vllm)         | 4.3.0     |
@@ -85,6 +88,9 @@ inference to be expanded in the future.
 | Qwen3-30B-A3B-Thinking        | `vLLM`       | [✅](models/nlp/llm/qwen3-30b-a3b-thinking/vllm)                   | 4.4.0     |
 | Qwen3-235B-A22B-Thinking      | `vLLM`       | [✅](models/nlp/llm/qwen3-235b-a22b-thinking/vllm)                 | 4.4.0     |
 | Qwen3-Next-80B-A3B            | `vLLM`       | [✅](models/nlp/llm/qwen3-next-80b-a3b/vllm)                       | 4.4.0     |
+| Qwen3-Embedding-8B            | `vLLM`       | [✅](models/nlp/llm/qwen3-embedding-8b/vllm)                       | 4.4.0     |
+| Qwen3-ASR-1.7B                | `Qwen-ASR`   | [✅](models/speech/asr/qwen3-embedding-8b/qwen-asr)                | 4.4.0     |
+| Qwen3-TTS-12Hz-1.7B-Base      | `Qwen-TTS`   | [✅](models/speech/speech_synthesis/qwen3-tts-12hz-1.7b/qwen-tts)   | 4.4.0     |
 | DeepSeek-V3.1                 | `vLLM`       | [✅](models/nlp/llm/deepseek-v3.1/vllm)                            | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
 | Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | 4.4.0     |
@@ -327,22 +333,25 @@ inference to be expanded in the future.
 | CLIP                | IxFormer | [✅](models/multimodal/vision_language_model/clip/ixformer)            | 4.3.0     |
 | DeepSeek-VL2-tiny   |   vLLM   | [✅](models/multimodal/vision_language_model/deepseek-vl2/vllm)        | 4.4.0     |
 | Fuyu-8B             |   vLLM   | [✅](models/multimodal/vision_language_model/fuyu_8b/vllm)             | 4.3.0     |
+| FLUX.1-Dev          | xDiT   | [✅](models/multimodal/diffusion_model/flux.1-dev/xdit)                 | 4.4.0     |
 | H2OVL Mississippi   |   vLLM   | [✅](models/multimodal/vision_language_model/h2vol/vllm)               | 4.3.0     |
+| HunyuanVideo        | xDiT   | [✅](models/multimodal/diffusion_model/hunyuan_video/xdit)              | 4.4.0     |
+| HunyuanDiT-v1.2     | xDiT   | [✅](models/multimodal/diffusion_model/hunyuanDit-v1.2/xdit)           | 4.4.0     |
 | Idefics3            |   vLLM   | [✅](models/multimodal/vision_language_model/idefics3/vllm)            | 4.3.0     |
 | InternVL2-4B        |   vLLM   | [✅](models/multimodal/vision_language_model/intern_vl/vllm)           | 4.3.0     |
 | LLaVA               |   vLLM   | [✅](models/multimodal/vision_language_model/llava/vllm)               | 4.3.0     |
 | LLaVA-Next-Video-7B |   vLLM   | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) | 4.3.0     |
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
+| Qwen-Image          |   ComfyUI  | [✅](models/multimodal/vision_language_model/qwen-image/comfyui)     | 4.4.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
 | Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/ixrt)  | 4.4.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | dev-only  |
-| FLUX.1-Dev          | xDiT   | [✅](models/multimodal/diffusion_model/flux.1-dev/xdit)                 | 4.4.0     |
-| HunyuanVideo        | xDiT   | [✅](models/multimodal/diffusion_model/hunyuan_video/xdit)              | 4.4.0     |
+| SD3-Medium          | xDiT   | [✅](models/multimodal/diffusion_model/stable-diffusion-3-medium/xdit) | 4.4.0     |
 | Wan2.1-T2V-14B      | xDiT   | [✅](models/multimodal/diffusion_model/wan2.1-t2v-14b/xdit)            | 4.4.0     |
 | Wan2.2-TI2V-5B      | xDiT   | [✅](models/multimodal/diffusion_model/wan2.2-ti2v-5b/xdit)            | 4.4.0     |
-| HunyuanDiT-v1.2     | xDiT   | [✅](models/multimodal/diffusion_model/hunyuanDit-v1.2/xdit)           | 4.4.0     |
-| SD3-Medium          | xDiT   | [✅](models/multimodal/diffusion_model/stable-diffusion-3-medium/xdit) | 4.4.0     |
+| Z-Image      | Diffusers   | [✅](models/multimodal/diffusion_model/z-image/diffusers)            | 4.4.0     |
+
 ### NLP
 
 #### PLM (Pre-trained Language Model)
