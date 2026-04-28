@@ -19,5 +19,6 @@ pip3 install tqdm
 pip3 install onnx
 pip3 install pycocotools
 pip3 install opencv-python==4.6.0.66
+pip3 install numpy==1.23.5
 mkdir -p checkpoints
 ln -s /root/data/checkpoints/rtdetrv3_r18vd_6x_coco_image_sim.onnx checkpoints/rtdetrv3_r18vd_6x_coco_image_sim.onnx
