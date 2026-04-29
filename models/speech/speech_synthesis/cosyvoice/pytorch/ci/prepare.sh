@@ -35,7 +35,7 @@ cp -r /mnt/deepspark/data/repos/CV3-Eval ./
 cd CV3-Eval
 mv ../CosyVoice ./
 pip3 install -r requirements.txt
-pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==2.4.0
+pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==4.0.0
 cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
 cp ../run_inference_fp16_eval.sh ./

@@ -50,7 +50,7 @@ git clone https://github.com/FunAudioLLM/CV3-Eval.git
 cd CV3-Eval
 mv ../CosyVoice ./
 pip3 install -r requirements.txt
-pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==2.4.0
+pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==4.0.0
 cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
 
