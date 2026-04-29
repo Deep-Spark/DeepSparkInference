@@ -124,11 +124,11 @@ def main():
         logging.info(f"End running {model['model_name']} test case.")
     
     # multi_object_tracking模型
-    if model["category"] in ["cv/multi_object_tracking", "cv/semantic_segmentation", "cv/ocr", "multimodal/diffusion_model", "speech/speech_synthesis"]:
+    if model["category"] in ["cv/multi_object_tracking", "cv/semantic_segmentation", "cv/ocr", "multimodal/diffusion_model", "speech/speech_synthesis", "speech/speech_recognition"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_multi_object_tracking_testcase(model)
+            result = run_multi_object_tracking_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -507,7 +507,7 @@ def run_segmentation_and_face_testcase(model):
         logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_multi_object_tracking_testcase(model):
+def run_multi_object_tracking_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -526,6 +526,11 @@ def run_multi_object_tracking_testcase(model):
     bash ci/prepare.sh
     ls -l | grep onnx
     """
+
+    if model_name == "deepspeech2":
+        prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        """
 
     # add pip list info when in debug mode
     if utils.is_debug():
@@ -567,9 +572,10 @@ def run_multi_object_tracking_testcase(model):
                 result["result"][prec] = result["result"][prec] | {m[0]: m[1], m[2]: m[3]}
         pattern = METRIC_PATTERN
         matchs = re.findall(pattern, sout)
-        if matchs and len(matchs) == 1:
-            result["result"][prec].update(get_metric_result(matchs[0]))
-            result["result"][prec]["status"] = "PASS"
+        if matchs:
+            for m in matchs:
+                result["result"][prec].update(get_metric_result(m))
+                result["result"][prec]["status"] = "PASS"
         result["result"][prec]["Cost time (s)"] = t
         logging.debug(f"matchs:\n{matchs}")
     return result
