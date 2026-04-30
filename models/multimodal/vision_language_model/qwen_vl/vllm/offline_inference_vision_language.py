@@ -25,7 +25,7 @@ class ModelRequestData(NamedTuple):
     lora_requests: list[LoRARequest] | None = None
     sampling_params: list[SamplingParams] | None = None
 
-# Qwen-VL
+import os
 def run_qwen_vl(questions: list[str], modality: str) -> ModelRequestData:
     assert modality == "image"
 
@@ -37,7 +37,6 @@ def run_qwen_vl(questions: list[str], modality: str) -> ModelRequestData:
         hf_overrides={"architectures": ["QwenVLForConditionalGeneration"]},
         limit_mm_per_prompt={modality: 1},
     )
-
     prompts = [f"{question}Picture 1: <img></img>\n" for question in questions]
 
     return ModelRequestData(
@@ -48,6 +47,67 @@ def run_qwen_vl(questions: list[str], modality: str) -> ModelRequestData:
 model_example_map = {
     "qwen_vl": run_qwen_vl,
 }
+
+
+
+# Patch QWenTokenizer._decode to fix img_pad_id bug
+# Only apply for vLLM >= 0.17.0
+import vllm
+from packaging import version
+
+if version.parse(vllm.__version__) >= version.parse("0.17.0"):
+    import sys
+    from transformers import AutoTokenizer
+
+    _orig_decode = None
+
+    def _safe_decode(self, token_ids, skip_special_tokens=True, **kwargs):
+        if token_ids is None:
+            return " "
+
+        if isinstance(token_ids, int):
+            token_ids = [token_ids]
+
+        def _decode_imgurl(img_token_ids):
+            try:
+                assert img_token_ids[0] == self.img_start_id and img_token_ids[-1] == self.img_end_id
+                img_token_ids = img_token_ids[1:-1]
+                img_token_ids = img_token_ids[: img_token_ids.index(self.img_pad_id)]
+            except (ValueError, AssertionError):
+                return []
+            img_url = bytes(img_token_ids).decode("utf-8")
+            return [self.img_start_id] + self.tokenizer.encode(img_url) + [self.img_end_id]
+
+        # Simple replacement without _replace_closed_tag
+        result = []
+        i = 0
+        while i < len(token_ids):
+            if token_ids[i] == self.img_start_id:
+                j = i + 1
+                while j < len(token_ids) and token_ids[j] != self.img_end_id:
+                    j += 1
+                img_seq = token_ids[i:j+1]
+                decoded = _decode_imgurl(img_seq)
+                result.extend(decoded)
+                i = j + 1
+            else:
+                result.append(token_ids[i])
+                i += 1
+
+        if skip_special_tokens:
+            result = [i for i in result if i < self.eod_id]
+        return self.tokenizer.decode(result, errors=kwargs.get("errors", self.errors))
+
+    _tok = AutoTokenizer.from_pretrained(
+        os.path.join(os.path.dirname(__file__), "qwen_vl"),
+        trust_remote_code=True,
+        use_fast=False
+    )
+    _cls = type(_tok)
+    if hasattr(_cls, "_decode"):
+        _orig_decode = _cls._decode
+        _cls._decode = _safe_decode
+        print("Patched QWenTokenizer._decode")
 
 def get_multi_modal_input(args):
     """
@@ -204,10 +264,13 @@ def main(args):
         req_data.engine_args.limit_mm_per_prompt or {}
     )
 
-    engine_args = asdict(req_data.engine_args) | {
-        "seed": args.seed,
-        "mm_processor_cache_gb": 0 if args.disable_mm_processor_cache else 4,
+    extra_args = {
+    "mm_processor_cache_gb": 0 if args.disable_mm_processor_cache else 4,
     }
+    if args.seed is not None:
+        extra_args["seed"] = args.seed
+    engine_args = asdict(req_data.engine_args) | extra_args
+
     llm = LLM(**engine_args)
 
     # Don't want to check the flag multiple times, so just hijack `prompts`.
