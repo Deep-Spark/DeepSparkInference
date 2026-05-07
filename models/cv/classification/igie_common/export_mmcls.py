@@ -79,6 +79,16 @@ def main():
     if args.output == "mvitv2_base.onnx":
         dummy_input = torch.randn(16, 3, 224, 224)
 
+    major, minor = torch.__version__.split('.')[:2]
+    major, minor = int(major), int(minor)
+    
+    if major == 2 and minor >= 10:
+        opset_version = 18
+    elif major == 2 and minor <= 7:
+        opset_version = 13
+    else: 
+        opset_version = 18
+
     torch.onnx.export(
         model, 
         dummy_input, 
@@ -86,7 +96,7 @@ def main():
         input_names = input_names, 
         dynamic_axes = dynamic_axes, 
         output_names = output_names,
-        opset_version=13
+        opset_version = opset_version
     )
 
     print("Export onnx model successfully! ")

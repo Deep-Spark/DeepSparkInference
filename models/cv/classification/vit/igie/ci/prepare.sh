@@ -18,4 +18,5 @@ set -x
 
 pip3 install -r requirements.txt
 python3 export.py --output vit.onnx
-onnxsim vit.onnx vit_opt.onnx
+pip3 install onnxslim
+onnxslim vit.onnx vit_opt.onnx
