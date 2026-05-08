@@ -45,7 +45,7 @@ pip install -r requirements.txt
 # The run.sh script is pre-copied in this directory
 # Modify MODEL_CONFIGS to point to your model path
 vim run.sh
-# Update: MODEL_CONFIGS=(["Flux"]="flux_example.py /home/data/flux___1-schnell/ 28")
+# Update: ["Flux"]="flux_example.py /data/nlp/flux___1-schnell/ 20" 
 ```
 
 2. Run script:

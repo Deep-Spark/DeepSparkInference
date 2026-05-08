@@ -89,6 +89,7 @@ if [ $PRECISION == "int8" ];then
         run_cmd python3 ${RUN_DIR}/quant.py        \
             --model ${SIM_MODEL}                   \
             --dataset_dir ${DATASET_DIR}/cityscapes           \
+            --list_path ${LIST_PATH}        \
             --save_dir ${CHECKPOINTS_DIR}
         echo "  "Generate ${QUANT_MODEL}
     fi

@@ -1,8 +1,6 @@
 # --------------------------------------------------------
 # Fast R-CNN
 # Copyright (c) 2015 Microsoft
-# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
-# All Rights Reserved.
 # Licensed under The MIT License [see LICENSE for details]
 # Written by Sergey Karayev
 # --------------------------------------------------------
@@ -11,7 +9,7 @@ cimport cython
 import numpy as np
 cimport numpy as np
 
-DTYPE = float
+DTYPE = np.float64
 ctypedef np.float_t DTYPE_t
 
 def bbox_overlaps(

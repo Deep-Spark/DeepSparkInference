@@ -34,10 +34,6 @@ mkdir -p datasets/stable_diffusion_2_1_ixrt
 
 ```bash
 pip3 install torch transformers diffusers onnx Pillow numpy scikit-image opencv-python==4.5.5.64
-
-git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git
-
-export OSS_ENV=iluvatar-corex-ixrt
 ```
 
 ## Model Inference

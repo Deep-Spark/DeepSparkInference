@@ -36,8 +36,8 @@ def main():
     pipe = xFuserWanPipeline.from_pretrained(
         pretrained_model_name_or_path=engine_config.model_config.model,
         engine_config=engine_config,
-        torch_dtype=torch.bfloat16,
-    )
+        dtype=torch.bfloat16,
+    ).to(torch.bfloat16)
 
     # https://github.com/ali-vilab/TeaCache/blob/main/TeaCache4Wan2.1/teacache_generate.py#L892
     if engine_args.use_teacache:

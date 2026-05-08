@@ -16,15 +16,6 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 pip install -r ../../ixrt_common/requirements.txt
 unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
@@ -33,4 +24,8 @@ python3 ../../ixrt_common/export_mmcls.py   \
     --cfg ./mmpretrain/configs/cspnet/cspresnet50_8xb32_in1k.py  \
     --weight /root/data/checkpoints/cspresnet50_3rdparty_8xb32_in1k_20220329-dd6dddfb.pth \
     --output cspresnet50.onnx
-onnxsim cspresnet50.onnx checkpoints/cspresnet50.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i cspresnet50.onnx -o cspresnet50_ir9.onnx
+
+onnxsim cspresnet50_ir9.onnx checkpoints/cspresnet50.onnx

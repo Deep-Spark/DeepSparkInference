@@ -26,12 +26,6 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
 pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 ```
@@ -48,10 +42,12 @@ wget -O cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth https://download.
 
 python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/cspnet/cspdarknet50_8xb32_in1k.py --weight cspdarknet53_3rdparty_8xb32_in1k_20220329-bd275287.pth --output cspdarknet53.onnx
 
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i cspdarknet53.onnx -o cspdarknet53_ir9.onnx
+
 # Use onnxsim optimize onnx model
 mkdir -p checkpoints
-onnxsim cspdarknet5.onnx checkpoints/cspdarknet53_sim.onnx
-
+onnxsim cspdarknet53_ir9.onnx checkpoints/cspdarknet53_sim.onnx
 ```
 
 ## Model Inference

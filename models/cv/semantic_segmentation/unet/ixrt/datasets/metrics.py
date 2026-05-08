@@ -1,7 +1,7 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from collections import OrderedDict
 
-import mmcv
+import mmcv_shim as mmcv
 import numpy as np
 import torch
 

@@ -156,6 +156,7 @@ def customize_ops(model, args):
             ["decoder_8", "decoder_16", "decoder_32", "decoder_64"],
             ["output"], axis=1,
         )
+        concat_inputs = ["decoder_8", "decoder_16", "decoder_32", "decoder_64"]
     else:
         add_decoder_node(
             graph, args.decoder_type,
@@ -168,6 +169,48 @@ def customize_ops(model, args):
             ["decoder_32", "decoder_16", "decoder_8"],
             ["output"], axis=1,
         )
+        concat_inputs = ["decoder_32", "decoder_16", "decoder_8"]
+
+    concat_node = helper.make_node(
+        "Concat",
+        inputs=concat_inputs,
+        outputs=["output"],
+        axis=1,
+    )
+    graph.node.append(concat_node)
+
+    # Rewire graph outputs to the single fused "output" tensor
+    while len(graph.output) > 0:
+        graph.output.pop()
+    graph.output.append(
+        helper.make_tensor_value_info("output", TensorProto.FLOAT, None)
+    )
+
+    # Optional Focus replacement (FP16 / non-QDQ models only).
+    # For INT8 QDQ models the input tensor is named
+    # "images_DequantizeLinear_Output" (the DQ output after the input QDQ pair).
+    # In that case IxRT dead-code-eliminates the original Focus subgraph when
+    # its output is renamed, which causes "images_DequantizeLinear_Output" to
+    # be unregistered by the time the custom Focus node is parsed.
+    # Therefore we only add the custom Focus op for FP16 models where
+    # focus_input is the raw graph-input tensor (e.g. "images").
+    if (args.focus_input is not None
+            and args.focus_output is not None
+            and not args.focus_input.endswith("_DequantizeLinear_Output")):
+        focus_output_names = (
+            args.focus_output
+            if isinstance(args.focus_output, list)
+            else [args.focus_output]
+        )
+        focus_node = helper.make_node(
+            "Focus",
+            inputs=[args.focus_input],
+            outputs=focus_output_names,
+            domain="",
+        )
+        graph.node.append(focus_node)
+
+    return model
 
     set_graph_outputs(graph, ["output"])
 

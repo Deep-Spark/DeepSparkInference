@@ -52,10 +52,101 @@ def _robust_infer_shapes_path(input_path: str, output_path: str, **kwargs):
 onnx.shape_inference.infer_shapes_path = _robust_infer_shapes_path
 
 
-def setseed(seed=42):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
+from onnxruntime.quantization import (
+    quantize_static,
+    QuantType,
+    CalibrationDataReader,
+    QuantFormat,
+    CalibrationMethod,
+)
+
+_OBSERVER_TO_CALIB_METHOD = {
+    "hist_percentile": CalibrationMethod.Percentile,
+    "percentile":      CalibrationMethod.Percentile,
+    "entropy":         CalibrationMethod.Entropy,
+    "minmax":          CalibrationMethod.MinMax,
+    "ema":             CalibrationMethod.MinMax,
+}
+
+
+# Patch: handle silent C++ failures in infer_shapes_path (e.g. for dynamic-batch models).
+_orig_infer_shapes_path = onnx.shape_inference.infer_shapes_path
+def _robust_infer_shapes_path(input_path: str, output_path: str, **kwargs):
+    try:
+        _orig_infer_shapes_path(input_path, output_path, **kwargs)
+    except Exception:
+        pass
+    if not Path(output_path).exists():
+        model = onnx.load(input_path)
+        inferred = onnx.shape_inference.infer_shapes(model)
+        onnx.save(inferred, output_path)
+onnx.shape_inference.infer_shapes_path = _robust_infer_shapes_path
+
+
+class DetectionCalibrationReader(CalibrationDataReader):
+    def __init__(self, dataloader, input_name):
+        self.dataloader = dataloader
+        self.input_name = input_name
+        self._iter = iter(dataloader)
+
+    def get_next(self):
+        try:
+            batch = next(self._iter)
+            # CocoDetection returns (image, origin_shape, image_id) → batched as 3-tuple
+            data = batch[0] if isinstance(batch, (list, tuple)) else batch
+            if isinstance(data, torch.Tensor):
+                return {self.input_name: data.cpu().numpy()}
+            return None
+        except StopIteration:
+            return None
+
+
+def remove_quantize_axis_attribute(model_path, output_path):
+    model = onnx.load(model_path)
+    quantize_node_types = {"QuantizeLinear", "DequantizeLinear", "DynamicQuantizeLinear"}
+    init_names = {init.name for init in model.graph.initializer}
+    for node in model.graph.node:
+        if node.op_type not in quantize_node_types:
+            continue
+        if (node.op_type == "DequantizeLinear"
+                and len(node.input) > 0
+                and node.input[0] in init_names):
+            continue
+        to_remove = [i for i, attr in enumerate(node.attribute) if attr.name == "axis"]
+        for i in reversed(to_remove):
+            del node.attribute[i]
+    onnx.save(model, output_path)
+
+
+def get_input_name(model_path):
+    model = onnx.load(model_path)
+    return model.graph.input[0].name
+
+
+def make_input_dynamic(model_path: str, output_path: str) -> None:
+    """Make the batch dimension of all graph inputs dynamic.
+
+    Some without_decoder ONNX files have a hardcoded static batch size (e.g. 16).
+    ORT calibration requires the actual batch size to match the model's static size.
+    Making the batch dim dynamic allows ORT to accept any batch size during calibration.
+    """
+    model = onnx.load(model_path)
+    for inp in model.graph.input:
+        if inp.type.HasField("tensor_type") and inp.type.tensor_type.HasField("shape"):
+            dims = inp.type.tensor_type.shape.dim
+            if len(dims) > 0 and dims[0].dim_value != 1:
+                dims[0].ClearField("dim_value")
+                dims[0].dim_param = "N"
+    onnx.save(model, output_path)
+
+
+def ensure_opset13(model_path):
+    model = onnx.load(model_path)
+    if model.opset_import[0].version < 13:
+        model = onnx.version_converter.convert_version(model, 13)
+        model = onnx.shape_inference.infer_shapes(model)
+        onnx.save(model, model_path)
+
 
 
 class DetectionCalibrationReader(CalibrationDataReader):

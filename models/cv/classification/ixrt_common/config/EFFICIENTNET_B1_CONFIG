@@ -20,15 +20,5 @@ IMGSIZE=224
 MODEL_NAME=efficientnet_b1
 ORIGINE_MODEL=efficientnet_b1.onnx
 
-# QUANT CONFIG (仅PRECISION为int8时生效)
-    # QUANT_OBSERVER : 量化策略，可选 [hist_percentile, percentile, minmax, entropy, ema]
-    # QUANT_BATCHSIZE : 量化时组dataloader的batchsize, 最好和onnx中的batchsize保持一致，有些op可能推导shape错误(比如Reshape)
-    # QUANT_STEP : 量化步数
-    # QUANT_SEED : 随机种子 保证量化结果可复现
-    # QUANT_EXIST_ONNX : 如果有其他来源的量化模型则填写
-QUANT_OBSERVER=hist_percentile
-QUANT_BATCHSIZE=1
-QUANT_STEP=32
-QUANT_SEED=42
-DISABLE_QUANT_LIST=
-QUANT_EXIST_ONNX=
+# INT8 量化由 benchmarks/cv/classification/efficientnet_b1_ort_quant.py 处理
+# 使用 ORT 静态量化 + Entropy 校准 + batch=32 + 混合精度（17 个 SE-Conv 节点保留 FP16）

@@ -16,18 +16,13 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip install -r ../../ixrt_common/requirements.txt
 pip3 install Pillow
 mkdir -p checkpoints
 mkdir -p /root/.cache/torch/hub/checkpoints/
 ln -s /root/data/checkpoints/inceptionresnetv2-520b38e4.pth /root/.cache/torch/hub/checkpoints/inceptionresnetv2-520b38e4.pth
-python3 export_model.py --output_model ./checkpoints/inceptionresnetv2.onnx
+python3 export_model.py --output_model inceptionresnetv2.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i inceptionresnetv2.onnx -o inceptionresnetv2_ir9.onnx
+mv inceptionresnetv2_ir9.onnx checkpoints/inceptionresnetv2.onnx

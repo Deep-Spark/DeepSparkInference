@@ -19,19 +19,13 @@ Inception-ResNet-V2 is a deep learning model proposed by Google in 2016, which c
 
 ### Prepare Resources
 
-Pretrained model: <http://data.lip6.fr/cadene/pretrainedmodels/inceptionresnetv2-520b38e4.pth>
+Pretrained model: <https://huggingface.co/jscanvic/mirror/blob/main/inceptionresnetv2-520b38e4.pth>
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
 pip3 install Pillow
 ```
@@ -39,9 +33,12 @@ pip3 install Pillow
 ### Model Conversion
 
 ```bash
-
 mkdir checkpoints
-python3 export_model.py --output_model /Path/to/checkpoints/inceptionresnetv2.onnx
+python3 export_model.py --output_model inceptionresnetv2.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i inceptionresnetv2.onnx -o inceptionresnetv2_ir9.onnx
+mv inceptionresnetv2_ir9.onnx checkpoints/inceptionresnetv2.onnx
 ```
 
 ## Model Inference

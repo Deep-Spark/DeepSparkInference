@@ -77,6 +77,7 @@ if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
     python3 ${RUN_DIR}/build_engine.py          \
+        --precision ${PRECISION}                \
         --model ${SIM_MODEL}                \
         --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}
