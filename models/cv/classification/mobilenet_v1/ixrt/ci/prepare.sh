@@ -25,7 +25,7 @@ else
     echo "Not Support Os"
 fi
 
-pip3 install tqdm onnxsim opencv-python==4.6.0.66
+pip3 install -r ../../ixrt_common/requirements.txt
 
 mkdir -p checkpoints
 cp /root/data/checkpoints/mobilenet_v1.onnx checkpoints/

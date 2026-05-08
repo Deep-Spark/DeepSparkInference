@@ -8,7 +8,6 @@ from utils import input_transform
 
 from tensorrt import IxRT
 from ixrt.common import RuntimeConfig, RuntimeContext
-from tensorrt.deploy.api import *
 
 
 def create_runtime_from_model(args):

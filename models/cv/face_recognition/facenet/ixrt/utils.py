@@ -101,7 +101,8 @@ def calculate_val(thresholds, embeddings1, embeddings2, actual_issame, far_targe
         for threshold_idx, threshold in enumerate(thresholds):
             _, far_train[threshold_idx] = calculate_val_far(threshold, dist[train_set], actual_issame[train_set])
         if np.max(far_train)>=far_target:
-            f = interpolate.interp1d(far_train, thresholds, kind='slinear')
+            unique_far, unique_idx = np.unique(far_train, return_index=True)
+            f = interpolate.interp1d(unique_far, thresholds[unique_idx], kind='slinear')
             threshold = f(far_target)
         else:
             threshold = 0.0

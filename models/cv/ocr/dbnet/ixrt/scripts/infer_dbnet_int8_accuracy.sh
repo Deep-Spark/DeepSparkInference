@@ -39,7 +39,17 @@ DATASETS_DIR="/root/data/datasets/icdar_2015/icdar_2015_images"
 CHECKPOINTS_DIR="./checkpoints"
 RUN_DIR="${RUN_DIR:-.}"
 
-python3 ${RUN_DIR}/build_engine.py --model=${CHECKPOINTS_DIR}/r50_en_dbnet.onnx\
+# [STEP 1] Quantize model (skip if quantized ONNX already exists)
+if [ ! -f "${CHECKPOINTS_DIR}/quantized_r50_en_dbnet.onnx" ]; then
+    python3 ${RUN_DIR}/quant.py \
+        --model_name r50_en_dbnet \
+        --save_dir ${CHECKPOINTS_DIR} \
+        --model ${CHECKPOINTS_DIR}/r50_en_dbnet.onnx \
+        --data_path ${DATASETS_DIR};check_status
+fi
+
+# [STEP 2] Build engine
+python3 ${RUN_DIR}/build_engine.py --model=${CHECKPOINTS_DIR}/quantized_r50_en_dbnet.onnx\
                         --engine=${CHECKPOINTS_DIR}/int8_r50_en_dbnet.engine\
                         --batch_size=${BSZ}\
                         --precision="int8"

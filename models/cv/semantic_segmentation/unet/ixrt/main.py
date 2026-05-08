@@ -10,7 +10,10 @@ import torch
 import numpy as np
 from copy import deepcopy
 
-import mmcv
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../..'))
+import mmcv_shim as mmcv
 from datasets import build_dataloader, build_dataset
 from common import  create_engine_context, get_io_bindings
 from tensorrt import Dims
@@ -152,4 +155,3 @@ if __name__ == "__main__":
         pass
 
     main(config)
-

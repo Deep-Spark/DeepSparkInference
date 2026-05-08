@@ -1,9 +1,9 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import copy
 
-import mmcv
+import mmcv_shim as mmcv
 import numpy as np
-from mmcv.utils import deprecated_api_warning, is_tuple_of
+from mmcv_shim.utils import deprecated_api_warning, is_tuple_of
 from numpy import random
 
 from ..builder import PIPELINES

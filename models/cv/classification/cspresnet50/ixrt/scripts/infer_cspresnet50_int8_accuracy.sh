@@ -84,17 +84,12 @@ if [ $PRECISION == "int8" ];then
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
-        python3 ${RUN_DIR}/quant.py            \
-            --model ${SIM_MODEL}               \
-            --model_name ${MODEL_NAME}         \
-            --dataset_dir ${DATASETS_DIR}      \
-            --observer ${QUANT_OBSERVER}       \
-            --disable_quant_names ${DISABLE_QUANT_LIST[@]} \
-            --save_dir $CHECKPOINTS_DIR        \
-            --bsz   ${QUANT_BATCHSIZE}         \
-            --step  ${QUANT_STEP}              \
-            --seed  ${QUANT_SEED}              \
-            --imgsz ${IMGSIZE}
+        python3 ${RUN_DIR}/onnx_runtime_quant.py       \
+            --input ${SIM_MODEL}                        \
+            --model_name ${MODEL_NAME}                  \
+            --calibration_dir ${DATASETS_DIR}           \
+            --batch_size 32                             \
+            --save_dir $CHECKPOINTS_DIR
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Generate ${SIM_MODEL}
     fi

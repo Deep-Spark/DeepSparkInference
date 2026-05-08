@@ -69,6 +69,21 @@ else
     echo "  "Generate ${SIM_MODEL}
 fi
 
+# Refine Model
+let step++
+echo;
+echo [STEP ${step}] : Refine Model
+REFINE_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_refine.onnx
+if [ -f ${REFINE_MODEL} ];then
+    echo "  "Refine Model Skipped, ${REFINE_MODEL} has been existed
+else
+    python3 ${RUN_DIR}/refine_model.py \
+            --onnx_path  ${SIM_MODEL} \
+            --dst_onnx_path ${REFINE_MODEL} \
+            --bsz  ${BSZ}               \
+            --imgsz  ${IMGSIZE}
+fi
+
 # Change Batchsize
 let step++
 echo;

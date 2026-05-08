@@ -24,11 +24,9 @@ cp /root/data/checkpoints/deepspeech2.onnx checkpoints/
 cp /root/data/checkpoints/common_crawl_00.prune01111.trie.klm checkpoints/
 
 
-OPTIMIER_FILE=/root/data/3rd_party/iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 echo "Build engine!"
 python3 modify_model_to_dynamic.py --static_onnx checkpoints/deepspeech2.onnx --dynamic_onnx checkpoints/deepspeech2_dynamic.onnx
-python3 ${OPTIMIER_FILE}  --onnx checkpoints/deepspeech2_dynamic.onnx --model_type rnn --not_sim
 python3 build_engine.py \
     --model_name deepspeech2 \
-    --onnx_path checkpoints/deepspeech2_dynamic_end.onnx \
+    --onnx_path checkpoints/deepspeech2_dynamic.onnx \
     --engine_path checkpoints/deepspeech2.engine

@@ -117,7 +117,7 @@ python3 ${RUN_DIR}/inference.py     \
     --warm_up=${WARM_UP}            \
     --loop_count ${LOOP_COUNT}      \
     --test_mode ${RUN_MODE}         \
-    --fps_target ${TGT}             \
+    --acc_target ${TGT}             \
     --bsz ${BSZ}; check_status
 
 exit ${EXIT_STATUS}

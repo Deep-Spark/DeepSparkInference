@@ -42,69 +42,23 @@ done
 
 IXRT_DIR=$(python3 -c "import ixrt; print(ixrt.__file__)" | xargs dirname)
 
-IXRT_OSS_PATH="${OSS_ENV:-/root/data/3rd_party/iluvatar-corex-ixrt}"
-
-if [ -d "$IXRT_OSS_PATH" ]; then
-    OSS_PATH="$IXRT_OSS_PATH/tools/optimizer"
-else
-    OSS_PATH=""
-    echo "Please provide your IxRT OSS Path!"
-    exit 1
-fi
-
-OPTIMIER_FILE="${OSS_PATH}/optimizer.py"
-
-echo "OPTIMIER_FILE: ${OPTIMIER_FILE}"
-
-# 检查 optimizer.py 文件是否存在
-if [ ! -f "$OPTIMIER_FILE" ]; then
-    echo "Error: Optimizer file not found at $OPTIMIER_FILE"
-    exit 1
-fi
-
 PROJ_DIR=./
 CHECKPOINTS_DIR="${PROJ_DIR}checkpoints/stable_diffusion_2_1_ixrt"
 DATASETS_DIR="${PROJ_DIR}datasets/stable_diffusion_2_1_ixrt"
 echo "CHECKPOINTS_DIR: ${CHECKPOINTS_DIR}"
+echo "DATASETS_DIR: ${DATASETS_DIR}"
 
-# 检查 ONNX 文件是否存在
-if [ ! -f "${CHECKPOINTS_DIR}/unet.onnx" ]; then
-    echo "Error: unet.onnx not found in ${CHECKPOINTS_DIR}"
-    exit 1
-fi
+# Check ONNX files
+for f in unet.onnx clip.onnx vae.onnx; do
+    if [ ! -f "${CHECKPOINTS_DIR}/${f}" ]; then
+        echo "Error: ${f} not found in ${CHECKPOINTS_DIR}"
+        exit 1
+    fi
+done
 
-if [ ! -f "${CHECKPOINTS_DIR}/clip.onnx" ]; then
-    echo "Error: clip.onnx not found in ${CHECKPOINTS_DIR}"
-    exit 1
-fi
-
-if [ ! -f "${CHECKPOINTS_DIR}/vae.onnx" ]; then
-    echo "Error: vae.onnx not found in ${CHECKPOINTS_DIR}"
-    exit 1
-fi
-
-# optimizer
-echo "Optimizing unet.onnx..."
-python3 "${OPTIMIER_FILE}" --onnx "${CHECKPOINTS_DIR}/unet.onnx" --model_type stable_diffusion
-check_status
-
-echo "Optimizing clip.onnx..."
-python3 "${OPTIMIER_FILE}" --onnx "${CHECKPOINTS_DIR}/clip.onnx" --model_type stable_diffusion
-check_status
-
-echo "Optimizing vae.onnx..."
-python3 "${OPTIMIER_FILE}" --onnx "${CHECKPOINTS_DIR}/vae.onnx" --model_type stable_diffusion --not_sim
-check_status
-
-if [ $EXIT_STATUS -eq 0 ]; then
-    echo "All optimizations completed successfully!"
-else
-    echo "Some optimizations failed!"
-    exit 1
-fi
-
-# build engine
-ixrtexec --onnx=${CHECKPOINTS_DIR}/clip_end.onnx \
+# Build engines from original ONNX
+echo "[Step 1] Building clip engine..."
+ixrtexec --onnx=${CHECKPOINTS_DIR}/clip.onnx \
 --opt_shape=input_ids:1x77 \
 --min_shape=input_ids:1x77 \
 --max_shape=input_ids:4x77 \
@@ -113,7 +67,8 @@ ixrtexec --onnx=${CHECKPOINTS_DIR}/clip_end.onnx \
 --plugin "$IXRT_DIR/lib/libixrt_plugin.so"
 check_status
 
-ixrtexec --onnx=${CHECKPOINTS_DIR}/unet_end.onnx \
+echo "[Step 2] Building unet engine..."
+ixrtexec --onnx=${CHECKPOINTS_DIR}/unet.onnx \
 --opt_shape=sample:2x4x64x64,encoder_hidden_states:2x77x1024,timestep:1 \
 --min_shape=sample:1x4x64x64,encoder_hidden_states:1x77x1024,timestep:1 \
 --max_shape=sample:8x4x64x64,encoder_hidden_states:8x77x1024,timestep:1 \
@@ -122,7 +77,8 @@ ixrtexec --onnx=${CHECKPOINTS_DIR}/unet_end.onnx \
 --plugin "$IXRT_DIR/lib/libixrt_plugin.so"
 check_status
 
-ixrtexec --onnx=${CHECKPOINTS_DIR}/vae_end.onnx \
+echo "[Step 3] Building vae engine..."
+ixrtexec --onnx=${CHECKPOINTS_DIR}/vae.onnx \
 --opt_shape=latent:1x4x64x64 \
 --min_shape=latent:1x4x64x64 \
 --max_shape=latent:4x4x64x64 \
@@ -133,8 +89,10 @@ check_status
 
 if [ $EXIT_STATUS -eq 0 ]; then
     echo "All build engine completed successfully!"
+    echo "All engines built successfully!"
 else
     echo "Some build engine failed!"
+    echo "Engine build failed!"
     exit 1
 fi
 

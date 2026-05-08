@@ -75,11 +75,12 @@ CURRENT_MODEL=${FINAL_MODEL}
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
-ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs{BSZ}.engine
+ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
     python3 ${RUN_DIR}/build_engine.py          \
+        --precision ${PRECISION}                \
         --model ${CURRENT_MODEL}                \
         --engine ${ENGINE_FILE}
     echo "  "Generate Engine ${ENGINE_FILE}

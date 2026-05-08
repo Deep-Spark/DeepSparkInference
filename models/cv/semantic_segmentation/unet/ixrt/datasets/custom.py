@@ -3,9 +3,9 @@ import os.path as osp
 import warnings
 from collections import OrderedDict
 
-import mmcv
+import mmcv_shim as mmcv
 import numpy as np
-from mmcv.utils import print_log
+from mmcv_shim.utils import print_log
 from prettytable import PrettyTable
 from torch.utils.data import Dataset
 

@@ -1,10 +1,10 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from collections.abc import Sequence
 
-import mmcv
+import mmcv_shim as mmcv
 import numpy as np
 import torch
-from mmcv.parallel import DataContainer as DC
+from mmcv_shim.parallel import DataContainer as DC
 
 from ..builder import PIPELINES
 

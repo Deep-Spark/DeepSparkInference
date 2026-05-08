@@ -11,7 +11,6 @@ from tqdm import tqdm
 import cv2
 import numpy as np
 from cuda import cuda, cudart
-import torch
 import tensorrt
 
 from calibration_dataset import getdataloader, getmobilenetv1dataloader, getclipdataloader
@@ -152,13 +151,17 @@ def main(config):
                     for i in range(config.warm_up):
                         runner.run()
                     print("Warm Done.")
-                torch.cuda.synchronize()
+                # Use CUDA runtime sync (works with Iluvatar + cuda-python); PyTorch CUDA
+                # is often unavailable on non-NVIDIA stacks where ixrt still runs.
+                err, = cudart.cudaDeviceSynchronize()
+                assert err == cudart.cudaError_t.cudaSuccess
                 start_time = time.time()
 
                 for i in range(config.loop_count):
                     runner.run()
 
-                torch.cuda.synchronize()
+                err, = cudart.cudaDeviceSynchronize()
+                assert err == cudart.cudaError_t.cudaSuccess
                 end_time = time.time()
                 forward_time = end_time - start_time
 
@@ -166,7 +169,7 @@ def main(config):
                 if config.loop_count * config.bsz < num_samples:
                     num_samples = config.loop_count * config.bsz
                 fps = num_samples / forward_time
-                print("Iteration {}: FPS for resnet50_int8_bs1: {}".format(i+1, fps))
+                print("Iteration {}: FPS for resnet50_int8_bs1: {}".format(j+1, fps))
                 fps_list.append(fps)
 
             avg_fps = sum(fps_list) / len(fps_list)
@@ -179,13 +182,15 @@ def main(config):
                 for i in range(config.warm_up):
                     runner.run()
                 print("Warm Done.")
-            torch.cuda.synchronize()
+            err, = cudart.cudaDeviceSynchronize()
+            assert err == cudart.cudaError_t.cudaSuccess
             start_time = time.time()
 
             for i in range(config.loop_count):
                 runner.run()
 
-            torch.cuda.synchronize()
+            err, = cudart.cudaDeviceSynchronize()
+            assert err == cudart.cudaError_t.cudaSuccess
             end_time = time.time()
             forward_time = end_time - start_time
 

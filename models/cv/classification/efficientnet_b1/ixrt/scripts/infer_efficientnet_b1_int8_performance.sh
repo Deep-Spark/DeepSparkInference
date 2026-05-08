@@ -74,27 +74,17 @@ if [ $PRECISION == "int8" ];then
     let step++
     echo;
     echo [STEP ${step}] : Quant Model
-    if [[ -z ${QUANT_EXIST_ONNX} ]];then
-        QUANT_EXIST_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
-    fi
-    if [[ -f ${QUANT_EXIST_ONNX} ]];then
-        SIM_MODEL=${QUANT_EXIST_ONNX}
-        echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
-    else
-        python3 ${RUN_DIR}/quant.py            \
-            --model ${SIM_MODEL}               \
-            --model_name ${MODEL_NAME}         \
-            --dataset_dir ${DATASETS_DIR}      \
-            --observer ${QUANT_OBSERVER}       \
-            --disable_quant_names ${DISABLE_QUANT_LIST[@]} \
-            --save_dir $CHECKPOINTS_DIR        \
-            --bsz   ${QUANT_BATCHSIZE}         \
-            --step  ${QUANT_STEP}              \
-            --seed  ${QUANT_SEED}              \
-            --imgsz ${IMGSIZE}
-        SIM_MODEL=${QUANT_EXIST_ONNX}
-        echo "  "Generate ${SIM_MODEL}
-    fi
+    QUANT_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
+    rm -f ${QUANT_ONNX}
+    rm -f ${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
+    rm -f ${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
+    python3 ${RUN_DIR}/efficientnet_b1_ort_quant.py  \
+        --input ${SIM_MODEL}                        \
+        --model_name ${MODEL_NAME}                  \
+        --calibration_dir ${DATASETS_DIR}           \
+        --save_dir $CHECKPOINTS_DIR
+    SIM_MODEL=${QUANT_ONNX}
+    echo "  "Generate ${SIM_MODEL}
 fi
 
 # Change Batchsize
