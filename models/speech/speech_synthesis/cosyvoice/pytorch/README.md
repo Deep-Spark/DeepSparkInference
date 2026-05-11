@@ -55,7 +55,7 @@ cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
 
 # if you want to run eval for en/hrad_en set, please add the following command
-# cp -f ../run_wer.py utils/
+cp -f ../run_wer.py utils/
 
 cp ../run_inference_fp16_eval.sh ./
 bash run_inference_fp16_eval.sh
