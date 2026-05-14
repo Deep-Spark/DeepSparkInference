@@ -16,7 +16,7 @@
 
 set -x
 
-pip3 install xtcocotools tqdm munkres onnxsim opencv-python==4.6.0.66
+pip3 install xtcocotools tqdm munkres onnxsim opencv-python==4.6.0.66 onnx==1.18.0
 
 mkdir -p checkpoints
 cp /root/data/checkpoints/ddrnet23.onnx checkpoints/

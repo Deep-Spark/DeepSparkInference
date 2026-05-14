@@ -21,7 +21,7 @@ Dataset: <https://www.cityscapes-dataset.com> to download the dataset.
 ### Install Dependencies
 
 ```bash
-pip3 install xtcocotools tqdm munkres onnxsim opencv-python==4.6.0.66
+pip3 install xtcocotools tqdm munkres onnxsim opencv-python==4.6.0.66 onnx==1.18.0
 ```
 
 ### Model Conversion
