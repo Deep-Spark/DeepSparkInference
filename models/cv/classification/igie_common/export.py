@@ -72,15 +72,29 @@ def main():
     dynamic_axes = {'input': {0: '-1'}, 'output': {0: '-1'}}
     dummy_input = torch.randn(1, 3, 224, 224)
 
-    torch.onnx.export(
-        model, 
-        dummy_input, 
-        args.output, 
-        input_names = input_names, 
-        dynamic_axes = dynamic_axes, 
-        output_names = output_names,
-        opset_version=13
-    )    
+    from packaging import version
+    if version.parse(torch.__version__) >= version.parse("2.7.0"):
+        torch.onnx.export(
+            model, 
+            dummy_input, 
+            args.output, 
+            input_names = input_names, 
+            dynamic_axes = dynamic_axes, 
+            output_names = output_names,
+            opset_version=13,
+            dynamo=False,
+            external_data=False
+        )    
+    else:
+        torch.onnx.export(
+            model, 
+            dummy_input, 
+            args.output, 
+            input_names = input_names, 
+            dynamic_axes = dynamic_axes, 
+            output_names = output_names,
+            opset_version=13
+        )
     
     print("Export onnx model successfully! ")
     
