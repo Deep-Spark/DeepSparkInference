@@ -74,44 +74,16 @@ def main():
 
     input_names = ['input']
     output_names = ['output']
-    dynamic_axes = {'input': {0: '-1'}, 'output': {0: '-1'}}
-    dummy_input = torch.randn(1, 3, 224, 224)
-    if args.output == "mvitv2_base.onnx":
-        dummy_input = torch.randn(16, 3, 224, 224)
+    dummy_input = torch.randn(32, 3, 224, 224)
 
-    major, minor = torch.__version__.split('.')[:2]
-    major, minor = int(major), int(minor)
-    
-    if major == 2 and minor >= 10:
-        opset_version = 18
-    elif major == 2 and minor <= 7:
-        opset_version = 13
-    else: 
-        opset_version = 18
-
-    from packaging import version
-    if version.parse(torch.__version__) >= version.parse("2.7.0"):
-        torch.onnx.export(
-            model, 
-            dummy_input, 
-            args.output, 
-            input_names = input_names, 
-            dynamic_axes = dynamic_axes, 
-            output_names = output_names,
-            opset_version = opset_version,
-            dynamo=False,
-            external_data=False
-        )
-    else:
-        torch.onnx.export(
-            model, 
-            dummy_input, 
-            args.output, 
-            input_names = input_names, 
-            dynamic_axes = dynamic_axes, 
-            output_names = output_names,
-            opset_version = opset_version
-        )
+    torch.onnx.export(
+        model, 
+        dummy_input, 
+        args.output, 
+        input_names = input_names, 
+        output_names = output_names,
+        opset_version=13
+    )
 
     print("Export onnx model successfully! ")
 
