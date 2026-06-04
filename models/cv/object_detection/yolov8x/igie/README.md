@@ -79,9 +79,9 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov8s_fp16_accuracy.sh
+bash scripts/infer_yolov8x_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov8s_fp16_performance.sh
+bash scripts/infer_yolov8x_fp16_performance.sh
 ```
 
 
@@ -89,4 +89,4 @@ bash scripts/infer_yolov8s_fp16_performance.sh
 
 | Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| YOLOv8x | 32        | FP16      | 171.992 | 0.706   | 0.537        |
+| YOLOv8x | 32        | FP16      | 179.437 | 0.706   | 0.537        |

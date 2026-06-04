@@ -8,7 +8,7 @@ RegNet_y_800mf is a lightweight deep learning model designed with a regularized 
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.4.0     |  25.09  |
+| MR-V100 | 4.4.0     |  26.06  |
 
 ## Model Preparation
 
@@ -50,4 +50,4 @@ bash scripts/infer_regnet_y_800mf_fp16_performance.sh
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| RegNet_y_800mf | 32        | FP16      |  4852.417| 78.701   | 94.378   |
+| RegNet_y_800mf | 32        | FP16      |  4623.34 | 78.701   | 94.378   |

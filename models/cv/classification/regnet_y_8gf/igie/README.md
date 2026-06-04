@@ -8,7 +8,7 @@ RegNet_y_8gf is a deep convolutional neural network from the RegNet family, intr
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.4.0 | 25.12 |
+| MR-V100 | 4.4.0 | 26.06 |
 
 ## Model Preparation
 
@@ -50,4 +50,4 @@ bash scripts/infer_regnet_y_8gf_fp16_performance.sh
 
 | Model         | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| RegNet_y_8gf | 32        | FP16      | 1247.575 | 80.016   | 95.016   |
+| RegNet_y_8gf | 32        | FP16      | 1331.742 | 80.016   | 95.016   |

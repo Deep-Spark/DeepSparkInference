@@ -8,7 +8,7 @@ Yolov8 combines speed and accuracy in real-time object detection tasks. With a f
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.4.0 | 25.09 |
+| MR-V100 | 4.4.0 | 26.06 |
 
 ## Model Preparation
 
@@ -48,12 +48,6 @@ coco
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
 ```
 
@@ -88,4 +82,4 @@ bash scripts/infer_yolov8l_fp16_performance.sh
 
 | Model  | BatchSize | Precision | FPS     | MAP@0.5 | MAP@0.5:0.95 |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| YOLOv8l | 32        | FP16      | 295.309 | 0.696   | 0.527        |
+| YOLOv8l | 32        | FP16      | 316.406 | 0.696   | 0.527        |

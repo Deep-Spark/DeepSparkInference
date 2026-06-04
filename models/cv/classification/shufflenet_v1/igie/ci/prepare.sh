@@ -16,20 +16,11 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip install -r ../../igie_common/requirements.txt
 pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 
-unzip -q /root/data/repos/mmpretrain-0.24.0.zip -d ./
+unzip -q /mnt/deepspark/data/repos/mmpretrain-0.24.0.zip -d ./
 python3 ../../igie_common/export_mmcls.py   \
 --cfg ./mmpretrain/configs/shufflenet_v1/shufflenet-v1-1x_16xb64_in1k.py  \
---weight  /root/data/checkpoints/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth \
+--weight  /mnt/deepspark/data/checkpoints/shufflenet_v1_batch1024_imagenet_20200804-5d6cec73.pth \
 --output ./shufflenetv1.onnx

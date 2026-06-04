@@ -23,12 +23,6 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../igie_common/requirements.txt
 pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 ```
@@ -47,7 +41,6 @@ python3 ../../igie_common/export_mmcls.py   \
 ## Model Inference
 
 ```bash
-export PROJ_DIR=./
 export DATASETS_DIR=/Path/to/imagenet_val/
 export RUN_DIR=../../igie_common/
 ```
@@ -65,4 +58,4 @@ bash scripts/infer_shufflenet_v1_fp16_performance.sh
 
 | Model        | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | :----: | :----: | :----: | :----: | :----: | :----: |
-| ShuffleNetV1 | 32        | FP16      | 8786.320 | 68.098    | 87.802    |
+| ShuffleNetV1 | 32        | FP16      | 8867.570 | 68.098    | 87.802    |

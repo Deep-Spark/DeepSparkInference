@@ -23,7 +23,10 @@ Dataset: <https://www.image-net.org/download.php> to download the ImageNet-1K da
 ### Install Dependencies
 
 ```bash
-pip3 install -r dinov2/requirements.txt dinov2/requirements-dev.txt
+git clone https://github.com/facebookresearch/dinov2.git
+cp -r eval dinov2/dinov2
+cp dinov2-patch/* dinov2/
+pip3 install -r requirements.txt requirements-dev.txt
 ```
 
 

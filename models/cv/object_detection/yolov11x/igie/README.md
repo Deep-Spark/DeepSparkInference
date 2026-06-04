@@ -47,13 +47,8 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-*
-
 ```bash
 pip3 install -r requirements.txt
-pip3 install mmcv-*.whl
 ```
 
 ## Model Conversion
@@ -83,7 +78,7 @@ bash scripts/infer_yolov11x_fp16_performance.sh
 
 | Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | -------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv11x | 32        | FP16      | 189.803  | 0.713   | 0.544        |
+| YOLOv11x | 32        | FP16      | 187.316  | 0.713   | 0.544        |
 
 
 ## References

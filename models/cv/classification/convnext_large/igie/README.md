@@ -1,4 +1,4 @@
-# ConvNeXt Small (IGIE)
+# ConvNeXt Large (IGIE)
 
 ## Model Description
 
@@ -8,7 +8,7 @@ The ConvNeXt Large model represents a significant stride in the evolution of con
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 26.06 |
+| MR-V100 | 4.4.0 | 26.06 |
 
 
 ## Model Preparation
@@ -51,4 +51,4 @@ bash scripts/infer_convnext_large_fp16_performance.sh
 
 | Model          | BatchSize | Precision | FPS     | Top-1(%) | Top-5(%) |
 | -------------- | --------- | --------- | ------- | -------- | -------- |
-| ConvNeXt Large | 32        | FP16      | 404.729 | 84.087   | 96.835   |
+| ConvNeXt Large | 32        | FP16      | 399.348 | 84.087   | 96.835   |

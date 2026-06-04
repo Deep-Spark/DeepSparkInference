@@ -21,14 +21,13 @@ Pretrained model: <https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B>
 ### Install Dependencies
 
 ```bash 
+pip3 install -r requirements.txt 
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
-
 cd CosyVoice
 git checkout ace7c47
-git submodule update --init --recursive
-
-pip3 install -r requirements.txt 
-
+cp -r ../cosyvoice/cosyvoice ./
+cp -r ../cosyvoice/examples ./
+cp ../cosyvoice/example.py ./
 
 mkdir -p pretrained_models
 # download CosyVoice2-0.5B model into pretrained_models dir
