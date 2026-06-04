@@ -26,14 +26,16 @@ Dataset: <https://www.image-net.org/download.php> to download the ImageNet-1K da
 git clone https://github.com/facebookresearch/dinov2.git
 cp -r eval dinov2/dinov2
 cp dinov2-patch/* dinov2/
-pip3 install -r requirements.txt requirements-dev.txt
+pip3 install omegaconf==2.3.0 fvcore iopath submitit==1.5.4
 ```
 
-
 ### Model Conversion
-
 ```bash
 cd dinov2
+
+wget https://github.com/facebookresearch/dinov2/files/13427966/labels.txt -O /mnt/deepspark/data/datasets/imagenet
+python3 prepare_datasets.py
+
 python3 export.py \
     --config-file dinov2/configs/eval/vits14_pretrain.yaml \
     --pretrained-weights dinov2_vits14_pretrain.pth \
@@ -54,13 +56,9 @@ python3 build_engine.py                     \
 
 ```bash
 export PYTHONPATH=/path/to/dinov2:${PYTHONPATH}
-export IMAGENET_1K=/path/to/ILSVRC2012
-export RUN_DIR=../../igie_common/
-```
+export IMAGENET_1K=/path/to/imagenet
 
-### FP16
-
-```bash
+# ACC
 python3 dinov2/run/eval/linear.py \
     --config-file dinov2/configs/eval/vits14_pretrain.yaml \
     --pretrained-weights dinov2_vits14_pretrain_bs_64_fp16.so \
@@ -69,10 +67,23 @@ python3 dinov2/run/eval/linear.py \
     --batch-size 64 \
     --train-dataset ImageNet:split=TRAIN:root=${IMAGENET_1K}:extra=${IMAGENET_1K}/extra \
     --val-dataset ImageNet:split=VAL:root=${IMAGENET_1K}:extra=${IMAGENET_1K}/extra
+
+# Performence
+python3 dinov2/run/eval/linear.py \
+    --config-file dinov2/configs/eval/vits14_pretrain.yaml \
+    --pretrained-weights dinov2_vits14_pretrain_bs_64_fp16.so \
+    --output-dir ./eval_output/linear_vits14 \
+    --ngpus 1 \
+    --batch-size 64 \
+    --perf_only True
 ```
 
 ## Model Results
 
 | Model           | Task        | BatchSize | Precision | FPS | Accuracy |
 | --------------- | ----------- | --------- | --------- | --- | -------- |
-| DINOv2 ViT-S/14 | Linear Eval | 64        | FP16      |  1132.572   | 81.1%    |
+| DINOv2 ViT-S/14 | Linear Eval | 64        | FP16      | 889.542  | 81.1%    |
+
+## References
+
+- [dinov2](https://github.com/facebookresearch/dinov2)
