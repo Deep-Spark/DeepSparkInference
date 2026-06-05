@@ -30,6 +30,6 @@ cp /root/data/3rd_party/Arial.ttf /root/.config/Ultralytics/Arial.ttf
 
 ln -s /root/data/checkpoints/yolov5m.pt ./
 # 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
-python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size 32
-mv yolov5m.onnx ../checkpoints
+python3 export.py --weights yolov5m.pt --include onnx --opset 11 --dynamic
+mv yolov5m.onnx* ../checkpoints
 cd ..

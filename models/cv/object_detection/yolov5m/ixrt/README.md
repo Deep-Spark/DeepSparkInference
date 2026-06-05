@@ -72,10 +72,13 @@ cp Arial.ttf  /root/.config/Ultralytics/Arial.ttf
 pushd ./yolov5
 # set weights_only=False to be comaptible with pytorch 2.7 
 sed -i '96 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
+# ONNX 动态轴仅保留 batch，去掉 images 的 height/width 与 output 的 anchors 动态维
+sed -i "s/{0: 'batch', 2: 'height', 3: 'width'}/{0: 'batch'}/" export.py
+sed -i "s/{0: 'batch', 1: 'anchors'}/{0: 'batch'}/" export.py
 # download the weight from the recommend link
 wget https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5m.pt
-python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size 32
-mv yolov5m.onnx ../checkpoints
+python3 export.py --weights yolov5m.pt --include onnx --opset 11 --dynamic
+mv yolov5m.onnx* ../checkpoints
 popd
 ```
 
