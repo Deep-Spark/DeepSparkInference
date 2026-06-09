@@ -8,11 +8,15 @@ Whisper large-v3-turbo is a finetuned version of a pruned Whisper large-v3. In o
 
 ## Supported Environments
 
-| GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
-| :----: | :----: | :----: |
-| MR-V100 | 4.3.0     |  25.09  |
+| GPU | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release | Branch |
+| :----: | :----: | :----: | :----: |
+| MR-V100 | 4.3.0 | 25.12 | release/25.12 |
 
-**This model is compatible with IXUCA SDK up to version 4.3.0.**
+-**This model is compatible with IXUCA SDK up to version 4.3.0.**
+
+> **Note:** 请切换到与您的 SDK 版本对应的 Release 分支进行测试。请勿直接在 master 分支上运行测试，因为 master 分支可能包含与您的本地 SDK 版本不兼容的最新更改。
+>
+> 切换分支命令示例：`git checkout release/25.12`
 
 ## Model Preparation
 
