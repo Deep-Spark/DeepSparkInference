@@ -89,15 +89,29 @@ def main():
     else: 
         opset_version = 18
 
-    torch.onnx.export(
-        model, 
-        dummy_input, 
-        args.output, 
-        input_names = input_names, 
-        dynamic_axes = dynamic_axes, 
-        output_names = output_names,
-        opset_version = opset_version
-    )
+    from packaging import version
+    if version.parse(torch.__version__) >= version.parse("2.7.0"):
+        torch.onnx.export(
+            model, 
+            dummy_input, 
+            args.output, 
+            input_names = input_names, 
+            dynamic_axes = dynamic_axes, 
+            output_names = output_names,
+            opset_version = opset_version,
+            dynamo=False,
+            external_data=False
+        )
+    else:
+        torch.onnx.export(
+            model, 
+            dummy_input, 
+            args.output, 
+            input_names = input_names, 
+            dynamic_axes = dynamic_axes, 
+            output_names = output_names,
+            opset_version = opset_version
+        )
 
     print("Export onnx model successfully! ")
 
