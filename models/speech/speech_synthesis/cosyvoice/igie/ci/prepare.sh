@@ -15,8 +15,6 @@
 # limitations under the License.
 
 set -x
-apt update
-apt-get install sox libsox-dev
 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/ 
 pip3 install onnxsim==0.4.36
 cp -r /mnt/deepspark/data/repos/CosyVoice ./
