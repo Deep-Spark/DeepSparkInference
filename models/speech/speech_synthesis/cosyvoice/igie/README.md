@@ -20,7 +20,12 @@ Pretrained model: <https://huggingface.co/FunAudioLLM/CosyVoice2-0.5B>
 
 ### Install Dependencies
 
-```bash 
+Contact the Iluvatar administrator to get the missing packages:
+
+- triton-*.whl
+
+```bash
+pip install triton-*.whl
 pip3 install -r requirements.txt 
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
 cd CosyVoice
