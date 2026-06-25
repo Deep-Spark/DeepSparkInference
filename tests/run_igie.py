@@ -113,7 +113,7 @@ def main():
         logging.info(f"End running {model['model_name']} test case.")
 
     # Speech模型
-    if model["category"] in ["audio/speech_recognition"]:
+    if model["category"] in ["audio/speech_recognition", "speech/speech_synthesis"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -191,6 +191,11 @@ def run_clf_testcase(model, batch_size, whl_url):
         base_script = f"""
         export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
         export RUN_DIR=../../igie_common/
+        cd ../{model['model_path']}
+        """
+    elif model_name == "dinov2":
+        base_script = f"""
+        export IMAGENET_1K=/mnt/deepspark/data/datasets/imagenet
         cd ../{model['model_path']}
         """
     else:
@@ -699,6 +704,11 @@ def run_speech_testcase(model, batch_size):
                 """
             result["result"][prec].setdefault(bs, {})
             logging.info(f"Start running {model_name} {prec} bs={bs} test case")
+            if model_name == "cosyvoice":
+                script = f"""
+                    cd ../{model['model_path']}/CosyVoice
+                    python3 example.py
+                """
 
             r, t = run_script(script)
             sout = r.stdout

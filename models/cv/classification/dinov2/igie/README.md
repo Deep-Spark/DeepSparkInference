@@ -26,7 +26,7 @@ Dataset: <https://www.image-net.org/download.php> to download the ImageNet-1K da
 git clone https://github.com/facebookresearch/dinov2.git
 cp -r eval dinov2/dinov2
 cp dinov2-patch/* dinov2/
-pip3 install omegaconf==2.3.0 fvcore iopath submitit==1.5.4
+pip3 install omegaconf==2.3.0 fvcore iopath submitit==1.5.4 torchmetrics
 ```
 
 ### Model Conversion
@@ -59,23 +59,10 @@ export PYTHONPATH=/path/to/dinov2:${PYTHONPATH}
 export IMAGENET_1K=/path/to/imagenet
 
 # ACC
-python3 dinov2/run/eval/linear.py \
-    --config-file dinov2/configs/eval/vits14_pretrain.yaml \
-    --pretrained-weights dinov2_vits14_pretrain_bs_64_fp16.so \
-    --output-dir ./eval_output/linear_vits14_tvm \
-    --ngpus 1 \
-    --batch-size 64 \
-    --train-dataset ImageNet:split=TRAIN:root=${IMAGENET_1K}:extra=${IMAGENET_1K}/extra \
-    --val-dataset ImageNet:split=VAL:root=${IMAGENET_1K}:extra=${IMAGENET_1K}/extra
+bash scripts/infer_dinov2_fp16_accuracy.sh
 
 # Performence
-python3 dinov2/run/eval/linear.py \
-    --config-file dinov2/configs/eval/vits14_pretrain.yaml \
-    --pretrained-weights dinov2_vits14_pretrain_bs_64_fp16.so \
-    --output-dir ./eval_output/linear_vits14 \
-    --ngpus 1 \
-    --batch-size 64 \
-    --perf_only True
+bash scripts/infer_dinov2_fp16_performance.sh
 ```
 
 ## Model Results
