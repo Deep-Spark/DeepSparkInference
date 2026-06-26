@@ -51,6 +51,7 @@
 | ChatGLM-3-6B-32K              | `vLLM`       | [✅](models/nlp/llm/chatglm3-6b-32k/vllm)                           | 4.3.0     |
 | CosyVoice2-0.5B               | `PyTorch`    | [✅](models/speech/speech_synthesis/cosyvoice/pytorch)              | 4.3.0     |
 | CosyVoice2-0.5B               | `ixRT`       | [✅](models/speech/speech_synthesis/cosyvoice/ixrt)                 | dev-only  |
+| CosyVoice2-0.5B               | `IGIE`       | [✅](models/speech/speech_synthesis/cosyvoice/igie)                 | dev-only  |
 | DeepSeek-R1-Distill-Llama-8B  | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-8b/vllm)              | 4.3.0     |
 | DeepSeek-R1-Distill-Llama-70B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-llama-70b/vllm)             | 4.3.0     |
 | DeepSeek-R1-Distill-Qwen-1.5B | `vLLM`       | [✅](models/nlp/llm/deepseek-r1-distill-qwen-1.5b/vllm)             | 4.3.0     |
@@ -117,6 +118,7 @@
 | CLIP                   | FP16  | [✅](models/cv/classification/clip/igie)                | [✅](models/cv/classification/clip/ixrt)                   | 4.3.0     |
 | Conformer-B            | FP16  | [✅](models/cv/classification/conformer_base/igie)      |                                                           | 4.3.0     |
 | ConvNeXt-Base          | FP16  | [✅](models/cv/classification/convnext_base/igie)       | [✅](models/cv/classification/convnext_base/ixrt)          | 4.3.0     |
+| ConvNeXt-Large         | FP16  | [✅](models/cv/classification/convnext_large/igie)      |                                                            | 4.4.0     |
 | ConvNext-S             | FP16  | [✅](models/cv/classification/convnext_s/igie)          |                                                           | 4.3.0     |
 | ConvNeXt-Small         | FP16  | [✅](models/cv/classification/convnext_small/igie)      | [✅](models/cv/classification/convnext_small/ixrt)         | 4.3.0     |
 | ConvNeXt-Tiny          | FP16  | [✅](models/cv/classification/convnext_tiny/igie)       |                                                           | 4.3.0     |
@@ -132,6 +134,7 @@
 | DenseNet161            | FP16  | [✅](models/cv/classification/densenet161/igie)         | [✅](models/cv/classification/densenet161/ixrt)            | 4.3.0     |
 | DenseNet169            | FP16  | [✅](models/cv/classification/densenet169/igie)         | [✅](models/cv/classification/densenet169/ixrt)            | 4.3.0     |
 | DenseNet201            | FP16  | [✅](models/cv/classification/densenet201/igie)         | [✅](models/cv/classification/densenet201/ixrt)            | 4.3.0     |
+| DINOv2                 | FP16  | [✅](models/cv/classification/dinov2/igie)              |                                                            | 4.4.0     |
 | EfficientNet-B0        | FP16  | [✅](models/cv/classification/efficientnet_b0/igie)     | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
 | EfficientNet-B1        | FP16  | [✅](models/cv/classification/efficientnet_b1/igie)     | [✅](models/cv/classification/efficientnet_b1/ixrt)        | 4.3.0     |
@@ -170,6 +173,7 @@
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_3_2gf         | FP16  | [✅](models/cv/classification/regnet_x_3_2gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_8gf          | FP16  | [✅](models/cv/classification/regnet_x_8gf/igie)         |                                                           | 4.3.0     |
+| RegNet_y_8gf          | FP16  | [✅](models/cv/classification/regnet_y_8gf/igie)         |                                                           | 4.4.0     |
 | RegNet_x_32gf          | FP16  | [✅](models/cv/classification/regnet_x_32gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_400mf         | FP16  | [✅](models/cv/classification/regnet_x_400mf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_800mf         | FP16  | [✅](models/cv/classification/regnet_x_800mf/igie)      |                                                           | 4.3.0     |
@@ -178,6 +182,7 @@
 | RegNet_y_3_2gf         | FP16  | [✅](models/cv/classification/regnet_y_3_2gf/igie)      |                                                           | 4.3.0     |
 | RegNet_y_32gf          | FP16  | [✅](models/cv/classification/regnet_y_32gf/igie)       |                                                           | 4.3.0     |
 | RegNet_y_400mf         | FP16  | [✅](models/cv/classification/regnet_y_400mf/igie)      |                                                           | 4.3.0     |
+| RegNet_y_800mf         | FP16  | [✅](models/cv/classification/regnet_y_800mf/igie)      |                                                           | 4.4.0     |
 | RepVGG                 | FP16  | [✅](models/cv/classification/repvgg/igie)              | [✅](models/cv/classification/repvgg/ixrt)                 | 4.3.0     |
 | Res2Net50              | FP16  | [✅](models/cv/classification/res2net50/igie)           | [✅](models/cv/classification/res2net50/ixrt)              | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/res2net50/ixrt)              | 4.3.0     |
@@ -198,7 +203,7 @@
 | ResNeXt101_64x4d       | FP16  | [✅](models/cv/classification/resnext101_64x4d/igie)    | [✅](models/cv/classification/resnext101_64x4d/ixrt)       | 4.3.0     |
 | ResNeXt101_32x8d       | FP16  | [✅](models/cv/classification/resnext101_32x8d/igie)    | [✅](models/cv/classification/resnext101_32x8d/ixrt)       | 4.3.0     |
 | SEResNet50             | FP16  | [✅](models/cv/classification/se_resnet50/igie)         |                                                           | 4.3.0     |
-| ShuffleNetV1           | FP16  |                                                        | [✅](models/cv/classification/shufflenet_v1/ixrt)          | 4.3.0     |
+| ShuffleNetV1           | FP16  | [✅](models/cv/classification/shufflenet_v1/igie)      | [✅](models/cv/classification/shufflenet_v1/ixrt)          | 4.4.0     |
 | ShuffleNetV2_x0_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x0_5/igie)   | [✅](models/cv/classification/shufflenetv2_x0_5/ixrt)      | 4.3.0     |
 | ShuffleNetV2_x1_0      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_0/igie)   | [✅](models/cv/classification/shufflenetv2_x1_0/ixrt)      | 4.3.0     |
 | ShuffleNetV2_x1_5      | FP16  | [✅](models/cv/classification/shufflenetv2_x1_5/igie)   | [✅](models/cv/classification/shufflenetv2_x1_5/ixrt)      | 4.3.0     |
@@ -260,19 +265,23 @@
 |            | INT8  |                                                 | [✅](models/cv/object_detection/yolov6s/ixrt)     | 4.3.0     |
 | YOLOv7     | FP16  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov7/igie)     | [✅](models/cv/object_detection/yolov7/ixrt)     | 4.3.0     |
+| YOLOv8l   | FP16  | [✅](models/cv/object_detection/yolov8l/igie)    |                                                   | 4.4.0     |
 | YOLOv8n    | FP16  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8n/igie)    | [✅](models/cv/object_detection/yolov8n/ixrt)    | 4.3.0     |
 | YOLOv8s    | FP16  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov8s/igie)    |                                                  | 4.3.0     |
+| YOLOv8x   | FP16  | [✅](models/cv/object_detection/yolov8x/igie)    |                                                   | 4.4.0     |
 | YOLOv9s    | FP16  | [✅](models/cv/object_detection/yolov9s/igie)     | [✅](models/cv/object_detection/yolov9s/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov9s/igie)     |                                                   | 4.3.0     |
 | YOLOv10s   | FP16  | [✅](models/cv/object_detection/yolov10s/igie)    | [✅](models/cv/object_detection/yolov10s/ixrt)    | 4.3.0     |
+| YOLOv11l   | FP16  | [✅](models/cv/object_detection/yolov11l/igie)    |                                                   | 4.4.0     |
 | YOLOv11m   | FP16  | [✅](models/cv/object_detection/yolov11m/igie)    |                                                   | 4.4.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov11m/igie)     |                                                  | 4.4.0     |
 | YOLOv11n   | FP16  | [✅](models/cv/object_detection/yolov11n/igie)    | [✅](models/cv/object_detection/yolov11n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov11n/igie)     |                                                  | 4.3.0     |
 | YOLOv11s   | FP16  | [✅](models/cv/object_detection/yolov11s/igie)    |                                                   | 4.4.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov11s/igie)     |                                                  | 4.4.0     |
+| YOLOv11x   | FP16  | [✅](models/cv/object_detection/yolov11x/igie)    |                                                   | 4.4.0     |
 | YOLOv12n   | FP16  | [✅](models/cv/object_detection/yolov12n/igie)    | [✅](models/cv/object_detection/yolov12n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov12n/igie)     |                                                   | 4.3.0     |
 | YOLOv13n   | FP16  | [✅](models/cv/object_detection/yolov13n/igie)    | [✅](models/cv/object_detection/yolov13n/ixrt)    | 4.3.0     |

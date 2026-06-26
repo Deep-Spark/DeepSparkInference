@@ -9,6 +9,7 @@
 
 | Release Date | Release Version | IXUCA SDK |
 |--------------|-----------------|-----------|
+| Jun 2026     | 26.06           | v4.4.0    |
 | Mar 2026     | 26.03           | v4.4.0    |
 | Dec 2025     | 25.12           | v4.3.0    |
 | Sep 2025     | 25.09           | v4.3.0    |
@@ -20,6 +21,79 @@
 | Mar 2024     | 24.03           | v4.0.0    |
 
 ## Release Notes
+
+### DeepSparkInference 26.06
+
+#### 模型与算法
+
+* 新增了 15 个推理小模型示例，其中支持 IGIE 推理引擎的 9 个，支持 ixRT 推理引擎的 6 个。
+* 新增了 9 个大语言模型推理示例，涉及使用 [ComfyUI](https://github.com/Comfy-Org/ComfyUI)，[Indextts](https://github.com/index-tts/index-tts)，[Qwen-TTS](https://github.com/QwenLM/Qwen3-TTS)，[Qwen-ASR](https://github.com/QwenLM/Qwen3-ASR)等
+
+<table>
+  <th colspan=3>IGIE</th>
+  <tr>
+      <td>ConvNeXt_Large</td>
+      <td>RegNetY-800MF</td>
+      <td>RegNetY-8GF</td>
+  </tr>
+  <tr>
+      <td>ShuffleNetV1</td>
+      <td>Yolo11l</td>
+      <td>Yolo11x</td>
+  </tr>
+  <tr>
+      <td>YOLOv8l</td>
+      <td>YOLOv8x</td>
+      <td>DINOv2</td>
+  </tr>
+  <th colspan=3>ixRT</th>
+  <tr>
+      <td>ViT</td>
+      <td>DeiT_B</td>
+      <td>MobileNet V1</td>
+  </tr>
+  <tr>
+      <td>DBNet</td>
+      <td>DDRNet</td>
+      <td>DeepSpeech2</td>
+  </tr>
+  <th colspan=3>LLM</th>
+  <tr>
+      <td>Qwen-Image (ComfyUI)</td>
+      <td>Z-Image (Diffusers)</td>
+      <td>IndexTTS-2 (Indextts)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-TTS-12Hz-1.7B-Base (Qwen-TTS)</td>
+      <td>Qwen3-ASR-1.7B (Qwen-ASR)</td>
+      <td>PaddleOCR-VL-1.5 (Transformers)</td>
+  </tr>
+  <tr>
+      <td>Qwen3-Embedding-8B (vLLM)</td>
+      <td>ERNIE-4.5-VL-28B-A3B-Thinking (Transformers)</td>
+      <td>CosyVoice (IGIE)</td>
+  </tr>
+</table>
+
+#### 修复更新
+
+- 适配 IGIE Conformer 在 PyTorch 2.10 环境下的运行
+- 修复 IGIE YOLOv5m 模型在 INT8 精度下 DECODER_INPUT_NAMES 缺失的问题
+- 使用 onnxruntime 量化工具替换原有 deploy_tools 量化流程
+- 修复 IGIE ViT 模型导出问题
+- 修复 Qwen-VL 模型在缺失 img_pad_id 时的兼容性问题
+- 修复 ixRT YOLOv3、YOLOv5m、YOLOv7、YOLOv7m 模型相关运行问题
+- 修复 EfficientNet-B1 模型的部分运行异常
+- 更新 supported_env 及依赖脚本以适配 IXUCA SDK 4.4.0
+- 新增 CosyVoice IGIE 实现的 torchaudio 适配支持
+
+#### 版本关联
+
+DeepSparkInference 26.06 对应天数软件栈 4.4.0 版本。
+
+#### 感谢以下社区贡献者
+
+honglyua，majorli6，shengyan.zhao，fhfang，anders。
 
 ### DeepSparkInference 26.03
 
