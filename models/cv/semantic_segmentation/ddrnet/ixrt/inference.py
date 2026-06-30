@@ -172,10 +172,6 @@ def test_mIoU_mAcc(dataset, config):
     print(f"Executing Done, Time: {avg_time}, FPS: {fps}, mIoU: {mean_IoU}, mAcc: {mean_acc}")
     print(f"Class IoU:")
     print(f"{IoU_array}")
-    metricResult = {"metricResult": {}}
-    metricResult["metricResult"]["mIoU"] = round(mean_IoU, 3)
-    metricResult["metricResult"]["mAcc"] = round(mean_acc, 3)
-    print(metricResult)
     return mean_IoU, mean_acc
         
 
@@ -221,9 +217,6 @@ def test_fps(config, loop_count, dataset):
     avg_time = sum(run_times) / len(run_times)
     fps = b / avg_time 
     print(f"Executing {loop_count} done, Time: {avg_time}, FPS: {fps}")
-    metricResult = {"metricResult": {}}
-    metricResult["metricResult"]["FPS"] = round(fps, 3)
-    print(metricResult)
     return fps
 
 
@@ -267,13 +260,13 @@ def parse_config():
     parser.add_argument(
         "--dataset_dir",
         type=str,
-        default="/root/data/datasets",
+        default="data/cityscapes",
         help="The directory of dataset(cityscapes)",
     )
     parser.add_argument(
         "--list_path",
         type=str,
-        default="/root/data/datasets/cityscapes/val.lst",
+        default="data/list/cityscapes/val.lst",
         help="The val name list of dataset(cityscapes)",
     )
     parser.add_argument("--warm_up", type=int, default=5, help="warm_up count")
