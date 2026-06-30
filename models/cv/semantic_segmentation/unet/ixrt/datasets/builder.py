@@ -6,9 +6,9 @@ from functools import partial
 
 import numpy as np
 import torch
-from mmcv.parallel import collate
-from mmcv.runner import get_dist_info
-from mmcv.utils import Registry, build_from_cfg, digit_version
+from mmcv_shim.parallel import collate
+from mmcv_shim.runner import get_dist_info
+from mmcv_shim.utils import Registry, build_from_cfg, digit_version
 from torch.utils.data import DataLoader
 
 

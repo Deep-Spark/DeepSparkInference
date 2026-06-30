@@ -58,48 +58,36 @@ else
     echo "  "Generate ${SIM_MODEL}
 fi
 
-# Quant Model
+# Quant Model via onnxruntime (CPU, no GPU OOM even with BSZ=64)
+# InceptionResnetV2 has hardcoded batch=64 in internal Reshape nodes,
+# so calibration must use batch_size=64 to match (same pattern as DeiT-B with batch=32).
+# per_channel=False avoids scale count mismatch at the classifier's Gemm/MatMul layer.
 if [ $PRECISION == "int8" ];then
     let step++
     echo;
     echo [STEP ${step}] : Quant Model
     if [[ -z ${QUANT_EXIST_ONNX} ]];then
-        QUANT_EXIST_ONNX=$CHECKPOINTS_DIR/quantized_${MODEL_NAME}.onnx
+        QUANT_EXIST_ONNX=${CHECKPOINTS_DIR}/quantized_${MODEL_NAME}.onnx
     fi
     if [[ -f ${QUANT_EXIST_ONNX} ]];then
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
-        python3 ${RUN_DIR}/quant.py            \
-            --model ${SIM_MODEL}               \
-            --model_name ${MODEL_NAME}         \
-            --dataset_dir ${DATASETS_DIR}      \
-            --observer ${QUANT_OBSERVER}       \
-            --disable_quant_names ${DISABLE_QUANT_LIST[@]} \
-            --save_dir $CHECKPOINTS_DIR        \
-            --bsz   ${QUANT_BATCHSIZE}         \
-            --step  ${QUANT_STEP}              \
-            --seed  ${QUANT_SEED}              \
-            --imgsz ${IMGSIZE}
-        SIM_MODEL=${QUANT_EXIST_ONNX}
-        echo "  "Generate ${SIM_MODEL}
+        python3 ${RUN_DIR}/onnx_runtime_quant.py        \
+            --input ${SIM_MODEL}                        \
+            --model_name ${MODEL_NAME}                  \
+            --calibration_dir ${DATASETS_DIR}           \
+            --save_dir ${CHECKPOINTS_DIR}               \
+            --batch_size ${BSZ}                         \
+            --num_samples 4                             \
+            --per_channel False                         \
+            --op_types_to_quantize MatMul Conv Gemm
+        check_status
+        echo "  "Generate ${QUANT_EXIST_ONNX}
     fi
 fi
 
-# Change Batchsize
-let step++
-echo;
-echo [STEP ${step}] : Change Batchsize
-FINAL_MODEL=${CHECKPOINTS_DIR}/${MODEL_NAME}_quant_${BSZ}.onnx
-if [ -f $FINAL_MODEL ];then
-    echo "  "Change Batchsize Skip, $FINAL_MODEL has been existed
-else
-    python3 ${RUN_DIR}/modify_batchsize.py --batch_size ${BSZ} \
-        --origin_model ${SIM_MODEL} --output_model ${FINAL_MODEL}
-    echo "  "Generate ${FINAL_MODEL}
-fi
-
-# Build Engine
+# Build Engine directly from quantized model (already BSZ=64)
 let step++
 echo;
 echo [STEP ${step}] : Build Engine
@@ -107,10 +95,11 @@ ENGINE_FILE=${CHECKPOINTS_DIR}/${MODEL_NAME}_${PRECISION}_bs${BSZ}.engine
 if [ -f $ENGINE_FILE ];then
     echo "  "Build Engine Skip, $ENGINE_FILE has been existed
 else
-    python3 ${RUN_DIR}/build_engine.py          \
-        --precision ${PRECISION}                \
-        --model ${FINAL_MODEL}                    \
+    python3 ${RUN_DIR}/build_engine.py      \
+        --precision ${PRECISION}            \
+        --model ${QUANT_EXIST_ONNX}         \
         --engine ${ENGINE_FILE}
+    check_status
     echo "  "Generate Engine ${ENGINE_FILE}
 fi
 

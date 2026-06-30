@@ -1,7 +1,7 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import os.path as osp
 
-import mmcv
+import mmcv_shim as mmcv
 import numpy as np
 
 from ..builder import PIPELINES

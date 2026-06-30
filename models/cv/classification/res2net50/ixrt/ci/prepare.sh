@@ -16,15 +16,10 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip install -r ../../ixrt_common/requirements.txt
 mkdir checkpoints
-python3 export_onnx.py --origin_model /root/data/checkpoints/res2net50.pth --output_model checkpoints/res2net50.onnx
+python3 export_onnx.py --origin_model /root/data/checkpoints/res2net50.pth --output_model res2net50.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i res2net50.onnx -o res2net50_ir9.onnx
+mv res2net50_ir9.onnx checkpoints/res2net50.onnx

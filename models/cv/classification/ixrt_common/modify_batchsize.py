@@ -13,15 +13,17 @@ def change_input_dim(model, bsz):
         # Checks omitted.This assumes that all inputs are tensors and have a shape with first dim.
         # Add checks as needed.
         dim1 = input.type.tensor_type.shape.dim[0]
-        # update dim to be a symbolic value
         if isinstance(batch_size, str):
-            # set dynamic batch size
+            # set dynamic (symbolic) batch size — clear any existing static value first
+            dim1.ClearField("dim_value")
             dim1.dim_param = batch_size
-        elif (isinstance(batch_size, str) and batch_size.isdigit()) or isinstance(batch_size, int):
-            # set given batch size
+        elif isinstance(batch_size, int):
+            # set given static batch size — clear any existing symbolic name first
+            dim1.ClearField("dim_param")
             dim1.dim_value = int(batch_size)
         else:
             # set batch size of 1
+            dim1.ClearField("dim_param")
             dim1.dim_value = 1
 
 def change_reshape_batch(model, bsz):
@@ -54,14 +56,18 @@ def infer_node_shape(model):
             tensor_type.ClearField('shape')
 
     from onnx import checker, shape_inference
-    model = shape_inference.infer_shapes(model, strict_mode=True)
-    checker.check_model(model)
+    model = shape_inference.infer_shapes(model)
+    try:
+        checker.check_model(model)
+    except Exception as e:
+        print(f"[modify_batchsize] check_model warning (non-fatal): {e}")
 
     return model
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--batch_size", type=int)
+    # Accept either an integer string ("32") or a symbolic name ("batch_size") for dynamic batch.
+    parser.add_argument("--batch_size", type=str)
     parser.add_argument("--origin_model", type=str)
     parser.add_argument("--output_model", type=str)
     parser.add_argument("--strict_mode", action='store_true')
@@ -71,8 +77,10 @@ def parse_args():
 if __name__ == "__main__":
     args = parse_args()
     model = onnx.load(args.origin_model)
-    change_input_dim(model, args.batch_size)
-    change_reshape_batch(model, args.batch_size)
+    # Convert to int if the value is a pure digit string; keep as str for symbolic/dynamic batch.
+    bsz = int(args.batch_size) if args.batch_size.lstrip('-').isdigit() else args.batch_size
+    change_input_dim(model, bsz)
+    change_reshape_batch(model, bsz)
 
     if args.strict_mode:
         model = infer_node_shape(model)

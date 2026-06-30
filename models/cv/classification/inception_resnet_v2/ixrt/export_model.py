@@ -389,7 +389,7 @@ if __name__ == '__main__':
                     input,            
                     export_onnx_file,       
                     export_params=True,  
-                    opset_version=11,    
+                    opset_version=18,    
                     do_constant_folding=True,  
                     input_names = ['images'],   
                     output_names = ['output'], ) 

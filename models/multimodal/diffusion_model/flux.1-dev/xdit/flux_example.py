@@ -73,11 +73,14 @@ def main():
     
     parameter_peak_memory = torch.cuda.max_memory_allocated(device=f"cuda:{local_rank}")
     ## 
+    is_quantized=getattr(pipe, "is_quantized", False)
     import os
-    if os.environ.get("ENABLE_IXFORMER_W8A8LINEAR", "0") == "1":
-        from w8a8_linear import apply_quant_linear_i8w8o16
+    if os.environ.get("ENABLE_IXFORMER_W8A8LINEAR", "1") == "1" and not is_quantized:
+        from w8a8_linear import apply_quant_linear_i8w8o16,apply_quant_lineargelu_i8w8o16
         pipe.transformer=apply_quant_linear_i8w8o16(pipe.transformer)
-    # pipe.transformer.fuse_qkv_projections()
+        pipe.transformer=apply_quant_lineargelu_i8w8o16(pipe.transformer)   
+        pipe.is_quantized=True
+
     pipe.prepare_run(input_config, steps=input_config.num_inference_steps)
     
     torch.cuda.reset_peak_memory_stats()

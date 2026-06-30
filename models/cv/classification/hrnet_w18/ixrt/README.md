@@ -26,12 +26,6 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
 pip3 install --no-build-isolation mmcv==1.5.3 mmcls==0.24.0
 ```
@@ -44,7 +38,11 @@ git clone -b v0.24.0 https://github.com/open-mmlab/mmpretrain.git
 
 mkdir checkpoints
 # export onnx model
-python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output checkpoints/hrnet_w18.onnx
+python3 ../../ixrt_common/export_mmcls.py --cfg mmpretrain/configs/hrnet/hrnet-w18_4xb32_in1k.py --weight hrnet-w18_3rdparty_8xb32_in1k_20220120-0c10b180.pth --output hrnet_w18.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i hrnet_w18.onnx -o hrnet_w18_ir9.onnx
+mv hrnet_w18_ir9.onnx checkpoints/hrnet_w18.onnx
 ```
 
 ## Model Inference

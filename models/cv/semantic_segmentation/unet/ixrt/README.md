@@ -28,8 +28,6 @@ Dataset: <https://drive.grand-challenge.org/> to download the dataset.
 ```bash
 pip3 install onnxsim
 pip3 install opencv-python==4.6.0.66
-pip3 uninstall mmcv-full mmcv -y
-pip3 install --no-build-isolation mmcv==1.5.3
 pip3 install prettytable
 pip3 install onnx
 ```

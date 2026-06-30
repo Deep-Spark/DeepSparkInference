@@ -19,6 +19,7 @@ def box_class85to6(input):
     return nms_input
 
 def save2json(batch_img_id, pred_boxes, json_result, class_trans):
+    n_cls = len(class_trans)
     for i, boxes in enumerate(pred_boxes):
         if boxes is not None:
             image_id = int(batch_img_id[i])
@@ -27,7 +28,12 @@ def save2json(batch_img_id, pred_boxes, json_result, class_trans):
                 continue
             for x, y, w, h, c, p in boxes:
                 x, y, w, h, p = float(x), float(y), float(w), float(h), float(p)
-                c = int(c)
+                cf = float(c)
+                if np.isnan(cf) or np.isinf(cf):
+                    continue
+                c = int(cf)
+                if c < 1 or c > n_cls:
+                    continue
                 json_result.append(
                     {
                         "image_id": image_id,

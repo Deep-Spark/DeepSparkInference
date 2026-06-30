@@ -40,16 +40,11 @@ cd checkpoints
 wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/deepspeech2.onnx
 wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/common_crawl_00.prune01111.trie.klm
 
-
-git clone https://gitee.com/deep-spark/iluvatar-corex-ixrt.git --depth=1
-
-OPTIMIER_FILE=iluvatar-corex-ixrt/tools/optimizer/optimizer.py
 echo "Build engine!"
 python3 modify_model_to_dynamic.py --static_onnx checkpoints/deepspeech2.onnx --dynamic_onnx checkpoints/deepspeech2_dynamic.onnx
-python3 ${OPTIMIER_FILE}  --onnx checkpoints/deepspeech2_dynamic.onnx --model_type rnn --not_sim
 python3 build_engine.py \
     --model_name deepspeech2 \
-    --onnx_path checkpoints/deepspeech2_dynamic_end.onnx \
+    --onnx_path checkpoints/deepspeech2_dynamic.onnx \
     --engine_path checkpoints/deepspeech2.engine
 
 ```

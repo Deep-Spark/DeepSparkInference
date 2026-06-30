@@ -6,7 +6,6 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 
 export ENABLE_IXFORMER_INFERENCE=1
 export ATTN_OPT_LEVEL=2 #xdit >=0.4.5
-export ENABLE_IXFORMER_SAGEATTN=1  #使用 sageattention,#xdit ==0.4.4
 export ENABLE_IXFORMER_W8A8LINEAR=1
 
 # Select the model type
@@ -14,7 +13,7 @@ export MODEL_TYPE="Flux"
 # Configuration for different model types
 # script, model_id, inference_step
 declare -A MODEL_CONFIGS=(    
-    ["Flux"]="flux_example.py /home/data/flux___1-schnell/ 28"   
+    ["Flux"]="flux_example.py /data/nlp/flux___1-schnell/ 20"   
 )
 
 echo ${MODEL_CONFIGS[$MODEL_TYPE]}
@@ -31,7 +30,7 @@ fi
 
 
 # task args
-TASK_ARGS="--height 1024 --width 1024 --no_use_resolution_binning --guidance_scale 3.5"
+TASK_ARGS="--height 512 --width 512 --no_use_resolution_binning --guidance_scale 3.5"
 
 # cache args
 # CACHE_ARGS="--use_teacache"
@@ -69,4 +68,3 @@ $PARALLLEL_VAE \
 $COMPILE_FLAG \
 $QUANTIZE_FLAG \
 $CACHE_ARGS \
-

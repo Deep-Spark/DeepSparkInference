@@ -76,6 +76,8 @@ if [ $PRECISION == "int8" ];then
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
         cd $RUN_DIR
+	python3 ${RUN_DIR}/make_ir9_model.py -i ${SIM_MODEL} -o ${RUN_DIR}/facenet_ir9.onnx
+	cp ${RUN_DIR}/facenet_ir9.onnx ${SIM_MODEL}
         python3 ${RUN_DIR}/quant.py            \
             --model ${SIM_MODEL} \
             --batch_size ${QUANT_BATCHSIZE} \
@@ -117,7 +119,7 @@ python3 ${RUN_DIR}/inference.py     \
     --warm_up=${WARM_UP}            \
     --loop_count ${LOOP_COUNT}      \
     --test_mode ${RUN_MODE}         \
-    --fps_target ${TGT}             \
+    --acc_target ${TGT}             \
     --bsz ${BSZ}; check_status
 
 exit ${EXIT_STATUS}

@@ -26,12 +26,6 @@ Dataset: <https://www.image-net.org/download.php> to download the validation dat
 ### Install Dependencies
 
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r ../../ixrt_common/requirements.txt
 ```
 
@@ -39,7 +33,11 @@ pip3 install -r ../../ixrt_common/requirements.txt
 
 ```bash
 mkdir checkpoints
-python3 export_onnx.py --origin_model /path/to/res2net50_14w_8s-6527dddc.pth --output_model checkpoints/res2net50.onnx
+python3 export_onnx.py --origin_model res2net50_14w_8s-6527dddc.pth --output_model res2net50.onnx
+
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../ixrt_common/make_ir9_model.py -i res2net50.onnx -o res2net50_ir9.onnx
+mv res2net50_ir9.onnx checkpoints/res2net50.onnx
 ```
 
 ## Model Inference
