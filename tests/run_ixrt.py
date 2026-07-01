@@ -354,15 +354,7 @@ def run_detec_testcase(model, batch_size, whl_url):
                 """
             else:
                 export_onnx_script = ""
-                if model_name == "yolov5m":
-                    export_onnx_script = f"""
-                        cd yolov5
-                        python3 export.py --weights yolov5m.pt --include onnx --opset 11 --batch-size {bs}
-                        mv yolov5m.onnx ../checkpoints
-                        rm -rf ../checkpoints/tmp
-                        cd -
-                    """
-                elif model_name == "yoloxm":
+                if model_name == "yoloxm":
                     export_onnx_script = f"""
                         cd YOLOX
                         python3 tools/export_onnx.py --output-name ../yolox.onnx -n yolox-m -c yolox_m.pth --batch-size {bs}
