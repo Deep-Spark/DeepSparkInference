@@ -1,5 +1,5 @@
 tqdm
-onnx
+onnx==1.18.0
 onnxsim
 pycocotools
 opencv-python==4.8.0.74
