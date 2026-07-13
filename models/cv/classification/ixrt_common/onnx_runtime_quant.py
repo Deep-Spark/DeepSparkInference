@@ -2,6 +2,7 @@ import os
 import argparse
 import numpy as np
 import onnx
+from onnx import numpy_helper
 import torch
 import torchvision
 from pathlib import Path
@@ -320,6 +321,63 @@ def verify_quantization(original_model, quantized_model, test_dataloader):
     print(f"量化模型精度: {acc_quantized:.4f}")
     print(f"精度损失: {acc_original - acc_quantized:.4f}")
 
+def convert_fc_weights_to_per_tensor(model_path, output_path, op_types=("Gemm", "MatMul")):
+    """Convert per-channel weight quantization of the given op types back to per-tensor.
+
+    The previous ``tensorrt.deploy.static_quantize`` flow quantized Conv weights
+    per-channel but kept fully-connected (Gemm/MatMul) weights per-tensor. ONNX
+    Runtime's ``per_channel=True`` is a global switch that also makes FC weights
+    per-channel, for which IxRT has no efficient fused INT8 GEMM kernel -- this
+    regresses FPS on FC-dominated models such as VGG16. Re-quantizing the FC
+    weights per-tensor restores the original performance.
+    """
+    model = onnx.load(model_path)
+    graph = model.graph
+    init_idx = {init.name: i for i, init in enumerate(graph.initializer)}
+    dq_by_out = {n.output[0]: n for n in graph.node if n.op_type == "DequantizeLinear"}
+
+    for node in graph.node:
+        if node.op_type not in op_types:
+            continue
+        if len(node.input) < 2:
+            continue
+        dq = dq_by_out.get(node.input[1])
+        if dq is None:
+            continue
+        q_name, s_name = dq.input[0], dq.input[1]
+        zp_name = dq.input[2] if len(dq.input) > 2 else None
+        if s_name not in init_idx or q_name not in init_idx:
+            continue
+        scale = numpy_helper.to_array(graph.initializer[init_idx[s_name]])
+        if scale.size <= 1:
+            continue  # already per-tensor
+        q = numpy_helper.to_array(graph.initializer[init_idx[q_name]]).astype(np.float32)
+        if zp_name in init_idx:
+            zp = numpy_helper.to_array(graph.initializer[init_idx[zp_name]]).astype(np.float32)
+        else:
+            zp = np.zeros_like(scale)
+        axis = next((a.i for a in dq.attribute if a.name == "axis"), 0)
+        shape = [1] * q.ndim
+        shape[axis] = scale.size
+        w_float = (q - zp.reshape(shape)) * scale.reshape(shape)
+        amax = float(np.max(np.abs(w_float)))
+        s_pt = amax / 127.0 if amax > 0 else 1.0
+        q_new = np.clip(np.round(w_float / s_pt), -127, 127).astype(np.int8)
+
+        graph.initializer[init_idx[q_name]].CopyFrom(numpy_helper.from_array(q_new, q_name))
+        graph.initializer[init_idx[s_name]].CopyFrom(
+            numpy_helper.from_array(np.array(s_pt, dtype=np.float32), s_name)
+        )
+        if zp_name in init_idx:
+            graph.initializer[init_idx[zp_name]].CopyFrom(
+                numpy_helper.from_array(np.array(0, dtype=np.int8), zp_name)
+            )
+        for i in reversed([i for i, a in enumerate(dq.attribute) if a.name == "axis"]):
+            del dq.attribute[i]
+        print(f"Converted {node.op_type} weight '{q_name}' to per-tensor quantization")
+    onnx.save(model, output_path)
+
+
 def remove_quantize_axis_attribute(model_path, output_path):
     model = onnx.load(model_path)
 
@@ -385,6 +443,10 @@ def main():
     parser.add_argument('--calibrate_method', type=str, default='Entropy',
                       choices=['Entropy', 'MinMax', 'Percentile'],
                       help='校准方法（默认 Entropy；SiLU 激活模型可尝试 MinMax 或 Percentile）')
+    parser.add_argument('--fc_per_tensor', action='store_true', default=False,
+                      help='将全连接层（Gemm/MatMul）权重的量化由 per-channel 转回 per-tensor。'
+                           'IxRT 无高效的 per-channel INT8 GEMM kernel，FC 占比高的模型（如 VGG16）'
+                           '在 per-channel 下会走慢路径导致 FPS 下降；仅对这类模型开启（默认关闭）。')
 
     args = parser.parse_args()
     
@@ -419,6 +481,12 @@ def main():
         nodes_to_exclude=args.nodes_to_exclude if args.nodes_to_exclude else None,
         calibrate_method=args.calibrate_method,
     )
+    # Opt-in only (via --fc_per_tensor): match the legacy deploy flow by keeping
+    # Conv weights per-channel while making fully-connected (Gemm/MatMul) weights
+    # per-tensor, avoiding the IxRT per-channel GEMM slow path that regresses FPS
+    # on FC-heavy models such as VGG16. Off by default so other models are unaffected.
+    if args.fc_per_tensor:
+        convert_fc_weights_to_per_tensor(quantized_model, quantized_model)
     remove_quantize_axis_attribute(quantized_model, f"{args.save_dir}/quantized_{args.model_name}.onnx")
     
     # 验证精度（如果提供测试数据）
