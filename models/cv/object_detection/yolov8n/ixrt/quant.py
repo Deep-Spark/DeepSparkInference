@@ -113,14 +113,54 @@ def get_input_name(model_path):
 
 
 def make_input_dynamic(model_path: str, output_path: str) -> None:
-    """Make the batch dimension of all graph inputs dynamic (ORT calibration compat)."""
+    """Rewrite the ONNX so the batch dimension is fully dynamic.
+
+    ultralytics exports YOLO with a *static* batch, baking it not only into the
+    input shape but also into the detection-head ``Reshape`` targets (e.g.
+    ``[32, 64, -1]``, ``[32, 4, 16, 8400]``). Two problems follow:
+
+      * calibration is forced to use that same large batch, and ORT's
+        hist_percentile keeps full activations per batch -> memory blows up and
+        the test machine OOMs at bs=32/64;
+      * even a dynamic engine cannot infer at other batch sizes because the
+        Reshape batch is hard-coded.
+
+    Making the batch truly dynamic decouples calibration from inference: we can
+    calibrate at bsz=1 (low memory, batch-agnostic Q/DQ scales) while the engine
+    still serves any batch. We:
+      * turn the input/output batch dim into a symbol;
+      * set every Reshape target's leading dim that equals the static batch to
+        ``0`` (ONNX "copy the dimension from the input at runtime").
+    """
+    from onnx import numpy_helper
+
     model = onnx.load(model_path)
-    for inp in model.graph.input:
-        if inp.type.HasField("tensor_type") and inp.type.tensor_type.HasField("shape"):
-            dims = inp.type.tensor_type.shape.dim
-            if len(dims) > 0 and dims[0].dim_value != 1:
+
+    static_batch = None
+    in_dims = model.graph.input[0].type.tensor_type.shape.dim
+    if len(in_dims) > 0 and in_dims[0].dim_value > 0:
+        static_batch = in_dims[0].dim_value
+
+    for tensor in list(model.graph.input) + list(model.graph.output):
+        if tensor.type.HasField("tensor_type") and tensor.type.tensor_type.HasField("shape"):
+            dims = tensor.type.tensor_type.shape.dim
+            if len(dims) > 0:
                 dims[0].ClearField("dim_value")
                 dims[0].dim_param = "N"
+
+    if static_batch is not None:
+        inits = {init.name: init for init in model.graph.initializer}
+        for node in model.graph.node:
+            if node.op_type != "Reshape" or len(node.input) < 2:
+                continue
+            init = inits.get(node.input[1])
+            if init is None:
+                continue
+            arr = numpy_helper.to_array(init).copy()
+            if arr.size > 0 and arr[0] == static_batch:
+                arr[0] = 0  # copy batch from the input tensor at runtime
+                init.CopyFrom(numpy_helper.from_array(arr, init.name))
+
     onnx.save(model, output_path)
 
 
@@ -141,8 +181,10 @@ def parse_args():
     parser.add_argument("--ann_file", type=str, default="./coco2017/annotations/instances_val2017.json")
     parser.add_argument("--observer", type=str, default="hist_percentile",
                         help="Calibration method: hist_percentile, percentile, entropy, minmax, ema")
-    parser.add_argument("--disable_quant_names", nargs="*", type=str,
-                        help="[unused] kept for CLI compatibility")
+    parser.add_argument("--disable_quant_names", nargs="*", type=str, default=None,
+                        help="node names kept in float (passed to ORT nodes_to_exclude). "
+                             "Used to keep the YOLOv8 detection head (DFL softmax, box "
+                             "decode, sigmoid) out of INT8, matching the legacy deploy flow.")
     parser.add_argument("--save_quant_model", type=str, default=None,
                         help="path to write the quantized ONNX model")
     parser.add_argument("--bsz", type=int, default=16)
@@ -221,6 +263,11 @@ def main():
     if calib_method == CalibrationMethod.Percentile:
         extra_options["CalibPercentile"] = 99.99
 
+    # Keep the sensitive detection head in float. The old tensorrt.deploy flow
+    # skipped these nodes; quantizing DFL softmax / box-decode arithmetic /
+    # sigmoid to INT8 collapses mAP to ~0. ORT honours this via nodes_to_exclude.
+    nodes_to_exclude = args.disable_quant_names or []
+
     quantize_static(
         model_input=dynamic_model_path,
         model_output=output_path,
@@ -230,6 +277,7 @@ def main():
         quant_format=QuantFormat.QDQ,
         per_channel=True,
         calibrate_method=calib_method,
+        nodes_to_exclude=nodes_to_exclude,
         extra_options=extra_options,
     )
     remove_quantize_axis_attribute(output_path, output_path)

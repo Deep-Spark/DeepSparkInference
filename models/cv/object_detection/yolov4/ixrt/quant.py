@@ -127,8 +127,10 @@ def parse_args():
     parser.add_argument("--ann_file", type=str, default="./coco2017/annotations/instances_val2017.json")
     parser.add_argument("--observer", type=str, default="hist_percentile",
                         help="Calibration method: hist_percentile, percentile, entropy, minmax, ema")
-    parser.add_argument("--disable_quant_names", nargs="*", type=str,
-                        help="[unused] kept for CLI compatibility")
+    parser.add_argument("--disable_quant_names", nargs="*", type=str, default=None,
+                        help="node names kept in float (passed to ORT nodes_to_exclude), "
+                             "e.g. the detection head kept out of INT8 to match the "
+                             "legacy tensorrt.deploy flow.")
     parser.add_argument("--save_quant_model", type=str, default=None,
                         help="path to write the quantized ONNX model")
     parser.add_argument("--bsz", type=int, default=16)
@@ -216,6 +218,7 @@ def main():
         quant_format=QuantFormat.QDQ,
         per_channel=True,
         calibrate_method=calib_method,
+        nodes_to_exclude=(args.disable_quant_names or []),
         extra_options=extra_options,
     )
     remove_quantize_axis_attribute(output_path, output_path)
