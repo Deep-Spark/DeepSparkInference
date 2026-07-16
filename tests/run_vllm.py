@@ -227,7 +227,7 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
 
     common_bench = (
         "\npip3 install datasets\n"
-        "cp -r /mnt/deepspark/data/repos/vllm ./\n"
+        "cp -r /mnt/deepspark/data/repos/vllm0.23jenkins ./\n"
     )
 
     if category == "nlp/llm" and model_name not in excluded_llms:
