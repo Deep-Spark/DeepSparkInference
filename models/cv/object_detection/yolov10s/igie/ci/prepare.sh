@@ -16,15 +16,6 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install -r requirements.txt
 
 cp -r /mnt/deepspark/data/3rd_party/yolov10 ./
@@ -34,3 +25,6 @@ pip3 install -e . --no-deps
 cd ..
 
 python3 export.py --weight yolov10s.pt --batch 32
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov10s.onnx -o yolov10s_ir9.onnx
+cp yolov10s_ir9.onnx yolov10s.onnx
