@@ -84,8 +84,16 @@ def main():
 
     # --- Build EngineArgs properly ---
     engine_args = EngineArgs.from_cli_args(args)
-    # Use dataclasses.asdict instead of .to_dict()
-    engine_params = dataclasses.asdict(engine_args)
+    # asdict 会把未设置字段保留为 None；vLLM 0.23+ CompilationConfig 等
+    # pydantic 模型对 list 字段不接受 None（如 cudagraph_capture_sizes）。
+    def _drop_none(obj):
+        if isinstance(obj, dict):
+            return {k: _drop_none(v) for k, v in obj.items() if v is not None}
+        if isinstance(obj, list):
+            return [_drop_none(v) for v in obj]
+        return obj
+
+    engine_params = _drop_none(dataclasses.asdict(engine_args))
 
     # --- Build SamplingParams safely ---
     sampling_signature = inspect.signature(SamplingParams)
