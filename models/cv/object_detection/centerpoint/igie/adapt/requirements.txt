@@ -1,0 +1,22 @@
+# Minimal deps for CenterPoint PointPillars IGIE inference + nuScenes eval.
+fire
+easydict
+numba
+numpy
+pandas>=0.24
+matplotlib
+tqdm
+pyyaml
+requests
+Pillow>=9.0,<12.0
+pyquaternion>=0.9.5
+Shapely
+opencv-python
+terminaltables
+nuscenes-devkit==1.2.0
+addict
+cachetools
+descartes
+motmetrics<=1.4.0
+scikit-learn
+pybind11
