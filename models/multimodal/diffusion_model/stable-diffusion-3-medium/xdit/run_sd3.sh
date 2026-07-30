@@ -9,7 +9,7 @@ export PYTHONPATH=$PWD:$PYTHONPATH
 export ENABLE_IXFORMER_INFERENCE=1
 export ATTN_OPT_LEVEL=2 #xdit >=0.4.5
 export ENABLE_IXFORMER_SAGEATTN=1  #使用 sageattention,#xdit ==0.4.4
-export ENABLE_IXFORMER_W8A8LINEAR=1
+export ENABLE_IXFORMER_W8A8LINEAR=0
 
 # Select the model type
 SCRIPT=sd3_example.py
