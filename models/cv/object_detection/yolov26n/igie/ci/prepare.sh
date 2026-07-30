@@ -17,6 +17,7 @@
 set -x
 
 pip3 install -r requirements.txt
+pip install numpy==1.26.4
 
 python3 export.py --weight yolo26n.pt --batch 32
 
