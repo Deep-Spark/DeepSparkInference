@@ -17,8 +17,10 @@
 set -x
 
 pip3 install -r requirements.txt
+pip3 install numpy==1.26.4
 
 python3 export.py --weight yolov5m.pt --output yolov5m.onnx
-
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov5m.onnx -o yolov5m_ir9.onnx
 # Use onnxsim optimize onnx model
-onnxsim yolov5m.onnx yolov5m_opt.onnx
+onnxsim yolov5m_ir9.onnx yolov5m_opt.onnx
