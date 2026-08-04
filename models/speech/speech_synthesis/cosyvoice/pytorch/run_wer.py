@@ -15,6 +15,10 @@
 
 import sys, os
 import torch
+import torchaudio
+import kaldifst
+import zhconv
+import pydub
 from tqdm import tqdm
 import multiprocessing
 import jiwer
