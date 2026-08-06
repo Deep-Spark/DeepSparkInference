@@ -1,0 +1,7 @@
+tqdm
+onnx
+onnxslim
+ultralytics==8.4.41
+opencv-python
+pycocotools
+faster-coco-eval
