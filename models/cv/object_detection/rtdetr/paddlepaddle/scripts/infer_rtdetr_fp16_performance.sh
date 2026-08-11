@@ -33,6 +33,7 @@ done
 python3 test_det.py \
     --model_path output_inference/rtdetr_r101vd_6x_coco \
     --config PaddleDetection-2.8.1/deploy/auto_compression/configs/rtdetr_reader.yml \
+    --device ILUVATAR_GPU \
     --precision fp16 \
     --dataset_dir ${datasets_path} \
     --batch_size ${batchsize} \
