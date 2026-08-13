@@ -15,13 +15,9 @@
 
 import sys, os
 import torch
-import torchaudio
-import kaldifst
-import zhconv
-import pydub
 from tqdm import tqdm
 import multiprocessing
-import jiwer
+from jiwer import process_words
 from zhon.hanzi import punctuation
 import string
 import numpy as np
@@ -77,12 +73,12 @@ def process_one(hypo, truth):
     # else:
         # raise NotImplementedError
 
-    measures = jiwer.process_words(truth, hypo)
-    ref_len = len(truth.split())
+    measures = process_words(truth, hypo)
+    ref_list = truth.split(" ")
     wer = measures.wer
-    subs = measures.substitutions / ref_len if ref_len > 0 else 0
-    dele = measures.deletions / ref_len if ref_len > 0 else 0
-    inse = measures.insertions / ref_len if ref_len > 0 else 0
+    subs = measures.substitutions / len(ref_list)
+    dele = measures.deletions / len(ref_list)
+    inse = measures.insertions / len(ref_list)
     return (raw_truth, raw_hypo, wer, subs, dele, inse)
 
 
@@ -131,4 +127,3 @@ def run_asr(wav_res_text_path, res_path):
         fout.flush()
 
 run_asr(wav_res_text_path, res_path)
-

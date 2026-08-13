@@ -17,7 +17,7 @@ import argparse
 import os
 import sys
 from tqdm import tqdm
-import torchaudio
+import soundfile as sf
 sys.path.append('third_party/Matcha-TTS')
 from cosyvoice.cli.cosyvoice import CosyVoice2
 
@@ -55,7 +55,8 @@ def main():
     for uttid in tqdm(input_texts.keys()):
         for i, j in enumerate(cosyvoice.inference_zero_shot(input_texts[uttid], prompt_texts[uttid], prompt_wavs[uttid], stream=False)):
             wav_name = os.path.join(args.output_dir, f"{uttid}.wav")
-            torchaudio.save(wav_name, j['tts_speech'], cosyvoice.sample_rate)
+            speech = j['tts_speech'].detach().cpu().squeeze(0).numpy()
+            sf.write(wav_name, speech, cosyvoice.sample_rate)
 
     print(f"Inference results have been saved to {args.output_dir}")
 
