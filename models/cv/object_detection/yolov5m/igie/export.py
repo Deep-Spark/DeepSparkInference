@@ -50,7 +50,9 @@ def main():
         args.output, 
         input_names = input_names, 
         dynamic_axes = dynamic_axes, 
-        output_names = output_names
+        output_names = output_names,
+        opset_version=13,
+        dynamo=False,
     )   
     
 if __name__ == "__main__":
