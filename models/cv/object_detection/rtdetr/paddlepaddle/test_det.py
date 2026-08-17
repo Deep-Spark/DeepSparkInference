@@ -320,11 +320,14 @@ def load_predictor(
     device = device.upper()
     if device in ("ILUVATAR", "ILUVATAR_GPU"):
         print("Use iluvatar_gpu custom device for inference.")
-        config.enable_custom_device("iluvatar_gpu")
-        if hasattr(config, "enable_new_ir"):
-            config.enable_new_ir(True)
-        if hasattr(config, "enable_new_executor"):
-            config.enable_new_executor(True)
+        precision_map = {
+            "fp32": Config.Precision.Float32,
+            "fp16": Config.Precision.Half,
+            "int8": Config.Precision.Int8,
+        }
+        custom_precision = precision_map.get(precision, Config.Precision.Float32)
+        config.enable_custom_device("iluvatar_gpu", 0, custom_precision)
+        config.switch_ir_optim(False)
     elif device == "GPU":
         # Map precision string to Paddle Inference Precision enum
         precision_map = {
