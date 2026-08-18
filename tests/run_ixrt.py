@@ -14,7 +14,6 @@
 # limitations under the License.
 
 import platform
-import yaml
 import subprocess
 import json
 import re
