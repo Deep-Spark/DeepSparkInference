@@ -96,14 +96,10 @@ def main():
                 activation_type=QuantType.QInt8,
                 weight_type=QuantType.QInt8,
                 use_external_data_format=False,
-                nodes_to_exclude= [
-                    '/model/model/model.24/Add', '/model/model/model.24/Add_1', '/model/model/model.24/Add_2', 
-                    '/model/model/model.24/Concat_16', '/model/model/model.24/Concat_25', '/model/model/model.24/Concat_27', 
-                    '/model/model/model.24/Concat_7', '/model/model/model.24/Mul_10', '/model/model/model.24/Mul_11', 
-                    '/model/model/model.24/Mul_12', '/model/model/model.24/Mul_13', '/model/model/model.24/Mul_18', 
-                    '/model/model/model.24/Mul_19', '/model/model/model.24/Mul_2', '/model/model/model.24/Mul_20', 
-                    '/model/model/model.24/Mul_21', '/model/model/model.24/Mul_3', '/model/model/model.24/Mul_4', 
-                    '/model/model/model.24/Mul_5'
+                # Exclude Detect head (model.24). Names follow TorchScript ONNX export.
+                nodes_to_exclude=[
+                    n.name for n in onnx.load(args.model_path).graph.node
+                    if n.name.startswith('/model.24/')
                 ],
                 calibrate_method=CalibrationMethod.Percentile,
                 extra_options = {

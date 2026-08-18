@@ -15,27 +15,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-batchsize=32
-datasets_path=${DATASETS_DIR}
+set -euo pipefail
 
-# Update arguments
-index=0
-options=$@
-arguments=($options)
-for argument in $options
-do
-    index=`expr $index + 1`
-    case $argument in
-      --bs) batchsize=${arguments[index]};;
-    esac
-done
+input_text=$(readlink -f "$1")
+output_dir=$(readlink -f "$2")
+lang="$3"
+ngpu="$4"
 
-echo "batch size is ${batchsize}"
+script_dir=$(cd "$(dirname "$0")"; pwd)
 
-python3 test_det.py \
-    --model_path output_inference/rtdetr_r101vd_6x_coco \
-    --config PaddleDetection-2.8.1/deploy/auto_compression/configs/rtdetr_reader.yml \
-    --device ILUVATAR_GPU \
-    --precision fp16 \
-    --dataset_dir ${datasets_path} \
-    --batch_size ${batchsize}
+cd "$script_dir/../utils"
+bash cal_wer.sh "$input_text" "$output_dir" "$lang" "$ngpu"

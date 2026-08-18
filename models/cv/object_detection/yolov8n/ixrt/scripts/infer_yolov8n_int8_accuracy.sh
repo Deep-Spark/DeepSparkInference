@@ -39,6 +39,13 @@ echo Model Name : yolov8
 echo Onnx Path : ${ORIGINE_MODEL}
 
 BATCH_SIZE=32
+# Calibration batch is independent of inference batch. Q/DQ scales come from
+# per-tensor value distributions, which are batch-agnostic, so calibrate at
+# bsz=1 (low memory, no OOM on the test machine even when inferring at 32/64).
+# quant.py rewrites the ONNX batch dim to dynamic, and build_engine.py builds a
+# dynamic engine (1~64) that serves the inference BATCH_SIZE.
+QUANT_BATCHSIZE=1
+QUANT_STEP=32
 CURRENT_MODEL=${CHECKPOINTS_DIR}/yolov8.onnx
 
 # Update arguments
@@ -53,15 +60,16 @@ do
     esac
 done
 
-# quant
-FINAL_MODEL=${CHECKPOINTS_DIR}/quantized_yolov8_bs${BATCH_SIZE}.onnx
+# quant (shared across inference batch sizes)
+FINAL_MODEL=${CHECKPOINTS_DIR}/quantized_yolov8.onnx
 if [ -f $FINAL_MODEL ];then
     echo "  "Quantize Skip, $FINAL_MODEL has been existed
 else
     python3 ${RUN_DIR}/quant.py             \
         --model_name "YOLOV8"       \
         --model ${CURRENT_MODEL}            \
-        --bsz ${BATCH_SIZE}                 \
+        --bsz ${QUANT_BATCHSIZE}            \
+        --step ${QUANT_STEP}                \
         --dataset_dir ${EVAL_DIR}           \
         --ann_file ${COCO_GT}               \
         --observer "hist_percentile"        \

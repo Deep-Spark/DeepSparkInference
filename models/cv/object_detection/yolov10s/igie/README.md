@@ -73,6 +73,9 @@ wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt
 
 python3 export.py --weight yolov10s.pt --batch 32
 # Make sure numpy < 2.0
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov10s.onnx -o yolov10s_ir9.onnx
+cp yolov10s_ir9.onnx yolov10s.onnx
 ```
 
 ## Model Inference

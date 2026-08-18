@@ -74,7 +74,7 @@ python3 get_infer_wavs.py \
 --input_text $inference_dir/$data_dir/text \
 --prompt_text $inference_dir/$data_dir/prompt_text \
 --prompt_wav_scp $inference_dir/$data_dir/prompt_wav.scp \
---output_dir $output_dir \
---fp16
+--fp16 \
+--output_dir $output_dir || exit 1
 
 cd ..

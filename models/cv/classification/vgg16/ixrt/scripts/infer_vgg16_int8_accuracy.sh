@@ -88,6 +88,7 @@ if [ $PRECISION == "int8" ];then
             --input ${SIM_MODEL}                        \
             --model_name ${MODEL_NAME}                  \
             --calibration_dir ${DATASETS_DIR}           \
+            --fc_per_tensor                             \
             --save_dir $CHECKPOINTS_DIR
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Generate ${SIM_MODEL}

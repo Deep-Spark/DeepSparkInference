@@ -23,4 +23,4 @@ pip3 install -e .
 cd ..
 mkdir -p output_inference
 # export paddle inference model
-python3 export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=./rtdetr_r101vd_6x_coco.pdparams --output_dir=output_inference
+python3 export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=./rtdetr_r101vd_6x_coco.pdparams export_with_pir=True --output_dir=output_inference

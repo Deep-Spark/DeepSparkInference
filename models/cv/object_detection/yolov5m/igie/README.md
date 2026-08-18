@@ -54,6 +54,7 @@ coco
 
 ```bash
 pip3 install -r requirements.txt
+pip3 install numpy==1.26.4
 ```
 
 ### Model Conversion
@@ -64,8 +65,10 @@ wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5m.pt
 
 python3 export.py --weight yolov5m.pt --output yolov5m.onnx
 # Make sure numpy < 2.0
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov5m.onnx -o yolov5m_ir9.onnx
 # Use onnxsim optimize onnx model
-onnxsim yolov5m.onnx yolov5m_opt.onnx
+onnxsim yolov5m_ir9.onnx yolov5m_opt.onnx
 ```
 
 ## Model Inference

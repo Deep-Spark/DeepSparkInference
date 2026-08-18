@@ -81,16 +81,18 @@ sed -i "s/{0: 'batch', 2: 'height', 3: 'width'}/{0: 'batch'}/" export.py
 sed -i "s/{0: 'batch', 1: 'anchors'}/{0: 'batch'}/" export.py
 # download the weight from the recommend link
 wget https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5m.pt
-python3 export.py --weights yolov5m.pt --include onnx --opset 11 --dynamic
+python3 export.py --weights yolov5m.pt --include onnx --opset 18 --dynamic
 mv yolov5m.onnx* ../checkpoints
 popd
+python3 make_ir9_model.py -i checkpoints/yolov5m.onnx -o checkpoints/yolov5m_ir9.onnx
+mv checkpoints/yolov5m_ir9.onnx checkpoints/yolov5m.onnx
 ```
 
 ## Model Inference
 
 ```bash
 export PROJ_DIR=./
-export DATASETS_DIR=/Path/to/coco/
+export DATASETS_DIR=./coco/
 export CHECKPOINTS_DIR=./checkpoints
 export COCO_GT=${DATASETS_DIR}/annotations/instances_val2017.json
 export EVAL_DIR=${DATASETS_DIR}/images/val2017

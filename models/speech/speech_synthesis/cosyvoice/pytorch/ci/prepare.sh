@@ -21,7 +21,7 @@ pip3 install -r requirements.txt
 pip3 install onnxruntime==1.18.0 transformers==4.49.0
 cp -r /mnt/deepspark/data/repos/CosyVoice ./
 cd CosyVoice
-git checkout 1dcc59676fe3fa863f983ab7820e481560c73be7
+git checkout 074ca6dc9e80a2f42
 rm -rf pretrained_models
 mkdir -p pretrained_models
 ln -s /mnt/deepspark/data/checkpoints/CosyVoice2-0.5B pretrained_models/
@@ -33,10 +33,15 @@ mkdir -p /root/.cache/modelscope/hub/iic
 ln -s /mnt/deepspark/data/checkpoints/speech_seaco_paraformer_large_asr_nat-zh-cn-16k-common-vocab8404-pytorch /root/.cache/modelscope/hub/iic/
 cp -r /mnt/deepspark/data/repos/CV3-Eval ./
 cd CV3-Eval
+git checkout 68b7682a410d048
 mv ../CosyVoice ./
-pip3 install -r requirements.txt
-pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==4.0.0
-cp -f ../run_wer.py utils/
+cp ../file_utils.py CosyVoice/cosyvoice/utils/
+cp ../processor.py CosyVoice/cosyvoice/dataset/
 cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
+cp ../run_score_wer.sh scripts/
+cp ../cal_wer.sh utils/
+cp -f ../run_wer.py utils/
+cp -f ../eval_speaker_similarity.py scripts/
 cp ../run_inference_fp16_eval.sh ./
+bash run_inference_fp16_eval.sh

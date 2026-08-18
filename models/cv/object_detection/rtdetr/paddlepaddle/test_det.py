@@ -75,7 +75,7 @@ def argsparser():
         "--device",
         type=str,
         default="GPU",
-        help="Choose the device you want to run, it can be: CPU/GPU/XPU, default is GPU",
+        help="Choose the device you want to run, it can be: CPU/GPU/XPU/ILUVATAR_GPU, default is GPU",
     )
     parser.add_argument(
         "--use_dynamic_shape",
@@ -306,10 +306,29 @@ def load_predictor(
         raise ValueError(
             "Predict by TensorRT mode: {}, expect device=='GPU', but device == {}".
             format(precision, device))
-    config = Config(
-        os.path.join(model_dir, "model.pdmodel"),
-        os.path.join(model_dir, "model.pdiparams"))
-    if device == "GPU":
+    model_file = os.path.join(model_dir, "model.pdmodel")
+    params_file = os.path.join(model_dir, "model.pdiparams")
+    json_file = os.path.join(model_dir, "model.json")
+    if os.path.exists(model_file):
+        config = Config(model_file, params_file)
+    elif os.path.exists(json_file) and os.path.exists(params_file):
+        # Paddle 3 PIR export writes model.json instead of model.pdmodel.
+        config = Config(model_dir, "model")
+    else:
+        raise FileNotFoundError(
+            "Cannot find inference model files in {}.".format(model_dir))
+    device = device.upper()
+    if device in ("ILUVATAR", "ILUVATAR_GPU"):
+        print("Use iluvatar_gpu custom device for inference.")
+        precision_map = {
+            "fp32": Config.Precision.Float32,
+            "fp16": Config.Precision.Half,
+            "int8": Config.Precision.Int8,
+        }
+        custom_precision = precision_map.get(precision, Config.Precision.Float32)
+        config.enable_custom_device("iluvatar_gpu", 0, custom_precision)
+        config.switch_ir_optim(False)
+    elif device == "GPU":
         # Map precision string to Paddle Inference Precision enum
         precision_map = {
             "fp32": Config.Precision.Float32,

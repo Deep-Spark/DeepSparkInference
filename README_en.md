@@ -419,7 +419,7 @@ Please refer to DeepSpark Code of Conduct on
 
 ### Contact
 
-Please contact <contact@deepspark.org.cn>.
+Please contact <developers@iluvatar.com>.
 
 ### Contribution
 

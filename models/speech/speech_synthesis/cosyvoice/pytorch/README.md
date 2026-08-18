@@ -28,7 +28,7 @@ pip3 install -r requirements.txt
 pip3 install onnxruntime==1.18.0 transformers==4.49.0
 git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
 cd CosyVoice
-git checkout 1dcc59676fe3fa863f983ab7820e481560c73be7
+git checkout 074ca6dc9e80a2f42
 # If you failed to clone the submodule due to network failures, please run the following command until success
 git submodule update --init --recursive
 
@@ -53,14 +53,18 @@ python3 example.py
 ```bash
 git clone https://github.com/FunAudioLLM/CV3-Eval.git
 cd CV3-Eval
+git checkout 68b7682a410d048
 mv ../CosyVoice ./
-pip3 install -r requirements.txt
-pip3 install PyYAML==6.0.2 ruamel.yaml==0.18.6 jiwer==4.0.0
+cp ../file_utils.py CosyVoice/cosyvoice/utils/
+cp ../processor.py CosyVoice/cosyvoice/dataset/
 cp ../get_infer_wavs.py scripts/
 cp ../inference.sh scripts/
+cp ../run_score_wer.sh scripts/
+cp ../cal_wer.sh utils/
 
 # if you want to run eval for en/hrad_en set, please add the following command
 cp -f ../run_wer.py utils/
+cp -f ../eval_speaker_similarity.py scripts/
 
 cp ../run_inference_fp16_eval.sh ./
 bash run_inference_fp16_eval.sh

@@ -340,6 +340,11 @@ def run_detec_testcase(model, batch_size, whl_url):
                         rm -rf ../checkpoints/tmp
                         cd -
                     """
+                elif model_name == "yolov26n":
+                    export_onnx_script = f"""
+                        python3 export.py --weight yolo26n.pt --batch {bs}
+                        onnxsim yolo26n.onnx yolo26n_opt.onnx
+                    """
                 script = base_script + export_onnx_script + f"""
                     bash scripts/infer_{model_name}_{prec}_accuracy.sh --bs {bs}
                     {G_BIND_CMD} bash scripts/infer_{model_name}_{prec}_performance.sh --bs {bs}

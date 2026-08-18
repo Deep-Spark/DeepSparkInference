@@ -98,9 +98,11 @@ def run(FLAGS, cfg):
 def main():
     if 'npu' in paddle.device.get_device():
         paddle.set_device("npu")
+    elif 'iluvatar_gpu' in paddle.device.get_device():
+        paddle.set_device("iluvatar_gpu")
     else:
         paddle.set_device("cpu")
-        
+
     FLAGS = parse_args()
     cfg = load_config(FLAGS.config)
     merge_config(FLAGS.opt)
@@ -113,7 +115,8 @@ def main():
     check_config(cfg)
     if 'use_gpu' not in cfg:
         cfg.use_gpu = False
-    check_gpu(cfg.use_gpu)
+    if paddle.is_compiled_with_cuda():
+        check_gpu(cfg.use_gpu)
     check_version()
 
     run(FLAGS, cfg)
