@@ -1,4 +1,4 @@
-onnx==1.18.0
+onnx
 pycuda
 six
 tqdm

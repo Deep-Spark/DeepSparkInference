@@ -15,7 +15,7 @@
 # limitations under the License.
 
 set -x
-
+pip install -r requirements.txt
 mkdir -p data/datasets/bert_base_squad/
 mkdir -p data/checkpoints/bert_base_squad
 cp -r /root/data/checkpoints/bert_base_uncased_squad/ ./data/checkpoints/bert_base_squad && ln -s /root/data/datasets/squad ./data/datasets/bert_base_squad/
