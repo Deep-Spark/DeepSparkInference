@@ -39,7 +39,7 @@ import argparse
 import dataclasses
 import inspect
 from vllm import LLM, EngineArgs, SamplingParams
-from utils import sampling_add_cli_args
+from utils import sampling_add_cli_args, _sanitize_engine_params
 from vllm.assets.audio import AudioAsset
 
 PROMPTS = [
@@ -154,7 +154,7 @@ if __name__ == "__main__":
     parser = sampling_add_cli_args(parser)
     args = parser.parse_args()
     engine_args = EngineArgs.from_cli_args(args)
-    engine_params = dataclasses.asdict(engine_args)
+    engine_params = _sanitize_engine_params(dataclasses.asdict(engine_args))
     sampling_args = [
         param.name
         for param in list(

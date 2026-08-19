@@ -16,4 +16,5 @@
 
 set -x
 
-pip3 install librosa
+# av (PyAV) is required by vLLM >= 0.23 audio resampling, see vllm[audio]
+pip3 install librosa av

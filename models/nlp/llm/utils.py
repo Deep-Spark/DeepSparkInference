@@ -2,6 +2,19 @@ import argparse
 import codecs
 import logging
 
+
+def _sanitize_engine_params(params: dict) -> dict:
+    """asdict 会把嵌套 config 的可选字段变成 None；0.23+ pydantic 不接受。"""
+    out = {}
+    for k, v in params.items():
+        if v is None:
+            continue
+        if isinstance(v, dict):
+            v = {kk: vv for kk, vv in v.items() if vv is not None}
+        out[k] = v
+    return out
+
+
 """
 The following arguments can not be add in args...
 early_stopping: Union[bool, str] = False,

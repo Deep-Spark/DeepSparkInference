@@ -36,7 +36,7 @@ import logging
 import time
 
 import torch
-from utils import load_chat_template, sampling_add_cli_args
+from utils import load_chat_template, sampling_add_cli_args, _sanitize_engine_params
 from vllm import LLM, EngineArgs, SamplingParams
 
 if __name__ == "__main__":
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     engine_args = EngineArgs.from_cli_args(args)
-    engine_params = dataclasses.asdict(engine_args)  
+    engine_params = _sanitize_engine_params(dataclasses.asdict(engine_args))  
 
     sampling_args = [
         param.name

@@ -21,6 +21,7 @@ import logging
 import os
 import sys
 import argparse
+import threading
 from typing import Dict, Any, List, Optional, Tuple
 import utils
 
@@ -389,7 +390,7 @@ bash ci/prepare.sh
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = _build_inference_script(model, prec)
-        script = _append_benchmark_script(script, model)
+        # script = _append_benchmark_script(script, model)
         r, t = run_script(script)
         sout = r.stdout
 
@@ -400,16 +401,47 @@ bash ci/prepare.sh
     return result
 
 def run_script(script):
+    """Run shell script with live stdout/stderr (Jenkins-friendly), still return captured text for parsing."""
     start_time = time.perf_counter()
-    result = subprocess.run(
-        script, shell=True, capture_output=True, text=True, executable="/bin/bash"
+    env = os.environ.copy()
+    env.setdefault("PYTHONUNBUFFERED", "1")
+    proc = subprocess.Popen(
+        script,
+        shell=True,
+        executable="/bin/bash",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,
+        env=env,
     )
+    stdout_chunks: List[str] = []
+    stderr_chunks: List[str] = []
+
+    def _pump(stream, chunks: List[str], to_err: bool) -> None:
+        assert stream is not None
+        for line in iter(stream.readline, ""):
+            chunks.append(line)
+            print(line, end="", file=sys.stderr if to_err else sys.stdout, flush=True)
+        stream.close()
+
+    t_out = threading.Thread(target=_pump, args=(proc.stdout, stdout_chunks, False), daemon=True)
+    t_err = threading.Thread(target=_pump, args=(proc.stderr, stderr_chunks, True), daemon=True)
+    t_out.start()
+    t_err.start()
+    t_out.join()
+    t_err.join()
+    returncode = proc.wait()
     end_time = time.perf_counter()
     execution_time = end_time - start_time
+    result = subprocess.CompletedProcess(
+        args=script,
+        returncode=returncode,
+        stdout="".join(stdout_chunks),
+        stderr="".join(stderr_chunks),
+    )
     logging.debug(f"执行命令：\n{script}")
     logging.debug("执行时间: {:.4f} 秒".format(execution_time))
-    logging.debug(f"标准输出: {result.stdout}")
-    logging.debug(f"标准错误: {result.stderr}")
     logging.debug(f"返回码: {result.returncode}")
     return result, execution_time
 
