@@ -30,3 +30,5 @@ cp /root/data/checkpoints/resnet50-0676ba61.pth /root/.cache/torch/hub/checkpoin
 cp /root/data/checkpoints/detr-r50-e632da11.pth /root/.cache/torch/hub/checkpoints/
 mkdir checkpoints
 python3 export_model.py --torch_file /root/data/checkpoints/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1
+python3 ../../igie_common/make_ir9_model.py -i checkpoints/detr_res50.onnx -o checkpoints/detr_res50_ir9.onnx
+cp checkpoints/detr_res50_ir9.onnx checkpoints/detr_res50.onnx

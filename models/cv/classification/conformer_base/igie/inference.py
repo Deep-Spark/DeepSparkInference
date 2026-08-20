@@ -21,8 +21,8 @@ import torchvision
 import numpy as np
 from tvm import relay
 from tqdm import tqdm
-from timm.utils import accuracy
 from torchvision import transforms
+from torchvision.transforms.functional import InterpolationMode
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -81,7 +81,7 @@ def get_dataloader(data_path, batch_size, num_workers):
         data_path,
         transforms.Compose(
             [
-                transforms.Resize(256, interpolation=3),
+                transforms.Resize(256, interpolation=InterpolationMode.BILINEAR),
                 transforms.CenterCrop(224),
                 transforms.PILToTensor(),
                 transforms.ConvertImageDtype(torch.float),
@@ -96,6 +96,26 @@ def get_dataloader(data_path, batch_size, num_workers):
     dataloader = torch.utils.data.DataLoader(dataset, batch_size, num_workers=num_workers)
 
     return dataloader
+
+def get_topk_accuracy(pred, label):
+    if isinstance(pred, np.ndarray):
+        pred = torch.from_numpy(pred)
+        
+    if isinstance(label, np.ndarray):
+        label = torch.from_numpy(label)
+    
+    top1_acc = 0
+    top5_acc = 0
+    for idx in range(len(label)):
+        label_value = label[idx]
+        if label_value == torch.topk(pred[idx].float(), 1).indices.data:
+            top1_acc += 1
+            top5_acc += 1
+
+        elif label_value in torch.topk(pred[idx].float(), 5).indices.data:
+            top5_acc += 1
+            
+    return top1_acc, top5_acc
 
 def main():
     args = parse_args()
@@ -126,14 +146,15 @@ def main():
         # get dataloader
         dataloader = get_dataloader(args.datasets, batch_size, args.num_workers)
         
-        top1_acc = []
-        top5_acc = []
+        top1_acc = 0
+        top5_acc = 0
+        total_num = 0
 
         for image, label in tqdm(dataloader):
 
             # pad the last batch
             pad_batch = len(image) != batch_size
-
+            
             if pad_batch:
                 origin_size = len(image)
                 image = np.resize(image, (batch_size, *image.shape[1:]))
@@ -143,25 +164,23 @@ def main():
             # run inference
             module.run()
             
-            acc1_head1 = module.get_output(0).asnumpy()
-
-            acc1_head2 = module.get_output(1).asnumpy()
-
-            pred = torch.from_numpy(acc1_head1 + acc1_head2)
+            pred = module.get_output(0).asnumpy()
 
             if pad_batch:
                 pred = pred[:origin_size]
 
-            top1_acc.append(accuracy(pred, label, topk=(1,))[0].data)
+            # get batch accuracy
+            batch_top1_acc, batch_top5_acc = get_topk_accuracy(pred, label)
 
-            top5_acc.append(accuracy(pred, label, topk=(5,))[0].data)
+            top1_acc += batch_top1_acc
+            top5_acc += batch_top5_acc
+            total_num += batch_size
 
         result_stat = {}
-        result_stat["acc@1"] = np.mean(top1_acc)
-        result_stat["acc@5"] = np.mean(top5_acc)
+        result_stat["acc@1"] = round(top1_acc / total_num * 100.0, 3)
+        result_stat["acc@5"] = round(top5_acc / total_num * 100.0, 3)
 
-        print(f"\n* Top1 acc: {result_stat['acc@1']:.3f} %, Top5 acc: {result_stat['acc@5']:.3f} %")
-
+        print(f"\n* Top1 acc: {result_stat['acc@1']} %, Top5 acc: {result_stat['acc@5']} %")
 
 if __name__ == "__main__":
     main()

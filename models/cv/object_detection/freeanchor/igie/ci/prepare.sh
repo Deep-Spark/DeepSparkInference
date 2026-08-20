@@ -19,7 +19,8 @@ set -x
 pip3 install -r requirements.txt
 
 # export onnx model
-python3 export.py --weight retinanet_free_anchor_r50_fpn_1x_coco_20200130-0f67375f.pth --cfg freeanchor_r50_fpn_1x_coco.py --output freeanchor_r50.onnx
+# python3 export.py --weight retinanet_free_anchor_r50_fpn_1x_coco_20200130-0f67375f.pth --cfg freeanchor_r50_fpn_1x_coco.py --output freeanchor_r50.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/freeanchor_r50.onnx ./
 
 # use onnxsim optimize onnx model
-onnxsim freeanchor_r50.onnx freeanchor_r50_opt.onnx --overwrite-input-shape input:32,3,800,1344
+timeout 1m onnxsim freeanchor_r50.onnx freeanchor_r50_opt.onnx --overwrite-input-shape input:32,3,800,1344

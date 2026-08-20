@@ -16,19 +16,11 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install -r requirements.txt
 
 # export onnx model
-python3 export.py --weight ssd300_coco_20210803_015428-d231a06e.pth --cfg ssd300_coco.py --output ssd.onnx
+# python3 export.py --weight ssd300_coco_20210803_015428-d231a06e.pth --cfg ssd300_coco.py --output ssd.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/ssd.onnx ./
 
 # use onnxsim optimize onnx model
-onnxsim ssd.onnx ssd_opt.onnx
+timeout 1m onnxsim ssd.onnx ssd_opt.onnx

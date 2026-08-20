@@ -56,17 +56,7 @@ wget https://download.openmmlab.com/mmdetection/v2.0/atss/atss_r50_fpn_1x_coco/a
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-*.whl
-
 ```bash
-# Install libGL
-## CentOS
-yum install -y mesa-libGL
-## Ubuntu
-apt install -y libgl1-mesa-glx
-
 pip3 install -r requirements.txt
 ```
 

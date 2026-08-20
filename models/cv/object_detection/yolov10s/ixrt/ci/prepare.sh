@@ -26,6 +26,6 @@ cp -r /root/data/3rd_party/yolov10 ./
 cd yolov10
 pip3 install -e . --no-deps
 cd ..
-
+sed -i '386 s/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' ./yolov10/ultralytics/engine/exporter.py
 python3 export.py --weight yolov10.pt --batch 32
 mv yolov10.onnx checkpoints/

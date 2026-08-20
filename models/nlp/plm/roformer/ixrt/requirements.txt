@@ -3,3 +3,4 @@ pycuda
 onnxsim
 py-libnuma==1.2
 typing-extensions==4.12.2
+onnxscript

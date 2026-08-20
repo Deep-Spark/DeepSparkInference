@@ -18,7 +18,7 @@ set -x
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
-    apt install numactl
+    apt install -y numactl
 elif [[ ${ID} == "centos" ]]; then
     yum install -y numactl
 else

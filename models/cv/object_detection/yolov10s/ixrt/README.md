@@ -73,7 +73,7 @@ sed -i "375i\\
 " 'ultralytics/engine/exporter.py'
 pip3 install -e . --no-deps
 cd ../
-
+sed -i '386 s/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' ./yolov10/ultralytics/engine/exporter.py
 python3 export.py --weight yolov10.pt --batch 32
 # Make sure numpy < 2.0
 mv yolov10.onnx ./checkpoints

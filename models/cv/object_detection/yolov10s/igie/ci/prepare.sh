@@ -23,7 +23,7 @@ cp -r /mnt/deepspark/data/3rd_party/yolov10 ./
 cd yolov10
 pip3 install -e . --no-deps
 cd ..
-
+sed -i '386 s/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' ./yolov10/ultralytics/engine/exporter.py
 python3 export.py --weight yolov10s.pt --batch 32
 # Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
 python3 make_ir9_model.py -i yolov10s.onnx -o yolov10s_ir9.onnx

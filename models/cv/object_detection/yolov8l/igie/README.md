@@ -58,7 +58,7 @@ pip3 install -r requirements.txt
 wget https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8l.pt
 
 # set weights_only=False to be comaptible with pytorch 2.7 
-sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.10/site-packages/ultralytics/nn/tasks.py
+sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.12/site-packages/ultralytics/nn/tasks.py
 
 python3 export.py --weight yolov8l.pt --batch 32
 ```

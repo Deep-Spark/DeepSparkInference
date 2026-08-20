@@ -63,6 +63,7 @@ def main():
         do_constant_folding=True,
         opset_version=11,
         keep_initializers_as_inputs=True,
+        dynamo=False
         # dynamic_axes={'input':{0:'batch'}, 'output':{0:'batch'}}
         # dynamic_axes={'input':{0:'batch', 2:'h', 3:'w'}, 'output':{0:'batch', 2:'h2', 3:'w2'}}
     )

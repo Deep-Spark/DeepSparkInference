@@ -87,7 +87,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_segmentation_and_face_testcase(model)
+            result = run_segmentation_and_face_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -97,7 +97,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_speech_testcase(model, batch_size)
+            result = run_speech_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -170,6 +170,8 @@ def run_clf_testcase(model, batch_size, whl_url):
     #TODO: need update mount path because mdb use /root/data
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     """
     if model_name == "swin_transformer_large":
@@ -298,6 +300,8 @@ def run_detec_testcase(model, batch_size, whl_url):
     mmcv_whl = whl_url.replace("apps", "add-on")
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
@@ -432,7 +436,7 @@ def run_detec_testcase(model, batch_size, whl_url):
 
     return result
 
-def run_segmentation_and_face_testcase(model):
+def run_segmentation_and_face_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -441,6 +445,8 @@ def run_segmentation_and_face_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -518,6 +524,8 @@ def run_multi_object_tracking_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     """
@@ -529,7 +537,7 @@ def run_multi_object_tracking_testcase(model, whl_url):
 
     if model_name == "deepspeech2":
         prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle[^"]*\.whl' | head -n1`
         """
 
     # add pip list info when in debug mode
@@ -593,6 +601,8 @@ def run_nlp_testcase(model, batch_size, whl_url):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
@@ -602,6 +612,8 @@ def run_nlp_testcase(model, batch_size, whl_url):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
@@ -722,7 +734,7 @@ def run_nlp_testcase(model, batch_size, whl_url):
             result["result"][prec][bs]["Cost time (s)"] = t
     return result
 
-def run_speech_testcase(model, batch_size):
+def run_speech_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -734,6 +746,9 @@ def run_speech_testcase(model, batch_size):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchaudio-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -797,6 +812,8 @@ def run_instance_segmentation_testcase(model, whl_url):
     mmcv_whl = whl_url.replace("apps", "add-on")
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`

@@ -1,3 +1,4 @@
 tqdm
 onnxsim
-transformers==4.33.2
+transformers
+optimum[onnx]

@@ -3,3 +3,4 @@ tqdm
 onnxsim
 onnxoptimizer
 termcolor
+onnxscript

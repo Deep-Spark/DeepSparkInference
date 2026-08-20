@@ -46,6 +46,7 @@ def torch_to_onnx(model_path, output_path):
         input_names=names,
         output_names=outputs,
         dynamic_axes=dynamic_inputs,
+        dynamo=False,
     )
 
 

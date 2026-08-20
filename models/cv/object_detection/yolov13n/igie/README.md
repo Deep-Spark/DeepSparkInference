@@ -66,9 +66,12 @@ cd ..
 
 # download the weight from the recommend link
 wget https://github.com/iMoonLab/yolov13/releases/download/yolov13/yolov13n.pt
-
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
 python3 export.py --weight yolov13n.pt --batch 32
 # Make sure numpy < 2.0
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov13n.onnx -o yolov13n_ir9.onnx
+cp yolov13n_ir9.onnx yolov13n.onnx
 ```
 
 ## Model Inference

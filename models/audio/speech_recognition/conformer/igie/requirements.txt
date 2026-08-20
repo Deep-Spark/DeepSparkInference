@@ -4,3 +4,4 @@ onnxsim
 librosa
 soundfile
 pycuda
+pyyaml

@@ -16,19 +16,10 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install -r requirements.txt
 
 # export onnx model
-python3 export.py --weight yolof_r50_c5_8x8_1x_coco_20210425_024427-8e864411.pth --cfg yolof_r50-c5_8xb8-1x_coco.py --output yolof.onnx
-
+# python3 export.py --weight yolof_r50_c5_8x8_1x_coco_20210425_024427-8e864411.pth --cfg yolof_r50-c5_8xb8-1x_coco.py --output yolof.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/yolof.onnx ./
 # use onnxsim optimize onnx model
-onnxsim yolof.onnx yolof_opt.onnx
+timeout 1m onnxsim yolof.onnx yolof_opt.onnx

@@ -29,10 +29,11 @@ pip3 install -r requirements.txt
 
 # clone yolov4
 cp -r /root/data/3rd_party/yolov4 ./
-
+sed -i '34 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' ./yolov4/tool/darknet2onnx.py
 mkdir data
 # export onnx model
 python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight /root/data/checkpoints/yolov4.weights --batchsize 16 --output data/yolov4.onnx
 mv yolov4_16_3_608_608_static.onnx data/yolov4.onnx
+mv yolov4_16_3_608_608_static.onnx.data data/
 onnxsim data/yolov4.onnx data/yolov4_sim.onnx
 ln -s /root/data/datasets/coco data/coco

@@ -3,3 +3,4 @@ onnx==1.18.0
 onnxsim
 pycocotools
 ninja==1.11.1.3
+onnxscript

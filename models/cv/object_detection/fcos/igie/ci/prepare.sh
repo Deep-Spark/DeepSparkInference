@@ -25,5 +25,6 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
-python3 export.py --weight fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth --cfg fcos_r50_caffe_fpn_gn-head_1x_coco.py --output fcos.onnx
-onnxsim fcos.onnx fcos_opt.onnx
+# python3 export.py --weight fcos_r50_caffe_fpn_gn-head_1x_coco-821213aa.pth --cfg fcos_r50_caffe_fpn_gn-head_1x_coco.py --output fcos.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/fcos.onnx ./
+timeout 1m onnxsim fcos.onnx fcos_opt.onnx
