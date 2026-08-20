@@ -97,7 +97,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_trace_testcase(model)
+            result = run_trace_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -107,7 +107,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_multi_object_tracking_testcase(model)
+            result = run_multi_object_tracking_testcase(model, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -117,7 +117,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_speech_testcase(model, batch_size)
+            result = run_speech_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -127,7 +127,7 @@ def main():
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
-            result = run_nlp_testcase(model, batch_size)
+            result = run_nlp_testcase(model, batch_size, whl_url)
             check_model_result(result)
             logging.debug(f"The result of {model['model_name']} is\n{json.dumps(result, indent=4)}")
         logging.info(f"End running {model['model_name']} test case.")
@@ -295,6 +295,8 @@ def run_detec_testcase(model, batch_size, whl_url):
 
     prepare_script += f"""
     pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     """
 
     if platform.machine() == "aarch64":
@@ -409,6 +411,8 @@ def run_ocr_testcase(model, whl_url):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -452,7 +456,7 @@ def run_ocr_testcase(model, whl_url):
 
     return result
 
-def run_trace_testcase(model):
+def run_trace_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -463,6 +467,8 @@ def run_trace_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -512,7 +518,7 @@ def run_trace_testcase(model):
         logging.debug(f"matchs:\n{matchs}")
     return result
 
-def run_multi_object_tracking_testcase(model):
+def run_multi_object_tracking_testcase(model, whl_url):
     model_name = model["model_name"]
     result = {
         "name": model_name,
@@ -523,6 +529,8 @@ def run_multi_object_tracking_testcase(model):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -570,7 +578,7 @@ def run_multi_object_tracking_testcase(model):
     return result
 
 # BERT series models
-def run_nlp_testcase(model, batch_size):
+def run_nlp_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -588,6 +596,8 @@ def run_nlp_testcase(model, batch_size):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     {mkdir_script}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{target_dir}
     export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
@@ -661,7 +671,7 @@ def run_nlp_testcase(model, batch_size):
             result["result"][prec][bs]["Cost time (s)"] = t
     return result
 
-def run_speech_testcase(model, batch_size):
+def run_speech_testcase(model, batch_size, whl_url):
     batch_size_list = batch_size.split(",") if batch_size else []
     model_name = model["model_name"]
     result = {
@@ -673,6 +683,8 @@ def run_speech_testcase(model, batch_size):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
