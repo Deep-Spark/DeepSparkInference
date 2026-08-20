@@ -169,6 +169,7 @@ def run_clf_testcase(model, batch_size, whl_url):
     """
     prepare_script += f"""
         pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
         """
     if model["category"] == "cv/semantic_segmentation":
         prepare_script += f"""
