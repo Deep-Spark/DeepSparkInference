@@ -167,6 +167,9 @@ def run_clf_testcase(model, batch_size, whl_url):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
+    prepare_script += f"""
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
+        """
     if model["category"] == "cv/semantic_segmentation":
         prepare_script += f"""
         pip install {mmcv_whl}`curl -s {mmcv_whl} | grep -o 'mmcv-[^"]*\.whl' | head -n1`
