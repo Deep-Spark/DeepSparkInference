@@ -228,7 +228,9 @@ inference to be expanded in the future.
 | Model      | Prec. | IGIE                                            | ixRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
 | ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       | [✅](models/cv/object_detection/atss/ixrt)       | 4.3.0     |
+| BEVFormer  | FP16  | [✅](models/cv/object_detection/bevformer/igie)  |                                                 | 4.5.0     |
 | CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  | 4.3.0     |
+| CenterPoint| FP16  | [✅](models/cv/object_detection/centerpoint/igie)|                                                 | 4.5.0     |
 | DETR       | FP16  |                                                 | [✅](models/cv/object_detection/detr/ixrt)       | 4.3.0     |
 | FCOS       | FP16  | [✅](models/cv/object_detection/fcos/igie)       | [✅](models/cv/object_detection/fcos/ixrt)       | 4.3.0     |
 | FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   | 4.3.0     |

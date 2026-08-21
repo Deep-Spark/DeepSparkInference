@@ -1,0 +1,7 @@
+# Extra packages for the IGIE wrapper. Full model deps are in adapt/requirements.txt
+# (copied into nuCarla/BEVFormer after clone).
+mmdet==2.28.2
+mmsegmentation==0.29.1
+nuscenes-devkit==1.2.0
+numpy==1.26.4
+numba==0.58.1

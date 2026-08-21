@@ -1,0 +1,13 @@
+CenterPoint/
+nuCarla/
+*.so
+*.pt2
+*.onnx
+*.pth
+ckpts/
+data/
+work_dirs/
+test/
+igie_dump/
+torch_model/
+__pycache__/
