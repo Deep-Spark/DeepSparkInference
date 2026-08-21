@@ -1,0 +1,6 @@
+onnx
+onnxruntime
+numpy<2
+cuda-python
+pillow
+tqdm
