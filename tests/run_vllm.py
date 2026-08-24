@@ -130,15 +130,35 @@ _LLM_CONFIGS = {
     "qwen3-8b": ("--max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0", "0"),
 }
 
+# DeepSeek-R1 distill LLMs share the same offline args; only TP differs by size.
+_DISTILL_LLM_TP = {
+    "deepseek-r1-distill-llama-70b": 8,
+    "deepseek-r1-distill-qwen-32b": 4,
+    "deepseek-r1-distill-qwen-14b": 2,
+    "deepseek-r1-distill-llama-8b": 1,
+    "deepseek-r1-distill-qwen-7b": 1,
+    "deepseek-r1-distill-qwen-1.5b": 1,
+}
+_DISTILL_LLM_PREFIX = "deepseek-r1-distill-"
+_DISTILL_LLM_NEED_8GPU = {name for name, tp in _DISTILL_LLM_TP.items() if tp >= 8}
+
+def _offline_distill_cmd(model_name: str) -> str:
+    tp = _DISTILL_LLM_TP[model_name]
+    return (
+        f"python3 offline_inference.py --model ./{model_name} "
+        f"--max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096"
+    )
+
 def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
     model_name = model["model_name"]
     model_path = model["model_path"]
     checkpoint_n = model["download_url"].split("/")[-1]
     base_script = f"set -x\ncd ../{model_path}\n"
 
-    if model_name in [
-        "deepseek-r1-distill-llama-70b","llama3-70b",
-        "qwen1.5-72b"]:
+    if model_name.startswith(_DISTILL_LLM_PREFIX):
+        return base_script + _offline_distill_cmd(model_name)
+
+    if model_name in ["llama3-70b", "qwen1.5-72b"]:
         return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --max-model-len 3096"
     elif model_name == "qwen2-72b":
         return base_script + f"python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp 8 --temperature 0.0 --gpu-memory-utilization 0.92 --max-model-len 32768"
@@ -148,13 +168,6 @@ def _build_inference_script(model: Dict[str, Any], prec: str) -> str:
             export VLLM_FORCE_NCCL_COMM=1
             python3 offline_inference_vision_language.py --model ./{model_name} -tp 8
             """
-
-    # Handle models with prefix (cannot use match)
-    if model_name.startswith("deepseek-r1-distill-"):
-        tp = "4" if model_name == "deepseek-r1-distill-qwen-32b" else "2"
-        gpus = "0,1,3,4" if tp == "4" else None
-        gpu_prefix = f"CUDA_VISIBLE_DEVICES={gpus} " if gpus else ""
-        return base_script + f"{gpu_prefix}python3 offline_inference.py --model ./{model_name} --max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096"
 
     # Use match-case for exact model names
     match model_name:
@@ -219,8 +232,10 @@ def _append_benchmark_script(script: str, model: Dict[str, Any]) -> str:
     model_name = model["model_name"]
     category = model["category"]
 
-    excluded_llms = {"baichuan2-7b", "llama2-7b", "qwen-7b", "stablelm", "deepseek-r1-distill-llama-70b","llama3-70b",
-        "qwen1.5-72b", "qwen2-72b"}
+    excluded_llms = {
+        "baichuan2-7b", "llama2-7b", "qwen-7b", "stablelm",
+        "llama3-70b", "qwen1.5-72b", "qwen2-72b",
+    } | _DISTILL_LLM_NEED_8GPU
     excluded_vlms = {
         "fuyu_8b", "chameleon_7b", "llava", "llava_next_video_7b", "paligemma",
         "glm-4v", "qwen_vl", "pixtral", "xlmroberta", "nvlm"
@@ -361,9 +376,10 @@ def run_nlp_testcase(model: Dict[str, Any], whl_url: str) -> Dict[str, Any]:
     logging.info(f"Detected number of GPU devices: {num_devices}")
     model_name = model["model_name"]
     checkpoint_n = model["download_url"].split("/")[-1]
-    if num_devices < 8 and model_name in [
-        "deepseek-r1-distill-llama-70b","llama3-70b",
-        "qwen1.5-72b","qwen2-72b","nvlm"]:
+    if num_devices < 8 and (
+        model_name in _DISTILL_LLM_NEED_8GPU
+        or model_name in ["llama3-70b", "qwen1.5-72b", "qwen2-72b", "nvlm"]
+    ):
         logging.warning(f"Skipping test for {model_name} due to insufficient GPU devices ({num_devices} detected).")
         return {"name": model_name, "result": {}, "status": "SKIPPED"}
     
