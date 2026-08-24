@@ -496,7 +496,6 @@ def main():
         input_names = input_names, 
         dynamic_axes = dynamic_axes, 
         output_names = output_names,
-        opset_version=13
     )
 
     print("Export onnx model successfully! ")

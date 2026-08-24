@@ -685,6 +685,7 @@ def run_speech_testcase(model, batch_size, whl_url):
     cd ../{model['model_path']}
     pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
     pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchaudio-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
