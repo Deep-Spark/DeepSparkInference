@@ -74,7 +74,8 @@ wget https://pjreddie.com/media/files/yolov3.weights
 
 mv yolov3.weights onnx_tflite_yolov3/weights
 cd onnx_tflite_yolov3
-# 修改 detect.py 中 torch.onnx.export() 函数的opset_version=11,会在/weights下生成export.onnx
+# 修改 detect.py 中 torch.onnx.export() 函数如下，会在/weights下生成export.onnx
+sed -i '48 s/opset_version=11)/opset_version=11, dynamo=False)/' detect.py
 python3 detect.py --cfg cfg/yolov3.cfg --weights weights/yolov3.weights
 mv weights/export.onnx ../checkpoints/yolov3.onnx
 cd ..

@@ -21,6 +21,10 @@ cd PaddleDetection-2.8.1
 pip3 install -r requirements.txt
 pip3 install -e .
 cd ..
+# fix cv2.dnn error
+pip uninstall -y opencv-python opencv-python-headless
+pip install opencv-python-headless==4.8.1.78
+
 mkdir -p output_inference
 # export paddle inference model
 python3 export_model.py -c PaddleDetection-2.8.1/configs/rtdetr/rtdetr_r101vd_6x_coco.yml -o weights=./rtdetr_r101vd_6x_coco.pdparams export_with_pir=True --output_dir=output_inference
