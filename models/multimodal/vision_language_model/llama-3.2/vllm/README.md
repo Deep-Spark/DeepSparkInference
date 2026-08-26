@@ -50,7 +50,7 @@ apt install -y libgl1-mesa-glx
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
 export VLLM_FORCE_NCCL_COMM=1
-python3 offline_inference_vision_language.py --model data/LLamaV3.2 --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0 --max-model-len 8192 --max-num-seqs 16
+python3 offline_inference_vision_language.py --model data/LLamaV3.2 --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --max-model-len 8192 --max-num-seqs 2
 ```
 
 ## Model Results
