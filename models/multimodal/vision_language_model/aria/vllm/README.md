@@ -40,7 +40,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/Aria --max-model-len 4096 --max-num-seqs 2 -tp 4 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
+python3 offline_inference_vision_language.py --model data/Aria --max-model-len 4096 --max-num-seqs 2 -tp 2 --trust-remote-code --temperature 0.0 --dtype bfloat16  --disable-mm-preprocessor-cache
 ```
 
 ## Model Results

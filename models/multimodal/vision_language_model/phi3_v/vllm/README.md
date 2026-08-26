@@ -37,7 +37,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model Phi-3-vision-128k-instruct --max-tokens 256 -tp 4 --trust-remote-code --max-model-len 4096 --temperature 0.0
+python3 offline_inference_vision_language.py --model Phi-3-vision-128k-instruct --max-tokens 256 -tp 1 --trust-remote-code --max-model-len 4096 --temperature 0.0
 ```
 
 ## Model Results

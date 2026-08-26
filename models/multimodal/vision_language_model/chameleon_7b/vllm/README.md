@@ -44,7 +44,7 @@ apt install -y libgl1-mesa-glx
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model ./data/chameleon-7b --max-tokens 256 -tp 2 --trust-remote-code --temperature 0.0
+python3 offline_inference_vision_language.py --model ./data/chameleon-7b --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0
 ```
 
 ## Model Results
