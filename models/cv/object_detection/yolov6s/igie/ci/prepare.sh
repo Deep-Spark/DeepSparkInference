@@ -35,7 +35,7 @@ if [ ! -d "$TARGET_DIR" ]; then
 fi
 
 cd $TARGET_DIR
-sed -i 's/numpy>=1.24.0/numpy==1.24.4/g' requirements.txt
+# sed -i 's/numpy>=1.24.0/numpy==1.24.4/g' requirements.txt
 pip3 install -r requirements.txt
 
 # set weights_only=False to be comaptible with pytorch 2.7

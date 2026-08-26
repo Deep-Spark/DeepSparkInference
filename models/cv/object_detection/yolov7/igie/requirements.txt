@@ -4,3 +4,4 @@ onnxsim
 pycocotools
 seaborn
 requests
+pyyaml

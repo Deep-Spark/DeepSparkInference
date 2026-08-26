@@ -2,3 +2,4 @@ tqdm
 onnx
 pycocotools
 ultralytics==8.1.34
+onnxscript

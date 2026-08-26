@@ -35,3 +35,6 @@ pip3 install -e .
 cd ..
 
 python3 export.py --weight yolov13n.pt --batch 32
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolov13n.onnx -o yolov13n_ir9.onnx
+cp yolov13n_ir9.onnx yolov13n.onnx
