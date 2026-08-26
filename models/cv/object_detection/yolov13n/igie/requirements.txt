@@ -3,3 +3,4 @@ onnx==1.16.0
 huggingface_hub
 ultralytics
 pycocotools
+onnxscript

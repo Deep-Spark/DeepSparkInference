@@ -2,3 +2,4 @@ tqdm
 onnx==1.18.0
 huggingface_hub
 ultralytics
+onnxscript

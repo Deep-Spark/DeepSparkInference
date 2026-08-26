@@ -64,7 +64,7 @@ cp -r detr/* ./
 sed -i '105 s/size = get_size(image.size, size, max_size)/size = (800, 800)/' ./datasets/transforms.py
 
 pip3 install --no-build-isolation -r requirements.txt
-pip3 install onnxsim
+pip3 install onnxsim onnxscript
 pip install -U pycocotools
 ```
 
