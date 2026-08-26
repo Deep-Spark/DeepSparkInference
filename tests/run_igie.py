@@ -143,6 +143,9 @@ def get_model_config(mode_name, model_framework):
             return model
     return
 
+def clear_cache():
+    run_script("echo 3 | tee /proc/sys/vm/drop_caches")
+
 def check_model_result(result):
     status = "PASS"
     for prec in ["fp16", "int8"]:
@@ -185,6 +188,7 @@ def run_clf_testcase(model, batch_size, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     if model_name == "unet":
@@ -309,6 +313,7 @@ def run_detec_testcase(model, batch_size, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
@@ -414,6 +419,7 @@ def run_ocr_testcase(model, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -476,6 +482,7 @@ def run_trace_testcase(model):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -533,6 +540,7 @@ def run_multi_object_tracking_testcase(model):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
@@ -599,6 +607,7 @@ def run_nlp_testcase(model, batch_size):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
@@ -685,6 +694,7 @@ def run_speech_testcase(model, batch_size):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
+    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
