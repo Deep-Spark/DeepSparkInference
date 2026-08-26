@@ -143,6 +143,9 @@ def get_model_config(mode_name):
             return model
     return
 
+def clear_cache():
+    run_script("echo 3 | tee /proc/sys/vm/drop_caches")
+
 def check_model_result(result):
     status = "PASS"
     for prec in ["fp16", "int8"]:
@@ -179,6 +182,8 @@ def run_clf_testcase(model, batch_size, whl_url):
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
     run_script(prepare_script)
+
+    clear_cache()
 
     config_name = model_name.upper()
 
@@ -308,6 +313,8 @@ def run_detec_testcase(model, batch_size, whl_url):
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
     run_script(prepare_script)
+
+    clear_cache()
 
     config_name = model_name.upper()
 
@@ -444,6 +451,8 @@ def run_segmentation_and_face_testcase(model):
 
     run_script(prepare_script)
 
+    clear_cache()
+
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
@@ -530,6 +539,8 @@ def run_multi_object_tracking_testcase(model, whl_url):
 
     run_script(prepare_script)
 
+    clear_cache()
+
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
@@ -603,6 +614,8 @@ def run_nlp_testcase(model, batch_size, whl_url):
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
     run_script(prepare_script)
+
+    clear_cache()
 
     base_script = f"""
         set -x
@@ -735,6 +748,8 @@ def run_speech_testcase(model, batch_size):
 
     run_script(prepare_script)
 
+    clear_cache()
+
     for prec in model["precisions"]:
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
@@ -798,6 +813,8 @@ def run_instance_segmentation_testcase(model, whl_url):
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
     run_script(prepare_script)
+
+    clear_cache()
 
     for prec in model["precisions"]:
         logging.info(f"Start running {model_name} {prec} test case")
