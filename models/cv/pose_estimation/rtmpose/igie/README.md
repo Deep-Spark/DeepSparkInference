@@ -80,7 +80,7 @@ pip install -r requirements.txt
 
 ```bash
 # set weights_only=False to be comaptible with pytorch 2.7
-sed -i '347 s/map_location)/map_location, weights_only=False)/' /usr/local/lib/python3.10/site-packages/mmengine/runner/checkpoint.py
+sed -i '347 s/map_location)/map_location, weights_only=False)/' /usr/local/lib/python3.12/site-packages/mmengine/runner/checkpoint.py
 
 # export onnx model
 python3 export.py --weight rtmpose-m_simcc-aic-coco_pt-aic-coco_420e-256x192-63eb25f7_20230126.pth --cfg rtmpose-m_8xb256-420e_coco-256x192.py --output rtmpose.onnx

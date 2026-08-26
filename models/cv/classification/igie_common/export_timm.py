@@ -48,12 +48,11 @@ def main():
     dummy_input = torch.randn([32, 3, 288, 288])
 
     torch.onnx.export(
-        model, 
-        dummy_input, 
-        args.output, 
-        opset_version=13, 
-        do_constant_folding=True, 
-        input_names=["input"], 
+        model,
+        dummy_input,
+        args.output,
+        do_constant_folding=True,
+        input_names=["input"],
         output_names=["output"],
         dynamic_axes={"input": {0: "batch"}, "output": {0: "batch"}}
         )

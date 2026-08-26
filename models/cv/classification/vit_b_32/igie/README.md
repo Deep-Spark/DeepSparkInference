@@ -35,7 +35,7 @@ pip3 install timm
 
 ```bash
 # set weights_only=False to be comaptible with pytorch 2.7 
-sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.10/site-packages/open_clip/factory.py
+sed -i '164 s/weights_only=weights_only)/weights_only=False)/' /usr/local/lib/python3.12/site-packages/open_clip/factory.py
 
 python3 export.py --model-name ViT-B-32 --weight ViT-B-32.pt --output vit_b_32.onnx
 
