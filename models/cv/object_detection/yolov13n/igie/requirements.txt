@@ -1,5 +1,5 @@
 tqdm
-onnx==1.16.0
+onnx
 huggingface_hub
 ultralytics
 pycocotools

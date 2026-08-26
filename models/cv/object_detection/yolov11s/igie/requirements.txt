@@ -1,5 +1,5 @@
 tqdm
-onnx==1.16.0
+onnx
 ultralytics==8.3.59
 pycocotools
 onnxscript

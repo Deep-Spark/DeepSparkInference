@@ -16,7 +16,7 @@ matplotlib==3.7.5
 modelscope==1.20.0
 networkx==3.1
 omegaconf==2.3.0
-onnx==1.16.0
+onnx
 openai-whisper
 protobuf==4.25
 pyarrow==18.1.0
