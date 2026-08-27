@@ -48,7 +48,7 @@ apt install -y libgl1-mesa-glx
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/h2ovl-mississippi-800m -tp 1 --max-tokens 256 --trust-remote-code --temperature 0.0 --disable-mm-preprocessor-cache
+python3 offline_inference_vision_language.py --model data/h2ovl-mississippi-800m -tp 1 --max-tokens 256 --trust-remote-code --temperature 0.0 --max-model-len 8192 --disable-mm-preprocessor-cache
 ```
 
 ## Model Results

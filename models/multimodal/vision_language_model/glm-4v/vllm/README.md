@@ -33,7 +33,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model /path/to/glm-4v-9b --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --hf-overrides '{"architectures": ["GLM4VForCausalLM"]}'
+python3 offline_inference_vision_language.py --model /path/to/glm-4v-9b --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --max-model-len 8192 --hf-overrides '{"architectures": ["GLM4VForCausalLM"]}'
 ```
 
 ## Model Results

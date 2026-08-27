@@ -34,7 +34,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
 export ENABLE_FLASH_ATTENTION_WITH_HEAD_DIM_PADDING=1
-python3 offline_inference_vision_language.py --model /path/to/Qwen2-VL-7B-Instruct --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --max-num-seqs 5
+python3 offline_inference_vision_language.py --model /path/to/Qwen2-VL-7B-Instruct --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --max-model-len 8192 --max-num-seqs 5
 ```
 
 ## Model Results

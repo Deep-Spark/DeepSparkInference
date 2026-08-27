@@ -37,7 +37,7 @@ In order to run the model smoothly, you need to get the sdk from [resource cente
 
 ```bash
 export VLLM_ASSETS_CACHE=../vllm/
-python3 offline_inference_vision_language.py --model data/Pixtral-12B-2409 --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --tokenizer-mode 'mistral'
+python3 offline_inference_vision_language.py --model data/Pixtral-12B-2409 --max-tokens 256 -tp 1 --trust-remote-code --temperature 0.0 --max-model-len 8192 --tokenizer-mode 'mistral'
 
 # w4a16
 export VLLM_USE_V1=1
