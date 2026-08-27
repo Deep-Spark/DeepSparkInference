@@ -82,7 +82,7 @@
 | Qwen3-235B-A22B-Thinking      | `vLLM`       | [✅](models/nlp/llm/qwen3-235b-a22b-thinking/vllm)                 | 4.4.0     |
 | Qwen3-Next-80B-A3B            | `vLLM`       | [✅](models/nlp/llm/qwen3-next-80b-a3b/vllm)                       | 4.4.0     |
 | Qwen3-Embedding-8B            | `vLLM`       | [✅](models/nlp/llm/qwen3-embedding-8b/vllm)                       | 4.4.0     |
-| Qwen3-ASR-1.7B                | `Qwen-ASR`   | [✅](models/speech/asr/qwen3-embedding-8b/qwen-asr)                | 4.4.0     |
+| Qwen3-ASR-1.7B                | `Qwen-ASR`   | [✅](models/speech/asr/qwen3-asr-1.7b/qwen-asr)                | 4.4.0     |
 | Qwen3-TTS-12Hz-1.7B-Base      | `Qwen-TTS`   | [✅](models/speech/speech_synthesis/qwen3-tts-12hz-1.7b/qwen-tts)   | 4.4.0     |
 | DeepSeek-V3.1                 | `vLLM`       | [✅](models/nlp/llm/deepseek-v3.1/vllm)                            | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
