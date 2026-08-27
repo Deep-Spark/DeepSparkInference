@@ -74,6 +74,7 @@ cd yolov7
 git checkout a207844b1ce82d204ab36d87d496728d3d2348e7
 # set weights_only=False to be comaptible with pytorch 2.7
 sed -i '252 s/map_location)/map_location, weights_only=False)/' ./models/experimental.py
+sed -i '150 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' ./export.py
 # export onnx model
 python3 export.py --weights ../yolov7.pt --simplify --img-size 640 640 --dynamic-batch --grid
 

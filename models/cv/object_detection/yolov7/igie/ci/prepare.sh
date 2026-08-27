@@ -20,5 +20,6 @@ pip3 install -r requirements.txt
 
 cp -r /mnt/deepspark/data/3rd_party/yolov7 ./
 cd yolov7
+sed -i '150 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' ./export.py
 # export onnx model
 python3 export.py --weights ../yolov7.pt --simplify --img-size 640 640 --dynamic-batch --grid

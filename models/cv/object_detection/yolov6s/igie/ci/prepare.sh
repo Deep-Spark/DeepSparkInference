@@ -40,6 +40,6 @@ pip3 install -r requirements.txt
 
 # set weights_only=False to be comaptible with pytorch 2.7
 sed -i '25 s/map_location)/map_location, weights_only=False)/' yolov6/utils/checkpoint.py
-
+sed -i '112 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' deploy/ONNX/export_onnx.py
 # export onnx model
 python3 deploy/ONNX/export_onnx.py --weights ../yolov6s.pt --img 640 --dynamic-batch --simplify
