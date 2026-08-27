@@ -50,6 +50,8 @@ mkdir -p /root/.cache/torch/hub/checkpoints/
 wget -P /root/.cache/torch/hub/checkpoints/ https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnetv2_t_agc-3620981a.pth
 python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet_v2.onnx
 cd ../../
+python3 ../../ixrt_common/make_ir9_model.py -i checkpoints/efficientnet_v2.onnx -o checkpoints/efficientnet_v2_ir9.onnx
+cp checkpoints/efficientnet_v2_ir9.onnx checkpoints/efficientnet_v2.onnx
 ```
 
 ## Model Inference

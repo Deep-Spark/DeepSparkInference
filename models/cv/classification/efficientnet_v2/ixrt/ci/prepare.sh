@@ -36,3 +36,5 @@ mkdir -p /root/.cache/torch/hub/checkpoints/
 ln -s /root/data/checkpoints/efficientnetv2_t_agc-3620981a.pth /root/.cache/torch/hub/checkpoints/
 python3 -m models.export_onnx --output_model ../../checkpoints/efficientnet_v2.onnx
 cd ../../
+python3 ../../ixrt_common/make_ir9_model.py -i checkpoints/efficientnet_v2.onnx -o checkpoints/efficientnet_v2_ir9.onnx
+cp checkpoints/efficientnet_v2_ir9.onnx checkpoints/efficientnet_v2.onnx
