@@ -4,3 +4,4 @@ onnxsim
 ultralytics
 pycocotools
 pandas
+onnxscript

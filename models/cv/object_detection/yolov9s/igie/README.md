@@ -66,6 +66,8 @@ wget https://github.com/ultralytics/assets/releases/download/v8.2.0/yolov9s.pt
 sed -i '781 s/map_location=\"cpu\")/map_location=\"cpu\", weights_only=False)/' /usr/local/lib/python3.12/site-packages/ultralytics/nn/tasks.py
 
 python3 export.py --weight yolov9s.pt --batch 32
+python3 ../../igie_common/make_ir9_model.py -i yolov9s.onnx -o yolov9s_ir9.onnx
+cp yolov9s_ir9.onnx yolov9s.onnx
 ```
 
 ## Model Inference

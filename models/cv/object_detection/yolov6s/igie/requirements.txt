@@ -4,3 +4,4 @@ onnxsim
 pycocotools
 requests
 pyyaml
+onnxscript

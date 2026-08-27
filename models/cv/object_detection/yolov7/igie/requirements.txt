@@ -5,3 +5,4 @@ pycocotools
 seaborn
 requests
 pyyaml
+onnxscript

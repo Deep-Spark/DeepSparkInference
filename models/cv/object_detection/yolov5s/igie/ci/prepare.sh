@@ -19,6 +19,6 @@ set -x
 pip3 install -r requirements.txt
 
 python3 export.py --weight yolov5s.pt --output yolov5s.onnx
-
+python3 ../../igie_common/make_ir9_model.py -i yolov5s.onnx -o yolov5s_ir9.onnx
 # Use onnxsim optimize onnx model
-onnxsim yolov5s.onnx yolov5s_opt.onnx
+onnxsim yolov5s_ir9.onnx yolov5s_opt.onnx

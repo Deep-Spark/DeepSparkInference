@@ -72,6 +72,9 @@ wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt
 sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.12/site-packages/ultralytics/nn/tasks.py
 
 python3 export.py --weight yolov8s.pt --batch 32
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 ../../igie_common/make_ir9_model.py -i yolov8s.onnx -o yolov8s_ir9.onnx
+cp yolov8s_ir9.onnx yolov8s.onnx
 ```
 
 ## Model Inference
