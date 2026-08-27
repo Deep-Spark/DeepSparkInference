@@ -144,7 +144,10 @@ def get_model_config(mode_name, model_framework):
     return
 
 def clear_cache():
+    run_script("sync;sync;sync")
     run_script("echo 3 | tee /proc/sys/vm/drop_caches")
+    time.sleep(10)
+
 
 def check_model_result(result):
     status = "PASS"
