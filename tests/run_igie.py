@@ -144,6 +144,7 @@ def get_model_config(mode_name, model_framework):
     return
 
 def clear_cache():
+    run_script("ixsmi -r 2>&1 | grep -oP 'pid: \K[0-9 ]+' | tr ' ' '\n' | sort -u | xargs -r kill -9")
     run_script("sync;sync;sync")
     run_script("echo 3 | tee /proc/sys/vm/drop_caches")
     time.sleep(10)
