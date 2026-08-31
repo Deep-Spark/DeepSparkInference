@@ -82,6 +82,8 @@ wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt
 python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
 mv yolov5s.onnx* ../checkpoints
 popd
+python3 make_ir9_model.py -i checkpoints/yolov5s.onnx -o checkpoints/yolov5s_ir9.onnx
+mv checkpoints/yolov5s_ir9.onnx checkpoints/yolov5s.onnx
 ```
 
 ## Model Inference
