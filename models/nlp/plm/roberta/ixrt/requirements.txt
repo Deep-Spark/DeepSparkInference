@@ -2,5 +2,6 @@ onnxsim
 py-libnuma==1.2
 bert
 pycuda
-transformers==4.33.3
+transformers
 typing-extensions==4.12.2
+onnxscript

@@ -24,7 +24,7 @@ elif [[ ${ID} == "centos" ]]; then
 else
     echo "Not Support Os"
 fi
-
+pip3 install six
 mkdir -p data/datasets
 mkdir -p data/checkpoints
 cp -r /root/data/checkpoints/bert-large-uncased data/checkpoints && ln -s /root/data/datasets/squad data/datasets

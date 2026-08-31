@@ -16,8 +16,8 @@
 
 set -x
 
-pip3 install librosa psutil pysoundfile pytest requests tensorboardX editdistance textgrid onnxsim paddlespeech_ctcdecoders paddleaudio paddlespeech
-pip3 install numpy==1.23.5
+pip3 install librosa psutil pysoundfile pytest requests tensorboardX editdistance textgrid onnxsim paddleaudio paddlespeech
+pip3 install numpy
 
 mkdir -p checkpoints
 cp /root/data/checkpoints/deepspeech2.onnx checkpoints/

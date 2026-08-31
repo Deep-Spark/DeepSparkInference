@@ -5,3 +5,4 @@ pycocotools
 opencv-python==4.8.0.74
 ultralytics==8.3.59
 cuda-python
+onnxscript

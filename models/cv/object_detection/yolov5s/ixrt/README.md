@@ -79,7 +79,7 @@ sed -i '96 s/map_location)/map_location, weights_only=False)/' ./models/experime
 # download the weight from the recommend link
 wget https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5s.pt
 python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
-mv yolov5s.onnx ../checkpoints
+mv yolov5s.onnx* ../checkpoints
 popd
 ```
 

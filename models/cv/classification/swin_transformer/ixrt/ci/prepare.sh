@@ -15,6 +15,6 @@
 # limitations under the License.
 
 set -x
-
+pip3 install tqdm
 mkdir -p ./checkpoints
 ln -s /root/data/checkpoints/swin_s_model_sim.onnx ./checkpoints/swin_s_model_sim.onnx

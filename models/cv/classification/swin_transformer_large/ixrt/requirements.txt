@@ -8,3 +8,4 @@ tabulate
 pycocotools
 opencv-python==4.6.0.66
 typing-extensions==4.12.2
+onnxscript

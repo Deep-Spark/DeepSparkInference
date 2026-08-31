@@ -2,17 +2,17 @@ onnx
 onnxsim==0.4.36
 tf2onnx==1.16.1
 onnxruntime
-onnxoptimizer==0.3.13
+onnxoptimizer
 bert-tensorflow==1.0.1
 
 pandas==2.1.1
-numpy==1.23.0
+numpy
 matplotlib
 scikit-learn
 opencv-python==4.6.0.66
 opencv-python-headless
 tokenization==1.0.7
-tokenizers==0.13.3
+tokenizers
 sentencepiece==0.1.96
 typing_extensions==4.10.0
 

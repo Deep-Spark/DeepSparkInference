@@ -1,7 +1,8 @@
 tqdm
-onnx
+onnx==1.18.0
 onnxsim
 pycocotools
 pycuda
-numpy==1.24.0
+numpy
 requests
+onnxscript
