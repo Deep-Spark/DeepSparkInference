@@ -1,194 +1,222 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Add IxRT custom YOLO decoder nodes to a backbone-only ONNX model.
+Replaces the previous tensorrt.deploy.api-based implementation with
+a pure onnx Python API approach that has no deploy dependency.
+"""
 import argparse
-import copy
+import onnx
+from onnx import helper, TensorProto
 
-from tensorrt.deploy.api import *
-from tensorrt.deploy.backend.onnx.converter import default_converter
-from tensorrt.deploy.backend.torch.executor.operators._operators import to_py_type
-from tensorrt.deploy.ir.operator_attr import BaseOperatorAttr, EmptyAttr
-from tensorrt.deploy.ir.operator_type import OperatorType as OP
-from tensorrt.deploy.ir import operator_attr as attr, Operator, generate_operator_name
-from tensorrt.deploy.fusion import BasePass, PatternGraph, build_sequence_graph, GraphMatcher, PassSequence
-from tensorrt.deploy.ir import Graph
-from tensorrt.deploy.quantizer.quant_operator.base import quant_single_input_operator
-from tensorrt.deploy.backend.onnx.converter import convert_onnx_operator
-from tensorrt.deploy.api import GraphTransform, create_source, create_target
 
-class FuseMishPass(BasePass):
-    def process(self, graph: Graph) -> Graph:
-        pattern = build_sequence_graph([OP.SOFTPLUS, OP.TANH, OP.MUL])
+def _build_producer_map(graph):
+    """name -> producing node. Initializers and graph-inputs map to None."""
+    producer = {}
+    for node in graph.node:
+        for o in node.output:
+            if o:
+                producer[o] = node
+    return producer
 
-        matcher = GraphMatcher(pattern, strict=False)
-        self.transform = GraphTransform(graph)
-        matcher.findall(graph, self.fuse_mish)
-        return graph
 
-    def fuse_mish(self, graph: Graph, pattern_graph: PatternGraph):
-        softplus = pattern_graph.nodes[0].operator
-        mul = pattern_graph.nodes[-1].operator
+def remap_quant_inputs(graph, inputs):
+    """Bypass any QDQ pair on each ``inputs`` tensor for IxRT plugin consumption.
 
-        if not self.can_fused(graph, pattern_graph):
+    IxRT's YoloV*Decoder plugin (and its INT8 fast path) expects to be fed the
+    INT8 ``QuantizeLinear`` output, not the dequantized FLOAT tensor. After
+    ORT's ``quantize_static`` the typical layout is::
+
+        Conv -> <X>_QuantizeLinear_Input
+             -> QuantizeLinear -> <X>_QuantizeLinear_Output (INT8)
+             -> DequantizeLinear -> <X> (FLOAT)  <-- we get this name
+
+    so when we detect that an input is the output of a DequantizeLinear, we
+    walk back one step and use the upstream ``QuantizeLinear`` output instead.
+    Tensors that are not part of a QDQ pair (e.g. FP16 models) pass through
+    unchanged.
+    """
+    producer = _build_producer_map(graph)
+    remapped = []
+    for name in inputs:
+        prod = producer.get(name)
+        if prod is not None and prod.op_type == "DequantizeLinear" and len(prod.input) >= 1:
+            qdq_input = prod.input[0]
+            qdq_prod = producer.get(qdq_input)
+            if qdq_prod is not None and qdq_prod.op_type == "QuantizeLinear":
+                remapped.append(qdq_input)
+                continue
+        # Fallback: ORT-only renaming (DQ output suffix) when the raw name was
+        # passed but is no longer present in the graph.
+        if name not in producer:
+            candidate = f"{name}_DequantizeLinear_Output"
+            if candidate in producer:
+                cand_prod = producer.get(candidate)
+                if cand_prod is not None and cand_prod.op_type == "DequantizeLinear":
+                    qdq_input = cand_prod.input[0]
+                    qdq_prod = producer.get(qdq_input)
+                    if qdq_prod is not None and qdq_prod.op_type == "QuantizeLinear":
+                        remapped.append(qdq_input)
+                        continue
+                remapped.append(candidate)
+                continue
+        remapped.append(name)
+    return remapped
+
+
+def declare_value_info(graph, name, dtype=TensorProto.FLOAT):
+    """Make ``name`` an explicit FLOAT value_info entry.
+
+    IxRT's algorithm-selection pass needs the output dtype of custom plugins
+    (e.g. YoloV*Decoder) to be explicit; without a value_info entry it cannot
+    infer the FLOAT output type and the format-combination candidate set
+    collapses to empty, surfacing as
+    "fail to find satisfied combinations ... io_idx <1>".
+    """
+    for vi in graph.value_info:
+        if vi.name == name:
             return
+    graph.value_info.append(helper.make_tensor_value_info(name, dtype, None))
 
-        self.transform.delete_operators_between_op_op(softplus, mul)
 
-        mish_op = Operator(
-            name=generate_operator_name(graph, pattern="Mish_{idx}"),
-            op_type=OP.MISH,
-            inputs=copy.copy(softplus.inputs),
-            outputs=copy.copy(mul.outputs),
+def add_decoder_node(graph, op_type, inputs, outputs, anchor, num_class, stride, faster_impl):
+    """Append an IxRT custom YOLO decoder node to the ONNX graph."""
+    kwargs = dict(
+        num_class=num_class,
+        stride=stride,
+        faster_impl=faster_impl,
+    )
+    # Only include anchor when non-empty; anchor-free decoders (e.g. YoloxDecoder)
+    # must omit this attribute -- make_attribute raises ValueError on an empty list.
+    if anchor:
+        # Cast to int so onnx encodes ``anchor`` as INTS (the IxRT YOLO decoder
+        # plugin reads anchors as integers). Tolerates float CLI inputs.
+        kwargs["anchor"] = [int(a) for a in anchor]
+    node = helper.make_node(
+        op_type,
+        inputs=remap_quant_inputs(graph, inputs),
+        outputs=outputs,
+        name=f"node_of_{outputs[0]}",
+        domain="",
+        **kwargs,
+    )
+    graph.node.append(node)
+    for out in outputs:
+        declare_value_info(graph, out, TensorProto.FLOAT)
+
+
+def add_concat_node(graph, inputs, outputs, axis=1):
+    node = helper.make_node("Concat", inputs=inputs, outputs=outputs, axis=axis)
+    graph.node.append(node)
+
+
+def set_graph_outputs(graph, names):
+    """Replace the graph outputs with the given list of FLOAT tensor names."""
+    while len(graph.output) > 0:
+        graph.output.pop()
+    for name in names:
+        graph.output.append(
+            helper.make_tensor_value_info(name, TensorProto.FLOAT, None)
         )
-        mish_op.is_quant_operator = softplus.is_quant_operator and mul.is_quant_operator
-        graph.add_operator(mish_op)
-
-    def can_fused(self, graph: Graph, pattern_graph: PatternGraph):
-        softplus = pattern_graph.nodes[0].operator
-        mul = pattern_graph.nodes[-1].operator
-
-        # 检查 Softplus, tanh 的输出是不是只有一个 OP 使用
-        # 如果有多个 OP 使用，则不能融合
-        for node in pattern_graph.nodes[:2]:
-            next_ops = graph.get_next_operators(node.operator)
-            if len(next_ops) != 1:
-                return False
-
-        # 检查 Mul 的输入是不是和 Softplus 是同源的
-        softplus_prev_op = graph.get_previous_operators(softplus)
-        if len(softplus_prev_op) != 1:
-            return False
-
-        mul_prev_op = graph.get_previous_operators(mul)
-        if len(mul_prev_op) != 2:
-            return False
-
-        for op in mul_prev_op:
-            if op is softplus_prev_op[0]:
-                return True
-
-        return False
 
 
-class Transform:
-    def __init__(self, graph):
-        self.t = GraphTransform(graph)
-        self.graph = graph
-
-    def ReplaceFocus(self, input_edge, outputs, to_op):
-        input_var = self.graph.get_variable(input_edge)
-        op = self.graph.get_operator(to_op)
-        self.t.delete_operators_between_var_op(
-            from_var=input_var, to_op=op
-        )
-        self.t.make_operator(
-            "Focus", inputs=input_edge, outputs=outputs
-        )
-        return self.graph
-
-    def AddYoloDecoderOp(self, inputs: list, outputs: list, op_type, **attributes):
-        if attributes["anchor"] is None:
-            del attributes["anchor"]
-        self.t.make_operator(
-            op_type, inputs=inputs, outputs=outputs, **attributes
-        )
-        return self.graph
-
-    def AddConcatOp(self, inputs: list, outputs, **attributes):
-        self.t.make_operator(
-            "Concat", inputs=inputs, outputs=outputs, **attributes
-        )
-        return self.graph
-
-def customize_ops(graph, args):
-    t = Transform(graph)
-    fuse_focus = args.focus_input is not None and args.focus_output is not None and args.focus_last_node is not None
-    if fuse_focus:
-        graph = t.ReplaceFocus(
-            input_edge=args.focus_input,
-            outputs=args.focus_output,
-            to_op=args.focus_last_node
-        )
+def customize_ops(model, args):
+    graph = model.graph
     decoder_input = args.decoder_input_names
     num = len(decoder_input) // 3
-    graph = t.AddYoloDecoderOp(
-        inputs=decoder_input[:num],
-        outputs=["decoder_8"],
-        op_type=args.decoder_type,
-        anchor=args.decoder8_anchor,
-        num_class=args.num_class,
-        stride=8,
-        faster_impl=args.faster
+
+    add_decoder_node(
+        graph, args.decoder_type,
+        decoder_input[:num], ["decoder_8"],
+        args.decoder8_anchor or [],
+        args.num_class, 8, args.faster,
     )
-    graph = t.AddYoloDecoderOp(
-        inputs=decoder_input[num:num*2],
-        outputs=["decoder_16"],
-        op_type=args.decoder_type,
-        anchor=args.decoder16_anchor,
-        num_class=args.num_class,
-        stride=16,
-        faster_impl=args.faster
+    add_decoder_node(
+        graph, args.decoder_type,
+        decoder_input[num:num * 2], ["decoder_16"],
+        args.decoder16_anchor or [],
+        args.num_class, 16, args.faster,
     )
-    graph = t.AddYoloDecoderOp(
-        inputs=decoder_input[num*2:num*2+1],
-        outputs=["decoder_32"],
-        op_type=args.decoder_type,
-        anchor=args.decoder32_anchor,
-        num_class=args.num_class,
-        stride=32,
-        faster_impl=args.faster
-    )
+
     if args.decoder64_anchor is not None:
-        graph = t.AddYoloDecoderOp(
-            inputs=decoder_input[num*2+1:],
-            outputs=["decoder_64"],
-            op_type=args.decoder_type,
-            anchor=args.decoder64_anchor,
-            num_class=args.num_class,
-            stride=64,
-            faster_impl=args.faster
+        add_decoder_node(
+            graph, args.decoder_type,
+            decoder_input[num * 2:num * 2 + 1], ["decoder_32"],
+            args.decoder32_anchor or [],
+            args.num_class, 32, args.faster,
         )
-        graph = t.AddConcatOp(
-            inputs=["decoder_8", "decoder_16", "decoder_32", "decoder_64"],
-            outputs=["output"],
-            axis=1
+        add_decoder_node(
+            graph, args.decoder_type,
+            decoder_input[num * 2 + 1:], ["decoder_64"],
+            args.decoder64_anchor or [],
+            args.num_class, 64, args.faster,
+        )
+        add_concat_node(
+            graph,
+            ["decoder_8", "decoder_16", "decoder_32", "decoder_64"],
+            ["output"], axis=1,
         )
     else:
-        graph = t.AddConcatOp(
-            inputs=["decoder_32", "decoder_16", "decoder_8"],
-            outputs=["output"],
-            axis=1
+        add_decoder_node(
+            graph, args.decoder_type,
+            decoder_input[num * 2:], ["decoder_32"],
+            args.decoder32_anchor or [],
+            args.num_class, 32, args.faster,
+        )
+        add_concat_node(
+            graph,
+            ["decoder_32", "decoder_16", "decoder_8"],
+            ["output"], axis=1,
         )
 
-    graph.outputs.clear()
-    graph.add_output("output")
-    graph.outputs["output"].dtype = "FLOAT"
-    return graph
+    set_graph_outputs(graph, ["output"])
+
+    # Optional Focus replacement (FP16 / non-QDQ models only).
+    # For INT8 QDQ models the original Focus subgraph would be dead-code-
+    # eliminated by IxRT before the custom Focus node could resolve its input,
+    # so we only insert the custom Focus op when the input is the raw graph
+    # tensor (e.g. "images"), not a DequantizeLinear output.
+    if (args.focus_input is not None
+            and args.focus_output is not None
+            and not args.focus_input.endswith("_DequantizeLinear_Output")):
+        focus_output_names = (
+            args.focus_output
+            if isinstance(args.focus_output, list)
+            else [args.focus_output]
+        )
+        focus_node = helper.make_node(
+            "Focus",
+            inputs=[args.focus_input],
+            outputs=focus_output_names,
+            domain="",
+        )
+        graph.node.append(focus_node)
+
+    return model
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--src", type=str)
     parser.add_argument("--dst", type=str)
-    parser.add_argument("--decoder_type", type=str, choices=["YoloV3Decoder", "YoloV5Decoder", "YoloV7Decoder", "YoloxDecoder"])
-    parser.add_argument("--decoder_input_names", nargs='+', type=str)
-    parser.add_argument("--decoder8_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder16_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder32_anchor", nargs='*', type=int)
-    parser.add_argument("--decoder64_anchor", nargs='*', type=int, default=None)
+    parser.add_argument("--decoder_type", type=str,
+                        choices=["YoloV3Decoder", "YoloV5Decoder", "YoloV7Decoder", "YoloxDecoder"])
+    parser.add_argument("--decoder_input_names", nargs="+", type=str)
+    parser.add_argument("--decoder8_anchor", nargs="*", type=float)
+    parser.add_argument("--decoder16_anchor", nargs="*", type=float)
+    parser.add_argument("--decoder32_anchor", nargs="*", type=float)
+    parser.add_argument("--decoder64_anchor", nargs="*", type=float, default=None)
     parser.add_argument("--num_class", type=int, default=80)
     parser.add_argument("--faster", type=int, default=1)
     parser.add_argument("--focus_input", type=str, default=None)
-    parser.add_argument("--focus_output", type=str, default=None)
+    parser.add_argument("--focus_output", nargs="*", type=str, default=None)
     parser.add_argument("--focus_last_node", type=str, default=None)
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
-
     args = parse_args()
-    graph = create_source(args.src)()
-    graph = customize_ops(graph, args)
-    graph = FuseMishPass().process(graph)
-    create_target(saved_path=args.dst).export(graph)
+    model = onnx.load(args.src)
+    model = customize_ops(model, args)
+    onnx.save(model, args.dst)
     print("Surged onnx lies on", args.dst)

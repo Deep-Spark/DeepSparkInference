@@ -73,11 +73,11 @@ git clone https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
 # download weight
 mkdir data
 wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights -P data
-
+sed -i '34 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' ./yolov4/tool/darknet2onnx.py
 # export onnx model
 python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight data/yolov4.weights --batchsize 16 --output data/yolov4.onnx
 mv yolov4_16_3_608_608_static.onnx data/yolov4.onnx
-
+mv yolov4_16_3_608_608_static.onnx.data data/
 # Use onnxsim optimize onnx model
 onnxsim data/yolov4.onnx data/yolov4_sim.onnx
 

@@ -37,7 +37,7 @@ def main():
     
     model = YOLO(args.weight).cpu()
     
-    model.export(format='onnx', batch=args.batch, imgsz=(640, 640), optimize=True, simplify=True, opset=18)
+    model.export(format='onnx', batch=args.batch, imgsz=(640, 640), optimize=True, simplify=True, opset=18, dynamo=False)
     
 if __name__ == "__main__":
     main()
