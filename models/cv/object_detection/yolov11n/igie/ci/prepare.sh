@@ -26,5 +26,5 @@ else
 fi
 
 pip3 install -r requirements.txt
-
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
 python3 export.py --weight yolo11n.pt --batch 32

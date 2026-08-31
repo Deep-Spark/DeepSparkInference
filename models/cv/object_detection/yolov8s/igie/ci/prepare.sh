@@ -28,6 +28,7 @@ fi
 pip3 install -r requirements.txt
 # set weights_only=False to be comaptible with pytorch 2.7 
 sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.12/site-packages/ultralytics/nn/tasks.py
+sed -i '384 s/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
 python3 export.py --weight yolov8s.pt --batch 32
 python3 ../../igie_common/make_ir9_model.py -i yolov8s.onnx -o yolov8s_ir9.onnx
 cp yolov8s_ir9.onnx yolov8s.onnx

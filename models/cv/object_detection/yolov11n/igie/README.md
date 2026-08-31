@@ -61,7 +61,7 @@ pip3 install -r requirements.txt
 ```bash
 # download the weight from the recommend link
 wget https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt
-
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
 python3 export.py --weight yolo11n.pt --batch 32
 # Make sure numpy < 2.0
 ```

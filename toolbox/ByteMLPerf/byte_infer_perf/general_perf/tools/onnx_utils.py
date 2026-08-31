@@ -236,7 +236,7 @@ def get_constant_value(node):
             elif attr.t.data_type == 8:
                 return np.frombuffer(attr.t.raw_data, dtype=np.string)
             elif attr.t.data_type == 9:
-                return np.frombuffer(attr.t.raw_data, dtype=np.bool)
+                return np.frombuffer(attr.t.raw_data, dtype=np.bool_)
             elif attr.t.data_type == 10:
                 return np.frombuffer(attr.t.raw_data, dtype=np.float16)
             elif attr.t.data_type == 11:

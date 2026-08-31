@@ -15,7 +15,7 @@
 # limitations under the License.
 
 set -x
-
+apt-get install libsndfile1 -y
 pip3 install librosa psutil pysoundfile pytest requests tensorboardX editdistance textgrid onnxsim paddleaudio paddlespeech
 pip3 install numpy
 

@@ -99,7 +99,7 @@ def main():
                 # Exclude Detect head (model.24). Names follow TorchScript ONNX export.
                 nodes_to_exclude=[
                     n.name for n in onnx.load(args.model_path).graph.node
-                    if n.name.startswith('/model.24/')
+                    if n.name.startswith('/model/model/model.24/')
                 ],
                 calibrate_method=CalibrationMethod.Percentile,
                 extra_options = {

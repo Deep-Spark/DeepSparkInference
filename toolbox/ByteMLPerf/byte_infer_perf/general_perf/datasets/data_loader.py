@@ -21,10 +21,10 @@ INPUT_TYPE = {
     "UINT8": np.uint8,
     "FLOAT32": np.float32,
     "FLOAT16": np.float16,
-    "LONG": np.long,
+    "LONG": np.int64,
     "INT32": np.int32,
     "INT64": np.int64,
-    "BOOL": np.bool
+    "BOOL": np.bool_
 }
 
 

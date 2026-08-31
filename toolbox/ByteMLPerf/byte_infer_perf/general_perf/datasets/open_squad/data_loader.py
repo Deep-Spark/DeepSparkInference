@@ -26,7 +26,7 @@ import numpy as np
 INPUT_TYPE = {
     "UINT8": np.uint8,
     "FLOAT32": np.float32,
-    "LONG": np.long,
+    "LONG": np.int64,
     "INT32": np.int32,
     "INT64": np.int64
 }
