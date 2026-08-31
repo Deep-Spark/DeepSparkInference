@@ -192,7 +192,6 @@ def run_clf_testcase(model, batch_size, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     if model_name == "unet":
@@ -214,6 +213,7 @@ def run_clf_testcase(model, batch_size, whl_url):
         """
 
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -317,7 +317,6 @@ def run_detec_testcase(model, batch_size, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
@@ -331,6 +330,7 @@ def run_detec_testcase(model, batch_size, whl_url):
         """
 
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -423,10 +423,10 @@ def run_ocr_testcase(model, whl_url):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
@@ -486,10 +486,10 @@ def run_trace_testcase(model):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
@@ -544,10 +544,10 @@ def run_multi_object_tracking_testcase(model):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
@@ -611,7 +611,6 @@ def run_nlp_testcase(model, batch_size):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
@@ -625,6 +624,7 @@ def run_nlp_testcase(model, batch_size):
         export LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libGLdispatch.so.0:$LD_PRELOAD
         """
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -698,7 +698,6 @@ def run_speech_testcase(model, batch_size):
         pip_list_script = "pip list | grep -E 'numpy|transformer|igie|mmcv|onnx'\n"
         prepare_script = pip_list_script + prepare_script + pip_list_script
 
-    clear_cache()
     run_script(prepare_script)
 
     base_script = f"""
@@ -708,6 +707,7 @@ def run_speech_testcase(model, batch_size):
     """
 
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
