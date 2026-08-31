@@ -66,7 +66,7 @@ cd ..
 
 # download the weight from the recommend link
 wget https://github.com/sunsmarterjie/yolov12/releases/download/turbo/yolov12n.pt
-
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
 python3 export.py --weight yolov12n.pt --batch 32
 # Make sure numpy < 2.0
 # Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
