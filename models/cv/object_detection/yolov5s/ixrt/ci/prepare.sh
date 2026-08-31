@@ -29,6 +29,7 @@ mkdir -p /root/.config/Ultralytics
 cp /root/data/3rd_party/Arial.ttf /root/.config/Ultralytics/Arial.ttf
 
 ln -s /root/data/checkpoints/yolov5s.pt ./
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' ./ultralytics/engine/exporter.py
 # 转换为onnx (具体实现可以参考 export.py 中的 export_onnx 函数)
 python3 export.py --weights yolov5s.pt --include onnx --opset 11 --batch-size 32
 mv yolov5s.onnx* ../checkpoints
