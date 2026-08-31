@@ -186,8 +186,6 @@ def run_clf_testcase(model, batch_size, whl_url):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     config_name = model_name.upper()
 
     patterns = {
@@ -229,6 +227,7 @@ def run_clf_testcase(model, batch_size, whl_url):
             python3 core/perf_engine.py --hardware_type ILUVATAR --task swin-large-torch-fp32
         """
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -317,8 +316,6 @@ def run_detec_testcase(model, batch_size, whl_url):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     config_name = model_name.upper()
 
     if model_name in ["yolov3", "yolov5m", "yolov5s", "yolov7", "atss", "paa", "retinanet", "yolof", "fcos"]:
@@ -353,6 +350,7 @@ def run_detec_testcase(model, batch_size, whl_url):
 
 
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -454,9 +452,8 @@ def run_segmentation_and_face_testcase(model):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
@@ -542,9 +539,8 @@ def run_multi_object_tracking_testcase(model, whl_url):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
@@ -618,8 +614,6 @@ def run_nlp_testcase(model, batch_size, whl_url):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     base_script = f"""
         set -x
         cd ../{model['model_path']}
@@ -646,6 +640,7 @@ def run_nlp_testcase(model, batch_size, whl_url):
         """
 
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             script = base_script
@@ -751,9 +746,8 @@ def run_speech_testcase(model, batch_size):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     for prec in model["precisions"]:
+        clear_cache()
         result["result"].setdefault(prec, {"status": "FAIL"})
         for bs in batch_size_list:
             if bs == "None":
@@ -817,9 +811,8 @@ def run_instance_segmentation_testcase(model, whl_url):
 
     run_script(prepare_script)
 
-    clear_cache()
-
     for prec in model["precisions"]:
+        clear_cache()
         logging.info(f"Start running {model_name} {prec} test case")
         script = f"""
         cd ../{model['model_path']}
