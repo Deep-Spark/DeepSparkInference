@@ -82,7 +82,8 @@ def main():
         args.output, 
         input_names = input_names, 
         output_names = output_names,
-        opset_version=13
+        opset_version=13,
+        dynamo=False
     )
 
     print("Export onnx model successfully! ")
