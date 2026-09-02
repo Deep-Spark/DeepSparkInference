@@ -306,7 +306,7 @@ def run_detec_testcase(model, batch_size, whl_url):
 
     if model_name == "rtdetr":
         prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle[^"]*\.whl' | head -n1`
         """
     prepare_script += "bash ci/prepare.sh\n"
 
@@ -410,7 +410,7 @@ def run_ocr_testcase(model, whl_url):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+    pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle[^"]*\.whl' | head -n1`
     pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
     pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR

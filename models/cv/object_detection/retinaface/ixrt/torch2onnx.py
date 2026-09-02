@@ -46,7 +46,7 @@ if __name__ == "__main__":
                     output_names = ["bbox_out0", "cls_out0", "ldm_out0", 
                                         "bbox_out1", "cls_out1", "ldm_out1", 
                                         "bbox_out2", "cls_out2", "ldm_out2"],
-                    dyanmo=False
+                    dynamo=False
                     )
 
     onnx_model = onnx.load(export_onnx_file)  # load onnx model

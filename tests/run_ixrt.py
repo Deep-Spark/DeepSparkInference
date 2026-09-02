@@ -528,7 +528,7 @@ def run_multi_object_tracking_testcase(model, whl_url):
 
     if model_name == "deepspeech2":
         prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle-[^"]*\.whl' | head -n1`
+        pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle[^"]*\.whl' | head -n1`
         """
 
     # add pip list info when in debug mode
