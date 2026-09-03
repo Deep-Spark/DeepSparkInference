@@ -726,7 +726,7 @@ def run_speech_testcase(model, batch_size):
             if model_name == "cosyvoice":
                 script = f"""
                     cd ../{model['model_path']}/CosyVoice
-                    python3 example.py
+                    bash ci/prepare.sh
                 """
 
             r, t = run_script(script)
