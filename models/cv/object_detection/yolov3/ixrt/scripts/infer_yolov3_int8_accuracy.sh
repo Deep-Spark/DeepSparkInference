@@ -88,7 +88,7 @@ if [ $PRECISION == "int8" ];then
         CURRENT_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Quant Model Skip, ${QUANT_EXIST_ONNX} has been existed
     else
-        python3 ${RUN_DIR}/quant.py                         \
+        python3 ${RUN_DIR}/yolov3_quant.py                         \
             --model ${CURRENT_MODEL}                        \
             --model_name ${MODEL_NAME}                      \
             --dataset_dir ${EVAL_DIR}                       \
