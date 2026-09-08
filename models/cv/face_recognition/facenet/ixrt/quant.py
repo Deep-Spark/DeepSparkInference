@@ -9,6 +9,16 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
 import onnx
+if not hasattr(onnx, "mapping"):
+    import types
+    mapping = types.ModuleType("onnx.mapping")
+    mapping.TENSOR_TYPE_TO_NP_TYPE = {
+        k: v.np_dtype for k, v in onnx._mapping.TENSOR_TYPE_MAP.items()
+    }
+    mapping.NP_TYPE_TO_TENSOR_TYPE = {
+        v.np_dtype: k for k, v in onnx._mapping.TENSOR_TYPE_MAP.items()
+    }
+    onnx.mapping = mapping
 from onnxruntime.quantization import (
     quantize_static,
     QuantType,
