@@ -19,7 +19,7 @@ omegaconf==2.3.0
 onnx==1.16.0
 openai-whisper
 protobuf==4.25
-pyarrow==18.1.0
+pyarrow
 pydantic==2.7.0
 pyworld==0.3.4
 rich==13.7.1

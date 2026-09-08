@@ -24,7 +24,7 @@ omegaconf==2.3.0
 onnxruntime==1.18.0; sys_platform == 'darwin' or sys_platform == 'win32'
 openai-whisper
 protobuf==4.25
-pyarrow==18.1.0
+pyarrow
 pydantic==2.7.0
 pyworld==0.3.4
 PyYAML==6.0.2
