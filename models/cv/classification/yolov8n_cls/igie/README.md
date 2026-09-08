@@ -8,7 +8,7 @@ YOLOv8n-cls is the nano classification variant of Ultralytics YOLOv8. It is pret
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.5.0 | 26.09 |
+| MR-V100 | 5.0.0 | 26.09 |
 
 ## Model Preparation
 

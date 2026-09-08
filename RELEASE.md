@@ -9,6 +9,7 @@
 
 | Release Date | Release Version | IXUCA SDK |
 |--------------|-----------------|-----------|
+| Sep 2026     | 26.09           | v5.0.0    |
 | Jun 2026     | 26.06           | v4.4.0    |
 | Mar 2026     | 26.03           | v4.4.0    |
 | Dec 2025     | 25.12           | v4.3.0    |
@@ -21,6 +22,51 @@
 | Mar 2024     | 24.03           | v4.0.0    |
 
 ## Release Notes
+
+### DeepSparkInference 26.09
+
+#### 模型与算法
+
+* 新增了 7 个推理小模型示例，其中支持 IGIE 推理引擎的 5 个，支持 ixRT 推理引擎的 2 个。
+* 新增了 2 个大语言模型推理示例，涉及使用 [vLLM](https://github.com/vllm-project/vllm)。
+
+<table>
+  <th colspan=3>IGIE</th>
+  <tr>
+      <td>Centerpoint</td>
+      <td>BEVFormer</td>
+      <td>Yolov8n-cls</td>
+  </tr>
+  <tr>
+      <td>Yolov8n-pose</td>
+      <td>Dinov3</td>
+      <td></td>
+  </tr>
+  <th colspan=3>ixRT</th>
+  <tr>
+      <td>DINOv2</td>
+      <td>YOLOv10x</td>
+      <td></td>
+  </tr>
+  <th colspan=3>LLM</th>
+  <tr>
+      <td>Qwen3.5-27B (vLLM)</td>
+      <td>Qwen3.6-27B (vLLM)</td>
+      <td></td>
+  </tr>
+</table>
+
+#### 修复更新
+
+- 
+
+#### 版本关联
+
+DeepSparkInference 26.09 对应天数软件栈 5.0.0 版本。
+
+#### 感谢以下社区贡献者
+
+honglyua，majorli6，shengyan.zhao，fhfang，anders。
 
 ### DeepSparkInference 26.06
 

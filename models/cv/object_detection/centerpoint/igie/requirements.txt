@@ -1,4 +1,0 @@
-fire
-easydict
-gdown
-nuscenes-devkit==1.2.0

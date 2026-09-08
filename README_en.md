@@ -92,6 +92,8 @@ inference to be expanded in the future.
 | Qwen3-Embedding-8B            | `vLLM`       | [✅](models/nlp/llm/qwen3-embedding-8b/vllm)                       | 4.4.0     |
 | Qwen3-ASR-1.7B                | `Qwen-ASR`   | [✅](models/speech/asr/qwen3-asr-1.7b/qwen-asr)                | 4.4.0     |
 | Qwen3-TTS-12Hz-1.7B-Base      | `Qwen-TTS`   | [✅](models/speech/speech_synthesis/qwen3-tts-12hz-1.7b/qwen-tts)   | 4.4.0     |
+| Qwen3.5-27B                   | `vLLM`       | [✅](models/nlp/llm/qwen3.5-27b/vllm)                               | 5.0.0     |
+| Qwen3.6-27B                   | `vLLM`       | [✅](models/nlp/llm/qwen3.6-27b/vllm)                              | 5.0.0     |
 | DeepSeek-V3.1                 | `vLLM`       | [✅](models/nlp/llm/deepseek-v3.1/vllm)                            | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
 | Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | 4.4.0     |
@@ -126,7 +128,8 @@ inference to be expanded in the future.
 | DenseNet161            | FP16  | [✅](models/cv/classification/densenet161/igie)         | [✅](models/cv/classification/densenet161/ixrt)            | 4.3.0     |
 | DenseNet169            | FP16  | [✅](models/cv/classification/densenet169/igie)         | [✅](models/cv/classification/densenet169/ixrt)            | 4.3.0     |
 | DenseNet201            | FP16  | [✅](models/cv/classification/densenet201/igie)         | [✅](models/cv/classification/densenet201/ixrt)            | 4.3.0     |
-| DINOv2                 | FP16  | [✅](models/cv/classification/dinov2/igie)              |                                                            | 4.4.0     |
+| DINOv2                 | FP16  | [✅](models/cv/classification/dinov2/igie)              | [✅](models/cv/classification/dinov2/ixrt)                 | 5.0.0     |
+| DINOv3                 | FP16  | [✅](models/cv/classification/dinov3/igie)              |                                                            | 5.0.0     |
 | EfficientNet-B0        | FP16  | [✅](models/cv/classification/efficientnet_b0/igie)     | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
 | EfficientNet-B1        | FP16  | [✅](models/cv/classification/efficientnet_b1/igie)     | [✅](models/cv/classification/efficientnet_b1/ixrt)        | 4.3.0     |
@@ -222,15 +225,16 @@ inference to be expanded in the future.
 | Wide ResNet50          | FP16  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
 | Wide ResNet101         | FP16  | [✅](models/cv/classification/wide_resnet101/igie)      |                                                           | 4.3.0     |
+| YOLOv8n-cls            | FP16  | [✅](models/cv/classification/yolov8n_cls/igie)         |                                                           | 5.0.0     |
 
 #### Object Detection
 
 | Model      | Prec. | IGIE                                            | ixRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
 | ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       | [✅](models/cv/object_detection/atss/ixrt)       | 4.3.0     |
-| BEVFormer  | FP16  | [✅](models/cv/object_detection/bevformer/igie)  |                                                 | 4.5.0     |
+| BEVFormer  | FP16  | [✅](models/cv/object_detection/bevformer/igie)  |                                                 | 5.0.0     |
 | CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  | 4.3.0     |
-| CenterPoint| FP16  | [✅](models/cv/object_detection/centerpoint/igie)|                                                 | 4.5.0     |
+| CenterPoint| FP16  | [✅](models/cv/object_detection/centerpoint/igie)|                                                 | 5.0.0     |
 | DETR       | FP16  |                                                 | [✅](models/cv/object_detection/detr/ixrt)       | 4.3.0     |
 | FCOS       | FP16  | [✅](models/cv/object_detection/fcos/igie)       | [✅](models/cv/object_detection/fcos/ixrt)       | 4.3.0     |
 | FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   | 4.3.0     |
@@ -268,6 +272,7 @@ inference to be expanded in the future.
 | YOLOv9s    | FP16  | [✅](models/cv/object_detection/yolov9s/igie)     | [✅](models/cv/object_detection/yolov9s/ixrt)     | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov9s/igie)     |                                                   | 4.3.0     |
 | YOLOv10s   | FP16  | [✅](models/cv/object_detection/yolov10s/igie)    | [✅](models/cv/object_detection/yolov10s/ixrt)    | 4.3.0     |
+| YOLOv10x   | FP16  |                                                    | [✅](models/cv/object_detection/yolov10x/ixrt)    | 5.0.0     |
 | YOLOv11l   | FP16  | [✅](models/cv/object_detection/yolov11l/igie)    |                                                   | 4.4.0     |
 | YOLOv11m   | FP16  | [✅](models/cv/object_detection/yolov11m/igie)    |                                                   | 4.4.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov11m/igie)     |                                                  | 4.4.0     |
@@ -315,6 +320,7 @@ inference to be expanded in the future.
 | HRNetPose            | FP16  | [✅](models/cv/pose_estimation/hrnetpose/igie) |                                                          | 4.3.0     |
 | Lightweight OpenPose | FP16  |                                               | [✅](models/cv/pose_estimation/lightweight_openpose/ixrt) | 4.3.0     |
 | RTMPose              | FP16  | [✅](models/cv/pose_estimation/rtmpose/igie)   | [✅](models/cv/pose_estimation/rtmpose/ixrt)              | 4.3.0     |
+| YOLOv8n-pose         | FP16  | [✅](models/cv/pose_estimation/yolov8n_pose/igie)   |                                                      | 5.0.0     |
 
 #### Instance Segmentation
 
