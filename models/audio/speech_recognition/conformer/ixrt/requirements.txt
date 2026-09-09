@@ -3,3 +3,4 @@ onnx==1.18.0
 onnxsim
 librosa
 soundfile
+pyyaml

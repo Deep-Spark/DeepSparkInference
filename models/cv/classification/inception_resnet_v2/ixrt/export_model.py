@@ -392,7 +392,7 @@ if __name__ == '__main__':
                     opset_version=18,    
                     do_constant_folding=True,  
                     input_names = ['images'],   
-                    output_names = ['output'], ) 
+                    output_names = ['output'], dynamo=False) 
     print(" ") 
     print('Model has been converted to ONNX') 
     print("exit")

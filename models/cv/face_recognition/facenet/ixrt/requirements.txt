@@ -1,9 +1,9 @@
 tqdm
 tabulate
-scipy==1.8.0
+scipy
 scikit-learn
 onnx==1.18.0
 onnxsim
 simplejson
-numpy==1.23.5
+numpy
 opencv-python==4.6.0.66

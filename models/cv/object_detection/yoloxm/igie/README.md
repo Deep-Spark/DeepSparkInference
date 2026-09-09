@@ -73,6 +73,9 @@ sed -i 's/torch.onnx._export/torch.onnx.export/g' tools/export_onnx.py
 python3 tools/export_onnx.py -c ../yolox_m.pth -o 13 -n yolox-m --input input --output output --dynamic --output-name ../yolox.onnx
 
 cd ../
+# Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1
+python3 make_ir9_model.py -i yolox.onnx -o yolox_ir9.onnx
+cp yolox_ir9.onnx yolox.onnx
 ```
 
 ## Model Inference

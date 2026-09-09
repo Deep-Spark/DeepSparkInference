@@ -16,19 +16,11 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
 
 pip3 install -r requirements.txt
 
 # export onnx model
-python3 export.py --weight fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth --cfg fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes.py --output unet.onnx
-
+# python3 export.py --weight fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth --cfg fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes.py --output unet.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/unet.onnx ./
 # use onnxsim optimize onnx model
-onnxsim unet.onnx unet_opt.onnx
+timeout 1m onnxsim unet.onnx unet_opt.onnx

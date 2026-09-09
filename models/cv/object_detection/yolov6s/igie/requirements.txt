@@ -3,3 +3,5 @@ onnx
 onnxsim
 pycocotools
 requests
+pyyaml
+onnxscript

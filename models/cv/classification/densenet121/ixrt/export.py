@@ -36,7 +36,7 @@ torch.onnx.export(model,
                   opset_version=11,    
                   do_constant_folding=True,  
                   input_names = ['input'],   
-                  output_names = ['output'],) 
+                  output_names = ['output'], dynamo=False ) 
 print(" ") 
 print('Model has been converted to ONNX') 
 print("exit")

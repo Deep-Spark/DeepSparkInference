@@ -30,6 +30,7 @@ pip3 install -r requirements.txt
 # clone yolov4
 git clone --depth 1 https://github.com/Tianxiaomo/pytorch-YOLOv4.git yolov4
 
+sed -i '34 s/dynamic_axes=dynamic_axes)/dynamic_axes=dynamic_axes, dynamo=False)/' ./yolov4/tool/darknet2onnx.py
 # export onnx model
 python3 export.py --cfg yolov4/cfg/yolov4.cfg --weight yolov4.weights --output yolov4.onnx
 

@@ -30,7 +30,7 @@ pip3 install loguru
 pip3 install tabulate
 pip3 install tqdm
 pip3 install opencv-python==4.6.0.66
-pip3 install simplejson
+pip3 install simplejson onnx==1.18.0
 
 mkdir -p checkpoints
 ln -s /mnt/deepspark/data/datasets/corex-inference-data-4.0.0/checkpoints/yolox/yolox_m_export.onnx ./checkpoints/

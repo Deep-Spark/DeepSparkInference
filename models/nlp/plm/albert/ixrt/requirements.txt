@@ -7,5 +7,6 @@ onnx
 tabulate
 pycocotools
 opencv-python==4.6.0.66
-transformers==4.33.3
+transformers
 typing-extensions==4.12.2
+onnxscript

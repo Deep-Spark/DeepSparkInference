@@ -70,7 +70,7 @@ cd ../
 
 # download the weight from the recommend link
 wget https://github.com/THU-MIG/yolov10/releases/download/v1.1/yolov10s.pt
-
+sed -i '386 s/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' ./yolov10/ultralytics/engine/exporter.py
 python3 export.py --weight yolov10s.pt --batch 32
 # Make sure numpy < 2.0
 # Downgrade an ONNX model's IR version to 9 for onnxruntime <= 1.17.1

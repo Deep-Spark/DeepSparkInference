@@ -1,5 +1,8 @@
 tqdm
 onnx
 onnxsim
-ultralytics==8.3.97
+ultralytics
 pycocotools
+pandas
+seaborn
+onnxscript

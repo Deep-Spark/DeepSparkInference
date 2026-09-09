@@ -52,10 +52,6 @@ coco
 
 ### Install Dependencies
 
-Contact the Iluvatar administrator to get the missing packages:
-
-- mmcv-*.whl
-
 ```bash
 # Install libGL
 ## CentOS
@@ -71,6 +67,8 @@ pip3 install -r requirements.txt
 ```bash
 mkdir checkpoints
 python3 export_model.py --torch_file /path/to/detr_r50_8xb2-150e_coco_20221023_153551-436d03e8.pth --onnx_file checkpoints/detr_res50.onnx --bsz 1
+python3 ../../igie_common/make_ir9_model.py -i checkpoints/detr_res50.onnx -o checkpoints/detr_res50_ir9.onnx
+cp checkpoints/detr_res50_ir9.onnx checkpoints/detr_res50.onnx
 ```
 
 ## Model Inference

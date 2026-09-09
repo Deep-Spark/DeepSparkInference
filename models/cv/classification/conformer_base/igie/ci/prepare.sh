@@ -18,4 +18,5 @@ set -x
 
 pip3 install -r requirements.txt
 python3 export.py --weight conformer_base_patch16.pth --output conformer_base.onnx
-onnxsim conformer_base.onnx conformer_base_opt.onnx
+python3 ../../igie_common/make_ir9_model.py -i conformer_base.onnx -o conformer_base_ir9.onnx
+onnxsim conformer_base_ir9.onnx conformer_base_opt.onnx

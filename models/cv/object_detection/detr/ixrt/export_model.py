@@ -65,7 +65,8 @@ def convert_model(onnx_file, config):
         verbose = False,
         input_names = ["input"],
         output_names = ["pred_logits","pred_boxes"],
-        opset_version = 11
+        opset_version = 11,
+        dynamo=False
     )
 
     onnx_model = onnx.load(onnx_file)  # load onnx model

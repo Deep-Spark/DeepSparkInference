@@ -26,6 +26,9 @@ from torchvision.transforms.functional import InterpolationMode
 
 from timm.data import create_dataset, create_loader
 
+import warnings
+warnings.filterwarnings("ignore", category=ResourceWarning)
+
 def parse_args():
     parser = argparse.ArgumentParser()
     

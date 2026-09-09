@@ -44,7 +44,6 @@ python3 export_onnx.py --model_path open_wide_deep_saved_model --output_path ope
 
 # Simplify onnx model
 onnxsim open_wide_deep_saved_model/widedeep.onnx open_wide_deep_saved_model/widedeep_sim.onnx
-python3 deploy.py --model_path open_wide_deep_saved_model/widedeep_sim.onnx --output_path open_wide_deep_saved_model/widedeep_sim.onnx
 python3 change2dynamic.py --model_path open_wide_deep_saved_model/widedeep_sim.onnx --output_path open_wide_deep_saved_model/widedeep_sim.onnx
 ```
 

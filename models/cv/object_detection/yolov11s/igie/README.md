@@ -64,6 +64,8 @@ pip3 install mmcv-*.whl
 ## Model Conversion
 
 ```bash
+sed -i 's/dynamic_axes=dynamic or None,/dynamic_axes=dynamic or None, dynamo=False,/' /usr/local/lib/python3.12/site-packages/ultralytics/engine/exporter.py
+
 python3 export.py --weight yolo11s.pt --batch 32
 # Make sure numpy < 2.0
 ```

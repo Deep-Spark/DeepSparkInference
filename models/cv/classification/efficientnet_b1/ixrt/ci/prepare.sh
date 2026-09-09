@@ -28,4 +28,5 @@ fi
 pip install -r ../../ixrt_common/requirements.txt
 
 mkdir checkpoints
-python3 ../../ixrt_common/export.py --model-name efficientnet_b1 --weight efficientnet_b1-c27df63c.pth --output checkpoints/efficientnet_b1.onnx
+# python3 ../../ixrt_common/export.py --model-name efficientnet_b1 --weight efficientnet_b1-c27df63c.pth --output checkpoints/efficientnet_b1.onnx
+wget http://files.deepspark.org.cn:880/deepspark/data/checkpoints/efficientnet_b1.onnx checkpoints/efficientnet_b1.onnx

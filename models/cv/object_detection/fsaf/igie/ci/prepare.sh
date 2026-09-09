@@ -25,5 +25,6 @@ else
     echo "Not Support Os"
 fi
 pip3 install -r requirements.txt
-python3 export.py --weight fsaf_r50_fpn_1x_coco-94ccc51f.pth --cfg fsaf_r50_fpn_1x_coco.py --output fsaf.onnx
-onnxsim fsaf.onnx fsaf_opt.onnx
+# python3 export.py --weight fsaf_r50_fpn_1x_coco-94ccc51f.pth --cfg fsaf_r50_fpn_1x_coco.py --output fsaf.onnx
+ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/fsaf.onnx ./
+timeout 1m onnxsim fsaf.onnx fsaf_opt.onnx

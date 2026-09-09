@@ -18,7 +18,7 @@ set -x
 
 pip3 install pycocotools onnxsim pycuda
 pip3 install tqdm
-pip3 install opencv-python==4.6.0.66
+pip3 install opencv-python==4.6.0.66 onnx==1.18.0
 
 mkdir -p checkpoints
 ln -s /mnt/deepspark/data/datasets/corex-inference-data-4.0.0/checkpoints/yolov5m/yolov5m.onnx ./checkpoints/
