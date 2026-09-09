@@ -11683,7 +11683,7 @@
       "github_repo": "",
       "github_branch": "",
       "github_path": "",
-      "datasets": "",
+      "datasets": "local/coco-pose",
       "download_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolov8n-pose.pt",
       "need_third_part": false,
       "precisions": [
@@ -11718,7 +11718,7 @@
       "github_branch": "",
       "github_path": "",
       "datasets": "",
-      "download_url": "",
+      "download_url": "https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m",
       "need_third_part": false,
       "precisions": [
         "fp16"

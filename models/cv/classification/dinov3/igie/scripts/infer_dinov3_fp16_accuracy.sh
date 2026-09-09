@@ -46,5 +46,5 @@ python3 inference.py                                       \
     --engine dinov3_vits16_bs_${batchsize}_fp32.so         \
     --batchsize ${batchsize}                               \
     --input_name images                                    \
-    --head dinov3_vits16_imagenet_head.pt                  \
+    --head ./dinov3-vits16-pretrain-lvd1689m/dinov3_vits16_imagenet_head.pt                  \
     --datasets ${datasets_path}

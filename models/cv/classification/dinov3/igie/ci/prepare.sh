@@ -17,5 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-python3 export.py --model-dir checkpoints --height 224 --width 224 --batch-size 32 --output dinov3_vits16.onnx 
-onnxsim dinov3_vits16.onnx dinov3_vits16_opt.onnx
+python3 export.py --model-dir dinov3-vits16-pretrain-lvd1689m --height 224 --width 224 --batch-size 32 --output dinov3_vits16.onnx
+timeouot 1m onnxsim dinov3_vits16.onnx dinov3_vits16_opt.onnx
