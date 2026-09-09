@@ -14,7 +14,7 @@ DINOv3 is a family of versatile vision foundation models that outperforms the sp
 
 ### Prepare Resources
 
-Pretrained model: <hhttps://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m>, You need to request model download permissions from Meta.
+Pretrained model: <https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m>, You need to request model download permissions from Meta.
 
 Dataset: <https://www.image-net.org/download.php> to download the validation dataset.
 

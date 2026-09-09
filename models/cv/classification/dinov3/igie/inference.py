@@ -90,7 +90,7 @@ class Dinov3ImageNetDataset(Dataset):
         self,
         image_dir_path,
         # checkpoint="facebook/dinov3-vits16-pretrain-lvd1689m",
-        checkpoint="/home/peng.yang/Project/Dinov3/checkpoints",
+        checkpoint="./dinov3-vits16-pretrain-lvd1689m",
     ):
         self.image_dir_path = os.path.expanduser(image_dir_path)
 

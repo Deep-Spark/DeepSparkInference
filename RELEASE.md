@@ -9,6 +9,7 @@
 
 | Release Date | Release Version | IXUCA SDK |
 |--------------|-----------------|-----------|
+| Sep 2026     | 26.09           | v5.0.0    |
 | Jun 2026     | 26.06           | v4.4.0    |
 | Mar 2026     | 26.03           | v4.4.0    |
 | Dec 2025     | 25.12           | v4.3.0    |
@@ -21,6 +22,64 @@
 | Mar 2024     | 24.03           | v4.0.0    |
 
 ## Release Notes
+
+### DeepSparkInference 26.09
+
+#### 模型与算法
+
+* 新增了 7 个推理小模型示例，其中支持 IGIE 推理引擎的 5 个，支持 ixRT 推理引擎的 2 个。
+* 新增了 2 个大语言模型推理示例，涉及使用 [vLLM](https://github.com/vllm-project/vllm)。
+
+<table>
+  <th colspan=3>IGIE</th>
+  <tr>
+      <td>Centerpoint</td>
+      <td>BEVFormer</td>
+      <td>Yolov8n-cls</td>
+  </tr>
+  <tr>
+      <td>Yolov8n-pose</td>
+      <td>Dinov3</td>
+      <td></td>
+  </tr>
+  <th colspan=3>ixRT</th>
+  <tr>
+      <td>DINOv2</td>
+      <td>YOLOv10x</td>
+      <td></td>
+  </tr>
+  <th colspan=3>LLM</th>
+  <tr>
+      <td>Qwen3.5-27B (vLLM)</td>
+      <td>Qwen3.6-27B (vLLM)</td>
+      <td></td>
+  </tr>
+</table>
+
+#### 修复更新
+
+* 新增清理 cache 逻辑，将每个模型的 cache 清理改为每种精度清理一次，并支持清理 GPU 显存
+* 修复 YOLOv3、YOLOX、YOLOX-m、VGG16 精度性能下降问题
+* 修复 ixRT 检测模型 INT8 精度以及量化校准阶段 OOM 的问题
+* 修复 YOLOv3 quantize_static 的 percentile 参数问题
+* 修复 Qwen3-ASR-1.7b、Qwen3-Embedding-8b 模型路径错误的问题
+* 优化 vLLM 推理显存配置：当 TP 降低后默认 max-model-len 较大导致显存不足，为相关 vLLM 推理配置统一增加 --max-model-len 8192，并更新 README 测试配置，尽量用更少的卡即可运行离线推理脚本
+* 统一 DeepSeek-R1-distill 的 vLLM 离线推理配置
+* 更新 vLLM benchmark 脚本路径以适应新的目录结构
+* 支持 CosyVoice PyTorch 在 5.0.0 环境下的推理，并修复其在 aarch64 下的运行问题
+* 修复 RTDETR 与更高版本 paddle-iluvatar 的兼容性问题，并支持新 PIR 模式的 amp pass
+* 更新 YOLOv5m 的 igie/ixrt 实现以适配 torch 2.10 及 aarch64，并更新相关节点名称
+* 更新 ixrt BERT 模型及同步 ixrt model zoo
+* 新增 engine 参数清洗逻辑（_sanitize_engine_params），离线推理脚本自动丢弃空值参数
+* 为 Qwen3.5-27B、Qwen3.6-27B 新增 W8A8 量化推理路径说明
+
+#### 版本关联
+
+DeepSparkInference 26.09 对应天数软件栈 5.0.0 版本。
+
+#### 感谢以下社区贡献者
+
+Junhao.Zhang，huaizhenhao，jiacheng.wan，yougouda，hengyangyh123，yuzhewu，jinrui-zhang，honglyua，majorli6，shengyan.zhao，fhfang，anders，YoungPeng。
 
 ### DeepSparkInference 26.06
 

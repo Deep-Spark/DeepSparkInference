@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2025, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
+# Copyright (c) 2026, Shanghai Iluvatar CoreX Semiconductor Co., Ltd.
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -15,15 +15,6 @@
 # limitations under the License.
 
 set -x
-
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
 
 pip3 install -r requirements.txt
 
