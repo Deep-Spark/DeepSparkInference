@@ -19,8 +19,7 @@ set -x
 pip3 install -r requirements.txt
 
 # export onnx model
-# python3 export.py --weight ssd300_coco_20210803_015428-d231a06e.pth --cfg ssd300_coco.py --output ssd.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/ssd.onnx ./
+python3 export.py --weight ssd300_coco_20210803_015428-d231a06e.pth --cfg ssd300_coco.py --output ssd.onnx
 
 # use onnxsim optimize onnx model
 timeout 1m onnxsim ssd.onnx ssd_opt.onnx

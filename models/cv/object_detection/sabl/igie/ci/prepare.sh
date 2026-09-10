@@ -19,7 +19,6 @@ set -x
 pip3 install -r requirements.txt
 
 # export onnx model
-# python3 export.py --weight sabl_retinanet_r50_fpn_1x_coco-6c54fd4f.pth --cfg sabl-retinanet_r50_fpn_1x_coco.py --output sabl.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/sabl.onnx ./
+python3 export.py --weight sabl_retinanet_r50_fpn_1x_coco-6c54fd4f.pth --cfg sabl-retinanet_r50_fpn_1x_coco.py --output sabl.onnx
 # use onnxsim optimize onnx model
 timeout 1m onnxsim sabl.onnx sabl_opt.onnx

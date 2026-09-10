@@ -20,7 +20,6 @@ set -x
 pip3 install -r requirements.txt
 
 # export onnx model
-# python3 export.py --weight fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth --cfg fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes.py --output unet.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/unet.onnx ./
+python3 export.py --weight fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes_20211210_145204-6860854e.pth --cfg fcn_unet_s5-d16_4x4_512x1024_160k_cityscapes.py --output unet.onnx
 # use onnxsim optimize onnx model
 timeout 1m onnxsim unet.onnx unet_opt.onnx

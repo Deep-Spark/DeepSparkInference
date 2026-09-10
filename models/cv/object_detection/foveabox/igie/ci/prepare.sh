@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight fovea_r50_fpn_4x4_1x_coco_20200219-ee4d5303.pth --cfg fovea_r50_fpn_4xb4-1x_coco.py --output foveabox.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/foveabox.onnx ./
+python3 export.py --weight fovea_r50_fpn_4x4_1x_coco_20200219-ee4d5303.pth --cfg fovea_r50_fpn_4xb4-1x_coco.py --output foveabox.onnx
 timeout 1m onnxsim foveabox.onnx foveabox_opt.onnx

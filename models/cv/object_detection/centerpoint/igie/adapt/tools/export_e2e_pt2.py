@@ -76,7 +76,7 @@ def parse_args():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
         "--config",
-        default="configs/nusc/pp/nusc_centerpoint_pp_02voxel_two_pfn_10sweep_demo_mini.py",
+        default="configs/nusc/pp/nusc_centerpoint_pp_02voxel_two_pfn_10sweep_demo_mini_igie_e2e.py",
     )
     p.add_argument("--checkpoint", default="./latest.pth")
     p.add_argument("--pt2-path", default="./torch_model/pp_e2e.pt2")

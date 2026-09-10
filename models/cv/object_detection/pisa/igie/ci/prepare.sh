@@ -19,8 +19,7 @@ set -x
 pip3 install -r requirements.txt
 
 # export onnx model
-# python3 export.py --weight pisa_retinanet_r50_fpn_1x_coco-76409952.pth --cfg pisa_retinanet_r50_fpn_1x_coco.py --output pisa.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/pisa.onnx ./
+python3 export.py --weight pisa_retinanet_r50_fpn_1x_coco-76409952.pth --cfg pisa_retinanet_r50_fpn_1x_coco.py --output pisa.onnx
 
 # use onnxsim optimize onnx model
 timeout 1m onnxsim pisa.onnx pisa_opt.onnx --overwrite-input-shape input:32,3,800,1344

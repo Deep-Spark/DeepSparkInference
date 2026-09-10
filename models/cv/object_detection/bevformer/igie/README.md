@@ -46,7 +46,7 @@ source /opt/sw_home/enable
 
 git clone https://github.com/michigan-traffic-lab/nuCarla.git
 # use rsync (plain `cp -a` may prompt on overwrite)
-rsync -a adapt/ nuCarla/BEVFormer/
+cp -r adapt/* nuCarla/BEVFormer/
 cd nuCarla/BEVFormer
 
 # Public clone may vendor an incomplete mmcv/ tree — do not use it as the runtime mmcv.

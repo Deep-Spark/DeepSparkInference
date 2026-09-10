@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg atss_r50_fpn_1x_coco.py --output atss.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/atss.onnx ./
+python3 export.py --weight atss_r50_fpn_1x_coco_20200209-985f7bd0.pth --cfg atss_r50_fpn_1x_coco.py --output atss.onnx
 timeout 1m onnxsim atss.onnx atss_opt.onnx

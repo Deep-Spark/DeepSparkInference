@@ -24,11 +24,9 @@ if [[ -f /opt/sw_home/enable ]]; then
   # shellcheck disable=SC1091
   source /opt/sw_home/enable
 fi
+cp -r /mnt/deepspark/data/3rd_party/nuCarl ./
 
-if [[ ! -d nuCarla/.git ]]; then
-  git clone https://github.com/michigan-traffic-lab/nuCarla.git
-fi
-rsync -a adapt/ nuCarla/BEVFormer/
+cp -r adapt/* nuCarla/BEVFormer/
 
 cd nuCarla/BEVFormer
 [[ -d mmcv ]] && mv mmcv mmcv-src || true

@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth --cfg rtmdet_nano_320-8xb32_coco-person.py --output rtmdet.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/rtmdet.onnx ./
+python3 export.py --weight rtmdet_nano_8xb32-100e_coco-obj365-person-05d8511e.pth --cfg rtmdet_nano_320-8xb32_coco-person.py --output rtmdet.onnx
 timeout 1m onnxsim rtmdet.onnx rtmdet_opt.onnx

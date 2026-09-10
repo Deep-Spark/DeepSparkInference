@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output retinanet.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/retinanet.onnx ./
+python3 export.py --weight retinanet_r50_fpn_1x_coco_20200130-c2398f9e.pth --cfg retinanet_r50_fpn_1x_coco.py --output retinanet.onnx
 timeout 1m onnxsim retinanet.onnx retinanet_opt.onnx

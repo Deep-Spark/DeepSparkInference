@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output paa.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/paa.onnx ./
+python3 export.py --weight paa_r50_fpn_1x_coco_20200821-936edec3.pth --cfg paa_r50_fpn_1x_coco.py --output paa.onnx
 timeout 1m onnxsim paa.onnx paa_opt.onnx

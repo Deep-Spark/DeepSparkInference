@@ -17,6 +17,5 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth --cfg fcos_hrnetv2p-w18-gn-head_4xb4-1x_coco.py --output hrnet.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/hrnet.onnx ./
+python3 export.py --weight fcos_hrnetv2p_w18_gn-head_4x4_1x_coco_20201212_100710-4ad151de.pth --cfg fcos_hrnetv2p-w18-gn-head_4xb4-1x_coco.py --output hrnet.onnx
 timeout 1m onnxsim hrnet.onnx hrnet_opt.onnx

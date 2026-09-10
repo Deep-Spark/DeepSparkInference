@@ -17,12 +17,9 @@ if [[ -f /opt/sw_home/enable ]]; then
   source /opt/sw_home/enable
   set -u
 fi
-if [[ -z "${TVM_HOME:-}" ]]; then
-  echo "ERROR: set TVM_HOME to your igie checkout (contains python/ and build/libtvm.so)." >&2
-  exit 1
-fi
-export PYTHONPATH="${ROOT}:${TVM_HOME}/python:${PYTHONPATH:-}"
-export LD_LIBRARY_PATH="${TVM_HOME}/build:/opt/sw_home/local/corex/lib64:${LD_LIBRARY_PATH:-}"
+
+export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
+export LD_LIBRARY_PATH="/usr/local/corex/lib64:${LD_LIBRARY_PATH:-}"
 
 MODE="${1:-accuracy}"
 

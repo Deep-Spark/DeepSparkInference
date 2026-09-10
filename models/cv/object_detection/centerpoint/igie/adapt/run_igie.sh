@@ -20,19 +20,10 @@ if [[ -f /opt/sw_home/enable ]]; then
 fi
 set -u
 
-if [[ -z "${TVM_HOME:-}" ]]; then
-  if [[ -d "${ROOT}/../igie" ]]; then
-    TVM_HOME="$(cd "${ROOT}/../igie" && pwd)"
-  else
-    echo "error: set TVM_HOME to your igie root (e.g. export TVM_HOME=/path/to/igie)"
-    exit 1
-  fi
-fi
-export TVM_HOME
 
 TORCH_LIB="$(python3 -c 'import os, torch; print(os.path.join(os.path.dirname(torch.__file__), "lib"))')"
-export PYTHONPATH="${ROOT}:${TVM_HOME}/python:${PYTHONPATH:-}"
-export LD_LIBRARY_PATH="${TVM_HOME}/build:/opt/sw_home/local/corex/lib64:${TORCH_LIB}:${LD_LIBRARY_PATH:-}"
+export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
+export LD_LIBRARY_PATH="/usr/local/corex/lib64:${TORCH_LIB}:${LD_LIBRARY_PATH:-}"
 export NUSCENES_PATH="${NUSCENES_PATH:-${ROOT}/data/nuScenes}"
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 

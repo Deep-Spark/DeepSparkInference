@@ -25,24 +25,18 @@ if [[ -f /opt/sw_home/enable ]]; then
   source /opt/sw_home/enable
 fi
 
-if [[ ! -d CenterPoint/.git ]]; then
-  git clone https://github.com/tianweiy/CenterPoint.git
-fi
-rsync -a adapt/ CenterPoint/
+cp -r /mnt/deepspark/data/3rd_party/CenterPoint ./
+cp -r adapt/* CenterPoint/
 
 cd CenterPoint
 bash apply_compat.sh
 pip3 install -r requirements.txt
 bash setup.sh
 
-if [[ -n "${DATASETS_DIR:-}" ]]; then
-  mkdir -p data
-  ln -sfn "${DATASETS_DIR}" data/nuScenes
-fi
-if [[ -n "${CHECKPOINT_PATH:-}" ]]; then
-  ln -sfn "${CHECKPOINT_PATH}" ./latest.pth
-fi
+mkdir -p data
+ln -s /mnt/deepspark/data/datasets/nuscenes data/
+ln -s /mnt/deepspark/data/checkpoints/latest.pth ./
 
-if [[ -n "${TVM_HOME:-}" && -f "${TVM_HOME}/build/libtvm.so" && -f latest.pth && -d data/nuScenes ]]; then
-  ./run_igie.sh build
-fi
+pip3 install spconv
+./run_igie.sh build
+

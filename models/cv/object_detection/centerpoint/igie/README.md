@@ -43,7 +43,7 @@ source /opt/sw_home/enable
 git clone https://github.com/tianweiy/CenterPoint.git
 
 # Apply DeepSpark IGIE patches (use rsync; plain `cp -a` may prompt on overwrite)
-rsync -a adapt/ CenterPoint/
+cp -r adapt/* CenterPoint/
 cd CenterPoint
 bash apply_compat.sh   # Py3.10 / torch.load compatibility
 

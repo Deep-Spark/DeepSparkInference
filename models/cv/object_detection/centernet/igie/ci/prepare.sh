@@ -17,5 +17,4 @@
 set -x
 
 pip3 install -r requirements.txt
-# python3 export.py --weight centernet_resnet18_140e_coco_20210705_093630-bb5b3bf7.pth --cfg centernet_r18_8xb16-crop512-140e_coco.py --output centernet.onnx
-ln -s /mnt/deepspark/data/checkpoints/mmcv-onnx/centernet.onnx ./
+python3 export.py --weight centernet_resnet18_140e_coco_20210705_093630-bb5b3bf7.pth --cfg centernet_r18_8xb16-crop512-140e_coco.py --output centernet.onnx
