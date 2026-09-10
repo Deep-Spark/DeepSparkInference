@@ -4,7 +4,13 @@ import logging
 
 
 def _sanitize_engine_params(params: dict) -> dict:
-    """asdict 会把嵌套 config 的可选字段变成 None；0.23+ pydantic 不接受。"""
+    """asdict 会把嵌套 config 的可选字段变成 None；0.23+ pydantic 不接受。
+
+        默认 FaultToleranceConfig 经 asdict 变成 dict 后，vLLM 会当成
+        --fault-tolerance-config 已传入并强制 enable_fault_tolerance=True。
+        离线 TP 没有 DP external LB，会直接拒。未显式开 FT 时丢掉这两项。
+    
+    """
     out = {}
     for k, v in params.items():
         if v is None:
@@ -12,6 +18,10 @@ def _sanitize_engine_params(params: dict) -> dict:
         if isinstance(v, dict):
             v = {kk: vv for kk, vv in v.items() if vv is not None}
         out[k] = v
+    
+    if not out.get("enable_fault_tolerance"):
+        out.pop("fault_tolerance_config", None)
+        out.pop("enable_fault_tolerance", None)
     return out
 
 
