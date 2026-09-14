@@ -30,7 +30,6 @@ ln -s /path/to/Qwen3.5-27B-W8A8 ./data/qwen3
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ## Model Inference
 

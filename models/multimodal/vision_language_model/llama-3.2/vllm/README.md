@@ -35,7 +35,6 @@ mkdir data
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ```bash
 # Install libGL

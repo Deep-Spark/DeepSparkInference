@@ -26,7 +26,6 @@ Whisper large-v3-turbo is a finetuned version of a pruned Whisper large-v3. In o
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
 
 ```bash
 pip3 install librosa av

@@ -79,7 +79,7 @@ DeepSparkInference 26.09 对应天数软件栈 5.0.0 版本。
 
 #### 感谢以下社区贡献者
 
-Junhao.Zhang，huaizhenhao，jiacheng.wan，yougouda，hengyangyh123，yuzhewu，jinrui-zhang，honglyua，majorli6，shengyan.zhao，fhfang，anders，YoungPeng。
+yicuixi，Junhao.Zhang，huaizhenhao，jiacheng.wan，yougouda，hengyangyh123，yuzhewu，jinrui-zhang，honglyua，majorli6，shengyan.zhao，fhfang，anders，YoungPeng。
 
 ### DeepSparkInference 26.06
 

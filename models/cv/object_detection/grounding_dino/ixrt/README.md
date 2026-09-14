@@ -13,7 +13,7 @@ Grounding DINO is a state-of-the-art open-set (or zero-shot) object detection mo
 
 > **Note:** 请切换到与您的 SDK 版本对应的 Release 分支进行测试。请勿直接在 master 分支上运行测试，因为 master 分支可能包含与您的本地 SDK 版本不兼容的最新更改。
 >
-> 切换分支命令示例：`git checkout release/26.03`
+> 切换分支命令示例：`git checkout release/26.09`
 
 ## Model Preparation
 
