@@ -16,16 +16,15 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip3 install -r requirements.txt
 # set weights_only=False to be comaptible with pytorch 2.7
-sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.10/site-packages/ultralytics/nn/tasks.py
+sed -i '716 s/\"cpu\")/\"cpu\", weights_only=False)/' /usr/local/lib/python3.12/site-packages/ultralytics/nn/tasks.py
 python3 export.py --weight yolov8n-face.pt --batch 32
+
+git clone https://github.com/wondervictor/WiderFace-Evaluation.git widerface_evaluate
+
+# official eval_tools (contains ground_truth/*.mat)
+wget http://shuoyang1213.me/WIDERFACE/support/eval_script/eval_tools.zip
+unzip eval_tools.zip
+mkdir -p ground_truth
+cp eval_tools/ground_truth/wider_*.mat ground_truth/

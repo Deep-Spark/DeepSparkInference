@@ -33,9 +33,6 @@ python3 ../../igie_common/export.py --model-name resnet34 --weight resnet34-b627
 ## Model Inference
 
 ```bash
-export PATH="/opt/sw_home/local/corex/bin:${PATH}"
-export CUDA_PATH=/opt/sw_home/local/corex
-export LD_LIBRARY_PATH="/usr/local/corex/lib64:/opt/sw_home/local/corex/lib64:/opt/sw_home/local/lib64:${LD_LIBRARY_PATH:-}"
 export DATASETS_DIR=/Path/to/imagenet_val/
 export RUN_DIR=../../igie_common/
 ```

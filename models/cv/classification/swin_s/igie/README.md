@@ -8,7 +8,7 @@ Swin-S is a hierarchical vision Transformer that computes self-attention within 
 
 | GPU    | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release |
 | :----: | :----: | :----: |
-| MR-V100 | 4.3.0 | 25.09 |
+| MR-V100 | 5.0.0 | 26.09 |
 
 ## Model Preparation
 
@@ -33,9 +33,6 @@ python3 ../../igie_common/export.py --model-name swin_s --weight swin_s-5e29d889
 ## Model Inference
 
 ```bash
-export PATH="/opt/sw_home/local/corex/bin:${PATH}"
-export CUDA_PATH=/opt/sw_home/local/corex
-export LD_LIBRARY_PATH="/usr/local/corex/lib64:/opt/sw_home/local/corex/lib64:/opt/sw_home/local/lib64:${LD_LIBRARY_PATH:-}"
 export DATASETS_DIR=/Path/to/imagenet_val/
 export RUN_DIR=../../igie_common/
 ```

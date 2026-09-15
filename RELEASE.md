@@ -27,19 +27,24 @@
 
 #### 模型与算法
 
-* 新增了 7 个推理小模型示例，其中支持 IGIE 推理引擎的 5 个，支持 ixRT 推理引擎的 2 个。
+* 新增了 10 个推理小模型示例，其中支持 IGIE 推理引擎的 8 个，支持 ixRT 推理引擎的 2 个。
 * 新增了 2 个大语言模型推理示例，涉及使用 [vLLM](https://github.com/vllm-project/vllm)。
 
 <table>
   <th colspan=3>IGIE</th>
   <tr>
-      <td>Centerpoint</td>
-      <td>BEVFormer</td>
+      <td>Arcface</td>
+      <td>Yolov8n-face</td>
       <td>Yolov8n-cls</td>
   </tr>
   <tr>
       <td>Yolov8n-pose</td>
       <td>Dinov3</td>
+      <td>ResNet34</td>
+  </tr>
+  <tr>
+      <td>VGG16_BN</td>
+      <td>Swin-S</td>
       <td></td>
   </tr>
   <th colspan=3>ixRT</th>
