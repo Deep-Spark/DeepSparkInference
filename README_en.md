@@ -128,7 +128,7 @@ inference to be expanded in the future.
 | DenseNet161            | FP16  | [✅](models/cv/classification/densenet161/igie)         | [✅](models/cv/classification/densenet161/ixrt)            | 4.3.0     |
 | DenseNet169            | FP16  | [✅](models/cv/classification/densenet169/igie)         | [✅](models/cv/classification/densenet169/ixrt)            | 4.3.0     |
 | DenseNet201            | FP16  | [✅](models/cv/classification/densenet201/igie)         | [✅](models/cv/classification/densenet201/ixrt)            | 4.3.0     |
-| DINOv2                 | FP16  | [✅](models/cv/classification/dinov2/igie)              | [✅](models/cv/classification/dinov2/ixrt)                 | 5.0.0     |
+| DINOv2                 | FP16  | [✅](models/cv/classification/dinov2/igie)              | [✅](models/cv/classification/dinov2/ixrt)                | 5.0.0     |
 | DINOv3                 | FP16  | [✅](models/cv/classification/dinov3/igie)              |                                                            | 5.0.0     |
 | EfficientNet-B0        | FP16  | [✅](models/cv/classification/efficientnet_b0/igie)     | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/efficientnet_b0/ixrt)        | 4.3.0     |
@@ -163,15 +163,15 @@ inference to be expanded in the future.
 | MobileNetV3_Large      | FP16  | [✅](models/cv/classification/mobilenet_v3_large/igie)  |                                                           | 4.3.0     |
 | MobileNetV3_Small      | FP16  | [✅](models/cv/classification/mobilenet_v3/igie)        | [✅](models/cv/classification/mobilenet_v3/ixrt)           | 4.3.0     |
 | Mobilevit_s            | FP16  | [✅](models/cv/classification/mobilevit_s/igie)         |                                                             | 4.4.0     |
-| MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | 5.0.0  |
+| MViTv2_base            | FP16  | [✅](models/cv/classification/mvitv2_base/igie)         |                                                           | 5.0.0   |
 | RegNet_x_16gf          | FP16  | [✅](models/cv/classification/regnet_x_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_1_6gf         | FP16  | [✅](models/cv/classification/regnet_x_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_3_2gf         | FP16  | [✅](models/cv/classification/regnet_x_3_2gf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_8gf          | FP16  | [✅](models/cv/classification/regnet_x_8gf/igie)         |                                                           | 4.3.0     |
+| RegNet_y_8gf          | FP16  | [✅](models/cv/classification/regnet_y_8gf/igie)         |                                                           | 4.4.0     |
 | RegNet_x_32gf          | FP16  | [✅](models/cv/classification/regnet_x_32gf/igie)       |                                                           | 4.3.0     |
 | RegNet_x_400mf         | FP16  | [✅](models/cv/classification/regnet_x_400mf/igie)      |                                                           | 4.3.0     |
 | RegNet_x_800mf         | FP16  | [✅](models/cv/classification/regnet_x_800mf/igie)      |                                                           | 4.3.0     |
-| RegNet_y_8gf          | FP16  | [✅](models/cv/classification/regnet_y_8gf/igie)         |                                                           | 4.4.0     |
 | RegNet_y_1_6gf         | FP16  | [✅](models/cv/classification/regnet_y_1_6gf/igie)      |                                                           | 4.3.0     |
 | RegNet_y_16gf          | FP16  | [✅](models/cv/classification/regnet_y_16gf/igie)       |                                                           | 4.3.0     |
 | RegNet_y_3_2gf         | FP16  | [✅](models/cv/classification/regnet_y_3_2gf/igie)      |                                                           | 4.3.0     |
@@ -188,7 +188,7 @@ inference to be expanded in the future.
 |                        | INT8  | [✅](models/cv/classification/resnet152/igie)           |                                                           | 4.3.0     |
 | ResNet18               | FP16  | [✅](models/cv/classification/resnet18/igie)            | [✅](models/cv/classification/resnet18/ixrt)               | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/resnet18/igie)            | [✅](models/cv/classification/resnet18/ixrt)               | 4.3.0     |
-| ResNet34               | FP16  |                                                        | [✅](models/cv/classification/resnet34/ixrt)               | 4.3.0     |
+| ResNet34               | FP16  | [✅](models/cv/classification/resnet34/igie)           | [✅](models/cv/classification/resnet34/ixrt)               | 5.0.0     |
 |                        | INT8  |                                                        | [✅](models/cv/classification/resnet34/ixrt)               | 4.3.0     |
 | ResNet50               | FP16  | [✅](models/cv/classification/resnet50/igie)            | [✅](models/cv/classification/resnet50/ixrt)               | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/resnet50/igie)            |                                                           | 4.3.0     |
@@ -210,6 +210,7 @@ inference to be expanded in the future.
 | SVT Base               | FP16  | [✅](models/cv/classification/svt_base/igie)            |                                                           | 4.3.0     |
 | Swin Transformer       | FP16  | [✅](models/cv/classification/swin_transformer/igie)    | [✅](models/cv/classification/swin_transformer/ixrt)     | 4.3.0     |
 | Swin Transformer Large | FP16  |                                                        | [✅](models/cv/classification/swin_transformer_large/ixrt) | 4.3.0     |
+| Swin-S                 | FP16  | [✅](models/cv/classification/swin_s/igie)             |                                                            | 5.0.0     |
 | Twins_PCPVT            | FP16  | [✅](models/cv/classification/twins_pcpvt/igie)         |                                                           | 4.3.0     |
 | VAN_B0                 | FP16  | [✅](models/cv/classification/van_b0/igie)              |                                                           | 4.3.0     |
 | VGG11                  | FP16  | [✅](models/cv/classification/vgg11/igie)               |                                                           | 4.3.0     |
@@ -217,9 +218,10 @@ inference to be expanded in the future.
 | VGG13_BN               | FP16  | [✅](models/cv/classification/vgg13_bn/igie)            |                                                           | 4.3.0     |
 | VGG16                  | FP16  | [✅](models/cv/classification/vgg16/igie)               | [✅](models/cv/classification/vgg16/ixrt)                  | 4.3.0     |
 |                        | INT8  | [✅](models/cv/classification/vgg16/igie)               |                                                           | 4.3.0     |
+| VGG16-BN               | FP16  | [✅](models/cv/classification/vgg16_bn/igie)            |                                                           | 5.0.0     |
 | VGG19                  | FP16  | [✅](models/cv/classification/vgg19/igie)               |                                                           | 4.3.0     |
 | VGG19_BN               | FP16  | [✅](models/cv/classification/vgg19_bn/igie)            |                                                           | 4.3.0     |
-| ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 | [✅](models/cv/classification/vit/ixit)                  | 4.3.0    |
+| ViT                    | FP16  | [✅](models/cv/classification/vit/igie)                 | [✅](models/cv/classification/vit/ixit)                 | 4.3.0     |
 | ViT-B-32               | FP16  | [✅](models/cv/classification/vit_b_32/igie)            |                                                           | 4.4.0     |
 | ViT-L-14               | FP16  | [✅](models/cv/classification/vit_l_14/igie)            |                                                           | 4.4.0     |
 | Wide ResNet50          | FP16  | [✅](models/cv/classification/wide_resnet50/igie)       | [✅](models/cv/classification/wide_resnet50/ixrt)          | 4.3.0     |
@@ -232,9 +234,7 @@ inference to be expanded in the future.
 | Model      | Prec. | IGIE                                            | ixRT                                            | IXUCA SDK |
 |------------|-------|-------------------------------------------------|-------------------------------------------------|-----------|
 | ATSS       | FP16  | [✅](models/cv/object_detection/atss/igie)       | [✅](models/cv/object_detection/atss/ixrt)       | 4.3.0     |
-| BEVFormer  | FP16  | [✅](models/cv/object_detection/bevformer/igie)  |                                                 | 5.0.0     |
 | CenterNet  | FP16  | [✅](models/cv/object_detection/centernet/igie)  | [✅](models/cv/object_detection/centernet/ixrt)  | 4.3.0     |
-| CenterPoint| FP16  | [✅](models/cv/object_detection/centerpoint/igie)|                                                 | 5.0.0     |
 | DETR       | FP16  |                                                 | [✅](models/cv/object_detection/detr/ixrt)       | 4.3.0     |
 | FCOS       | FP16  | [✅](models/cv/object_detection/fcos/igie)       | [✅](models/cv/object_detection/fcos/ixrt)       | 4.3.0     |
 | FoveaBox   | FP16  | [✅](models/cv/object_detection/foveabox/igie)   | [✅](models/cv/object_detection/foveabox/ixrt)   | 4.3.0     |
@@ -301,8 +301,10 @@ inference to be expanded in the future.
 
 | Model   | Prec. | IGIE | ixRT                                         | IXUCA SDK |
 |---------|-------|------|----------------------------------------------|-----------|
+| Arcface | FP16  | [✅](models/cv/face_recognition/arcface/igie)  |    | 5.0.0     |
 | FaceNet | FP16  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.3.0     |
 |         | INT8  |      | [✅](models/cv/face_recognition/facenet/ixrt) | 4.3.0     |
+| YOLOv8n-Face | FP16  | [✅](models/cv/face_recognition/yolov8n_face/igie)  |    | 5.0.0     |
 
 #### OCR (Optical Character Recognition)
 

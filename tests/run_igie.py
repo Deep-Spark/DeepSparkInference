@@ -63,7 +63,7 @@ def main():
     utils.ensure_numactl_installed()
 
     result = {}
-    if model["category"] in ["cv/classification", "cv/semantic_segmentation"]:
+    if model["category"] in ["cv/classification", "cv/semantic_segmentation", "cv/face_recognition"]:
         logging.info(f"Start running {model['model_name']} test case:\n{json.dumps(model, indent=4)}")
         d_url = model["download_url"]
         if d_url is not None:
@@ -206,6 +206,17 @@ def run_clf_testcase(model, batch_size, whl_url):
     elif model_name == "dinov2":
         base_script = f"""
         export IMAGENET_1K=/mnt/deepspark/data/datasets/imagenet
+        cd ../{model['model_path']}
+        """
+    elif model_name == "yolov8n_face":
+            base_script = f"""
+            export DATASETS_DIR=/mnt/deepspark/data/datasets/widerface/val
+            cd ../{model['model_path']}
+            """
+    elif model_name == "arcface":
+        base_script = f"""
+        export DATASETS_DIR=/mnt/deepspark/data/datasets/insightface_val_bins
+        export RUN_DIR=../../igie_common/
         cd ../{model['model_path']}
         """
     else:

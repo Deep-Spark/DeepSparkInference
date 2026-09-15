@@ -1,0 +1,7 @@
+tqdm
+onnx
+onnxsim
+numpy
+opencv-python
+scikit-learn
+scipy
