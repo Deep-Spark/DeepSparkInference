@@ -1,0 +1,7 @@
+tqdm
+onnx
+onnxsim
+scipy
+cython
+opencv-python
+ultralytics==8.1.34
