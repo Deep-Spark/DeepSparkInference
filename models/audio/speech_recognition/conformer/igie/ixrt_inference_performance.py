@@ -46,6 +46,8 @@ import tvm
 from tvm import relay
 from tvm.contrib import graph_executor
 
+from tqdm import tqdm
+
 def get_args():
     parser = argparse.ArgumentParser(description="recognize with your model")
     parser.add_argument(
@@ -141,15 +143,52 @@ def main():
             assert len(arr) == 2
             char_dict[int(arr[1])] = arr[0]
 
-    print("*** 1. Prepare data ***")
     data_type = "raw"
     test_data_fn = os.path.join(args.data_dir, "data.list")
     symbol_table = read_symbol_table(dict_fn)
     test_dataset = Dataset(
         data_type, test_data_fn, symbol_table, dataset_conf, partition=False
     )
-    
     test_data_loader = DataLoader(test_dataset, batch_size=None, num_workers=0)
+
+    data_path_pkl = os.path.join(args.data_dir, f"aishell_test_data_bs{args.batch_size}.pkl")
+
+    print("*** 1. Prepare data ***")
+    if not os.path.isfile(data_path_pkl):
+        eval_samples = []
+        max_batch_size = -1
+        max_feature_length = -1
+        for batch in test_data_loader:
+            keys, feats, target, feats_lengths, target_lengths = batch
+            max_feature_length = max(max_feature_length, feats.size(1))
+            max_batch_size = max(max_batch_size, feats.size(0))
+            eval_samples.append(
+                [
+                    keys,
+                    feats.cpu().numpy().astype(np.float16),
+                    feats_lengths.cpu().numpy().astype(np.int32),
+                ]
+            )
+            with open(data_path_pkl, "wb") as f:
+                pickle.dump(
+                    [
+                        eval_samples,
+                        max_batch_size,
+                        max_feature_length
+                    ],
+                    f,
+                )
+    else:
+        print(f"load data from tmp: {data_path_pkl}")
+        with open(data_path_pkl, "rb") as f:
+            (
+                eval_samples,
+                max_batch_size,
+                max_feature_length
+            ) = pickle.load(f)
+    print(
+        f"dataset max shape: batch_size: {max_batch_size}, feat_length: {max_feature_length}"
+    )
 
     print("*** 2. Load IxRT engine ***")
     engine_path = os.path.join(args.model_dir, f"conformer_{args.infer_type}_trt.engine")
@@ -165,14 +204,12 @@ def main():
     num_samples = 0
     results = []
     eval_time = 0.0
-    for batch in test_data_loader:
-        keys, feats, target, feats_lengths, target_lengths = batch
-        feats = feats.cpu().numpy().astype(np.float16)
-        feats_lengths = feats_lengths.cpu().numpy().astype(np.int32)
+    for keys, feats, feats_lengths in tqdm(eval_samples):
         num_samples += feats.shape[0]
         hyps, batch_eval_time = igie_infer(module, feats, feats_lengths)
         results.append([hyps, keys])
         eval_time += batch_eval_time
+
 
     QPS = num_samples / eval_time
     print(f"Recognize {num_samples} sentences, {QPS} sentences/s")
