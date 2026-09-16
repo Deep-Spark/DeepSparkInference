@@ -173,10 +173,7 @@ def run_clf_testcase(model, batch_size, whl_url):
     cd ../{model['model_path']}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     """
-    prepare_script += f"""
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
-        """
+
     if model["category"] == "cv/semantic_segmentation":
         prepare_script += f"""
         pip install /mnt/deepspark/install/mmcv-2.1.0+corex.5.0.0-cp312-cp312-linux_x86_64.whl
@@ -312,8 +309,6 @@ def run_detec_testcase(model, batch_size, whl_url):
 
     prepare_script += f"""
     pip install /mnt/deepspark/install/mmcv-2.1.0+corex.5.0.0-cp312-cp312-linux_x86_64.whl
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     """
 
     if platform.machine() == "aarch64":
@@ -429,8 +424,6 @@ def run_ocr_testcase(model, whl_url):
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     pip install {whl_url}`curl -s {whl_url} | grep -o 'paddlepaddle[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     unzip -q /mnt/deepspark/data/3rd_party/PaddleOCR-release-2.6.zip -d ./PaddleOCR
     bash ci/prepare.sh
     """
@@ -486,8 +479,6 @@ def run_trace_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -549,8 +540,6 @@ def run_multi_object_tracking_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """
@@ -617,8 +606,6 @@ def run_nlp_testcase(model, batch_size, whl_url):
     prepare_script = f"""
     set -x
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     {mkdir_script}
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./{target_dir}
     export DATASETS_DIR=/mnt/deepspark/data/datasets/{dataset_n}
@@ -705,9 +692,6 @@ def run_speech_testcase(model, batch_size, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchaudio-[^"]*\.whl' | head -n1`
     ln -s /mnt/deepspark/data/checkpoints/{checkpoint_n} ./
     ln -s /mnt/deepspark/data/datasets/{dataset_n} ./
     """

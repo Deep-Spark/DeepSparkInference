@@ -170,8 +170,6 @@ def run_clf_testcase(model, batch_size, whl_url):
     #TODO: need update mount path because mdb use /root/data
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     """
     if model_name == "swin_transformer_large":
@@ -299,8 +297,6 @@ def run_detec_testcase(model, batch_size, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     pip install /root/data/install/mmcv-2.1.0+corex.5.0.0-cp312-cp312-linux_x86_64.whl
@@ -444,8 +440,6 @@ def run_segmentation_and_face_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     bash ci/prepare.sh
     ls -l | grep onnx
     """
@@ -523,8 +517,6 @@ def run_multi_object_tracking_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     """
@@ -600,8 +592,6 @@ def run_nlp_testcase(model, batch_size, whl_url):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'tensorflow-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
@@ -611,8 +601,6 @@ def run_nlp_testcase(model, batch_size, whl_url):
         prepare_script = f"""
         set -x
         cd ../{model['model_path']}
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-        pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'ixrt-[^"]*\.whl' | head -n1`
         pip install {whl_url}`curl -s {whl_url} | grep -o 'cuda_python-[^"]*\.whl' | head -n1`
         bash ci/prepare.sh
@@ -745,9 +733,6 @@ def run_speech_testcase(model, batch_size, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchaudio-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     bash ci/prepare.sh
     ls -l | grep onnx
@@ -810,8 +795,6 @@ def run_instance_segmentation_testcase(model, whl_url):
     dataset_n = model["datasets"].split("/")[-1]
     prepare_script = f"""
     cd ../{model['model_path']}
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torch-[^"]*\.whl' | head -n1`
-    pip install {whl_url}`curl -s {whl_url} | grep -o 'torchvision-[^"]*\.whl' | head -n1`
     ln -s /root/data/checkpoints/{checkpoint_n} ./
     ln -s /root/data/datasets/{dataset_n} ./
     pip install /root/data/install/mmcv-2.1.0+corex.5.0.0-cp312-cp312-linux_x86_64.whl
