@@ -10,9 +10,11 @@ Qwen3.6-27B-W8A8 is the INT8 (W8A8) quantized checkpoint of the same architectur
 
 | GPU | [IXUCA SDK](https://gitee.com/deep-spark/deepspark#%E5%A4%A9%E6%95%B0%E6%99%BA%E7%AE%97%E8%BD%AF%E4%BB%B6%E6%A0%88-ixuca) | Release | Branch |
 | :----: | :----: | :----: | :----: |
-| MR-V100 | dev-only | 26.09 | — |
+| MR-V100 | 5.0.0 | 26.09 | release/26.09 |
 
-> **Note:** 请切换到 release/26.09 分支进行测试。请勿直接在 master 分支上运行测试，因为 master 分支可能包含与您的本地 SDK 版本不兼容的最新更改。
+> **Note:** 请切换到与您的 SDK 版本对应的 Release 分支进行测试。请勿直接在 master 分支上运行测试，因为 master 分支可能包含与您的本地 SDK 版本不兼容的最新更改。
+>
+> 切换分支命令示例：`git checkout release/26.09`
 
 ## Model Preparation
 

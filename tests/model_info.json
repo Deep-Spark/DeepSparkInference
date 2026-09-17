@@ -31,7 +31,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "结合CNN与Transformer的语音识别模型，在ASR任务上达到SOTA性能"
     },
     {
@@ -134,7 +134,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "经典的深度卷积神经网络模型，在ImageNet图像分类竞赛中取得突破性成果，开启了深度学习时代"
     },
     {
@@ -1849,7 +1849,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "面向移动设备的轻量级分类网络，结合NAS与NetAdapt技术，在速度与精度间取得优异平衡"
     },
     {
@@ -2469,7 +2469,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "50层深度残差网络，通过跳跃连接突破深层网络训练瓶颈，广泛应用于图像分类与特征提取"
     },
     {
@@ -3085,7 +3085,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "基于移位窗口的层次化视觉Transformer，在图像分类、检测、分割等任务上达到SOTA性能"
     },
     {
@@ -3362,7 +3362,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "经典人脸识别模型，通过三元组损失学习人脸嵌入表征，在LFW等基准上表现优异"
     },
     {
@@ -3396,7 +3396,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "经典的实例分割框架，在Faster R-CNN基础上增加分割分支，同时输出检测框与实例掩码"
     },
     {
@@ -3430,7 +3430,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "单阶段实例分割模型，通过网格分类直接分割实例，无需检测框，实现高效实例级分割"
     },
     {
@@ -4008,7 +4008,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "单阶段人脸检测模型，同时预测人脸框与人脸关键点，实现高效精准的人脸定位"
     },
     {
@@ -4214,7 +4214,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "YOLO系列轻量级目标检测模型，在保持较高精度的同时显著降低计算开销"
     },
     {
@@ -4875,7 +4875,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "基于高分辨率网络的人体姿态估计模型，通过保持高分辨率表征实现精准的关键点定位"
     },
     {
@@ -5011,7 +5011,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "经典文生图扩散模型，在高分辨率图像生成任务上具有出色的表现和广泛的应用生态"
     },
     {
@@ -5079,7 +5079,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "视觉语言预训练模型，连接图像与文本语义空间，在跨模态检索和零样本分类中表现优异"
     },
     {
@@ -5250,7 +5250,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "百川智能开源的大语言模型，在中文NLP任务上表现优异，支持高效的推理部署"
     },
     {
@@ -5284,7 +5284,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "清华开源的双语对话大模型，支持中英双语对话与工具调用，具备出色的中文理解能力"
     },
     {
@@ -5352,7 +5352,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "DeepSeek-R1蒸馏版70B推理模型，基于Llama架构，具备强大的复杂推理能力"
     },
     {
@@ -5386,7 +5386,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "DeepSeek-R1蒸馏版8B推理模型，以轻量级参数实现高效推理"
     },
     {
@@ -5454,7 +5454,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "DeepSeek-R1蒸馏版14B推理模型，中等规模的推理专用模型"
     },
     {
@@ -5488,7 +5488,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "DeepSeek-R1蒸馏版32B推理模型，大规模推理模型，具备强大的思维链能力"
     },
     {
@@ -5692,7 +5692,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Llama3 70B大型语言模型，在多项基准测试中达到领先水平"
     },
     {
@@ -5862,7 +5862,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "阿里通义千问1.5版，基于TGI框架部署，支持高效的文本生成推理服务"
     },
     {
@@ -5896,7 +5896,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "阿里通义千问1.5版大语言模型，具有出色的中文理解和生成能力，支持多轮对话"
     },
     {
@@ -5930,7 +5930,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问2代72B旗舰模型，在复杂推理和长文本理解上表现出色"
     },
     {
@@ -6032,7 +6032,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "轻量级BERT变体，通过参数共享和嵌入分解显著减少参数量，兼顾效率与精度"
     },
     {
@@ -6100,7 +6100,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "BERT Base预训练模型，在SQuAD问答数据集上微调，支持精准的阅读理解与问答任务"
     },
     {
@@ -6204,7 +6204,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "BERT Large预训练模型在IxRT框架上的推理优化版本，提供更高精度的问答能力"
     },
     {
@@ -6272,7 +6272,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "BERT的优化版本，通过改进预训练策略和更大规模数据训练，在下游任务中表现更佳"
     },
     {
@@ -6374,7 +6374,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "Google提出的推荐系统模型，结合Wide线性模型与Deep神经网络，兼顾记忆与泛化能力"
     },
     {
@@ -6885,7 +6885,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "经典的编码器-解码器语义分割网络，在医学影像分割等领域广泛应用"
     },
     {
@@ -7429,7 +7429,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "智谱GLM-4V多模态视觉语言模型，支持高分辨率图像理解和多轮视觉对话"
     },
     {
@@ -7531,7 +7531,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问Qwen2-VL视觉语言模型，支持高分辨率图像理解和多模态推理"
     },
     {
@@ -8416,7 +8416,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "阿里CosyVoice2语音合成模型，支持零样本语音克隆和高质量多语种语音合成"
     },
     {
@@ -8757,7 +8757,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "多模态语音理解模型，结合语音识别与语言理解，实现端到端的语音对话"
     },
     {
@@ -8791,7 +8791,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Step多模态视觉语言模型，支持复杂的图文理解和多轮视觉对话"
     },
     {
@@ -9029,7 +9029,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "Stable Diffusion 3代文生图模型，采用MMDiT架构，在文本理解和图像生成质量上大幅提升"
     },
     {
@@ -9575,7 +9575,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "基于PaddlePaddle框架的RTDETR模型，利用飞桨生态实现高效的端到端目标检测"
     },
     {
@@ -9644,7 +9644,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "基于Transformer的实时目标检测模型，无需NMS后处理，实现端到端目标检测"
     },
     {
@@ -9780,7 +9780,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "MiniCPM-V-4多模态模型，进一步提升视觉理解和推理能力"
     },
     {
@@ -10018,7 +10018,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "上海AI Lab开源的大语言模型，结合LMDeploy推理框架，支持高效推理与部署"
     },
     {
@@ -10395,7 +10395,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "DeepSeek V3.1大语言模型，具备强大的文本理解、生成和推理能力"
     },
     {
@@ -10430,7 +10430,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问3代32B模型，在多项任务中具备出色的表现"
     },
     {
@@ -10464,7 +10464,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问3代30B推理增强模型，支持深度思考和多步推理"
     },
     {
@@ -10498,7 +10498,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问3代235B推理增强模型，以MoE架构实现极致的推理能力"
     },
     {
@@ -10532,7 +10532,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "通义千问3代Next模型，最新架构设计实现更强的语言理解和生成"
     },
     {
@@ -10600,7 +10600,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "腾讯混元视频生成扩散模型，支持高质量文生视频和视频编辑"
     },
     {
@@ -10634,7 +10634,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Wan2.1文生视频扩散模型，支持高质量的文字描述到视频生成"
     },
     {
@@ -10668,7 +10668,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Wan2.2图像到视频扩散模型，支持基于输入图像的高质量视频生成"
     },
     {
@@ -10736,7 +10736,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Stable Diffusion 3 Medium文生图模型，平衡生成质量与推理效率"
     },
     {
@@ -10874,7 +10874,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "可微分二值化网络，用于场景文字检测，通过可微分二值化实现高效精确的文字区域定位"
     },
     {
@@ -10909,7 +10909,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "双边分割网络，通过高低分辨率分支并行处理，实现高效的实时语义分割"
     },
     {
@@ -10943,7 +10943,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "端到端语音识别系统，基于深度RNN架构，在天垓加速卡上实现高效推理"
     },
     {
@@ -11045,7 +11045,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "IndexTTS-2语音合成模型，支持高质量的文本转语音，具备自然的韵律和音色表现"
     },
     {
@@ -11079,7 +11079,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "阿里通义千问3代语音合成模型，支持高质量多语种语音生成与语音克隆"
     },
     {
@@ -11113,7 +11113,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "阿里通义千问3代语音识别模型，基于大规模训练数据，支持多语种高精度语音识别"
     },
     {
@@ -11147,7 +11147,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "developer",
+      "demoType": "",
       "description": "百度PaddleOCR多模态模型，基于Transformers框架，支持高精度OCR文字识别与理解"
     },
     {
@@ -11215,7 +11215,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "百度ERNIE 4.5 VL多模态思考模型，具备强大的视觉推理和深度理解能力"
     },
     {
@@ -11759,7 +11759,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Qwen3.5-27B是用于自然语言处理的轻量级模型，适用于实时语言理解任务"
     },
     {
@@ -11793,7 +11793,7 @@
       ],
       "type": "inference",
       "hasDemo": false,
-      "demoType": "",
+      "demoType": "developer",
       "description": "Qwen3.6-27B是用于自然语言处理的轻量级模型，适用于实时语言理解任务"
     },
     {
