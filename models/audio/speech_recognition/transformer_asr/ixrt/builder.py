@@ -88,29 +88,32 @@ def add_make_mask_op(graph, state_dict, args):
 
 
 def add_custom_linear_op(graph, state_dict, args):
-    linear_keys = [
-        "1.custom_src_module.layers.0.w.weight",
-        "1.custom_src_module.layers.0.w.bias"
-    ]
-    W = numpy_helper.from_array(state_dict[linear_keys[0]].cpu().numpy(), name="W")
-    B = numpy_helper.from_array(state_dict[linear_keys[1]].cpu().numpy(), name="B")
-    attributes = {
-        "out_dims": state_dict["1.custom_src_module.layers.0.w.weight"].size(0),
-        "type_id": 1,
-        "W": W,
-        "B": B,
-    }
-    assert state_dict['1.custom_src_module.layers.0.w.weight'].size(
-        0) == state_dict["1.custom_src_module.layers.0.w.bias"].size(0)
+    # Replace CustomFCPluginDynamic_IxRT with MatMul + Add (fused biased GEMM).
+    # PyTorch Linear weight is [out, in]; MatMul needs [in, out].
+    weight = state_dict["1.custom_src_module.layers.0.w.weight"]
+    bias = state_dict["1.custom_src_module.layers.0.w.bias"]
+    assert weight.size(0) == bias.size(0)
 
     t = graph
-    inputs = [
-        graph.get_variable('input'),
-    ]
+    weight_var = t.make_variable(
+        name="1.custom_src_module.layers.0.w.weight",
+        value=weight.half().t().contiguous(),
+    )
+    bias_var = t.make_variable(
+        name="1.custom_src_module.layers.0.w.bias",
+        value=bias.half(),
+    )
 
-    outputs = [t.make_variable("custom_src_output")]
+    matmul_out = t.make_variable("custom_src_matmul", dtype=DataType.FLOAT16)
     t.make_operator(
-        "CustomFCPluginDynamic_IxRT", inputs=inputs, outputs=outputs, **attributes
+        "MatMul",
+        inputs=[graph.get_variable('input'), weight_var],
+        outputs=[matmul_out],
+    )
+    t.make_operator(
+        "Add",
+        inputs=[matmul_out, bias_var],
+        outputs=[t.make_variable("custom_src_output")],
     )
 
 
@@ -142,14 +145,85 @@ def add_custom_linear_op(graph, state_dict, args):
 
 
 def add_pos_encode_op(graph, state_dict, args):
-    attributes = {}
+    """Replace PosEncodeSinCos_IxRT with a precomputed sin/cos PE table + Slice + Add.
+
+    Matches the plugin kernel:
+      pe[pos, 2i]   = sin(pos * exp(2i * -log(10000) / d_model))
+      pe[pos, 2i+1] = cos(pos * exp(2i * -log(10000) / d_model))
+      out = input + pe[:seq_len]
+    """
+    import numpy as np
+
+    d_model = int(args.hidden_size)
+    max_len = int(args.max_seq_len)
+    pe = np.zeros((max_len, d_model), dtype=np.float32)
+    for pos in range(max_len):
+        for j in range(d_model):
+            div_term = np.exp((j // 2 * 2) * (-np.log(10000.0)) / d_model)
+            pe[pos, j] = np.sin(pos * div_term) if (j % 2 == 0) else np.cos(pos * div_term)
+    pe = np.ascontiguousarray(pe.astype(np.float16))
+
     t = graph
-    inputs = [
-        graph.get_variable('custom_src_output'),
-    ]
-    outputs = [t.make_variable("hidden_state", dtype=DataType.FLOAT16)]
+    src = graph.get_variable("custom_src_output")
+    pe_table = t.make_variable(
+        name="pos_encode_sin_cos_table",
+        value=torch.from_numpy(pe),
+    )
+
+    src_shape = t.make_variable("custom_src_shape", dtype=DataType.INT64)
+    t.make_operator("Shape", inputs=[src], outputs=[src_shape])
+
+    gather_idx = t.make_variable(
+        name="pos_encode_shape_idx",
+        value=torch.tensor(1, dtype=torch.int64),
+    )
+    seq_len = t.make_variable("pos_encode_seq_len", dtype=DataType.INT64)
     t.make_operator(
-        "PosEncodeSinCos_IxRT", inputs=inputs, outputs=outputs, **attributes
+        "Gather",
+        inputs=[src_shape, gather_idx],
+        outputs=[seq_len],
+        axis=0,
+    )
+
+    ends = t.make_variable("pos_encode_ends", dtype=DataType.INT64)
+    t.make_operator(
+        "Unsqueeze",
+        inputs=[seq_len],
+        outputs=[ends],
+        axes=[0],
+    )
+    starts = t.make_variable(
+        name="pos_encode_starts",
+        value=torch.tensor([0], dtype=torch.int64),
+    )
+    axes = t.make_variable(
+        name="pos_encode_axes",
+        value=torch.tensor([0], dtype=torch.int64),
+    )
+    steps = t.make_variable(
+        name="pos_encode_steps",
+        value=torch.tensor([1], dtype=torch.int64),
+    )
+
+    pe_sliced = t.make_variable("pos_encode_sliced", dtype=DataType.FLOAT16)
+    t.make_operator(
+        "Slice",
+        inputs=[pe_table, starts, ends, axes, steps],
+        outputs=[pe_sliced],
+    )
+
+    pe_bsh = t.make_variable("pos_encode_bsh", dtype=DataType.FLOAT16)
+    t.make_operator(
+        "Unsqueeze",
+        inputs=[pe_sliced],
+        outputs=[pe_bsh],
+        axes=[0],
+    )
+
+    t.make_operator(
+        "Add",
+        inputs=[src, pe_bsh],
+        outputs=[t.make_variable("hidden_state", dtype=DataType.FLOAT16)],
     )
 
 
@@ -194,6 +268,8 @@ def add_transformer_op(graph, state_dict, args):
         "act_type": 12, #gelu
         "normalize_before": 1,
         "is_fmha": 1,
+        "is_casual_mask": 0,
+        "concat_after": 0,
         "atten_scaler": 1.0 / math.sqrt(args.head_dim),
         "max_seq_len": int(args.max_seq_len),
         "max_batch_size": int(args.max_batch_size),
@@ -281,28 +357,32 @@ def add_layer_norm_op(graph, state_dict, args):
 #     )
 
 def add_linear_op(graph, state_dict, args):
-    linear_keys = [
-        "3.w.weight",
-        "3.w.bias"
-    ]
-    W = numpy_helper.from_array(state_dict[linear_keys[0]].cpu().numpy(), name="W")
-    B = numpy_helper.from_array(state_dict[linear_keys[1]].cpu().numpy(), name="B")
-    attributes = {
-        "out_dims": state_dict["3.w.weight"].size(0),
-        "type_id": 1,
-        "W": W,
-        "B": B,
-    }
-    assert state_dict['3.w.weight'].size(0) == state_dict["3.w.bias"].size(0)
+    # Replaced CustomFCPluginDynamic_IxRT with MatMul + Add (same as add_custom_linear_op).
+    # NOTE: This function is currently dead code (commented out in main).
+    weight = state_dict["3.w.weight"]
+    bias = state_dict["3.w.bias"]
+    assert weight.size(0) == bias.size(0)
 
     t = graph
-    inputs = [
-        graph.get_variable('encoder_ln_out'),
-    ]
+    weight_var = t.make_variable(
+        name="3.w.weight",
+        value=weight.half().t().contiguous(),
+    )
+    bias_var = t.make_variable(
+        name="3.w.bias",
+        value=bias.half(),
+    )
 
-    outputs = [t.make_variable("lin_output")]
+    matmul_out = t.make_variable("lin_matmul", dtype=DataType.FLOAT16)
     t.make_operator(
-        "CustomFCPluginDynamic_IxRT", inputs=inputs, outputs=outputs, **attributes
+        "MatMul",
+        inputs=[graph.get_variable('encoder_ln_out'), weight_var],
+        outputs=[matmul_out],
+    )
+    t.make_operator(
+        "Add",
+        inputs=[matmul_out, bias_var],
+        outputs=[t.make_variable("lin_output")],
     )
 
 
@@ -395,8 +475,25 @@ def get_num_layers(state_dict):
 
 
 def build_engine(onnx_file, engine_file, max_batch_size,max_seq_len):
-    cmd = f"ixrtexec --onnx {onnx_file} --min_shape input:1x32x5120,length_radio:1 --opt_shape input:8x64x5120,length_radio:8 --max_shape input:{max_batch_size}x{max_seq_len}x5120,length_radio:64 --plugins ixrt_plugin --save_engine {engine_file}"
-    subprocess.run(cmd.split(), check=True)
+    # Prefer site-packages ixrt CLI (avoids corex-4.4 ixrt 1.0.x on PATH).
+    plugin = os.environ.get(
+        "IXRT_PLUGIN_LIB",
+        "/usr/local/lib/python3.12/site-packages/ixrt/lib/libixrt_plugin.so",
+    )
+    cmd = [
+        "python3", "-m", "ixrt.cli.ixrtexec",
+        "--onnx", onnx_file,
+        "--min_shape", "input:1x32x5120,length_radio:1",
+        "--opt_shape", "input:8x64x5120,length_radio:8",
+        "--max_shape", f"input:{max_batch_size}x{max_seq_len}x5120,length_radio:64",
+        "--plugins", plugin,
+        "--save_engine", engine_file,
+    ]
+    result = subprocess.run(cmd)
+    if result.returncode != 0 and not os.path.isfile(engine_file):
+        raise RuntimeError(f"ixrtexec failed with code {result.returncode}")
+    if result.returncode != 0:
+        print(f"warning: ixrtexec exited {result.returncode}, but engine exists: {engine_file}")
 
 
 def main(args):
@@ -404,7 +501,7 @@ def main(args):
     transform = GraphTransform(graph)
     ckpt_path = glob.glob(os.path.join(args.ckpt_path, "*/model.ckpt"))[0]
     print("load ckpt from: ", ckpt_path)
-    state_dict = torch.load(ckpt_path)
+    state_dict = torch.load(ckpt_path, map_location="cpu", weights_only=False)
 
     # print([i for i in state_dict ])
     # print(state_dict['3.w.bias'])

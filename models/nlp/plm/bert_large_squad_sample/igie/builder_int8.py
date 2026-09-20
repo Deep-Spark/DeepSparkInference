@@ -23,10 +23,7 @@ plg_registry = trt.get_plugin_registry()
 registry_list = plg_registry.plugin_creator_list
 print("registry_list: ", [registry.name + '/' + registry.plugin_version for registry in registry_list])
 emln_plg_creator = plg_registry.get_plugin_creator("CustomEmbLayerNormPluginDynamic_IxRT", "2", "")
-qkv2_plg_creator = plg_registry.get_plugin_creator("CustomQKVToContextPluginDynamic_IxRT", "3", "")
 skln_plg_creator = plg_registry.get_plugin_creator("CustomSkipLayerNormPluginDynamic_IxRT", "3", "")
-gelu_plg_creator = plg_registry.get_plugin_creator("CustomGeluPluginDynamic_IxRT", "1", "")
-fc_plg_creator = plg_registry.get_plugin_creator("CustomFCPluginDynamic_IxRT", "2", "")
 
 #
 class BertConfig:
@@ -55,29 +52,120 @@ def get_mha_dtype(config):
         dtype = trt.int8
     return int(dtype)
 
+def _amax_to_scale(network, amax):
+    """Per-tensor symmetric scale = amax / 127, matching CustomFC's fc_amax convention."""
+    return network.add_constant(
+        (1,), np.array([float(amax) / 127.0], dtype=np.float32)
+    ).get_output(0)
+
+
 def custom_fc(prefix, config, init_dict, network, input_tensor, out_dims, W, B):
-    pf_out_dims = trt.PluginField("out_dims", np.array([out_dims], dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_W = trt.PluginField("W", W, trt.PluginFieldType.FLOAT32)
+    """Replace CustomFCPluginDynamic_IxRT with built-in QDQ MatrixMultiply."""
+    if not config.use_int8:
+        return custom_fc_fp16(network, input_tensor, out_dims, W, B)
 
-    fields = [pf_out_dims, pf_W]
+    rank = len(input_tensor.shape)
+    k = int(input_tensor.shape[-1])
+    in_amax = float(init_dict[prefix + "in_amax"])
+    wei_amax = float(init_dict[prefix + "wei_amax"])
+    out_amax = float(init_dict[prefix + "out_amax"])
 
-    if config.use_int8:
-        amax_vec = [init_dict[prefix + "wei_amax"]]
-        if B is not None:
-            pf_B = trt.PluginField("Bias", B, trt.PluginFieldType.FLOAT32)
-            amax_vec.append(init_dict[prefix + "out_amax"])
-            pf_amax = trt.PluginField("fc_amax", np.array(amax_vec, np.float32), trt.PluginFieldType.FLOAT32)
-            fields.append(pf_B)
-            fields.append(pf_amax)
-        else:
-            pf_amax = trt.PluginField("fc_amax", np.array(amax_vec, np.float32), trt.PluginFieldType.FLOAT32)
-            fields.append(pf_amax)
+    scale_in = _amax_to_scale(network, in_amax)
+    scale_w = _amax_to_scale(network, wei_amax)
+    scale_out = _amax_to_scale(network, out_amax)
 
-    pfc = trt.PluginFieldCollection(fields)
-    fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
-    plug_inputs = [input_tensor]
-    out_dense = network.add_plugin_v2(plug_inputs, fc_plugin)
+    if rank > 2:
+        flatten = network.add_shuffle(input_tensor)
+        flatten.reshape_dims = (-1, k)
+        mm_input = flatten.get_output(0)
+    else:
+        mm_input = input_tensor
+
+    dq_in = network.add_dequantize(mm_input, scale_in, trt.float32)
+
+    weight = np.ascontiguousarray(W).reshape(out_dims, k).astype(np.float32)
+    weight_const = network.add_constant((out_dims, k), weight).get_output(0)
+    q_w = network.add_quantize(weight_const, scale_w, trt.int8)
+    dq_w = network.add_dequantize(q_w.get_output(0), scale_w, trt.float32)
+
+    matmul = network.add_matrix_multiply(
+        dq_in.get_output(0),
+        trt.MatrixOperation.NONE,
+        dq_w.get_output(0),
+        trt.MatrixOperation.TRANSPOSE,
+    )
+    current = matmul.get_output(0)
+
+    if B is not None:
+        bias = np.ascontiguousarray(B).reshape(1, out_dims).astype(np.float32)
+        bias_const = network.add_constant((1, out_dims), bias)
+        current = network.add_elementwise(
+            current,
+            bias_const.get_output(0),
+            trt.ElementWiseOperation.SUM,
+        ).get_output(0)
+
+    q_out = network.add_quantize(current, scale_out, trt.int8)
+    out_dense = q_out
+
+    if rank > 2:
+        in_shape = network.add_shape(input_tensor).get_output(0)
+        leading_idx = network.add_constant(
+            (rank - 1,), np.arange(rank - 1, dtype=np.int32)
+        ).get_output(0)
+        leading = network.add_gather_v2(
+            in_shape, leading_idx, mode=trt.GatherMode.DEFAULT
+        )
+        leading.axis = 0
+        out_dim_shape = network.add_constant(
+            (1,), np.array([out_dims], dtype=np.int32)
+        ).get_output(0)
+        new_shape = network.add_concatenation([leading.get_output(0), out_dim_shape])
+        new_shape.axis = 0
+        unflatten = network.add_shuffle(q_out.get_output(0))
+        unflatten.set_input(1, new_shape.get_output(0))
+        out_dense = unflatten
+
     return out_dense
+
+def qkv_to_ctx_builtin_int8(prefix, config, init_dict, network, packed_int8, num_heads, head_size, hidden_size, imask):
+    """Built-in int8 multi-head attention from a packed int8 QKV tensor."""
+    reshape_qkv = network.add_shuffle(packed_int8)
+    reshape_qkv.reshape_dims = (0, 0, 3, num_heads, head_size)
+
+    def extract(idx):
+        sel = network.add_constant((), np.array(idx, dtype=np.int32))
+        gathered = network.add_gather(reshape_qkv.get_output(0), sel.get_output(0), 2)
+        transposed = network.add_shuffle(gathered.get_output(0))
+        transposed.first_transpose = (0, 2, 1, 3)
+        return transposed.get_output(0)
+
+    q = extract(0)
+    k = extract(1)
+    v = extract(2)
+
+    scale = np.array(1.0 / np.sqrt(head_size), dtype=np.float16).reshape(1, 1, 1, 1)
+    scale_const = network.add_constant((1, 1, 1, 1), scale)
+    q_scaled = network.add_elementwise(q, scale_const.get_output(0), trt.ElementWiseOperation.PROD)
+
+    attn = network.add_attention_v2(
+        q_scaled.get_output(0), k, v, trt.AttentionNormalizationOp.SOFTMAX, trt.CausalMaskKind.NONE
+    )
+
+    if imask is not None:
+        mask_reshape = network.add_shuffle(imask)
+        mask_reshape.reshape_dims = (0, 1, 1, -1)
+        attn.mask = mask_reshape.get_output(0)
+
+    attn.normalization_quantize_to_type = trt.int8
+    attn.normalization_quantize_scale = _amax_to_scale(network, init_dict[prefix + "output_dense_in_amax"])
+
+    ctx_transpose = network.add_shuffle(attn.get_output(0))
+    ctx_transpose.first_transpose = (0, 2, 1, 3)
+    ctx = network.add_shuffle(ctx_transpose.get_output(0))
+    ctx.reshape_dims = (0, 0, hidden_size)
+    return ctx
+
 
 def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask):
     """
@@ -90,34 +178,17 @@ def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask)
     Wall = init_dict[prefix + WQKV]
     Ball = init_dict[prefix + BQKV]
 
-    # FC_attention
     mult_all = custom_fc(prefix + "self_qkv_", config, init_dict, network, input_tensor, 3*hidden_size, Wall, Ball)
     set_output_range(mult_all, init_dict[prefix + "self_qkv_out_amax"])
 
     has_mask = imask is not None
 
-    # QKV2CTX
-    pf_hidden_size = trt.PluginField("hidden_size", np.array([hidden_size], np.int32), trt.PluginFieldType.INT32)
-    pf_num_heads = trt.PluginField("num_heads", np.array([num_heads], np.int32), trt.PluginFieldType.INT32)
-    fields = [pf_hidden_size, pf_num_heads]
-    dq_probs = [
-                init_dict[prefix + "arrange_qkv_amax"],
-                init_dict[prefix + "softmax_in_amax"],
-                init_dict[prefix + "softmax_out_amax"]
-                ]
-    pf_dq = trt.PluginField("dq_probs", np.array(dq_probs, np.float32), trt.PluginFieldType.FLOAT32)
-    fields.append(pf_dq)
-
-    pfc = trt.PluginFieldCollection(fields)
-    qkv2ctx_plug = qkv2_plg_creator.create_plugin("qkv2ctx", pfc)
-
-    qkv_in = [mult_all.get_output(0)]
-    if has_mask:
-        qkv_in.append(imask)
-    qkv2ctx = network.add_plugin_v2(qkv_in, qkv2ctx_plug)
-    if config.use_int8:
-        set_output_range(qkv2ctx, init_dict[prefix + "output_dense_in_amax"])
-    return qkv2ctx
+    ctx = qkv_to_ctx_builtin_int8(
+        prefix, config, init_dict, network, mult_all.get_output(0), num_heads, head_size, hidden_size,
+        imask if has_mask else None,
+    )
+    set_output_range(ctx, init_dict[prefix + "output_dense_in_amax"])
+    return ctx
 
 
 def skipln(prefix, config, init_dict, network, input_tensor, skip, residual, is_last_layer, bias=None):
@@ -157,39 +228,20 @@ def skipln(prefix, config, init_dict, network, input_tensor, skip, residual, is_
     return layer
 
 def ffn(prefix, config, init_dict, network, input_tensor, residual, is_last_layer):
-     # FC1 + GELU
+     # FC1 + GELU. Bias that used to live in CustomGelu is folded into the QDQ FC.
     B_mid = init_dict[prefix + B_MID]
     W_mid = init_dict[prefix + W_MID]
 
-    mid_dense = custom_fc(prefix + "intermediate_dense_", config, init_dict, network, input_tensor, config.intermediate_size, W_mid, None)
+    mid_dense = custom_fc(prefix + "intermediate_dense_", config, init_dict, network, input_tensor, config.intermediate_size, W_mid, B_mid)
     set_output_range(mid_dense, init_dict[prefix + "intermediate_dense_out_amax"])
 
-    dtype = trt.float32
-
-    if config.use_int8:
-        dtype = trt.int8
-
-    pf_type = trt.PluginField("type_id", np.array([int(dtype)], np.int32), trt.PluginFieldType.INT32)
-    pf_ld = trt.PluginField("ld", np.array([int(config.intermediate_size)], np.int32), trt.PluginFieldType.INT32)
-    fields = [pf_type, pf_ld]
-    if config.use_int8:
-        pf_bias = trt.PluginField("bias", B_mid, trt.PluginFieldType.FLOAT32)
-        fields.append(pf_bias)
-
-    pfc = trt.PluginFieldCollection(fields)
-    gelu_plug = gelu_plg_creator.create_plugin("gelu", pfc)
-
-    gelu_inputs = [mid_dense.get_output(0)]
-    gelu_layer = network.add_plugin_v2(gelu_inputs, gelu_plug)
+    gelu_layer = network.add_activation(mid_dense.get_output(0), trt.ActivationType.GELU_TANH)
 
     if config.use_int8:
         set_output_range(gelu_layer, init_dict[prefix + "output_dense_in_amax"])
 
     intermediate_act = gelu_layer.get_output(0)
-    # set_tensor_name(intermediate_act, prefix, "gelu")
 
-    # FC2
-    # Dense to hidden size
     B_lout = init_dict[prefix + B_LOUT]
     W_lout = init_dict[prefix + W_LOUT]
     out_dense = custom_fc(prefix + "output_dense_", config, init_dict, network, intermediate_act, config.hidden_size, W_lout, None)

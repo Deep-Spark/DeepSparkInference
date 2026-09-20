@@ -103,6 +103,8 @@ CNN: !new:speechbrain.lobes.models.convolution.ConvolutionFrontEnd
     kernel_sizes: (3, 3)
     strides: (2, 2)
     residuals: (False, False)
+    # Checkpoint was trained with BatchNorm2d; speechbrain>=0.5.13 defaults to LayerNorm.
+    norm: !name:speechbrain.nnet.normalization.BatchNorm2d
 
 Transformer: !new:speechbrain.lobes.models.transformer.TransformerASR.TransformerASR # yamllint disable-line rule:line-length
     input_size: 5120
@@ -128,9 +130,12 @@ seq_lin: !new:speechbrain.nnet.linear.Linear
 
 env_corrupt: !new:speechbrain.lobes.augment.EnvCorrupt
     openrir_folder: !ref <data_folder_rirs>
+    # Point at local stub CSVs so EnvCorrupt never downloads OpenSLR RIRS.
+    reverb_csv: !ref <data_folder_rirs>/reverb.csv
+    noise_csv: !ref <data_folder_rirs>/noise.csv
     babble_prob: 0.0
     reverb_prob: 0.0
-    noise_prob: 1.0
+    noise_prob: 0.0
     noise_snr_low: 0
     noise_snr_high: 15
 

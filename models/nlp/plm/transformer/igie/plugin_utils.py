@@ -27,7 +27,7 @@ import numpy as np
 import tensorrt
 import tensorrt as trt
 
-trt_version = [int(n) for n in trt.__version__.split(".")]
+trt_version = [int(n) for n in trt.__version__.split(".")[:3]]
 
 TRT_LOGGER = trt.Logger(trt.Logger.ERROR)
 from load_ixrt_plugin import load_ixrt_plugin
@@ -38,9 +38,7 @@ load_ixrt_plugin(
 
 plg_registry = trt.get_plugin_registry()
 
-qkv2ctx_plg_creator = plg_registry.get_plugin_creator(
-    "CustomQKVToContextPluginDynamic_IxRT", "1", ""
-)
+# CustomQKVToContextPluginDynamic_IxRT removed; encoder uses builtin attention.
 skln_plg_creator = plg_registry.get_plugin_creator(
     "CustomSkipLayerNormPluginDynamic_IxRT", "1", ""
 )
@@ -60,9 +58,7 @@ top1_plg_creator = plg_registry.get_plugin_creator(
         "CustomArgmax_IxRT", "1"
     )
 
-ffn_plg_creator = plg_registry.get_plugin_creator("CustomFFNPluginDynamic_IxRT", "1", "")
-
-fc_plg_creator = plg_registry.get_plugin_creator("CustomFCPluginDynamic_IxRT", "1", "")
+# CustomFFNPluginDynamic_IxRT and CustomFCPluginDynamic_IxRT removed; replaced by builtins.
 
 def get_mha_dtype(config):
     dtype = trt.float32
@@ -74,7 +70,7 @@ def get_mha_dtype(config):
 
 
 def create_split_qkv_plugin(num_head,num_dim,index):
-
+    """Deprecated: SplitQKVUpdateKVCache_IxRT replaced by split_qkv_update_kv_cache()."""
     plugin_registry = tensorrt.get_plugin_registry()
     assert plugin_registry
 
@@ -95,6 +91,39 @@ def create_split_qkv_plugin(num_head,num_dim,index):
     plugin = plugin_creator.create_plugin(f"SplitQKVUpdateKVCache_IxRT_{index}", field_collection)
 
     return plugin
+
+
+def split_qkv_update_kv_cache(network, qkv, past_key, past_value, num_heads, head_size):
+    """Built-in Split + Concat, replaces SplitQKVUpdateKVCache_IxRT.
+
+    qkv: [B, 1, 3H] or [B, 1, 3H, 1, 1]
+    past_key / past_value: [B, num_heads, S-1, head_size]
+    returns:
+      q: [B, num_heads, 1, head_size]
+      present_key / present_value: [B, num_heads, S, head_size]
+    """
+    qkv_in = qkv
+    if len(qkv.shape) == 5:
+        sq = network.add_shuffle(qkv)
+        sq.reshape_dims = (0, 0, -1)
+        qkv_in = sq.get_output(0)
+
+    reshape_qkv = network.add_shuffle(qkv_in)
+    reshape_qkv.reshape_dims = (0, 0, 3, num_heads, head_size)
+
+    def extract(idx):
+        sel = network.add_constant((), np.array(idx, dtype=np.int32))
+        gathered = network.add_gather(reshape_qkv.get_output(0), sel.get_output(0), 2)
+        transposed = network.add_shuffle(gathered.get_output(0))
+        transposed.first_transpose = (0, 2, 1, 3)
+        return transposed.get_output(0)
+
+    q, k_new, v_new = extract(0), extract(1), extract(2)
+    cat_k = network.add_concatenation([past_key, k_new])
+    cat_k.axis = 2
+    cat_v = network.add_concatenation([past_value, v_new])
+    cat_v.axis = 2
+    return q, cat_k.get_output(0), cat_v.get_output(0)
 
 
 def create_encoder_emb_plugin(
@@ -156,19 +185,57 @@ def create_encoder_emb_plugin(
 
 
 def custom_fc(network, input_tensor, out_dims, W, B):
-    pf_out_dims = trt.PluginField("out_dims", np.array(out_dims, dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_W = trt.PluginField("W", W, trt.PluginFieldType.FLOAT32)
-    fields = [pf_out_dims, pf_type, pf_W]
-    if B is not None:
-        pf_B = trt.PluginField("B", B, trt.PluginFieldType.FLOAT32)
-        fields.append(pf_B)
+    """Built-in MatMul(+bias), replaces CustomFCPluginDynamic_IxRT.
+    Handles 3D [B,S,H] and 5D [B,S,H,1,1] inputs (the plugin's convention).
+    """
+    rank = len(input_tensor.shape)
 
-    pfc = trt.PluginFieldCollection(fields)
-    fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
-    plug_inputs = [input_tensor]
-    out_dense = network.add_plugin_v2(plug_inputs, fc_plugin)
-    return out_dense          
+    if rank == 5:
+        squeeze = network.add_shuffle(input_tensor)
+        squeeze.reshape_dims = (0, 0, -1)
+        in_3d = squeeze.get_output(0)
+    else:
+        in_3d = input_tensor
+
+    k = int(in_3d.shape[-1])
+
+    flatten = network.add_shuffle(in_3d)
+    flatten.reshape_dims = (-1, k)
+    mm_input = flatten.get_output(0)
+
+    weight = np.ascontiguousarray(W).reshape(out_dims, k).astype(np.float16)
+    weight_const = network.add_constant((out_dims, k), weight)
+    out_dense = network.add_matrix_multiply(
+        mm_input,
+        trt.MatrixOperation.NONE,
+        weight_const.get_output(0),
+        trt.MatrixOperation.TRANSPOSE,
+    )
+    if B is not None:
+        bias = np.ascontiguousarray(B).reshape(1, out_dims).astype(np.float16)
+        bias_const = network.add_constant((1, out_dims), bias)
+        out_dense = network.add_elementwise(
+            out_dense.get_output(0),
+            bias_const.get_output(0),
+            trt.ElementWiseOperation.SUM,
+        )
+
+    in_shape = network.add_shape(in_3d).get_output(0)
+    leading_idx = network.add_constant((2,), np.array([0, 1], dtype=np.int32)).get_output(0)
+    leading = network.add_gather_v2(in_shape, leading_idx, mode=trt.GatherMode.DEFAULT)
+    leading.axis = 0
+    out_dim_shape = network.add_constant((1,), np.array([out_dims], dtype=np.int32)).get_output(0)
+    new_shape = network.add_concatenation([leading.get_output(0), out_dim_shape])
+    new_shape.axis = 0
+    unflatten = network.add_shuffle(out_dense.get_output(0))
+    unflatten.set_input(1, new_shape.get_output(0))
+
+    if rank == 5:
+        unsqueeze = network.add_shuffle(unflatten.get_output(0))
+        unsqueeze.reshape_dims = (0, 0, out_dims, 1, 1)
+        return unsqueeze
+
+    return unflatten          
  
  
  
@@ -181,7 +248,7 @@ def create_encoder_attention_plugin():
    assert plugin_creator
    type_id_field = tensorrt.PluginField(
        "type_id",
-       np.array([2], dtype=np.int32),
+       np.array([1], dtype=np.int32),
        tensorrt.PluginFieldType.INT32,
    )
    has_mask_field = tensorrt.PluginField(
@@ -192,7 +259,7 @@ def create_encoder_attention_plugin():
    
    mask_type_field = tensorrt.PluginField(
        "type_mask",
-       np.array([4], dtype=np.int32),
+       np.array([3], dtype=np.int32),
        tensorrt.PluginFieldType.INT32,
    )
    
@@ -211,7 +278,7 @@ def encoder_self_attention_layer(
     block, layer_index, config, init_dict, network, input_tensor, imask=None
 ):
     """
-    Add the attention layer
+    Add the encoder self-attention layer (builtin add_attention_v2).
     """
 
     B, S, hidden_size, _, _ = input_tensor.shape
@@ -225,42 +292,53 @@ def encoder_self_attention_layer(
         f"{block}.layers.{layer_index}.self_attn.qkv_proj.bias"
     ]
 
-    # q_proj,k_proj,v_proj
-    # to_qkv = network.add_fully_connected(
-    #     input_tensor,
-    #     3 * hidden_size,
-    #     self_attn_qkv_proj_weight,
-    #     self_attn_qkv_proj_bias,
-    # )
-    
     to_qkv = custom_fc(network, input_tensor, 3 * hidden_size, self_attn_qkv_proj_weight, self_attn_qkv_proj_bias)
 
-    has_mask = imask is not None
-    # QKV2CTX
-    pf_type = trt.PluginField(
-        "type_id",
-        np.array([get_mha_dtype(config)], np.int32),
-        trt.PluginFieldType.INT32,
-    )
-    pf_hidden_size = trt.PluginField(
-        "hidden_size", np.array([hidden_size], np.int32), trt.PluginFieldType.INT32
-    )
-    pf_num_heads = trt.PluginField(
-        "num_heads", np.array([num_heads], np.int32), trt.PluginFieldType.INT32
-    )
-    pf_has_mask = trt.PluginField(
-        "has_mask", np.array([has_mask], np.int32), trt.PluginFieldType.INT32
-    )
-    pfc = trt.PluginFieldCollection(
-        [pf_hidden_size, pf_num_heads, pf_has_mask, pf_type]
-    )
-    qkv2ctx_plug = qkv2ctx_plg_creator.create_plugin("qkv2ctx", pfc)
+    # CustomFC outputs 5D [B,S,3H,1,1]; squeeze to 3D for the builtin attention path.
+    squeeze = network.add_shuffle(to_qkv.get_output(0))
+    squeeze.reshape_dims = (0, 0, 3 * hidden_size)
+    packed_3d = squeeze.get_output(0)
 
-    qkv_in = [to_qkv.get_output(0)]
+    # reshape -> gather -> transpose -> attention_v2 -> collapse (same as BERT fp16).
+    reshape_qkv = network.add_shuffle(packed_3d)
+    reshape_qkv.reshape_dims = (0, 0, 3, num_heads, head_size)
+
+    def extract(idx):
+        sel = network.add_constant((), np.array(idx, dtype=np.int32))
+        gathered = network.add_gather(reshape_qkv.get_output(0), sel.get_output(0), 2)
+        transposed = network.add_shuffle(gathered.get_output(0))
+        transposed.first_transpose = (0, 2, 1, 3)
+        return transposed.get_output(0)
+
+    q = extract(0)
+    k = extract(1)
+    v = extract(2)
+
+    scale = np.array(1.0 / np.sqrt(head_size), dtype=np.float16).reshape(1, 1, 1, 1)
+    scale_const = network.add_constant((1, 1, 1, 1), scale)
+    q_scaled = network.add_elementwise(q, scale_const.get_output(0), trt.ElementWiseOperation.PROD)
+
+    attn = network.add_attention_v2(
+        q_scaled.get_output(0), k, v,
+        trt.AttentionNormalizationOp.SOFTMAX, trt.CausalMaskKind.NONE,
+    )
+
+    has_mask = imask is not None
     if has_mask:
-        qkv_in.append(imask)
-    qkv2ctx = network.add_plugin_v2(qkv_in, qkv2ctx_plug)
-    return qkv2ctx
+        mask_reshape = network.add_shuffle(imask)
+        mask_reshape.reshape_dims = (0, 1, 1, -1)
+        attn.mask = mask_reshape.get_output(0)
+
+    # Collapse: (B,H,S,D) -> (B,S,H,D) -> (B,S,hidden)
+    ctx_transpose = network.add_shuffle(attn.get_output(0))
+    ctx_transpose.first_transpose = (0, 2, 1, 3)
+    ctx = network.add_shuffle(ctx_transpose.get_output(0))
+    ctx.reshape_dims = (0, 0, hidden_size)
+
+    # Unsqueeze back to 5D [B,S,H,1,1] for downstream CustomFC plugin.
+    unsqueeze = network.add_shuffle(ctx.get_output(0))
+    unsqueeze.reshape_dims = (0, 0, hidden_size, 1, 1)
+    return unsqueeze
 
 def skipln(
     block, layer_index, name, config, init_dict, network, input_tensor, skip, bias=None
@@ -304,41 +382,17 @@ def skipln(
     return layer
 
 def ffn(block, layer_index, config, init_dict, network, input_tensor):
-
+    # Built-in FC1 + RELU + FC2, replaces CustomFFNPluginDynamic_IxRT.
     fc1_weight = init_dict[f"{block}.layers.{layer_index}.fc1.weight"]
     fc1_bias = init_dict[f"{block}.layers.{layer_index}.fc1.bias"]
 
-    # mid_dense = network.add_fully_connected(
-    #     input_tensor, config.intermediate_size, fc1_weight, fc1_bias
-    # )
-    # mid_dense = custom_fc(network, input_tensor, config.intermediate_size, fc1_weight, fc1_bias)
-    
-
-    # relu_inputs = mid_dense.get_output(0)
-    # relu_layer = network.add_activation(relu_inputs, tensorrt.ActivationType.RELU)
-
-    # intermediate_act = relu_layer.get_output(0)
-
     fc2_weight = init_dict[f"{block}.layers.{layer_index}.fc2.weight"]
     fc2_bias = init_dict[f"{block}.layers.{layer_index}.fc2.bias"]
-    # out_dense = network.add_fully_connected(
-    #     intermediate_act, config.hidden_size, fc2_weight, fc2_bias
-    # )
-    # out_dense = custom_fc(network, intermediate_act, config.hidden_size, fc2_weight, fc2_bias)
-    
-    
-    pf_out_dim = trt.PluginField("out_dims", np.array(config.hidden_size, np.int32), trt.PluginFieldType.INT32)
-    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), np.int32), trt.PluginFieldType.INT32)
-    pf_W1 = trt.PluginField("W1", fc1_weight, trt.PluginFieldType.FLOAT32)
-    pf_B1 = trt.PluginField("B1", fc1_bias, trt.PluginFieldType.FLOAT32)
-    pf_W2 = trt.PluginField("W2", fc2_weight, trt.PluginFieldType.FLOAT32)
-    pf_act_type = trt.PluginField("act_type", np.array(int(4), np.int32), trt.PluginFieldType.INT32) #RELU=4
-    pfc = trt.PluginFieldCollection([pf_out_dim, pf_type, pf_W1, pf_W2, pf_B1, pf_act_type])
-    ffn_plug = ffn_plg_creator.create_plugin("ffn", pfc)
 
-    ffn_inputs = [input_tensor]
-    out_dense = network.add_plugin_v2(ffn_inputs, ffn_plug)
-    
+    mid_dense = custom_fc(network, input_tensor, config.intermediate_size, fc1_weight, fc1_bias)
+    relu_layer = network.add_activation(mid_dense.get_output(0), tensorrt.ActivationType.RELU)
+    out_dense = custom_fc(network, relu_layer.get_output(0), config.hidden_size, fc2_weight, None)
+
     out_layer = skipln(
         block,
         layer_index,
@@ -473,7 +527,7 @@ def create_decoder_self_attention_plugin():
 
     type_id_field = tensorrt.PluginField(
         "type_id",
-        np.array([2], dtype=np.int32),
+        np.array([1], dtype=np.int32),
         tensorrt.PluginFieldType.INT32,
     )
 
@@ -485,7 +539,7 @@ def create_decoder_self_attention_plugin():
     
     mask_type_field = tensorrt.PluginField(
        "type_mask",
-       np.array([4], dtype=np.int32),
+       np.array([3], dtype=np.int32),
        tensorrt.PluginFieldType.INT32,
    )
    
@@ -515,7 +569,7 @@ def create_cross_attention_plugin():
 
     type_id_field = tensorrt.PluginField(
         "type_id",
-        np.array([2], dtype=np.int32),
+        np.array([1], dtype=np.int32),
         tensorrt.PluginFieldType.INT32,
     )
 
@@ -527,7 +581,7 @@ def create_cross_attention_plugin():
     
     mask_type_field = tensorrt.PluginField(
        "type_mask",
-       np.array([4], dtype=np.int32),
+       np.array([3], dtype=np.int32),
        tensorrt.PluginFieldType.INT32,
    )
    
@@ -778,21 +832,17 @@ def decoder_self_attention_layer(
     to_qkv_layer_bias = init_dict[f"{block}.layers.{layer_index}.self_attn.qkv_proj.bias"]
 
     to_qkv_layer = custom_fc(network, input_tensor, 3*config.hidden_size, to_qkv_layer_weight, to_qkv_layer_bias)
-        
-    linear_qkv_output = to_qkv_layer.get_output(0)
-    reshape_qkv_layer = network.add_shuffle(linear_qkv_output)
-    reshape_qkv_layer.reshape_dims = trt.Dims(
-        [0, 0, 0]
+
+    # Built-in Split(QKV) + Concat(past, new), replaces SplitQKVUpdateKVCache_IxRT
+    input_q, present_key, present_value = split_qkv_update_kv_cache(
+        network,
+        to_qkv_layer.get_output(0),
+        kv_cache_inputs[f"past_key_values.{layer_index}.decoder.key"],
+        kv_cache_inputs[f"past_key_values.{layer_index}.decoder.value"],
+        config.num_attention_heads,
+        config.head_size,
     )
-    
-    split_qkv_plugin = create_split_qkv_plugin(config.num_attention_heads,config.head_size,layer_index)
-    split_qkv_layers = network.add_plugin_v2([reshape_qkv_layer.get_output(0), kv_cache_inputs[f"past_key_values.{layer_index}.decoder.key"],
-                                                kv_cache_inputs[f"past_key_values.{layer_index}.decoder.value"]], split_qkv_plugin)
-        
-    input_q = split_qkv_layers.get_output(0)
-    present_key = split_qkv_layers.get_output(1)
-    present_value = split_qkv_layers.get_output(2)
-    
+
     attention_plug = create_decoder_self_attention_plugin()
     atten = network.add_plugin_v2([input_q, present_key, present_value], attention_plug)
     

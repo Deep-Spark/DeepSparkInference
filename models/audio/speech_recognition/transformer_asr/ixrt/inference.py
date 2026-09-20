@@ -57,11 +57,16 @@ class ASR(sb.core.Brain):
         self.forward_time = 0
         # ixrt
         self.logger = tensorrt.Logger(tensorrt.Logger.ERROR)
-        with open(engine_path, "rb") as f, tensorrt.Runtime(self.logger) as self.runtime:
-            self.engine = self.runtime.deserialize_cuda_engine(f.read())
-            assert self.engine
-            self.context = self.engine.create_execution_context()
-            assert self.context
+        # Keep Runtime/Engine/Context alive for the whole ASR lifetime.
+        # Do not use context managers here — exiting them can free the Runtime
+        # while Engine/Context are still referenced, causing segfaults on execute.
+        with open(engine_path, "rb") as f:
+            engine_bytes = f.read()
+        self.runtime = tensorrt.Runtime(self.logger)
+        self.engine = self.runtime.deserialize_cuda_engine(engine_bytes)
+        assert self.engine
+        self.context = self.engine.create_execution_context()
+        assert self.context
         self.encoder_ln_out = torch.zeros((64,2048,256), dtype=torch.float16).cuda()
         self.infer_time = 0
         self.hparams.valid_search.return_log_probs = True

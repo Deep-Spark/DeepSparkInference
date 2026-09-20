@@ -54,11 +54,7 @@ plg_registry = trt.get_plugin_registry()
 registry_list = plg_registry.plugin_creator_list
 print("registry_list: ", [registry.name + '/' + registry.plugin_version for registry in registry_list])
 emln_plg_creator = plg_registry.get_plugin_creator("CustomEmbLayerNormPluginDynamic_IxRT", "1", "")
-qkv2_plg_creator = plg_registry.get_plugin_creator("CustomQKVToContextPluginDynamic_IxRT", "1", "")
 skln_plg_creator = plg_registry.get_plugin_creator("CustomSkipLayerNormPluginDynamic_IxRT", "1", "")
-ffn_plg_creator = plg_registry.get_plugin_creator("CustomFFNPluginDynamic_IxRT", "1", "")
-gelu_plg_creator = plg_registry.get_plugin_creator("CustomGeluPluginDynamic_IxRT", "1", "")
-fc_plg_creator = plg_registry.get_plugin_creator("CustomFCPluginDynamic_IxRT", "1", "")
 
 class BertConfig:
     def __init__(self, bert_config_path, use_fp16, use_trt):
@@ -88,19 +84,89 @@ def get_mha_dtype(config):
     return int(dtype)
 
 def custom_fc(network, input_tensor, out_dims, W, B):
-    pf_out_dims = trt.PluginField("out_dims", np.array(out_dims, dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), dtype=np.int32), trt.PluginFieldType.INT32)
-    pf_W = trt.PluginField("W", W, trt.PluginFieldType.FLOAT32)
-    fields = [pf_out_dims, pf_type, pf_W]
-    if B is not None:
-        pf_B = trt.PluginField("B", B, trt.PluginFieldType.FLOAT32)
-        fields.append(pf_B)
+    """Built-in MatMul(+bias), replaces CustomFCPluginDynamic_IxRT."""
+    rank = len(input_tensor.shape)
+    k = int(input_tensor.shape[-1])
 
-    pfc = trt.PluginFieldCollection(fields)
-    fc_plugin = fc_plg_creator.create_plugin("fcplugin", pfc)
-    plug_inputs = [input_tensor]
-    out_dense = network.add_plugin_v2(plug_inputs, fc_plugin)
+    if rank > 2:
+        flatten = network.add_shuffle(input_tensor)
+        flatten.reshape_dims = (-1, k)
+        mm_input = flatten.get_output(0)
+    else:
+        mm_input = input_tensor
+
+    weight = np.ascontiguousarray(W).reshape(out_dims, k).astype(np.float16)
+    weight_const = network.add_constant((out_dims, k), weight)
+    out_dense = network.add_matrix_multiply(
+        mm_input,
+        trt.MatrixOperation.NONE,
+        weight_const.get_output(0),
+        trt.MatrixOperation.TRANSPOSE,
+    )
+    if B is not None:
+        bias = np.ascontiguousarray(B).reshape(1, out_dims).astype(np.float16)
+        bias_const = network.add_constant((1, out_dims), bias)
+        out_dense = network.add_elementwise(
+            out_dense.get_output(0),
+            bias_const.get_output(0),
+            trt.ElementWiseOperation.SUM,
+        )
+    if rank > 2:
+        in_shape = network.add_shape(input_tensor).get_output(0)
+        leading_idx = network.add_constant(
+            (rank - 1,), np.arange(rank - 1, dtype=np.int32)
+        ).get_output(0)
+        leading = network.add_gather_v2(
+            in_shape, leading_idx, mode=trt.GatherMode.DEFAULT
+        )
+        leading.axis = 0
+        out_dim_shape = network.add_constant(
+            (1,), np.array([out_dims], dtype=np.int32)
+        ).get_output(0)
+        new_shape = network.add_concatenation([leading.get_output(0), out_dim_shape])
+        new_shape.axis = 0
+        unflatten = network.add_shuffle(out_dense.get_output(0))
+        unflatten.set_input(1, new_shape.get_output(0))
+        out_dense = unflatten
     return out_dense
+
+def qkv_to_ctx(network, qkv, num_heads, head_size, hidden_size, imask):
+    """Built-in add_attention_v2, replaces CustomQKVToContextPluginDynamic_IxRT (fp16)."""
+    reshape_qkv = network.add_shuffle(qkv)
+    reshape_qkv.reshape_dims = (0, 0, 3, num_heads, head_size)
+
+    def extract(idx):
+        sel = network.add_constant((), np.array(idx, dtype=np.int32))
+        gathered = network.add_gather(reshape_qkv.get_output(0), sel.get_output(0), 2)
+        transposed = network.add_shuffle(gathered.get_output(0))
+        transposed.first_transpose = (0, 2, 1, 3)
+        return transposed.get_output(0)
+
+    q = extract(0)
+    k = extract(1)
+    v = extract(2)
+    scale = np.array(1.0 / np.sqrt(head_size), dtype=np.float16).reshape(1, 1, 1, 1)
+    scale_const = network.add_constant((1, 1, 1, 1), scale)
+    q_scaled = network.add_elementwise(
+        q, scale_const.get_output(0), trt.ElementWiseOperation.PROD
+    )
+    attn = network.add_attention_v2(
+        q_scaled.get_output(0),
+        k,
+        v,
+        trt.AttentionNormalizationOp.SOFTMAX,
+        trt.CausalMaskKind.NONE,
+    )
+    if imask is not None:
+        mask_reshape = network.add_shuffle(imask)
+        mask_reshape.reshape_dims = (0, 1, 1, -1)
+        attn.mask = mask_reshape.get_output(0)
+    ctx_transpose = network.add_shuffle(attn.get_output(0))
+    ctx_transpose.first_transpose = (0, 2, 1, 3)
+    ctx = network.add_shuffle(ctx_transpose.get_output(0))
+    ctx.reshape_dims = (0, 0, hidden_size)
+    return ctx
+
 
 def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask):
     """
@@ -113,23 +179,10 @@ def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask)
     Wall = init_dict[prefix + WQKV]
     Ball = init_dict[prefix + BQKV]
 
-    # FC_attention
     mult_all = custom_fc(network, input_tensor, 3 * hidden_size, Wall, Ball)
-
-    has_mask = imask is not None
-    # QKV2CTX
-    pf_type = trt.PluginField("type_id", np.array([get_mha_dtype(config)], np.int32), trt.PluginFieldType.INT32)
-    pf_hidden_size = trt.PluginField("hidden_size", np.array([hidden_size], np.int32), trt.PluginFieldType.INT32)
-    pf_num_heads = trt.PluginField("num_heads", np.array([num_heads], np.int32), trt.PluginFieldType.INT32)
-    pf_has_mask = trt.PluginField("has_mask", np.array([has_mask], np.int32), trt.PluginFieldType.INT32)
-    pfc = trt.PluginFieldCollection([pf_hidden_size, pf_num_heads, pf_has_mask, pf_type])
-    qkv2ctx_plug = qkv2_plg_creator.create_plugin("qkv2ctx", pfc)
-
-    qkv_in = [mult_all.get_output(0)]
-    if has_mask:
-        qkv_in.append(imask)
-    qkv2ctx = network.add_plugin_v2(qkv_in, qkv2ctx_plug)
-    return qkv2ctx
+    return qkv_to_ctx(
+        network, mult_all.get_output(0), num_heads, head_size, hidden_size, imask
+    )
 
 
 def skipln(prefix, config, init_dict, network, input_tensor, skip, bias=None):
@@ -164,27 +217,13 @@ def skipln(prefix, config, init_dict, network, input_tensor, skip, bias=None):
     return layer
 
 def ffn_trt(prefix, config, init_dict, network, input_tensor):
-     # FC1 + GELU
+     # FC1 + GELU (built-in), replaces CustomGeluPluginDynamic_IxRT
     B_mid = init_dict[prefix + B_MID]
     W_mid = init_dict[prefix + W_MID]
     mid_dense = network.add_fully_connected(input_tensor, config.intermediate_size, W_mid, B_mid)
-
-    dtype = trt.float32
-    if config.use_fp16:
-        dtype = trt.float16
-    pf_type = trt.PluginField("type_id", np.array([int(dtype)], np.int32), trt.PluginFieldType.INT32)
-    pf_ld = trt.PluginField("ld", np.array([config.hidden_size], np.int32), trt.PluginFieldType.INT32)
-
-    pfc = trt.PluginFieldCollection([pf_type, pf_ld])
-    gelu_plug = gelu_plg_creator.create_plugin("gelu", pfc)
-
-    gelu_inputs = [mid_dense.get_output(0)]
-    gelu_layer = network.add_plugin_v2(gelu_inputs, gelu_plug)
-
+    gelu_layer = network.add_activation(mid_dense.get_output(0), trt.ActivationType.GELU_TANH)
     intermediate_act = gelu_layer.get_output(0)
 
-    # FC2
-    # Dense to hidden size
     B_lout = init_dict[prefix + B_LOUT]
     W_lout = init_dict[prefix + W_LOUT]
     out_dense = network.add_fully_connected(intermediate_act, config.hidden_size, W_lout, B_lout)
@@ -194,24 +233,16 @@ def ffn_trt(prefix, config, init_dict, network, input_tensor):
     return out_layer
 
 def ffn(prefix, config, init_dict, network, input_tensor):
-    # FC1 + GELU
+    # Built-in FC1 + GELU_TANH + FC2, replaces CustomFFNPluginDynamic_IxRT
     B_mid = init_dict[prefix + B_MID]
     W_mid = init_dict[prefix + W_MID]
     B_lout = init_dict[prefix + B_LOUT]
     W_lout = init_dict[prefix + W_LOUT]
-    pf_out_dim = trt.PluginField("out_dims", np.array(config.hidden_size, np.int32), trt.PluginFieldType.INT32)
-    pf_type = trt.PluginField("type_id", np.array(int(trt.float16), np.int32), trt.PluginFieldType.INT32)
-    pf_W1 = trt.PluginField("W1", W_mid, trt.PluginFieldType.FLOAT32)
-    pf_W2 = trt.PluginField("W2", W_lout, trt.PluginFieldType.FLOAT32)
-    pf_B1 = trt.PluginField("B1", B_mid, trt.PluginFieldType.FLOAT32)
-    pf_act_type = trt.PluginField("act_type", np.array(int(3), np.int32), trt.PluginFieldType.INT32)
-    pfc = trt.PluginFieldCollection([pf_out_dim, pf_type, pf_W1, pf_W2, pf_B1, pf_act_type])
-    ffn_plug = ffn_plg_creator.create_plugin("ffn", pfc)
 
-    ffn_inputs = [input_tensor]
-    ffn_layer = network.add_plugin_v2(ffn_inputs, ffn_plug)
-
-    out_layer = skipln(prefix + "output_layernorm_", config, init_dict, network, ffn_layer.get_output(0), input_tensor, B_lout)
+    mid_dense = custom_fc(network, input_tensor, config.intermediate_size, W_mid, B_mid)
+    gelu_layer = network.add_activation(mid_dense.get_output(0), trt.ActivationType.GELU_TANH)
+    out_dense = custom_fc(network, gelu_layer.get_output(0), config.hidden_size, W_lout, None)
+    out_layer = skipln(prefix + "output_layernorm_", config, init_dict, network, out_dense.get_output(0), input_tensor, B_lout)
     return out_layer
 
 def transformer_layer_opt(prefix, config, init_dict, network, input_tensor, imask):
