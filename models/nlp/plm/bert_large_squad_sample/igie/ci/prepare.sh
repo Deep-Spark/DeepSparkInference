@@ -23,7 +23,8 @@ ln -s /mnt/deepspark/data/datasets/squad ./data/datasets/bert_large_squad/
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
-    apt install numactl
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq && apt-get install -y --no-install-recommends numactl || exit 1
 elif [[ ${ID} == "centos" ]]; then
     yum install -y numactl
 else

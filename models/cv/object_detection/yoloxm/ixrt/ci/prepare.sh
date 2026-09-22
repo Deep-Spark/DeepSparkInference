@@ -18,7 +18,8 @@ set -x
 
 ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
 if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y numactl
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq && apt-get install -y --no-install-recommends numactl || exit 1
 elif [[ ${ID} == "centos" ]]; then
     yum install -y numactl
 else
