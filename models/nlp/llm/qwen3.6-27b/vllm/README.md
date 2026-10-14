@@ -44,7 +44,8 @@ python3 offline_inference.py \
   --model ./data/qwen3/Qwen3.6-27B \
   --max-tokens 256 -tp 4 \
   --trust-remote-code --temperature 0.0 \
-  --max-model-len 4096
+  --max-model-len 4096 \
+  --enforce-eager
 ```
 
 #### Starting Server
@@ -58,6 +59,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --max-model-len 40960 \
   --gpu-memory-utilization 0.9 \
   --reasoning-parser qwen3 \
+  --enforce-eager \
   --port 8000
 ```
 
@@ -83,6 +85,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --max-model-len 40960 \
   --gpu-memory-utilization 0.9 \
   --reasoning-parser qwen3 \
+  --enforce-eager \
   --port 8000
 ```
 
@@ -117,7 +120,8 @@ vllm bench throughput \
   --trust-remote-code \
   --tensor-parallel-size 4 \
   --max-model-len 4096 \
-  --gpu-memory-utilization 0.9
+  --gpu-memory-utilization 0.9 \
+  --enforce-eager
 ```
 
 ```bash
@@ -130,7 +134,8 @@ vllm bench throughput \
   --trust-remote-code \
   --tensor-parallel-size 4 \
   --max-model-len 4096 \
-  --gpu-memory-utilization 0.9
+  --gpu-memory-utilization 0.9 \
+  --enforce-eager
 ```
 
 ### Benchmarking Results
@@ -150,7 +155,7 @@ Horizontal comparison under the same environment and load:
 
 ## References
 
-- [Qwen3.5](https://github.com/QwenLM/Qwen3.5)
+- [Qwen3.6](https://github.com/QwenLM/Qwen3.6)
 - [vLLM](https://github.com/vllm-project/vllm)
 - [compressed-tensors](https://github.com/neuralmagic/compressed-tensors)
 - [DeepSparkInference · Qwen3-8B](https://gitee.com/deep-spark/deepsparkinference/tree/master/models/nlp/llm/qwen3-8b/vllm)

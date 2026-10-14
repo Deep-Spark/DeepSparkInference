@@ -44,7 +44,8 @@ python3 offline_inference.py \
   --model ./data/qwen3/Qwen3.5-27B \
   --max-tokens 256 -tp 4 \
   --trust-remote-code --temperature 0.0 \
-  --max-model-len 4096
+  --max-model-len 4096 \
+  --enforce-eager
 ```
 
 #### Starting Server
@@ -58,6 +59,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --max-model-len 40960 \
   --gpu-memory-utilization 0.9 \
   --reasoning-parser qwen3 \
+  --enforce-eager \
   --port 8000
 ```
 
@@ -83,6 +85,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --max-model-len 40960 \
   --gpu-memory-utilization 0.9 \
   --reasoning-parser qwen3 \
+  --enforce-eager \
   --port 8000
 ```
 
@@ -118,7 +121,8 @@ vllm bench throughput \
   --trust-remote-code \
   --tensor-parallel-size 4 \
   --max-model-len 4096 \
-  --gpu-memory-utilization 0.9
+  --gpu-memory-utilization 0.9 \
+  --enforce-eager
 ```
 
 ```bash
@@ -131,7 +135,8 @@ vllm bench throughput \
   --trust-remote-code \
   --tensor-parallel-size 4 \
   --max-model-len 4096 \
-  --gpu-memory-utilization 0.9
+  --gpu-memory-utilization 0.9 \
+  --enforce-eager
 ```
 
 ### Benchmarking Results
