@@ -146,7 +146,7 @@ def _offline_distill_cmd(model_name: str) -> str:
     tp = _DISTILL_LLM_TP[model_name]
     return (
         f"python3 offline_inference.py --model ./{model_name} "
-        f"--max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096"
+        f"--max-tokens 256 -tp {tp} --temperature 0.0 --max-model-len 3096 --enforce-eager"
     )
 
 def _build_inference_script(model: Dict[str, Any], prec: str) -> str:

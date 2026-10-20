@@ -44,7 +44,7 @@ apt install -y libgl1-mesa-glx
 ### Inference with offline
 
 ```bash
-python3 offline_inference.py --model ./data/DeepSeek-R1-Distill-Qwen-32B --max-tokens 256 -tp 4 --temperature 0.0 --max-model-len 3096
+python3 offline_inference.py --model ./data/DeepSeek-R1-Distill-Qwen-32B --max-tokens 256 -tp 4 --temperature 0.0 --max-model-len 3096 --enforce-eager
 ```
 
 ### Inference with serve
