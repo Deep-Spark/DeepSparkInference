@@ -285,7 +285,7 @@ inference to be expanded in the future.
 |            | INT8  | [✅](models/cv/object_detection/yolov12n/igie)     |                                                   | 4.3.0     |
 | YOLOv13n   | FP16  | [✅](models/cv/object_detection/yolov13n/igie)    | [✅](models/cv/object_detection/yolov13n/ixrt)    | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yolov13n/igie)     |                                                   | 4.3.0     |
-| YOLOv26n   | FP16  | [✅](models/cv/object_detection/yolov26n/igie)    |                                                   | 4.4.0     |
+| YOLO26n    | FP16  | [✅](models/cv/object_detection/yolo26n/igie)    |                                                   | 4.4.0     |
 | YOLOXm     | FP16  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
 |            | INT8  | [✅](models/cv/object_detection/yoloxm/igie)      | [✅](models/cv/object_detection/yoloxm/ixrt)      | 4.3.0     |
 

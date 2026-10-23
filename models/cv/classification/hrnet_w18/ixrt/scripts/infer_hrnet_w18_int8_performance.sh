@@ -22,7 +22,7 @@ check_status()
 }
 
 # Run paraments
-BSZ=32
+BSZ=1
 TGT=-1
 WARM_UP=3
 LOOP_COUNT=20
@@ -87,7 +87,7 @@ if [ $PRECISION == "int8" ];then
             --input ${SIM_MODEL}                        \
             --model_name ${MODEL_NAME}                  \
             --calibration_dir ${DATASETS_DIR}           \
-            --batch_size 32                             \
+            --batch_size ${BSZ}                          \
             --save_dir $CHECKPOINTS_DIR
         SIM_MODEL=${QUANT_EXIST_ONNX}
         echo "  "Generate ${SIM_MODEL}

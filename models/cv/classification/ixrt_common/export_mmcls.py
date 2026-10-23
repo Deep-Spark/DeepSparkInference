@@ -76,6 +76,10 @@ def main():
     output_names = ['output']
     dummy_input = torch.randn(32, 3, 224, 224)
 
+    # Fix OOM for hrnet-w18 model quantization export, set batch size to 1
+    if args.weight.startswith("hrnet-w18"):
+        dummy_input = torch.randn(1, 3, 224, 224)
+
     torch.onnx.export(
         model, 
         dummy_input, 

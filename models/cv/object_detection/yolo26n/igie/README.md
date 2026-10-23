@@ -1,4 +1,4 @@
-# YOLOv26n (IGIE)
+# YOLO26n (IGIE)
 
 ## Model Description
 
@@ -80,17 +80,17 @@ export DATASETS_DIR=/Path/to/coco/
 
 ```bash
 # Accuracy
-bash scripts/infer_yolov26n_fp16_accuracy.sh
+bash scripts/infer_yolo26n_fp16_accuracy.sh
 # Performance
-bash scripts/infer_yolov26n_fp16_performance.sh
+bash scripts/infer_yolo26n_fp16_performance.sh
 ```
 
 ## Model Results
 
 | Model    | BatchSize | Precision | FPS     | IOU@0.5 | IOU@0.5:0.95 |
 | -------- | --------- | --------- | ------- | ------- | ------------ |
-| YOLOv26n | 32        | FP16      | 1344.11 |  0.558  | 0.402        |
+| YOLO26n | 32        | FP16      | 1344.11 |  0.558  | 0.402        |
 
 ## References
 
-- [YOLOv26](https://github.com/ultralytics/ultralytics)
+- [YOLO26](https://github.com/ultralytics/ultralytics)

@@ -16,17 +16,8 @@
 
 set -x
 
-ID=$(grep -oP '(?<=^ID=).+' /etc/os-release | tr -d '"')
-if [[ ${ID} == "ubuntu" ]]; then
-    apt install -y libgl1-mesa-glx
-elif [[ ${ID} == "centos" ]]; then
-    yum install -y mesa-libGL
-else
-    echo "Not Support Os"
-fi
-
 pip install -r ../../ixrt_common/requirements.txt
 
 mkdir checkpoints
 # python3 ../../ixrt_common/export.py --model-name efficientnet_b1 --weight efficientnet_b1-c27df63c.pth --output checkpoints/efficientnet_b1.onnx
-ln -s /mnt/deepspark/data/checkpoints/efficientnet_b1.onnx checkpoints/efficientnet_b1.onnx
+ln -s /root/data/checkpoints/efficientnet_b1.onnx checkpoints/efficientnet_b1.onnx

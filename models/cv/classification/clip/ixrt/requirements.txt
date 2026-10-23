@@ -1,4 +1,3 @@
 tqdm
 onnxsim
-transformers
 optimum[onnx]
