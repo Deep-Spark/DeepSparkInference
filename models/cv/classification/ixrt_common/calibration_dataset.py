@@ -178,9 +178,9 @@ def create_dataloaders(data_path, num_samples=1024, img_sz=224, batch_size=2, wo
 
 
 def getdataloader(dataset_dir, step=20, batch_size=32, workers=2, img_sz=224, total_sample=50000, drop_last=False):
-    # step < 0 时使用全量数据（num_samples=None），否则直接使用 total_sample，
-    # 不再做 min(total_sample, step*batch_size) 截断，确保 --num_samples 真实控制校准样本数。
-    num_samples = None if step < 0 else total_sample
+    num_samples = min(total_sample, step * batch_size)
+    if step < 0:
+        num_samples = None
     calibration_dataloader, _ = create_dataloaders(
         dataset_dir,
         img_sz=img_sz,

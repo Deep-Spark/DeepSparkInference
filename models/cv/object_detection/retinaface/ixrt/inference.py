@@ -141,22 +141,23 @@ def main(config):
 
     elif config.test_mode == "ACC":
 
-        ## Prepare the output data
+        ## Prepare the output data.
+        # forward() emits bbox, cls, landmark interleaved on each FPN level.
         bbox_out0 = np.zeros(outputs[0]["shape"], outputs[0]["dtype"])
         print(f"bbox_out0 shape : {bbox_out0.shape} bbox_out0 type : {bbox_out0.dtype}")
-        bbox_out1 = np.zeros(outputs[1]["shape"], outputs[1]["dtype"])
+        bbox_out1 = np.zeros(outputs[3]["shape"], outputs[3]["dtype"])
         print(f"bbox_out1 shape : {bbox_out1.shape} bbox_out1 type : {bbox_out1.dtype}")
-        bbox_out2 = np.zeros(outputs[2]["shape"], outputs[2]["dtype"])
+        bbox_out2 = np.zeros(outputs[6]["shape"], outputs[6]["dtype"])
         print(f"bbox_out2 shape : {bbox_out2.shape} bbox_out2 type : {bbox_out2.dtype}")
-        cls_out0 = np.zeros(outputs[3]["shape"], outputs[3]["dtype"])
+        cls_out0 = np.zeros(outputs[1]["shape"], outputs[1]["dtype"])
         print(f"cls_out0 shape : {cls_out0.shape} cls_out0 type : {cls_out0.dtype}")
         cls_out1 = np.zeros(outputs[4]["shape"], outputs[4]["dtype"])
         print(f"cls_out1 shape : {cls_out1.shape} cls_out1 type : {cls_out1.dtype}")
-        cls_out2 = np.zeros(outputs[5]["shape"], outputs[5]["dtype"])
+        cls_out2 = np.zeros(outputs[7]["shape"], outputs[7]["dtype"])
         print(f"cls_out2 shape : {cls_out2.shape} cls_out2 type : {cls_out2.dtype}")
-        ldm_out0 = np.zeros(outputs[6]["shape"], outputs[6]["dtype"])
+        ldm_out0 = np.zeros(outputs[2]["shape"], outputs[2]["dtype"])
         print(f"ldm_out0 shape : {ldm_out0.shape} ldm_out0 type : {ldm_out0.dtype}")
-        ldm_out1 = np.zeros(outputs[7]["shape"], outputs[7]["dtype"])
+        ldm_out1 = np.zeros(outputs[5]["shape"], outputs[5]["dtype"])
         print(f"ldm_out1 shape : {ldm_out1.shape} ldm_out1 type : {ldm_out1.dtype}")
         ldm_out2 = np.zeros(outputs[8]["shape"], outputs[8]["dtype"])
         print(f"ldm_out2 shape : {ldm_out2.shape} ldm_out2 type : {ldm_out2.dtype}")
@@ -180,15 +181,15 @@ def main(config):
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             bbox_out0_t = torch.from_numpy(bbox_out0.transpose([0,2,3,1])).reshape(bbox_out0.shape[0], -1, 4)
 
-            err, = cuda.cuMemcpyDtoH(bbox_out1, outputs[1]["allocation"], outputs[1]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(bbox_out1, outputs[3]["allocation"], outputs[3]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             bbox_out1_t = torch.from_numpy(bbox_out1.transpose([0,2,3,1])).reshape(bbox_out1.shape[0], -1, 4)
 
-            err, = cuda.cuMemcpyDtoH(bbox_out2, outputs[2]["allocation"], outputs[2]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(bbox_out2, outputs[6]["allocation"], outputs[6]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             bbox_out2_t = torch.from_numpy(bbox_out2.transpose([0,2,3,1])).reshape(bbox_out2.shape[0], -1, 4)
 
-            err, = cuda.cuMemcpyDtoH(cls_out0, outputs[3]["allocation"], outputs[3]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(cls_out0, outputs[1]["allocation"], outputs[1]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             cls_out0_t = torch.from_numpy(cls_out0.transpose([0,2,3,1])).reshape(cls_out0.shape[0], -1, 2)
 
@@ -196,15 +197,15 @@ def main(config):
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             cls_out1_t = torch.from_numpy(cls_out1.transpose([0,2,3,1])).reshape(cls_out1.shape[0], -1, 2)
 
-            err, = cuda.cuMemcpyDtoH(cls_out2, outputs[5]["allocation"], outputs[5]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(cls_out2, outputs[7]["allocation"], outputs[7]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             cls_out2_t = torch.from_numpy(cls_out2.transpose([0,2,3,1])).reshape(cls_out2.shape[0], -1, 2)
 
-            err, = cuda.cuMemcpyDtoH(ldm_out0, outputs[6]["allocation"], outputs[6]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(ldm_out0, outputs[2]["allocation"], outputs[2]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             ldm_out0_t = torch.from_numpy(ldm_out0.transpose([0,2,3,1])).reshape(ldm_out0.shape[0], -1, 10)
             
-            err, = cuda.cuMemcpyDtoH(ldm_out1, outputs[7]["allocation"], outputs[7]["nbytes"])
+            err, = cuda.cuMemcpyDtoH(ldm_out1, outputs[5]["allocation"], outputs[5]["nbytes"])
             assert(err == cuda.CUresult.CUDA_SUCCESS)
             ldm_out1_t = torch.from_numpy(ldm_out1.transpose([0,2,3,1])).reshape(ldm_out1.shape[0], -1, 10)
 

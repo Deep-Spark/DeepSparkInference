@@ -96,6 +96,12 @@ def extract_cfg_params(cfg_ns):
     bbox_coder = head_cfg.get('bbox_coder', {})
     tblr_normalizer = bbox_coder.get('normalizer', 4.0)
 
+    # ATSS-specific: AnchorGenerator scale and DeltaXYWHBBoxCoder normalization
+    anchor_scale = head_cfg.get('anchor_generator', {}).get('octave_base_scale', 8)
+    target_means = bbox_coder.get('target_means', [0.0, 0.0, 0.0, 0.0])
+    target_stds = bbox_coder.get('target_stds', [1.0, 1.0, 1.0, 1.0])
+    wh_ratio_clip = bbox_coder.get('wh_ratio_clip', 16 / 1000)
+
     # Test cfg
     test_cfg = model.get('test_cfg', {})
 
@@ -120,6 +126,8 @@ def extract_cfg_params(cfg_ns):
         'head_type': head_type, 'strides': strides,
         'norm_on_bbox': norm_on_bbox, 'num_classes': num_classes,
         'base_edge_list': base_edge_list, 'tblr_normalizer': tblr_normalizer,
+        'anchor_scale': anchor_scale, 'target_means': target_means,
+        'target_stds': target_stds, 'wh_ratio_clip': wh_ratio_clip,
         'test_cfg': test_cfg,
         'scale': scale, 'keep_ratio': keep_ratio,
     }
@@ -488,6 +496,79 @@ def decode_fsaf_single(cls_scores, bbox_preds, strides, normalizer,
 
 
 # ---------------------------------------------------------------------------
+# ATSS (DeltaXYWHBBoxCoder) decode
+# ---------------------------------------------------------------------------
+
+def decode_atss_single(cls_scores, bbox_preds, score_factors, strides,
+                       anchor_scale, target_means, target_stds, wh_ratio_clip,
+                       img_shape, ori_shape, scale_factor, test_cfg):
+    """Decode one image from ATSSHead (DeltaXYWHBBoxCoder) outputs."""
+    nms_pre = test_cfg.get('nms_pre', 1000)
+    score_thr = test_cfg.get('score_thr', 0.05)
+    nms_iou_thr = test_cfg.get('nms', {}).get('iou_threshold', 0.5)
+    max_per_img = test_cfg.get('max_per_img', 100)
+    img_h, img_w = img_shape
+    means = torch.tensor(target_means)
+    stds = torch.tensor(target_stds)
+    max_ratio = abs(math.log(wh_ratio_clip))
+
+    all_bboxes, all_scores, all_labels = [], [], []
+
+    for i, stride in enumerate(strides):
+        cls = cls_scores[i].sigmoid()               # [C, H, W]
+        bbox = bbox_preds[i]                        # [4, H, W] (dx, dy, dw, dh)
+        ctr = score_factors[i].sigmoid()            # [1, H, W]
+
+        C, H, W = cls.shape
+        cls = cls.permute(1, 2, 0).reshape(-1)      # [HW * C]
+        bbox = bbox.permute(1, 2, 0).reshape(-1, 4)
+        ctr = ctr.reshape(-1)
+
+        # Like mmdet ATSSHead: threshold and top-k on cls score per
+        # (location, class), then multiply centerness.
+        cand = (cls > score_thr).nonzero().squeeze(1)
+        if nms_pre > 0 and cand.numel() > nms_pre:
+            cand = cand[cls[cand].topk(nms_pre).indices]
+        loc = cand // C
+        labels = cand % C
+        scores = cls[cand] * ctr[loc]
+
+        # One square anchor per cell, side stride * octave_base_scale.
+        # mmdet3 AnchorGenerator default center_offset=0.0.
+        points = _make_points(H, W, stride, center_offset=0.0)[loc]
+        anchor_size = stride * anchor_scale
+
+        deltas = bbox[loc] * stds + means
+        dw = deltas[:, 2].clamp(-max_ratio, max_ratio)
+        dh = deltas[:, 3].clamp(-max_ratio, max_ratio)
+        cx = points[:, 0] + deltas[:, 0] * anchor_size
+        cy = points[:, 1] + deltas[:, 1] * anchor_size
+        half_w = 0.5 * anchor_size * dw.exp()
+        half_h = 0.5 * anchor_size * dh.exp()
+        x1 = (cx - half_w).clamp(0, img_w)
+        y1 = (cy - half_h).clamp(0, img_h)
+        x2 = (cx + half_w).clamp(0, img_w)
+        y2 = (cy + half_h).clamp(0, img_h)
+        bboxes = torch.stack([x1, y1, x2, y2], dim=-1)
+
+        all_bboxes.append(bboxes)
+        all_scores.append(scores)
+        all_labels.append(labels)
+
+    bboxes = torch.cat(all_bboxes)
+    scores = torch.cat(all_scores)
+    labels = torch.cat(all_labels)
+
+    # mmdet uses class-aware NMS for ATSS.
+    keep = tv_ops.batched_nms(bboxes, scores, labels, nms_iou_thr)
+    if max_per_img > 0:
+        keep = keep[:max_per_img]
+    bboxes, scores, labels = bboxes[keep], scores[keep], labels[keep]
+    bboxes = _rescale_bboxes(bboxes, scale_factor, ori_shape)
+    return bboxes, scores, labels
+
+
+# ---------------------------------------------------------------------------
 # Output routing
 # ---------------------------------------------------------------------------
 
@@ -600,6 +681,10 @@ def main():
     num_classes = params['num_classes']
     base_edge_list = params['base_edge_list']
     tblr_normalizer = params['tblr_normalizer']
+    anchor_scale = params['anchor_scale']
+    target_means = params['target_means']
+    target_stds = params['target_stds']
+    wh_ratio_clip = params['wh_ratio_clip']
 
     is_fovea_fsaf = _is_fovea_or_fsaf(args.cfg_file)
 
@@ -662,6 +747,11 @@ def main():
             elif head_type == 'FSAFHead':
                 bboxes, scores, labels = decode_fsaf_single(
                     cls_i, bbox_i, strides, tblr_normalizer,
+                    img_shape, ori_shape, scale_factor, test_cfg)
+            elif head_type == 'ATSSHead':
+                bboxes, scores, labels = decode_atss_single(
+                    cls_i, bbox_i, sf_i, strides, anchor_scale,
+                    target_means, target_stds, wh_ratio_clip,
                     img_shape, ori_shape, scale_factor, test_cfg)
             else:
                 # Fallback: treat as FCOSHead
