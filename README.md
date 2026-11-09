@@ -60,6 +60,7 @@
 | MiniCPM-o-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-o-2/vllm/)     | 4.3.0     |
 | MiniCPM-V-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-2/vllm/)     | 4.3.0     |
 | MiniCPM-V-4                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-4/vllm/)     | 5.0.0     |
+| Muse-Glimmer-30B              | `Transformers` | [✅](models/multimodal/vision_language_model/muse-glimmer-30b/transformers) | 5.0.0 |
 | NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
