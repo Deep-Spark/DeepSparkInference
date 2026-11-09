@@ -69,6 +69,7 @@ inference to be expanded in the future.
 | MiniCPM-V-2                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-2/vllm/)     | 4.3.0     |
 | MiniCPM-V-4                   | `vLLM`       | [✅](models/multimodal/vision_language_model/minicpm-v-4/vllm/)     | 5.0.0     |
 | NVLM                          | `vLLM`       | [✅](models/multimodal/vision_language_model/nvlm/vllm)             | 4.3.0     |
+| OvisOCR2                      | `vLLM`       | [✅](models/multimodal/vision_language_model/ovisocr2/vllm)         | 5.0.0     |
 | Phi3_v                        | `vLLM`       | [✅](models/multimodal/vision_language_model/phi3_v/vllm)           | 4.3.0     |
 | PaliGemma                     | `vLLM`       | [✅](models/multimodal/vision_language_model/paligemma/vllm)        | 4.3.0     |
 | PaddleOCR-VL                  | `Transformers` | [✅](models/multimodal/vision_language_model/paddleocr-vl-1.5/transformers)  | 4.4.0 |
