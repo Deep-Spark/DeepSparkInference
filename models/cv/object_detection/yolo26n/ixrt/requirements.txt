@@ -1,0 +1,13 @@
+ultralytics
+ultralytics-thop
+polars
+polars-runtime-32
+onnx
+ml_dtypes
+matplotlib
+contourpy
+cycler
+fonttools
+kiwisolver
+pyparsing
+pycocotools
