@@ -38,7 +38,8 @@ load_ixrt_plugin(
 
 plg_registry = trt.get_plugin_registry()
 
-# CustomQKVToContextPluginDynamic_IxRT removed; encoder uses builtin attention.
+# CustomQKVToContextPluginDynamic_IxRT and CustomQkvCrossToContext_IxRT removed;
+# replaced by builtins, see qkv_cross_to_context().
 skln_plg_creator = plg_registry.get_plugin_creator(
     "CustomSkipLayerNormPluginDynamic_IxRT", "1", ""
 )
@@ -46,10 +47,6 @@ skln_plg_creator = plg_registry.get_plugin_creator(
 encoder_emb_plg_creator = plg_registry.get_plugin_creator(
         "TransformerEncoderEmb_IxRT", "1"
     )
-attention_plugin_creator = plg_registry.get_plugin_creator(
-        "CustomQkvCrossToContext_IxRT", "1"
-    )
-
 decoder_emb_plg_creator = plg_registry.get_plugin_creator(
         "TransformerDecoderEmb_IxRT", "1"
     )
@@ -239,38 +236,38 @@ def custom_fc(network, input_tensor, out_dims, W, B):
  
  
  
-def create_encoder_attention_plugin():
-   plugin_registry = tensorrt.get_plugin_registry()
-   assert plugin_registry
-   plugin_creator = plugin_registry.get_plugin_creator(
-       "CustomQkvCrossToContext_IxRT", "1"
-   )
-   assert plugin_creator
-   type_id_field = tensorrt.PluginField(
-       "type_id",
-       np.array([1], dtype=np.int32),
-       tensorrt.PluginFieldType.INT32,
-   )
-   has_mask_field = tensorrt.PluginField(
-       "has_mask",
-       np.array([1], dtype=np.int32),
-       tensorrt.PluginFieldType.INT32,
-   )
-   
-   mask_type_field = tensorrt.PluginField(
-       "type_mask",
-       np.array([3], dtype=np.int32),
-       tensorrt.PluginFieldType.INT32,
-   )
-   
-   scale_field = tensorrt.PluginField(
-       "scale",
-       np.array([1.0 / 8], dtype=np.float32),  # 1 / sqrt(head_num)
-       tensorrt.PluginFieldType.FLOAT32,
-   )
-   field_collection = tensorrt.PluginFieldCollection([type_id_field, has_mask_field,mask_type_field,scale_field])
-   plugin = plugin_creator.create_plugin("py_QkvCrossToContext_ixrt", field_collection)
-   return plugin
+def qkv_cross_to_context(network, q, k, v, head_size, imask=None):
+    """Built-in scaled dot-product attention, replaces CustomQkvCrossToContext_IxRT.
+
+    q is [B, num_heads, q_len, head_size], k and v are [B, num_heads, kv_len, head_size]
+    and the output keeps the same BHSD layout as the plugin did.
+    imask is the optional int32 [B, kv_len] padding mask where 1 marks a padded key.
+    IAttention has no scale setter, so the 1/sqrt(head_size) factor is folded into q.
+    """
+    scale = np.array(1.0 / np.sqrt(head_size), dtype=np.float16).reshape(1, 1, 1, 1)
+    scale_const = network.add_constant((1, 1, 1, 1), scale)
+    q_scaled = network.add_elementwise(
+        q, scale_const.get_output(0), trt.ElementWiseOperation.PROD
+    )
+
+    attn = network.add_attention_v2(
+        q_scaled.get_output(0), k, v,
+        trt.AttentionNormalizationOp.SOFTMAX, trt.CausalMaskKind.NONE,
+    )
+
+    if imask is not None:
+        mask_reshape = network.add_shuffle(imask)
+        mask_reshape.reshape_dims = (0, 1, 1, -1)
+        # The builtin mask is a bool "may attend", the inverse of the padding mask.
+        zero = network.add_constant((1, 1, 1, 1), np.zeros((1, 1, 1, 1), dtype=np.int32))
+        allowed = network.add_elementwise(
+            mask_reshape.get_output(0),
+            zero.get_output(0),
+            trt.ElementWiseOperation.EQUAL,
+        )
+        attn.mask = allowed.get_output(0)
+
+    return attn
 
 
            
@@ -314,20 +311,7 @@ def encoder_self_attention_layer(
     k = extract(1)
     v = extract(2)
 
-    scale = np.array(1.0 / np.sqrt(head_size), dtype=np.float16).reshape(1, 1, 1, 1)
-    scale_const = network.add_constant((1, 1, 1, 1), scale)
-    q_scaled = network.add_elementwise(q, scale_const.get_output(0), trt.ElementWiseOperation.PROD)
-
-    attn = network.add_attention_v2(
-        q_scaled.get_output(0), k, v,
-        trt.AttentionNormalizationOp.SOFTMAX, trt.CausalMaskKind.NONE,
-    )
-
-    has_mask = imask is not None
-    if has_mask:
-        mask_reshape = network.add_shuffle(imask)
-        mask_reshape.reshape_dims = (0, 1, 1, -1)
-        attn.mask = mask_reshape.get_output(0)
+    attn = qkv_cross_to_context(network, q, k, v, head_size, imask)
 
     # Collapse: (B,H,S,D) -> (B,S,H,D) -> (B,S,hidden)
     ctx_transpose = network.add_shuffle(attn.get_output(0))
@@ -515,90 +499,6 @@ def create_decoder_emb_plugin(weights_dict):
     return plugin
 
 
-def create_decoder_self_attention_plugin():
-
-    plugin_registry = tensorrt.get_plugin_registry()
-    assert plugin_registry
-
-    plugin_creator = plugin_registry.get_plugin_creator(
-        "CustomQkvCrossToContext_IxRT", "1"
-    )
-    assert plugin_creator
-
-    type_id_field = tensorrt.PluginField(
-        "type_id",
-        np.array([1], dtype=np.int32),
-        tensorrt.PluginFieldType.INT32,
-    )
-
-    has_mask_field = tensorrt.PluginField(
-        "has_mask",
-        np.array([0], dtype=np.int32),
-        tensorrt.PluginFieldType.INT32,
-    )
-    
-    mask_type_field = tensorrt.PluginField(
-       "type_mask",
-       np.array([3], dtype=np.int32),
-       tensorrt.PluginFieldType.INT32,
-   )
-   
-    scale_field = tensorrt.PluginField(
-       "scale",
-       np.array([1.0 / 8], dtype=np.float32),  # 1 / sqrt(head_num)
-       tensorrt.PluginFieldType.FLOAT32,
-   )
-
-    field_collection = tensorrt.PluginFieldCollection([type_id_field, has_mask_field,mask_type_field,scale_field])
-
-    plugin = plugin_creator.create_plugin("py_QkvCrossToContext_ixrt", field_collection)
-
-    return plugin
-
-
-
-def create_cross_attention_plugin():
-
-    plugin_registry = tensorrt.get_plugin_registry()
-    assert plugin_registry
-
-    plugin_creator = plugin_registry.get_plugin_creator(
-        "CustomQkvCrossToContext_IxRT", "1"
-    )
-    assert plugin_creator
-
-    type_id_field = tensorrt.PluginField(
-        "type_id",
-        np.array([1], dtype=np.int32),
-        tensorrt.PluginFieldType.INT32,
-    )
-
-    has_mask_field = tensorrt.PluginField(
-        "has_mask",
-        np.array([1], dtype=np.int32),
-        tensorrt.PluginFieldType.INT32,
-    )
-    
-    mask_type_field = tensorrt.PluginField(
-       "type_mask",
-       np.array([3], dtype=np.int32),
-       tensorrt.PluginFieldType.INT32,
-   )
-   
-    scale_field = tensorrt.PluginField(
-       "scale",
-       np.array([1.0 / 8], dtype=np.float32),  # 1 / sqrt(head_num)
-       tensorrt.PluginFieldType.FLOAT32,
-   )
-
-    field_collection = tensorrt.PluginFieldCollection([type_id_field, has_mask_field,mask_type_field,scale_field])
-
-    plugin = plugin_creator.create_plugin("py_QkvCrossToContext_ixrt", field_collection)
-
-    return plugin
-
-
-
 def cross_attention_kv_cache(
     block, layer_index, config, init_dict, network, encoder_out
 ):
@@ -720,8 +620,9 @@ def decoder_cross_attention_layer(
     v_t_layer.second_transpose = trt.Permutation([0, 2, 1, 3])
     input_v = v_t_layer.get_output(0)
 
-    attention_plug = create_cross_attention_plugin()
-    atten = network.add_plugin_v2([input_q, input_k, input_v,imask], attention_plug)
+    atten = qkv_cross_to_context(
+        network, input_q, input_k, input_v, config.head_size, imask
+    )
     
     scores = atten.get_output(0)
     scores_t_layer = network.add_shuffle(scores)
@@ -782,8 +683,9 @@ def decoder_cross_attention_kvcache_layer(
     input_v = encoder_kv_cache_inputs[f"past_key_values.{layer_index}.encoder.value"]
 
   
-    attention_plug = create_cross_attention_plugin()
-    atten = network.add_plugin_v2([input_q, input_k, input_v,imask], attention_plug)
+    atten = qkv_cross_to_context(
+        network, input_q, input_k, input_v, config.head_size, imask
+    )
     
     # atten = attention2(network,input_q, input_k, input_v)
 
@@ -843,8 +745,9 @@ def decoder_self_attention_layer(
         config.head_size,
     )
 
-    attention_plug = create_decoder_self_attention_plugin()
-    atten = network.add_plugin_v2([input_q, present_key, present_value], attention_plug)
+    atten = qkv_cross_to_context(
+        network, input_q, present_key, present_value, config.head_size
+    )
     
     scores = atten.get_output(0)
     
