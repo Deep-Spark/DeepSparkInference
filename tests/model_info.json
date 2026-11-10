@@ -11007,7 +11007,7 @@
       "download_url": "https://modelscope.cn/models/Qwen/Qwen-Image-2.1",
       "need_third_part": false,
       "precisions": [
-        "fp16"
+        "bf16"
       ],
       "type": "inference",
       "hasDemo": false,
