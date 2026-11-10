@@ -14,23 +14,11 @@
 # limitations under the License.
 
 import argparse
-import base64
-import mimetypes
-import os
 import time
 
 from vllm import LLM, SamplingParams
 
-
-def image_payload(source):
-    """A local page scan has to be inlined; an http(s) address is passed through."""
-    if source.startswith(("http://", "https://", "data:")):
-        return source
-    if not os.path.isfile(source):
-        raise SystemExit(f"image not found: {source}")
-    mime = mimetypes.guess_type(source)[0] or "image/png"
-    with open(source, "rb") as handle:
-        return f"data:{mime};base64," + base64.b64encode(handle.read()).decode()
+from utils import image_payload
 
 
 def main(args):
@@ -93,7 +81,10 @@ if __name__ == "__main__":
                         help="Maximum context length.")
     parser.add_argument("--gpu-memory-utilization", type=float, default=0.9,
                         help="Fraction of each GPU reserved for the engine.")
-    parser.add_argument("--enforce-eager", action="store_true", default=True,
+    # Eager is the default because graph capture currently fails on this stack, but
+    # --no-enforce-eager has to remain reachable so the graph path can be retried.
+    parser.add_argument("--enforce-eager", action=argparse.BooleanOptionalAction,
+                        default=True,
                         help="Disable torch.compile and CUDA graph capture.")
 
     # 推理参数 |Reasoning parameters

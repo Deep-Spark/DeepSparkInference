@@ -8855,7 +8855,7 @@
       "download_url": "https://modelscope.cn/models/ATH-MaaS/OvisOCR2",
       "need_third_part": false,
       "precisions": [
-        "fp16"
+        "bf16"
       ],
       "type": "inference",
       "hasDemo": false,

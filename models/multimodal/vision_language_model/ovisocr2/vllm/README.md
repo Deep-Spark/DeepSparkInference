@@ -23,8 +23,6 @@ OvisOCR2 is developed by post-training Qwen3.5-0.8B using a carefully designed d
 - Model: <https://modelscope.cn/models/ATH-MaaS/OvisOCR2>
 
 ```bash
-cp -r ../../vllm_public_assets/ ./
-
 mkdir -p data/
 ln -s /path/to/OvisOCR2 ./data/
 ```

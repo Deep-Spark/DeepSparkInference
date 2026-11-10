@@ -14,23 +14,11 @@
 # limitations under the License.
 
 import argparse
-import base64
-import mimetypes
-import os
 import time
 
 from openai import OpenAI
 
-
-def image_payload(source):
-    """A local page scan has to be inlined; an http(s) address is passed through."""
-    if source.startswith(("http://", "https://", "data:")):
-        return source
-    if not os.path.isfile(source):
-        raise SystemExit(f"image not found: {source}")
-    mime = mimetypes.guess_type(source)[0] or "image/png"
-    with open(source, "rb") as handle:
-        return f"data:{mime};base64," + base64.b64encode(handle.read()).decode()
+from utils import image_payload
 
 
 def main(args):
@@ -56,8 +44,8 @@ def main(args):
             temperature=args.temperature,
         )
     except Exception as error:
-        print(f"Error during inference: {error}")
-        return
+        # A failed request has to fail the process, or CI reads it as a pass.
+        raise SystemExit(f"Error during inference: {error}")
 
     elapsed = time.time() - start
     print(f"\nResponse costs: {elapsed:.2f}s")

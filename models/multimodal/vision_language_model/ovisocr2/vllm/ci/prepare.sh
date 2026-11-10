@@ -15,4 +15,6 @@
 # limitations under the License.
 
 set -x
-cp -r ../../vllm_public_assets/ ./
+# The sample page ships in assets/, so nothing is copied from vllm_public_assets.
+mkdir -p data
+ln -s /mnt/deepspark/data/checkpoints/OvisOCR2 ./data/
