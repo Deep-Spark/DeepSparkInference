@@ -358,6 +358,7 @@
 | LLaVA               |   vLLM   | [✅](models/multimodal/vision_language_model/llava/vllm)               | 4.3.0     |
 | LLaVA-Next-Video-7B |   vLLM   | [✅](models/multimodal/vision_language_model/llava_next_video_7b/vllm) | 4.3.0     |
 | Llama-3.2           |   vLLM   | [✅](models/multimodal/vision_language_model/llama-3.2/vllm)           | 4.3.0     |
+| MOSS-Image          | ComfyUI  | [✅](models/multimodal/diffusion_model/moss-image/comfyui)             | 5.0.0     |
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Qwen-Image          |   ComfyUI  | [✅](models/multimodal/vision_language_model/qwen-image/comfyui)     | 4.4.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
