@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import argparse
+import os
 import time
 
 import torch
@@ -38,7 +39,10 @@ def memory_budget():
     """Leave room for activations on every card; what still does not fit goes to host memory.
 
     The BF16 weights are about 55.5 GiB, so on two 32 GiB cards some modules are
-    offloaded and the latency then includes moving them in and out.
+    offloaded and the latency then includes moving them in and out. The host figure
+    has to be measured rather than assumed: it is the only thing telling accelerate
+    whether an offloaded module fits in memory or has to spill to disk, and claiming
+    more than the machine has turns a slow run into an OOM kill.
     """
     cards = torch.cuda.device_count()
     if not cards:
@@ -49,7 +53,16 @@ def memory_budget():
         )
         for index in range(cards)
     }
-    budget["cpu"] = "512GiB"
+    host = int(os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES") / 2**30)
+    budget["cpu"] = "%dGiB" % int(host * 0.7)
+    on_card = sum(
+        torch.cuda.get_device_properties(index).total_memory for index in range(cards)
+    ) / 2**30
+    if host * 0.7 + on_card < 60:
+        print(
+            f"WARNING: {cards} card(s) plus {host}GiB of host memory may not hold the "
+            "55.5GiB of BF16 weights; the run can fail on allocation"
+        )
     return budget
 
 
@@ -70,8 +83,17 @@ def main():
     if offloaded:
         print(f"WARNING: {offloaded} modules did not fit the GPUs and run from host memory")
 
+    if not os.path.isfile(args.image):
+        raise SystemExit(
+            f"image not found: {args.image}. The README copies the shared assets with "
+            "`cp -r ../../vllm_public_assets/ ./` before running this."
+        )
+    # convert() returns a new image, so the file handle can close right away.
+    with Image.open(args.image) as handle:
+        picture = handle.convert("RGB")
+
     messages = [{"role": "user", "content": [
-        {"type": "image", "image": Image.open(args.image).convert("RGB")},
+        {"type": "image", "image": picture},
         {"type": "text", "text": args.prompt},
     ]}]
     inputs = processor.apply_chat_template(

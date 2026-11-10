@@ -9810,7 +9810,7 @@
       "download_url": "https://modelscope.cn/models/meta-models/Muse-Glimmer-30B",
       "need_third_part": false,
       "precisions": [
-        "fp16"
+        "bf16"
       ],
       "type": "inference",
       "hasDemo": false,
