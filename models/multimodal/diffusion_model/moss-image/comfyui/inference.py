@@ -47,8 +47,27 @@ def post(server, path, payload):
         data=json.dumps(payload).encode(),
         headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(request) as response:
-        return json.load(response)
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as error:
+        # ComfyUI rejects a bad graph (missing weights, unknown node) with a 400 whose
+        # body names the node and the reason; the status line alone says neither.
+        detail = error.read().decode(errors="replace")
+        raise SystemExit(f"POST {path} failed with HTTP {error.code}: {detail}")
+    except urllib.error.URLError as error:
+        raise SystemExit(f"cannot reach the ComfyUI server: {error}")
+
+
+def node(graph, node_id, field, workflow):
+    """The inputs of one node, or a clear error naming what the workflow is missing."""
+    inputs = (graph.get(node_id) or {}).get("inputs")
+    if inputs is None or field not in inputs:
+        raise SystemExit(
+            f"{workflow} has no node {node_id} with a '{field}' input; this script "
+            "expects the node ids of the prompt.json shipped beside it"
+        )
+    return inputs
 
 
 def get(server, path):
@@ -63,9 +82,9 @@ def main():
         payload = json.load(handle)
     graph = payload.get("prompt", payload)
     if args.prompt:
-        graph[POSITIVE_PROMPT_NODE]["inputs"]["text"] = args.prompt
+        node(graph, POSITIVE_PROMPT_NODE, "text", args.workflow)["text"] = args.prompt
     if args.steps:
-        graph[SAMPLER_NODE]["inputs"]["steps"] = args.steps
+        node(graph, SAMPLER_NODE, "steps", args.workflow)["steps"] = args.steps
 
     started = time.time()
     queued = post(args.server, "/prompt", {"prompt": graph})
@@ -85,9 +104,11 @@ def main():
         time.sleep(2)
 
     record = history[prompt_id]
-    status = (record.get("status") or {}).get("status_str", "")
-    if status and status != "success":
-        raise SystemExit(f"the run failed: {json.dumps(record.get('status'), ensure_ascii=False)}")
+    status = record.get("status") or {}
+    # Only an explicit success counts; a missing status would otherwise surface later as
+    # a vague "no image" instead of the error ComfyUI recorded.
+    if status.get("status_str") != "success":
+        raise SystemExit(f"the run failed: {json.dumps(status, ensure_ascii=False)}")
 
     images = [
         image

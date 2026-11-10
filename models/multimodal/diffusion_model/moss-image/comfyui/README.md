@@ -34,8 +34,11 @@ pip3 install --no-deps torchsde trampoline alembic SQLAlchemy Mako greenlet av s
 pip3 download --no-deps --platform any --only-binary=:all: -d wheels comfy-aimdo==0.6.0 comfy-kitchen==0.2.40
 pip3 install --no-deps wheels/*.whl
 mkdir -p web
-python3 main.py --listen 0.0.0.0 --port 8188 --disable-dynamic-vram --front-end-root ./web
+python3 main.py --listen 127.0.0.1 --port 8188 --disable-dynamic-vram --front-end-root ./web
 ```
+
+> ComfyUI 没有身份认证，监听 `0.0.0.0` 会让同网段任何人都能提交工作流、读取生成的图片。
+> 共享 GPU 集群上请保持 `127.0.0.1`，确需远程访问时用 SSH 端口转发。
 
 > `--no-deps` 保留镜像自带的 CoreX PyTorch。`comfy-aimdo` 与 `comfy-kitchen` 在启动时被导入，这里用
 > `--platform any --only-binary=:all:` 只取纯 Python wheel，避免装进带 NVIDIA CUDA kernel 的二进制包；
