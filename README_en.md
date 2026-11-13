@@ -371,6 +371,7 @@ inference to be expanded in the future.
 | Pixtral             |   vLLM   | [✅](models/multimodal/vision_language_model/pixtral/vllm)             | 4.3.0     |
 | Qwen-Image          |   ComfyUI  | [✅](models/multimodal/vision_language_model/qwen-image/comfyui)     | 4.4.0     |
 | Qwen-Image-2.1      | Diffusers  | [✅](models/multimodal/diffusion_model/qwen-image-2.1/diffusers)     | 5.0.0     |
+| Qwen-Image-2.1-Turbo | Diffusers  | [✅](models/multimodal/diffusion_model/qwen-image-2.1-turbo/diffusers) | 5.0.0     |
 | Stable Diffusion 1.5 | Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-1.5/diffusers)  | 4.3.0     |
 | Stable Diffusion 2.1 | ixRT   | [✅](models/multimodal/diffusion_model/stable-diffusion-2.1/ixrt)  | 4.4.0     |
 | Stable Diffusion 3 |   Diffusers   | [✅](models/multimodal/diffusion_model/stable-diffusion-3/diffusers)    | 5.0.0  |
