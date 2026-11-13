@@ -307,6 +307,7 @@
 |---------------|-------|---------------------------------------|---------------------------------------|-----------|
 | CRNN          | FP16  |                                         | [✅](models/cv/ocr/crnn/ixrt)      |  4.4.0     |
 | DBNet         | FP16  |                                        |  [✅](models/cv/ocr/dbnet/ixrt)     |  4.4.0     |
+| PP-OCRv5_server_det | FP16  |                                        |  [✅](models/cv/ocr/pp-ocrv5_server_det/ixrt) |  5.0.0     |
 | Kie_layoutXLM | FP16  | [✅](models/cv/ocr/kie_layoutxlm/igie) |                                     |  4.3.0     |
 | SVTR          | FP16  | [✅](models/cv/ocr/svtr/igie)          |                                     |  4.3.0     |
 
