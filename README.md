@@ -46,6 +46,7 @@
 | DeepSeek-OCR                  | `vLLM`       | [✅](models/multimodal/vision_language_model/deepseek-ocr/vllm)     | 5.0.0     |
 | ERNIE-4.5-21B-A3B             | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-21b-a3b/fastdeploy/)                  | 4.3.0     |
 | ERNIE-4.5-300B-A47B           | `FastDeploy` | [✅](models/nlp/llm/ernie-4.5-300b-a47b/fastdeploy/)                | 4.3.0     |
+| Hy3-W4A8                     | `vLLM`       | [✅](models/nlp/llm/hy3-w4a8/vllm)                                 | 5.0.0     |
 | ERNIE-4.5-VL-28B-A3B-Thinking | `Transformers` | [✅](models/multimodal/vision_language_model/ernie-4.5-vl-28b-a3b-thinking/transformers/) | 4.4.0     |
 | GLM-4V                        | `vLLM`       | [✅](models/multimodal/vision_language_model/glm-4v/vllm/)          | 4.3.0     |
 | InternLM3                     | `LMDeploy`   | [✅](models/nlp/llm/internlm3/lmdeploy/)                            | 4.3.0     |
