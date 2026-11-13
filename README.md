@@ -88,6 +88,7 @@
 | Qwen3-TTS-12Hz-1.7B-Base      | `Qwen-TTS`   | [✅](models/speech/speech_synthesis/qwen3-tts-12hz-1.7b/qwen-tts)   | 4.4.0     |
 | Qwen3.5-27B                   | `vLLM`       | [✅](models/nlp/llm/qwen3.5-27b/vllm)                               | 5.0.0     |
 | Qwen3.6-27B                   | `vLLM`       | [✅](models/nlp/llm/qwen3.6-27b/vllm)                              | 5.0.0     |
+| Xing4.0-29B-A4B               | `vLLM`       | [✅](models/nlp/llm/xing4.0-29b-a4b/vllm)                          | 5.0.0     |
 | DeepSeek-V3.1                 | `vLLM`       | [✅](models/nlp/llm/deepseek-v3.1/vllm)                            | 4.4.0     |
 | StableLM2-1.6B                | `vLLM`       | [✅](models/nlp/llm/stablelm/vllm)                                  | 4.3.0     |
 | Step3                         | `vLLM`       | [✅](models/multimodal/vision_language_model/step3/vllm)            | 4.4.0     |
