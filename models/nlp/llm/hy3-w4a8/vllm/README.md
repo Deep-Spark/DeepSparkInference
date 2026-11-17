@@ -27,8 +27,8 @@ ln -s /path/to/Hy3-W4A8 ./data/
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource
-center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+In order to run the model smoothly, you need to get the sdk from [downloads
+center](https://developer.iluvatar.com/downloads) of Iluvatar developer website.
 
 ## Model Inference
 
