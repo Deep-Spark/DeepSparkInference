@@ -28,8 +28,8 @@ ln -s /path/to/Xing4.0-29B-A4B ./data/
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource
-center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+In order to run the model smoothly, you need to get the sdk from [downloads
+center](https://developer.iluvatar.com/downloads) of Iluvatar developer website.
 
 容器内还需安装 out-of-tree 插件，并将 mHC 的 tilelang 路径改为 torch native：
 
