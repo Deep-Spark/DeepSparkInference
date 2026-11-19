@@ -1,0 +1,9 @@
+tqdm
+onnxsim
+onnxslim>=0.1.82
+onnx
+huggingface_hub
+ultralytics==8.4.210
+pycocotools
+faster-coco-eval
+opencv-python
