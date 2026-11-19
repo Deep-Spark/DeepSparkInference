@@ -1,0 +1,5 @@
+huggingface_hub
+transformers
+tokenizers
+accelerate
+git+https://github.com/huggingface/diffusers
