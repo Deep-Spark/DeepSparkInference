@@ -35,8 +35,8 @@ OvisOCR2 做的是文档页解析，换成风景照之类没有文字的图片�
 
 ### Install Dependencies
 
-In order to run the model smoothly, you need to get the sdk from [resource
-center](https://support.iluvatar.com/#/ProductLine?id=2) of Iluvatar CoreX official website.
+In order to run the model smoothly, you need to get the sdk from [downloads
+center](https://developer.iluvatar.com/downloads) of Iluvatar developer website.
 
 ## Online Inference (Client-Server Mode)
 
